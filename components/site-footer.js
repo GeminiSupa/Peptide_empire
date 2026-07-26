@@ -143,8 +143,9 @@ export default function SiteFooter({ lang = 'en' }) {
               <li className="pt-1 text-white/70">{CONTACT.location}</li>
             </ul>
 
+            {/* Only profiles with a real URL are rendered. */}
             <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-xs">
-              {SOCIAL.map((s) => (
+              {SOCIAL.filter((s) => s.href).map((s) => (
                 <li key={s.name}>
                   <a
                     href={s.href}
