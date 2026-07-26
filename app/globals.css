@@ -1,0 +1,41 @@
+@import 'tailwindcss';
+
+/* ---------------------------------------------------------------
+   Peptides Costa Rica — design tokens
+   Navy is the single heading/brand colour. The live WordPress site
+   renders headings at #08236B; we standardise on the sister
+   project's #002766 so the two sites match.
+   --------------------------------------------------------------- */
+@theme {
+  --color-primary: #002766;
+  --color-primary-light: #08236b;
+  --color-accent: #c8530c;
+  --color-bg-main: #f4f6f9;
+  --color-bg-card: #ffffff;
+  --color-text-main: #0f172a;
+  --color-text-muted: #64748b;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --spacing-section: 5rem;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--color-bg-main);
+  color: var(--color-text-main);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--color-primary);
+  text-wrap: balance;
+}
