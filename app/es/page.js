@@ -1,14 +1,17 @@
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
-import BuildStatus from '@/components/build-status';
+import Sections from '@/components/sections';
+import { sections } from '@/content/pages/home';
 
-// Spanish home at /es/ — the live site's own path. Spanish sub-pages use
-// translated slugs (/es/acerca-de/ etc.), resolved via data/routes.json.
+// Spanish home at /es/ — the live site's own path. One content file serves both
+// languages; the `_es` fields supply the translations.
 export default function HomeEs() {
   return (
     <>
       <SiteHeader lang="es" path="/es/" />
-      <BuildStatus lang="es" pageName="Inicio" />
+      <main className="flex-1">
+        <Sections sections={sections} lang="es" />
+      </main>
       <SiteFooter lang="es" />
     </>
   );

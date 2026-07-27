@@ -1,0 +1,398 @@
+{
+  "harvestedAt": "2026-07-27T18:55:09.129Z",
+  "source": "https://peptidescostarica.net/",
+  "slug": "/",
+  "sections": [
+    {
+      "type": "hero",
+      "content": {
+        "eyebrow_en": "PEPTIDES COSTA RICA",
+        "eyebrow_es": "PÉPTIDOS COSTA RICA",
+        "title_en": "Premium Peptides in Costa Rica",
+        "title_es": "Péptidos Premium en Costa Rica",
+        "intro_en": "Welcome to Peptides Costa Rica, your local source for premium peptides, offering high-quality, research-grade peptide products with reliable delivery.",
+        "intro_es": "Bienvenido a Peptides Costa Rica, tu fuente local de péptidos premium, ofreciendo productos de péptidos de alta calidad y grado de investigación con entrega confiable.",
+        "body_en": "More people are interested in peptides for performance, recovery, metabolism, weight management, and longevity. Getting them from international suppliers often leads to delays, uncertainty, and unnecessary customs hassles.",
+        "body_es": "Más personas están interesadas en péptidos para el rendimiento, la recuperación, el metabolismo, el control de peso y la longevidad. Obtenerlos de proveedores internacionales a menudo provoca retrasos, incertidumbre y trámites aduaneros innecesarios.",
+        "chips_en": [
+          "Verified quality",
+          "Transparent pricing",
+          "Local reliability"
+        ],
+        "chips_es": [
+          "Calidad verificada",
+          "Precios transparentes",
+          "Fiabilidad local"
+        ],
+        "cta_en": "Browse All Peptide Products",
+        "cta_es": "Explorar todos los productos peptídicos",
+        "cta_href": "/all-peptide-products-costa-rica/"
+      }
+    },
+    {
+      "type": "press_band",
+      "content": {
+        "eyebrow_en": "AS SEEN IN",
+        "eyebrow_es": "COMO SE VE EN",
+        "text_en": "Peptides Costa Rica Was Featured In",
+        "text_es": "Péptidos Costa Rica fue destacado en",
+        "outlet_en": "The Costa Rica News.",
+        "outlet_es": "Las Noticias de Costa Rica.",
+        "cta_en": "Read The Article",
+        "cta_es": "Lee el artículo",
+        "cta_href": "https://thecostaricanews.com/introducing-peptides-costa-rica-bringing-trusted-peptide-products-to-costa-rica/"
+      }
+    },
+    {
+      "type": "feature_cards",
+      "content": {
+        "title_en": "We do things differently",
+        "title_es": "Lo hacemos diferente",
+        "intro_en": "At Peptides Costa Rica, we serve customers exclusively within Costa Rica. We offer clear pricing, bulk discounts, direct communication, and reliable local service.",
+        "intro_es": "En Peptides Costa Rica, atendemos exclusivamente a clientes dentro de Costa Rica. Ofrecemos precios claros, descuentos por volumen, comunicación directa y servicio local confiable.",
+        "columns": 4,
+        "cards": [
+          {
+            "title_en": "No cross-border delays",
+            "title_es": "Sin demoras transfronterizas",
+            "body_en": "As a local peptide supplier in Costa Rica, we eliminate international shipping issues, ensuring faster delivery and consistent availability.",
+            "body_es": "Como proveedor local de péptidos en Costa Rica, eliminamos los problemas de envío internacional, asegurando una entrega más rápida y disponibilidad constante."
+          },
+          {
+            "title_en": "Fast, Safe & Secure Online Ordering",
+            "title_es": "Pedido en línea rápido, seguro y confiable",
+            "body_en": "We now offer a fast, safe, and fully secure online checkout system for your convenience. Place your orders with confidence using our streamlined payment process designed to protect your information every step of the way.",
+            "body_es": "Ahora ofrecemos un sistema de pago en línea rápido, seguro y totalmente confiable para tu comodidad. Realiza tus pedidos con confianza utilizando nuestro proceso de pago simplificado, diseñado para proteger tu información en cada paso."
+          },
+          {
+            "title_en": "No hidden import fees",
+            "title_es": "Sin cargos de importación ocultos",
+            "body_en": "Avoid unexpected customs costs. Our local distribution network ensures no hidden import fees or international charges, making your peptide purchases easy and stress-free.",
+            "body_es": "Evita costos aduaneros inesperados. Nuestra red de distribución local garantiza que no haya cargos de importación ocultos ni cobros internacionales, haciendo que tus compras de péptidos sean fáciles y sin preocupaciones."
+          },
+          {
+            "title_en": "Clear access and professional service",
+            "title_es": "Acceso claro y servicio profesional",
+            "body_en": "We combine premium peptide quality with professional, responsive customer service, helping you get exactly what you need, when you need it.",
+            "body_es": "Combinamos la calidad de péptidos premium con un servicio al cliente profesional y receptivo, ayudándote a obtener exactamente lo que necesitas, cuando lo necesitas."
+          }
+        ]
+      }
+    },
+    {
+      "type": "category_chips",
+      "content": {
+        "title_en": "Shop By Category",
+        "title_es": "Comprar por categoría",
+        "source": "nav_categories"
+      }
+    },
+    {
+      "type": "feature_cards",
+      "content": {
+        "title_en": "What We Offer",
+        "title_es": "Lo que ofrecemos",
+        "intro_en": "Peptides are studied for their specific effects in the body. Unlike regular supplements, they are researched for how they work with certain signaling pathways in the body.",
+        "intro_es": "Los péptidos se estudian por sus efectos específicos en el cuerpo. A diferencia de los suplementos regulares, se investigan por cómo funcionan con ciertas vías de señalización en el cuerpo.",
+        "columns": 3,
+        "cards": [
+          {
+            "title_en": "Metabolic & Weight Optimization",
+            "title_es": "Optimización Metabólica y de Peso",
+            "body_en": "Certain peptides are studied for their role in metabolism, appetite regulation, and energy balance. These areas are important for body shape and how your body works.",
+            "body_es": "Ciertos péptidos se estudian por su papel en el metabolismo, la regulación del apetito y el balance energético. Estas áreas son importantes para la forma corporal y el funcionamiento de tu cuerpo."
+          },
+          {
+            "title_en": "Recovery & Tissue Support",
+            "title_es": "Recuperación y Soporte de Tejidos",
+            "body_en": "Recovery matters for long-term performance and staying strong. Some peptides are talked about for helping with tissue repair, joint support, and recovery routines.",
+            "body_es": "La recuperación es importante para el rendimiento a largo plazo y para mantenerse fuerte. Se habla de algunos péptidos por su ayuda en la reparación de tejidos, el soporte articular y las rutinas de recuperación."
+          },
+          {
+            "title_en": "Cognitive Performance & Mental Clarity",
+            "title_es": "Rendimiento Cognitivo y Claridad Mental",
+            "body_en": "Many high-performing people care about focus and mental sharpness. Some peptides are studied for how they may support brain signals linked to clear thinking.",
+            "body_es": "Muchas personas de alto rendimiento se preocupan por la concentración y la agudeza mental. Algunos péptidos son estudiados por cómo pueden apoyar las señales cerebrales relacionadas con el pensamiento claro."
+          },
+          {
+            "title_en": "Skin & Regenerative Applications",
+            "title_es": "Aplicaciones dérmicas y regenerativas",
+            "body_en": "Peptides often come up in research about skin repair, collagen, and keeping skin healthy.",
+            "body_es": "Los péptidos a menudo surgen en la investigación sobre la reparación de la piel, el colágeno y el mantenimiento de una piel saludable."
+          },
+          {
+            "title_en": "Energy & Mitochondrial Function",
+            "title_es": "Energía y Función Mitocondrial",
+            "body_en": "Your cells need energy for endurance, recovery, and feeling your best. Some peptides are studied for how they may help mitochondrial efficiency.",
+            "body_es": "Tus células necesitan energía para la resistencia, la recuperación y para sentirte al máximo. Algunos péptidos se estudian por cómo pueden ayudar a la eficiencia mitocondrial."
+          },
+          {
+            "title_en": "Hormonal & Endocrine Signaling",
+            "title_es": "Señalización hormonal y endocrina",
+            "body_en": "Hormones play a big role in performance, metabolism, and recovery. Some peptides are often mentioned in routines that focus on hormone balance.",
+            "body_es": "Las hormonas juegan un papel importante en el rendimiento, el metabolismo y la recuperación. Algunos péptidos se mencionan a menudo en rutinas que se centran en el equilibrio hormonal."
+          }
+        ]
+      }
+    },
+    {
+      "type": "feature_cards",
+      "content": {
+        "title_en": "Who This Is For",
+        "title_es": "¿Para quién es esto?",
+        "intro_en": "Peptides Costa Rica is for people who take their health performance seriously.",
+        "intro_es": "Peptides Costa Rica es para personas que se toman en serio la mejora de su salud.",
+        "columns": 4,
+        "cards": [
+          {
+            "title_en": "Performance-Driven People",
+            "title_es": "Personas impulsadas por el rendimiento",
+            "body_en": "Those focused on improving strength, endurance, recovery, and overall physical capacity.",
+            "body_es": "Aquellos enfocados en mejorar la fuerza, la resistencia, la recuperación y la capacidad física general."
+          },
+          {
+            "title_en": "Wellness & Longevity Enthusiasts",
+            "title_es": "Entusiastas del Bienestar y la Longevidad",
+            "body_en": "People looking for new ways to boost energy, metabolism, and long-term wellness.",
+            "body_es": "Personas en busca de nuevas formas de potenciar su energía, metabolismo y bienestar a largo plazo."
+          },
+          {
+            "title_en": "Recovery-Focused Clients",
+            "title_es": "Clientes enfocados en la recuperación",
+            "body_en": "Anyone who wants to keep their joints strong, tissues healthy, and training on track.",
+            "body_es": "Cualquiera que quiera mantener sus articulaciones fuertes, sus tejidos sanos y su entrenamiento al día."
+          },
+          {
+            "title_en": "High-Performance Professionals",
+            "title_es": "Profesionales de Alto Desempeño",
+            "body_en": "Entrepreneurs, athletes, and anyone who values clear thinking, steady energy, and good routines.",
+            "body_es": "Emprendedores, atletas y cualquier persona que valore la claridad mental, la energía constante y las buenas rutinas."
+          }
+        ],
+        "cta_en": "View All Products",
+        "cta_es": "Ver todos los productos",
+        "cta_href": "/all-peptide-products-costa-rica/"
+      }
+    },
+    {
+      "type": "transformation",
+      "content": {
+        "eyebrow_en": "CUSTOMER TRANSFORMATION",
+        "eyebrow_es": "Transformación del cliente",
+        "title_en": "Real People. Real Results.",
+        "title_es": "Gente Real. Resultados Reales.",
+        "body_en": "This customer shared his before & after after using our product consistently.",
+        "body_es": "Este cliente compartió su antes y después después de usar nuestro producto consistentemente.",
+        "disclaimers_en": [
+          "Real customer-submitted result",
+          "Face blurred for privacy",
+          "Results may vary from person to person"
+        ],
+        "disclaimers_es": [
+          "Resultado real de un cliente",
+          "Rostro difuminado por privacidad",
+          "Los resultados pueden variar de persona a persona"
+        ],
+        "cta_en": "View Products",
+        "cta_es": "Ver Productos",
+        "cta_href": "/all-peptide-products-costa-rica/"
+      }
+    },
+    {
+      "type": "promo_banner",
+      "content": {
+        "eyebrow_en": "BULK OFFER",
+        "eyebrow_es": "OFERTA AL POR MAYOR",
+        "title_en": "Save 15% on Bulk Peptide Orders",
+        "title_es": "Ahorra 15% en pedidos de péptidos al por mayor",
+        "body_en": "Stock up on high-purity research peptides and receive an exclusive 15% discount on qualifying bulk purchases.",
+        "body_es": "Abastécete de péptidos de investigación de alta pureza y obtén un descuento exclusivo de 15% en compras al por mayor que cumplan con los requisitos."
+      }
+    },
+    {
+      "type": "info_duo",
+      "content": {
+        "panels": [
+          {
+            "title_en": "Laboratory-Tested Purity",
+            "title_es": "Pureza Probada en Laboratorio",
+            "body_en": "All of our research peptides are manufactured under strict quality control standards and tested for purity and consistency, ensuring reliable results for laboratory and research applications.",
+            "body_es": "Todos nuestros péptidos de investigación se fabrican bajo estrictos estándares de control de calidad y se analizan para determinar su pureza y consistencia, lo que garantiza resultados confiables para aplicaciones de laboratorio e investigación.",
+            "cta_en": "View Products",
+            "cta_es": "Ver Productos",
+            "cta_href": "/all-peptide-products-costa-rica/"
+          },
+          {
+            "title_en": "Research-Grade Peptides",
+            "title_es": "Péptidos de Grado de Investigación",
+            "body_en": "We provide precision-manufactured peptides designed strictly for research and laboratory applications. Quality, stability, and reliability guaranteed.",
+            "body_es": "Ofrecemos péptidos fabricados con precisión, diseñados estrictamente para aplicaciones de investigación y laboratorio. Calidad, estabilidad y confiabilidad garantizadas.",
+            "cta_en": "Browse Collection",
+            "cta_es": "Explorar Colección",
+            "cta_href": "/all-peptide-products-costa-rica/"
+          }
+        ]
+      }
+    },
+    {
+      "type": "text_cta",
+      "content": {
+        "title_en": "Your Trusted Peptide Supplier in Costa Rica",
+        "title_es": "Tu Proveedor de Confianza de Péptidos en Costa Rica",
+        "body_en": "PeptidesCostaRica provides premium research peptides sourced from certified laboratories and handled under controlled conditions. We are committed to delivering consistent quality and dependable service for researchers across Costa Rica and internationally.",
+        "body_es": "PeptidesCostaRica ofrece péptidos de investigación de primera calidad, obtenidos de laboratorios certificados y manipulados bajo condiciones controladas. Estamos comprometidos a ofrecer calidad constante y un servicio confiable para investigadores en Costa Rica e internacionalmente.",
+        "cta_en": "Call To Order",
+        "cta_es": "Se abre la sesión",
+        "cta_href": "tel:+50684046973"
+      }
+    },
+    {
+      "type": "call_to_order_cards",
+      "content": {
+        "cards": [
+          {
+            "name_en": "BPC-157 10mg",
+            "name_es": "BPC-157 10mg",
+            "badge_en": "Buy 5+ viles, get 15% off",
+            "badge_es": "Compra 5 o más frascos y obtén un descuento de 15%",
+            "price_en": "90$",
+            "price_es": "90$",
+            "benefits_en": [
+              "Improved ligament repair",
+              "Enhanced muscle recovery",
+              "Faster wound healing (skin and soft tissue)"
+            ],
+            "benefits_es": [
+              "Reparación mejorada de ligamentos",
+              "Recuperación muscular mejorada",
+              "Cicatrización de heridas más rápida (piel y tejidos blandos)"
+            ],
+            "cta_en": "Call To Order",
+            "cta_es": "Se abre la sesión",
+            "cta_href": "tel:+50684046973"
+          },
+          {
+            "name_en": "HCG 10,000 IU",
+            "name_es": "HCG 10,000 UI",
+            "badge_en": "Buy 5+ viles, get 15% off",
+            "badge_es": "Compra 5 o más frascos y obtén un descuento de 15%",
+            "price_en": "160$",
+            "price_es": "160$",
+            "benefits_en": [
+              "Weight loss (HCG diet)",
+              "Bodybuilding PCT (off-label)",
+              "Female infertility – stimulates ovulation"
+            ],
+            "benefits_es": [
+              "Bajar de peso (dieta HCG)",
+              "PCT para culturismo (uso no autorizado)",
+              "Infertilidad femenina – estimula la ovulación"
+            ],
+            "cta_en": "Call To Order",
+            "cta_es": "Se abre la sesión",
+            "cta_href": "tel:+50684046973"
+          }
+        ]
+      }
+    },
+    {
+      "type": "feature_cards",
+      "content": {
+        "eyebrow_en": "Why choose us",
+        "eyebrow_es": "¿Por qué elegirnos?",
+        "title_en": "Trusted Quality.",
+        "title_es": "Calidad de confianza.",
+        "body_en": "Peptides are short chains of amino acids that play an important role in biological regulation and cellular communication. Their growing popularity reflects increasing interest in targeted, research-driven approaches to performance and wellness.",
+        "body_es": "Los péptidos son cadenas cortas de aminoácidos que desempeñan un papel importante en la regulación biológica y la comunicación celular. Su creciente popularidad refleja un interés cada vez mayor en enfoques dirigidos y basados en la investigación para el rendimiento y el bienestar.",
+        "columns": 3,
+        "cards": [
+          {
+            "title_en": "",
+            "title_es": "",
+            "body_en": "Weight Management Certain peptides can promote fat breakdown and support metabolism, making them a powerful tool in weight loss regimes.",
+            "body_es": "Control de peso Ciertos péptidos pueden promover la descomposición de la grasa y apoyar el metabolismo, convirtiéndolos en una herramienta poderosa en los regímenes de pérdida de peso."
+          },
+          {
+            "title_en": "",
+            "title_es": "",
+            "body_en": "Muscle Growth By stimulating muscle protein synthesis, peptides help build lean muscle mass, promoting strength and endurance.",
+            "body_es": "Crecimiento muscular Al estimular la síntesis de proteínas musculares, los péptidos ayudan a desarrollar masa muscular magra, promoviendo la fuerza y la resistencia."
+          },
+          {
+            "title_en": "",
+            "title_es": "",
+            "body_en": "Energy and Vitality Enhanced energy levels and improved recovery times enable a more active and fulfilling lifestyle.",
+            "body_es": "Energía y Vitalidad Los niveles de energía mejorados y los tiempos de recuperación optimizados permiten un estilo de vida más activo y pleno."
+          }
+        ]
+      }
+    },
+    {
+      "type": "testimonials",
+      "content": {
+        "eyebrow_en": "Testimonials",
+        "eyebrow_es": "Testimonios",
+        "title_en": "Customer Success Stories",
+        "title_es": "Historias de éxito de clientes",
+        "body_en": "We take pride in the trust and loyalty of our customers. Numerous individuals across Costa Rica have experienced transformative results with our peptide products. Our testimonials section is a living showcase of positive outcomes, featuring stories of enhanced energy, impressive muscle growth, and dramatic reductions in body fat.",
+        "body_es": "Nos enorgullecemos de la confianza y lealtad de nuestros clientes. Numerosas personas en toda Costa Rica han experimentado resultados transformadores con nuestros productos peptídicos. Nuestra sección de testimonios es una muestra viva de resultados positivos, presentando historias de mayor energía, crecimiento muscular impresionante y reducciones drásticas en la grasa corporal.",
+        "items": []
+      }
+    },
+    {
+      "type": "faq_accordion",
+      "content": {
+        "eyebrow_en": "Common Questions",
+        "eyebrow_es": "Preguntas frecuentes",
+        "title_en": "Frequently Asked Questions",
+        "title_es": "Preguntas frecuentes",
+        "intro_en": "We understand that making an informed decision requires clear and reliable information. Below are some frequently asked questions about our peptide products:",
+        "intro_es": "Entendemos que tomar una decisión informada requiere información clara y confiable. A continuación, encontrará algunas preguntas frecuentes sobre nuestros productos peptídicos:",
+        "items": [
+          {
+            "question_en": "Do you ship outside Costa Rica?",
+            "question_es": "¿Hacen envíos fuera de Costa Rica?",
+            "answer_en": "No. Peptides Costa Rica operates exclusively within Costa Rica. By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+            "answer_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al servir solo a Costa Rica, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que usted pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas sencillas y confiables para los clientes locales."
+          },
+          {
+            "question_en": "Do you offer online checkout?",
+            "question_es": "¿Ofrecen pago en línea?",
+            "answer_en": "Yes. We now provide a fast, safe, and secure online checkout system. You can place and complete your order directly on our website with confidence.",
+            "answer_es": "Sí. Ahora ofrecemos un sistema de pago en línea rápido, seguro y confiable. Puede realizar y completar su pedido directamente en nuestro sitio web con confianza."
+          },
+          {
+            "question_en": "What payment methods do you accept?",
+            "question_es": "¿Qué métodos de pago aceptan?",
+            "answer_en": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+            "answer_es": "Actualmente aceptamos:SINPE MóvilZellePayPalEfectivoUna vez que confirmemos que tu pedido está en stock, te enviaremos las instrucciones de pago. Nos aseguramos de que el proceso sea sencillo y de que conozcas el precio total antes de pagar."
+          },
+          {
+            "question_en": "Is there a bulk discount?",
+            "question_es": "¿Hay un descuento por volumen?",
+            "answer_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+            "answer_es": "Sí.Compra cinco o más frascos del mismo producto y obtén un descuento de 15%.No hay reglas de precios complicadas ni cargos ocultos. Calculamos cualquier descuento por volumen con anticipación, para que siempre sepas qué esperar antes de pagar."
+          },
+          {
+            "question_en": "How do I confirm product availability?",
+            "question_es": "¿Cómo confirmo la disponibilidad del producto?",
+            "answer_en": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
+            "answer_es": "Contáctanos usando el número de teléfono o los datos de contacto de nuestra página web.Siempre verificamos que tus artículos estén en stock antes de que pagues. De esta manera, nunca pagas por algo que no podemos entregar y podemos coordinar la entrega sin problemas."
+          },
+          {
+            "question_en": "How quickly do you respond to inquiries?",
+            "question_es": "¿A qué velocidad respondes a las consultas?",
+            "answer_en": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication.",
+            "answer_es": "Intentamos responder rápidamente a las preguntas sobre disponibilidad y pedidos.Hablar directamente contigo es parte de nuestro servicio local. Siempre buscamos una comunicación clara y eficiente."
+          },
+          {
+            "question_en": "Can I modify my order after it has been placed?",
+            "question_es": "¿Puedo modificar mi pedido después de que se haya realizado?",
+            "answer_en": "Order changes are possible only if processing has not started. Once packaging or shipment begins, modifications may no longer be available, so quick contact is important.",
+            "answer_es": "Los cambios en los pedidos solo son posibles si el procesamiento no ha comenzado. Una vez que comience el empaquetado o el envío, es posible que las modificaciones ya no estén disponibles, por lo que el contacto rápido es importante."
+          }
+        ]
+      }
+    }
+  ]
+}
