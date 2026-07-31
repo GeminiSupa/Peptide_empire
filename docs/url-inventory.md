@@ -53,9 +53,13 @@ collision that is now permanent, indexed SEO. It has to be reproduced exactly.
 22 product landers, 16 guides). There is no rule for which get translated. Both
 cases are live URLs and both must be preserved verbatim.
 
-`lib/site.js` currently exports `localePath()`, which builds `/es{path}`. That
-function is wrong for this site and must be replaced by a lookup against
-`data/routes.json` before any page ships.
+Routing therefore resolves through `data/routes.json`, not through a path
+transform. `lib/routes.js` does this: content stores the English canonical path
+for every internal link and `localePath()` looks up the Spanish twin.
+
+(An earlier version of this note warned that `lib/site.js` exported a
+`/es{path}` helper that had to be replaced. No such file exists — the lookup was
+already implemented correctly in `lib/routes.js`.)
 
 ## Spanish slugs that are wrong on the live site
 

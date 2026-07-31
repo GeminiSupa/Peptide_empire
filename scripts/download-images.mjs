@@ -61,6 +61,28 @@ const RECOVERED = {
   ],
   '/wp-content/uploads/2026/07/Tesa.jpg': ['/wp-content/uploads/2026/07/Tesa.jpg.jpeg'],
   '/wp-content/uploads/2026/07/tez.jpg': ['/wp-content/uploads/2026/07/tez.jpg.jpeg'],
+
+  // Same file, re-saved in another format or month. The stem is unchanged (and
+  // for the first, a UUID), so these are the same image beyond doubt.
+  '/wp-content/uploads/2026/02/b7542b1d-3c42-49b5-916c-a9b713f3e743.png': [
+    '/wp-content/uploads/2026/07/b7542b1d-3c42-49b5-916c-a9b713f3e743.webp',
+  ],
+  '/wp-content/uploads/2026/04/Untitled-design-5-1.png': [
+    '/wp-content/uploads/2026/07/Untitled-design-5-1.webp',
+  ],
+  '/wp-content/uploads/2026/07/finding-focus-city-of-flowers-heredia-spanish.webp': [
+    '/wp-content/uploads/2026/07/finding-focus-city-of-flowers-heredia-spanish.webp.webp',
+  ],
+
+  // NOT mapped, deliberately. The Media Library holds a near-miss for each of
+  // these, but WordPress's -1/-2 suffix marks a SEPARATE upload, not a variant
+  // of the same picture — peptides-11-1 is not peptides-11-2. Guessing here
+  // would put a plausible-looking wrong image on a live page, which is worse
+  // than a visible gap. Needs the client to confirm:
+  //   /2026/03/peptides-11-2.webp              ~ peptides-11-1.png
+  //   /2026/04/3-13-1.png                      ~ 3-13-1-2.webp
+  //   /2026/03/Banner-Imagesz-1-e1774523007418.png
+  //                                            ~ …-removebg-preview-….png
 };
 
 const args = process.argv.slice(2);
