@@ -58,6 +58,30 @@ const CONTAINER = '#content';
 /** Never contributes visible copy, and script bodies differ between locales. */
 const SKIP = 'script,style,noscript,svg,template';
 
+/**
+ * Widgets whose node count differs between languages for reasons that have
+ * nothing to do with translation — review counts, testimonial rotations, the
+ * currency switcher, and related-product grids whose prices format differently.
+ *
+ * On the product pages this drift rejected 46 of 67 pages. Removing these
+ * subtrees before pairing makes the counts agree exactly.
+ *
+ * Scoped to wooProduct ON PURPOSE. nested-carousel is genuine translated copy
+ * on the product landers, so excluding it globally would silently drop their
+ * Spanish.
+ */
+const VOLATILE = [
+  'rating',
+  'elementskit-testimonial',
+  'shortcode',
+  'woocommerce-product-add-to-cart',
+  'nested-carousel',
+]
+  .map((t) => `.elementor-widget[data-widget_type^=${t}]`)
+  .join(',');
+
+const VOLATILE_GROUPS = new Set(['wooProduct']);
+
 const clean = (s) => (s || '').replace(/\s+/g, ' ').trim();
 
 const args = process.argv.slice(2);
@@ -81,9 +105,10 @@ async function loadPage(path) {
  * Also captures alt text and input placeholders, which TranslatePress
  * translates and which carry real copy.
  */
-function strings($) {
+function strings($, dropVolatile = false) {
   const root = $(CONTAINER).first();
   if (!root.length) return null;
+  if (dropVolatile) root.find(VOLATILE).remove();
 
   const out = [];
   const walk = (node) => {
@@ -139,8 +164,9 @@ async function main() {
   await pool(work, 6, async (route) => {
     try {
       const [$en, $es] = await Promise.all([loadPage(route.en), loadPage(route.es)]);
-      const en = strings($en);
-      const es = strings($es);
+      const drop = VOLATILE_GROUPS.has(route.group);
+      const en = strings($en, drop);
+      const es = strings($es, drop);
 
       if (!en || !es) {
         rejected.push({ ...route, reason: `no ${CONTAINER} container` });
@@ -176,12 +202,34 @@ async function main() {
     }
   });
 
-  pages.sort((a, b) => a.en.localeCompare(b.en));
+  // --merge keeps the pairs already on disk for groups this run did not touch,
+  // so a targeted re-harvest of one group cannot wipe the other 250 pages.
+  let merged = { pages, rejected, failed };
+  if (args.includes('--merge')) {
+    const prior = JSON.parse(await readFile(OUT_PAGES, 'utf8'));
+    const touched = new Set(work.map((r) => r.en));
+    const keep = (list) => list.filter((p) => !touched.has(p.en));
+    merged = {
+      pages: [...keep(prior.pages ?? []), ...pages],
+      rejected: [...keep(prior.rejected ?? []), ...rejected],
+      failed: [...keep(prior.failed ?? []), ...failed],
+    };
+  }
+  merged.pages.sort((a, b) => a.en.localeCompare(b.en));
 
   await mkdir(dirname(OUT_PAGES), { recursive: true });
-  await writeFile(OUT_PAGES, `${JSON.stringify({ pages, rejected, failed }, null, 2)}\n`, 'utf8');
+  await writeFile(OUT_PAGES, `${JSON.stringify(merged, null, 2)}\n`, 'utf8');
 
-  const sorted = [...dict.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  // Built from the MERGED page set, not just this run's. Deriving it from
+  // `dict` alone would shrink the dictionary to whichever group was last
+  // harvested.
+  const allPairs = new Map();
+  for (const page of merged.pages) {
+    for (const [en, es] of page.pairs) {
+      if (en !== es && !allPairs.has(en)) allPairs.set(en, es);
+    }
+  }
+  const sorted = [...allPairs.entries()].sort((a, b) => a[0].localeCompare(b[0]));
   await writeFile(
     OUT_DICT,
     `${JSON.stringify(

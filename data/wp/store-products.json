@@ -1,0 +1,1237 @@
+{
+  "harvestedAt": "2026-07-31T18:35:34.286Z",
+  "note": "Price is a snapshot. The catalog site is the authority on pricing.",
+  "count": 67,
+  "products": [
+    {
+      "id": 142,
+      "name": "5-amino-1mq 5mg",
+      "slug": "5-amino-1mq-5mg",
+      "price": "₡ 27,252",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/5-Amino-1MQ-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 3193,
+      "name": "Adamax 5mg",
+      "slug": "adamax-5mg",
+      "price": "₡ 74,942",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/Adamax-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cognitive Function",
+          "slug": "peptide-for-cognitive-function"
+        }
+      ]
+    },
+    {
+      "id": 18810,
+      "name": "AICAR 50mg",
+      "slug": "aicar-50mg",
+      "price": "₡ 43,149",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/AICAR-50mg.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 14586,
+      "name": "BAC Water 10ml",
+      "slug": "bac-water-10ml",
+      "price": "₡ 0",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/BAC-Water-10-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "BAC Water",
+          "slug": "bac-water"
+        },
+        {
+          "name": "Peptide reconstitution",
+          "slug": "peptide-reconstitution"
+        }
+      ]
+    },
+    {
+      "id": 14584,
+      "name": "BAC Water 2ml",
+      "slug": "bac-water-2ml",
+      "price": "₡ 0",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/BAC-Water-2-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "BAC Water",
+          "slug": "bac-water"
+        },
+        {
+          "name": "Peptide reconstitution",
+          "slug": "peptide-reconstitution"
+        }
+      ]
+    },
+    {
+      "id": 14585,
+      "name": "BAC Water 3ml",
+      "slug": "bac-water-3ml",
+      "price": "₡ 4,542",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/BAC-Water-3-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "BAC Water",
+          "slug": "bac-water"
+        },
+        {
+          "name": "Peptide reconstitution",
+          "slug": "peptide-reconstitution"
+        }
+      ]
+    },
+    {
+      "id": 138,
+      "name": "BPC-157 10mg",
+      "slug": "bpc-157-10mg",
+      "price": "₡ 40,878",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/BPC-157-2.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        }
+      ]
+    },
+    {
+      "id": 8178,
+      "name": "BPC-157 + TB 500 20mg (Wolverine Stack)",
+      "slug": "bpc-157-tb-500-20mg-wolverine-stack",
+      "price": "₡ 68,172",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/03/BPC-157-TB-500-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        }
+      ]
+    },
+    {
+      "id": 23505,
+      "name": "Cartalax 20mg",
+      "slug": "cartalax-20mg",
+      "price": "₡ 45,420",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/06/Cartalax-20mg-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        }
+      ]
+    },
+    {
+      "id": 18782,
+      "name": "CJC-1295 without DAC + IPA 10mg",
+      "slug": "cjc-1295-without-dac-ipa-10mg",
+      "price": "₡ 0",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/CJC-1295-without-DAC-IPA-1-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "HGH (Human Growth Hormone)",
+          "slug": "hgh-human-growth-hormone"
+        }
+      ]
+    },
+    {
+      "id": 8180,
+      "name": "CJC with DAC 5mg",
+      "slug": "cjc-with-dac-5mg",
+      "price": "₡ 0",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/03/CJC-with-DAC-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cognitive Function",
+          "slug": "peptide-for-cognitive-function"
+        },
+        {
+          "name": "Peptides For Anti Aging",
+          "slug": "peptides-for-anti-aging"
+        },
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        },
+        {
+          "name": "Peptides For Skin",
+          "slug": "peptides-for-skin"
+        },
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 25805,
+      "name": "DSIP 10mg",
+      "slug": "dsip-10mg",
+      "price": "₡ 0",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/07/DSIP-10-mg.jpg.jpeg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Sleep",
+          "slug": "peptides-for-sleep"
+        }
+      ]
+    },
+    {
+      "id": 3194,
+      "name": "DSIP 15mg",
+      "slug": "dsip-15mg",
+      "price": "₡ 61,316",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/DSIP-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Sleep",
+          "slug": "peptides-for-sleep"
+        }
+      ]
+    },
+    {
+      "id": 3197,
+      "name": "Epithalon 50mg",
+      "slug": "epithalon-50mg",
+      "price": "₡ 77,213",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/Epithalon-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Anti Aging",
+          "slug": "peptides-for-anti-aging"
+        }
+      ]
+    },
+    {
+      "id": 15061,
+      "name": "Fat Blaster 10ml",
+      "slug": "fat-blaster-10ml",
+      "price": "₡ 49,962",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/Untitled-design-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        },
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 18780,
+      "name": "GHK-CU 100mg",
+      "slug": "ghk-cu-100mg",
+      "price": "₡ 45,420",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/GHK-CU-100-2.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Skin",
+          "slug": "peptides-for-skin"
+        }
+      ]
+    },
+    {
+      "id": 146,
+      "name": "GHK-CU 50mg",
+      "slug": "ghk-cu-50mg",
+      "price": "₡ 31,794",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/GHK-CU-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Collagen Peptides",
+          "slug": "collagen-peptides"
+        },
+        {
+          "name": "Copper Peptides",
+          "slug": "copper-peptides"
+        },
+        {
+          "name": "Peptides For Skin",
+          "slug": "peptides-for-skin"
+        }
+      ]
+    },
+    {
+      "id": 18823,
+      "name": "GLOW 50mg",
+      "slug": "glow-50mg",
+      "price": "₡ 54,503",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/GLOW-50-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Skin",
+          "slug": "peptides-for-skin"
+        }
+      ]
+    },
+    {
+      "id": 6930,
+      "name": "GLOW 70mg",
+      "slug": "glow-70mg",
+      "price": "₡ 68,129",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/03/GLOW-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        },
+        {
+          "name": "Peptides For Skin",
+          "slug": "peptides-for-skin"
+        }
+      ]
+    },
+    {
+      "id": 14583,
+      "name": "Glutathione 1500mg",
+      "slug": "glutathione-1500mg",
+      "price": "₡ 45,420",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/Glutathione-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Anti Aging",
+          "slug": "peptides-for-anti-aging"
+        },
+        {
+          "name": "Peptides For Skin",
+          "slug": "peptides-for-skin"
+        }
+      ]
+    },
+    {
+      "id": 140,
+      "name": "HCG 10,000 IU",
+      "slug": "hcg-10000-iu",
+      "price": "₡ 72,671",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/HCG-1-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "HGH (Human Growth Hormone)",
+          "slug": "hgh-human-growth-hormone"
+        },
+        {
+          "name": "Peptides For Fertility",
+          "slug": "peptides-for-fertility"
+        }
+      ]
+    },
+    {
+      "id": 3195,
+      "name": "HGH 12 IU",
+      "slug": "hgh-12-iu",
+      "price": "₡ 31,794",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/HGH-12-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "HGH (Human Growth Hormone)",
+          "slug": "hgh-human-growth-hormone"
+        },
+        {
+          "name": "Peptide for Cognitive Function",
+          "slug": "peptide-for-cognitive-function"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        },
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        },
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 3196,
+      "name": "HGH 24 IU",
+      "slug": "hgh-24-iu",
+      "price": "₡ 54,503",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/HGH-24-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "HGH (Human Growth Hormone)",
+          "slug": "hgh-human-growth-hormone"
+        },
+        {
+          "name": "Peptide for Cognitive Function",
+          "slug": "peptide-for-cognitive-function"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        },
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        },
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 23390,
+      "name": "HGH 30 IU",
+      "slug": "hgh-30-iu",
+      "price": "₡ 56,774",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/06/Untitled-design-10.webp"
+      ],
+      "categories": [
+        {
+          "name": "HGH (Human Growth Hormone)",
+          "slug": "hgh-human-growth-hormone"
+        },
+        {
+          "name": "Peptide for Cognitive Function",
+          "slug": "peptide-for-cognitive-function"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        },
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        },
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 26278,
+      "name": "HGH 50 IU (Pfizer Brand Genotropin)",
+      "slug": "hgh-50-iu-pfizer-brand-genotropin",
+      "price": "₡ 125,567",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-08-at-1.59.24-AM.jpeg"
+      ],
+      "categories": [
+        {
+          "name": "HGH (Human Growth Hormone)",
+          "slug": "hgh-human-growth-hormone"
+        },
+        {
+          "name": "Peptide for Cognitive Function",
+          "slug": "peptide-for-cognitive-function"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        },
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        },
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 14579,
+      "name": "IGF-1LR3 1mg",
+      "slug": "igf-1lr3-1mg",
+      "price": "₡ 72,671",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/IGF-1mg.jpg.jpeg"
+      ],
+      "categories": []
+    },
+    {
+      "id": 8179,
+      "name": "Ipamorelin 10mg",
+      "slug": "ipamorelin-10mg",
+      "price": "₡ 45,420",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/03/Ipamorelin-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Anti Aging",
+          "slug": "peptides-for-anti-aging"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        },
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        },
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 14582,
+      "name": "KissPeptin-10 10mg",
+      "slug": "kisspeptin-10-10mg",
+      "price": "₡ 59,045",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/Kisspeptin-10-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Fertility",
+          "slug": "peptides-for-fertility"
+        }
+      ]
+    },
+    {
+      "id": 141,
+      "name": "KLOW 80mg",
+      "slug": "klow-80mg",
+      "price": "₡ 81,755",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/KLOW-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        },
+        {
+          "name": "Peptides For Skin",
+          "slug": "peptides-for-skin"
+        }
+      ]
+    },
+    {
+      "id": 18820,
+      "name": "KPV 10mg",
+      "slug": "kpv-10mg",
+      "price": "₡ 40,878",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/KPV-1-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Anti Aging",
+          "slug": "peptides-for-anti-aging"
+        }
+      ]
+    },
+    {
+      "id": 144,
+      "name": "Mots-C 10mg",
+      "slug": "mots-c-10mg",
+      "price": "₡ 40,878",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/MOTS-C-10-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Anti Aging",
+          "slug": "peptides-for-anti-aging"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        },
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 14580,
+      "name": "Mots-C 40mg",
+      "slug": "mots-c-40mg",
+      "price": "₡ 68,129",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/MOTS-C-40-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Anti Aging",
+          "slug": "peptides-for-anti-aging"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        }
+      ]
+    },
+    {
+      "id": 18805,
+      "name": "MT-II",
+      "slug": "mt-ii",
+      "price": "₡ 40,878",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/MT-II-1.webp"
+      ],
+      "categories": []
+    },
+    {
+      "id": 23500,
+      "name": "NAD+ 1000mg",
+      "slug": "nad-1000mg",
+      "price": "₡ 68,784",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/06/NAD-1000mg-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Anti Aging",
+          "slug": "peptides-for-anti-aging"
+        }
+      ]
+    },
+    {
+      "id": 143,
+      "name": "NAD+ 500mg",
+      "slug": "nad-500mg",
+      "price": "₡ 52,734",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/NAD-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Anti Aging",
+          "slug": "peptides-for-anti-aging"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        }
+      ]
+    },
+    {
+      "id": 18792,
+      "name": "Pinealon 20mg",
+      "slug": "pinealon-20mg",
+      "price": "₡ 54,503",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/Pinealon-20-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cognitive Function",
+          "slug": "peptide-for-cognitive-function"
+        }
+      ]
+    },
+    {
+      "id": 14581,
+      "name": "PT-141 10mg",
+      "slug": "pt-141-10mgtest",
+      "price": "₡ 56,774",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/PT-141-1.jpg"
+      ],
+      "categories": []
+    },
+    {
+      "id": 8177,
+      "name": "Retatrutide 10mg",
+      "slug": "reta-10mg",
+      "price": "₡ 56,774",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/03/Retatrutide-10mg-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 3189,
+      "name": "Retatrutide 12mg",
+      "slug": "reta-12mg",
+      "price": "₡ 61,316",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/Retatrutide-12mg-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 135,
+      "name": "Retatrutide 30mg",
+      "slug": "reta-30mg",
+      "price": "₡ 81,755",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/Retatrutide-30mg-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 137,
+      "name": "Retatrutide 40mg",
+      "slug": "reta-40mg",
+      "price": "₡ 95,381",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/Retatrutide-40mg-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cardiovascular",
+          "slug": "peptide-for-cardiovascular"
+        },
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 14408,
+      "name": "Retatrutide 15mg",
+      "slug": "retatrutide-15mg",
+      "price": "₡ 63,587",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/Retatrutide-15mg-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cardiovascular",
+          "slug": "peptide-for-cardiovascular"
+        },
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 14576,
+      "name": "Retatrutide  20mg",
+      "slug": "retatrutide-20mg",
+      "price": "₡ 68,129",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/Retatrutide-20mg-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cardiovascular",
+          "slug": "peptide-for-cardiovascular"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        }
+      ]
+    },
+    {
+      "id": 14554,
+      "name": "Retatrutide 24mg",
+      "slug": "retatrutide-24mg",
+      "price": "₡ 74,942",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/Retatrutide-24mg-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cardiovascular",
+          "slug": "peptide-for-cardiovascular"
+        },
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 25442,
+      "name": "Retatrutide 25mg",
+      "slug": "retatrutide-25mg",
+      "price": "₡ 76,900",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/06/Retatrutide-25mg-1.jpg.jpeg"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cardiovascular",
+          "slug": "peptide-for-cardiovascular"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        }
+      ]
+    },
+    {
+      "id": 23496,
+      "name": "Retatrutide 50mg",
+      "slug": "retatrutide-50mg",
+      "price": "₡ 109,007",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/06/Retarutide-50mg-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cardiovascular",
+          "slug": "peptide-for-cardiovascular"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        }
+      ]
+    },
+    {
+      "id": 23498,
+      "name": "Retatrutide 60mg",
+      "slug": "retatrutide-60mg",
+      "price": "₡ 122,633",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/06/Retatrutide-60mg-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cardiovascular",
+          "slug": "peptide-for-cardiovascular"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        }
+      ]
+    },
+    {
+      "id": 145,
+      "name": "Selank 10mg",
+      "slug": "selank-10mg",
+      "price": "₡ 40,878",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/Selank-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cognitive Function",
+          "slug": "peptide-for-cognitive-function"
+        },
+        {
+          "name": "Peptides For Anti Aging",
+          "slug": "peptides-for-anti-aging"
+        }
+      ]
+    },
+    {
+      "id": 18816,
+      "name": "Semaglutide 10mg",
+      "slug": "semaglutide-10mg",
+      "price": "₡ 99,923",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/Semaglutide-10-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 18788,
+      "name": "Semaglutide 20mg",
+      "slug": "semaglutide-20mg",
+      "price": "₡ 124,904",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/Semaglutide-20-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 18790,
+      "name": "Semaglutide 30mg",
+      "slug": "semaglutide-30mg",
+      "price": "₡ 136,259",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/Semaglutide-30-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 18813,
+      "name": "Semax 10mg",
+      "slug": "semax-10mg",
+      "price": "₡ 40,878",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/Semax-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cognitive Function",
+          "slug": "peptide-for-cognitive-function"
+        }
+      ]
+    },
+    {
+      "id": 14578,
+      "name": "Sermorelin 10mg",
+      "slug": "sermorelin-10mg",
+      "price": "₡ 68,129",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/Sermorelin-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Anti Aging",
+          "slug": "peptides-for-anti-aging"
+        }
+      ]
+    },
+    {
+      "id": 18818,
+      "name": "SLU-PP-332 5mg",
+      "slug": "slu-pp-332-5mg",
+      "price": "₡ 36,336",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/Slu-pp332-1.webp"
+      ],
+      "categories": []
+    },
+    {
+      "id": 3192,
+      "name": "SS-31 10mg",
+      "slug": "ss-31-10mg",
+      "price": "₡ 54,503",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/SS-31-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Anti Aging",
+          "slug": "peptides-for-anti-aging"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        }
+      ]
+    },
+    {
+      "id": 14557,
+      "name": "SUPER Human Blend 10ml",
+      "slug": "super-human-blend-10ml",
+      "price": "₡ 45,420",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/04/SUPER-Human-Blend-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        },
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 6927,
+      "name": "TB-4 10mg",
+      "slug": "tb-4-10mg",
+      "price": "₡ 49,962",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/03/TB-4-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        }
+      ]
+    },
+    {
+      "id": 3190,
+      "name": "Tesamorelin 10mg",
+      "slug": "tesamorelin-10mg",
+      "price": "₡ 45,420",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/Tesamorelin-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "HGH (Human Growth Hormone)",
+          "slug": "hgh-human-growth-hormone"
+        }
+      ]
+    },
+    {
+      "id": 27155,
+      "name": "Tesamorelin 20mg",
+      "slug": "tesamorelin-20mg",
+      "price": "₡ 68,129",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/07/Tesa.jpg.jpeg"
+      ],
+      "categories": [
+        {
+          "name": "HGH (Human Growth Hormone)",
+          "slug": "hgh-human-growth-hormone"
+        }
+      ]
+    },
+    {
+      "id": 3191,
+      "name": "Thymalin 10mg",
+      "slug": "thymalin-10mg",
+      "price": "₡ 54,503",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/02/Thymalin-1-1.jpg"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Healing",
+          "slug": "peptides-for-healing"
+        }
+      ]
+    },
+    {
+      "id": 18785,
+      "name": "Thymosin Alpha-1 10mg",
+      "slug": "thymosin-alpha-1-10mg",
+      "price": "₡ 68,129",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/Thymosin-Alpha-1-10-1.webp"
+      ],
+      "categories": []
+    },
+    {
+      "id": 18795,
+      "name": "Tirzepatide 10mg",
+      "slug": "tirzepatide-10mg",
+      "price": "₡ 70,400",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/Tirzepatide-10-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 18798,
+      "name": "Tirzepatide 15mg",
+      "slug": "tirzepatide-15mg",
+      "price": "₡ 84,026",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/Tirzepatide-15-2.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 18800,
+      "name": "Tirzepatide 20mg",
+      "slug": "tirzepatide-20mg",
+      "price": "₡ 90,839",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/Tirzepatide-20-1.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 18803,
+      "name": "Tirzepatide 30mg",
+      "slug": "tirzepatide-30mg",
+      "price": "₡ 102,194",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/05/Tirzepatide-30-1-2.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 25299,
+      "name": "Tirzepatide 40mg",
+      "slug": "tirzepatide-40mg",
+      "price": "₡ 111,278",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/06/Tirzepatide-40mg.jpg.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Weight Loss",
+          "slug": "peptides-for-weight-loss"
+        }
+      ]
+    },
+    {
+      "id": 26438,
+      "name": "Tirzepatide 60mg",
+      "slug": "tirzepatide-60mg",
+      "price": "₡ 129,621",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/07/tez.jpg.jpeg"
+      ],
+      "categories": []
+    }
+  ]
+}

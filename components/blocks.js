@@ -21,9 +21,15 @@ import { localePath } from '@/lib/routes';
 
 const listItems = (block, key, lang) => block[`${key}_${lang}`] || block[`${key}_en`] || [];
 
-function Heading({ block, lang }) {
+function Heading({ block, lang, demote }) {
   const text = t(block, 'text', lang);
   if (!text) return null;
+
+  // On product pages the <h1> is already emitted by ProductSummary, so a level-1
+  // heading in the harvested blocks would be a second one on the same page.
+  if (demote && block.level === 1) {
+    return <h2 className="mt-12 text-2xl font-bold text-primary sm:text-[1.75rem]">{text}</h2>;
+  }
 
   // h1 opens the page; the rest are section headings within it.
   if (block.level === 1) {
@@ -347,7 +353,7 @@ function group(blocks) {
   return out;
 }
 
-export default function Blocks({ blocks = [], lang }) {
+export default function Blocks({ blocks = [], lang, demoteH1 = false }) {
   if (!blocks.length) return null;
   return (
     <Container className="py-12 sm:py-16">
@@ -365,7 +371,7 @@ export default function Blocks({ blocks = [], lang }) {
         const width = WIDE.has(entry.block.type) ? 'max-w-5xl' : 'max-w-3xl';
         return (
           <div className={`mx-auto ${width}`} key={`${entry.block.type}-${i}`}>
-            <Renderer block={entry.block} lang={lang} />
+            <Renderer block={entry.block} demote={demoteH1} lang={lang} />
           </div>
         );
       })}
