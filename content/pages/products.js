@@ -21,12 +21,25 @@ const segment = (path) => path.replace(/^\/|\/$/g, '').split('/').pop();
 /** Live commerce fields — price, image, categories — keyed by product slug. */
 const STORE = new Map((storeData?.products ?? []).map((p) => [p.slug, p]));
 
-const PAGES = productData.pages.map((page) => ({
-  ...page,
-  kind: 'blocks',
-  group: 'wooProduct',
-  store: STORE.get(page.slug) ?? null,
-}));
+/**
+ * Products that must NOT get a page.
+ *
+ * `pt-141-10mgtest` is a test product left live and indexed on the WordPress
+ * site. The client's decision is that the junk URLs 404 rather than redirect,
+ * so it is excluded here — where routing reads from — and no route is
+ * generated for it in either language. It stays in the harvested data so a
+ * re-harvest does not quietly resurrect it as a surprise.
+ */
+const EXCLUDED = new Set(['pt-141-10mgtest']);
+
+const PAGES = productData.pages
+  .filter((page) => !EXCLUDED.has(page.slug))
+  .map((page) => ({
+    ...page,
+    kind: 'blocks',
+    group: 'wooProduct',
+    store: STORE.get(page.slug) ?? null,
+  }));
 
 const BY_EN = new Map(PAGES.map((p) => [segment(p.en), p]));
 const BY_ES = new Map(PAGES.filter((p) => p.es).map((p) => [segment(p.es), p]));
