@@ -15,11 +15,13 @@
  */
 import cityData from '@/data/pages/city.json';
 import guideData from '@/data/pages/guide.json';
+import landerData from '@/data/pages/productLander.json';
 
 const segment = (path) => path.replace(/^\/|\/$/g, '').split('/').pop();
 
 const SOURCES = [
   { kind: 'blocks', group: 'city', pages: cityData.pages },
+  { kind: 'blocks', group: 'productLander', pages: landerData.pages },
   { kind: 'article', group: 'guide', pages: guideData.pages },
 ];
 

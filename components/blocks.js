@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { Check } from 'lucide-react';
+import { Check, ExternalLink } from 'lucide-react';
 import Container from '@/components/ui/container';
 import FaqAccordion from '@/components/faq-accordion';
+import { catalogUrl } from '@/content/global';
 import { t } from '@/lib/i18n';
 import { imageUrl } from '@/lib/images';
 import { localePath } from '@/lib/routes';
@@ -151,6 +152,123 @@ function CardGrid({ blocks, lang }) {
   );
 }
 
+function Table({ block, lang }) {
+  const header = block[`header_${lang}`] || block.header_en;
+  const rows = block[`rows_${lang}`] || block.rows_en || [];
+  if (!rows.length) return null;
+  return (
+    // The wrapper scrolls so a wide table never widens the page.
+    <div className="mt-6 -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+      <table className="w-full min-w-[32rem] border-collapse text-left text-sm">
+        {header && (
+          <thead>
+            <tr>
+              {header.map((cell, i) => (
+                <th
+                  className="border border-slate-200 bg-slate-50 px-3 py-2 font-semibold text-primary"
+                  key={`${cell}-${i}`}
+                >
+                  {cell}
+                </th>
+              ))}
+            </tr>
+          </thead>
+        )}
+        <tbody>
+          {rows.map((row, r) => (
+            <tr key={`row-${r}`}>
+              {row.map((cell, c) => (
+                <td className="border border-slate-200 px-3 py-2 text-text-main" key={`c-${c}`}>
+                  {cell}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function Tabs({ block, lang }) {
+  if (!block.items?.length) return null;
+  // Rendered as stacked labelled sections rather than JS tabs: every pane is
+  // real content and all of it should be readable and indexable at once.
+  return (
+    <div className="mt-8 space-y-6">
+      {block.items.map((item, i) => (
+        <section key={`tab-${i}`}>
+          <h3 className="text-lg font-semibold text-primary">{t(item, 'label', lang)}</h3>
+          <p className="mt-2 text-base leading-relaxed text-text-main">{t(item, 'body', lang)}</p>
+        </section>
+      ))}
+    </div>
+  );
+}
+
+function Cards({ block, lang }) {
+  if (!block.items?.length) return null;
+  return (
+    <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {block.items.map((item, i) => (
+        <div
+          className="rounded-xl border border-primary/10 bg-white p-5 shadow-sm"
+          key={`slide-${i}`}
+        >
+          <h3 className="text-base font-bold text-primary">{t(item, 'title', lang)}</h3>
+          <p className="mt-2 text-sm leading-relaxed text-text-muted">{t(item, 'text', lang)}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/**
+ * A WooCommerce product grid, display-only.
+ *
+ * This project has no cart: the catalog site owns checkout and orders, so every
+ * buy action links there rather than adding to a basket here. Prices are a
+ * harvest-time snapshot and are labelled as indicative for that reason — the
+ * catalog site is the authority on what anything costs.
+ */
+function ProductGrid({ block, lang }) {
+  if (!block.products?.length) return null;
+  const buy = catalogUrl(lang);
+  return (
+    <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {block.products.map((product) => (
+        <div
+          className="flex h-full flex-col rounded-xl border border-primary/10 bg-white p-4 shadow-sm"
+          key={product.name}
+        >
+          {product.image && (
+            // eslint-disable-next-line @next/next/no-img-element -- harvested
+            <img
+              alt={product.name}
+              className="mb-3 aspect-square w-full rounded-lg object-cover"
+              loading="lazy"
+              src={imageUrl(product.image)}
+            />
+          )}
+          <h3 className="text-sm font-bold text-primary">{product.name}</h3>
+          {product.price && (
+            <p className="mt-1 text-sm font-semibold text-accent">{product.price}</p>
+          )}
+          <a
+            className="mt-auto inline-flex items-center justify-center gap-1 rounded-full bg-accent px-4 py-2 pt-2 text-xs font-bold text-white transition hover:brightness-110"
+            href={buy}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            {lang === 'en' ? 'View in catalog' : 'Ver en el catálogo'}
+            <ExternalLink aria-hidden="true" className="h-3.5 w-3.5" />
+          </a>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Faq({ block, lang }) {
   if (!block.items?.length) return null;
   // FaqAccordion is a client component and takes resolved strings, so the
@@ -168,8 +286,15 @@ const RENDERERS = {
   list: BlockList,
   button: BlockButton,
   image: BlockImage,
+  table: Table,
+  tabs: Tabs,
+  cards: Cards,
+  product_grid: ProductGrid,
   faq: Faq,
 };
+
+/** Block types that need the full column width rather than the prose measure. */
+const WIDE = new Set(['product_grid', 'cards', 'table']);
 
 /** Collapse runs of `card` blocks into a single grid entry. */
 function group(blocks) {
@@ -190,16 +315,24 @@ export default function Blocks({ blocks = [], lang }) {
   if (!blocks.length) return null;
   return (
     <Container className="py-12 sm:py-16">
-      <div className="mx-auto max-w-3xl">
-        {group(blocks).map((entry, i) => {
-          if (entry.kind === 'cards') {
-            return <CardGrid blocks={entry.blocks} key={`cards-${i}`} lang={lang} />;
-          }
-          const Renderer = RENDERERS[entry.block.type];
-          if (!Renderer) return null;
-          return <Renderer block={entry.block} key={`${entry.block.type}-${i}`} lang={lang} />;
-        })}
-      </div>
+      {group(blocks).map((entry, i) => {
+        if (entry.kind === 'cards') {
+          return (
+            <div className="mx-auto max-w-5xl" key={`cards-${i}`}>
+              <CardGrid blocks={entry.blocks} lang={lang} />
+            </div>
+          );
+        }
+        const Renderer = RENDERERS[entry.block.type];
+        if (!Renderer) return null;
+        // Prose stays at a readable measure; grids and tables get more room.
+        const width = WIDE.has(entry.block.type) ? 'max-w-5xl' : 'max-w-3xl';
+        return (
+          <div className={`mx-auto ${width}`} key={`${entry.block.type}-${i}`}>
+            <Renderer block={entry.block} lang={lang} />
+          </div>
+        );
+      })}
     </Container>
   );
 }
