@@ -34,6 +34,35 @@ const UPLOAD_RE =
 /** `hero-300x200.webp` → `hero.webp`. WP size variants are derivatives. */
 const toOriginal = (path) => path.replace(/-\d+x\d+(?=\.[a-z0-9]+$)/i, '');
 
+/**
+ * Images the live site references at a path that 404s, where the real file is
+ * still in the Media Library under a DOUBLE extension — uploaded as
+ * `IGF-1mg.jpg.jpeg`, referenced as `IGF-1mg.jpg`.
+ *
+ * These are broken for real visitors on the live site right now. Found by
+ * searching /wp-json/wp/v2/media (2026-07-31); each was byte-verified, so this
+ * is recovery, not guesswork. The file is still written to the REFERENCED path,
+ * matching how resized fallbacks are handled — content keeps one stable name.
+ *
+ * Note two of them are not really JPEGs: the `.jpg.webp` pair are RIFF/WebP.
+ * They are saved under the referenced `.jpg` name regardless; browsers sniff
+ * content type, and renaming would mean editing every reference.
+ */
+const RECOVERED = {
+  '/wp-content/uploads/2026/04/IGF-1mg.jpg': ['/wp-content/uploads/2026/04/IGF-1mg.jpg.jpeg'],
+  '/wp-content/uploads/2026/06/Retatrutide-25mg-1.jpg': [
+    '/wp-content/uploads/2026/06/Retatrutide-25mg-1.jpg.jpeg',
+  ],
+  '/wp-content/uploads/2026/06/Tirzepatide-40mg.jpg': [
+    '/wp-content/uploads/2026/06/Tirzepatide-40mg.jpg.webp',
+  ],
+  '/wp-content/uploads/2026/07/DSIP-10-mg.jpg': [
+    '/wp-content/uploads/2026/07/DSIP-10-mg.jpg.jpeg',
+  ],
+  '/wp-content/uploads/2026/07/Tesa.jpg': ['/wp-content/uploads/2026/07/Tesa.jpg.jpeg'],
+  '/wp-content/uploads/2026/07/tez.jpg': ['/wp-content/uploads/2026/07/tez.jpg.jpeg'],
+};
+
 const args = process.argv.slice(2);
 const groups = args.filter((a) => !a.startsWith('--'));
 const wantAll = args.includes('--all');
@@ -126,7 +155,7 @@ async function main() {
     // Try the original, then progressively smaller variants. Whatever lands is
     // written to the ORIGINAL path, so content files reference one stable name
     // regardless of which copy survived on the server.
-    const candidates = [path, ...variantsByWidth(path)];
+    const candidates = [path, ...(RECOVERED[path] ?? []), ...variantsByWidth(path)];
     for (const candidate of candidates) {
       try {
         const res = await fetch(ORIGIN + candidate, {

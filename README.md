@@ -68,25 +68,33 @@ below.
 - [ ] `robots.txt` `Disallow` removed **and** `noindex` removed from the layout
 - [ ] `sitemap.xml` generated with the real domain
 - [ ] Canonical URLs point at `https://peptidescostarica.net`
-- [ ] All shop buttons point where the cart decision landed (see below)
+- [ ] All shop buttons point at `catalog.peptidescostarica.net`
 - [ ] Confirm who controls DNS for `peptidescostarica.net`; agree cutover time
 - [ ] Keep WordPress running and reachable for 2 weeks after cutover (rollback)
 - [ ] After cutover, verify `catalog.peptidescostarica.net` still works
 
-## Open decision: where does "Add to Cart" go?
+## Settled decisions (client, 2026-07-31)
 
-The WordPress site has a working WooCommerce checkout, and the catalog site also
-has a working checkout. Two stores, one business. Pending client decision:
+**"Add to Cart" links to the catalog site.** Products and prices are shown here,
+but every buy button links to `catalog.peptidescostarica.net`. One cart, one
+checkout, one order list. This repo gets **no** cart, checkout, payment gateway,
+or order handling — see the two-sites rule above.
 
-- **Option A — marketing site only (recommended).** Products and prices are shown
-  here, but every buy button links to the catalog site. One cart, one checkout,
-  one order list. No payment code in this repo.
-- **Option B — keep selling on this domain.** This repo then needs its own product
-  data, cart, checkout, payment gateway, and order handling, and orders split
-  across two systems.
+**Visuals match the live site exactly**, because this is a re-platform, not a
+redesign: white page background, Open Sans body / Inter headings. The brief's
+brand kit (`#F4F6F9`, Montserrat) is deliberately *not* applied.
 
-Static and marketing pages are being built first, so this decision does not block
-progress.
+**The blog is CMS-backed** (Supabase), per `docs/data-model.md` — not MDX files,
+not headless WordPress.
+
+## Open: the WordPress handover
+
+The live WordPress is maintained by a different developer. What to request from
+them, and why each item matters, is in `docs/handover-request.md`.
+
+Nothing is blocked on it — content can be harvested from the public HTML, which
+is how the home page was built. The one item with no public-HTML fallback is the
+TranslatePress `wp_trp_dictionary_*` tables.
 
 ## Legal disclaimer (must appear in the footer of every page)
 

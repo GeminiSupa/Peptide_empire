@@ -1,0 +1,358 @@
+[
+  {
+    "id": 1,
+    "name": "Admin",
+    "url": "https://wordpress-1589615-6218377.cloudwaysapps.com",
+    "description": "",
+    "link": "https://peptidescostarica.net/blog/author/joe/",
+    "slug": "joe",
+    "avatar_urls": {
+      "24": "https://secure.gravatar.com/avatar/770a599eee7f628bdb0b26c03a1d11343b15db8548cdb6ff32827aace948c9f9?s=24&d=mm&r=g",
+      "48": "https://secure.gravatar.com/avatar/770a599eee7f628bdb0b26c03a1d11343b15db8548cdb6ff32827aace948c9f9?s=48&d=mm&r=g",
+      "96": "https://secure.gravatar.com/avatar/770a599eee7f628bdb0b26c03a1d11343b15db8548cdb6ff32827aace948c9f9?s=96&d=mm&r=g"
+    },
+    "meta": [],
+    "acf": [],
+    "simple_local_avatar": null,
+    "is_super_admin": true,
+    "woocommerce_meta": {
+      "variable_product_tour_shown": "yes",
+      "activity_panel_inbox_last_read": "",
+      "activity_panel_reviews_last_read": "",
+      "categories_report_columns": "",
+      "coupons_report_columns": "",
+      "customers_report_columns": "",
+      "orders_report_columns": "",
+      "products_report_columns": "",
+      "revenue_report_columns": "",
+      "taxes_report_columns": "",
+      "variations_report_columns": "",
+      "dashboard_sections": "",
+      "dashboard_chart_type": "",
+      "dashboard_chart_interval": "",
+      "dashboard_leaderboard_rows": "",
+      "order_attribution_install_banner_dismissed": "",
+      "scheduled_updates_promotion_notice_dismissed": "",
+      "homepage_layout": "",
+      "homepage_stats": "",
+      "task_list_tracked_started_tasks": "{\"payments\":1,\"customize-store\":1,\"tax\":1}",
+      "android_app_banner_dismissed": "",
+      "launch_your_store_tour_hidden": "",
+      "coming_soon_banner_dismissed": ""
+    },
+    "elementor_introduction": {
+      "e-editor-one-notice-pointer": true,
+      "ai-get-started-announcement": true,
+      "globals_introduction": true,
+      "e-ai-product-image-unification": true,
+      "ai_get_started_introduction_site_logo_with_ai_site-settings": true,
+      "atomic_elements_promo": true
+    },
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/users/1",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/users"
+        }
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "name": "Admin",
+    "url": "",
+    "description": "",
+    "link": "https://peptidescostarica.net/blog/author/akshay/",
+    "slug": "akshay",
+    "avatar_urls": {
+      "24": "https://secure.gravatar.com/avatar/115e483f7e74fd5b9977660ba4d8dde9ba4e4b159a4af741f7020aa8962330eb?s=24&d=mm&r=g",
+      "48": "https://secure.gravatar.com/avatar/115e483f7e74fd5b9977660ba4d8dde9ba4e4b159a4af741f7020aa8962330eb?s=48&d=mm&r=g",
+      "96": "https://secure.gravatar.com/avatar/115e483f7e74fd5b9977660ba4d8dde9ba4e4b159a4af741f7020aa8962330eb?s=96&d=mm&r=g"
+    },
+    "meta": [],
+    "acf": [],
+    "simple_local_avatar": null,
+    "is_super_admin": true,
+    "woocommerce_meta": {
+      "variable_product_tour_shown": "",
+      "activity_panel_inbox_last_read": "",
+      "activity_panel_reviews_last_read": "",
+      "categories_report_columns": "",
+      "coupons_report_columns": "",
+      "customers_report_columns": "",
+      "orders_report_columns": "",
+      "products_report_columns": "",
+      "revenue_report_columns": "",
+      "taxes_report_columns": "",
+      "variations_report_columns": "",
+      "dashboard_sections": "",
+      "dashboard_chart_type": "",
+      "dashboard_chart_interval": "",
+      "dashboard_leaderboard_rows": "",
+      "order_attribution_install_banner_dismissed": "",
+      "scheduled_updates_promotion_notice_dismissed": "",
+      "homepage_layout": "",
+      "homepage_stats": "",
+      "task_list_tracked_started_tasks": "",
+      "android_app_banner_dismissed": "",
+      "launch_your_store_tour_hidden": "",
+      "coming_soon_banner_dismissed": ""
+    },
+    "elementor_introduction": {
+      "e-editor-one-notice-pointer": true,
+      "ai-get-started-announcement": true,
+      "atomic_elements_promo": true,
+      "globals_introduction": true,
+      "e-ai-product-image-unification": true
+    },
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/users/2",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/users"
+        }
+      ]
+    }
+  },
+  {
+    "id": 9,
+    "name": "Joey Webster",
+    "url": "https://peptidescostarica.net/",
+    "description": "Joey Webster is the President and Co-Founder of Peptides Costa Rica, a company dedicated to providing high-quality research peptides with a focus on transparency, education, and exceptional customer service. Drawing on years of experience in high-performance athletics and business, Joey has helped build one of Costa Rica's leading local peptide companies by emphasizing reliable access, clear communication, and responsible product information.\r\n\r\nBefore founding Peptides Costa Rica, Joey competed in wrestling at the California State Wrestling Championships, where he set the record for the fastest pin in the tournament. After relocating to Costa Rica more than 15 years ago, he immersed himself in boxing, Muay Thai, and mixed martial arts. His personal experience overcoming multiple serious injuries reinforced his passion for recovery, performance optimization, and the science behind peptides.\r\n\r\nToday, Joey oversees the company's operations, educational content, and customer experience, helping ensure that every customer has access to accurate information and dependable service. His mission is to make Peptides Costa Rica the country's most trusted source for research peptides by combining real-world athletic experience with a commitment to quality, transparency, and continuous learning.",
+    "link": "https://peptidescostarica.net/blog/author/joey-webster/",
+    "slug": "joey-webster",
+    "avatar_urls": {
+      "24": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-24x24.jpeg",
+      "48": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-48x48.jpeg",
+      "96": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-96x96.jpeg"
+    },
+    "meta": [],
+    "acf": [],
+    "simple_local_avatar": {
+      "22": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-22x22.jpeg",
+      "24": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-24x24.jpeg",
+      "32": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-32x32.jpeg",
+      "44": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-44x44.jpeg",
+      "48": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-48x48.jpeg",
+      "64": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-64x64.jpeg",
+      "96": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-96x96.jpeg",
+      "120": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-120x120.jpeg",
+      "128": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-128x128.jpeg",
+      "192": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-192x192.jpeg",
+      "240": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-240x240.jpeg",
+      "256": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-256x256.jpeg",
+      "300": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1-300x300.jpeg",
+      "media_id": 26982,
+      "full": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-03-24-at-7.08.03-PM-1.jpeg",
+      "blog_id": 1
+    },
+    "is_super_admin": false,
+    "woocommerce_meta": {
+      "variable_product_tour_shown": "",
+      "activity_panel_inbox_last_read": "",
+      "activity_panel_reviews_last_read": "",
+      "categories_report_columns": "",
+      "coupons_report_columns": "",
+      "customers_report_columns": "",
+      "orders_report_columns": "",
+      "products_report_columns": "",
+      "revenue_report_columns": "",
+      "taxes_report_columns": "",
+      "variations_report_columns": "",
+      "dashboard_sections": "",
+      "dashboard_chart_type": "",
+      "dashboard_chart_interval": "",
+      "dashboard_leaderboard_rows": "",
+      "order_attribution_install_banner_dismissed": "",
+      "scheduled_updates_promotion_notice_dismissed": "",
+      "homepage_layout": "",
+      "homepage_stats": "",
+      "task_list_tracked_started_tasks": "",
+      "android_app_banner_dismissed": "",
+      "launch_your_store_tour_hidden": "",
+      "coming_soon_banner_dismissed": ""
+    },
+    "elementor_introduction": "",
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/users/9",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/users"
+        }
+      ]
+    }
+  },
+  {
+    "id": 8,
+    "name": "JP Donahue",
+    "url": "https://www.jacojiujitsu.com/",
+    "description": "JP Donahue is a research-focused content writer who creates clear and informative articles about peptides, wellness, and emerging developments in the research industry. His work helps readers understand complex topics through accessible and carefully structured educational content.",
+    "link": "https://peptidescostarica.net/blog/author/jp-donahue/",
+    "slug": "jp-donahue",
+    "avatar_urls": {
+      "24": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-24x24.jpeg",
+      "48": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-48x48.jpeg",
+      "96": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-96x96.jpeg"
+    },
+    "meta": [],
+    "acf": [],
+    "simple_local_avatar": {
+      "18": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-18x18.jpeg",
+      "22": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-22x22.jpeg",
+      "24": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-24x24.jpeg",
+      "26": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-26x26.jpeg",
+      "32": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-32x32.jpeg",
+      "36": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-36x36.jpeg",
+      "44": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-44x44.jpeg",
+      "48": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-48x48.jpeg",
+      "52": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-52x52.jpeg",
+      "64": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-64x64.jpeg",
+      "96": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-96x96.jpeg",
+      "120": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-120x120.jpeg",
+      "128": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-128x128.jpeg",
+      "192": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-192x192.jpeg",
+      "240": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-240x240.jpeg",
+      "256": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-256x256.jpeg",
+      "300": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM-300x300.jpeg",
+      "media_id": 26955,
+      "full": "https://peptidescostarica.net/wp-content/uploads/2026/07/cropped-WhatsApp-Image-2026-07-21-at-11.47.46-AM.jpeg",
+      "blog_id": 1
+    },
+    "is_super_admin": true,
+    "woocommerce_meta": {
+      "variable_product_tour_shown": "",
+      "activity_panel_inbox_last_read": "",
+      "activity_panel_reviews_last_read": "",
+      "categories_report_columns": "",
+      "coupons_report_columns": "",
+      "customers_report_columns": "",
+      "orders_report_columns": "",
+      "products_report_columns": "",
+      "revenue_report_columns": "",
+      "taxes_report_columns": "",
+      "variations_report_columns": "",
+      "dashboard_sections": "",
+      "dashboard_chart_type": "",
+      "dashboard_chart_interval": "",
+      "dashboard_leaderboard_rows": "",
+      "order_attribution_install_banner_dismissed": "",
+      "scheduled_updates_promotion_notice_dismissed": "",
+      "homepage_layout": "",
+      "homepage_stats": "",
+      "task_list_tracked_started_tasks": "",
+      "android_app_banner_dismissed": "",
+      "launch_your_store_tour_hidden": "",
+      "coming_soon_banner_dismissed": ""
+    },
+    "elementor_introduction": "",
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/users/8",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/users"
+        }
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "name": "Raju SEO",
+    "url": "https://peptidescostarica.net/",
+    "description": "",
+    "link": "https://peptidescostarica.net/blog/author/raju/",
+    "slug": "raju",
+    "avatar_urls": {
+      "24": "https://secure.gravatar.com/avatar/1aecc6117f4fce8c835e87513761b5ba442f2be69916b7a7c431f3638dcf4d26?s=24&d=mm&r=g",
+      "48": "https://secure.gravatar.com/avatar/1aecc6117f4fce8c835e87513761b5ba442f2be69916b7a7c431f3638dcf4d26?s=48&d=mm&r=g",
+      "96": "https://secure.gravatar.com/avatar/1aecc6117f4fce8c835e87513761b5ba442f2be69916b7a7c431f3638dcf4d26?s=96&d=mm&r=g"
+    },
+    "meta": [],
+    "acf": [],
+    "simple_local_avatar": null,
+    "is_super_admin": true,
+    "woocommerce_meta": {
+      "variable_product_tour_shown": "",
+      "activity_panel_inbox_last_read": "",
+      "activity_panel_reviews_last_read": "",
+      "categories_report_columns": "",
+      "coupons_report_columns": "",
+      "customers_report_columns": "",
+      "orders_report_columns": "",
+      "products_report_columns": "",
+      "revenue_report_columns": "",
+      "taxes_report_columns": "",
+      "variations_report_columns": "",
+      "dashboard_sections": "",
+      "dashboard_chart_type": "",
+      "dashboard_chart_interval": "",
+      "dashboard_leaderboard_rows": "",
+      "order_attribution_install_banner_dismissed": "",
+      "scheduled_updates_promotion_notice_dismissed": "",
+      "homepage_layout": "",
+      "homepage_stats": "",
+      "task_list_tracked_started_tasks": "",
+      "android_app_banner_dismissed": "",
+      "launch_your_store_tour_hidden": "",
+      "coming_soon_banner_dismissed": ""
+    },
+    "elementor_introduction": {
+      "e-editor-one-notice-pointer": true,
+      "e-ai-product-image-unification": true,
+      "globals_introduction": true,
+      "atomic_elements_promo": true
+    },
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/users/3",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/users"
+        }
+      ]
+    }
+  }
+]

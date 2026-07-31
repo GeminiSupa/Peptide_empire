@@ -1,0 +1,707 @@
+[
+  {
+    "id": 25,
+    "count": 3,
+    "description": "Shop BAC Water in 2ml, 3ml, and 10ml vials at Peptides Costa Rica. Enjoy bulk discounts and free shipping on orders over $500 for premium peptide solutions.",
+    "link": "https://peptidescostarica.net/product-category/bac-water/",
+    "name": "BAC Water",
+    "slug": "bac-water",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/25",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=25"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 20,
+    "count": 1,
+    "description": "Shop Collagen Peptides GHK-CU 50mg at Peptides Costa Rica for premium quality peptides that support skin health, weight loss, and muscle growth with bulk discounts available.",
+    "link": "https://peptidescostarica.net/product-category/collagen-peptides/",
+    "name": "Collagen Peptides",
+    "slug": "collagen-peptides",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/20",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=20"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 22,
+    "count": 1,
+    "description": "Shop Copper Peptides at Peptides Costa Rica, featuring GHK-CU for skin health, muscle growth, and anti-aging benefits. Enjoy free shipping on orders over [crc_to_usd amount=\"227242.8\"].",
+    "link": "https://peptidescostarica.net/product-category/copper-peptides/",
+    "name": "Copper Peptides",
+    "slug": "copper-peptides",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/22",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=22"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 23,
+    "count": 8,
+    "description": "Shop HGH (Human Growth Hormone) products at Peptides Costa Rica, featuring options like 10,000 IU HCG and Tesamorelin, with bulk discounts and free shipping over [crc_to_usd amount=\"227000\"].",
+    "link": "https://peptidescostarica.net/product-category/hgh-human-growth-hormone/",
+    "name": "HGH (Human Growth Hormone)",
+    "slug": "hgh-human-growth-hormone",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/23",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=23"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 43,
+    "count": 7,
+    "description": "",
+    "link": "https://peptidescostarica.net/product-category/peptide-for-cardiovascular/",
+    "name": "Peptide for Cardiovascular",
+    "slug": "peptide-for-cardiovascular",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/43",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=43"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 30,
+    "count": 9,
+    "description": "",
+    "link": "https://peptidescostarica.net/product-category/peptide-for-cognitive-function/",
+    "name": "Peptide for Cognitive Function",
+    "slug": "peptide-for-cognitive-function",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/30",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=30"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 34,
+    "count": 3,
+    "description": "",
+    "link": "https://peptidescostarica.net/product-category/peptide-reconstitution/",
+    "name": "Peptide reconstitution",
+    "slug": "peptide-reconstitution",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/34",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=34"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 29,
+    "count": 12,
+    "description": "",
+    "link": "https://peptidescostarica.net/product-category/peptides-for-anti-aging/",
+    "name": "Peptides For Anti Aging",
+    "slug": "peptides-for-anti-aging",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/29",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=29"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 28,
+    "count": 15,
+    "description": "",
+    "link": "https://peptidescostarica.net/product-category/peptides-for-energy/",
+    "name": "Peptides For Energy",
+    "slug": "peptides-for-energy",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/28",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=28"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 27,
+    "count": 2,
+    "description": "",
+    "link": "https://peptidescostarica.net/product-category/peptides-for-fertility/",
+    "name": "Peptides For Fertility",
+    "slug": "peptides-for-fertility",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/27",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=27"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 26,
+    "count": 13,
+    "description": "",
+    "link": "https://peptidescostarica.net/product-category/peptides-for-healing/",
+    "name": "Peptides For Healing",
+    "slug": "peptides-for-healing",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/26",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=26"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 21,
+    "count": 16,
+    "description": "",
+    "link": "https://peptidescostarica.net/product-category/peptides-for-muscle-growth/",
+    "name": "Peptides For Muscle Growth",
+    "slug": "peptides-for-muscle-growth",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/21",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=21"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 24,
+    "count": 7,
+    "description": "",
+    "link": "https://peptidescostarica.net/product-category/peptides-for-skin/",
+    "name": "Peptides For Skin",
+    "slug": "peptides-for-skin",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/24",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=24"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 80,
+    "count": 2,
+    "description": "",
+    "link": "https://peptidescostarica.net/product-category/peptides-for-sleep/",
+    "name": "Peptides For Sleep",
+    "slug": "peptides-for-sleep",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/80",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=80"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 19,
+    "count": 25,
+    "description": "",
+    "link": "https://peptidescostarica.net/product-category/peptides-for-weight-loss/",
+    "name": "Peptides For Weight Loss",
+    "slug": "peptides-for-weight-loss",
+    "taxonomy": "product_cat",
+    "parent": 0,
+    "meta": [],
+    "menu_order": 0,
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat/19",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/taxonomies/product_cat"
+        }
+      ],
+      "wp:post_type": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product?product_cat=19"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  }
+]
