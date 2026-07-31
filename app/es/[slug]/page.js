@@ -2,7 +2,8 @@ import { notFound } from 'next/navigation';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
 import Blocks from '@/components/blocks';
-import { bySpanishSlug, spanishParams } from '@/content/pages/city';
+import GuideArticle from '@/components/guide-article';
+import { bySpanishSlug, spanishParams } from '@/content/pages/registry';
 import { alternates } from '@/lib/routes';
 
 /**
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export default async function CityPageEs({ params }) {
+export default async function PageEs({ params }) {
   const { slug } = await params;
   const page = bySpanishSlug(slug);
   if (!page) notFound();
@@ -43,7 +44,11 @@ export default async function CityPageEs({ params }) {
     <>
       <SiteHeader lang="es" path={page.es} />
       <main className="flex-1">
-        <Blocks blocks={page.blocks} lang="es" />
+        {page.kind === 'article' ? (
+          <GuideArticle html={page.html_es} lang="es" />
+        ) : (
+          <Blocks blocks={page.blocks} lang="es" />
+        )}
       </main>
       <SiteFooter lang="es" />
     </>
