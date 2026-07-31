@@ -5,6 +5,7 @@ import Container from '@/components/ui/container';
 import Button from '@/components/ui/button';
 import FaqAccordion from '@/components/faq-accordion';
 import GuideArticle from '@/components/guide-article';
+import LinkList from '@/components/link-list';
 import { BLOCK_COMPONENTS, CardGrid, WIDE_TYPES } from '@/components/blocks';
 import { nav, catalogUrl, ui } from '@/content/global';
 import { t, label } from '@/lib/i18n';
@@ -356,11 +357,12 @@ export const SECTION_COMPONENTS = {
   ...HOME_COMPONENTS,
   ...BLOCK_COMPONENTS,
   article: GuideArticle,
+  link_list: LinkList,
 };
 
 /** Home sections lay out their own full-bleed backgrounds; the rest are prose. */
 const SELF_LAYOUT = new Set([...Object.keys(HOME_COMPONENTS), 'article']);
-const WIDE = new Set(WIDE_TYPES);
+const WIDE = new Set([...WIDE_TYPES, 'link_list']);
 
 /**
  * Collapse runs of `card` sections into one grid.

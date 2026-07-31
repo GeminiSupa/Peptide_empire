@@ -1,0 +1,81 @@
+{
+  "harvestedAt": "2026-07-31T20:10:26.667Z",
+  "group": "index",
+  "count": 3,
+  "pages": [
+    {
+      "slug": "blog",
+      "en": "/blog/",
+      "es": "/es/blog/",
+      "head": {
+        "title_en": "Blog – Peptides Costa Rica",
+        "title_es": "Blog – Péptidos Costa Rica",
+        "description_en": "",
+        "description_es": ""
+      },
+      "sections": [
+        {
+          "type": "link_list",
+          "content": {
+            "source": "blogPost"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "peptide-guides",
+      "en": "/peptide-guides/",
+      "es": "/es/guias-de-peptidos/",
+      "head": {
+        "title_en": "Peptide Guides – Peptides Costa Rica",
+        "title_es": "Guías de Péptidos – Péptidos Costa Rica",
+        "description_en": "",
+        "description_es": ""
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 1,
+            "text_en": "Peptide Guides",
+            "text_es": "Guías peptídicas"
+          }
+        },
+        {
+          "type": "link_list",
+          "content": {
+            "source": "guide"
+          }
+        }
+      ]
+    },
+    {
+      "slug": "shop",
+      "en": "/shop/",
+      "es": "/es/tienda/",
+      "head": {
+        "title_en": "Shop – Peptides Costa Rica",
+        "title_es": "Tienda – Péptidos Costa Rica",
+        "description_en": "Shop Peptides Costa Rica for high-quality peptides for weight loss, muscle growth, energy, and anti-aging, with bulk discounts and free shipping on orders over $500.",
+        "description_es": "Compra en Peptides Costa Rica péptidos de alta calidad para bajar de peso, aumentar la masa muscular, aumentar la energía y combatir el envejecimiento, con descuentos por volumen y envío gratis en pedidos superiores a $500."
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 1,
+            "text_en": "Shop",
+            "text_es": "Comprar"
+          }
+        },
+        {
+          "type": "link_list",
+          "content": {
+            "source": "wooProduct"
+          }
+        }
+      ]
+    }
+  ],
+  "failed": []
+}

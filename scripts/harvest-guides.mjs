@@ -32,7 +32,14 @@ import * as cheerio from 'cheerio';
 
 const ORIGIN = 'https://peptidescostarica.net';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const OUT = resolve(ROOT, 'data/pages/guide.json');
+/**
+ * Which group to harvest. Guides by default; the 12 blog posts are the same
+ * shape — one long self-contained article in a single widget — so they come
+ * through here rather than through the block harvester, which would yield an
+ * empty page for each.
+ */
+const GROUP = process.argv.find((a) => !a.startsWith('--') && a !== process.argv[0] && a !== process.argv[1]) ?? 'guide';
+const OUT = resolve(ROOT, `data/pages/${GROUP}.json`);
 
 const clean = (s) => (s || '').replace(/\s+/g, ' ').trim();
 const args = process.argv.slice(2);
@@ -102,11 +109,17 @@ const sameShape = (a, b) => Object.keys(a).every((k) => a[k] === b[k]);
  * article and on any other page would not be mistaken for one.
  */
 function articleContainer($) {
-  const html = $('#content .elementor-widget[data-widget_type^=html]')
-    .first()
-    .find('.elementor-widget-container')
-    .first();
-  if (html.length) return html;
+  // Three containers in practice, tried most-specific first:
+  //   html                — most guides
+  //   theme-post-content  — blog posts using Elementor's dynamic post body
+  //   text-editor         — a handful of guides, matched only when very large
+  for (const type of ['html', 'theme-post-content']) {
+    const found = $(`#content .elementor-widget[data-widget_type^=${type}]`)
+      .first()
+      .find('.elementor-widget-container')
+      .first();
+    if (found.length && (found.html() ?? '').length > 500) return found;
+  }
 
   let best = null;
   let bestLen = 0;
@@ -130,6 +143,11 @@ async function article(path) {
   const html = sanitise($, container);
   return {
     html,
+    // The page's own <h1>. Guides embed their heading INSIDE the article, but
+    // blog posts render it in a separate widget that the article container does
+    // not include — so without this, 12 posts shipped with no h1 at all while
+    // the live site has one.
+    h1: clean($('#content h1').first().text()),
     head: {
       title: clean($('title').first().text()),
       description: clean($('meta[name="description"]').attr('content')),
@@ -158,8 +176,8 @@ const EXTRA_ARTICLES = new Set([
 
 async function main() {
   const routeData = JSON.parse(await readFile(resolve(ROOT, 'data/routes.json'), 'utf8'));
-  let guides = routeData.routes.filter(
-    (r) => r.es && (r.group === 'guide' || EXTRA_ARTICLES.has(r.en)),
+  let guides = routeData.routes.filter((r) =>
+    r.es && (r.group === GROUP || (GROUP === 'guide' && EXTRA_ARTICLES.has(r.en))),
   );
   if (limit) guides = guides.slice(0, limit);
 
@@ -198,8 +216,20 @@ async function main() {
           description_es: es.head.description,
         },
         shape: shapeEn,
-        html_en: en.html,
-        html_es: es.html,
+        // The converged section vocabulary — see scripts/migrate-shape.mjs.
+        // A heading section is prepended only when the article does not already
+        // carry its own <h1>, so guides are untouched and posts regain theirs.
+        sections: [
+          ...(/<h1[\s>]/i.test(en.html) || !en.h1
+            ? []
+            : [
+                {
+                  type: 'heading',
+                  content: { level: 1, text_en: en.h1, text_es: es.h1 || en.h1 },
+                },
+              ]),
+          { type: 'article', content: { html_en: en.html, html_es: es.html } },
+        ],
       });
     } catch (err) {
       rejected.push({ ...route, reason: err.message });
@@ -215,15 +245,24 @@ async function main() {
   await writeFile(
     OUT,
     `${JSON.stringify(
-      { harvestedAt: new Date().toISOString(), group: 'guide', count: pages.length, pages, rejected },
+      { harvestedAt: new Date().toISOString(), group: GROUP, count: pages.length, pages, rejected },
       null,
       2,
     )}\n`,
     'utf8',
   );
 
-  const words = pages.reduce((n, p) => n + p.html_en.replace(/<[^>]+>/g, ' ').split(/\s+/).length, 0);
-  console.log(`\nWrote ${pages.length}/${guides.length} guides → data/pages/guide.json`);
+  const words = pages.reduce(
+    // Find the article section by type — its index moves once a heading is
+    // prepended, so positional access would break.
+    (n, p) =>
+      n +
+      (p.sections.find((x) => x.type === 'article')?.content.html_en ?? '')
+        .replace(/<[^>]+>/g, ' ')
+        .split(/\s+/).length,
+    0,
+  );
+  console.log(`\nWrote ${pages.length}/${guides.length} ${GROUP} → data/pages/${GROUP}.json`);
   console.log(`~${words.toLocaleString()} English words captured`);
   if (rejected.length) {
     console.log(`\n${rejected.length} rejected — EN/ES structure differs, not guessed at:`);
