@@ -38,6 +38,19 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
  * offline source to parse.
  */
 const FETCH_RENDERED = new Set(['wooProduct']);
+
+/**
+ * Named sets of individual pages that do not match their group's usual shape.
+ *
+ * `guideBlocks` is one page: /retatrutide-complete-guide/ is filed as a guide
+ * but is built from ordinary Elementor widgets rather than a single
+ * self-contained article, so harvest-guides.mjs finds no article container and
+ * rejects it. It belongs on the block path instead. Harvesting the whole
+ * `guide` group here would wrongly flatten the other 55.
+ */
+const EXTRA_GROUPS = {
+  guideBlocks: ['/retatrutide-complete-guide/'],
+};
 const clean = (s) => (s || '').replace(/\s+/g, ' ').trim();
 const rel = (v) => (v ? v.replace(/^https?:\/\/[^/]+/, '') : null);
 const read = async (p) => JSON.parse(await readFile(resolve(ROOT, p), 'utf8'));
@@ -432,7 +445,11 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
   const noSpanish = [];
   const skipped = [];
 
-  for (const route of routes.filter((r) => r.group === group)) {
+  const wanted = EXTRA_GROUPS[group]
+    ? routes.filter((r) => EXTRA_GROUPS[group].includes(r.en))
+    : routes.filter((r) => r.group === group);
+
+  for (const route of wanted) {
     if (SKIP.has(route.en)) {
       skipped.push([route.en, SKIP.get(route.en)]);
       continue;
@@ -468,7 +485,8 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
         description_en: es?.head?.en?.description ?? '',
         description_es: es?.head?.es?.description ?? '',
       },
-      blocks,
+      // The converged section vocabulary — see scripts/migrate-shape.mjs.
+      sections: blocks.map(({ type, ...rest }) => ({ type, content: rest })),
       untranslated: stats.misses,
     });
   }
@@ -485,9 +503,9 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
     'utf8',
   );
 
-  const blocks = out.reduce((n, p) => n + p.blocks.length, 0);
+  const blocks = out.reduce((n, p) => n + p.sections.length, 0);
   const kinds = {};
-  for (const p of out) for (const b of p.blocks) kinds[b.type] = (kinds[b.type] ?? 0) + 1;
+  for (const p of out) for (const b of p.sections) kinds[b.type] = (kinds[b.type] ?? 0) + 1;
 
   console.log(`\n${group}: ${out.length} pages · ${blocks} blocks → data/pages/${group}.json`);
   console.log(

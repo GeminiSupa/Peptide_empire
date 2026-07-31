@@ -17,6 +17,7 @@ import categoryData from '@/data/pages/category.json';
 import cityData from '@/data/pages/city.json';
 import coreData from '@/data/pages/core.json';
 import guideData from '@/data/pages/guide.json';
+import guideBlockData from '@/data/pages/guideBlocks.json';
 import indexData from '@/data/pages/index.json';
 import legalData from '@/data/pages/legal.json';
 import landerPages from '@/data/pages/productLander.json';
@@ -30,6 +31,9 @@ const SOURCES = [
   { kind: 'blocks', group: 'core', pages: coreData.pages },
   { kind: 'blocks', group: 'legal', pages: legalData.pages },
   { kind: 'article', group: 'guide', pages: guideData.pages },
+  // One guide built from ordinary Elementor widgets rather than a single
+  // article, so it renders through the block types like any other page.
+  { kind: 'blocks', group: 'guide', pages: guideBlockData.pages },
   // The three listing pages. Their bodies are a `link_list` section that
   // resolves from harvested data at build time, not a frozen list.
   { kind: 'blocks', group: 'index', pages: indexData.pages },

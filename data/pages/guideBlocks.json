@@ -1,0 +1,716 @@
+{
+  "harvestedAt": "2026-07-31T20:21:37.786Z",
+  "group": "guideBlocks",
+  "count": 1,
+  "pages": [
+    {
+      "slug": "retatrutide-complete-guide",
+      "en": "/retatrutide-complete-guide/",
+      "es": "/es/guia-completa-de-retatrutida/",
+      "head": {
+        "title_en": "Retatrutide Explained: Triple Agonist | Peptides Costa Rica",
+        "title_es": "Retatrutide Explicado: Triple Agonista | Péptidos Costa Rica",
+        "description_en": "Complete guide to Retatrutide, the triple-receptor agonist (GLP-1 + GIP + glucagon). Research findings, dosing, side effects, & availability in Costa Rica.",
+        "description_es": "Guía completa sobre Retatrutida, el agonista de triple receptor (GLP-1 + GIP + glucagón). Hallazgos de investigación, dosificación, efectos secundarios y disponibilidad en Costa Rica."
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 1,
+            "text_en": "Retatrutide: The Triple Agonist Explained",
+            "text_es": "Retatrutida: El agonista triple explicado"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "A comprehensive, honest guide to the investigational triple-receptor agonist setting new records for weight loss in clinical research — what it is, how it works, and what the data actually shows.",
+            "text_es": "Una guía completa y honesta sobre el agonista de triple receptor en investigación que establece nuevos récords de pérdida de peso en la investigación clínica: qué es, cómo funciona y qué muestran los datos."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Please read before continuingThis guide provides general educational information only. Nothing on this page is medical advice, a prescription, or a dosing recommendation. Retatrutide is an investigational compound not approved by the FDA, EMA, or Costa Rica’s Ministerio de Salud. Always consult a qualified healthcare professional. Products sold by Peptides Costa Rica are intended for research purposes only.",
+            "text_es": "Please read before continuingThis guide provides general educational information only. Nothing on this page is medical advice, a prescription, or a dosing recommendation. Retatrutide is an investigational compound not approved by the FDA, EMA, or Costa Rica’s Ministerio de Salud. Always consult a qualified healthcare professional. Products sold by Peptides Costa Rica are intended for research purposes only."
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "icon": true,
+            "items_en": [
+              "What Is Retatrutide",
+              "How It Works",
+              "Research",
+              "Side Effects",
+              "Dosing",
+              "How We Sell It",
+              "What to Consider",
+              "FAQs"
+            ],
+            "items_es": [
+              "¿Qué es la retatrutida?",
+              "Cómo funciona",
+              "Investigación",
+              "Efectos secundarios",
+              "Dosificación",
+              "Cómo lo vendemos",
+              "Qué considerar",
+              "Preguntas frecuentes"
+            ]
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "What Is Retatrutide?",
+            "text_es": "¿Qué es la retatrutida?"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Retatrutide, originally known by its development code LY3437943, is an investigational peptide developed by Eli Lilly. It belongs to a new class of metabolic medicines called multi-receptor agonists, and it is currently being tested in late-stage clinical trials for obesity, type 2 diabetes, knee osteoarthritis, sleep apnea, cardiovascular disease, fatty liver disease, and several other conditions.",
+            "text_es": "Retatrutide, conocido originalmente por su código de desarrollo LY3437943, es un péptido experimental desarrollado por Eli Lilly. Pertenece a una nueva clase de medicamentos metabólicos llamados agonistas multirreceptor y actualmente se está probando en ensayos clínicos de fase avanzada para obesidad, diabetes tipo 2, osteoartritis de rodilla, apnea del sueño, enfermedades cardiovasculares, enfermedad del hígado graso y varias otras afecciones."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "What makes Retatrutide unique is that it activates three different hormone receptors at the same time. To understand why this matters, it helps to know what those receptors do.",
+            "text_es": "Lo que hace a Retatrutide único es que activa tres receptores hormonales diferentes al mismo tiempo. Para entender por qué esto es importante, ayuda saber qué hacen esos receptores."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 3,
+            "text_en": "Why the Word \"Triple\" Matters",
+            "text_es": "Por qué la palabra \"Triple\" importa"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Most weight loss peptides on the market today activate either one or two hormone receptors.",
+            "text_es": "La mayoría de los péptidos para bajar de peso en el mercado hoy en día activan uno o dos receptores hormonales."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Retatrutide activates three. Here is what each one does:",
+            "text_es": "Retatrutide activa tres. Esto es lo que hace cada una:"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "GLP-1 (glucagon-like peptide-1): This is the same hormone that semaglutide (Ozempic, Wegovy) targets. It slows down stomach emptying, reduces appetite, and helps regulate blood sugar.",
+              "GIP (glucose-dependent insulinotropic polypeptide): This is the second receptor that tirzepatide (Mounjaro, Zepbound) hits. GIP supports insulin release in response to food and appears to enhance fat metabolism when activated alongside GLP-1.",
+              "Glucagon: This is the new one. Glucagon receptor activation is associated with increased energy expenditure — meaning your body burns more calories at rest — and contributes to improvements in fat metabolism and liver health."
+            ],
+            "items_es": [
+              "GLP-1 (péptido similar al glucagón tipo 1): Este es la misma hormona que la semaglutida (Ozempic, Wegovy) ataca. Ralentiza el vaciado del estómago, reduce el apetito y ayuda a regular el azúcar en sangre.",
+              "GIP (polipéptido insulinotrópico dependiente de glucosa): Este es el segundo receptor que alcanza la tirzepatida (Mounjaro, Zepbound). El GIP apoya la liberación de insulina en respuesta a los alimentos y parece mejorar el metabolismo de las grasas cuando se activa junto con el GLP-1.",
+              "Glucagón: Este es el nuevo descubrimiento. La activación del receptor de glucagón se asocia con un aumento en el gasto de energía —lo que significa que su cuerpo quema más calorías en reposo— y contribuye a mejoras en el metabolismo de las grasas y la salud del hígado."
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "By activating all three at once, Retatrutide combines appetite reduction, blood sugar control, and increased energy expenditure into a single molecule. That combination is what researchers refer to when they call it a “triple agonist” or “triple G” agonist.",
+            "text_es": "Al activar las tres simultáneamente, Retatrutide combina la reducción del apetito, el control del azúcar en sangre y el aumento del gasto de energía en una sola molécula. Esa combinación es a la que los investigadores se refieren cuando la llaman un agonista “triple” o agonista “triple G”."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "How Retatrutide compares to similar peptides",
+            "text_es": "Cómo se compara Retatrutide con péptidos similares"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Semaglutide activates one receptor (GLP-1). Tirzepatide activates two (GLP-1 and GIP). Retatrutide activates three (GLP-1, GIP, and glucagon). Each generation of these peptides has produced larger average weight reductions than the last in clinical research.",
+            "text_es": "Semaglutida activa un receptor (GLP-1). Tirzepatida activa dos (GLP-1 y GIP). Retatrutida activa tres (GLP-1, GIP y glucagón). Cada generación de estos péptidos ha producido mayores reducciones de peso en promedio que la anterior en investigación clínica."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "How Retatrutide Works in the Body",
+            "text_es": "Cómo funciona Retatrutida en el cuerpo"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Retatrutide works on multiple systems simultaneously. The combined effect is much more than the sum of its parts.",
+            "text_es": "Retatrutide actúa sobre múltiples sistemas simultáneamente. El efecto combinado es mucho mayor que la suma de sus partes."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "GLP-1 activation signals the brain regions that control hunger and fullness. Users typically report feeling satisfied with much smaller portions and experiencing fewer food cravings. Stomach emptying slows down, which extends the feeling of fullness after meals.",
+            "text_es": "La activación de GLP-1 envía señales a las regiones cerebrales que controlan el hambre y la saciedad. Los usuarios suelen reportar sentirse satisfechos con porciones mucho más pequeñas y experimentar menos antojos de comida. El vaciado gástrico se ralentiza, lo que prolonga la sensación de saciedad después de las comidas."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Both GLP-1 and GIP enhance insulin release when blood sugar rises after eating. This means glucose is cleared from the bloodstream more efficiently, leading to lower average blood sugar levels and reduced A1C in research participants with diabetes.",
+            "text_es": "Tanto el GLP-1 como el GIP aumentan la liberación de insulina cuando el nivel de azúcar en sangre se eleva después de comer. Esto significa que la glucosa se elimina de la corriente sanguínea de manera más eficiente, lo que conduce a niveles promedio de azúcar en sangre más bajos y a una reducción de la A1C en los participantes de la investigación con diabetes."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "This is the unique contribution of the glucagon component. Glucagon receptor activation increases the body’s resting metabolic rate, meaning the body burns more calories even when not active. It also promotes fat mobilization from storage and supports liver health by reducing fat accumulation in the liver.",
+            "text_es": "Esta es la contribución única del componente glucagón. La activación del receptor de glucagón aumenta la tasa metabólica basal del cuerpo, lo que significa que el cuerpo quema más calorías incluso cuando no está activo. También promueve la movilización de grasa de los depósitos y apoya la salud del hígado al reducir la acumulación de grasa en él."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "The combination of reduced calorie intake and increased calorie expenditure creates conditions for sustained fat loss. Importantly, research has shown that Retatrutide also produces significant reductions in visceral fat (the deep abdominal fat that surrounds organs and is most associated with metabolic disease) and liver fat.",
+            "text_es": "La combinación de una ingesta reducida de calorías y un mayor gasto calórico crea las condiciones para una pérdida de grasa sostenida. Es importante destacar que las investigaciones han demostrado que Retatrutide también produce reducciones significativas de la grasa visceral (la grasa abdominal profunda que rodea los órganos y está más asociada con enfermedades metabólicas) y la grasa hepática."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "What the Research Shows",
+            "text_es": "Lo que muestra la investigación"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Retatrutide has been studied in one of the most rigorous clinical trial programs in recent metabolic medicine. Here is what the published data shows.",
+            "text_es": "Retatrutide ha sido estudiado en uno de los programas de ensayos clínicos más rigurosos en la medicina metabólica reciente. He aquí lo que muestran los datos publicados."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "The Phase 2 trial led by Dr. Ania Jastreboff and colleagues at Yale, published in the New England Journal of Medicine in August 2023, enrolled 338 adults with obesity (BMI of 30 or higher) or overweight (BMI 27+ with at least one weight-related condition). Participants received once-weekly subcutaneous injections of Retatrutide at doses of 1 mg, 4 mg, 8 mg, or 12 mg, or placebo, over 48 weeks.",
+            "text_es": "El ensayo Fase 2, dirigido por la Dra. Ania Jastreboff y colegas de Yale, publicado en el New England Journal of Medicine en agosto de 2023, inscribió a 338 adultos con obesidad (IMC de 30 o superior) o sobrepeso (IMC de 27 o superior con al menos una condición relacionada con el peso). Los participantes recibieron inyecciones subcutáneas semanales de Retatrutida en dosis de 1 mg, 4 mg, 8 mg o 12 mg, o placebo, durante 48 semanas."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "The headline results: at 48 weeks, participants on the 12 mg dose lost an average of 24.2% of their body weight, compared to 2.1% in the placebo group. The weight reduction at the 8 mg dose was 22.8%, and at 4 mg it was 17.1%.",
+            "text_es": "Los titulares arrojan los siguientes resultados: A las 48 semanas, los participantes que recibieron la dosis de 12 mg perdieron un promedio de 24,2% de su peso corporal, en comparación con los 2,1% del grupo de placebo. La reducción de peso con la dosis de 8 mg fue de 22,8%, y con la de 4 mg, de 17,1%."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "To put 24.2% in perspective: this was the largest average weight reduction ever published for an anti-obesity medication at the time. Tirzepatide had reached approximately 22.5% in its 72-week Phase 3 trial. Semaglutide had reached approximately 15%. Retatrutide hit 24.2% in just 48 weeks — and the trial researchers noted that the weight loss curves had not yet plateaued, suggesting more reduction may have occurred with longer treatment.",
+            "text_es": "Para poner en perspectiva el valor de 24,21 TP3T: se trataba de la mayor reducción promedio de peso jamás publicada para un medicamento contra la obesidad en ese momento. La tirzepatida había alcanzado aproximadamente 22,51 TP3T en su ensayo de Fase 3 de 72 semanas. La semaglutida había alcanzado aproximadamente 15%. La retatrutida alcanzó los 24,2% en solo 48 semanas, y los investigadores del ensayo señalaron que las curvas de pérdida de peso aún no se habían estabilizado, lo que sugiere que podría haberse producido una mayor reducción con un tratamiento más prolongado."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Additional Phase 2 Findings",
+            "text_es": "Hallazgos adicionales de la Fase 2"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "At 48 weeks on the 12 mg dose, 100% of participants achieved at least 5% weight loss, 93% achieved at least 10%, and 83% achieved at least 15%.",
+              "Liver fat reductions were substantial: in a sub-study of participants with fatty liver disease (MASLD), the 12 mg dose produced an 82.4% relative reduction in liver fat at 24 weeks, with 86% of participants reaching normal liver fat levels.",
+              "Improvements were also seen in blood pressure, cholesterol, and triglyceride levels."
+            ],
+            "items_es": [
+              "A las 48 semanas de tratamiento con la dosis de 12 mg, 100% de los participantes lograron una pérdida de peso de al menos 5%, 93% lograron al menos 10% y 83% lograron al menos 15%.",
+              "La reducción de la grasa hepática fue considerable: en un subestudio con participantes que padecían enfermedad del hígado graso (MASLD), la dosis de 12 mg produjo una reducción relativa de 82,4% en la grasa hepática a las 24 semanas, y 86% de los participantes alcanzaron niveles normales de grasa hepática.",
+              "También se observaron mejoras en la presión arterial, el colesterol y los niveles de triglicéridos."
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Retatrutide has now produced positive results in multiple Phase 3 trials.",
+            "text_es": "Retatrutide ahora ha producido resultados positivos en múltiples ensayos de fase 3."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "TRIUMPH-4 (December 2025): In adults with obesity or overweight plus knee osteoarthritis, Retatrutide produced average weight reductions of up to 71.2 lbs (around 28.7%) at 68 weeks, along with significant reductions in knee pain.",
+            "text_es": "TRIUNFO-4 (Diciembre de 2025): En adultos con obesidad o sobrepeso y osteoartritis de rodilla, el retatrutido produjo reducciones promedio de peso de hasta 71.2 libras (alrededor de 28.7%) a las 68 semanas, junto con reducciones significativas en el dolor de rodilla."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "TRANSCEND-T2D-1 (March 2026): In adults with type 2 diabetes, the 12 mg dose produced average A1C reductions of up to 2.0% and average weight loss of 36.6 lbs (16.8%) over 40 weeks. These results are competitive with or superior to current GLP-1 medications in head-to-head comparisons.",
+            "text_es": "TRANSCEND-T2D-1 (marzo de 2026): En adultos con diabetes tipo 2, la dosis de 12 mg produjo reducciones promedio de la A1C de hasta 2,0% y una pérdida de peso promedio de 36,6 libras (16,8%) a lo largo de 40 semanas. Estos resultados son comparables o superiores a los de los medicamentos actuales con GLP-1 en comparaciones directas."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Additional Phase 3 trials are ongoing in cardiovascular outcomes, obstructive sleep apnea, chronic low back pain, and metabolic dysfunction-associated steatotic liver disease.",
+            "text_es": "Se están llevando a cabo ensayos adicionales de Fase 3 en resultados cardiovasculares, apnea obstructiva del sueño, dolor lumbar crónico y enfermedad del hígado graso asociada a disfunción metabólica."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Side Effects and Safety Profile",
+            "text_es": "Efectos Secundarios y Perfil de Seguridad"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Retatrutide’s safety profile in clinical trials has been broadly consistent with other peptides in this class. The most commonly reported side effects in research have been gastrointestinal.",
+            "text_es": "El perfil de seguridad de la retatrutida en ensayos clínicos ha sido en general consistente con otros péptidos de esta clase. Los efectos secundarios reportados con mayor frecuencia en la investigación han sido gastrointestinales."
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "Nausea — especially during the first few weeks of treatment and when increasing the dose",
+              "Vomiting",
+              "Diarrhea or constipation",
+              "Reduced appetite (often the desired effect, but can become uncomfortable)",
+              "Indigestion or stomach discomfort",
+              "Mild injection site reactions"
+            ],
+            "items_es": [
+              "Náuseas — especialmente durante las primeras semanas de tratamiento y al aumentar la dosis",
+              "Vómito",
+              "Diarrea o estreñimiento",
+              "Reducción del apetito (a menudo es el efecto deseado, pero puede llegar a ser incómodo)",
+              "Indigestión o malestar estomacal",
+              "Reacciones leves en el sitio de inyección"
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "In the Phase 2 trial, these effects were typically mild to moderate in severity and most occurred during the dose escalation period. They generally improved as users adjusted to the medication.",
+            "text_es": "En el ensayo de Fase 2, estos efectos fueron típicamente de gravedad leve a moderada y la mayoría ocurrió durante el período de escalada de dosis. Generalmente mejoraron a medida que los usuarios se adaptaron al medicamento."
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "Heart rate may increase slightly in some users",
+              "Blood pressure has shown decreases in research, which is generally considered favorable",
+              "As with other GLP-1-related compounds, there is theoretical concern about thyroid effects based on animal studies — though no such effects have been confirmed in humans",
+              "Hypoglycemia (low blood sugar) is uncommon in non-diabetic users but can occur in those also taking insulin or sulfonylureas"
+            ],
+            "items_es": [
+              "La frecuencia cardíaca puede aumentar ligeramente en algunos usuarios",
+              "La presión arterial ha mostrado descensos en la investigación, lo cual generalmente se considera favorable",
+              "Al igual que con otros compuestos relacionados con los GLP-1, existe una preocupación teórica sobre los efectos en la tiroides basada en estudios en animales, aunque no se han confirmado tales efectos en humanos.",
+              "La hipoglucemia (bajo nivel de azúcar en la sangre) es poco frecuente en los usuarios no diabéticos, pero puede presentarse en aquellos que también toman insulina o sulfonilureas"
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "An honest note on safety",
+            "text_es": "Una nota sincera sobre la seguridad"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Because Retatrutide is still investigational, the full long-term safety profile is not yet known. Research is ongoing. The information here reflects what has been published in peer-reviewed clinical trials through early 2026. Anyone considering Retatrutide should discuss it with a qualified healthcare professional who can evaluate the risks and benefits in their specific situation.",
+            "text_es": "Dado que Retatrutide aún está en fase de investigación, su perfil de seguridad completo a largo plazo aún no se conoce. La investigación está en curso. La información aquí refleja lo publicado en ensayos clínicos revisados por pares hasta principios de 2026. Cualquier persona que esté considerando Retatrutide debe discutirlo con un profesional de la salud calificado que pueda evaluar los riesgos y beneficios en su situación específica."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Dosing Information",
+            "text_es": "Información sobre la dosificación"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "In clinical trials, Retatrutide has been administered as a once-weekly subcutaneous injection with a gradual dose escalation. The trial protocols started low and increased slowly to minimize gastrointestinal side effects.",
+            "text_es": "En los ensayos clínicos, Retatrutide se ha administrado como una inyección subcutánea una vez por semana con una escalada gradual de la dosis. Los protocolos del ensayo comenzaron con dosis bajas y aumentaron lentamente para minimizar los efectos secundarios gastrointestinales."
+          }
+        },
+        {
+          "type": "table",
+          "content": {
+            "header_en": null,
+            "header_es": null,
+            "rows_en": [
+              [
+                "Weeks",
+                "Dose",
+                "Notes"
+              ],
+              [
+                "Weeks 1–4",
+                "2 mg per week",
+                "Starting dose"
+              ],
+              [
+                "Weeks 5–8",
+                "4 mg per week",
+                "First escalation"
+              ],
+              [
+                "Weeks 9–12",
+                "4 mg or 8 mg per week",
+                "Depending on tolerance"
+              ],
+              [
+                "Weeks 13+",
+                "8 mg or 12 mg per week",
+                "Maintenance dose, depending on goals and tolerance"
+              ]
+            ],
+            "rows_es": [
+              [
+                "Semanas",
+                "Dosis",
+                "Notas"
+              ],
+              [
+                "Semanas 1–4",
+                "2 mg por semana",
+                "Dosis inicial"
+              ],
+              [
+                "Semanas 5–8",
+                "4 mg por semana",
+                "Primera escalación"
+              ],
+              [
+                "Semanas 9–12",
+                "4 mg u 8 mg por semana",
+                "Dependiendo de la tolerancia"
+              ],
+              [
+                "Semanas 13+",
+                "8 mg o 12 mg por semana",
+                "Dosis de mantenimiento, según los objetivos y la tolerancia"
+              ]
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "This is the escalation pattern used in Eli Lilly’s Phase 2 obesity trial. The exact schedule used in research can vary depending on the protocol. The most important principle is starting low and escalating slowly — going too fast significantly increases the risk of nausea and other side effects.",
+            "text_es": "Este es el patrón de escalamiento utilizado en el ensayo de fase 2 de Eli Lilly para la obesidad. El cronograma exacto utilizado en la investigación puede variar según el protocolo. El principio más importante es comenzar con dosis bajas y aumentar lentamente; ir demasiado rápido aumenta significativamente el riesgo de náuseas y otros efectos secundarios."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "A reminder",
+            "text_es": "Un recordatorio"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "The doses above reflect what has been used in clinical trials. They are not dosing recommendations for any specific individual. Personal dosing decisions should always be made with a qualified healthcare professional who can evaluate your specific health context.",
+            "text_es": "Las dosis anteriores reflejan lo que se ha utilizado en ensayos clínicos. No son recomendaciones de dosificación para ningún individuo en particular. Las decisiones de dosificación personal siempre deben tomarse con un profesional de la salud calificado que pueda evaluar su contexto de salud específico."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "How Retatrutide Is Available Through Peptides Costa Rica",
+            "text_es": "Cómo Retatrutide está disponible a través de Peptides Costa Rica"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We carry Retatrutide in multiple vial strengths to give our customers flexibility. Each vial is lyophilized (freeze-dried powder) and arrives sealed and ready to reconstitute with bacteriostatic water.",
+            "text_es": "Ofrecemos Retatrutide en viales de diferentes concentraciones para brindar flexibilidad a nuestros clientes. Cada vial contiene polvo liofilizado y se entrega sellado y listo para reconstituir con agua bacteriostática."
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "Retatrutide 10 mg",
+              "Retatrutide 12 mg",
+              "Retatrutide 15 mg",
+              "Retatrutide 20 mg",
+              "Retatrutide 24 mg",
+              "Retatrutide 30 mg",
+              "Retatrutide 40 mg"
+            ],
+            "items_es": [
+              "Retatrutide 10 mg",
+              "Retatrutida 12 mg",
+              "Retatrutide 15 mg",
+              "Retatrutide 20 mg",
+              "Retatrutide 24 mg",
+              "Retatrutida 30 mg",
+              "Retatrutida 40 mg"
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Larger vial sizes are typically more economical per milligram and are popular with customers who plan to use Retatrutide over several months. Smaller sizes are useful for first-time buyers who want to start with a smaller commitment.",
+            "text_es": "Los tamaños de vial más grandes suelen ser más económicos por miligramo y son populares entre los clientes que planean usar Retatrutide durante varios meses. Los tamaños más pequeños son útiles para compradores primerizos que desean empezar con un compromiso menor."
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "Every product comes with a Certificate of Analysis (COA) on request, showing identity confirmation and purity testing",
+              "Purity is verified by HPLC and mass spectrometry to industry-standard levels",
+              "All inventory is stored in climate-controlled conditions before shipping — critical in Costa Rica’s tropical climate",
+              "Domestic shipping eliminates the customs delays and cold chain risks of international orders"
+            ],
+            "items_es": [
+              "Todos los productos vienen con un Certificado de Análisis (COA) bajo solicitud, que muestra la confirmación de identidad y la prueba de pureza.",
+              "La pureza se verifica mediante HPLC y espectrometría de masas a niveles estándar de la industria",
+              "Todo el inventario se almacena en condiciones de clima controlado antes del envío, algo fundamental en el clima tropical de Costa Rica.",
+              "El envío nacional elimina los retrasos aduaneros y los riesgos de cadena de frío de los pedidos internacionales."
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Retatrutide is one of the most promising peptides in modern research, but it is not the right fit for everyone. Here are the most important things to think through honestly before purchasing.",
+            "text_es": "El retatrutido es uno de los péptidos más prometedores de la investigación moderna, pero no es adecuado para todo el mundo. A continuación te presentamos los aspectos más importantes que debes considerar con honestidad antes de comprarlo."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "It Is Sold as a Research Compound",
+            "text_es": "Se comercializa como compuesto para investigación"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Like most peptides in our catalog, Retatrutide is sold for research purposes only. It is not a prescription medication, and the legal framework for buying it is different from how you would buy a pharmacy medicine. We have a complete guide on this in our pillar article on peptides in Costa Rica.",
+            "text_es": "Al igual que la mayoría de los péptidos de nuestro catálogo, el retatrutido se vende exclusivamente con fines de investigación. No es un medicamento de venta con receta, y el marco legal para su compra difiere del que se aplica a la compra de medicamentos en una farmacia. Contamos con una guía completa al respecto en nuestro artículo principal sobre los péptidos en Costa Rica."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Side Effects Are Real, Especially Early On",
+            "text_es": "Los efectos secundarios son reales, especialmente al principio."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Nausea during the first few weeks of dosing is very common. Most users find it tolerable and report that it diminishes as their body adjusts, but some find it severe enough to discontinue. Starting at the lowest possible dose and increasing slowly makes a significant difference in tolerability.",
+            "text_es": "Las náuseas durante las primeras semanas de tratamiento son muy comunes. La mayoría de los usuarios las consideran tolerables y reportan que disminuyen a medida que su cuerpo se adapta, pero algunos las perciben como lo suficientemente intensas como para suspender el tratamiento. Comenzar con la dosis más baja posible y aumentarla lentamente marca una diferencia significativa en cuanto a la tolerabilidad."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "It Works Best With Lifestyle Changes",
+            "text_es": "Funciona mejor si se combinan con cambios en el estilo de vida"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Every successful research participant in Retatrutide trials received nutrition counseling and exercise guidance alongside the medication. The peptide is not a replacement for healthy habits — it is most effective as a tool that supports those habits.",
+            "text_es": "Cada participante exitoso en los ensayos de Retatrutide recibió asesoramiento nutricional y orientación sobre ejercicio, además del medicamento. El péptido no reemplaza los hábitos saludables; es más eficaz como una herramienta que los apoya."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Storage Matters in Our Climate",
+            "text_es": "El almacenamiento es importante en nuestro clima"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Lyophilized Retatrutide vials should be refrigerated. Once reconstituted with bacteriostatic water, the solution should be kept refrigerated at 2 to 8 degrees Celsius at all times. In Costa Rica’s tropical climate, this discipline matters more than in cooler countries.",
+            "text_es": "Los viales liofilizados de Retatrutide deben refrigerarse. Una vez reconstituidos con agua bacteriostática, la solución debe mantenerse refrigerada a 2 a 8 grados Celsius en todo momento. En el clima tropical de Costa Rica, esta disciplina es más importante que en países más fríos."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Common Questions About Retatrutide",
+            "text_es": "Preguntas frecuentes sobre retatrutida"
+          }
+        },
+        {
+          "type": "faq",
+          "content": {
+            "items": [
+              {
+                "q_en": "How does Retatrutide compare to semaglutide or tirzepatide?",
+                "q_es": "¿Cómo se compara Retatrutide con semaglutide o tirzepatide?",
+                "a_en": "In clinical trial data, Retatrutide has produced larger average weight reductions than either semaglutide or tirzepatide. Semaglutide is a single-receptor agonist (GLP-1), tirzepatide is a dual agonist (GLP-1 and GIP), and Retatrutide is a triple agonist (GLP-1, GIP, and glucagon). However, no head-to-head clinical trials have directly compared all three, so direct comparison is limited to what has been observed in separate trials.",
+                "a_es": "En los datos de ensayos clínicos, Retatrutide ha producido pérdidas de peso promedio mayores que semaglutide o tirzepatide. Semaglutide es un agonista de receptor único (GLP-1), tirzepatide es un agonista dual (GLP-1 y GIP), y Retatrutide es un triple agonista (GLP-1, GIP y glucagón). Sin embargo, ningún ensayo clínico directo ha comparado los tres directamente, por lo que la comparación directa se limita a lo observado en ensayos separados."
+              },
+              {
+                "q_en": "How often do I need to inject?",
+                "q_es": "¿Con qué frecuencia necesito inyectarme?",
+                "a_en": "Retatrutide is designed for once-weekly subcutaneous injection. The same day of the week is recommended for consistency. Many users choose a day when mild nausea (a common early side effect) would not interfere with important plans.",
+                "a_es": "Retatrutide está diseñado para inyección subcutánea una vez por semana. Se recomienda el mismo día de la semana para mantener la consistencia. Muchos usuarios eligen un día en el que las náuseas leves (un efecto secundario temprano común) no interfieran con planes importantes."
+              },
+              {
+                "q_en": "Can I use Retatrutide if I don't have diabetes or obesity?",
+                "q_es": "¿Puedo usar Retatrutide si no tengo diabetes u obesidad?",
+                "a_en": "Most published research on Retatrutide has focused on adults with obesity, overweight with comorbidities, or type 2 diabetes. The safety and efficacy profile in healthy adults outside those populations has not been well-studied. This is a question for a qualified healthcare professional.",
+                "a_es": "La mayoría de las investigaciones publicadas sobre Retatrutida se han centrado en adultos con obesidad, sobrepeso con comorbilidades o diabetes tipo 2. El perfil de seguridad y eficacia en adultos sanos fuera de esas poblaciones no ha sido bien estudiado. Esta es una pregunta para un profesional de la salud cualificado."
+              },
+              {
+                "q_en": "How long does a vial last?",
+                "q_es": "¿Cuánto dura un vial?",
+                "a_en": "It depends on the vial strength and your dose. A 10 mg vial used at 1 mg per week lasts about 10 weeks. A 40 mg vial at 4 mg per week lasts about 10 weeks. Larger vials offer better value per milligram for users planning longer-term use. Once reconstituted, the solution remains stable for around 28 days when properly refrigerated.",
+                "a_es": "Depende de la concentración del vial y de tu dosis. Un vial de 10 mg usado a 1 mg por semana dura aproximadamente 10 semanas. Un vial de 40 mg a 4 mg por semana dura aproximadamente 10 semanas. Los viales más grandes ofrecen un mejor valor por miligramo para los usuarios que planean un uso a largo plazo. Una vez reconstituida, la solución se mantiene estable durante unos 28 días si se refrigera adecuadamente."
+              },
+              {
+                "q_en": "Can I stop suddenly?",
+                "q_es": "¿Puedo parar de repente?",
+                "a_en": "Stopping any GLP-1-related medication abruptly may lead to a rebound in appetite and gradual regain of any weight lost, particularly without lifestyle support. Most protocols recommend gradually tapering off rather than stopping abruptly. Discuss any decision to start or stop with a qualified healthcare professional.",
+                "a_es": "Detener abruptamente cualquier medicamento relacionado con GLP-1 puede provocar un rebote en el apetito y una recuperación gradual del peso perdido, especialmente sin apoyo de estilo de vida. La mayoría de los protocolos recomiendan reducir gradualmente la dosis en lugar de suspenderla abruptamente. Hable cualquier decisión de comenzar o suspender con un profesional de la salud calificado."
+              },
+              {
+                "q_en": "Why are there so many different vial sizes?",
+                "q_es": "¿Por qué hay tantos tamaños diferentes de viales?",
+                "a_en": "Different users have different dosing needs and budgets. A 10 mg vial gives flexibility for someone starting out or running a shorter cycle. A 40 mg vial offers significantly better cost-per-milligram for someone running an extended cycle. Multiple sizes make Retatrutide accessible to a wider range of buyer needs.",
+                "a_es": "Los diferentes usuarios tienen distintas necesidades de dosificación y presupuestos. Un vial de 10 mg ofrece flexibilidad para alguien que está empezando o que realiza un ciclo más corto. Un vial de 40 mg ofrece un costo significativamente mejor por miligramo para alguien que realiza un ciclo prolongado. Los múltiples tamaños hacen que la Retatrutida sea accesible para una gama más amplia de necesidades de los compradores."
+              },
+              {
+                "q_en": "How should I store it?",
+                "q_es": "¿Cómo debería guardarlo?",
+                "a_en": "Unopened lyophilized vials should be kept refrigerated at 2 to 8 degrees Celsius and protected from light. Once reconstituted, store the same way and use within 28 days. Our reconstitution and storage guide has a dedicated section on handling peptides in Costa Rica’s tropical climate.",
+                "a_es": "Los viales liofilizados sin abrir deben refrigerarse a entre 2 y 8 grados Celsius y protegerse de la luz. Una vez reconstituidos, guárdelos de la misma manera y úselos dentro de los 28 días. Nuestra guía de reconstitución y almacenamiento tiene una sección dedicada al manejo de péptidos en el clima tropical de Costa Rica."
+              }
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "In clinical trial data, Retatrutide has produced larger average weight reductions than either semaglutide or tirzepatide. Semaglutide is a single-receptor agonist (GLP-1), tirzepatide is a dual agonist (GLP-1 and GIP), and Retatrutide is a triple agonist (GLP-1, GIP, and glucagon). However, no head-to-head clinical trials have directly compared all three, so direct comparison is limited to what has been observed in separate trials.",
+            "text_es": "En los datos de ensayos clínicos, Retatrutide ha producido pérdidas de peso promedio mayores que semaglutide o tirzepatide. Semaglutide es un agonista de receptor único (GLP-1), tirzepatide es un agonista dual (GLP-1 y GIP), y Retatrutide es un triple agonista (GLP-1, GIP y glucagón). Sin embargo, ningún ensayo clínico directo ha comparado los tres directamente, por lo que la comparación directa se limita a lo observado en ensayos separados."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Retatrutide is designed for once-weekly subcutaneous injection. The same day of the week is recommended for consistency. Many users choose a day when mild nausea (a common early side effect) would not interfere with important plans.",
+            "text_es": "Retatrutide está diseñado para inyección subcutánea una vez por semana. Se recomienda el mismo día de la semana para mantener la consistencia. Muchos usuarios eligen un día en el que las náuseas leves (un efecto secundario temprano común) no interfieran con planes importantes."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Most published research on Retatrutide has focused on adults with obesity, overweight with comorbidities, or type 2 diabetes. The safety and efficacy profile in healthy adults outside those populations has not been well-studied. This is a question for a qualified healthcare professional.",
+            "text_es": "La mayoría de las investigaciones publicadas sobre Retatrutida se han centrado en adultos con obesidad, sobrepeso con comorbilidades o diabetes tipo 2. El perfil de seguridad y eficacia en adultos sanos fuera de esas poblaciones no ha sido bien estudiado. Esta es una pregunta para un profesional de la salud cualificado."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "It depends on the vial strength and your dose. A 10 mg vial used at 1 mg per week lasts about 10 weeks. A 40 mg vial at 4 mg per week lasts about 10 weeks. Larger vials offer better value per milligram for users planning longer-term use. Once reconstituted, the solution remains stable for around 28 days when properly refrigerated.",
+            "text_es": "Depende de la concentración del vial y de tu dosis. Un vial de 10 mg usado a 1 mg por semana dura aproximadamente 10 semanas. Un vial de 40 mg a 4 mg por semana dura aproximadamente 10 semanas. Los viales más grandes ofrecen un mejor valor por miligramo para los usuarios que planean un uso a largo plazo. Una vez reconstituida, la solución se mantiene estable durante unos 28 días si se refrigera adecuadamente."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Stopping any GLP-1-related medication abruptly may lead to a rebound in appetite and gradual regain of any weight lost, particularly without lifestyle support. Most protocols recommend gradually tapering off rather than stopping abruptly. Discuss any decision to start or stop with a qualified healthcare professional.",
+            "text_es": "Detener abruptamente cualquier medicamento relacionado con GLP-1 puede provocar un rebote en el apetito y una recuperación gradual del peso perdido, especialmente sin apoyo de estilo de vida. La mayoría de los protocolos recomiendan reducir gradualmente la dosis en lugar de suspenderla abruptamente. Hable cualquier decisión de comenzar o suspender con un profesional de la salud calificado."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Different users have different dosing needs and budgets. A 10 mg vial gives flexibility for someone starting out or running a shorter cycle. A 40 mg vial offers significantly better cost-per-milligram for someone running an extended cycle. Multiple sizes make Retatrutide accessible to a wider range of buyer needs.",
+            "text_es": "Los diferentes usuarios tienen distintas necesidades de dosificación y presupuestos. Un vial de 10 mg ofrece flexibilidad para alguien que está empezando o que realiza un ciclo más corto. Un vial de 40 mg ofrece un costo significativamente mejor por miligramo para alguien que realiza un ciclo prolongado. Los múltiples tamaños hacen que la Retatrutida sea accesible para una gama más amplia de necesidades de los compradores."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Unopened lyophilized vials should be kept refrigerated at 2 to 8 degrees Celsius and protected from light. Once reconstituted, store the same way and use within 28 days. Our reconstitution and storage guide has a dedicated section on handling peptides in Costa Rica’s tropical climate.",
+            "text_es": "Los viales liofilizados sin abrir deben refrigerarse a entre 2 y 8 grados Celsius y protegerse de la luz. Una vez reconstituidos, guárdelos de la misma manera y úselos dentro de los 28 días. Nuestra guía de reconstitución y almacenamiento tiene una sección dedicada al manejo de péptidos en el clima tropical de Costa Rica."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Still have questions?",
+            "text_es": "¿Aún tienes preguntas?"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We respond to every customer message personally — usually within hours. If you’re considering Retatrutide and want a real human to walk you through the details, just reach out.",
+            "text_es": "Respondemos personalmente a cada mensaje de nuestros clientes, generalmente en unas pocas horas. Si estás considerando Retatrutida y quieres que una persona real te guíe por los detalles, solo contáctanos."
+          }
+        },
+        {
+          "type": "button",
+          "content": {
+            "text_en": "Contact Us Now",
+            "text_es": "Contáctanos ahora",
+            "href": "tel:+50684046973"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Important disclaimer: The information in this guide is for educational and research purposes only. It is not medical advice and should not be used to diagnose, treat, cure, or prevent any disease. Products sold by Peptides Costa Rica are intended for laboratory and research purposes only. Always consult a qualified healthcare professional before beginning any new health regimen.",
+            "text_es": "Aviso importante: La información de esta guía es solo para fines educativos y de investigación. No constituye asesoramiento médico y no debe utilizarse para diagnosticar, tratar, curar o prevenir ninguna enfermedad. Los productos vendidos por Peptides Costa Rica son únicamente para fines de laboratorio e investigación. Siempre consulte a un profesional de la salud calificado antes de comenzar cualquier nuevo régimen de salud."
+          }
+        }
+      ],
+      "untranslated": 1
+    }
+  ]
+}
