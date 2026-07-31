@@ -1,0 +1,556 @@
+{
+  "harvestedAt": "2026-07-31T15:04:30.076Z",
+  "group": "legal",
+  "count": 4,
+  "pages": [
+    {
+      "slug": "privacy-policy",
+      "en": "/privacy-policy/",
+      "es": "/es/politica-de-privacidad/",
+      "head": {
+        "title_en": "Privacy policy | Peptides Costa Rica",
+        "title_es": "Política de privacidad | Péptidos Costa Rica",
+        "description_en": "",
+        "description_es": ""
+      },
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 1,
+          "text_en": "Privacy Policy",
+          "text_es": "Política de Privacidad"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Effective Date: May 2026This Privacy Policy describes how Peptides Costa Rica (“we,” “us,” or “our”) collects, uses, protects, and shares personal information when you visit or make a purchase on our website https://peptidescostarica.net/",
+          "text_es": "Effective Date: May 2026This Privacy Policy describes how Peptides Costa Rica (“we,” “us,” or “our”) collects, uses, protects, and shares personal information when you visit or make a purchase on our website https://peptidescostarica.net/"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Information We Collect",
+          "text_es": "Información que Recopilamos"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We collect personal information that you voluntarily provide when you:",
+          "text_es": "Recopilamos información personal que usted proporciona voluntariamente cuando:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Place an orderContact customer supportSubscribe to newslettersProvide feedback",
+          "text_es": "Place an orderContact customer supportSubscribe to newslettersProvide feedback"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "This may include your name, email address, phone number, billing and shipping address, and message content. We may also automatically collect non‑personal data such as IP address, browser type, pages visited, and device information to improve our services.",
+          "text_es": "Esto puede incluir tu nombre, dirección de correo electrónico, número de teléfono, dirección de facturación y envío, y el contenido del mensaje. También podemos recopilar automáticamente datos no personales como la dirección IP, el tipo de navegador, las páginas visitadas e información del dispositivo para mejorar nuestros servicios."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "How We Use Your Information",
+          "text_es": "Cómo usamos tu información"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We use the information we collect to:Process and fulfill your ordersCommunicate updates and order confirmationsImprove and maintain the Site Personalize your shopping experienceSend promotional emails (if you opt‑in)Prevent fraud and protect security",
+          "text_es": "We use the information we collect to:Process and fulfill your ordersCommunicate updates and order confirmationsImprove and maintain the Site Personalize your shopping experienceSend promotional emails (if you opt‑in)Prevent fraud and protect security"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Cookies and Tracking",
+          "text_es": "Cookies y seguimiento"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Our Site may use cookies and similar technologies to enhance user experience, track browsing behavior, and analyze site performance. Cookies do not harm your device, and you may disable them through your browser settings.",
+          "text_es": "Nuestro sitio puede utilizar cookies y tecnologías similares para mejorar la experiencia del usuario, rastrear el comportamiento de navegación y analizar el rendimiento del sitio. Las cookies no dañan tu dispositivo y puedes deshabilitarlas a través de la configuración de tu navegador."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Log Files",
+          "text_es": "Archivos de registro"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Like many websites, we automatically collect log file information when you visit, including IP address, browser type, and pages viewed. This data helps us analyze trends and improve the Site.",
+          "text_es": "Al igual que muchos sitios web, recopilamos automáticamente información de los archivos de registro cuando visitas el sitio, incluyendo la dirección IP, el tipo de navegador y las páginas visitadas. Estos datos nos ayudan a analizar tendencias y a mejorar el sitio."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Third‑Party Sharing",
+          "text_es": "Compartir con terceros"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We do not sell or rent your personal information to third parties. We may share data with trusted service providers who assist in order processing, payment handling, shipping, and analytics, but only to the extent necessary to provide services.",
+          "text_es": "No vendemos ni alquilamos tu información personal a terceros. Podemos compartir datos con proveedores de servicios de confianza que nos ayudan en el procesamiento de pedidos, la gestión de pagos, los envíos y los análisis, pero solo en la medida necesaria para prestar los servicios."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Security of Your Information",
+          "text_es": "Seguridad de su información"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We implement reasonable security measures to protect your data from unauthorized access, misuse, or alteration. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute protection.",
+          "text_es": "Aplicamos medidas de seguridad razonables para proteger tus datos contra el acceso no autorizado, el uso indebido o la alteración. Sin embargo, ningún método de transmisión por Internet es 100% seguro, y no podemos garantizar una protección absoluta."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Your Consent",
+          "text_es": "Su consentimiento"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "By using our Site, you consent to this Privacy Policy and agree to its terms.",
+          "text_es": "Al utilizar nuestro Sitio, usted acepta esta Política de privacidad y se compromete a cumplir con sus términos."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Contact Us",
+          "text_es": "Contáctanos"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "If you have questions or need more information about your privacy, you can contact us at: info@peptidescostarica.net",
+          "text_es": "Si tienes preguntas o necesitas más información sobre tu privacidad, puedes contactarnos en: info@peptidescostarica.net"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "CR: +506 8404‑6973 / US: +1 (831) 471‑5559",
+          "text_es": "CR: +506 8404‑6973 / EE. UU.: +1 (831) 471‑5559"
+        }
+      ],
+      "untranslated": 3
+    },
+    {
+      "slug": "shipping-policy",
+      "en": "/shipping-policy/",
+      "es": "/es/politica-de-envios/",
+      "head": {
+        "title_en": "Shipping Policy | Peptides Costa Rica",
+        "title_es": "Política de Envío | Péptidos Costa Rica",
+        "description_en": "Review Peptides Costa Rica's shipping policy, including order processing, delivery methods, domestic-only shipping, and free shipping on orders over $500.",
+        "description_es": "Consulta la política de envíos de Peptides Costa Rica, que incluye el procesamiento de pedidos, los métodos de entrega, los envíos solo dentro del país y el envío gratuito para pedidos superiores a $500."
+      },
+      "blocks": [],
+      "untranslated": 0
+    },
+    {
+      "slug": "return-refund-policy",
+      "en": "/return-refund-policy/",
+      "es": "/es/politica-de-devoluciones/",
+      "head": {
+        "title_en": "Return & Refund Policy | Peptides Costa Rica",
+        "title_es": "Política de Devoluciones y Reembolsos | Péptidos Costa Rica",
+        "description_en": "Review Peptides Costa Rica's return and refund policy, including eligibility, cancellations, process details, and conditions for returns on eligible purchases.",
+        "description_es": "Revisa la política de devoluciones y reembolsos de Peptides Costa Rica, incluyendo elegibilidad, cancelaciones, detalles del proceso y condiciones para devoluciones de compras elegibles."
+      },
+      "blocks": [
+        {
+          "type": "paragraph",
+          "text_en": "This Refund Policy outlines the terms and conditions under which refunds and cancellations are processed for purchases made through Peptides Costa Rica (“Company”, “we”, “us”, or “our”) via peptidescostarica.net.",
+          "text_es": "Esta Política de Reembolsos describe los términos y condiciones bajo los cuales se procesan los reembolsos y cancelaciones para las compras realizadas a través de Peptides Costa Rica (“Compañía”, “nosotros” o “nuestro”) vía peptidescostarica.net."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "By purchasing our products, you agree to this Refund Policy.",
+          "text_es": "Al comprar nuestros productos, usted acepta esta Política de Reembolso."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "This Refund Policy applies to all purchases made for the following offerings:",
+          "text_es": "Esta Política de Reembolso se aplica a todas las compras realizadas para las siguientes ofertas:"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items_en": [
+            "Physical Products: Research-grade peptide vials (e.g., BPC-157, HGH, Ipamorelin, Retatrutide, and others)",
+            "BAC Water and ancillary research products"
+          ],
+          "items_es": [
+            "Productos Físicos: Viales de péptidos de grado de investigación (por ejemplo, BPC-157, HGH, Ipamorelin, Retatrutide y otros)",
+            "Productos de investigación BAC Agua y auxiliares"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "This policy covers purchases made directly through peptidescostarica.net or via our personal order process (e.g., SINPE Móvil, Zelle, PayPal, or Cash). All orders are confirmed manually before payment is collected to ensure product availability and accurate order processing.",
+          "text_es": "Esta póliza cubre compras realizadas directamente a través de peptidescostarica.net o mediante nuestro proceso de pedido personal (por ejemplo, SINPE Móvil, Zelle, PayPal o en efectivo). Todos los pedidos se confirman manualmente antes de la recolección del pago para asegurar la disponibilidad del producto y el procesamiento preciso del pedido."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Is a refund offered?",
+          "text_es": "¿Se ofrece un reembolso?"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Yes, Peptides Costa Rica offers returns and refunds on eligible items within 30 days of purchase. To qualify for a return or refund, the item must meet the eligibility criteria outlined below.",
+          "text_es": "Sí, Peptides Costa Rica ofrece devoluciones y reembolsos en artículos elegibles dentro de los 30 días posteriores a la compra. Para calificar para una devolución o reembolso, el artículo debe cumplir con los criterios de elegibilidad descritos a continuación."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Refund Window",
+          "text_es": "Ventana de reembolso"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Customers may request a return or refund within 30 days from the purchase date. After this period, we are unable to offer a return or refund. To initiate the process, simply reach out to us with your order details.",
+          "text_es": "Los clientes pueden solicitar una devolución o reembolso dentro de los 30 días a partir de la fecha de compra. Después de este período, no podemos ofrecer una devolución o reembolso. Para iniciar el proceso, simplemente contáctanos con los detalles de tu pedido."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Conditions for Eligibility",
+          "text_es": "Condiciones de elegibilidad"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "A refund may be approved if:",
+          "text_es": "Un reembolso puede ser aprobado si:"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items_en": [
+            "The product has not been opened, used, or consumed",
+            "A technical or processing error occurred",
+            "The wrong product was delivered",
+            "The request is made within the stated refund window"
+          ],
+          "items_es": [
+            "El producto no ha sido abierto, usado ni consumido",
+            "Se produjo un error técnico o de procesamiento",
+            "Se entregó el producto incorrecto",
+            "La solicitud se realiza dentro del plazo de reembolso establecido"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Non-Refundable Items",
+          "text_es": "Artículos no reembolsables"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "The following are non-refundable:",
+          "text_es": "Lo siguiente no es reembolsable:"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items_en": [
+            "Opened or used peptide vials",
+            "Products that have been reconstituted or prepared for use",
+            "Promotional or discounted purchases (unless legally required)",
+            "Orders where the customer provided incorrect delivery information"
+          ],
+          "items_es": [
+            "Viales de péptidos abiertos o usados",
+            "Productos que han sido reconstituidos o preparados para su uso",
+            "Compras promocionales o con descuento (a menos que sea legalmente obligatorio)",
+            "Pedidos donde el cliente proporcionó información de entrega incorrecta"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Cancellation Allowed",
+          "text_es": "Cancelación Permitida"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Yes, cancellations are permitted subject to the following conditions:",
+          "text_es": "Sí, se permiten cancelaciones sujetas a las siguientes condiciones:"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items_en": [
+            "Must be requested before the order is dispatched for delivery",
+            "Since all orders are confirmed manually and stock is verified before payment, cancellations must be communicated promptly via phone or email",
+            "Requests after dispatch may not qualify for a full refund"
+          ],
+          "items_es": [
+            "Debe solicitarse antes de que se envíe el pedido para su entrega.",
+            "Como todos los pedidos se confirman manualmente y se verifica el stock antes del pago, las cancelaciones deben comunicarse de inmediato por teléfono o correo electrónico.",
+            "Las solicitudes después del envío podrían no calificar para un reembolso completo"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Partial Refunds",
+          "text_es": "Reembolsos parciales"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Partial refunds may be issued when:",
+          "text_es": "Se pueden emitir reembolsos parciales cuando:"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items_en": [
+            "Part of a multi-item order has already been shipped",
+            "Administrative or processing costs have been incurred"
+          ],
+          "items_es": [
+            "Parte de un pedido de varios artículos ya ha sido enviado",
+            "Se han incurrido en costos administrativos o de procesamiento"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Cancellation Fees",
+          "text_es": "Cargos por cancelación"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "There are no cancellation fees for orders canceled before shipment. However, if the order has already been processed or dispatched, cancellation may not be possible, or partial refunds may apply.",
+          "text_es": "No hay cargos por cancelación para pedidos cancelados antes del envío. Sin embargo, si el pedido ya ha sido procesado o despachado, la cancelación podría no ser posible o podrían aplicarse reembolsos parciales."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "How to Request a Refund",
+          "text_es": "Cómo solicitar un reembolso"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Customers can request a refund by contacting us directly:",
+          "text_es": "Los clientes pueden solicitar un reembolso contactándonos directamente:"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items_en": [
+            "Email: info@peptidescostarica.net",
+            "Phone (Costa Rica): +506 8404-6973",
+            "Phone (US): +1 (831) 471-5559",
+            "WhatsApp: +506 8404-6973"
+          ],
+          "items_es": [
+            "Correo electrónico: info@peptidescostarica.net",
+            "Teléfono (Costa Rica): +506 8404-6973",
+            "Teléfono (EE.UU.): +1 (831) 471-5559",
+            "WhatsApp: +506 8404-6973"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Required Information",
+          "text_es": "Información requerida"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Refund requests must include:",
+          "text_es": "Las solicitudes de reembolso deben incluir:"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items_en": [
+            "Order reference or transaction details",
+            "Customer name and contact details",
+            "Reason for the refund request",
+            "Proof of purchase (payment confirmation screenshot or receipt)",
+            "Photos of the product if damaged or incorrect"
+          ],
+          "items_es": [
+            "Referencia del pedido o detalles de la transacción",
+            "Nombre y datos de contacto del cliente",
+            "Motivo de la solicitud de reembolso",
+            "Comprobante de compra (captura de pantalla de confirmación de pago o recibo)",
+            "Fotos del producto si está dañado o es incorrecto"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Approval Process",
+          "text_es": "Proceso de aprobación"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Refund requests are reviewed manually and approved or rejected based on the eligibility criteria outlined above.",
+          "text_es": "Las solicitudes de reembolso se revisan manualmente y se aprueban o rechazan según los criterios de elegibilidad descritos anteriormente."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Refund Method",
+          "text_es": "Método de reembolso"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Approved refunds will be processed via the original payment method used:",
+          "text_es": "Los reembolsos aprobados se procesarán a través del método de pago original utilizado:"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items_en": [
+            "SINPE Móvil — refunded to the original SINPE number",
+            "Zelle — refunded to the original Zelle account",
+            "PayPal — refunded via PayPal",
+            "Cash — refunded in cash at the time of agreement"
+          ],
+          "items_es": [
+            "SINPE Móvil — reembolsado al número SINPE original",
+            "Zelle — reembolsado a la cuenta original de Zelle",
+            "PayPal — reembolsado vía PayPal",
+            "Efectivo: reembolsado en efectivo al momento del acuerdo"
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items_en": [
+            "Refund requests are reviewed within 3–5 business days",
+            "Approved refunds are processed within 5–10 business days",
+            "Banking or payment gateway delays may occur and are beyond our control"
+          ],
+          "items_es": [
+            "Las solicitudes de reembolso se revisan en un plazo de 3 a 5 días hábiles.",
+            "Los reembolsos aprobados se procesan dentro de 5 a 10 días hábiles.",
+            "Pueden ocurrir demoras en las pasarelas bancarias o de pago, y escapan a nuestro control."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Late or Missed Refunds",
+          "text_es": "Reembolsos tardíos o perdidos"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "If you have not received your refund within the stated timeframe, please contact us at info@peptidescostarica.net or call +506 8404-6973. We will assist you in resolving the issue promptly.",
+          "text_es": "Si no ha recibido su reembolso dentro del plazo establecido, por favor contáctenos en info@peptidescostarica.net o llame al +506 8404-6973. Le ayudaremos a resolver el problema a la brevedad."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Failed Payments / Chargebacks",
+          "text_es": "Pagos fallidos / Contracargos"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "In the event of chargebacks or disputed payments, the refund process may be paused until the dispute is resolved. If you are experiencing any issues with payments, please contact us immediately to discuss.",
+          "text_es": "En caso de contracargos o pagos disputados, el proceso de reembolso puede pausarse hasta que se resuelva la disputa. Si está experimentando algún problema con los pagos, por favor contáctenos de inmediato para conversar."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Bulk Orders",
+          "text_es": "Pedidos al por mayor"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "For bulk purchases (5 or more vials with a 15% discount applied), refund eligibility will be assessed on a case-by-case basis. Please reach out to us directly to discuss any specific concerns regarding bulk orders.",
+          "text_es": "En el caso de compras al por mayor (5 o más frascos con un descuento 15% aplicado), la elegibilidad para el reembolso se evaluará caso por caso. Por favor, contáctanos directamente para discutir cualquier inquietud específica relacionada con los pedidos al por mayor."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Promotional or Discounted Purchases",
+          "text_es": "Compras promocionales o con descuento"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Refunds are generally not available for discounted or promotional purchases unless legally required by consumer protection laws. Please ensure that you fully understand the terms of any promotion before completing your purchase.",
+          "text_es": "Generalmente no se ofrecen reembolsos en compras con descuento o promocionales, a menos que lo exijan las leyes de protección al consumidor. Asegúrate de comprender completamente los términos de cualquier promoción antes de finalizar tu compra."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Force Majeure",
+          "text_es": "Fuerza mayor"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "In the event of unforeseen circumstances, such as natural disasters, government actions, or technical outages beyond our control, refunds may be delayed or denied. We will make every effort to process refunds in a timely manner, but such situations may affect the refund timeline.",
+          "text_es": "En caso de circunstancias imprevistas, como desastres naturales, acciones gubernamentales o fallas técnicas fuera de nuestro control, los reembolsos pueden demorarse o ser denegados. Haremos todo lo posible por procesar los reembolsos de manera oportuna, pero tales situaciones pueden afectar el cronograma de reembolso."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "This Refund Policy is governed by applicable consumer protection laws of Costa Rica.",
+          "text_es": "Esta Política de Reembolso se rige por las leyes de protección al consumidor aplicables de Costa Rica."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Jurisdiction",
+          "text_es": "Jurisdicción"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "All disputes shall be subject to the laws and courts of Costa Rica.",
+          "text_es": "Todas las disputas estarán sujetas a las leyes y tribunales de Costa Rica."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Dispute Resolution",
+          "text_es": "Resolución de disputas"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Customers are encouraged to contact us first to resolve any issues amicably before pursuing legal remedies. We are committed to clear, direct communication and fair resolution.",
+          "text_es": "Se anima a los clientes a contactarnos primero para resolver cualquier problema de manera amistosa antes de recurrir a acciones legales. Estamos comprometidos con la comunicación clara, directa y la resolución justa."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Policy Changes",
+          "text_es": "Cambios de política"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We reserve the right to modify or update this Refund Policy at any time. Any changes made will be reflected on this page, along with an updated effective date. We encourage our customers to review this policy regularly to stay informed of any updates.",
+          "text_es": "Nos reservamos el derecho de modificar o actualizar esta Política de Reembolsos en cualquier momento. Cualquier cambio realizado se reflejará en esta página, junto con una fecha de entrada en vigor actualizada. Animamos a nuestros clientes a revisar esta política regularmente para mantenerse informados sobre cualquier actualización."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "For any inquiries or refund-related questions, please contact us using the following methods:",
+          "text_es": "Para consultas o preguntas relacionadas con reembolsos, contáctanos por los siguientes medios:"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items_en": [
+            "Email: info@peptidescostarica.net",
+            "Phone (Costa Rica): +506 8404-6973",
+            "Phone (US): +1 (831) 471-5559",
+            "WhatsApp: +506 8404-6973",
+            "Contact form: peptidescostarica.net/contact-costa-rica/",
+            "Support Hours: 10 AM – 5 PM CST",
+            "Response Time: We aim to respond to all inquiries within 24–48 business hours"
+          ],
+          "items_es": [
+            "Correo electrónico: info@peptidescostarica.net",
+            "Teléfono (Costa Rica): +506 8404-6973",
+            "Teléfono (EE.UU.): +1 (831) 471-5559",
+            "WhatsApp: +506 8404-6973",
+            "Formulario de contacto: peptidescostarica.net/contact-costa-rica/",
+            "Horario de soporte: 10 AM – 5 PM CST",
+            "Tiempo de respuesta: Nuestro objetivo es responder a todas las consultas en un plazo de 24 a 48 horas hábiles."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Effective Date:This Return and Refund Policy is effective as of 23 April 2026.",
+          "text_es": "Effective Date:This Return and Refund Policy is effective as of 23 April 2026."
+        }
+      ],
+      "untranslated": 1
+    },
+    {
+      "slug": "html-sitemap",
+      "en": "/html-sitemap/",
+      "es": "/es/mapa-del-sitio-html/",
+      "head": {
+        "title_en": "HTML Sitemap | Peptides Costa Rica",
+        "title_es": "Mapa del sitio HTML | Péptidos Costa Rica",
+        "description_en": "Navigate Peptides Costa Rica easily with our full HTML sitemap. Discover all peptides, weight loss products, muscle growth solutions & helpful guides in one place.",
+        "description_es": "Navega Peptides Costa Rica fácilmente con nuestro mapa de sitio HTML completo. Descubre todos los péptidos, productos para perder peso, soluciones para el crecimiento muscular y guías útiles en un solo lugar."
+      },
+      "blocks": [],
+      "untranslated": 0
+    }
+  ]
+}

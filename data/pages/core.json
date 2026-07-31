@@ -1,0 +1,2992 @@
+{
+  "harvestedAt": "2026-07-31T15:09:03.325Z",
+  "group": "core",
+  "count": 9,
+  "pages": [
+    {
+      "slug": "about",
+      "en": "/about/",
+      "es": "/es/acerca-de/",
+      "head": {
+        "title_en": "About Us | Peptides Costa Rica",
+        "title_es": "Sobre Nosotros | Péptidos Costa Rica",
+        "description_en": "Costa Rica peptides research. Buy peptides online from trusted supplier in Costa Rica for quality peptides.",
+        "description_es": "Investigación de péptidos en Costa Rica. Compre péptidos en línea de un proveedor confiable en Costa Rica para péptidos de calidad."
+      },
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 1,
+          "text_en": "About Peptides Costa Rica",
+          "text_es": "Acerca de Péptidos Costa Rica"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Peptides Costa Rica started with the goal of making high-quality peptide products easily available in Costa Rica.More people are looking into peptides for performance, recovery, metabolism, and longevity.However, ordering from international suppliers often brings uncertainty, with delays, customs issues, unclear sources, and poor communication.We decided to do things differently.Rather than operating as a global distributor, Peptides Costa Rica focuses exclusively on serving customers within Costa Rica. This local approach allows us to maintain closer oversight of inventory, clearer communication, and a more streamlined ordering experience.",
+          "text_es": "Peptides Costa Rica nació con el objetivo de hacer que productos de péptidos de alta calidad estén fácilmente disponibles en Costa Rica. Cada vez más personas recurren a los péptidos para mejorar el rendimiento, la recuperación, el metabolismo y la longevidad. Sin embargo, los pedidos a proveedores internacionales a menudo conllevan incertidumbre, con retrasos, problemas aduaneros, fuentes poco claras y una comunicación deficiente. Decidimos hacer las cosas de manera diferente. En lugar de operar como un distribuidor global, Peptides Costa Rica se enfoca exclusivamente en atender a clientes dentro de Costa Rica. Este enfoque local nos permite mantener una supervisión más cercana del inventario, una comunicación más clara y una experiencia de pedido más eficiente."
+        },
+        {
+          "type": "button",
+          "text_en": "Meet Our Authors",
+          "text_es": "Conoce a Nuestros Autores",
+          "href": "/our-authors/"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "A Local Model Built on Accountability",
+          "text_es": "Un modelo local basado en la rendición de cuentas"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Because we operate locally, we avoid many of the problems that come with buying from abroad. Our customers talk directly with us, check product availability before paying, and arrange delivery within Costa Rica.",
+          "text_es": "Como operamos localmente, evitamos muchos de los problemas que surgen al comprar en el extranjero. Nuestros clientes hablan directamente con nosotros, verifican la disponibilidad del producto antes de pagar y coordinan la entrega dentro de Costa Rica."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "This structure allows us to prioritize:",
+          "text_es": "Esta estructura nos permite priorizar:"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items_en": [
+            "Clear pricing",
+            "Verified availability",
+            "Direct communication",
+            "Responsible positioning",
+            "Consistent service"
+          ],
+          "items_es": [
+            "Precios claros",
+            "Disponibilidad verificada",
+            "Comunicación directa",
+            "Posicionamiento responsable",
+            "Servicio constante"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We believe that staying focused and consistent helps us earn your trust over time.",
+          "text_es": "Creemos que mantenernos enfocados y consistentes nos ayuda a ganarnos su confianza con el tiempo."
+        },
+        {
+          "type": "button",
+          "text_en": "View Products",
+          "text_es": "Ver Productos",
+          "href": "/all-peptide-products-costa-rica/"
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/04/peptides-2-1.png",
+          "alt_en": "Person demonstrating leg stretch beside supplement bottles in modern living room.",
+          "alt_es": "Persona realizando estiramiento de piernas junto a botellas de suplementos en una sala de estar moderna."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Why Buy Locally Instead of International Suppliers?",
+          "text_es": "¿Por qué comprar localmente en lugar de proveedores internacionales?"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "International sourcing can introduce uncertainty:",
+          "text_es": "El abastecimiento internacional puede introducir incertidumbre:"
+        },
+        {
+          "type": "list",
+          "icon": true,
+          "items_en": [
+            "Customs delays",
+            "Limited communication",
+            "Unexpected import fees",
+            "Inconsistent shipping timelines",
+            "Payment processing restrictions"
+          ],
+          "items_es": [
+            "Demoras aduaneras",
+            "Comunicación limitada",
+            "Tarifas de importación inesperadas",
+            "Tiempos de envío inconsistentes",
+            "Restricciones en el procesamiento de pagos"
+          ]
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/04/Untitled-design-7-1.png",
+          "alt_en": "Bottles of white and colored capsules arranged on wooden desk with fitness journal.",
+          "alt_es": "Botellas de cápsulas blancas y de colores dispuestas sobre un escritorio de madera con un diario de fitness."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Our Approach to Quality",
+          "text_es": "Nuestro Enfoque de Calidad"
+        },
+        {
+          "type": "card",
+          "title_en": "Quality starts with choosing the right products.",
+          "title_es": "La calidad comienza eligiendo los productos adecuados.",
+          "text_en": "We select every product based on what the wellness and performance community needs. We focus on trusted sources and make sure our products are stored and handled properly to keep them in top condition.",
+          "text_es": "Seleccionamos cada producto basándonos en las necesidades de la comunidad de bienestar y rendimiento. Nos enfocamos en fuentes confiables y nos aseguramos de que nuestros productos se almacenen y manipulen adecuadamente para mantenerlos en óptimas condiciones.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Certificates of Analysis are available to provide documentation and transparency.",
+          "title_es": "Los Certificados de Análisis están disponibles para brindar documentación y transparencia.",
+          "text_en": "We don’t make big promises or use flashy marketing. Instead, we share product details honestly so you can make informed choices.",
+          "text_es": "No hacemos grandes promesas ni usamos marketing ostentoso. En cambio, compartimos detalles del producto honestamente para que puedas tomar decisiones informadas.",
+          "href": null
+        },
+        {
+          "type": "button",
+          "text_en": "View All Products",
+          "text_es": "Ver todos los productos",
+          "href": "/all-peptide-products-costa-rica/"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Serving a Performance-Driven Community",
+          "text_es": "Sirviendo a una comunidad impulsada por el rendimiento"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Peptides Costa Rica helps people who are serious about their health and performance. Our customers often use peptides for things like:",
+          "text_es": "Peptides Costa Rica ayuda a las personas que se toman en serio su salud y su rendimiento. Nuestros clientes suelen utilizar péptidos para cosas como:"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Metabolic efficiency",
+          "text_es": "Eficiencia metabólica"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Supports the body’s ability to manage energy use and maintain a balanced metabolism.",
+          "text_es": "Apoya la capacidad del cuerpo para gestionar el uso de energía y mantener un metabolismo equilibrado."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Recovery and tissue support",
+          "text_es": "Recuperación y soporte de tejidos"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Helps promote faster recovery and supports the repair of muscles and tissues.",
+          "text_es": "Ayuda a promover una recuperación más rápida y apoya la reparación de músculos y tejidos."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Cognitive clarity",
+          "text_es": "Claridad cognitiva"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "May support mental focus, memory, and overall cognitive performance.",
+          "text_es": "Puede apoyar el enfoque mental, la memoria y el rendimiento cognitivo general."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Energy optimization",
+          "text_es": "Optimización de energía"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Helps the body maintain stable energy levels throughout daily activities.",
+          "text_es": "Ayuda al cuerpo a mantener niveles de energía estables durante las actividades diarias."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Skin and regenerative applications",
+          "text_es": "Aplicaciones dermatológicas y regenerativas"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Supports skin health and may assist natural regeneration processes.",
+          "text_es": "Apoya la salud de la piel y puede ayudar a los procesos naturales de regeneración."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Hormonal balance",
+          "text_es": "Equilibrio hormonal"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "May help support the body’s natural hormonal regulation and overall wellness.",
+          "text_es": "Puede ayudar a apoyar la regulación hormonal natural del cuerpo y el bienestar general."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Our Mission",
+          "text_es": "Nuestra Misión"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Our mission is to become Costa Rica’s most trusted local source for peptides.",
+          "text_es": "Nuestra misión es convertirnos en la fuente local más confiable de péptidos en Costa Rica."
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/04/Untitled-design-11-1-1024x576.png",
+          "alt_en": "Two supplements on table near fitness gear.",
+          "alt_es": "Dos suplementos sobre la mesa cerca del equipo de ejercicio."
+        },
+        {
+          "type": "card",
+          "title_en": "Reliable access",
+          "title_es": "Acceso confiable",
+          "text_en": "Ensuring consistent availability of peptides for customers across Costa Rica.",
+          "text_es": "Garantizar la disponibilidad constante de péptidos para los clientes en Costa Rica.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Structured bulk savings",
+          "title_es": "Ahorros estructurados a granel",
+          "text_en": "Clear and organized bulk discount options for customers ordering larger quantities.",
+          "text_es": "Opciones de descuento por volumen claras y organizadas para clientes que piden grandes cantidades.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Transparent documentation",
+          "title_es": "Documentación transparente",
+          "text_en": "Providing clear product documentation, including Certificates of Analysis when available.",
+          "text_es": "Proporcionar documentación clara del producto, incluyendo Certificados de Análisis cuando estén disponibles.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Responsible product information",
+          "title_es": "Información responsable del producto",
+          "text_en": "Sharing accurate product details to help customers make informed decisions.",
+          "text_es": "Compartir detalles precisos del producto para ayudar a los clientes a tomar decisiones informadas.",
+          "href": null
+        },
+        {
+          "type": "heading",
+          "level": 6,
+          "text_en": "Testimonial",
+          "text_es": "Testimonio"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Customer Success Stories",
+          "text_es": "Historias de éxito de clientes"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We take pride in the trust and loyalty of our customers. Numerous individuals across Costa Rica have experienced transformative results with our peptide products. Our testimonials section is a living showcase of positive outcomes, featuring stories of enhanced energy, impressive muscle growth, and dramatic reductions in body fat.",
+          "text_es": "Nos enorgullecemos de la confianza y lealtad de nuestros clientes. Numerosas personas en toda Costa Rica han experimentado resultados transformadores con nuestros productos peptídicos. Nuestra sección de testimonios es una muestra viva de resultados positivos, presentando historias de mayor energía, crecimiento muscular impresionante y reducciones drásticas en la grasa corporal."
+        },
+        {
+          "type": "heading",
+          "level": 6,
+          "text_en": "Common Questions",
+          "text_es": "Preguntas frecuentes"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Frequently Asked Questions",
+          "text_es": "Preguntas frecuentes"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We understand that making an informed decision requires clear and reliable information. Below are some frequently asked questions about our peptide products:",
+          "text_es": "Entendemos que tomar una decisión informada requiere información clara y confiable. A continuación, encontrará algunas preguntas frecuentes sobre nuestros productos peptídicos:"
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/04/Untitled-design-9-1-1024x576.png",
+          "alt_en": "Supplement bottle with red cap on desk appearing larger than actual size.",
+          "alt_es": "Botella de suplemento con tapa roja sobre un escritorio que aparece más grande de lo real."
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q_en": "Do you ship outside Costa Rica?",
+              "q_es": "¿Hacen envíos fuera de Costa Rica?",
+              "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+              "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al atender solo a Costa Rica, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
+            },
+            {
+              "q_en": "Why don’t you offer online checkout?",
+              "q_es": "¿Por qué no ofrecen pago en línea?",
+              "a_en": "We handle orders personally to make sure everything is accurate and that products are available before you pay.Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent.",
+              "a_es": "We handle orders personally to make sure everything is accurate and that products are available before you pay.Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent."
+            },
+            {
+              "q_en": "What payment methods do you accept?",
+              "q_es": "¿Qué métodos de pago aceptan?",
+              "a_en": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+              "a_es": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
+            },
+            {
+              "q_en": "Is there a bulk discount?",
+              "q_es": "¿Hay un descuento por volumen?",
+              "a_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+              "a_es": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay."
+            },
+            {
+              "q_en": "How do I confirm product availability?",
+              "q_es": "¿Cómo confirmo la disponibilidad del producto?",
+              "a_en": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
+              "a_es": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+          "text_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al atender solo a Costa Rica, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We handle orders personally to make sure everything is accurate and that products are available before you pay.",
+          "text_es": "Nos encargamos de los pedidos personalmente para asegurar que todo sea preciso y que los productos estén disponibles antes de que pagues."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent.",
+          "text_es": "Las cajas de autoservicio a veces pueden causar problemas de pago o errores en el inventario. Al verificar el stock antes de pagar, hacemos que el proceso sea más fluido y transparente."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We currently accept:",
+          "text_es": "Actualmente aceptamos:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "SINPE MóvilZellePayPalCash",
+          "text_es": "SINPE MóvilZellePayPalCash"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Once we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+          "text_es": "Una vez que confirmemos que tu pedido está en stock, te enviaremos las instrucciones de pago. Nos aseguramos de que el proceso sea sencillo y de que conozcas el precio total antes de pagar."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Yes.",
+          "text_es": "Sí."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Purchase five or more vials of the same product and receive 15% off.",
+          "text_es": "Compra cinco o más frascos del mismo producto y obtén un descuento de 15%."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+          "text_es": "No hay reglas de precios complicadas ni cargos ocultos. Calculamos cualquier descuento por volumen con anticipación, para que siempre sepas qué esperar antes de pagar."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Just reach out to us using the phone number or contact details on our website.",
+          "text_es": "Contáctanos usando el número de teléfono o los datos de contacto de nuestra página web."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
+          "text_es": "Siempre verificamos que tus artículos estén en stock antes de que pagues. De esta manera, nunca pagas por algo que no podemos entregar y podemos coordinar la entrega sin problemas."
+        }
+      ],
+      "untranslated": 5
+    },
+    {
+      "slug": "our-story",
+      "en": "/our-story/",
+      "es": "/es/nuestra-historia/",
+      "head": {
+        "title_en": "Our Story | Peptides Costa Rica",
+        "title_es": "Nuestra Historia | Péptidos Costa Rica",
+        "description_en": "Buy now premium services with trusted quality. Call 506 8404-6973 today for fast support, expert solutions, and reliable results you can count on.",
+        "description_es": "Compre ahora servicios premium con calidad confiable. Llame hoy al 506 8404-6973 para obtener soporte rápido, soluciones expertas y resultados confiables en los que puede contar."
+      },
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 1,
+          "text_en": "Our Story",
+          "text_es": "Nuestra Historia"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Welcome to Peptides Costa Rica, where we specialize in harnessing the power of peptides to support and enhance cognitive function. Our cutting‐edge peptide solutions are carefully formulated to help relieve brain fog, sharpen focus, and promote overall mental clarity. If you have ever felt that your cognitive performance could be improved or if you are looking for a natural, research-backed way to support brain health, you are in the right place.",
+          "text_es": "Bienvenido a Peptides Costa Rica, donde nos especializamos en aprovechar el poder de los péptidos para apoyar y mejorar la función cognitiva. Nuestras soluciones de péptidos de vanguardia están cuidadosamente formuladas para ayudar a aliviar la confusión mental, agudizar la concentración y promover la claridad mental en general. Si alguna vez has sentido que tu desempeño cognitivo podría mejorarse o si estás buscando una forma natural y respaldada por investigaciones para cuidar la salud cerebral, estás en el lugar correcto."
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/04/peptides-2-1.png",
+          "alt_en": "Person demonstrating leg stretch beside supplement bottles in modern living room.",
+          "alt_es": "Persona realizando estiramiento de piernas junto a botellas de suplementos en una sala de estar moderna."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "From the Fight World to Peptides Costa Rica",
+          "text_es": "Del mundo del combate a Peptides Costa Rica"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Peptides Costa Rica was founded by two longtime friends and training partners with deep roots in combat sports and high-performance training.",
+          "text_es": "Peptides Costa Rica fue fundada por dos amigos de toda la vida y compañeros de entrenamiento con una larga trayectoria en los deportes de combate y el entrenamiento de alto rendimiento."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Our business began not in an office, but in gyms, fight camps, and recovery rooms, after years of pushing ourselves to the limit.",
+          "text_es": "Nuestro negocio no comenzó en una oficina, sino en gimnasios, campos de entrenamiento y salas de recuperación, después de años de llevarnos al límite."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "More than 15 years ago, Joey Webster and Sean McCully moved from California to Costa Rica. We were searching for a better lifestyle and new opportunities, but we soon found a shared mission: helping others find ways to perform better, recover, and stay healthy for the long term.That journey led us to create Peptides Costa Rica.",
+          "text_es": "Hace más de 15 años, Joey Webster y Sean McCully se mudaron de California a Costa Rica. Buscábamos un mejor estilo de vida y nuevas oportunidades, pero pronto encontramos una misión compartida: ayudar a otros a encontrar formas de rendir mejor, recuperarse y mantenerse saludables a largo plazo. Ese viaje nos llevó a crear Peptides Costa Rica."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Sean McCully: A Pioneer in Combat Sports",
+          "text_es": "Sean McCully: un pionero en los deportes de combate"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Sean McCully is well known in the fight world. He has spent decades competing, coaching, and building businesses in the field.",
+          "text_es": "Sean McCully es muy conocido en el mundo de las artes marciales. Ha dedicado décadas a competir, entrenar y desarrollar negocios en este ámbito."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Sean is a world champion in Muay Thai and kickboxing, and was part of the early days of mixed martial arts. He has coached fighters who later won world titles in several disciplines.",
+          "text_es": "Sean es campeón mundial de muay thai y kickboxing, y formó parte de los inicios de las artes marciales mixtas. Ha entrenado a luchadores que posteriormente ganaron títulos mundiales en varias disciplinas."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "He founded LA Boxing, a gym franchise that brought striking-based fitness training to thousands of people across the United States.",
+          "text_es": "Fundó LA Boxing, una franquicia de gimnasios que llevó el entrenamiento físico basado en los golpes a miles de personas en todo Estados Unidos."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Today, Sean runs McCully’s Fight Club in Costa Rica, where he still coaches fighters and athletes at every level.",
+          "text_es": "Hoy, Sean dirige McCully’s Fight Club en Costa Rica, donde todavía entrena a peleadores y atletas de todos los niveles."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "With decades in competitive fighting, Sean knows firsthand about training, recovery, and injuries. That background helped shape the vision for Peptides Costa Rica.",
+          "text_es": "Con décadas en el mundo de las peleas competitivas, Sean conoce de primera mano el entrenamiento, la recuperación y las lesiones. Esa experiencia ayudó a dar forma a la visión de Peptides Costa Rica."
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/03/620509048_18065045804559119_4514250667414374420_n.jpg",
+          "alt_en": "Two athletes pose with boxing gloves in gym, 'ROCKS' banner visible.",
+          "alt_es": "Dos atletas posan con guantes de boxeo en un gimnasio, se ve un cartel que dice \"ROCKS\"."
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/03/WhatsApp-Image-2026-03-24-at-7.08.03-PM-e1784629271932.jpeg",
+          "alt_en": "Shirtless fighter holds championship belt at event, muscular pose on stage.",
+          "alt_es": "Luchador sin camisa sostiene un cinturón de campeonato en un evento, pose muscular en el escenario."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Joey Webster: From Wrestling Champion to Fighter",
+          "text_es": "Joey Webster: De campeón de lucha libre a luchador"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Joey Webster grew up wrestling in California and made it to the California State Wrestling Championships, where he set the record for the fastest pin in the tournament.",
+          "text_es": "Joey Webster creció luchando en California y llegó a los Campeonatos Estatales de Lucha de California, donde estableció el récord del toque de espaldas más rápido del torneo."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "After moving to Costa Rica, Joey met Sean and started training in boxing, Muay Thai, and MMA. What began as curiosity quickly became a serious passion for combat sports.",
+          "text_es": "Después de mudarse a Costa Rica, Joey conoció a Sean y comenzó a entrenar boxeo, Muay Thai y MMA. Lo que empezó como curiosidad se convirtió rápidamente en una seria pasión por los deportes de combate."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Like many athletes, Joey faced injuries along the way. At one point, he had two ankle surgeries and a knee surgery at the same time, and a doctor told him he might never kick again.",
+          "text_es": "Al igual que muchos atletas, Joey tuvo que lidiar con lesiones a lo largo de su carrera. En un momento dado, se sometió a dos cirugías en el tobillo y una en la rodilla al mismo tiempo, y un médico le dijo que tal vez nunca volvería a patear."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Less than a year later, Joey returned to the ring and won his next fight with a first-round knockout.",
+          "text_es": "Menos de un año después, Joey regresó al ring y ganó su siguiente pelea por nocaut en el primer asalto."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Experiences like this helped inspire the creation of Peptides Costa Rica.",
+          "text_es": "Experiencias como esta contribuyeron a inspirar la creación de Peptides Costa Rica."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Why Peptides Became Part of Our Journey",
+          "text_es": "Por qué los péptidos se integraron en nuestro camino"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Years of training and coaching taught us that recovery matters just as much as performance. Combat sports put a lot of stress on the body. Fighters face joint strain, fatigue, and injuries that can take months to heal. As we kept training and got older, we became more interested in tools that help with recovery, resilience, and long-term performance.",
+          "text_es": "Años de entrenamiento y asesoramiento nos enseñaron que la recuperación es tan importante como el rendimiento. Los deportes de combate someten al cuerpo a mucho estrés. Los luchadores sufren de tensión en las articulaciones, fatiga y lesiones que pueden tardar meses en curarse. A medida que seguíamos entrenando y envejecíamos, nos interesamos más en herramientas que ayuden con la recuperación, la resistencia y el rendimiento a largo plazo."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Peptides started coming up more often in conversations about performance, recovery, and longevity.",
+          "text_es": "Los péptidos empezaron a aparecer con más frecuencia en las conversaciones sobre rendimiento, recuperación y longevidad."
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/04/peptides-4-2.png",
+          "alt_en": "Woman holding supplement in yoga pose on mat.",
+          "alt_es": "Mujer sosteniendo un suplemento en pose de yoga sobre una esterilla."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Why We Started Peptides Costa Rica",
+          "text_es": "Por qué fundamos Peptides Costa Rica"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "When we started learning more about peptides, we ran into a problem.",
+          "text_es": "Cuando empezamos a aprender más sobre los péptidos, nos topamos con un problema."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Getting peptides in Costa Rica wasn’t easy. Most people had to use international suppliers, which often meant:",
+          "text_es": "Conseguir péptidos en Costa Rica no fue fácil. La mayoría de la gente tuvo que recurrir a proveedores internacionales, lo que a menudo significaba:"
+        },
+        {
+          "type": "list",
+          "ordered": false,
+          "items_en": [
+            "Shipping delays",
+            "Customs complications",
+            "Unclear sourcing",
+            "Limited communication"
+          ],
+          "items_es": [
+            "Demoras en el envío",
+            "Complicaciones aduaneras",
+            "Fuentes poco claras",
+            "Comunicación limitada"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We thought there should be a better option for people living and training in Costa Rica.We started Peptides Costa Rica to offer a reliable local source with clear pricing, direct communication, and an easy ordering process.",
+          "text_es": "Pensamos que debería haber una mejor opción para las personas que viven y entrenan en Costa Rica. Iniciamos Peptides Costa Rica para ofrecer una fuente local confiable con precios claros, comunicación directa y un proceso de pedido sencillo."
+        },
+        {
+          "type": "button",
+          "text_en": "View Products",
+          "text_es": "Ver Productos",
+          "href": "/all-peptide-products-costa-rica/"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Why We Started Peptides Costa Rica",
+          "text_es": "Por qué fundamos Peptides Costa Rica"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "When we started learning more about peptides, we ran into a problem.Getting peptides in Costa Rica wasn’t easy. Most people had to use international suppliers, which often meant:",
+          "text_es": "Cuando empezamos a aprender más sobre péptidos, nos encontramos con un problema. Conseguir péptidos en Costa Rica no era fácil. La mayoría de la gente tenía que usar proveedores internacionales, lo que a menudo significaba:"
+        },
+        {
+          "type": "list",
+          "icon": true,
+          "items_en": [
+            "Unclear sourcing",
+            "Limited communication"
+          ],
+          "items_es": [
+            "Fuentes poco claras",
+            "Comunicación limitada"
+          ]
+        },
+        {
+          "type": "list",
+          "icon": true,
+          "items_en": [
+            "Shipping delays",
+            "Customs complications"
+          ],
+          "items_es": [
+            "Demoras en el envío",
+            "Complicaciones aduaneras"
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We thought there should be a better option for people living and training in Costa Rica.",
+          "text_es": "Pensamos que debería haber una mejor opción para las personas que viven y entrenan en Costa Rica."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We started Peptides Costa Rica to offer a reliable local source with clear pricing, direct communication, and an easy ordering process.",
+          "text_es": "Comenzamos Peptides Costa Rica para ofrecer una fuente local confiable con precios claros, comunicación directa y un proceso de pedido sencillo."
+        },
+        {
+          "type": "button",
+          "text_en": "Browse All Peptide Products",
+          "text_es": "Explorar todos los productos peptídicos",
+          "href": "/all-peptide-products-costa-rica/"
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/04/peptides-5-1.png",
+          "alt_en": "Muscular man working out beside boldly labeled supplement bottle.",
+          "alt_es": "Hombre musculoso entrenando junto a una botella de suplementos con etiqueta llamativa."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "A Local Business for Costa Rica",
+          "text_es": "Un Negocio Local para Costa Rica"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Peptides Costa Rica serves only customers within Costa Rica.We focus on:",
+          "text_es": "Peptides Costa Rica atiende únicamente a clientes dentro de Costa Rica. Nos enfocamos en:"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Clear pricing",
+          "text_es": "Precios claros"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Direct communication",
+          "text_es": "Comunicación directa"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Local delivery coordination",
+          "text_es": "Coordinación de entregas locales"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Confirmed product availability",
+          "text_es": "Confirmación de disponibilidad de producto"
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/07/peptides-7-1-1.webp",
+          "alt_en": "Man running on treadmill in modern living room.",
+          "alt_es": "Man running on treadmill in modern living room."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "The Tools We Use Ourselves",
+          "text_es": "Las herramientas que usamos nosotros mismos"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Everything we offer at Peptides Costa Rica comes from the world we know best: training, recovery, and performance.",
+          "text_es": "Todo lo que ofrecemos en Péptidos Costa Rica proviene del mundo que mejor conocemos: entrenamiento, recuperación y rendimiento."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We know what athletes put their bodies through because we’ve experienced it ourselves.",
+          "text_es": "Sabemos por lo que pasan los atletas porque nosotros mismos lo hemos vivido."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "That experience shapes how we run our business. We focus on clear communication, reliable access, and products that people serious about performance and recovery are already talking about and using.",
+          "text_es": "Esa experiencia moldea cómo dirigimos nuestro negocio. Nos enfocamos en comunicación clara, acceso confiable y productos de los que ya hablan y usan las personas serias en cuanto a rendimiento y recuperación."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We don’t want to overpromise. Our goal is to give people straightforward access and honest information to help them take their training, recovery, and long-term health seriously.",
+          "text_es": "No queremos prometer demasiado. Nuestro objetivo es brindar a las personas acceso directo e información honesta para ayudarlas a tomarse en serio su entrenamiento, recuperación y salud a largo plazo."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Looking Ahead",
+          "text_es": "Mirando hacia el futuro"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "As more people in Costa Rica get interested in performance, recovery, and longevity, we’re in this fight: to stay a reliable local source built on transparency, consistency, and direct communication. Peptides Costa Rica was built on real experience, and we’re committed to keeping that approach as we grow.",
+          "text_es": "A medida que más personas en Costa Rica se interesan en el rendimiento, la recuperación y la longevidad, nos encontramos en esta lucha: mantenernos como una fuente local confiable basada en la transparencia, la consistencia y la comunicación directa. Peptides Costa Rica se construyó sobre la experiencia real, y estamos comprometidos a mantener ese enfoque a medida que crecemos."
+        }
+      ],
+      "untranslated": 0
+    },
+    {
+      "slug": "bulk-discounts",
+      "en": "/bulk-discounts/",
+      "es": "/es/descuentos-por-volumen/",
+      "head": {
+        "title_en": "Buy Bulk Discounts Peptides Costa Rica | Peptides Costa Rica",
+        "title_es": "Descuentos por Volumen en Péptidos Costa Rica | Péptidos Costa Rica",
+        "description_en": "Buy bulk peptides wholesale in Costa Rica. Shop premium research peptides at the best prices. Call 506 8404-6973 to order today.",
+        "description_es": "Compre péptidos a granel al por mayor en Costa Rica. Compre péptidos de investigación premium a los mejores precios. Llame al 506 8404-6973 para pedir hoy."
+      },
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 1,
+          "text_en": "Bulk Discounts",
+          "text_es": "Descuentos por volumen"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "At Peptides Costa Rica, we make bulk ordering simple, reliable, and cost-effective. Our bulk discount program is designed for researchers, clinics, resellers, and frequent buyers who need consistent access to premium peptides at better value. When you order in larger quantities, you benefit from trusted quality, local availability, and straightforward pricing without unnecessary complications.",
+          "text_es": "En Peptides Costa Rica, hacemos que los pedidos al por mayor sean sencillos, confiables y rentables. Nuestro programa de descuentos por volumen está diseñado para investigadores, clínicas, revendedores y compradores frecuentes que necesitan acceso constante a péptidos de primera calidad a un mejor valor. Cuando usted pide en mayores cantidades, se beneficia de calidad confiable, disponibilidad local y precios directos sin complicaciones innecesarias."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Our bulk discounts are as follows:",
+          "text_es": "Nuestros descuentos por volumen son los siguientes:"
+        },
+        {
+          "type": "list",
+          "icon": true,
+          "items_en": [
+            "5 or more vials: 15% discount",
+            "10 or more vials: 20% discount"
+          ],
+          "items_es": [
+            "5 o más frascos: descuento 15%",
+            "10 o más frascos: descuento 20%"
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Our Commitment to Quality and Safety",
+          "text_es": "Nuestro Compromiso con la Calidad y la Seguridad"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Quality and safety are at the core of everything we offer. Every batch is sourced from trusted manufacturers and handled with care to help maintain product integrity from storage to delivery. We focus on dependable sourcing, proper handling, and clear standards so our customers can order with confidence.",
+          "text_es": "La calidad y la seguridad son el núcleo de todo lo que ofrecemos. Cada lote se obtiene de fabricantes de confianza y se manipula con cuidado para ayudar a mantener la integridad del producto, desde el almacenamiento hasta la entrega. Nos enfocamos en un abastecimiento confiable, manipulación adecuada y estándares claros para que nuestros clientes puedan ordenar con confianza."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "When you choose bulk ordering from Peptides Costa Rica, you are not only saving more, you are also working with a supplier that values consistency, reliability, and professional service. Our goal is to make premium peptides more accessible for serious buyers across Costa Rica.",
+          "text_es": "Al elegir pedidos a granel de Péptidos Costa Rica, no solo ahorras más, sino que también trabajas con un proveedor que valora la consistencia, la confiabilidad y el servicio profesional. Nuestro objetivo es hacer que los péptidos premium sean más accesibles para compradores serios en Costa Rica."
+        },
+        {
+          "type": "button",
+          "text_en": "View All Products",
+          "text_es": "Ver todos los productos",
+          "href": "/all-peptide-products-costa-rica/"
+        },
+        {
+          "type": "card",
+          "title_en": "Verified Purity",
+          "title_es": "Pureza Verificada",
+          "text_en": "Batch quality-checked to meet strict research standards.",
+          "text_es": "Calidad en lotes verificada para cumplir con estrictos estándares de investigación.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Controlled Handling",
+          "title_es": "Manejo Controlado",
+          "text_en": "Stored under controlled conditions for stability.",
+          "text_es": "Almacenado bajo condiciones controladas para estabilidad.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Secure Packaging",
+          "title_es": "Empaque seguro",
+          "text_en": "Sealed and protected to ensure safe delivery.",
+          "text_es": "Sellado y protegido para garantizar una entrega segura.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Reliable Supply",
+          "title_es": "Suministro confiable",
+          "text_en": "Reliable peptide supply for researchers in Costa Rica.",
+          "text_es": "Suministro confiable de péptidos para investigadores en Costa Rica.",
+          "href": null
+        },
+        {
+          "type": "heading",
+          "level": 6,
+          "text_en": "BULK BUYING BENEFITS",
+          "text_es": "Beneficios de comprar al por mayor"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "How Our Bulk Discount Program Supports Your Growth",
+          "text_es": "Cómo nuestro programa de descuentos por volumen apoya tu crecimiento"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Bulk purchasing is more than a way to save money. It is a smarter way to secure consistent supply, manage costs more effectively, and support long-term research or business needs with greater confidence.",
+          "text_es": "Comprar al por mayor es más que una forma de ahorrar dinero. Es una manera más inteligente de asegurar un suministro constante, administrar los costos de manera más efectiva y respaldar las necesidades de investigación o de negocios a largo plazo con mayor confianza."
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/02/b7542b1d-3c42-49b5-916c-a9b713f3e743.png",
+          "alt_en": "",
+          "alt_es": ""
+        },
+        {
+          "type": "card",
+          "title_en": "Better Budget Efficiency",
+          "title_es": "Mejor Eficiencia Presupuestaria",
+          "text_en": "Lower per-vial costs help you allocate more of your budget toward research, operations, or additional product requirements.",
+          "text_es": "Los costos más bajos por vial te ayudan a asignar más de tu presupuesto a investigación, operaciones o requisitos adicionales de productos.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Easier Scalability",
+          "title_es": "Escalabilidad más sencilla",
+          "text_en": "With better pricing on larger quantities, it becomes easier to scale your purchasing without unnecessary cost pressure.",
+          "text_es": "Con mejores precios en mayores cantidades, se vuelve más fácil escalar tus compras sin una presión de costos innecesaria.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Stronger Supply Planning",
+          "title_es": "Planificación de Suministro más Sólida",
+          "text_en": "Bulk ordering helps reduce interruptions and gives you better control over product availability for ongoing needs.",
+          "text_es": "La compra al por mayor ayuda a reducir las interrupciones y le da un mayor control sobre la disponibilidad del producto para necesidades continuas.",
+          "href": null
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Tailored Solutions for Serious Buyers",
+          "text_es": "Soluciones personalizadas para compradores serios"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Whether you are purchasing for research, repeated use, resale, or long-term supply needs, our bulk program is designed to give you better value, reliable access, and direct local support in Costa Rica.",
+          "text_es": "Ya sea que compres para investigación, uso repetido, reventa o necesidades de suministro a largo plazo, nuestro programa de compras al por mayor está diseñado para brindarte mejor valor, acceso confiable y soporte local directo en Costa Rica."
+        },
+        {
+          "type": "button",
+          "text_en": "Contact Us",
+          "text_es": "Contáctanos",
+          "href": "/contact-costa-rica/"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Why Buy Peptides in Bulk?",
+          "text_es": "¿Por qué comprar péptidos al por mayor?"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Our bulk savings program is ideal for customers who need dependable access to quality peptides while keeping costs under control. It is a practical solution for buyers who value consistency, convenience, and better long-term pricing.",
+          "text_es": "Nuestro programa de ahorros por volumen es ideal para clientes que necesitan acceso confiable a péptidos de calidad mientras mantienen los costos bajo control. Es una solución práctica para compradores que valoran la consistencia, la conveniencia y mejores precios a largo plazo."
+        },
+        {
+          "type": "card",
+          "title_en": "Competitive Pricing",
+          "title_es": "Precios competitivos",
+          "text_en": "Save more per vial when ordering larger quantities of the same product.",
+          "text_es": "Ahorre más por vial al pedir mayores cantidades del mismo producto.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Reliable Quality",
+          "title_es": "Calidad Confiable",
+          "text_en": "Order with confidence from a supplier focused on trusted sourcing and dependable standards.",
+          "text_es": "Pida con confianza a un proveedor enfocado en el abastecimiento confiable y estándares seguros.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Consistent Availability",
+          "title_es": "Disponibilidad constante",
+          "text_en": "Reduce the risk of running short by securing more of what you need in one order.",
+          "text_es": "Reduce el riesgo de quedarte sin existencias al asegurar más de lo que necesitas en un solo pedido.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Direct Local Support",
+          "title_es": "Soporte Local Directo",
+          "text_en": "Get straightforward assistance with availability, ordering, and payment from a Costa Rica-based supplier.",
+          "text_es": "Obtenga asistencia directa sobre disponibilidad, pedidos y pagos con un proveedor con sede en Costa Rica.",
+          "href": null
+        },
+        {
+          "type": "button",
+          "text_en": "View Products",
+          "text_es": "Ver Productos",
+          "href": "/all-peptide-products-costa-rica/"
+        },
+        {
+          "type": "heading",
+          "level": 6,
+          "text_en": "Common Questions",
+          "text_es": "Preguntas frecuentes"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Frequently Asked Questions",
+          "text_es": "Preguntas frecuentes"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We understand that making an informed decision requires clear and reliable information. Below are some frequently asked questions about our peptide products:",
+          "text_es": "Entendemos que tomar una decisión informada requiere información clara y confiable. A continuación, encontrará algunas preguntas frecuentes sobre nuestros productos peptídicos:"
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/04/Untitled-design-9-1-1024x576.png",
+          "alt_en": "Supplement bottle with red cap on desk appearing larger than actual size.",
+          "alt_es": "Botella de suplemento con tapa roja sobre un escritorio que aparece más grande de lo real."
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q_en": "Do you ship outside Costa Rica?",
+              "q_es": "¿Hacen envíos fuera de Costa Rica?",
+              "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+              "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al atender solo a Costa Rica, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
+            },
+            {
+              "q_en": "Why don’t you offer online checkout?",
+              "q_es": "¿Por qué no ofrecen pago en línea?",
+              "a_en": "We handle orders personally to make sure everything is accurate and that products are available before you pay.Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent.",
+              "a_es": "We handle orders personally to make sure everything is accurate and that products are available before you pay.Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent."
+            },
+            {
+              "q_en": "What payment methods do you accept?",
+              "q_es": "¿Qué métodos de pago aceptan?",
+              "a_en": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+              "a_es": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
+            },
+            {
+              "q_en": "Is there a bulk discount?",
+              "q_es": "¿Hay un descuento por volumen?",
+              "a_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+              "a_es": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay."
+            },
+            {
+              "q_en": "How do I confirm product availability?",
+              "q_es": "¿Cómo confirmo la disponibilidad del producto?",
+              "a_en": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
+              "a_es": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+          "text_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al atender solo a Costa Rica, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We handle orders personally to make sure everything is accurate and that products are available before you pay.",
+          "text_es": "Nos encargamos de los pedidos personalmente para asegurar que todo sea preciso y que los productos estén disponibles antes de que pagues."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent.",
+          "text_es": "Las cajas de autoservicio a veces pueden causar problemas de pago o errores en el inventario. Al verificar el stock antes de pagar, hacemos que el proceso sea más fluido y transparente."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We currently accept:",
+          "text_es": "Actualmente aceptamos:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "SINPE MóvilZellePayPalCash",
+          "text_es": "SINPE MóvilZellePayPalCash"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Once we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+          "text_es": "Una vez que confirmemos que tu pedido está en stock, te enviaremos las instrucciones de pago. Nos aseguramos de que el proceso sea sencillo y de que conozcas el precio total antes de pagar."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Yes.",
+          "text_es": "Sí."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Purchase five or more vials of the same product and receive 15% off.",
+          "text_es": "Compra cinco o más frascos del mismo producto y obtén un descuento de 15%."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+          "text_es": "No hay reglas de precios complicadas ni cargos ocultos. Calculamos cualquier descuento por volumen con anticipación, para que siempre sepas qué esperar antes de pagar."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Just reach out to us using the phone number or contact details on our website.",
+          "text_es": "Contáctanos usando el número de teléfono o los datos de contacto de nuestra página web."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
+          "text_es": "Siempre verificamos que tus artículos estén en stock antes de que pagues. De esta manera, nunca pagas por algo que no podemos entregar y podemos coordinar la entrega sin problemas."
+        }
+      ],
+      "untranslated": 5
+    },
+    {
+      "slug": "lab-tests-coa-results",
+      "en": "/lab-tests-coa-results/",
+      "es": "/es/resultados-de-pruebas-de-laboratorio-coa/",
+      "head": {
+        "title_en": "Peptide Product Lab Tests & COA Results | Peptides Costa Rica",
+        "title_es": "Resultados de Pruebas de Laboratorio de Productos Peptídicos y COA | Peptidos Costa Rica",
+        "description_en": "Verify Peptides Costa Rica lab-tested products with Certificates of Analysis (COAs) for research-grade peptide products.",
+        "description_es": "Verifica los productos de Peptides Costa Rica probados en laboratorio con Certificados de Análisis (COAs) para productos peptídicos de grado de investigación."
+      },
+      "blocks": [
+        {
+          "type": "coa_list",
+          "items": [
+            {
+              "name": "5-amino-1mq 5mg",
+              "href": "/product/5-amino-1mq-5mg/",
+              "pdf": "/wp-content/uploads/2026/02/5-amino-1mq-5mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Adamax 5mg",
+              "href": "/product/adamax-5mg/",
+              "pdf": "/wp-content/uploads/2026/02/Adamax-5mg-1.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "BAC Water 10ml",
+              "href": "/product/bac-water-10ml/",
+              "pdf": "/wp-content/uploads/2026/04/BAC-Water-10ml-1.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "BAC Water 2ml",
+              "href": "/product/bac-water-2ml/",
+              "pdf": "/wp-content/uploads/2026/04/BAC-Water-2ml-1.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "BAC Water 3ml",
+              "href": "/product/bac-water-3ml/",
+              "pdf": "/wp-content/uploads/2026/04/BAC-Water-3ml-1.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "BPC-157 10mg",
+              "href": "/product/bpc-157-10mg/",
+              "pdf": "/wp-content/uploads/2026/02/bpc-157-10mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "DSIP 15mg",
+              "href": "/product/dsip-15mg/",
+              "pdf": "/wp-content/uploads/2026/02/DSIP-15mg-1.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Epithalon 50mg",
+              "href": "/product/epithalon-50mg/",
+              "pdf": "/wp-content/uploads/2026/02/Epithalon-50mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Fat Blaster 10ml",
+              "href": "/product/fat-blaster-10ml/",
+              "pdf": "/wp-content/uploads/2026/04/Fat-Blaster-10ml.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "GHK-CU 50mg",
+              "href": "/product/ghk-cu-50mg/",
+              "pdf": "/wp-content/uploads/2026/02/GHK-CU-50mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Glutathione 1500mg",
+              "href": "/product/glutathione-1500mg/",
+              "pdf": "/wp-content/uploads/2026/04/Glutathione-1500mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "HGH 12 IU",
+              "href": "/product/hgh-12-iu/",
+              "pdf": "/wp-content/uploads/2026/02/HGH-12-IU.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "HGH 30 IU",
+              "href": "/product/hgh-30-iu/",
+              "pdf": "/wp-content/uploads/2026/06/HGH-30-IU.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "HGH 50 IU (Pfizer Brand Genotropin)",
+              "href": "/product/hgh-50-iu-pfizer-brand-genotropin/",
+              "pdf": "/wp-content/uploads/2026/07/HGH-50-IU-Pfizer-Brand-Genotropin.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Ipamorelin 10mg",
+              "href": "/product/ipamorelin-10mg/",
+              "pdf": "/wp-content/uploads/2026/03/Ipamorelin-10mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "KissPeptin-10 10mg",
+              "href": "/product/kisspeptin-10-10mg/",
+              "pdf": "/wp-content/uploads/2026/04/KissPeptin-10-10mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "KLOW 80mg",
+              "href": "/product/klow-80mg/",
+              "pdf": "/wp-content/uploads/2026/02/Klow-80mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Mots-C 10mg",
+              "href": "/product/mots-c-10mg/",
+              "pdf": "/wp-content/uploads/2026/02/Mots-C10mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Mots-C 40mg",
+              "href": "/product/mots-c-40mg/",
+              "pdf": "/wp-content/uploads/2026/04/Mots-C-40mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "NAD+ 1000mg",
+              "href": "/product/nad-1000mg/",
+              "pdf": "/wp-content/uploads/2026/06/NAD-1000mg-1.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "PT-141 10mg",
+              "href": "/product/pt-141-10mgtest/",
+              "pdf": "/wp-content/uploads/2026/04/PT-141-10mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Retatrutide 20mg",
+              "href": "/product/retatrutide-20mg/",
+              "pdf": "/wp-content/uploads/2026/04/Reta-20mg-2.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Retatrutide 10mg",
+              "href": "/product/reta-10mg/",
+              "pdf": "/wp-content/uploads/2026/03/Reta-10mg-2.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Retatrutide 12mg",
+              "href": "/product/reta-12mg/",
+              "pdf": "/wp-content/uploads/2026/02/Reta-12mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Retatrutide 24mg",
+              "href": "/product/retatrutide-24mg/",
+              "pdf": "/wp-content/uploads/2026/04/Reta-24mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Retatrutide 30mg",
+              "href": "/product/reta-30mg/",
+              "pdf": "/wp-content/uploads/2026/02/Reta-30mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Retatrutide 40mg",
+              "href": "/product/reta-40mg/",
+              "pdf": "/wp-content/uploads/2026/02/Reta-40mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Retatrutide 50mg",
+              "href": "/product/retatrutide-50mg/",
+              "pdf": "/wp-content/uploads/2026/06/Retatrutide-50mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Retatrutide 60mg",
+              "href": "/product/retatrutide-60mg/",
+              "pdf": "/wp-content/uploads/2026/06/Peptides-Costarica.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Semaglutide 20mg",
+              "href": "/product/semaglutide-20mg/",
+              "pdf": "/wp-content/uploads/2026/05/Semaglutide-20mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Semaglutide 30mg",
+              "href": "/product/semaglutide-30mg/",
+              "pdf": "/wp-content/uploads/2026/05/Semaglutide-30mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Sermorelin 10mg",
+              "href": "/product/sermorelin-10mg/",
+              "pdf": "/wp-content/uploads/2026/04/Sermorelin-10mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "SS-31 10mg",
+              "href": "/product/ss-31-10mg/",
+              "pdf": "/wp-content/uploads/2026/02/SS-31-10mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "SUPER Human Blend 10ml",
+              "href": "/product/super-human-blend-10ml/",
+              "pdf": "/wp-content/uploads/2026/04/SUPER-Human-Blend-10ml.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "TB-4 10mg",
+              "href": "/product/tb-4-10mg/",
+              "pdf": "/wp-content/uploads/2026/03/TB-4-10mg-1.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Tesamorelin 10mg",
+              "href": "/product/tesamorelin-10mg/",
+              "pdf": "/wp-content/uploads/2026/02/Tesamorelin-10mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Thymalin 10mg",
+              "href": "/product/thymalin-10mg/",
+              "pdf": "/wp-content/uploads/2026/02/Thymalin-10mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Tirzepatide 10mg",
+              "href": "/product/tirzepatide-10mg/",
+              "pdf": "/wp-content/uploads/2026/05/Tirzepatide-10mg.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            },
+            {
+              "name": "Tirzepatide 20mg",
+              "href": "/product/tirzepatide-20mg/",
+              "pdf": "/wp-content/uploads/2026/05/Tirzepatide-20mg-2.pdf",
+              "tag_en": "PDF",
+              "tag_es": "PDF"
+            }
+          ]
+        }
+      ],
+      "untranslated": 0
+    },
+    {
+      "slug": "faq-costa-rica",
+      "en": "/faq-costa-rica/",
+      "es": "/es/preguntas-frecuentes-costa-rica/",
+      "head": {
+        "title_en": "FAQ's | Peptides Costa Rica",
+        "title_es": "Preguntas Frecuentes | Péptidos Costa Rica",
+        "description_en": "Buy with confidence, find answers about peptides, ordering, shipping, and quality. Call 506 8404-6973 for fast support today.",
+        "description_es": "Compre con confianza, encuentre respuestas sobre péptidos, pedidos, envíos y calidad. Llame al 506 8404-6973 para obtener asistencia rápida hoy mismo."
+      },
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 1,
+          "text_en": "FAQS",
+          "text_es": "Preguntas frecuentes"
+        },
+        {
+          "type": "heading",
+          "level": 6,
+          "text_en": "Common Questions",
+          "text_es": "Preguntas frecuentes"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Frequently Asked Questions",
+          "text_es": "Preguntas frecuentes"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We understand that making an informed decision requires clear and reliable information. Below are some frequently asked questions about our peptide products:",
+          "text_es": "Entendemos que tomar una decisión informada requiere información clara y confiable. A continuación, encontrará algunas preguntas frecuentes sobre nuestros productos peptídicos:"
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q_en": "Do you ship outside Costa Rica?",
+              "q_es": "¿Hacen envíos fuera de Costa Rica?",
+              "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers here in the country.",
+              "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al servir solo a Costa Rica, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que pagues y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales aquí en el país."
+            },
+            {
+              "q_en": "Do you offer online checkout?",
+              "q_es": "¿Ofrecen pago en línea?",
+              "a_en": "Yes, we do offer online checkout. Just reach out to us for confirming stock availability and conveniently checkout via SINPE Móvil, Zelle, or PayPal.",
+              "a_es": "Sí, ofrecemos pago en línea. Solo contáctanos para confirmar la disponibilidad de stock y realiza el pago cómodamente a través de SINPE Móvil, Zelle o PayPal."
+            },
+            {
+              "q_en": "What payment methods do you accept?",
+              "q_es": "¿Qué métodos de pago aceptan?",
+              "a_en": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+              "a_es": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
+            },
+            {
+              "q_en": "Is there a bulk discount?",
+              "q_es": "¿Hay un descuento por volumen?",
+              "a_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+              "a_es": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay."
+            },
+            {
+              "q_en": "How do I confirm product availability?",
+              "q_es": "¿Cómo confirmo la disponibilidad del producto?",
+              "a_en": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
+              "a_es": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly."
+            },
+            {
+              "q_en": "Are Certificates of Analysis available?",
+              "q_es": "¿Se encuentran disponibles los Certificados de Análisis?",
+              "a_en": "Yes. We offer Certificates of Analysis (COAs) for our products to give you clear documentation and peace of mind.If you want a COA for a certain product, just ask when you check availability. We believe in being clear and providing proper documentation.",
+              "a_es": "Yes. We offer Certificates of Analysis (COAs) for our products to give you clear documentation and peace of mind.If you want a COA for a certain product, just ask when you check availability. We believe in being clear and providing proper documentation."
+            },
+            {
+              "q_en": "How is delivery handled?",
+              "q_es": "¿Cómo se gestiona la entrega?",
+              "a_en": "We arrange delivery within Costa Rica once your payment is confirmed.Delivery time depends on where you are and what you order. We’ll go over all the details with you during the order process to keep things clear.",
+              "a_es": "We arrange delivery within Costa Rica once your payment is confirmed.Delivery time depends on where you are and what you order. We’ll go over all the details with you during the order process to keep things clear."
+            },
+            {
+              "q_en": "Do you provide medical advice?",
+              "q_es": "¿Proporcionan asesoramiento médico?",
+              "a_en": "No.Peptides Costa Rica only shares general product information for educational purposes. We don’t give medical advice, diagnoses, or treatment recommendations.You should always talk to a qualified healthcare professional about your health and whether a product is right for you.",
+              "a_es": "No.Peptides Costa Rica only shares general product information for educational purposes. We don’t give medical advice, diagnoses, or treatment recommendations.You should always talk to a qualified healthcare professional about your health and whether a product is right for you."
+            },
+            {
+              "q_en": "Are your products intended for resale outside Costa Rica?",
+              "q_es": "¿Sus productos están destinados a la reventa fuera de Costa Rica?",
+              "a_en": "No.We are set up to serve customers in Costa Rica only. We don’t ship or distribute internationally.",
+              "a_es": "No.We are set up to serve customers in Costa Rica only. We don’t ship or distribute internationally."
+            },
+            {
+              "q_en": "Why choose a local supplier instead of ordering internationally?",
+              "q_es": "¿Por qué elegir un proveedor local en lugar de hacer un pedido internacional?",
+              "a_en": "Ordering from abroad can bring problems like shipping delays, customs issues, payment restrictions, and surprise import fees.By operating locally, we provide:Confirmed availability before paymentDirect communicationTransparent pricingSimplified delivery coordinationWe focus on being clear and reliable.",
+              "a_es": "Ordering from abroad can bring problems like shipping delays, customs issues, payment restrictions, and surprise import fees.By operating locally, we provide:Confirmed availability before paymentDirect communicationTransparent pricingSimplified delivery coordinationWe focus on being clear and reliable."
+            },
+            {
+              "q_en": "Is pricing final?",
+              "q_es": "¿El precio es final?",
+              "a_en": "Prices are listed per vial.Bulk discounts are available when you buy enough. We always confirm your total cost before you pay, so there are no surprises.",
+              "a_es": "Prices are listed per vial.Bulk discounts are available when you buy enough. We always confirm your total cost before you pay, so there are no surprises."
+            },
+            {
+              "q_en": "Can I request products not currently listed?",
+              "q_es": "¿Puedo solicitar productos que no se encuentran listados actualmente?",
+              "a_en": "We regularly look at what customers want and add new products when we can.If you’re looking for something we don’t list, just contact us to ask if we can get it.",
+              "a_es": "We regularly look at what customers want and add new products when we can.If you’re looking for something we don’t list, just contact us to ask if we can get it."
+            },
+            {
+              "q_en": "How quickly do you respond to inquiries?",
+              "q_es": "¿A qué velocidad respondes a las consultas?",
+              "a_en": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication.",
+              "a_es": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication."
+            },
+            {
+              "q_en": "Is there a minimum order requirement?",
+              "q_es": "¿Hay un requisito de pedido mínimo?",
+              "a_en": "There is no mandatory minimum order.But if you buy five or more vials of the same product, you’ll get a 15% bulk discount.",
+              "a_es": "There is no mandatory minimum order.But if you buy five or more vials of the same product, you’ll get a 15% bulk discount."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers here in the country.",
+          "text_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al servir solo a Costa Rica, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que pagues y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales aquí en el país."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Yes, we do offer online checkout. Just reach out to us for confirming stock availability and conveniently checkout via SINPE Móvil, Zelle, or PayPal.",
+          "text_es": "Sí, ofrecemos pago en línea. Solo contáctanos para confirmar la disponibilidad de stock y realiza el pago cómodamente a través de SINPE Móvil, Zelle o PayPal."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We currently accept:",
+          "text_es": "Actualmente aceptamos:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "SINPE MóvilZellePayPalCash",
+          "text_es": "SINPE MóvilZellePayPalCash"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Once we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+          "text_es": "Una vez que confirmemos que tu pedido está en stock, te enviaremos las instrucciones de pago. Nos aseguramos de que el proceso sea sencillo y de que conozcas el precio total antes de pagar."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Yes.",
+          "text_es": "Sí."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Purchase five or more vials of the same product and receive 15% off.",
+          "text_es": "Compra cinco o más frascos del mismo producto y obtén un descuento de 15%."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+          "text_es": "No hay reglas de precios complicadas ni cargos ocultos. Calculamos cualquier descuento por volumen con anticipación, para que siempre sepas qué esperar antes de pagar."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Just reach out to us using the phone number or contact details on our website.",
+          "text_es": "Contáctanos usando el número de teléfono o los datos de contacto de nuestra página web."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
+          "text_es": "Siempre verificamos que tus artículos estén en stock antes de que pagues. De esta manera, nunca pagas por algo que no podemos entregar y podemos coordinar la entrega sin problemas."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Yes. We offer Certificates of Analysis (COAs) for our products to give you clear documentation and peace of mind.",
+          "text_es": "Sí. Ofrecemos Certificados de Análisis (COAs) para nuestros productos que le brindan documentación clara y tranquilidad."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "If you want a COA for a certain product, just ask when you check availability. We believe in being clear and providing proper documentation.",
+          "text_es": "Si desea un COA para un producto específico, solo solicítelo al consultar disponibilidad. Creemos en la transparencia y en proporcionar la documentación adecuada."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We arrange delivery within Costa Rica once your payment is confirmed.",
+          "text_es": "Coordinamos la entrega dentro de Costa Rica una vez que se confirma tu pago."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Delivery time depends on where you are and what you order. We’ll go over all the details with you during the order process to keep things clear.",
+          "text_es": "El tiempo de entrega depende de tu ubicación y de lo que pidas. Abordaremos todos los detalles contigo durante el proceso de pedido para mantener las cosas claras."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "No.Peptides Costa Rica only shares general product information for educational purposes. We don’t give medical advice, diagnoses, or treatment recommendations.You should always talk to a qualified healthcare professional about your health and whether a product is right for you.",
+          "text_es": "No.Peptides Costa Rica only shares general product information for educational purposes. We don’t give medical advice, diagnoses, or treatment recommendations.You should always talk to a qualified healthcare professional about your health and whether a product is right for you."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "No.",
+          "text_es": "No."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We are set up to serve customers in Costa Rica only. We don’t ship or distribute internationally.",
+          "text_es": "Estamos configurados para atender solo a clientes en Costa Rica. No enviamos ni distribuimos internacionalmente."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Ordering from abroad can bring problems like shipping delays, customs issues, payment restrictions, and surprise import fees.",
+          "text_es": "Pedir desde el extranjero puede traer problemas como retrasos en el envío, problemas aduaneros, restricciones de pago y aranceles de importación inesperados."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "By operating locally, we provide:",
+          "text_es": "Al operar localmente, brindamos:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Confirmed availability before paymentDirect communicationTransparent pricingSimplified delivery coordination",
+          "text_es": "Confirmed availability before paymentDirect communicationTransparent pricingSimplified delivery coordination"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We focus on being clear and reliable.",
+          "text_es": "Nos enfocamos en ser claros y confiables."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Prices are listed per vial.",
+          "text_es": "Los precios se muestran por vial."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Bulk discounts are available when you buy enough. We always confirm your total cost before you pay, so there are no surprises.",
+          "text_es": "Ofrecemos descuentos por volumen si compra suficientes productos. Siempre confirmamos el costo total antes de que pague para que no haya sorpresas."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We regularly look at what customers want and add new products when we can.",
+          "text_es": "Examinamos regularmente lo que los clientes quieren y agregamos nuevos productos cuando podemos."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "If you’re looking for something we don’t list, just contact us to ask if we can get it.",
+          "text_es": "Si buscas algo que no tenemos en lista, solo contáctanos para preguntar si podemos conseguirlo."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We try to reply quickly to questions about availability and orders.",
+          "text_es": "Intentamos responder rápidamente a las preguntas sobre disponibilidad y pedidos."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Talking directly with you is part of our local service. We always aim for clear and efficient communication.",
+          "text_es": "Hablar directamente contigo es parte de nuestro servicio local. Siempre buscamos una comunicación clara y eficiente."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "There is no mandatory minimum order.",
+          "text_es": "No hay pedido mínimo obligatorio."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "But if you buy five or more vials of the same product, you’ll get a 15% bulk discount.",
+          "text_es": "Pero si compras cinco o más frascos del mismo producto, obtendrás un descuento por volumen de 15%."
+        }
+      ],
+      "untranslated": 15
+    },
+    {
+      "slug": "contact-costa-rica",
+      "en": "/contact-costa-rica/",
+      "es": "/es/contactar-costa-rica/",
+      "head": {
+        "title_en": "Contact Us | Peptides Costa Rica",
+        "title_es": "Contáctanos | Péptidos Costa Rica",
+        "description_en": "Peptides Costa Rica for inquiries, orders, and support. Call 506 8404-6973 for fast assistance and expert guidance today.",
+        "description_es": "Péptidos Costa Rica para consultas, pedidos y soporte. Llame al 506 8404-6973 para recibir asistencia rápida y orientación experta hoy mismo."
+      },
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 1,
+          "text_en": "Contact Us",
+          "text_es": "Contáctanos"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Welcome to Peptides Costa Rica, your trusted partner in the world of premium peptides. We are proud to be one of the most reputable peptide suppliers in Costa Rica, offering a seamless and reliable service to our valued clients. Our commitment to quality, transparency, and customer satisfaction means that every inquiry you submit to us is treated with the utmost importance. Here, you will find a comprehensive guide on how to get in touch with us, understand our service standards, and learn more about what makes our products and support truly outstanding.",
+          "text_es": "Bienvenido a Peptides Costa Rica, su socio de confianza en el mundo de péptidos de primera calidad. Nos enorgullece ser uno de los proveedores de péptidos más reputados de Costa Rica, ofreciendo un servicio eficiente y confiable a nuestros valiosos clientes. Nuestro compromiso con la calidad, la transparencia y la satisfacción del cliente significa que cada consulta que nos envíe será tratada con la máxima atención. Aquí encontrará una guía completa sobre cómo ponerse en contacto con nosotros, comprender nuestros estándares de servicio y aprender más sobre lo que hace que nuestros productos y soporte sean verdaderamente excepcionales."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Get in touch",
+          "text_es": "Ponte en contacto"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We have designed our contact system to ensure that you can reach us quickly and conveniently. Whether your inquiry is about product details, order tracking, or general support, we provide multiple options to connect with our team.",
+          "text_es": "Hemos diseñado nuestro sistema de contacto para garantizar que pueda comunicarse con nosotros de manera rápida y conveniente. Ya sea que su consulta sea sobre detalles del producto, seguimiento de pedidos o soporte general, ofrecemos múltiples opciones para conectarse con nuestro equipo."
+        },
+        {
+          "type": "card",
+          "title_en": "US Phone",
+          "title_es": "Teléfono de EE. UU.",
+          "text_en": "+1 (831) 471-5559",
+          "text_es": "+1 (831) 471-5559",
+          "href": "tel:+1-831-471-5559"
+        },
+        {
+          "type": "card",
+          "title_en": "CR Phone",
+          "title_es": "Teléfono CR",
+          "text_en": "+506 8404-6973",
+          "text_es": "+506 8404-6973",
+          "href": "tel:+50684046973"
+        },
+        {
+          "type": "card",
+          "title_en": "Email Address",
+          "title_es": "Dirección de correo electrónico",
+          "text_en": "info@peptidescostarica.net",
+          "text_es": "info@peptidescostarica.net",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Address",
+          "title_es": "Dirección",
+          "text_en": "Jaco, Costa Rica",
+          "text_es": "Jaco, Costa Rica",
+          "href": "/AgpzEd8NNRKYNbJj9"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Send us a message",
+          "text_es": "Envíanos un mensaje"
+        },
+        {
+          "type": "heading",
+          "level": 6,
+          "text_en": "Why choose us",
+          "text_es": "¿Por qué elegirnos?"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Trusted Quality",
+          "text_es": "Calidad Confiable"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "The science behind peptides is both fascinating and transformative. Peptides are short chains of amino acids that play a crucial role in the regulation of bodily functions, including",
+          "text_es": "La ciencia detrás de los péptidos es fascinante y transformadora. Los péptidos son cadenas cortas de aminoácidos que desempeñan un papel crucial en la regulación de las funciones corporales, incluyendo"
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/05/Untitled-design-36-1-1024x576.webp",
+          "alt_en": "Peptides For Anti Aging",
+          "alt_es": "Péptidos Antienvejecimiento"
+        },
+        {
+          "type": "card",
+          "title_en": "Weight Management",
+          "title_es": "Control de peso",
+          "text_en": "Certain peptides can promote fat breakdown and support metabolism, making them a powerful tool in weight loss regimes.",
+          "text_es": "Ciertos péptidos pueden promover la descomposición de la grasa y apoyar el metabolismo, convirtiéndolos en una herramienta poderosa en los regímenes de pérdida de peso.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Muscle Growth",
+          "title_es": "Crecimiento muscular",
+          "text_en": "By stimulating muscle protein synthesis, peptides help build lean muscle mass, promoting strength and endurance.",
+          "text_es": "Al estimular la síntesis de proteínas musculares, los péptidos ayudan a desarrollar masa muscular magra, promoviendo la fuerza y la resistencia.",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Energy and Vitality",
+          "title_es": "Energía y Vitalidad",
+          "text_en": "Enhanced energy levels and improved recovery times enable a more active and fulfilling lifestyle.",
+          "text_es": "Los niveles de energía mejorados y los tiempos de recuperación optimizados permiten un estilo de vida más activo y pleno.",
+          "href": null
+        },
+        {
+          "type": "heading",
+          "level": 6,
+          "text_en": "Common Questions",
+          "text_es": "Preguntas frecuentes"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Frequently Asked Questions",
+          "text_es": "Preguntas frecuentes"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We understand that making an informed decision requires clear and reliable information. Below are some frequently asked questions about our peptide products:",
+          "text_es": "Entendemos que tomar una decisión informada requiere información clara y confiable. A continuación, encontrará algunas preguntas frecuentes sobre nuestros productos peptídicos:"
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q_en": "Do you ship outside Costa Rica?",
+              "q_es": "¿Hacen envíos fuera de Costa Rica?",
+              "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+              "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al atender solo a Costa Rica, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
+            },
+            {
+              "q_en": "What payment methods do you accept?",
+              "q_es": "¿Qué métodos de pago aceptan?",
+              "a_en": "We currently accept:SINPE MóvilZellePayPalCashJust add your products to the cart and do an easy online checkout. We make sure the process is simple and you know the total price before you pay.",
+              "a_es": "We currently accept:SINPE MóvilZellePayPalCashJust add your products to the cart and do an easy online checkout. We make sure the process is simple and you know the total price before you pay."
+            },
+            {
+              "q_en": "Is there a bulk discount?",
+              "q_es": "¿Hay un descuento por volumen?",
+              "a_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+              "a_es": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay."
+            },
+            {
+              "q_en": "How do I confirm product availability?",
+              "q_es": "¿Cómo confirmo la disponibilidad del producto?",
+              "a_en": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
+              "a_es": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+          "text_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al atender solo a Costa Rica, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We currently accept:",
+          "text_es": "Actualmente aceptamos:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "SINPE MóvilZellePayPalCash",
+          "text_es": "SINPE MóvilZellePayPalCash"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Just add your products to the cart and do an easy online checkout. We make sure the process is simple and you know the total price before you pay.",
+          "text_es": "Solo agrega tus productos al carrito y realiza un pago en línea sencillo. Nos aseguramos de que el proceso sea fácil y de que conozcas el precio total antes de pagar."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Yes.",
+          "text_es": "Sí."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Purchase five or more vials of the same product and receive 15% off.",
+          "text_es": "Compra cinco o más frascos del mismo producto y obtén un descuento de 15%."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+          "text_es": "No hay reglas de precios complicadas ni cargos ocultos. Calculamos cualquier descuento por volumen con anticipación, para que siempre sepas qué esperar antes de pagar."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Just reach out to us using the phone number or contact details on our website.",
+          "text_es": "Contáctanos usando el número de teléfono o los datos de contacto de nuestra página web."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
+          "text_es": "Siempre verificamos que tus artículos estén en stock antes de que pagues. De esta manera, nunca pagas por algo que no podemos entregar y podemos coordinar la entrega sin problemas."
+        }
+      ],
+      "untranslated": 4
+    },
+    {
+      "slug": "customer-feedback",
+      "en": "/customer-feedback/",
+      "es": "/es/comentarios-de-clientes/",
+      "head": {
+        "title_en": "Customer Feedback | Peptides Costa Rica",
+        "title_es": "Comentarios de Clientes | Péptidos Costa Rica",
+        "description_en": "Buy with confidence, find answers about peptides, ordering, shipping, and quality. Call 506 8404-6973 for fast support today.",
+        "description_es": "Compre con confianza, encuentre respuestas sobre péptidos, pedidos, envíos y calidad. Llame al 506 8404-6973 para obtener asistencia rápida hoy mismo."
+      },
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 1,
+          "text_en": "Customer Feedback",
+          "text_es": "Comentarios del cliente"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Rated (3.7/5) based on 1 review. Showing our latest reviews.",
+          "text_es": "Calificado (3.7/5) basado en 1 reseña. Mostrando nuestras últimas reseñas."
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/03/Bilal1-1.png",
+          "alt_en": "Trustpilot logo and text.",
+          "alt_es": "Trustpilot logo and text."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Customer Reviews",
+          "text_es": "Reseñas de clientes"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Insights and experiences from from our growing community of satisfied customers.",
+          "text_es": "Perspectivas y experiencias de nuestra creciente comunidad de clientes satisfechos."
+        }
+      ],
+      "untranslated": 0
+    },
+    {
+      "slug": "our-service-locations",
+      "en": "/our-service-locations/",
+      "es": "/es/nuestras-ubicaciones-de-servicio/",
+      "head": {
+        "title_en": "Peptides Available Across Costa Rica | Service Locations",
+        "title_es": "Péptidos disponibles en Costa Rica | Ubicaciones de servicio",
+        "description_en": "Find peptide service locations across Costa Rica. Peptides Costa Rica supports customers in major provinces with availability checks, secure ordering, and local delivery coordination.",
+        "description_es": "Encuentra ubicaciones de servicios de péptidos en Costa Rica. Peptides Costa Rica apoya a clientes en las principales provincias con verificaciones de disponibilidad, pedidos seguros y coordinación de entrega local."
+      },
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 1,
+          "text_en": "Our Service Locations",
+          "text_es": "Nuestras Ubicaciones de Servicio"
+        },
+        {
+          "type": "table",
+          "header_en": null,
+          "header_es": null,
+          "rows_en": [
+            [
+              "Sabanilla",
+              "Granadilla",
+              "San Josecito",
+              "Escazu",
+              "San Antonio"
+            ],
+            [
+              "Daniel Flores",
+              "San Vicente de Moravia",
+              "San Vicente",
+              "Curridabat",
+              "San Isidro de El General"
+            ],
+            [
+              "San Francisco",
+              "Purral",
+              "San Miguel",
+              "San Pedro",
+              "San Rafael Abajo"
+            ],
+            [
+              "Ipis",
+              "San Juan",
+              "Guadalupe",
+              "Aserri",
+              "San Felipe"
+            ],
+            [
+              "Patarra",
+              "Calle Blancos",
+              "San Juan de Dios",
+              "San Rafael Arriba",
+              "Desamparados"
+            ],
+            [
+              "Alajuelita",
+              "Barrio Escalante",
+              "Santa Ana",
+              "",
+              ""
+            ]
+          ],
+          "rows_es": [
+            [
+              "Sabanilla",
+              "Maracuyá",
+              "San Josecito",
+              "Escazú",
+              "San Antonio"
+            ],
+            [
+              "Daniel Flores",
+              "San Vicente de Moravia",
+              "San Vicente",
+              "Curridabat",
+              "San Isidro de El General"
+            ],
+            [
+              "San Francisco",
+              "Purral",
+              "San Miguel",
+              "San Pedro",
+              "San Rafael Abajo"
+            ],
+            [
+              "Ipis",
+              "San Juan",
+              "Guadalupe",
+              "Aserrí",
+              "San Felipe"
+            ],
+            [
+              "Pata",
+              "Calle Blancos",
+              "San Juan de Dios",
+              "San Rafael Arriba",
+              "Desamparados"
+            ],
+            [
+              "Alajuelita",
+              "Barrio Escalante",
+              "Santa Ana",
+              "",
+              ""
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "header_en": null,
+          "header_es": null,
+          "rows_en": [
+            [
+              "Esparza",
+              "Chacarita",
+              "Buenos Aires",
+              "Montezuma",
+              "Malpais"
+            ],
+            [
+              "Tambor",
+              "Playa Herradura",
+              "Playa Hermosa",
+              "Paquera",
+              "Jaco"
+            ],
+            [
+              "Manuel Antonio",
+              "Quepos",
+              "Monteverde",
+              "Santa Teresa",
+              "Uvita"
+            ],
+            [
+              "Dominical",
+              "Los Sueños",
+              "Santa Elena",
+              "Cobano",
+              "Puerto Jimenez"
+            ],
+            [
+              "Golfito",
+              "Pavones",
+              "",
+              "",
+              ""
+            ]
+          ],
+          "rows_es": [
+            [
+              "Esparza",
+              "Chacarita",
+              "Buenos Aires",
+              "Moctezuma",
+              "Malpaís"
+            ],
+            [
+              "Tambor",
+              "Playa Herradura",
+              "Playa Hermosa",
+              "Coqueta",
+              "Chaqueta"
+            ],
+            [
+              "Manuel Antonio",
+              "Quepos",
+              "Monteverde",
+              "Santa Teresa",
+              "Uvita"
+            ],
+            [
+              "Dominical",
+              "Los Sueños",
+              "Santa Elena",
+              "Cobano",
+              "Puerto Jiménez"
+            ],
+            [
+              "Golfito",
+              "Pavones",
+              "",
+              "",
+              ""
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "header_en": null,
+          "header_es": null,
+          "rows_en": [
+            [
+              "Guapiles",
+              "Siquirres",
+              "Puerto Viejo",
+              "Cahuita",
+              "Manzanillo"
+            ],
+            [
+              "Tortuguero",
+              "",
+              "",
+              "",
+              ""
+            ]
+          ],
+          "rows_es": [
+            [
+              "Guapiles",
+              "Siquirres",
+              "Puerto Viejo",
+              "Cahuita",
+              "Manzanillo"
+            ],
+            [
+              "Tortuguero",
+              "",
+              "",
+              "",
+              ""
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "header_en": null,
+          "header_es": null,
+          "rows_en": [
+            [
+              "Mercedes",
+              "San Rafael",
+              "San Pablo",
+              "Colima",
+              "Sarapiqui"
+            ]
+          ],
+          "rows_es": [
+            [
+              "Mercedes",
+              "San Rafael",
+              "San Pablo",
+              "Colima",
+              "Sarapiquí"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "header_en": null,
+          "header_es": null,
+          "rows_en": [
+            [
+              "Liberia",
+              "Canas",
+              "Nicoya",
+              "Tamarindo",
+              "Nosara"
+            ],
+            [
+              "Playas del Coco",
+              "Playa Conchal",
+              "Playa Flamingo",
+              "Samara",
+              "Puerto Carrillo"
+            ]
+          ],
+          "rows_es": [
+            [
+              "Liberia",
+              "Canas",
+              "Nicoya",
+              "Tamarindo",
+              "Nosara"
+            ],
+            [
+              "Playas del Coco",
+              "Playa Conchal",
+              "Playa Flamingo",
+              "Samara",
+              "Puerto Carrillo"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "header_en": null,
+          "header_es": null,
+          "rows_en": [
+            [
+              "Paraiso",
+              "Turrialba",
+              "Tejar",
+              "San Diego",
+              "Tres Rios"
+            ],
+            [
+              "Orosi",
+              "Cachi",
+              "",
+              "",
+              ""
+            ]
+          ],
+          "rows_es": [
+            [
+              "Paraíso",
+              "Turrialba",
+              "Tejar",
+              "San Diego",
+              "Tres Ríos"
+            ],
+            [
+              "Orosi",
+              "Cachi",
+              "",
+              "",
+              ""
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "header_en": null,
+          "header_es": null,
+          "rows_en": [
+            [
+              "Quesada",
+              "Naranjo",
+              "San Ramon",
+              "La Fortuna",
+              "Arenal"
+            ],
+            [
+              "El Castillo",
+              "Rio Celeste",
+              "Bijagua",
+              "",
+              ""
+            ]
+          ],
+          "rows_es": [
+            [
+              "Quesada",
+              "Naranja",
+              "San Ramón",
+              "La Fortuna",
+              "Arenal"
+            ],
+            [
+              "El Castillo",
+              "Río Celeste",
+              "Bijagua",
+              "",
+              ""
+            ]
+          ]
+        }
+      ],
+      "untranslated": 0
+    },
+    {
+      "slug": "all-peptide-products-costa-rica",
+      "en": "/all-peptide-products-costa-rica/",
+      "es": "/es/todos-los-productos-de-peptidos-costa-rica/",
+      "head": {
+        "title_en": "Buy All Peptide Products | Peptides Costa Rica",
+        "title_es": "Comprar Todos los Productos de Péptidos | Péptidos Costa Rica",
+        "description_en": "Buy now premium research peptides for weight loss, recovery, and performance. Call 506 8404-6973 to order high-quality peptides today.",
+        "description_es": "Compre ahora péptidos de investigación premium para pérdida de peso, recuperación y rendimiento. Llame al 506 8404-6973 para pedir péptidos de alta calidad hoy mismo."
+      },
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 1,
+          "text_en": "Our Products",
+          "text_es": "Nuestros Productos"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Peptides Costa Rica offers a carefully chosen range of peptide products, available exclusively within Costa Rica.",
+          "text_es": "Peptides Costa Rica ofrece una gama cuidadosamente seleccionada de productos peptídicos, disponibles exclusivamente dentro de Costa Rica."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "All prices are listed per vial",
+          "text_es": "Todos los precios se muestran por vial"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Our catalog is for anyone interested in performance, recovery, metabolism, mental clarity, or regeneration. Each product lists its price and shows if you can save by buying in bulk.",
+          "text_es": "Nuestro catálogo es para cualquier persona interesada en rendimiento, recuperación, metabolismo, claridad mental o regeneración. Cada producto lista su precio y muestra si puedes ahorrar al comprar al por mayor."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "When you buy five or more vials of the same product, you receive a 15% discount.",
+          "text_es": "Cuando compras cinco o más frascos del mismo producto, recibes un descuento de 15%."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "We confirm that your chosen products are in stock before you make any payment.",
+          "text_es": "Confirmamos que sus productos elegidos están en stock antes de que realice cualquier pago."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "All Peptides Products",
+          "text_es": "Todos los Productos de Péptidos"
+        },
+        {
+          "type": "product_grid",
+          "products": [
+            {
+              "name": "5-amino-1mq 5mg",
+              "price": "₡ 27,252",
+              "href": "/product/5-amino-1mq-5mg/",
+              "image": "/wp-content/uploads/2026/02/5-Amino-1MQ-1-300x300.jpg"
+            },
+            {
+              "name": "Adamax 5mg",
+              "price": "₡ 74,942",
+              "href": "/product/adamax-5mg/",
+              "image": "/wp-content/uploads/2026/02/Adamax-1-300x300.jpg"
+            },
+            {
+              "name": "AICAR 50mg",
+              "price": "₡ 43,149",
+              "href": "/product/aicar-50mg/",
+              "image": "/wp-content/uploads/2026/05/AICAR-50mg-300x300.webp"
+            },
+            {
+              "name": "BAC Water 10ml",
+              "price": "",
+              "href": "/product/bac-water-10ml/",
+              "image": "/wp-content/uploads/2026/04/BAC-Water-10-1-300x300.jpg"
+            },
+            {
+              "name": "BAC Water 2ml",
+              "price": "",
+              "href": "/product/bac-water-2ml/",
+              "image": "/wp-content/uploads/2026/04/BAC-Water-2-1-300x300.jpg"
+            },
+            {
+              "name": "BAC Water 3ml",
+              "price": "₡ 4,542",
+              "href": "/product/bac-water-3ml/",
+              "image": "/wp-content/uploads/2026/04/BAC-Water-3-1-300x300.jpg"
+            },
+            {
+              "name": "BPC-157 + TB 500 20mg (Wolverine Stack)",
+              "price": "",
+              "href": "/product/bpc-157-tb-500-20mg-wolverine-stack/",
+              "image": "/wp-content/uploads/2026/03/BPC-157-TB-500-1-300x300.jpg"
+            },
+            {
+              "name": "BPC-157 10mg",
+              "price": "₡ 40,878",
+              "href": "/product/bpc-157-10mg/",
+              "image": "/wp-content/uploads/2026/02/BPC-157-2-300x300.jpg"
+            },
+            {
+              "name": "Cartalax 20mg",
+              "price": "₡ 45,420",
+              "href": "/product/cartalax-20mg/",
+              "image": "/wp-content/uploads/2026/06/Cartalax-20mg-1-300x300.webp"
+            },
+            {
+              "name": "CJC with DAC 5mg",
+              "price": "",
+              "href": "/product/cjc-with-dac-5mg/",
+              "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+            },
+            {
+              "name": "CJC-1295 without DAC + IPA 10mg",
+              "price": "",
+              "href": "/product/cjc-1295-without-dac-ipa-10mg/",
+              "image": "/wp-content/uploads/2026/05/CJC-1295-without-DAC-IPA-1-1-300x300.webp"
+            },
+            {
+              "name": "DSIP 10mg",
+              "price": "",
+              "href": "/product/dsip-10mg/",
+              "image": "/wp-content/uploads/2026/07/DSIP-10-mg.jpg-300x300.jpeg"
+            },
+            {
+              "name": "DSIP 15mg",
+              "price": "₡ 61,316",
+              "href": "/product/dsip-15mg/",
+              "image": "/wp-content/uploads/2026/02/DSIP-1-300x300.jpg"
+            },
+            {
+              "name": "Epithalon 50mg",
+              "price": "₡ 77,213",
+              "href": "/product/epithalon-50mg/",
+              "image": "/wp-content/uploads/2026/02/Epithalon-1-300x300.jpg"
+            },
+            {
+              "name": "Fat Blaster 10ml",
+              "price": "₡ 49,962",
+              "href": "/product/fat-blaster-10ml/",
+              "image": "/wp-content/uploads/2026/04/Untitled-design-1-300x300.webp"
+            },
+            {
+              "name": "GHK-CU 100mg",
+              "price": "₡ 45,420",
+              "href": "/product/ghk-cu-100mg/",
+              "image": "/wp-content/uploads/2026/05/GHK-CU-100-2-300x300.webp"
+            },
+            {
+              "name": "GHK-CU 50mg",
+              "price": "₡ 31,794",
+              "href": "/product/ghk-cu-50mg/",
+              "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
+            },
+            {
+              "name": "GLOW 50mg",
+              "price": "₡ 54,503",
+              "href": "/product/glow-50mg/",
+              "image": "/wp-content/uploads/2026/05/GLOW-50-1-300x300.webp"
+            },
+            {
+              "name": "GLOW 70mg",
+              "price": "₡ 68,129",
+              "href": "/product/glow-70mg/",
+              "image": "/wp-content/uploads/2026/03/GLOW-1-300x300.jpg"
+            },
+            {
+              "name": "Glutathione 1500mg",
+              "price": "₡ 45,420",
+              "href": "/product/glutathione-1500mg/",
+              "image": "/wp-content/uploads/2026/04/Glutathione-1-300x300.jpg"
+            },
+            {
+              "name": "HCG 10,000 IU",
+              "price": "₡ 72,671",
+              "href": "/product/hcg-10000-iu/",
+              "image": "/wp-content/uploads/2026/02/HCG-1-1-300x300.jpg"
+            },
+            {
+              "name": "HGH 12 IU",
+              "price": "₡ 31,794",
+              "href": "/product/hgh-12-iu/",
+              "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
+            },
+            {
+              "name": "HGH 24 IU",
+              "price": "₡ 54,503",
+              "href": "/product/hgh-24-iu/",
+              "image": "/wp-content/uploads/2026/02/HGH-24-1-300x300.jpg"
+            },
+            {
+              "name": "HGH 30 IU",
+              "price": "₡ 56,774",
+              "href": "/product/hgh-30-iu/",
+              "image": "/wp-content/uploads/2026/06/Untitled-design-10-300x300.webp"
+            },
+            {
+              "name": "HGH 50 IU (Pfizer Brand Genotropin)",
+              "price": "",
+              "href": "/product/hgh-50-iu-pfizer-brand-genotropin/",
+              "image": "/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-08-at-1.59.24-AM-300x300.jpeg"
+            },
+            {
+              "name": "IGF-1LR3 1mg",
+              "price": "₡ 72,671",
+              "href": "/product/igf-1lr3-1mg/",
+              "image": "/wp-content/uploads/2026/04/IGF-1mg.jpg-300x300.jpeg"
+            },
+            {
+              "name": "Ipamorelin 10mg",
+              "price": "₡ 45,420",
+              "href": "/product/ipamorelin-10mg/",
+              "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
+            },
+            {
+              "name": "KissPeptin-10 10mg",
+              "price": "₡ 59,045",
+              "href": "/product/kisspeptin-10-10mg/",
+              "image": "/wp-content/uploads/2026/04/Kisspeptin-10-1-300x300.jpg"
+            },
+            {
+              "name": "KLOW 80mg",
+              "price": "₡ 81,755",
+              "href": "/product/klow-80mg/",
+              "image": "/wp-content/uploads/2026/02/KLOW-1-300x300.jpg"
+            },
+            {
+              "name": "KPV 10mg",
+              "price": "₡ 40,878",
+              "href": "/product/kpv-10mg/",
+              "image": "/wp-content/uploads/2026/05/KPV-1-1-300x300.webp"
+            },
+            {
+              "name": "Mots-C 10mg",
+              "price": "₡ 40,878",
+              "href": "/product/mots-c-10mg/",
+              "image": "/wp-content/uploads/2026/02/MOTS-C-10-1-300x300.jpg"
+            },
+            {
+              "name": "Mots-C 40mg",
+              "price": "₡ 68,129",
+              "href": "/product/mots-c-40mg/",
+              "image": "/wp-content/uploads/2026/04/MOTS-C-40-1-300x300.jpg"
+            },
+            {
+              "name": "MT-II",
+              "price": "₡ 40,878",
+              "href": "/product/mt-ii/",
+              "image": "/wp-content/uploads/2026/05/MT-II-1-300x300.webp"
+            },
+            {
+              "name": "NAD+ 1000mg",
+              "price": "₡ 68,784",
+              "href": "/product/nad-1000mg/",
+              "image": "/wp-content/uploads/2026/06/NAD-1000mg-1-300x300.webp"
+            },
+            {
+              "name": "NAD+ 500mg",
+              "price": "",
+              "href": "/product/nad-500mg/",
+              "image": "/wp-content/uploads/2026/02/NAD-1-300x300.jpg"
+            },
+            {
+              "name": "Pinealon 20mg",
+              "price": "₡ 54,503",
+              "href": "/product/pinealon-20mg/",
+              "image": "/wp-content/uploads/2026/05/Pinealon-20-1-300x300.webp"
+            },
+            {
+              "name": "PT-141 10mg",
+              "price": "₡ 56,774",
+              "href": "/product/pt-141-10mgtest/",
+              "image": "/wp-content/uploads/2026/04/PT-141-1-300x300.jpg"
+            },
+            {
+              "name": "Retatrutide 20mg",
+              "price": "₡ 68,129",
+              "href": "/product/retatrutide-20mg/",
+              "image": "/wp-content/uploads/2026/04/Retatrutide-20mg-1-300x300.jpg"
+            },
+            {
+              "name": "Retatrutide 10mg",
+              "price": "₡ 56,774",
+              "href": "/product/reta-10mg/",
+              "image": "/wp-content/uploads/2026/03/Retatrutide-10mg-1-300x300.jpg"
+            },
+            {
+              "name": "Retatrutide 12mg",
+              "price": "₡ 61,316",
+              "href": "/product/reta-12mg/",
+              "image": "/wp-content/uploads/2026/02/Retatrutide-12mg-1-300x300.jpg"
+            },
+            {
+              "name": "Retatrutide 15mg",
+              "price": "₡ 63,587",
+              "href": "/product/retatrutide-15mg/",
+              "image": "/wp-content/uploads/2026/04/Retatrutide-15mg-1-300x300.jpg"
+            },
+            {
+              "name": "Retatrutide 24mg",
+              "price": "₡ 74,942",
+              "href": "/product/retatrutide-24mg/",
+              "image": "/wp-content/uploads/2026/04/Retatrutide-24mg-1-300x300.jpg"
+            },
+            {
+              "name": "Retatrutide 25mg",
+              "price": "",
+              "href": "/product/retatrutide-25mg/",
+              "image": "/wp-content/uploads/2026/06/Retatrutide-25mg-1.jpg-300x300.jpeg"
+            },
+            {
+              "name": "Retatrutide 30mg",
+              "price": "₡ 81,755",
+              "href": "/product/reta-30mg/",
+              "image": "/wp-content/uploads/2026/02/Retatrutide-30mg-1-300x300.jpg"
+            },
+            {
+              "name": "Retatrutide 40mg",
+              "price": "₡ 95,381",
+              "href": "/product/reta-40mg/",
+              "image": "/wp-content/uploads/2026/02/Retatrutide-40mg-1-300x300.jpg"
+            },
+            {
+              "name": "Retatrutide 50mg",
+              "price": "₡ 109,007",
+              "href": "/product/retatrutide-50mg/",
+              "image": "/wp-content/uploads/2026/06/Retarutide-50mg-1-300x300.webp"
+            },
+            {
+              "name": "Retatrutide 60mg",
+              "price": "₡ 122,633",
+              "href": "/product/retatrutide-60mg/",
+              "image": "/wp-content/uploads/2026/06/Retatrutide-60mg-1-300x300.webp"
+            },
+            {
+              "name": "Selank 10mg",
+              "price": "₡ 40,878",
+              "href": "/product/selank-10mg/",
+              "image": "/wp-content/uploads/2026/02/Selank-1-300x300.jpg"
+            },
+            {
+              "name": "Semaglutide 10mg",
+              "price": "₡ 99,923",
+              "href": "/product/semaglutide-10mg/",
+              "image": "/wp-content/uploads/2026/05/Semaglutide-10-1-300x300.webp"
+            },
+            {
+              "name": "Semaglutide 20mg",
+              "price": "₡ 124,904",
+              "href": "/product/semaglutide-20mg/",
+              "image": "/wp-content/uploads/2026/05/Semaglutide-20-1-300x300.webp"
+            },
+            {
+              "name": "Semaglutide 30mg",
+              "price": "₡ 136,259",
+              "href": "/product/semaglutide-30mg/",
+              "image": "/wp-content/uploads/2026/05/Semaglutide-30-1-300x300.webp"
+            },
+            {
+              "name": "Semax 10mg",
+              "price": "₡ 40,878",
+              "href": "/product/semax-10mg/",
+              "image": "/wp-content/uploads/2026/05/Semax-1-300x300.webp"
+            },
+            {
+              "name": "Sermorelin 10mg",
+              "price": "₡ 68,129",
+              "href": "/product/sermorelin-10mg/",
+              "image": "/wp-content/uploads/2026/04/Sermorelin-1-300x300.jpg"
+            },
+            {
+              "name": "SLU-PP-332 5mg",
+              "price": "₡ 36,336",
+              "href": "/product/slu-pp-332-5mg/",
+              "image": "/wp-content/uploads/2026/05/Slu-pp332-1-300x300.webp"
+            },
+            {
+              "name": "SS-31 10mg",
+              "price": "₡ 54,503",
+              "href": "/product/ss-31-10mg/",
+              "image": "/wp-content/uploads/2026/02/SS-31-1-300x300.jpg"
+            },
+            {
+              "name": "SUPER Human Blend 10ml",
+              "price": "₡ 45,420",
+              "href": "/product/super-human-blend-10ml/",
+              "image": "/wp-content/uploads/2026/04/SUPER-Human-Blend-1-300x300.jpg"
+            },
+            {
+              "name": "TB-4 10mg",
+              "price": "₡ 49,962",
+              "href": "/product/tb-4-10mg/",
+              "image": "/wp-content/uploads/2026/03/TB-4-1-300x300.jpg"
+            },
+            {
+              "name": "Tesamorelin 10mg",
+              "price": "₡ 45,420",
+              "href": "/product/tesamorelin-10mg/",
+              "image": "/wp-content/uploads/2026/02/Tesamorelin-1-300x300.jpg"
+            },
+            {
+              "name": "Tesamorelin 20mg",
+              "price": "₡ 68,129",
+              "href": "/product/tesamorelin-20mg/",
+              "image": "/wp-content/uploads/2026/07/Tesa.jpg-300x300.jpeg"
+            },
+            {
+              "name": "Thymalin 10mg",
+              "price": "₡ 54,503",
+              "href": "/product/thymalin-10mg/",
+              "image": "/wp-content/uploads/2026/02/Thymalin-1-1-300x300.jpg"
+            },
+            {
+              "name": "Thymosin Alpha-1 10mg",
+              "price": "₡ 68,129",
+              "href": "/product/thymosin-alpha-1-10mg/",
+              "image": "/wp-content/uploads/2026/05/Thymosin-Alpha-1-10-1-300x300.webp"
+            },
+            {
+              "name": "Tirzepatide 10mg",
+              "price": "₡ 70,400",
+              "href": "/product/tirzepatide-10mg/",
+              "image": "/wp-content/uploads/2026/05/Tirzepatide-10-1-300x300.webp"
+            },
+            {
+              "name": "Tirzepatide 15mg",
+              "price": "₡ 84,026",
+              "href": "/product/tirzepatide-15mg/",
+              "image": "/wp-content/uploads/2026/05/Tirzepatide-15-2-300x300.webp"
+            },
+            {
+              "name": "Tirzepatide 20mg",
+              "price": "₡ 90,839",
+              "href": "/product/tirzepatide-20mg/",
+              "image": "/wp-content/uploads/2026/05/Tirzepatide-20-1-300x300.webp"
+            },
+            {
+              "name": "Tirzepatide 30mg",
+              "price": "₡ 102,194",
+              "href": "/product/tirzepatide-30mg/",
+              "image": "/wp-content/uploads/2026/05/Tirzepatide-30-1-2-300x300.webp"
+            },
+            {
+              "name": "Tirzepatide 40mg",
+              "price": "₡ 111,278",
+              "href": "/product/tirzepatide-40mg/",
+              "image": "/wp-content/uploads/2026/06/Tirzepatide-40mg.jpg-300x300.webp"
+            },
+            {
+              "name": "Tirzepatide 60mg",
+              "price": "",
+              "href": "/product/tirzepatide-60mg/",
+              "image": "/wp-content/uploads/2026/07/tez.jpg-300x300.jpeg"
+            }
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Product Categories",
+          "text_es": "Categorías de Producto"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We organize our products by main focus areas to make browsing simpler.",
+          "text_es": "Organizamos nuestros productos por áreas de enfoque principales para simplificar la navegación."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Metabolic & Weight Optimization",
+          "text_es": "Optimización Metabólica y de Peso"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "This group features peptides commonly discussed for their effects on metabolism, appetite, energy, and body composition.",
+          "text_es": "Este grupo incluye péptidos que se discuten comúnmente por sus efectos sobre el metabolismo, el apetito, la energía y la composición corporal."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Examples include:",
+          "text_es": "Ejemplos incluyen:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "RetatrutideMots-C5-amino-1mqTesamorelin",
+          "text_es": "RetatrutideMots-C5-amino-1mqTesamorelin"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Recovery & Tissue Support",
+          "text_es": "Recuperación y Tejido Soporte"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Recovery is important for long-term performance and strength. Peptides in this group are often included in routines that support tissue repair and resilience.",
+          "text_es": "La recuperación es importante para el rendimiento y la fuerza a largo plazo. Los péptidos de este grupo a menudo se incluyen en rutinas que apoyan la reparación y la resistencia de los tejidos."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Examples include:",
+          "text_es": "Ejemplos incluyen:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "BPC-157KLOWThymalin",
+          "text_es": "BPC-157KLOWThymalin"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Cognitive Performance & Mental Clarity",
+          "text_es": "Rendimiento Cognitivo y Claridad Mental"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Many people look for better focus, calm, and mental balance. This group includes peptides often connected to brain function and stress management.",
+          "text_es": "Muchas personas buscan mayor concentración, calma y equilibrio mental. En este grupo se incluyen péptidos que a menudo se relacionan con la función cerebral y el manejo del estrés."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Examples include:",
+          "text_es": "Ejemplos incluyen:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "SelankAdamaxDSIP",
+          "text_es": "SelankAdamaxDSIP"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Skin & Regenerative Applications",
+          "text_es": "Aplicaciones dérmicas y regenerativas"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Peptides in this category are often studied for their effects on collagen, skin elasticity, and overall skin health.",
+          "text_es": "Los péptidos en esta categoría a menudo se estudian por sus efectos en el colágeno, la elasticidad de la piel y la salud general de la misma."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Examples include:",
+          "text_es": "Ejemplos incluyen:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "GHK-CUEpithalon",
+          "text_es": "GHK-CUEpithalon"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Energy & Mitochondrial Function",
+          "text_es": "Energía y Función Mitocondrial"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Producing energy at the cellular level helps with endurance, recovery, and overall health. Peptides in this group are often studied for their role in how cells make energy.",
+          "text_es": "La producción de energía a nivel celular ayuda con la resistencia, la recuperación y la salud en general. Los péptidos de este grupo a menudo se estudian por su papel en la forma en que las células producen energía."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Examples include:",
+          "text_es": "Ejemplos incluyen:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "SS-31NAD+",
+          "text_es": "SS-31NAD+"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Hormonal & Endocrine Signaling",
+          "text_es": "Señalización hormonal y endocrina"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Hormones play a big role in performance, metabolism, and recovery. Some peptides are often mentioned in routines that focus on hormone balance.",
+          "text_es": "Las hormonas juegan un papel importante en el rendimiento, el metabolismo y la recuperación. Algunos péptidos se mencionan a menudo en rutinas que se centran en el equilibrio hormonal."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Examples include:",
+          "text_es": "Ejemplos incluyen:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "HCGHGH options",
+          "text_es": "HCGHGH options"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Bulk Savings",
+          "text_es": "Ahorro al por mayor"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "If you follow a longer-term routine, buying in bulk gives you both consistency and better value.",
+          "text_es": "Si sigues una rutina a largo plazo, comprar a granel te brinda consistencia y un mejor valor."
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/07/Untitled-design-5-1-1024x576.webp",
+          "alt_en": "Bottles arranged on sandy beach in blue water.",
+          "alt_es": "Bottles arranged on sandy beach in blue water."
+        },
+        {
+          "type": "card",
+          "title_en": "Buy five or more vials of the same product and get 15% off.",
+          "title_es": "Compra cinco o más frascos del mismo producto y obtén un descuento de 15%.",
+          "text_en": "",
+          "text_es": "",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "There are no complicated tiers or hidden conditions. We clearly show bulk pricing and calculate it before you pay.",
+          "title_es": "No hay niveles complicados ni condiciones ocultas. Mostramos claramente los precios por volumen y los calculamos antes de que pagues.",
+          "text_en": "",
+          "text_es": "",
+          "href": null
+        },
+        {
+          "type": "card",
+          "title_en": "Contact us to check stock and get your total with the discount included.",
+          "title_es": "Contáctanos para verificar disponibilidad y obtener tu total con el descuento incluido.",
+          "text_en": "",
+          "text_es": "",
+          "href": null
+        },
+        {
+          "type": "heading",
+          "level": 6,
+          "text_en": "Common Questions",
+          "text_es": "Preguntas frecuentes"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text_en": "Frequently Asked Questions",
+          "text_es": "Preguntas frecuentes"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We understand that making an informed decision requires clear and reliable information. Below are some frequently asked questions about our peptide products:",
+          "text_es": "Entendemos que tomar una decisión informada requiere información clara y confiable. A continuación, encontrará algunas preguntas frecuentes sobre nuestros productos peptídicos:"
+        },
+        {
+          "type": "image",
+          "src": "/wp-content/uploads/2026/03/Untitled-design-28-1-1024x576.webp",
+          "alt_en": "TB-4 supplement bottle title mistake.",
+          "alt_es": "TB-4 supplement bottle title mistake."
+        },
+        {
+          "type": "faq",
+          "items": [
+            {
+              "q_en": "Do you ship outside Costa Rica?",
+              "q_es": "¿Hacen envíos fuera de Costa Rica?",
+              "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+              "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al atender solo a Costa Rica, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
+            },
+            {
+              "q_en": "Why don’t you offer online checkout?",
+              "q_es": "¿Por qué no ofrecen pago en línea?",
+              "a_en": "We handle orders personally to make sure everything is accurate and that products are available before you pay.Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent.",
+              "a_es": "We handle orders personally to make sure everything is accurate and that products are available before you pay.Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent."
+            },
+            {
+              "q_en": "What payment methods do you accept?",
+              "q_es": "¿Qué métodos de pago aceptan?",
+              "a_en": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+              "a_es": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
+            },
+            {
+              "q_en": "Is there a bulk discount?",
+              "q_es": "¿Hay un descuento por volumen?",
+              "a_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+              "a_es": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay."
+            },
+            {
+              "q_en": "How quickly do you respond to inquiries?",
+              "q_es": "¿A qué velocidad respondes a las consultas?",
+              "a_en": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication.",
+              "a_es": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+          "text_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al atender solo a Costa Rica, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We handle orders personally to make sure everything is accurate and that products are available before you pay.",
+          "text_es": "Nos encargamos de los pedidos personalmente para asegurar que todo sea preciso y que los productos estén disponibles antes de que pagues."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent.",
+          "text_es": "Las cajas de autoservicio a veces pueden causar problemas de pago o errores en el inventario. Al verificar el stock antes de pagar, hacemos que el proceso sea más fluido y transparente."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We currently accept:",
+          "text_es": "Actualmente aceptamos:"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "SINPE MóvilZellePayPalCash",
+          "text_es": "SINPE MóvilZellePayPalCash"
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Once we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+          "text_es": "Una vez que confirmemos que tu pedido está en stock, te enviaremos las instrucciones de pago. Nos aseguramos de que el proceso sea sencillo y de que conozcas el precio total antes de pagar."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Yes.",
+          "text_es": "Sí."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Purchase five or more vials of the same product and receive 15% off.",
+          "text_es": "Compra cinco o más frascos del mismo producto y obtén un descuento de 15%."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+          "text_es": "No hay reglas de precios complicadas ni cargos ocultos. Calculamos cualquier descuento por volumen con anticipación, para que siempre sepas qué esperar antes de pagar."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "We try to reply quickly to questions about availability and orders.",
+          "text_es": "Intentamos responder rápidamente a las preguntas sobre disponibilidad y pedidos."
+        },
+        {
+          "type": "paragraph",
+          "text_en": "Talking directly with you is part of our local service. We always aim for clear and efficient communication.",
+          "text_es": "Hablar directamente contigo es parte de nuestro servicio local. Siempre buscamos una comunicación clara y eficiente."
+        }
+      ],
+      "untranslated": 11
+    }
+  ]
+}

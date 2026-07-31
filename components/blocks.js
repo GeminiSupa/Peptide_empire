@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Check, ExternalLink } from 'lucide-react';
+import { Check, ExternalLink, FileText } from 'lucide-react';
 import Container from '@/components/ui/container';
 import FaqAccordion from '@/components/faq-accordion';
 import { catalogUrl } from '@/content/global';
@@ -269,6 +269,41 @@ function ProductGrid({ block, lang }) {
   );
 }
 
+/**
+ * The certificate-of-analysis list on the lab-tests page: one row per product,
+ * linking to its COA PDF.
+ *
+ * The PDFs are NOT mirrored into public/ yet, so they still resolve against
+ * NEXT_PUBLIC_IMAGE_BASE — the live WordPress origin during the rebuild. They
+ * must be downloaded before launch or every link here breaks at cutover.
+ */
+function CoaList({ block, lang }) {
+  if (!block.items?.length) return null;
+  return (
+    <ul className="mt-6 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white">
+      {block.items.map((item) => (
+        <li
+          className="flex flex-wrap items-center justify-between gap-3 px-4 py-3"
+          key={item.name}
+        >
+          <span className="text-sm font-semibold text-primary">{item.name}</span>
+          {item.pdf && (
+            <a
+              className="inline-flex items-center gap-1.5 rounded-full border border-primary/20 px-3 py-1.5 text-xs font-bold text-primary transition hover:bg-primary/5"
+              href={imageUrl(item.pdf)}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              <FileText aria-hidden="true" className="h-3.5 w-3.5" />
+              {lang === 'en' ? 'Download PDF' : 'Descargar PDF'}
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 function Faq({ block, lang }) {
   if (!block.items?.length) return null;
   // FaqAccordion is a client component and takes resolved strings, so the
@@ -290,11 +325,12 @@ const RENDERERS = {
   tabs: Tabs,
   cards: Cards,
   product_grid: ProductGrid,
+  coa_list: CoaList,
   faq: Faq,
 };
 
 /** Block types that need the full column width rather than the prose measure. */
-const WIDE = new Set(['product_grid', 'cards', 'table']);
+const WIDE = new Set(['product_grid', 'cards', 'table', 'coa_list']);
 
 /** Collapse runs of `card` blocks into a single grid entry. */
 function group(blocks) {

@@ -146,9 +146,21 @@ async function pool(items, size, worker) {
   );
 }
 
+/**
+ * Core pages that are shaped like a guide rather than like a page: one long
+ * self-contained article in a single widget. They belong here rather than in
+ * the block harvester, which would yield an empty page for each.
+ */
+const EXTRA_ARTICLES = new Set([
+  '/affiliate-program/',
+  '/info-center/',
+]);
+
 async function main() {
   const routeData = JSON.parse(await readFile(resolve(ROOT, 'data/routes.json'), 'utf8'));
-  let guides = routeData.routes.filter((r) => r.group === 'guide' && r.es);
+  let guides = routeData.routes.filter(
+    (r) => r.es && (r.group === 'guide' || EXTRA_ARTICLES.has(r.en)),
+  );
   if (limit) guides = guides.slice(0, limit);
 
   console.log(`Harvesting ${guides.length} guides (${guides.length * 2} fetches)…\n`);
@@ -178,6 +190,7 @@ async function main() {
         slug: route.en.replace(/^\/|\/$/g, ''),
         en: route.en,
         es: route.es,
+        group: route.group,
         head: {
           title_en: en.head.title,
           title_es: es.head.title,

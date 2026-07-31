@@ -13,15 +13,21 @@
  * Adding a group means harvesting it and adding it to SOURCES. Nothing else
  * changes: routing, metadata and static params all read from here.
  */
+import categoryData from '@/data/pages/category.json';
 import cityData from '@/data/pages/city.json';
+import coreData from '@/data/pages/core.json';
 import guideData from '@/data/pages/guide.json';
-import landerData from '@/data/pages/productLander.json';
+import legalData from '@/data/pages/legal.json';
+import landerPages from '@/data/pages/productLander.json';
 
 const segment = (path) => path.replace(/^\/|\/$/g, '').split('/').pop();
 
 const SOURCES = [
   { kind: 'blocks', group: 'city', pages: cityData.pages },
-  { kind: 'blocks', group: 'productLander', pages: landerData.pages },
+  { kind: 'blocks', group: 'productLander', pages: landerPages.pages },
+  { kind: 'blocks', group: 'category', pages: categoryData.pages },
+  { kind: 'blocks', group: 'core', pages: coreData.pages },
+  { kind: 'blocks', group: 'legal', pages: legalData.pages },
   { kind: 'article', group: 'guide', pages: guideData.pages },
 ];
 

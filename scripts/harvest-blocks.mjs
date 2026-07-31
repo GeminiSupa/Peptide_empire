@@ -265,6 +265,29 @@ function widgetToBlock($, el, tr) {
   // the catalog site, so only the display data is kept and the renderer sends
   // every buy action there. No price is trusted as live — see the renderer.
   if (type === 'shortcode') {
+    // The lab-tests page: a searchable list of certificate-of-analysis PDFs,
+    // one per product. Not a product grid, so it is matched first.
+    const coa = $w.find('.pcoa-acf-item').toArray();
+    if (coa.length) {
+      const items = coa
+        .map((item) => {
+          const $i = $(item);
+          const link = $i.find('.pcoa-acf-item-link').first();
+          const name = clean(link.text());
+          if (!name) return null;
+          return {
+            name,
+            href: rel(link.attr('href') ?? link.find('a').first().attr('href')),
+            // Absolute on the live site; these PDFs are NOT yet mirrored into
+            // public/, so they still resolve against the WordPress origin.
+            pdf: rel($i.find('.pcoa-acf-item-btn').first().attr('href')),
+            ...bi('tag', clean($i.find('.pcoa-acf-item-tag').first().text()), tr),
+          };
+        })
+        .filter(Boolean);
+      if (items.length) return { type: 'coa_list', items };
+    }
+
     const products = [];
     $w.find('li.product').each((_, li) => {
       const $p = $(li);
@@ -283,13 +306,34 @@ function widgetToBlock($, el, tr) {
   return null;
 }
 
+/**
+ * Paths this script must not harvest, and why.
+ *
+ * Not "pages we haven't got to" — pages whose content does not live in
+ * Elementor widgets at all, so a block harvest produces a plausible-looking
+ * empty page rather than an honest failure.
+ */
+const SKIP = new Map([
+  ['/', 'home — harvested separately by harvest-home.mjs into an ordered section array'],
+  ['/affiliate-program/', 'one long article — harvest-guides.mjs handles it'],
+  ['/info-center/', 'one long article — harvest-guides.mjs handles it'],
+  ['/blog/', 'dynamic index (loop-grid) — must be built from our own post data'],
+  ['/peptide-guides/', 'dynamic index (loop-grid) — must be built from our own guide data'],
+  ['/shop/', 'WooCommerce archive — no Elementor content at all'],
+]);
+
 async function harvestGroup(group, { wpByPath, esByEn, routes }) {
   const out = [];
   let hits = 0;
   let misses = 0;
   const noSpanish = [];
+  const skipped = [];
 
   for (const route of routes.filter((r) => r.group === group)) {
+    if (SKIP.has(route.en)) {
+      skipped.push([route.en, SKIP.get(route.en)]);
+      continue;
+    }
     const wp = wpByPath.get(route.en);
     if (!wp) continue;
     const es = esByEn.get(route.en);
@@ -350,6 +394,10 @@ async function harvestGroup(group, { wpByPath, esByEn, routes }) {
       .join(' · ')}`,
   );
   if (noSpanish.length) console.log(`  ${noSpanish.length} pages had no Spanish pairs`);
+  if (skipped.length) {
+    console.log(`  skipped ${skipped.length}, deliberately:`);
+    for (const [path, why] of skipped) console.log(`    ${path} — ${why}`);
+  }
 }
 
 async function main() {
