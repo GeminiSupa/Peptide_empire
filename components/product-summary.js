@@ -1,5 +1,6 @@
 import { ExternalLink } from 'lucide-react';
-import { catalogUrl } from '@/content/global';
+import { catalogUrl, ui } from '@/content/global';
+import { t } from '@/lib/i18n';
 import { imageUrl } from '@/lib/images';
 
 /**
@@ -19,8 +20,8 @@ export default function ProductSummary({ product, lang }) {
   if (!store) return null;
 
   const image = store.images?.[0];
-  const label = lang === 'en' ? 'Buy on our catalog' : 'Comprar en nuestro catálogo';
-  const priceNote = lang === 'en' ? 'Price shown in' : 'Precio mostrado en';
+  const label = t(ui, 'buyOnCatalog', lang);
+  const priceNote = t(ui, 'priceShownIn', lang);
 
   return (
     <div className="grid gap-8 sm:grid-cols-[minmax(0,20rem)_1fr] sm:items-start">

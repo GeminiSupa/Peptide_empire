@@ -17,7 +17,9 @@ import Container from '@/components/ui/container';
  * `.pcr-article` gives the injected markup sane defaults for anything the
  * guide's own scoped CSS does not cover — see globals.css.
  */
-export default function GuideArticle({ html, lang }) {
+export default function GuideArticle({ content, lang }) {
+  // A section in the shared vocabulary: `{ type: 'article', content: {…} }`.
+  const html = content?.[`html_${lang}`] || content?.html_en;
   if (!html) return null;
   return (
     <Container className="py-10 sm:py-14">

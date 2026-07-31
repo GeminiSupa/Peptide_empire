@@ -14,10 +14,23 @@
         "description_en": "Shop BAC Water in 2ml, 3ml, and 10ml vials at Peptides Costa Rica. Enjoy bulk discounts and free shipping on orders over $500 for premium peptide solutions.",
         "description_es": "Compra BAC Water en viales de 2 ml, 3 ml y 10 ml en Peptides Costa Rica. Aprovecha los descuentos por volumen y el envío gratuito en pedidos superiores a $500 de soluciones de péptidos de primera calidad."
       },
-      "heading_en": "BAC Water",
-      "heading_es": "Agua BAC",
-      "intro_en": "Shop BAC Water in 2ml, 3ml, and 10ml vials at Peptides Costa Rica. Enjoy bulk discounts and free shipping on orders over $500 for premium peptide solutions.",
-      "intro_es": "Compra BAC Water en viales de 2 ml, 3 ml y 10 ml en Peptides Costa Rica. Aprovecha los descuentos por volumen y el envío gratuito en pedidos superiores a $500 de soluciones de péptidos de primera calidad."
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "BAC Water",
+            "heading_es": "Agua BAC",
+            "intro_en": "Shop BAC Water in 2ml, 3ml, and 10ml vials at Peptides Costa Rica. Enjoy bulk discounts and free shipping on orders over $500 for premium peptide solutions.",
+            "intro_es": "Compra BAC Water en viales de 2 ml, 3 ml y 10 ml en Peptides Costa Rica. Aprovecha los descuentos por volumen y el envío gratuito en pedidos superiores a $500 de soluciones de péptidos de primera calidad."
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "bac-water"
+          }
+        }
+      ]
     },
     {
       "slug": "collagen-peptides",
@@ -30,10 +43,23 @@
         "description_en": "Shop Collagen Peptides GHK-CU 50mg at Peptides Costa Rica for premium quality peptides that support skin health, weight loss, and muscle growth with bulk discounts available.",
         "description_es": "Compre Péptidos de Colágeno GHK-CU 50mg en Peptides Costa Rica para obtener péptidos de calidad premium que apoyan la salud de la piel, la pérdida de peso y el crecimiento muscular con descuentos por volumen disponibles."
       },
-      "heading_en": "Collagen Peptides",
-      "heading_es": "Péptidos de colágeno",
-      "intro_en": "Shop Collagen Peptides GHK-CU 50mg at Peptides Costa Rica for premium quality peptides that support skin health, weight loss, and muscle growth with bulk discounts available.",
-      "intro_es": "Compre Péptidos de Colágeno GHK-CU 50mg en Peptides Costa Rica para obtener péptidos de calidad premium que apoyan la salud de la piel, la pérdida de peso y el crecimiento muscular con descuentos por volumen disponibles."
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Collagen Peptides",
+            "heading_es": "Péptidos de colágeno",
+            "intro_en": "Shop Collagen Peptides GHK-CU 50mg at Peptides Costa Rica for premium quality peptides that support skin health, weight loss, and muscle growth with bulk discounts available.",
+            "intro_es": "Compre Péptidos de Colágeno GHK-CU 50mg en Peptides Costa Rica para obtener péptidos de calidad premium que apoyan la salud de la piel, la pérdida de peso y el crecimiento muscular con descuentos por volumen disponibles."
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "collagen-peptides"
+          }
+        }
+      ]
     },
     {
       "slug": "copper-peptides",
@@ -46,10 +72,23 @@
         "description_en": "Shop Copper Peptides at Peptides Costa Rica, featuring GHK-CU for skin health, muscle growth, and anti-aging benefits. Enjoy free shipping on orders over $500.",
         "description_es": "Compra péptidos de cobre en Peptides Costa Rica, donde encontrarás GHK-CU para la salud de la piel, el crecimiento muscular y sus beneficios antienvejecimiento. Disfruta de envío gratis en pedidos superiores a $500."
       },
-      "heading_en": "Copper Peptides",
-      "heading_es": "Péptidos de Cobre",
-      "intro_en": "Shop Copper Peptides at Peptides Costa Rica, featuring GHK-CU for skin health, muscle growth, and anti-aging benefits. Enjoy free shipping on orders over ₡227,243.",
-      "intro_es": "Compre Péptidos de Cobre en Peptides Costa Rica, con GHK-CU para beneficios en la salud de la piel, crecimiento muscular y antienvejecimiento. Disfrute de envío gratuito en pedidos superiores a ₡227.243."
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Copper Peptides",
+            "heading_es": "Péptidos de Cobre",
+            "intro_en": "Shop Copper Peptides at Peptides Costa Rica, featuring GHK-CU for skin health, muscle growth, and anti-aging benefits. Enjoy free shipping on orders over ₡227,243.",
+            "intro_es": "Compre Péptidos de Cobre en Peptides Costa Rica, con GHK-CU para beneficios en la salud de la piel, crecimiento muscular y antienvejecimiento. Disfrute de envío gratuito en pedidos superiores a ₡227.243."
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "copper-peptides"
+          }
+        }
+      ]
     },
     {
       "slug": "hgh-human-growth-hormone",
@@ -62,10 +101,23 @@
         "description_en": "Shop HGH (Human Growth Hormone) products at Peptides Costa Rica, featuring options like 10,000 IU HCG and Tesamorelin, with bulk discounts and free shipping over $500.",
         "description_es": "Compra productos de HGH (hormona del crecimiento humano) en Peptides Costa Rica, donde encontrarás opciones como HCG de 10 000 UI y tesamorelina, con descuentos por volumen y envío gratis a partir de $500."
       },
-      "heading_en": "HGH (Human Growth Hormone)",
-      "heading_es": "HGH (Hormona de Crecimiento Humano)",
-      "intro_en": "Shop HGH (Human Growth Hormone) products at Peptides Costa Rica, featuring options like 10,000 IU HCG and Tesamorelin, with bulk discounts and free shipping over ₡227,000.",
-      "intro_es": "Compra productos de HGH (Hormona del Crecimiento Humano) en Peptides Costa Rica, con opciones como HCG de 10,000 UI y Tesamorelin, con descuentos por volumen y envío gratuito superior a ₡227,000."
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "HGH (Human Growth Hormone)",
+            "heading_es": "HGH (Hormona de Crecimiento Humano)",
+            "intro_en": "Shop HGH (Human Growth Hormone) products at Peptides Costa Rica, featuring options like 10,000 IU HCG and Tesamorelin, with bulk discounts and free shipping over ₡227,000.",
+            "intro_es": "Compra productos de HGH (Hormona del Crecimiento Humano) en Peptides Costa Rica, con opciones como HCG de 10,000 UI y Tesamorelin, con descuentos por volumen y envío gratuito superior a ₡227,000."
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "hgh-human-growth-hormone"
+          }
+        }
+      ]
     },
     {
       "slug": "peptide-for-cardiovascular",
@@ -78,10 +130,23 @@
         "description_en": "Shop Peptides Costa Rica for cardiovascular peptides like Retatrutide in various dosages, designed to support heart health and wellness with bulk discounts available.",
         "description_es": "Compre péptidos para el corazón en Costa Rica, como Retatrutida en varias dosis, diseñados para apoyar la salud y el bienestar cardiovascular, con descuentos por volumen disponibles."
       },
-      "heading_en": "Peptide for Cardiovascular",
-      "heading_es": "Péptido para el sistema cardiovascular",
-      "intro_en": "",
-      "intro_es": ""
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Peptide for Cardiovascular",
+            "heading_es": "Péptido para el sistema cardiovascular",
+            "intro_en": "",
+            "intro_es": ""
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "peptide-for-cardiovascular"
+          }
+        }
+      ]
     },
     {
       "slug": "peptide-for-cognitive-function",
@@ -94,10 +159,23 @@
         "description_en": "Shop Peptides Costa Rica for cognitive function peptides like Adamax and Selank, designed to enhance mental clarity and focus, with bulk discounts available.",
         "description_es": "Compre Péptidos Costa Rica para péptidos de función cognitiva como Adamax y Selank, diseñados para mejorar la claridad mental y el enfoque, con descuentos por volumen disponibles."
       },
-      "heading_en": "Peptide for Cognitive Function",
-      "heading_es": "Péptido para la función cognitiva",
-      "intro_en": "",
-      "intro_es": ""
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Peptide for Cognitive Function",
+            "heading_es": "Péptido para la función cognitiva",
+            "intro_en": "",
+            "intro_es": ""
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "peptide-for-cognitive-function"
+          }
+        }
+      ]
     },
     {
       "slug": "peptide-reconstitution",
@@ -110,10 +188,23 @@
         "description_en": "Shop Peptide Reconstitution products at Peptides Costa Rica, featuring BAC Water in various sizes, ideal for research and effective peptide use. Free shipping on orders over $500.",
         "description_es": "Compra productos para la reconstitución de péptidos en Peptides Costa Rica, donde encontrarás agua BAC en distintos tamaños, ideal para la investigación y el uso eficaz de péptidos. Envío gratuito en pedidos superiores a $500."
       },
-      "heading_en": "Peptide reconstitution",
-      "heading_es": "Reconstitución de péptidos",
-      "intro_en": "",
-      "intro_es": ""
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Peptide reconstitution",
+            "heading_es": "Reconstitución de péptidos",
+            "intro_en": "",
+            "intro_es": ""
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "peptide-reconstitution"
+          }
+        }
+      ]
     },
     {
       "slug": "peptides-for-anti-aging",
@@ -126,10 +217,23 @@
         "description_en": "Shop Peptides Costa Rica for anti-aging solutions like Epithalon, Glutathione, and Sermorelin. Enjoy bulk discounts and free shipping on orders over $500.",
         "description_es": "Compra en Peptides Costa Rica soluciones antienvejecimiento como Epithalon, glutatión y Sermorelin. Aprovecha los descuentos por volumen y el envío gratis en pedidos superiores a $500."
       },
-      "heading_en": "Peptides For Anti Aging",
-      "heading_es": "Péptidos Antienvejecimiento",
-      "intro_en": "",
-      "intro_es": ""
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Peptides For Anti Aging",
+            "heading_es": "Péptidos Antienvejecimiento",
+            "intro_en": "",
+            "intro_es": ""
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "peptides-for-anti-aging"
+          }
+        }
+      ]
     },
     {
       "slug": "peptides-for-energy",
@@ -142,10 +246,23 @@
         "description_en": "Shop Peptides Costa Rica for energy-boosting peptides like SUPER Human Blend and NAD+ with bulk discounts available. Enjoy free shipping on orders over $500.",
         "description_es": "Compra en Peptides Costa Rica péptidos que aumentan la energía, como SUPER Human Blend y NAD+, con descuentos por compra al por mayor. Disfruta de envío gratis en pedidos superiores a $500."
       },
-      "heading_en": "Peptides For Energy",
-      "heading_es": "Péptidos para la Energía",
-      "intro_en": "",
-      "intro_es": ""
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Peptides For Energy",
+            "heading_es": "Péptidos para la Energía",
+            "intro_en": "",
+            "intro_es": ""
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "peptides-for-energy"
+          }
+        }
+      ]
     },
     {
       "slug": "peptides-for-fertility",
@@ -158,10 +275,23 @@
         "description_en": "Shop Peptides Costa Rica for HGH and KissPeptin-10, designed to support fertility with bulk discounts and free shipping on orders over $500.",
         "description_es": "Compra en Peptides Costa Rica HGH y KissPeptin-10, productos diseñados para favorecer la fertilidad, con descuentos por volumen y envío gratis en pedidos superiores a $500."
       },
-      "heading_en": "Peptides For Fertility",
-      "heading_es": "Péptidos para la fertilidad",
-      "intro_en": "",
-      "intro_es": ""
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Peptides For Fertility",
+            "heading_es": "Péptidos para la fertilidad",
+            "intro_en": "",
+            "intro_es": ""
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "peptides-for-fertility"
+          }
+        }
+      ]
     },
     {
       "slug": "peptides-for-healing",
@@ -174,10 +304,23 @@
         "description_en": "Shop Peptides Costa Rica for premium peptides designed for muscle growth, including IGF-1LR3 and HGH, with bulk discounts and free shipping on orders over $500.",
         "description_es": "Compra en Peptides Costa Rica péptidos de primera calidad diseñados para el crecimiento muscular, como el IGF-1LR3 y la HGH, con descuentos por volumen y envío gratis en pedidos superiores a $500."
       },
-      "heading_en": "Peptides For Healing",
-      "heading_es": "Péptidos para la curación",
-      "intro_en": "",
-      "intro_es": ""
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Peptides For Healing",
+            "heading_es": "Péptidos para la curación",
+            "intro_en": "",
+            "intro_es": ""
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "peptides-for-healing"
+          }
+        }
+      ]
     },
     {
       "slug": "peptides-for-muscle-growth",
@@ -190,10 +333,23 @@
         "description_en": "Shop Peptides Costa Rica for premium peptides designed for muscle growth, including IGF-1LR3 and HGH, with bulk discounts and free shipping on orders over $500.",
         "description_es": "Compra en Peptides Costa Rica péptidos de primera calidad diseñados para el crecimiento muscular, como el IGF-1LR3 y la HGH, con descuentos por volumen y envío gratis en pedidos superiores a $500."
       },
-      "heading_en": "Peptides For Muscle Growth",
-      "heading_es": "Péptidos para el crecimiento muscular",
-      "intro_en": "",
-      "intro_es": ""
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Peptides For Muscle Growth",
+            "heading_es": "Péptidos para el crecimiento muscular",
+            "intro_en": "",
+            "intro_es": ""
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "peptides-for-muscle-growth"
+          }
+        }
+      ]
     },
     {
       "slug": "peptides-for-skin",
@@ -206,10 +362,23 @@
         "description_en": "Shop Peptides Costa Rica for premium peptides for skin, including GHK-CU and Glutathione, with bulk discounts and free shipping on orders over $500.",
         "description_es": "Compra en Peptides Costa Rica péptidos de primera calidad para la piel, como el GHK-CU y el glutatión, con descuentos por volumen y envío gratis en pedidos superiores a $500."
       },
-      "heading_en": "Peptides For Skin",
-      "heading_es": "Péptidos para la piel",
-      "intro_en": "",
-      "intro_es": ""
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Peptides For Skin",
+            "heading_es": "Péptidos para la piel",
+            "intro_en": "",
+            "intro_es": ""
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "peptides-for-skin"
+          }
+        }
+      ]
     },
     {
       "slug": "peptides-for-sleep",
@@ -222,10 +391,23 @@
         "description_en": "",
         "description_es": ""
       },
-      "heading_en": "Peptides For Sleep",
-      "heading_es": "Péptidos para dormir",
-      "intro_en": "",
-      "intro_es": ""
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Peptides For Sleep",
+            "heading_es": "Péptidos para dormir",
+            "intro_en": "",
+            "intro_es": ""
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "peptides-for-sleep"
+          }
+        }
+      ]
     },
     {
       "slug": "peptides-for-weight-loss",
@@ -238,10 +420,23 @@
         "description_en": "Shop Peptides Costa Rica's premium Retatrutide for weight loss, available in 30mg and 40mg vials, with bulk discounts and free shipping on orders over $500.",
         "description_es": "Compra el Retatrutide de primera calidad de Shop Peptides Costa Rica para bajar de peso, disponible en viales de 30 mg y 40 mg, con descuentos por volumen y envío gratis en pedidos superiores a $500."
       },
-      "heading_en": "Peptides For Weight Loss",
-      "heading_es": "Péptidos para la pérdida de peso",
-      "intro_en": "",
-      "intro_es": ""
+      "sections": [
+        {
+          "type": "category_header",
+          "content": {
+            "heading_en": "Peptides For Weight Loss",
+            "heading_es": "Péptidos para la pérdida de peso",
+            "intro_en": "",
+            "intro_es": ""
+          }
+        },
+        {
+          "type": "product_grid_dynamic",
+          "content": {
+            "categorySlug": "peptides-for-weight-loss"
+          }
+        }
+      ]
     }
   ],
   "failed": []

@@ -1,9 +1,12 @@
 import Link from 'next/link';
 import { Check, ExternalLink, Phone } from 'lucide-react';
 import Section, { SectionHeading } from '@/components/ui/section';
+import Container from '@/components/ui/container';
 import Button from '@/components/ui/button';
 import FaqAccordion from '@/components/faq-accordion';
-import { nav, catalogUrl } from '@/content/global';
+import GuideArticle from '@/components/guide-article';
+import { BLOCK_COMPONENTS, CardGrid, WIDE_TYPES } from '@/components/blocks';
+import { nav, catalogUrl, ui } from '@/content/global';
 import { t, label } from '@/lib/i18n';
 import { localePath } from '@/lib/routes';
 
@@ -159,7 +162,7 @@ function Transformation({ content, lang, index }) {
         {/* PLACEHOLDER: the before/after photo is a customer image we do not
             have rights-cleared source for yet. */}
         <div className="flex aspect-[16/10] items-center justify-center rounded-xl border-2 border-dashed border-slate-300 bg-white text-sm text-text-muted">
-          {lang === 'es' ? 'Imagen antes / después (pendiente)' : 'Before / after image (pending)'}
+          {t(ui, 'pendingImage', lang)}
         </div>
         <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
           {disclaimers.map((d) => (
@@ -282,7 +285,7 @@ function CallToOrderCards({ content, lang, index }) {
                   </Button>
                 )}
                 <Button href={catalogUrl(lang)} variant="outline">
-                  {lang === 'es' ? 'Ver en el catálogo' : 'View in catalog'}
+                  {t(ui, 'viewInCatalog', lang)}
                 </Button>
               </div>
             </div>
@@ -324,7 +327,8 @@ function Faq({ content, lang, index }) {
   );
 }
 
-export const SECTION_COMPONENTS = {
+/** Hand-built types: the full-bleed home page sections. */
+const HOME_COMPONENTS = {
   hero: Hero,
   press_band: PressBand,
   feature_cards: FeatureCards,
@@ -338,18 +342,92 @@ export const SECTION_COMPONENTS = {
   faq_accordion: Faq,
 };
 
-/** Render an ordered section array. Unknown types are skipped, not fatal. */
-export default function Sections({ sections, lang }) {
-  return sections.map((section, index) => {
+/**
+ * THE registry — one type vocabulary for the whole site.
+ *
+ * The hand-built home sections and the harvested types live in the same map, so
+ * a `type` string in the data picks a component here regardless of which page
+ * it came from. There is one renderer below and one future admin screen.
+ *
+ * An unknown type renders nothing rather than crashing, so a type can exist in
+ * the data — or later in the database — before its component ships.
+ */
+export const SECTION_COMPONENTS = {
+  ...HOME_COMPONENTS,
+  ...BLOCK_COMPONENTS,
+  article: GuideArticle,
+};
+
+/** Home sections lay out their own full-bleed backgrounds; the rest are prose. */
+const SELF_LAYOUT = new Set([...Object.keys(HOME_COMPONENTS), 'article']);
+const WIDE = new Set(WIDE_TYPES);
+
+/**
+ * Collapse runs of `card` sections into one grid.
+ *
+ * The harvester emits one `card` per Elementor icon-box, which is the honest
+ * representation — but a column of single cards is not what the page looks
+ * like. Grouping is a RENDER concern, so it happens here rather than being
+ * baked into the data, where it would stop each card being an editable row.
+ */
+function group(sections) {
+  const out = [];
+  for (const section of sections) {
+    const last = out[out.length - 1];
+    if (section.type === 'card' && last?.kind === 'cards') {
+      last.items.push(section.content);
+      continue;
+    }
+    if (section.type === 'card') out.push({ kind: 'cards', items: [section.content] });
+    else out.push({ kind: 'one', section });
+  }
+  return out;
+}
+
+/**
+ * Render an ordered section array. Unknown types are skipped, not fatal.
+ *
+ * `demoteH1` is set by product pages, where the <h1> is already emitted by
+ * ProductSummary and a level-1 heading in the data would be a second one.
+ */
+export default function Sections({ sections = [], lang, demoteH1 = false }) {
+  if (!sections.length) return null;
+
+  return group(sections).map((entry, index) => {
+    if (entry.kind === 'cards') {
+      return (
+        <Container className="py-4" key={`cards-${index}`}>
+          <div className="mx-auto max-w-5xl">
+            <CardGrid items={entry.items} lang={lang} />
+          </div>
+        </Container>
+      );
+    }
+
+    const { section } = entry;
     const Component = SECTION_COMPONENTS[section.type];
     if (!Component) return null;
+
+    // Home sections and guide articles own their own width and background.
+    if (SELF_LAYOUT.has(section.type)) {
+      return (
+        <Component
+          content={section.content}
+          index={index}
+          key={`${section.type}-${index}`}
+          lang={lang}
+        />
+      );
+    }
+
+    // Prose stays at a readable measure; grids and tables get more room.
+    const width = WIDE.has(section.type) ? 'max-w-5xl' : 'max-w-3xl';
     return (
-      <Component
-        key={`${section.type}-${index}`}
-        content={section.content}
-        lang={lang}
-        index={index}
-      />
+      <Container className="py-4" key={`${section.type}-${index}`}>
+        <div className={`mx-auto ${width}`}>
+          <Component content={section.content} demote={demoteH1} lang={lang} />
+        </div>
+      </Container>
     );
   });
 }

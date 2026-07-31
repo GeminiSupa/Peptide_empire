@@ -41,8 +41,16 @@ const EXPECTED = {
   product: 60,
   product_cat: 14,
   media: 380,
-  users: 1,
 };
+
+/**
+ * DELIBERATELY NOT HARVESTED: `users`.
+ *
+ * The WordPress user export carries author display names, login slugs, avatar
+ * hashes, is_super_admin flags and — in the `url` field — the hosting
+ * provider's internal hostname. None of it is needed to render the site, and
+ * personal data should not sit in a repo that does not require it.
+ */
 
 /** Rows X-WP-Total counts but REST will not serve. See harvestType(). */
 const KNOWN_UNREACHABLE = {

@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
-import Blocks from '@/components/blocks';
+import Sections from '@/components/sections';
 import Container from '@/components/ui/container';
 import ProductSummary from '@/components/product-summary';
 import { bySpanishSlug, spanishParams } from '@/content/pages/products';
@@ -44,7 +44,7 @@ export default async function ProductEs({ params }) {
         <Container className="pt-10 sm:pt-14">
           <ProductSummary lang="es" product={page} />
         </Container>
-        <Blocks blocks={page.blocks} demoteH1 lang="es" />
+        <Sections demoteH1 lang="es" sections={page.sections} />
       </main>
       <SiteFooter lang="es" />
     </>

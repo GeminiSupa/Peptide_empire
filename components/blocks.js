@@ -2,8 +2,10 @@ import Link from 'next/link';
 import { Check, ExternalLink, FileText } from 'lucide-react';
 import Container from '@/components/ui/container';
 import FaqAccordion from '@/components/faq-accordion';
-import { catalogUrl } from '@/content/global';
+import { catalogUrl, ui } from '@/content/global';
 import { t } from '@/lib/i18n';
+import ProductList from '@/components/product-list';
+import { productsFor } from '@/content/pages/categories';
 import { imageUrl } from '@/lib/images';
 import { localePath } from '@/lib/routes';
 
@@ -19,45 +21,45 @@ import { localePath } from '@/lib/routes';
  * crashing, so harvested data can lead the code.
  */
 
-const listItems = (block, key, lang) => block[`${key}_${lang}`] || block[`${key}_en`] || [];
+const listItems = (content, key, lang) => content[`${key}_${lang}`] || content[`${key}_en`] || [];
 
-function Heading({ block, lang, demote }) {
-  const text = t(block, 'text', lang);
+function Heading({ content, lang, demote }) {
+  const text = t(content, 'text', lang);
   if (!text) return null;
 
   // On product pages the <h1> is already emitted by ProductSummary, so a level-1
   // heading in the harvested blocks would be a second one on the same page.
-  if (demote && block.level === 1) {
+  if (demote && content.level === 1) {
     return <h2 className="mt-12 text-2xl font-bold text-primary sm:text-[1.75rem]">{text}</h2>;
   }
 
   // h1 opens the page; the rest are section headings within it.
-  if (block.level === 1) {
+  if (content.level === 1) {
     return (
       <h1 className="text-3xl font-extrabold tracking-tight text-primary sm:text-4xl lg:text-[2.75rem]">
         {text}
       </h1>
     );
   }
-  const Tag = `h${Math.min(Math.max(block.level || 2, 2), 6)}`;
+  const Tag = `h${Math.min(Math.max(content.level || 2, 2), 6)}`;
   const size =
-    block.level === 2
+    content.level === 2
       ? 'mt-12 text-2xl font-bold sm:text-[1.75rem]'
       : 'mt-8 text-lg font-semibold sm:text-xl';
   return <Tag className={`${size} text-primary`}>{text}</Tag>;
 }
 
-function Paragraph({ block, lang }) {
-  const text = t(block, 'text', lang);
+function Paragraph({ content, lang }) {
+  const text = t(content, 'text', lang);
   if (!text) return null;
   return <p className="mt-4 text-base leading-relaxed text-text-main">{text}</p>;
 }
 
-function BlockList({ block, lang }) {
-  const items = listItems(block, 'items', lang);
+function BlockList({ content, lang }) {
+  const items = listItems(content, 'items', lang);
   if (!items.length) return null;
 
-  if (block.icon) {
+  if (content.icon) {
     return (
       <ul className="mt-6 flex flex-wrap gap-3">
         {items.map((item) => (
@@ -73,11 +75,11 @@ function BlockList({ block, lang }) {
     );
   }
 
-  const Tag = block.ordered ? 'ol' : 'ul';
+  const Tag = content.ordered ? 'ol' : 'ul';
   return (
     <Tag
       className={`mt-4 space-y-2 pl-5 text-base leading-relaxed text-text-main ${
-        block.ordered ? 'list-decimal' : 'list-disc'
+        content.ordered ? 'list-decimal' : 'list-disc'
       }`}
     >
       {items.map((item) => (
@@ -87,11 +89,11 @@ function BlockList({ block, lang }) {
   );
 }
 
-function BlockButton({ block, lang }) {
-  const text = t(block, 'text', lang);
-  if (!text || !block.href) return null;
-  const external = /^https?:\/\//i.test(block.href);
-  const href = external ? block.href : localePath(block.href, lang);
+function BlockButton({ content, lang }) {
+  const text = t(content, 'text', lang);
+  if (!text || !content.href) return null;
+  const external = /^https?:\/\//i.test(content.href);
+  const href = external ? content.href : localePath(content.href, lang);
   const className =
     'mt-8 inline-flex items-center justify-center rounded-full bg-accent px-7 py-3 text-sm font-bold text-white shadow-sm transition hover:brightness-110';
 
@@ -109,14 +111,14 @@ function BlockButton({ block, lang }) {
   );
 }
 
-function BlockImage({ block, lang }) {
-  const src = imageUrl(block.src);
+function BlockImage({ content, lang }) {
+  const src = imageUrl(content.src);
   if (!src) return null;
   return (
     // eslint-disable-next-line @next/next/no-img-element -- harvested content
     // images have no known intrinsic size; next/image would need one per file.
     <img
-      alt={t(block, 'alt', lang)}
+      alt={t(content, 'alt', lang)}
       className="mt-8 h-auto w-full max-w-2xl rounded-xl"
       loading="lazy"
       src={src}
@@ -124,26 +126,26 @@ function BlockImage({ block, lang }) {
   );
 }
 
-/** Consecutive `card` blocks render as one grid rather than a stack. */
-function CardGrid({ blocks, lang }) {
+/** Consecutive `card` sections render as one grid rather than a stack. */
+export function CardGrid({ items, lang }) {
   return (
     <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-      {blocks.map((block, i) => {
-        const title = t(block, 'title', lang);
+      {items.map((content, i) => {
+        const title = t(content, 'title', lang);
         const body = (
           <>
             <h3 className="text-base font-bold text-primary">{title}</h3>
-            {t(block, 'text', lang) && (
-              <p className="mt-2 text-sm leading-relaxed text-text-muted">{t(block, 'text', lang)}</p>
+            {t(content, 'text', lang) && (
+              <p className="mt-2 text-sm leading-relaxed text-text-muted">{t(content, 'text', lang)}</p>
             )}
           </>
         );
         const shell =
           'flex h-full flex-col rounded-xl border border-primary/10 bg-white p-5 shadow-sm';
-        return block.href ? (
+        return content.href ? (
           <Link
             className={`${shell} transition hover:border-primary/30 hover:shadow-md`}
-            href={localePath(block.href, lang)}
+            href={localePath(content.href, lang)}
             key={`${title}-${i}`}
           >
             {body}
@@ -158,9 +160,9 @@ function CardGrid({ blocks, lang }) {
   );
 }
 
-function Table({ block, lang }) {
-  const header = block[`header_${lang}`] || block.header_en;
-  const rows = block[`rows_${lang}`] || block.rows_en || [];
+function Table({ content, lang }) {
+  const header = content[`header_${lang}`] || content.header_en;
+  const rows = content[`rows_${lang}`] || content.rows_en || [];
   if (!rows.length) return null;
   return (
     // The wrapper scrolls so a wide table never widens the page.
@@ -196,13 +198,13 @@ function Table({ block, lang }) {
   );
 }
 
-function Tabs({ block, lang }) {
-  if (!block.items?.length) return null;
+function Tabs({ content, lang }) {
+  if (!content.items?.length) return null;
   // Rendered as stacked labelled sections rather than JS tabs: every pane is
   // real content and all of it should be readable and indexable at once.
   return (
     <div className="mt-8 space-y-6">
-      {block.items.map((item, i) => (
+      {content.items.map((item, i) => (
         <section key={`tab-${i}`}>
           <h3 className="text-lg font-semibold text-primary">{t(item, 'label', lang)}</h3>
           <p className="mt-2 text-base leading-relaxed text-text-main">{t(item, 'body', lang)}</p>
@@ -212,11 +214,11 @@ function Tabs({ block, lang }) {
   );
 }
 
-function Cards({ block, lang }) {
-  if (!block.items?.length) return null;
+function Cards({ content, lang }) {
+  if (!content.items?.length) return null;
   return (
     <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {block.items.map((item, i) => (
+      {content.items.map((item, i) => (
         <div
           className="rounded-xl border border-primary/10 bg-white p-5 shadow-sm"
           key={`slide-${i}`}
@@ -237,12 +239,12 @@ function Cards({ block, lang }) {
  * harvest-time snapshot and are labelled as indicative for that reason — the
  * catalog site is the authority on what anything costs.
  */
-function ProductGrid({ block, lang }) {
-  if (!block.products?.length) return null;
+function ProductGrid({ content, lang }) {
+  if (!content.products?.length) return null;
   const buy = catalogUrl(lang);
   return (
     <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {block.products.map((product) => (
+      {content.products.map((product) => (
         <div
           className="flex h-full flex-col rounded-xl border border-primary/10 bg-white p-4 shadow-sm"
           key={product.name}
@@ -266,7 +268,7 @@ function ProductGrid({ block, lang }) {
             rel="noopener noreferrer"
             target="_blank"
           >
-            {lang === 'en' ? 'View in catalog' : 'Ver en el catálogo'}
+            {t(ui, 'viewInCatalog', lang)}
             <ExternalLink aria-hidden="true" className="h-3.5 w-3.5" />
           </a>
         </div>
@@ -283,11 +285,11 @@ function ProductGrid({ block, lang }) {
  * NEXT_PUBLIC_IMAGE_BASE — the live WordPress origin during the rebuild. They
  * must be downloaded before launch or every link here breaks at cutover.
  */
-function CoaList({ block, lang }) {
-  if (!block.items?.length) return null;
+function CoaList({ content, lang }) {
+  if (!content.items?.length) return null;
   return (
     <ul className="mt-6 divide-y divide-slate-200 rounded-xl border border-slate-200 bg-white">
-      {block.items.map((item) => (
+      {content.items.map((item) => (
         <li
           className="flex flex-wrap items-center justify-between gap-3 px-4 py-3"
           key={item.name}
@@ -301,7 +303,7 @@ function CoaList({ block, lang }) {
               target="_blank"
             >
               <FileText aria-hidden="true" className="h-3.5 w-3.5" />
-              {lang === 'en' ? 'Download PDF' : 'Descargar PDF'}
+              {t(ui, 'downloadPdf', lang)}
             </a>
           )}
         </li>
@@ -310,15 +312,46 @@ function CoaList({ block, lang }) {
   );
 }
 
-function Faq({ block, lang }) {
-  if (!block.items?.length) return null;
+function Faq({ content, lang }) {
+  if (!content.items?.length) return null;
   // FaqAccordion is a client component and takes resolved strings, so the
   // language is applied here rather than passed down.
-  const items = block.items.map((item) => ({
+  const items = content.items.map((item) => ({
     q: t(item, 'q', lang),
     a: t(item, 'a', lang),
   }));
   return <FaqAccordion items={items} />;
+}
+
+
+/** The heading and intro of a WooCommerce category archive. */
+function CategoryHeader({ content, lang }) {
+  const heading = t(content, 'heading', lang);
+  const intro = t(content, 'intro', lang);
+  if (!heading && !intro) return null;
+  return (
+    <>
+      {heading && (
+        <h1 className="text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">
+          {heading}
+        </h1>
+      )}
+      {intro && (
+        <p className="mt-4 text-base leading-relaxed text-text-main">{intro}</p>
+      )}
+    </>
+  );
+}
+
+/**
+ * A category's product list, resolved at RENDER time from the store harvest —
+ * the section stores only which category to list, never a frozen copy of the
+ * products. Moving a product between categories in WordPress and re-running
+ * the store harvest updates every archive without touching page data.
+ */
+function ProductGridDynamic({ content, lang }) {
+  const products = productsFor(content.categorySlug);
+  return <ProductList emptyLabel={t(ui, 'noProducts', lang)} lang={lang} products={products} />;
 }
 
 const RENDERERS = {
@@ -333,48 +366,21 @@ const RENDERERS = {
   product_grid: ProductGrid,
   coa_list: CoaList,
   faq: Faq,
+  category_header: CategoryHeader,
+  product_grid_dynamic: ProductGridDynamic,
 };
 
-/** Block types that need the full column width rather than the prose measure. */
-const WIDE = new Set(['product_grid', 'cards', 'table', 'coa_list']);
+/**
+ * Section types that need the full column width rather than the prose measure.
+ * Read by components/sections, which owns layout for the whole vocabulary.
+ */
+export const WIDE_TYPES = ['product_grid', 'cards', 'table', 'coa_list', 'product_grid_dynamic'];
 
-/** Collapse runs of `card` blocks into a single grid entry. */
-function group(blocks) {
-  const out = [];
-  for (const block of blocks) {
-    const last = out[out.length - 1];
-    if (block.type === 'card' && last?.kind === 'cards') {
-      last.blocks.push(block);
-      continue;
-    }
-    if (block.type === 'card') out.push({ kind: 'cards', blocks: [block] });
-    else out.push({ kind: 'block', block });
-  }
-  return out;
-}
-
-export default function Blocks({ blocks = [], lang, demoteH1 = false }) {
-  if (!blocks.length) return null;
-  return (
-    <Container className="py-12 sm:py-16">
-      {group(blocks).map((entry, i) => {
-        if (entry.kind === 'cards') {
-          return (
-            <div className="mx-auto max-w-5xl" key={`cards-${i}`}>
-              <CardGrid blocks={entry.blocks} lang={lang} />
-            </div>
-          );
-        }
-        const Renderer = RENDERERS[entry.block.type];
-        if (!Renderer) return null;
-        // Prose stays at a readable measure; grids and tables get more room.
-        const width = WIDE.has(entry.block.type) ? 'max-w-5xl' : 'max-w-3xl';
-        return (
-          <div className={`mx-auto ${width}`} key={`${entry.block.type}-${i}`}>
-            <Renderer block={entry.block} demote={demoteH1} lang={lang} />
-          </div>
-        );
-      })}
-    </Container>
-  );
-}
+/**
+ * The harvested half of the section vocabulary.
+ *
+ * Exported as a map rather than a renderer: components/sections merges it with
+ * the hand-built home section types into ONE registry, so there is a single
+ * renderer and a single type vocabulary for the future CMS admin to target.
+ */
+export const BLOCK_COMPONENTS = RENDERERS;

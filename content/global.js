@@ -19,6 +19,32 @@ export const footer = globalData.footer;
 export const harvestedAt = globalData.harvestedAt;
 
 /**
+ * Interface labels — the only strings the site writes itself.
+ *
+ * Everything else on the site is harvested page content. These are the words
+ * around it: button labels, empty states, the note next to a price. They live
+ * here rather than inside components so that no copy is trapped in JSX, and so
+ * they become editable rows alongside page content when the CMS lands.
+ *
+ * Read with `t(ui, 'key', lang)` exactly like harvested content.
+ */
+export const ui = {
+  viewInCatalog_en: 'View in catalog',
+  viewInCatalog_es: 'Ver en el catálogo',
+  buyOnCatalog_en: 'Buy on our catalog',
+  buyOnCatalog_es: 'Comprar en nuestro catálogo',
+  priceShownIn_en: 'Price shown in',
+  priceShownIn_es: 'Precio mostrado en',
+  downloadPdf_en: 'Download PDF',
+  downloadPdf_es: 'Descargar PDF',
+  noProducts_en: 'No products are currently listed in this category.',
+  noProducts_es: 'Actualmente no hay productos en esta categoría.',
+  // Build scaffolding, not site copy — see the transformation section.
+  pendingImage_en: 'Before / after image (pending)',
+  pendingImage_es: 'Imagen antes / después (pendiente)',
+};
+
+/**
  * Contact details used outside the harvested chrome (buy buttons, WhatsApp).
  * Verified against the live site's footer on 2026-07-27.
  */

@@ -1,9 +1,8 @@
 import { notFound } from 'next/navigation';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
-import Container from '@/components/ui/container';
-import ProductList from '@/components/product-list';
-import { bySpanishSlug, spanishParams, productsFor } from '@/content/pages/categories';
+import Sections from '@/components/sections';
+import { bySpanishSlug, spanishParams } from '@/content/pages/categories';
 import { alternates } from '@/lib/routes';
 
 /**
@@ -38,21 +37,7 @@ export default async function CategoryEs({ params }) {
     <>
       <SiteHeader lang="es" path={page.es} />
       <main className="flex-1">
-        <Container className="py-12 sm:py-16">
-          <h1 className="text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">
-            {page.heading_es}
-          </h1>
-          {page.intro_es && (
-            <p className="mt-4 max-w-3xl text-base leading-relaxed text-text-main">
-              {page.intro_es}
-            </p>
-          )}
-          <ProductList
-            emptyLabel="Actualmente no hay productos en esta categoría."
-            lang="es"
-            products={productsFor(page.slug)}
-          />
-        </Container>
+        <Sections lang="es" sections={page.sections} />
       </main>
       <SiteFooter lang="es" />
     </>

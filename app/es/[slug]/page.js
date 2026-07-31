@@ -1,8 +1,7 @@
 import { notFound } from 'next/navigation';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
-import Blocks from '@/components/blocks';
-import GuideArticle from '@/components/guide-article';
+import Sections from '@/components/sections';
 import { bySpanishSlug, spanishParams } from '@/content/pages/registry';
 import { alternates } from '@/lib/routes';
 
@@ -44,11 +43,7 @@ export default async function PageEs({ params }) {
     <>
       <SiteHeader lang="es" path={page.es} />
       <main className="flex-1">
-        {page.kind === 'article' ? (
-          <GuideArticle html={page.html_es} lang="es" />
-        ) : (
-          <Blocks blocks={page.blocks} lang="es" />
-        )}
+        <Sections lang="es" sections={page.sections} />
       </main>
       <SiteFooter lang="es" />
     </>

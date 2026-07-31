@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# WordPress user export — author names, slugs and the hosting hostname.
+# Nothing in the clone reads it; the harvest no longer writes it.
+data/wp/users.json

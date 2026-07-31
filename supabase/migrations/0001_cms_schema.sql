@@ -1,3 +1,17 @@
+-- ============================================================================
+-- TABLE NAMES ARE PREFIXED site_cms_* DELIBERATELY.
+--
+-- The production database already has a LIVE `site_settings` table, read by
+-- roughly 15 files in the CRM/catalog application. An unprefixed table here
+-- would collide with it, and `create table` against the wrong database could
+-- take down the admin that runs the shop.
+--
+-- Every table in this file is namespaced so that an accidental run cannot
+-- touch anything that already exists. Do not remove the prefix.
+--
+-- THIS MIGRATION HAS NEVER BEEN RUN. It is a design artifact only.
+-- ============================================================================
+
 -- =====================================================================
 -- Peptides Costa Rica — marketing site CMS schema
 --
@@ -22,7 +36,7 @@
 -- so a page goes live all at once — reorders, additions and deletions
 -- included. That is what stops half-finished edits appearing.
 -- ---------------------------------------------------------------------
-create type public.site_content_state as enum ('draft', 'published');
+create type public.site_cms_content_state as enum ('draft', 'published');
 
 -- ---------------------------------------------------------------------
 -- Pages
@@ -36,18 +50,18 @@ create type public.site_content_state as enum ('draft', 'published');
 -- the _en/_es fields inside the content JSON supply the translations,
 -- and the site renders the same row at '/about/' and '/es/about/'.
 -- ---------------------------------------------------------------------
-create table public.site_pages (
+create table public.site_cms_pages (
   slug          text primary key,
   name          text not null,               -- admin-facing label
   is_active     boolean not null default true,
   created_at    timestamptz not null default now(),
   updated_at    timestamptz not null default now(),
-  constraint site_pages_slug_format
+  constraint site_cms_pages_slug_format
     check (slug = '/' or (slug like '/%' and slug like '%/'))
 );
 
-comment on table  public.site_pages is 'One row per marketing route. Slug must match the live URL exactly.';
-comment on column public.site_pages.slug is 'Real URL path with leading and trailing slash. Changing this breaks SEO.';
+comment on table  public.site_cms_pages is 'One row per marketing route. Slug must match the live URL exactly.';
+comment on column public.site_cms_pages.slug is 'Real URL path with leading and trailing slash. Changing this breaks SEO.';
 
 -- ---------------------------------------------------------------------
 -- Section type registry
@@ -57,7 +71,7 @@ comment on column public.site_pages.slug is 'Real URL path with leading and trai
 -- its form without hardcoding a layout per type. Adding a new type is
 -- the only change that needs a code deploy.
 -- ---------------------------------------------------------------------
-create table public.site_section_types (
+create table public.site_cms_section_types (
   type          text primary key,
   name          text not null,
   description   text,
@@ -65,7 +79,7 @@ create table public.site_section_types (
   is_active     boolean not null default true
 );
 
-comment on table public.site_section_types is 'Registry of renderable section types. One type = one React component.';
+comment on table public.site_cms_section_types is 'Registry of renderable section types. One type = one React component.';
 
 -- ---------------------------------------------------------------------
 -- Page sections
@@ -76,11 +90,11 @@ comment on table public.site_section_types is 'Registry of renderable section ty
 -- every string. Image URLs point at Supabase Storage. No copy, image or
 -- link is hardcoded in the website repo.
 -- ---------------------------------------------------------------------
-create table public.site_page_sections (
+create table public.site_cms_page_sections (
   id            uuid primary key default gen_random_uuid(),
-  page_slug     text not null references public.site_pages(slug) on delete cascade,
-  state         public.site_content_state not null default 'draft',
-  section_type  text not null references public.site_section_types(type),
+  page_slug     text not null references public.site_cms_pages(slug) on delete cascade,
+  state         public.site_cms_content_state not null default 'draft',
+  section_type  text not null references public.site_cms_section_types(type),
   sort_order    integer not null default 0,
   is_visible    boolean not null default true,
   content       jsonb not null default '{}'::jsonb,
@@ -88,11 +102,11 @@ create table public.site_page_sections (
   updated_at    timestamptz not null default now()
 );
 
-create index site_page_sections_render_idx
-  on public.site_page_sections (page_slug, state, sort_order)
+create index site_cms_page_sections_render_idx
+  on public.site_cms_page_sections (page_slug, state, sort_order)
   where is_visible;
 
-comment on column public.site_page_sections.content is
+comment on column public.site_cms_page_sections.content is
   'All copy, image URLs and links. Every text key has _en and _es variants.';
 
 -- ---------------------------------------------------------------------
@@ -101,9 +115,9 @@ comment on column public.site_page_sections.content is
 -- One row per page per state. `noindex` stays true site-wide until
 -- launch day; see the launch checklist in README.md.
 -- ---------------------------------------------------------------------
-create table public.site_page_seo (
-  page_slug        text not null references public.site_pages(slug) on delete cascade,
-  state            public.site_content_state not null default 'draft',
+create table public.site_cms_page_seo (
+  page_slug        text not null references public.site_cms_pages(slug) on delete cascade,
+  state            public.site_cms_content_state not null default 'draft',
   title_en         text,
   title_es         text,
   description_en   text,
@@ -131,9 +145,9 @@ create table public.site_page_seo (
 --   'disclaimer'    the legal notice required on every page
 --   'social'        social profile URLs
 -- ---------------------------------------------------------------------
-create table public.site_settings (
+create table public.site_cms_settings (
   key         text not null,
-  state       public.site_content_state not null default 'draft',
+  state       public.site_cms_content_state not null default 'draft',
   value       jsonb not null default '{}'::jsonb,
   updated_at  timestamptz not null default now(),
   primary key (key, state)
@@ -142,7 +156,7 @@ create table public.site_settings (
 -- ---------------------------------------------------------------------
 -- updated_at maintenance
 -- ---------------------------------------------------------------------
-create or replace function public.site_touch_updated_at()
+create or replace function public.site_cms_touch_updated_at()
 returns trigger
 language plpgsql
 as $$
@@ -152,21 +166,21 @@ begin
 end;
 $$;
 
-create trigger site_pages_touch
-  before update on public.site_pages
-  for each row execute function public.site_touch_updated_at();
+create trigger site_cms_pages_touch
+  before update on public.site_cms_pages
+  for each row execute function public.site_cms_touch_updated_at();
 
-create trigger site_page_sections_touch
-  before update on public.site_page_sections
-  for each row execute function public.site_touch_updated_at();
+create trigger site_cms_page_sections_touch
+  before update on public.site_cms_page_sections
+  for each row execute function public.site_cms_touch_updated_at();
 
-create trigger site_page_seo_touch
-  before update on public.site_page_seo
-  for each row execute function public.site_touch_updated_at();
+create trigger site_cms_page_seo_touch
+  before update on public.site_cms_page_seo
+  for each row execute function public.site_cms_touch_updated_at();
 
-create trigger site_settings_touch
-  before update on public.site_settings
-  for each row execute function public.site_touch_updated_at();
+create trigger site_cms_settings_touch
+  before update on public.site_cms_settings
+  for each row execute function public.site_cms_touch_updated_at();
 
 -- ---------------------------------------------------------------------
 -- Publish / revert
@@ -177,64 +191,64 @@ create trigger site_settings_touch
 -- SECURITY INVOKER is deliberate: these must not be callable by anon.
 -- The grants at the bottom of this file only expose them to the admin.
 -- ---------------------------------------------------------------------
-create or replace function public.site_publish_page(p_slug text)
+create or replace function public.site_cms_publish_page(p_slug text)
 returns void
 language plpgsql
 security invoker
 set search_path = public
 as $$
 begin
-  delete from public.site_page_sections
+  delete from public.site_cms_page_sections
    where page_slug = p_slug and state = 'published';
 
-  insert into public.site_page_sections
+  insert into public.site_cms_page_sections
     (page_slug, state, section_type, sort_order, is_visible, content)
   select page_slug, 'published', section_type, sort_order, is_visible, content
-    from public.site_page_sections
+    from public.site_cms_page_sections
    where page_slug = p_slug and state = 'draft';
 
-  delete from public.site_page_seo
+  delete from public.site_cms_page_seo
    where page_slug = p_slug and state = 'published';
 
-  insert into public.site_page_seo
+  insert into public.site_cms_page_seo
     (page_slug, state, title_en, title_es, description_en, description_es,
      og_image_url, canonical_url, noindex)
   select page_slug, 'published', title_en, title_es, description_en, description_es,
          og_image_url, canonical_url, noindex
-    from public.site_page_seo
+    from public.site_cms_page_seo
    where page_slug = p_slug and state = 'draft';
 end;
 $$;
 
 -- Pull published back into draft, to discard in-progress edits.
-create or replace function public.site_revert_page(p_slug text)
+create or replace function public.site_cms_revert_page(p_slug text)
 returns void
 language plpgsql
 security invoker
 set search_path = public
 as $$
 begin
-  delete from public.site_page_sections
+  delete from public.site_cms_page_sections
    where page_slug = p_slug and state = 'draft';
 
-  insert into public.site_page_sections
+  insert into public.site_cms_page_sections
     (page_slug, state, section_type, sort_order, is_visible, content)
   select page_slug, 'draft', section_type, sort_order, is_visible, content
-    from public.site_page_sections
+    from public.site_cms_page_sections
    where page_slug = p_slug and state = 'published';
 end;
 $$;
 
-create or replace function public.site_publish_settings(p_key text)
+create or replace function public.site_cms_publish_settings(p_key text)
 returns void
 language plpgsql
 security invoker
 set search_path = public
 as $$
 begin
-  insert into public.site_settings (key, state, value)
+  insert into public.site_cms_settings (key, state, value)
   select key, 'published', value
-    from public.site_settings
+    from public.site_cms_settings
    where key = p_key and state = 'draft'
   on conflict (key, state) do update set value = excluded.value;
 end;
@@ -250,42 +264,42 @@ $$;
 -- The admin uses the service role, which bypasses RLS entirely, so no
 -- write policies are defined here.
 -- =====================================================================
-alter table public.site_pages          enable row level security;
-alter table public.site_section_types  enable row level security;
-alter table public.site_page_sections  enable row level security;
-alter table public.site_page_seo       enable row level security;
-alter table public.site_settings       enable row level security;
+alter table public.site_cms_pages          enable row level security;
+alter table public.site_cms_section_types  enable row level security;
+alter table public.site_cms_page_sections  enable row level security;
+alter table public.site_cms_page_seo       enable row level security;
+alter table public.site_cms_settings       enable row level security;
 
-create policy site_pages_anon_read
-  on public.site_pages for select to anon
+create policy site_cms_pages_anon_read
+  on public.site_cms_pages for select to anon
   using (is_active);
 
-create policy site_section_types_anon_read
-  on public.site_section_types for select to anon
+create policy site_cms_section_types_anon_read
+  on public.site_cms_section_types for select to anon
   using (is_active);
 
-create policy site_page_sections_anon_read
-  on public.site_page_sections for select to anon
+create policy site_cms_page_sections_anon_read
+  on public.site_cms_page_sections for select to anon
   using (state = 'published');
 
-create policy site_page_seo_anon_read
-  on public.site_page_seo for select to anon
+create policy site_cms_page_seo_anon_read
+  on public.site_cms_page_seo for select to anon
   using (state = 'published');
 
-create policy site_settings_anon_read
-  on public.site_settings for select to anon
+create policy site_cms_settings_anon_read
+  on public.site_cms_settings for select to anon
   using (state = 'published');
 
 -- Read-only, published-only. No insert/update/delete grants for anon.
-grant select on public.site_pages         to anon;
-grant select on public.site_section_types to anon;
-grant select on public.site_page_sections to anon;
-grant select on public.site_page_seo      to anon;
-grant select on public.site_settings      to anon;
+grant select on public.site_cms_pages         to anon;
+grant select on public.site_cms_section_types to anon;
+grant select on public.site_cms_page_sections to anon;
+grant select on public.site_cms_page_seo      to anon;
+grant select on public.site_cms_settings      to anon;
 
-revoke execute on function public.site_publish_page(text)     from anon, public;
-revoke execute on function public.site_revert_page(text)      from anon, public;
-revoke execute on function public.site_publish_settings(text) from anon, public;
+revoke execute on function public.site_cms_publish_page(text)     from anon, public;
+revoke execute on function public.site_cms_revert_page(text)      from anon, public;
+revoke execute on function public.site_cms_publish_settings(text) from anon, public;
 
 -- =====================================================================
 -- Seed: section type registry
@@ -294,7 +308,7 @@ revoke execute on function public.site_publish_settings(text) from anon, public;
 -- blocks reuse the same type with different content, which is why the
 -- count is lower. Derived from the live site on 2026-07-26.
 -- =====================================================================
-insert into public.site_section_types (type, name, description, field_schema) values
+insert into public.site_cms_section_types (type, name, description, field_schema) values
   ('hero', 'Hero',
    'Page-top heading, intro, trust chips and primary CTA.',
    '{"fields":["eyebrow","title","intro","body","chips[]","cta_label","cta_href","image_url"]}'),
@@ -358,7 +372,7 @@ insert into public.site_section_types (type, name, description, field_schema) va
 -- full harvested list, including the /product/* namespace still pending
 -- a decision.
 -- =====================================================================
-insert into public.site_pages (slug, name) values
+insert into public.site_cms_pages (slug, name) values
   ('/',                             'Home'),
   ('/about/',                       'About'),
   ('/our-story/',                   'Our Story'),
@@ -388,6 +402,6 @@ insert into storage.buckets (id, name, public)
 values ('site-content', 'site-content', true)
 on conflict (id) do nothing;
 
-create policy site_content_anon_read
+create policy site_cms_content_anon_read
   on storage.objects for select to anon
   using (bucket_id = 'site-content');
