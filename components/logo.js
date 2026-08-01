@@ -1,34 +1,36 @@
 import Link from 'next/link';
 import { localePath, DEFAULT_LANG } from '@/lib/routes';
+import { imageUrl } from '@/lib/images';
 
 /**
- * PLACEHOLDER LOCKUP — not the real logo.
+ * The site logo — the real one.
  *
- * The live site's logo is a raster image scaled to 300x148. It will be picked
- * up by the image download in the next step; until then this stands in at the
- * same outer dimensions so the swap won't shift layout.
+ * This was a hand-drawn SVG placeholder for far too long. Its own comment said
+ * the real file would be swapped in "in the next step"; the file was mirrored
+ * into public/ on 27 July and the swap never happened, so every page shipped a
+ * generic circle instead of the client's logo.
+ *
+ * Served from public/ like every other content image, so it resolves through
+ * NEXT_PUBLIC_IMAGE_BASE and carries no dependency on the WordPress origin.
  */
+const LOGO_SRC = '/wp-content/uploads/2026/02/COSTA-RICA-1-e1771916272916.png';
+
 export default function Logo({ lang = DEFAULT_LANG, className = '' }) {
   return (
     <Link
-      href={localePath('/', lang)}
-      className={`inline-flex items-center gap-2.5 ${className}`}
       aria-label="Peptides Costa Rica"
+      className={`inline-flex items-center ${className}`}
+      href={localePath('/', lang)}
     >
-      <svg viewBox="0 0 40 40" className="h-9 w-9 shrink-0" aria-hidden="true" fill="none">
-        <circle cx="20" cy="20" r="18" stroke="currentColor" strokeWidth="2" className="text-primary" />
-        <ellipse cx="20" cy="20" rx="18" ry="7" stroke="currentColor" strokeWidth="1.5" className="text-accent" />
-        <ellipse cx="20" cy="20" rx="7" ry="18" stroke="currentColor" strokeWidth="1.5" className="text-accent" />
-        <circle cx="20" cy="20" r="3.5" fill="currentColor" className="text-primary" />
-      </svg>
-      <span className="flex flex-col leading-none">
-        <span className="text-[15px] font-extrabold tracking-tight text-primary sm:text-lg">
-          Peptides Costa Rica
-        </span>
-        <span className="mt-0.5 text-[9px] font-semibold tracking-[0.18em] text-text-muted uppercase sm:text-[10px]">
-          Research Grade
-        </span>
-      </span>
+      {/* eslint-disable-next-line @next/next/no-img-element -- harvested asset
+          served from public/, at the live site's own dimensions. */}
+      <img
+        alt="Peptides Costa Rica"
+        className="h-12 w-auto sm:h-14"
+        height={148}
+        src={imageUrl(LOGO_SRC)}
+        width={300}
+      />
     </Link>
   );
 }
