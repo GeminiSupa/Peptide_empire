@@ -1,0 +1,1372 @@
+{
+  "harvestedAt": "2026-08-01T18:20:10.158Z",
+  "group": "homeBlocks",
+  "count": 1,
+  "pages": [
+    {
+      "slug": "home",
+      "en": "/",
+      "es": "/es/",
+      "head": {
+        "title_en": "Peptides Costa Rica | High-Purity Peptides and Fast Shipping",
+        "title_es": "Péptidos Costa Rica | Péptidos de Alta Pureza y Envío Rápido",
+        "description_en": "Welcome to Peptides Costa Rica, your local supplier of premium-quality peptides; we offer high-quality, research-grade peptide products with reliable delivery service.",
+        "description_es": "Bienvenido a Peptides Costa Rica, tu proveedor local de péptidos de óptima calidad; ofrecemos productos de péptidos de alta calidad, grado de investigación, con un servicio de entrega confiable."
+      },
+      "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 1,
+            "text_en": "Premium Peptides in Costa Rica",
+            "text_es": "Péptidos Premium en Costa Rica"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Welcome to Peptides Costa Rica, your local source for premium peptides, offering high-quality, research-grade peptide products with reliable delivery.",
+            "text_es": "Bienvenido a Peptides Costa Rica, tu fuente local de péptidos premium, ofreciendo productos de péptidos de alta calidad y grado de investigación con entrega confiable."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "More people are interested in peptides for performance, recovery, metabolism, weight management, and longevity. Getting them from international suppliers often leads to delays, uncertainty, and unnecessary customs hassles.",
+            "text_es": "Más personas están interesadas en péptidos para el rendimiento, la recuperación, el metabolismo, el control de peso y la longevidad. Obtenerlos de proveedores internacionales a menudo provoca retrasos, incertidumbre y trámites aduaneros innecesarios."
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "icon": true,
+            "items_en": [
+              "Verified quality",
+              "Transparent pricing",
+              "Local reliability"
+            ],
+            "items_es": [
+              "Calidad verificada",
+              "Precios transparentes",
+              "Fiabilidad local"
+            ]
+          }
+        },
+        {
+          "type": "button",
+          "content": {
+            "text_en": "Browse All Peptide Products",
+            "text_es": "Explorar todos los productos peptídicos",
+            "href": "/all-peptide-products-costa-rica/"
+          }
+        },
+        {
+          "type": "image",
+          "content": {
+            "src": "/wp-content/uploads/2026/04/Banner-Imagesz-1-e1774523007418-1536x1303__1_-removebg-preview-e1776934537173.png",
+            "alt_en": "Five Peptides Costa Rica bottles on blue background: Retatrutide, Seramorelin, NAD+, HCG, Glow 70 mg. Blue caps. Store at 2-8°C.",
+            "alt_es": "Cinco botellas de Peptides Costa Rica sobre fondo azul: Retatrutida, Seramorelina, NAD+, HCG, Glow 70 mg. Tapas azules. Almacenar a 2-8°C."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "AS SEEN IN",
+            "text_es": "COMO SE VE EN"
+          }
+        },
+        {
+          "type": "image",
+          "content": {
+            "src": "/wp-content/uploads/2026/07/TCRN-logo.png",
+            "alt_en": "The Costa Rica News logo with wildlife illustrations on a white background.",
+            "alt_es": "The Costa Rica News logo with wildlife illustrations on a white background."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Peptides Costa Rica Was Featured In",
+            "text_es": "Péptidos Costa Rica fue destacado en"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "The Costa Rica News.",
+            "text_es": "Las Noticias de Costa Rica."
+          }
+        },
+        {
+          "type": "button",
+          "content": {
+            "text_en": "Read The Article",
+            "text_es": "Lee el artículo",
+            "href": "/introducing-peptides-costa-rica-bringing-trusted-peptide-products-to-costa-rica/"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Peptides Costa Rica Was Featured In",
+            "text_es": "Péptidos Costa Rica fue destacado en"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Tico Times",
+            "text_es": "Tico Times"
+          }
+        },
+        {
+          "type": "button",
+          "content": {
+            "text_en": "Read The Article",
+            "text_es": "Lee el artículo",
+            "href": "/2026/07/26/why-two-fitness-veterans-chose-costa-rica-to-launch-a-new-peptide-company-peptides-costa-rica"
+          }
+        },
+        {
+          "type": "image",
+          "content": {
+            "src": "/wp-content/uploads/2026/07/images-removebg-preview.png",
+            "alt_en": "the tico times since 1956.",
+            "alt_es": "the tico times since 1956."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "We do things differently",
+            "text_es": "Lo hacemos diferente"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "At Peptides Costa Rica, we serve customers exclusively within Costa Rica. We offer clear pricing, bulk discounts, direct communication, and reliable local service.",
+            "text_es": "En Peptides Costa Rica, atendemos exclusivamente a clientes dentro de Costa Rica. Ofrecemos precios claros, descuentos por volumen, comunicación directa y servicio local confiable."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "No cross-border delays",
+            "text_es": "Sin demoras transfronterizas"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "As a local peptide supplier in Costa Rica, we eliminate international shipping issues, ensuring faster delivery and consistent availability.",
+            "text_es": "Como proveedor local de péptidos en Costa Rica, eliminamos los problemas de envío internacional, asegurando una entrega más rápida y disponibilidad constante."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Fast, Safe & Secure Online Ordering",
+            "text_es": "Pedido en línea rápido, seguro y confiable"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We now offer a fast, safe, and fully secure online checkout system for your convenience. Place your orders with confidence using our streamlined payment process designed to protect your information every step of the way.",
+            "text_es": "Ahora ofrecemos un sistema de pago en línea rápido, seguro y totalmente confiable para tu comodidad. Realiza tus pedidos con confianza utilizando nuestro proceso de pago simplificado, diseñado para proteger tu información en cada paso."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "No hidden import fees",
+            "text_es": "Sin cargos de importación ocultos"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Avoid unexpected customs costs. Our local distribution network ensures no hidden import fees or international charges, making your peptide purchases easy and stress-free.",
+            "text_es": "Evita costos aduaneros inesperados. Nuestra red de distribución local garantiza que no haya cargos de importación ocultos ni cobros internacionales, haciendo que tus compras de péptidos sean fáciles y sin preocupaciones."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Clear access and professional service",
+            "text_es": "Acceso claro y servicio profesional"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We combine premium peptide quality with professional, responsive customer service, helping you get exactly what you need, when you need it.",
+            "text_es": "Combinamos la calidad de péptidos premium con un servicio al cliente profesional y receptivo, ayudándote a obtener exactamente lo que necesitas, cuando lo necesitas."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Shop By Category",
+            "text_es": "Comprar por categoría"
+          }
+        },
+        {
+          "type": "tabs",
+          "content": {
+            "items": [
+              {
+                "label_en": "Peptides For Energy",
+                "label_es": "Péptidos para la Energía",
+                "body_en": "HGH 12 IU ₡ 31,794 Add to cart Add to Cart Mots-C 10mg ₡ 40,878 Read more Add to Cart Ipamorelin 10mg ₡ 45,420 Add to cart Add to Cart SUPER Human Blend 10ml ₡ 45,420 Add to cart Add to Cart",
+                "body_es": "HGH 12 IU ₡ 31,794 Add to cart Add to Cart Mots-C 10mg ₡ 40,878 Read more Add to Cart Ipamorelin 10mg ₡ 45,420 Add to cart Add to Cart SUPER Human Blend 10ml ₡ 45,420 Add to cart Add to Cart"
+              },
+              {
+                "label_en": "Peptides For Anti Aging",
+                "label_es": "Péptidos Antienvejecimiento",
+                "body_en": "CJC with DAC 5mg Read more Add to Cart Mots-C 10mg ₡ 40,878 Read more Add to Cart Selank 10mg ₡ 40,878 Add to cart Add to Cart KPV 10mg ₡ 40,878 Add to cart Add to Cart",
+                "body_es": "CJC with DAC 5mg Read more Add to Cart Mots-C 10mg ₡ 40,878 Read more Add to Cart Selank 10mg ₡ 40,878 Add to cart Add to Cart KPV 10mg ₡ 40,878 Add to cart Add to Cart"
+              },
+              {
+                "label_en": "Peptides For Fertility",
+                "label_es": "Péptidos para la fertilidad",
+                "body_en": "KissPeptin-10 10mg ₡ 59,045 Add to cart Add to Cart HCG 10,000 IU ₡ 72,671 Add to cart Add to Cart",
+                "body_es": "KissPeptin-10 10mg ₡ 59,045 Add to cart Add to Cart HCG 10,000 IU ₡ 72,671 Add to cart Add to Cart"
+              },
+              {
+                "label_en": "Peptides For Healing",
+                "label_es": "Péptidos para la curación",
+                "body_en": "CJC with DAC 5mg Read more Add to Cart HGH 12 IU ₡ 31,794 Add to cart Add to Cart BPC-157 10mg ₡ 40,878 Add to cart Add to Cart Ipamorelin 10mg ₡ 45,420 Add to cart Add to Cart",
+                "body_es": "CJC with DAC 5mg Read more Add to Cart HGH 12 IU ₡ 31,794 Add to cart Add to Cart BPC-157 10mg ₡ 40,878 Add to cart Add to Cart Ipamorelin 10mg ₡ 45,420 Add to cart Add to Cart"
+              },
+              {
+                "label_en": "Peptides For Muscle Growth",
+                "label_es": "Péptidos para el crecimiento muscular",
+                "body_en": "CJC with DAC 5mg Read more Add to Cart HGH 12 IU ₡ 31,794 Add to cart Add to Cart SLU-PP-332 5mg ₡ 36,336 Add to cart Add to Cart MT-II ₡ 40,878 Add to cart Add to Cart",
+                "body_es": "CJC with DAC 5mg Read more Add to Cart HGH 12 IU ₡ 31,794 Add to cart Add to Cart SLU-PP-332 5mg ₡ 36,336 Add to cart Add to Cart MT-II ₡ 40,878 Add to cart Add to Cart"
+              },
+              {
+                "label_en": "Peptides For Skin",
+                "label_es": "Péptidos para la piel",
+                "body_en": "CJC with DAC 5mg Read more Add to Cart GHK-CU 50mg ₡ 31,794 Read more Add to Cart Glutathione 1500mg ₡ 45,420 Add to cart Add to Cart GHK-CU 100mg ₡ 45,420 Add to cart Add to Cart",
+                "body_es": "CJC with DAC 5mg Read more Add to Cart GHK-CU 50mg ₡ 31,794 Read more Add to Cart Glutathione 1500mg ₡ 45,420 Add to cart Add to Cart GHK-CU 100mg ₡ 45,420 Add to cart Add to Cart"
+              },
+              {
+                "label_en": "Peptides For Weight Loss",
+                "label_es": "Péptidos para la pérdida de peso",
+                "body_en": "CJC with DAC 5mg Read more Add to Cart 5-amino-1mq 5mg ₡ 27,252 Add to cart Add to Cart HGH 12 IU ₡ 31,794 Add to cart Add to Cart Mots-C 10mg ₡ 40,878 Read more Add to Cart",
+                "body_es": "CJC with DAC 5mg Read more Add to Cart 5-amino-1mq 5mg ₡ 27,252 Add to cart Add to Cart HGH 12 IU ₡ 31,794 Add to cart Add to Cart Mots-C 10mg ₡ 40,878 Read more Add to Cart"
+              },
+              {
+                "label_en": "Copper Peptides",
+                "label_es": "Péptidos de Cobre",
+                "body_en": "GHK-CU 50mg ₡ 31,794 Read more Add to Cart",
+                "body_es": "GHK-CU 50mg ₡ 31,794 Read more Add to Cart"
+              }
+            ]
+          }
+        },
+        {
+          "type": "product_grid",
+          "content": {
+            "products": [
+              {
+                "name": "HGH 12 IU",
+                "price": "₡ 31,794",
+                "href": "/product/hgh-12-iu/",
+                "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
+              },
+              {
+                "name": "Mots-C 10mg",
+                "price": "₡ 40,878",
+                "href": "/product/mots-c-10mg/",
+                "image": "/wp-content/uploads/2026/02/MOTS-C-10-1-300x300.jpg"
+              },
+              {
+                "name": "Ipamorelin 10mg",
+                "price": "₡ 45,420",
+                "href": "/product/ipamorelin-10mg/",
+                "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
+              },
+              {
+                "name": "SUPER Human Blend 10ml",
+                "price": "₡ 45,420",
+                "href": "/product/super-human-blend-10ml/",
+                "image": "/wp-content/uploads/2026/04/SUPER-Human-Blend-1-300x300.jpg"
+              }
+            ]
+          }
+        },
+        {
+          "type": "product_grid",
+          "content": {
+            "products": [
+              {
+                "name": "CJC with DAC 5mg",
+                "price": "",
+                "href": "/product/cjc-with-dac-5mg/",
+                "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+              },
+              {
+                "name": "Mots-C 10mg",
+                "price": "₡ 40,878",
+                "href": "/product/mots-c-10mg/",
+                "image": "/wp-content/uploads/2026/02/MOTS-C-10-1-300x300.jpg"
+              },
+              {
+                "name": "Selank 10mg",
+                "price": "₡ 40,878",
+                "href": "/product/selank-10mg/",
+                "image": "/wp-content/uploads/2026/02/Selank-1-300x300.jpg"
+              },
+              {
+                "name": "KPV 10mg",
+                "price": "₡ 40,878",
+                "href": "/product/kpv-10mg/",
+                "image": "/wp-content/uploads/2026/05/KPV-1-1-300x300.webp"
+              }
+            ]
+          }
+        },
+        {
+          "type": "product_grid",
+          "content": {
+            "products": [
+              {
+                "name": "KissPeptin-10 10mg",
+                "price": "₡ 59,045",
+                "href": "/product/kisspeptin-10-10mg/",
+                "image": "/wp-content/uploads/2026/04/Kisspeptin-10-1-300x300.jpg"
+              },
+              {
+                "name": "HCG 10,000 IU",
+                "price": "₡ 72,671",
+                "href": "/product/hcg-10000-iu/",
+                "image": "/wp-content/uploads/2026/02/HCG-1-1-300x300.jpg"
+              }
+            ]
+          }
+        },
+        {
+          "type": "product_grid",
+          "content": {
+            "products": [
+              {
+                "name": "CJC with DAC 5mg",
+                "price": "",
+                "href": "/product/cjc-with-dac-5mg/",
+                "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+              },
+              {
+                "name": "HGH 12 IU",
+                "price": "₡ 31,794",
+                "href": "/product/hgh-12-iu/",
+                "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
+              },
+              {
+                "name": "BPC-157 10mg",
+                "price": "₡ 40,878",
+                "href": "/product/bpc-157-10mg/",
+                "image": "/wp-content/uploads/2026/02/BPC-157-2-300x300.jpg"
+              },
+              {
+                "name": "Ipamorelin 10mg",
+                "price": "₡ 45,420",
+                "href": "/product/ipamorelin-10mg/",
+                "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
+              }
+            ]
+          }
+        },
+        {
+          "type": "product_grid",
+          "content": {
+            "products": [
+              {
+                "name": "CJC with DAC 5mg",
+                "price": "",
+                "href": "/product/cjc-with-dac-5mg/",
+                "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+              },
+              {
+                "name": "HGH 12 IU",
+                "price": "₡ 31,794",
+                "href": "/product/hgh-12-iu/",
+                "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
+              },
+              {
+                "name": "SLU-PP-332 5mg",
+                "price": "₡ 36,336",
+                "href": "/product/slu-pp-332-5mg/",
+                "image": "/wp-content/uploads/2026/05/Slu-pp332-1-300x300.webp"
+              },
+              {
+                "name": "MT-II",
+                "price": "₡ 40,878",
+                "href": "/product/mt-ii/",
+                "image": "/wp-content/uploads/2026/05/MT-II-1-300x300.webp"
+              }
+            ]
+          }
+        },
+        {
+          "type": "product_grid",
+          "content": {
+            "products": [
+              {
+                "name": "CJC with DAC 5mg",
+                "price": "",
+                "href": "/product/cjc-with-dac-5mg/",
+                "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+              },
+              {
+                "name": "GHK-CU 50mg",
+                "price": "₡ 31,794",
+                "href": "/product/ghk-cu-50mg/",
+                "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
+              },
+              {
+                "name": "Glutathione 1500mg",
+                "price": "₡ 45,420",
+                "href": "/product/glutathione-1500mg/",
+                "image": "/wp-content/uploads/2026/04/Glutathione-1-300x300.jpg"
+              },
+              {
+                "name": "GHK-CU 100mg",
+                "price": "₡ 45,420",
+                "href": "/product/ghk-cu-100mg/",
+                "image": "/wp-content/uploads/2026/05/GHK-CU-100-2-300x300.webp"
+              }
+            ]
+          }
+        },
+        {
+          "type": "product_grid",
+          "content": {
+            "products": [
+              {
+                "name": "CJC with DAC 5mg",
+                "price": "",
+                "href": "/product/cjc-with-dac-5mg/",
+                "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+              },
+              {
+                "name": "5-amino-1mq 5mg",
+                "price": "₡ 27,252",
+                "href": "/product/5-amino-1mq-5mg/",
+                "image": "/wp-content/uploads/2026/02/5-Amino-1MQ-1-300x300.jpg"
+              },
+              {
+                "name": "HGH 12 IU",
+                "price": "₡ 31,794",
+                "href": "/product/hgh-12-iu/",
+                "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
+              },
+              {
+                "name": "Mots-C 10mg",
+                "price": "₡ 40,878",
+                "href": "/product/mots-c-10mg/",
+                "image": "/wp-content/uploads/2026/02/MOTS-C-10-1-300x300.jpg"
+              }
+            ]
+          }
+        },
+        {
+          "type": "product_grid",
+          "content": {
+            "products": [
+              {
+                "name": "GHK-CU 50mg",
+                "price": "₡ 31,794",
+                "href": "/product/ghk-cu-50mg/",
+                "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
+              }
+            ]
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "What We Offer",
+            "text_es": "Lo que ofrecemos"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Peptides are studied for their specific effects in the body. Unlike regular supplements, they are researched for how they work with certain signaling pathways in the body.",
+            "text_es": "Los péptidos se estudian por sus efectos específicos en el cuerpo. A diferencia de los suplementos regulares, se investigan por cómo funcionan con ciertas vías de señalización en el cuerpo."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Metabolic & Weight Optimization",
+            "text_es": "Optimización Metabólica y de Peso"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Certain peptides are studied for their role in metabolism, appetite regulation, and energy balance. These areas are important for body shape and how your body works.",
+            "text_es": "Ciertos péptidos se estudian por su papel en el metabolismo, la regulación del apetito y el balance energético. Estas áreas son importantes para la forma corporal y el funcionamiento de tu cuerpo."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Recovery & Tissue Support",
+            "text_es": "Recuperación y Soporte de Tejidos"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Recovery matters for long-term performance and staying strong. Some peptides are talked about for helping with tissue repair, joint support, and recovery routines.",
+            "text_es": "La recuperación es importante para el rendimiento a largo plazo y para mantenerse fuerte. Se habla de algunos péptidos por su ayuda en la reparación de tejidos, el soporte articular y las rutinas de recuperación."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Cognitive Performance & Mental Clarity",
+            "text_es": "Rendimiento Cognitivo y Claridad Mental"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Many high-performing people care about focus and mental sharpness. Some peptides are studied for how they may support brain signals linked to clear thinking.",
+            "text_es": "Muchas personas de alto rendimiento se preocupan por la concentración y la agudeza mental. Algunos péptidos son estudiados por cómo pueden apoyar las señales cerebrales relacionadas con el pensamiento claro."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Skin & Regenerative Applications",
+            "text_es": "Aplicaciones dérmicas y regenerativas"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Peptides often come up in research about skin repair, collagen, and keeping skin healthy.",
+            "text_es": "Los péptidos a menudo surgen en la investigación sobre la reparación de la piel, el colágeno y el mantenimiento de una piel saludable."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Energy & Mitochondrial Function",
+            "text_es": "Energía y Función Mitocondrial"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Your cells need energy for endurance, recovery, and feeling your best. Some peptides are studied for how they may help mitochondrial efficiency.",
+            "text_es": "Tus células necesitan energía para la resistencia, la recuperación y para sentirte al máximo. Algunos péptidos se estudian por cómo pueden ayudar a la eficiencia mitocondrial."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Hormonal & Endocrine Signaling",
+            "text_es": "Señalización hormonal y endocrina"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Hormones play a big role in performance, metabolism, and recovery. Some peptides are often mentioned in routines that focus on hormone balance.",
+            "text_es": "Las hormonas juegan un papel importante en el rendimiento, el metabolismo y la recuperación. Algunos péptidos se mencionan a menudo en rutinas que se centran en el equilibrio hormonal."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Who This Is For",
+            "text_es": "¿Para quién es esto?"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Peptides Costa Rica is for people who take their health performance seriously.",
+            "text_es": "Peptides Costa Rica es para personas que se toman en serio la mejora de su salud."
+          }
+        },
+        {
+          "type": "card",
+          "content": {
+            "title_en": "Performance-Driven People",
+            "title_es": "Personas impulsadas por el rendimiento",
+            "text_en": "Those focused on improving strength, endurance, recovery, and overall physical capacity.",
+            "text_es": "Aquellos enfocados en mejorar la fuerza, la resistencia, la recuperación y la capacidad física general.",
+            "href": null
+          }
+        },
+        {
+          "type": "card",
+          "content": {
+            "title_en": "Wellness & Longevity Enthusiasts",
+            "title_es": "Entusiastas del Bienestar y la Longevidad",
+            "text_en": "People looking for new ways to boost energy, metabolism, and long-term wellness.",
+            "text_es": "Personas en busca de nuevas formas de potenciar su energía, metabolismo y bienestar a largo plazo.",
+            "href": null
+          }
+        },
+        {
+          "type": "card",
+          "content": {
+            "title_en": "Recovery-Focused Clients",
+            "title_es": "Clientes enfocados en la recuperación",
+            "text_en": "Anyone who wants to keep their joints strong, tissues healthy, and training on track.",
+            "text_es": "Cualquiera que quiera mantener sus articulaciones fuertes, sus tejidos sanos y su entrenamiento al día.",
+            "href": null
+          }
+        },
+        {
+          "type": "card",
+          "content": {
+            "title_en": "High-Performance Professionals",
+            "title_es": "Profesionales de Alto Desempeño",
+            "text_en": "Entrepreneurs, athletes, and anyone who values clear thinking, steady energy, and good routines.",
+            "text_es": "Emprendedores, atletas y cualquier persona que valore la claridad mental, la energía constante y las buenas rutinas.",
+            "href": null
+          }
+        },
+        {
+          "type": "button",
+          "content": {
+            "text_en": "View All Products",
+            "text_es": "Ver todos los productos",
+            "href": "/all-peptide-products-costa-rica/"
+          }
+        },
+        {
+          "type": "image",
+          "content": {
+            "src": "/wp-content/uploads/2026/07/3-13-1-2.webp",
+            "alt_en": "Medical vials with assorted colored caps and labels on reflective surface.",
+            "alt_es": "Medical vials with assorted colored caps and labels on reflective surface."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "CUSTOMER TRANSFORMATION",
+            "text_es": "Transformación del cliente"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Real People. Real Results.",
+            "text_es": "Gente Real. Resultados Reales."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "This customer shared his before & after after using our product consistently.",
+            "text_es": "Este cliente compartió su antes y después después de usar nuestro producto consistentemente."
+          }
+        },
+        {
+          "type": "image",
+          "content": {
+            "src": "/wp-content/uploads/elementor/thumbs/befor-robag53fjy9jqse2kn1i5llc5dzq2g4qpd09u2gdn4.webp",
+            "alt_en": "Before photo of man shirtless in bathroom.",
+            "alt_es": "Before photo of man shirtless in bathroom."
+          }
+        },
+        {
+          "type": "image",
+          "content": {
+            "src": "/wp-content/uploads/elementor/thumbs/afte-robak3ywerp4rimjecssoljefyfikfvxx062s4kjdc.webp",
+            "alt_en": "Shirtless man flexing muscles in mirror.",
+            "alt_es": "Shirtless man flexing muscles in mirror."
+          }
+        },
+        {
+          "type": "card",
+          "content": {
+            "title_en": "Real customer-submitted result",
+            "title_es": "Resultado real de un cliente",
+            "text_en": "",
+            "text_es": "",
+            "href": null
+          }
+        },
+        {
+          "type": "card",
+          "content": {
+            "title_en": "Face blurred for privacy",
+            "title_es": "Rostro difuminado por privacidad",
+            "text_en": "",
+            "text_es": "",
+            "href": null
+          }
+        },
+        {
+          "type": "card",
+          "content": {
+            "title_en": "Results may vary from person to person",
+            "title_es": "Los resultados pueden variar de persona a persona",
+            "text_en": "",
+            "text_es": "",
+            "href": null
+          }
+        },
+        {
+          "type": "button",
+          "content": {
+            "text_en": "View Products",
+            "text_es": "Ver Productos",
+            "href": "/all-peptide-products-costa-rica/"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Popular Products",
+            "text_es": "Productos Populares"
+          }
+        },
+        {
+          "type": "product_grid",
+          "content": {
+            "products": [
+              {
+                "name": "Retatrutide 24mg",
+                "price": "₡ 74,942",
+                "href": "/product/retatrutide-24mg/",
+                "image": "/wp-content/uploads/2026/04/Retatrutide-24mg-1-300x300.jpg"
+              },
+              {
+                "name": "Semaglutide 20mg",
+                "price": "₡ 124,904",
+                "href": "/product/semaglutide-20mg/",
+                "image": "/wp-content/uploads/2026/05/Semaglutide-20-1-300x300.webp"
+              },
+              {
+                "name": "Retatrutide 15mg",
+                "price": "₡ 63,587",
+                "href": "/product/retatrutide-15mg/",
+                "image": "/wp-content/uploads/2026/04/Retatrutide-15mg-1-300x300.jpg"
+              }
+            ]
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Categories",
+            "text_es": "Categorías"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "icon": true,
+            "items_en": [
+              "Peptides For Energy",
+              "Peptides For Anti Aging",
+              "Peptides For Fertility",
+              "Peptides For Healing",
+              "Peptides For Muscle Growth",
+              "Peptides For Skin",
+              "Peptides For Weight Loss",
+              "Copper Peptides",
+              "Peptides For Cognitive Function",
+              "BAC Water",
+              "Collagen Peptides"
+            ],
+            "items_es": [
+              "Péptidos para la Energía",
+              "Péptidos Antienvejecimiento",
+              "Péptidos para la fertilidad",
+              "Péptidos para la curación",
+              "Péptidos para el crecimiento muscular",
+              "Péptidos para la piel",
+              "Péptidos para la pérdida de peso",
+              "Péptidos de Cobre",
+              "Péptidos para la función cognitiva",
+              "Agua BAC",
+              "Péptidos de colágeno"
+            ]
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "BULK OFFER",
+            "text_es": "OFERTA AL POR MAYOR"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 4,
+            "text_en": "Save 15% on Bulk Peptide Orders",
+            "text_es": "Ahorra 15% en pedidos de péptidos al por mayor"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Stock up on high-purity research peptides and receive an exclusive 15% discount on qualifying bulk purchases.",
+            "text_es": "Abastécete de péptidos de investigación de alta pureza y obtén un descuento exclusivo de 15% en compras al por mayor que cumplan con los requisitos."
+          }
+        },
+        {
+          "type": "image",
+          "content": {
+            "src": "/wp-content/uploads/2026/04/Banner-Imagesz-1-e1774523007418-1536x1303__1_-removebg-preview-e1776934537173.png",
+            "alt_en": "Five Peptides Costa Rica bottles on blue background: Retatrutide, Seramorelin, NAD+, HCG, Glow 70 mg. Blue caps. Store at 2-8°C.",
+            "alt_es": "Cinco botellas de Peptides Costa Rica sobre fondo azul: Retatrutida, Seramorelina, NAD+, HCG, Glow 70 mg. Tapas azules. Almacenar a 2-8°C."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Laboratory-Tested Purity",
+            "text_es": "Pureza Probada en Laboratorio"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "All of our research peptides are manufactured under strict quality control standards and tested for purity and consistency, ensuring reliable results for laboratory and research applications.",
+            "text_es": "Todos nuestros péptidos de investigación se fabrican bajo estrictos estándares de control de calidad y se analizan para determinar su pureza y consistencia, lo que garantiza resultados confiables para aplicaciones de laboratorio e investigación."
+          }
+        },
+        {
+          "type": "button",
+          "content": {
+            "text_en": "View Products",
+            "text_es": "Ver Productos",
+            "href": "/all-peptide-products-costa-rica/"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Research-Grade Peptides",
+            "text_es": "Péptidos de Grado de Investigación"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We provide precision-manufactured peptides designed strictly for research and laboratory applications. Quality, stability, and reliability guaranteed.",
+            "text_es": "Ofrecemos péptidos fabricados con precisión, diseñados estrictamente para aplicaciones de investigación y laboratorio. Calidad, estabilidad y confiabilidad garantizadas."
+          }
+        },
+        {
+          "type": "button",
+          "content": {
+            "text_en": "Browse Collection",
+            "text_es": "Explorar Colección",
+            "href": "/all-peptide-products-costa-rica/"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Your Trusted Peptide Supplier in Costa Rica",
+            "text_es": "Tu Proveedor de Confianza de Péptidos en Costa Rica"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "PeptidesCostaRica provides premium research peptides sourced from certified laboratories and handled under controlled conditions. We are committed to delivering consistent quality and dependable service for researchers across Costa Rica and internationally.",
+            "text_es": "PeptidesCostaRica ofrece péptidos de investigación de primera calidad, obtenidos de laboratorios certificados y manipulados bajo condiciones controladas. Estamos comprometidos a ofrecer calidad constante y un servicio confiable para investigadores en Costa Rica e internacionalmente."
+          }
+        },
+        {
+          "type": "button",
+          "content": {
+            "text_en": "Call To Order",
+            "text_es": "Se abre la sesión",
+            "href": "tel:+50684046973"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Your Trusted Peptide Supplier in Costa Rica",
+            "text_es": "Tu Proveedor de Confianza de Péptidos en Costa Rica"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "PeptidesCostaRica provides premium research peptides sourced from certified laboratories and handled under controlled conditions. We are committed to delivering consistent quality and dependable service for researchers across Costa Rica and internationally.",
+            "text_es": "PeptidesCostaRica ofrece péptidos de investigación de primera calidad, obtenidos de laboratorios certificados y manipulados bajo condiciones controladas. Estamos comprometidos a ofrecer calidad constante y un servicio confiable para investigadores en Costa Rica e internacionalmente."
+          }
+        },
+        {
+          "type": "button",
+          "content": {
+            "text_en": "Call To Order",
+            "text_es": "Se abre la sesión",
+            "href": "tel:+50684046973"
+          }
+        },
+        {
+          "type": "image",
+          "content": {
+            "src": "/wp-content/uploads/2026/02/BPC-157-2-1024x1024.jpg",
+            "alt_en": "BPC-157 10mg bottle with blue cap and white powder.",
+            "alt_es": "Frasco de BPC-157 de 10 mg con tapa azul y polvo blanco."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "BPC-157 10mg",
+            "text_es": "BPC-157 10mg"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Buy 5+ viles, get 15% off",
+            "text_es": "Compra 5 o más frascos y obtén un descuento de 15%"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "90$",
+            "text_es": "90$"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "icon": true,
+            "items_en": [
+              "Improved ligament repair",
+              "Enhanced muscle recovery",
+              "Faster wound healing (skin and soft tissue)"
+            ],
+            "items_es": [
+              "Reparación mejorada de ligamentos",
+              "Recuperación muscular mejorada",
+              "Cicatrización de heridas más rápida (piel y tejidos blandos)"
+            ]
+          }
+        },
+        {
+          "type": "button",
+          "content": {
+            "text_en": "Call To Order",
+            "text_es": "Se abre la sesión",
+            "href": "tel:+50684046973"
+          }
+        },
+        {
+          "type": "image",
+          "content": {
+            "src": "/wp-content/uploads/2026/02/HCG-1-1-1024x1024.jpg",
+            "alt_en": "HCG 10,000 IU jar with atom logo, refrigerate at 2-8°C, for subcutaneous use.",
+            "alt_es": "Frasco de HCG 10,000 UI con logo de átomo, refrigerar a 2-8°C, para uso subcutáneo."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "HCG 10,000 IU",
+            "text_es": "HCG 10,000 UI"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Buy 5+ viles, get 15% off",
+            "text_es": "Compra 5 o más frascos y obtén un descuento de 15%"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "160$",
+            "text_es": "160$"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "icon": true,
+            "items_en": [
+              "Weight loss (HCG diet)",
+              "Bodybuilding PCT (off-label)",
+              "Female infertility – stimulates ovulation"
+            ],
+            "items_es": [
+              "Bajar de peso (dieta HCG)",
+              "PCT para culturismo (uso no autorizado)",
+              "Infertilidad femenina – estimula la ovulación"
+            ]
+          }
+        },
+        {
+          "type": "button",
+          "content": {
+            "text_en": "Call To Order",
+            "text_es": "Se abre la sesión",
+            "href": "tel:+50684046973"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Latest Product",
+            "text_es": "Último producto"
+          }
+        },
+        {
+          "type": "product_grid",
+          "content": {
+            "products": [
+              {
+                "name": "HGH 24 IU",
+                "price": "₡ 54,503",
+                "href": "/product/hgh-24-iu/",
+                "image": "/wp-content/uploads/2026/02/HGH-24-1-300x300.jpg"
+              },
+              {
+                "name": "Fat Blaster 10ml",
+                "price": "₡ 49,962",
+                "href": "/product/fat-blaster-10ml/",
+                "image": "/wp-content/uploads/2026/04/Untitled-design-1-300x300.webp"
+              },
+              {
+                "name": "Mots-C 40mg",
+                "price": "₡ 68,129",
+                "href": "/product/mots-c-40mg/",
+                "image": "/wp-content/uploads/2026/04/MOTS-C-40-1-300x300.jpg"
+              },
+              {
+                "name": "CJC with DAC 5mg",
+                "price": "",
+                "href": "/product/cjc-with-dac-5mg/",
+                "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+              }
+            ]
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 6,
+            "text_en": "Why choose us",
+            "text_es": "¿Por qué elegirnos?"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Trusted Quality.",
+            "text_es": "Calidad de confianza."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Peptides are short chains of amino acids that play an important role in biological regulation and cellular communication. Their growing popularity reflects increasing interest in targeted, research-driven approaches to performance and wellness.",
+            "text_es": "Los péptidos son cadenas cortas de aminoácidos que desempeñan un papel importante en la regulación biológica y la comunicación celular. Su creciente popularidad refleja un interés cada vez mayor en enfoques dirigidos y basados en la investigación para el rendimiento y el bienestar."
+          }
+        },
+        {
+          "type": "image",
+          "content": {
+            "src": "/wp-content/uploads/2026/07/Untitled-design-4.webp",
+            "alt_en": "Couple exercising with vials on coffee table.",
+            "alt_es": "Couple exercising with vials on coffee table."
+          }
+        },
+        {
+          "type": "card",
+          "content": {
+            "title_en": "Weight Management",
+            "title_es": "Control de peso",
+            "text_en": "Certain peptides can promote fat breakdown and support metabolism, making them a powerful tool in weight loss regimes.",
+            "text_es": "Ciertos péptidos pueden promover la descomposición de la grasa y apoyar el metabolismo, convirtiéndolos en una herramienta poderosa en los regímenes de pérdida de peso.",
+            "href": null
+          }
+        },
+        {
+          "type": "card",
+          "content": {
+            "title_en": "Muscle Growth",
+            "title_es": "Crecimiento muscular",
+            "text_en": "By stimulating muscle protein synthesis, peptides help build lean muscle mass, promoting strength and endurance.",
+            "text_es": "Al estimular la síntesis de proteínas musculares, los péptidos ayudan a desarrollar masa muscular magra, promoviendo la fuerza y la resistencia.",
+            "href": null
+          }
+        },
+        {
+          "type": "card",
+          "content": {
+            "title_en": "Energy and Vitality",
+            "title_es": "Energía y Vitalidad",
+            "text_en": "Enhanced energy levels and improved recovery times enable a more active and fulfilling lifestyle.",
+            "text_es": "Los niveles de energía mejorados y los tiempos de recuperación optimizados permiten un estilo de vida más activo y pleno.",
+            "href": null
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 6,
+            "text_en": "Testimonials",
+            "text_es": "Testimonios"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Customer Success Stories",
+            "text_es": "Historias de éxito de clientes"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We take pride in the trust and loyalty of our customers. Numerous individuals across Costa Rica have experienced transformative results with our peptide products. Our testimonials section is a living showcase of positive outcomes, featuring stories of enhanced energy, impressive muscle growth, and dramatic reductions in body fat.",
+            "text_es": "Nos enorgullecemos de la confianza y lealtad de nuestros clientes. Numerosas personas en toda Costa Rica han experimentado resultados transformadores con nuestros productos peptídicos. Nuestra sección de testimonios es una muestra viva de resultados positivos, presentando historias de mayor energía, crecimiento muscular impresionante y reducciones drásticas en la grasa corporal."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 6,
+            "text_en": "Common Questions",
+            "text_es": "Preguntas frecuentes"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Frequently Asked Questions",
+            "text_es": "Preguntas frecuentes"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We understand that making an informed decision requires clear and reliable information. Below are some frequently asked questions about our peptide products:",
+            "text_es": "Entendemos que tomar una decisión informada requiere información clara y confiable. A continuación, encontrará algunas preguntas frecuentes sobre nuestros productos peptídicos:"
+          }
+        },
+        {
+          "type": "image",
+          "content": {
+            "src": "/wp-content/uploads/2026/07/Untitled-design-5-1-1024x576.webp",
+            "alt_en": "Bottles arranged on sandy beach in blue water.",
+            "alt_es": "Bottles arranged on sandy beach in blue water."
+          }
+        },
+        {
+          "type": "faq",
+          "content": {
+            "items": [
+              {
+                "q_en": "Do you ship outside Costa Rica?",
+                "q_es": "¿Hacen envíos fuera de Costa Rica?",
+                "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica. By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+                "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al servir solo a Costa Rica, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que usted pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas sencillas y confiables para los clientes locales."
+              },
+              {
+                "q_en": "Do you offer online checkout?",
+                "q_es": "¿Ofrecen pago en línea?",
+                "a_en": "Yes. We now provide a fast, safe, and secure online checkout system. You can place and complete your order directly on our website with confidence.",
+                "a_es": "Sí. Ahora ofrecemos un sistema de pago en línea rápido, seguro y confiable. Puede realizar y completar su pedido directamente en nuestro sitio web con confianza."
+              },
+              {
+                "q_en": "What payment methods do you accept?",
+                "q_es": "¿Qué métodos de pago aceptan?",
+                "a_en": "We currently accept: SINPE Móvil Zelle PayPal Cash Once we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+                "a_es": "Actualmente aceptamos: SINPE Móvil Zelle PayPal Efectivo Una vez que confirmemos que tu pedido está en stock, te enviaremos las instrucciones de pago. Nos aseguramos de que el proceso sea sencillo y de que conozcas el precio total antes de pagar."
+              },
+              {
+                "q_en": "Is there a bulk discount?",
+                "q_es": "¿Hay un descuento por volumen?",
+                "a_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+                "a_es": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay."
+              },
+              {
+                "q_en": "How do I confirm product availability?",
+                "q_es": "¿Cómo confirmo la disponibilidad del producto?",
+                "a_en": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
+                "a_es": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly."
+              },
+              {
+                "q_en": "How quickly do you respond to inquiries?",
+                "q_es": "¿A qué velocidad respondes a las consultas?",
+                "a_en": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication.",
+                "a_es": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication."
+              },
+              {
+                "q_en": "Can I modify my order after it has been placed?",
+                "q_es": "¿Puedo modificar mi pedido después de que se haya realizado?",
+                "a_en": "Order changes are possible only if processing has not started. Once packaging or shipment begins, modifications may no longer be available, so quick contact is important.",
+                "a_es": "Los cambios en los pedidos solo son posibles si el procesamiento no ha comenzado. Una vez que comience el empaquetado o el envío, es posible que las modificaciones ya no estén disponibles, por lo que el contacto rápido es importante."
+              }
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "No. Peptides Costa Rica operates exclusively within Costa Rica. By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+            "text_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al servir solo a Costa Rica, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que usted pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas sencillas y confiables para los clientes locales."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Yes. We now provide a fast, safe, and secure online checkout system. You can place and complete your order directly on our website with confidence.",
+            "text_es": "Sí. Ahora ofrecemos un sistema de pago en línea rápido, seguro y confiable. Puede realizar y completar su pedido directamente en nuestro sitio web con confianza."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We currently accept:",
+            "text_es": "Actualmente aceptamos:"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "SINPE Móvil",
+              "Zelle",
+              "PayPal",
+              "Cash"
+            ],
+            "items_es": [
+              "SINPE Móvil",
+              "Zelle",
+              "PayPal",
+              "Efectivo"
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Once we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+            "text_es": "Una vez que confirmemos que tu pedido está en stock, te enviaremos las instrucciones de pago. Nos aseguramos de que el proceso sea sencillo y de que conozcas el precio total antes de pagar."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Yes.",
+            "text_es": "Sí."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Purchase five or more vials of the same product and receive 15% off.",
+            "text_es": "Compra cinco o más frascos del mismo producto y obtén un descuento de 15%."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
+            "text_es": "No hay reglas de precios complicadas ni cargos ocultos. Calculamos cualquier descuento por volumen con anticipación, para que siempre sepas qué esperar antes de pagar."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Just reach out to us using the phone number or contact details on our website.",
+            "text_es": "Contáctanos usando el número de teléfono o los datos de contacto de nuestra página web."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
+            "text_es": "Siempre verificamos que tus artículos estén en stock antes de que pagues. De esta manera, nunca pagas por algo que no podemos entregar y podemos coordinar la entrega sin problemas."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We try to reply quickly to questions about availability and orders.",
+            "text_es": "Intentamos responder rápidamente a las preguntas sobre disponibilidad y pedidos."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Talking directly with you is part of our local service. We always aim for clear and efficient communication.",
+            "text_es": "Hablar directamente contigo es parte de nuestro servicio local. Siempre buscamos una comunicación clara y eficiente."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Order changes are possible only if processing has not started. Once packaging or shipment begins, modifications may no longer be available, so quick contact is important.",
+            "text_es": "Los cambios en los pedidos solo son posibles si el procesamiento no ha comenzado. Una vez que comience el empaquetado o el envío, es posible que las modificaciones ya no estén disponibles, por lo que el contacto rápido es importante."
+          }
+        }
+      ],
+      "untranslated": 11
+    }
+  ]
+}

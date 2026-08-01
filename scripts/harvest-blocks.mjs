@@ -50,6 +50,13 @@ const FETCH_RENDERED = new Set(['wooProduct']);
  */
 const EXTRA_GROUPS = {
   guideBlocks: ['/retatrutide-complete-guide/'],
+  // The home page. It was originally harvested by a bespoke script into 11
+  // hand-authored section components whose layout was invented rather than
+  // reproduced, and which captured text only — none of its 45 images and only
+  // 12 of its 63 headings. Running it through the same pipeline as the other
+  // 316 pages fixes that and retires the bespoke types into the shared
+  // vocabulary.
+  homeBlocks: ['/'],
 };
 const clean = (s) => (s || '').replace(/\s+/g, ' ').trim();
 const rel = (v) => (v ? v.replace(/^https?:\/\/[^/]+/, '') : null);
@@ -152,7 +159,6 @@ const bi = (key, en, tr) => ({ [`${key}_en`]: en, [`${key}_es`]: en ? tr(en).es 
 const IGNORED = new Set([
   'woocommerce-product-add-to-cart',
   'rating',
-  'elementskit-testimonial',
   'woocommerce-product-meta',
   'video', // Elementor builds the player client-side; content.rendered is empty
 ]);
@@ -197,10 +203,19 @@ function widgetToBlock($, el, tr) {
   const container = $w.find('.elementor-widget-container').first();
 
   if (type === 'heading') {
-    const h = $w.find('h1,h2,h3,h4,h5,h6').first();
-    const en = clean(h.text());
+    // Elementor lets a heading widget render as any tag, and 113 headings across
+    // the corpus use <p> or <div>. Looking only for h1-h6 dropped their text
+    // entirely — silently, because the widget simply yielded no block.
+    //
+    // level 0 means "looks like a heading, is not one semantically", which is
+    // what the live DOM does. The renderer styles it as a heading but emits a
+    // <p>, so both the appearance and the markup match the page being cloned.
+    const el = $w.find('h1,h2,h3,h4,h5,h6,.elementor-heading-title').first();
+    const en = clean(el.text());
     if (!en) return null;
-    return { type: 'heading', level: Number(h[0].tagName[1]) || 2, ...bi('text', en, tr) };
+    const tag = el[0]?.tagName ?? '';
+    const level = /^h[1-6]$/i.test(tag) ? Number(tag[1]) : 0;
+    return { type: 'heading', level, ...bi('text', en, tr) };
   }
 
   if (type === 'text-editor') {
@@ -329,6 +344,22 @@ function widgetToBlock($, el, tr) {
     return items.length ? { type: 'cards', items } : null;
   }
 
+  // Static marketing copy in a slider. Previously lumped in with `rating` as
+  // "live, changing data" and dropped, which cost four real quotes on every
+  // product page.
+  if (type === 'elementskit-testimonial') {
+    const items = [];
+    $w.find('.swiper-slide').each((_, slide) => {
+      const $s = $(slide);
+      const quote = clean($s.find('.elementskit-commentor-content p, .elementskit-commentor-content').first().text());
+      const name = clean($s.find('.elementskit-author-name, .elementskit-commentor-details .elementskit-author-name').first().text());
+      const role = clean($s.find('.elementskit-author-des').first().text());
+      if (!quote) return;
+      items.push({ ...bi('quote', quote, tr), ...bi('name', name, tr), ...bi('role', role, tr) });
+    });
+    return items.length ? { type: 'testimonials_slider', items } : null;
+  }
+
   if (type === 'elementskit-accordion' || type === 'nested-accordion') {
     const items = [];
     if (type === 'nested-accordion') {
@@ -404,7 +435,7 @@ function widgetToBlock($, el, tr) {
  * empty page rather than an honest failure.
  */
 const SKIP = new Map([
-  ['/', 'home — harvested separately by harvest-home.mjs into an ordered section array'],
+  ['/', 'home — harvest it explicitly via the homeBlocks group, not as part of core'],
   ['/affiliate-program/', 'one long article — harvest-guides.mjs handles it'],
   ['/info-center/', 'one long article — harvest-guides.mjs handles it'],
   ['/blog/', 'dynamic index (loop-grid) — must be built from our own post data'],
@@ -450,7 +481,9 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
     : routes.filter((r) => r.group === group);
 
   for (const route of wanted) {
-    if (SKIP.has(route.en)) {
+    // An explicit EXTRA_GROUPS include wins over SKIP: naming a path is a
+    // deliberate instruction to harvest it, not something to silently ignore.
+    if (!EXTRA_GROUPS[group] && SKIP.has(route.en)) {
       skipped.push([route.en, SKIP.get(route.en)]);
       continue;
     }

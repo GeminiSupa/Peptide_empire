@@ -72,7 +72,10 @@ const SKIP = 'script,style,noscript,svg,template';
  */
 const VOLATILE = [
   'rating',
-  'elementskit-testimonial',
+  // elementskit-testimonial is NOT excluded. It was, until the block harvester
+  // started capturing those quotes as real content — leaving 67 product pages
+  // with English testimonials on their Spanish version. Verified it can stay:
+  // the pages still pair exactly without excluding it.
   'shortcode',
   'woocommerce-product-add-to-cart',
   'nested-carousel',
@@ -81,6 +84,14 @@ const VOLATILE = [
   .join(',');
 
 const VOLATILE_GROUPS = new Set(['wooProduct']);
+
+/**
+ * Individual paths needing the same treatment. The home page carries the same
+ * currency-switching product grids as a product page and drifted by a single
+ * node, which was enough to reject it — leaving the Spanish home page with no
+ * pairs at all.
+ */
+const VOLATILE_PATHS = new Set(['/']);
 
 const clean = (s) => (s || '').replace(/\s+/g, ' ').trim();
 
@@ -164,7 +175,7 @@ async function main() {
   await pool(work, 6, async (route) => {
     try {
       const [$en, $es] = await Promise.all([loadPage(route.en), loadPage(route.es)]);
-      const drop = VOLATILE_GROUPS.has(route.group);
+      const drop = VOLATILE_GROUPS.has(route.group) || VOLATILE_PATHS.has(route.en);
       const en = strings($en, drop);
       const es = strings($es, drop);
 

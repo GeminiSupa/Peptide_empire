@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-07-31T20:21:37.786Z",
+  "harvestedAt": "2026-08-01T18:20:14.509Z",
   "group": "guideBlocks",
   "count": 1,
   "pages": [
@@ -14,6 +14,14 @@
         "description_es": "Guía completa sobre Retatrutida, el agonista de triple receptor (GLP-1 + GIP + glucagón). Hallazgos de investigación, dosificación, efectos secundarios y disponibilidad en Costa Rica."
       },
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "RESEARCH GUIDE",
+            "text_es": "GUÍA DE INVESTIGACIÓN"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -34,6 +42,14 @@
           "content": {
             "text_en": "Please read before continuingThis guide provides general educational information only. Nothing on this page is medical advice, a prescription, or a dosing recommendation. Retatrutide is an investigational compound not approved by the FDA, EMA, or Costa Rica’s Ministerio de Salud. Always consult a qualified healthcare professional. Products sold by Peptides Costa Rica are intended for research purposes only.",
             "text_es": "Please read before continuingThis guide provides general educational information only. Nothing on this page is medical advice, a prescription, or a dosing recommendation. Retatrutide is an investigational compound not approved by the FDA, EMA, or Costa Rica’s Ministerio de Salud. Always consult a qualified healthcare professional. Products sold by Peptides Costa Rica are intended for research purposes only."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "What's on this page",
+            "text_es": "¿Qué hay en esta página?"
           }
         },
         {

@@ -33,6 +33,12 @@ function Heading({ content, lang, demote }) {
     return <h2 className="mt-12 text-2xl font-bold text-primary sm:text-[1.75rem]">{text}</h2>;
   }
 
+  // level 0 — styled as a heading on the live site but emitted as <p>. Kept
+  // non-semantic here too, so the heading outline matches the original.
+  if (content.level === 0) {
+    return <p className="mt-8 text-lg font-semibold text-primary sm:text-xl">{text}</p>;
+  }
+
   // h1 opens the page; the rest are section headings within it.
   if (content.level === 1) {
     return (
@@ -354,6 +360,32 @@ function ProductGridDynamic({ content, lang }) {
   return <ProductList emptyLabel={t(ui, 'noProducts', lang)} lang={lang} products={products} />;
 }
 
+
+/** Customer quotes from the product pages' slider, rendered as a static grid. */
+function TestimonialsSlider({ content, lang }) {
+  if (!content.items?.length) return null;
+  return (
+    <div className="mt-8 grid gap-5 sm:grid-cols-2">
+      {content.items.map((item, i) => (
+        <figure
+          className="flex h-full flex-col rounded-xl border border-primary/10 bg-white p-5 shadow-sm"
+          key={`quote-${i}`}
+        >
+          <blockquote className="text-sm leading-relaxed text-text-main">
+            {t(item, 'quote', lang)}
+          </blockquote>
+          {(t(item, 'name', lang) || t(item, 'role', lang)) && (
+            <figcaption className="mt-3 text-xs font-semibold text-text-muted">
+              {t(item, 'name', lang)}
+              {t(item, 'role', lang) && ` · ${t(item, 'role', lang)}`}
+            </figcaption>
+          )}
+        </figure>
+      ))}
+    </div>
+  );
+}
+
 const RENDERERS = {
   heading: Heading,
   paragraph: Paragraph,
@@ -367,6 +399,7 @@ const RENDERERS = {
   coa_list: CoaList,
   faq: Faq,
   category_header: CategoryHeader,
+  testimonials_slider: TestimonialsSlider,
   product_grid_dynamic: ProductGridDynamic,
 };
 
@@ -374,7 +407,14 @@ const RENDERERS = {
  * Section types that need the full column width rather than the prose measure.
  * Read by components/sections, which owns layout for the whole vocabulary.
  */
-export const WIDE_TYPES = ['product_grid', 'cards', 'table', 'coa_list', 'product_grid_dynamic'];
+export const WIDE_TYPES = [
+  'product_grid',
+  'cards',
+  'table',
+  'coa_list',
+  'product_grid_dynamic',
+  'testimonials_slider',
+];
 
 /**
  * The harvested half of the section vocabulary.

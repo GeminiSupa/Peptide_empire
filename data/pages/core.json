@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-07-31T15:09:03.325Z",
+  "harvestedAt": "2026-08-01T18:20:14.444Z",
   "group": "core",
   "count": 9,
   "pages": [
@@ -13,7 +13,6 @@
         "description_en": "Costa Rica peptides research. Buy peptides online from trusted supplier in Costa Rica for quality peptides.",
         "description_es": "Investigación de péptidos en Costa Rica. Compre péptidos en línea de un proveedor confiable en Costa Rica para péptidos de calidad."
       },
-      "untranslated": 5,
       "sections": [
         {
           "type": "heading",
@@ -518,7 +517,8 @@
             "text_es": "Siempre verificamos que tus artículos estén en stock antes de que pagues. De esta manera, nunca pagas por algo que no podemos entregar y podemos coordinar la entrega sin problemas."
           }
         }
-      ]
+      ],
+      "untranslated": 5
     },
     {
       "slug": "our-story",
@@ -530,7 +530,6 @@
         "description_en": "Buy now premium services with trusted quality. Call 506 8404-6973 today for fast support, expert solutions, and reliable results you can count on.",
         "description_es": "Compre ahora servicios premium con calidad confiable. Llame hoy al 506 8404-6973 para obtener soporte rápido, soluciones expertas y resultados confiables en los que puede contar."
       },
-      "untranslated": 0,
       "sections": [
         {
           "type": "heading",
@@ -950,7 +949,8 @@
             "text_es": "A medida que más personas en Costa Rica se interesan en el rendimiento, la recuperación y la longevidad, nos encontramos en esta lucha: mantenernos como una fuente local confiable basada en la transparencia, la consistencia y la comunicación directa. Peptides Costa Rica se construyó sobre la experiencia real, y estamos comprometidos a mantener ese enfoque a medida que crecemos."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "bulk-discounts",
@@ -962,7 +962,6 @@
         "description_en": "Buy bulk peptides wholesale in Costa Rica. Shop premium research peptides at the best prices. Call 506 8404-6973 to order today.",
         "description_es": "Compre péptidos a granel al por mayor en Costa Rica. Compre péptidos de investigación premium a los mejores precios. Llame al 506 8404-6973 para pedir hoy."
       },
-      "untranslated": 5,
       "sections": [
         {
           "type": "heading",
@@ -1363,7 +1362,8 @@
             "text_es": "Siempre verificamos que tus artículos estén en stock antes de que pagues. De esta manera, nunca pagas por algo que no podemos entregar y podemos coordinar la entrega sin problemas."
           }
         }
-      ]
+      ],
+      "untranslated": 5
     },
     {
       "slug": "lab-tests-coa-results",
@@ -1375,7 +1375,6 @@
         "description_en": "Verify Peptides Costa Rica lab-tested products with Certificates of Analysis (COAs) for research-grade peptide products.",
         "description_es": "Verifica los productos de Peptides Costa Rica probados en laboratorio con Certificados de Análisis (COAs) para productos peptídicos de grado de investigación."
       },
-      "untranslated": 0,
       "sections": [
         {
           "type": "coa_list",
@@ -1657,7 +1656,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "faq-costa-rica",
@@ -1669,7 +1669,6 @@
         "description_en": "Buy with confidence, find answers about peptides, ordering, shipping, and quality. Call 506 8404-6973 for fast support today.",
         "description_es": "Compre con confianza, encuentre respuestas sobre péptidos, pedidos, envíos y calidad. Llame al 506 8404-6973 para obtener asistencia rápida hoy mismo."
       },
-      "untranslated": 15,
       "sections": [
         {
           "type": "heading",
@@ -1710,7 +1709,7 @@
                 "q_en": "Do you ship outside Costa Rica?",
                 "q_es": "¿Hacen envíos fuera de Costa Rica?",
                 "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers here in the country.",
-                "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al servir solo a Costa Rica, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que pagues y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales aquí en el país."
+                "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica.Al servir solo a Costa Rica, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que pagues y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales aquí en el país."
               },
               {
                 "q_en": "Do you offer online checkout?",
@@ -1797,7 +1796,7 @@
           "type": "paragraph",
           "content": {
             "text_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers here in the country.",
-            "text_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al servir solo a Costa Rica, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que pagues y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales aquí en el país."
+            "text_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica.Al servir solo a Costa Rica, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que pagues y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales aquí en el país."
           }
         },
         {
@@ -1996,7 +1995,8 @@
             "text_es": "Pero si compras cinco o más frascos del mismo producto, obtendrás un descuento por volumen de 15%."
           }
         }
-      ]
+      ],
+      "untranslated": 15
     },
     {
       "slug": "contact-costa-rica",
@@ -2008,7 +2008,6 @@
         "description_en": "Peptides Costa Rica for inquiries, orders, and support. Call 506 8404-6973 for fast assistance and expert guidance today.",
         "description_es": "Péptidos Costa Rica para consultas, pedidos y soporte. Llame al 506 8404-6973 para recibir asistencia rápida y orientación experta hoy mismo."
       },
-      "untranslated": 4,
       "sections": [
         {
           "type": "heading",
@@ -2267,7 +2266,8 @@
             "text_es": "Siempre verificamos que tus artículos estén en stock antes de que pagues. De esta manera, nunca pagas por algo que no podemos entregar y podemos coordinar la entrega sin problemas."
           }
         }
-      ]
+      ],
+      "untranslated": 4
     },
     {
       "slug": "customer-feedback",
@@ -2279,7 +2279,6 @@
         "description_en": "Buy with confidence, find answers about peptides, ordering, shipping, and quality. Call 506 8404-6973 for fast support today.",
         "description_es": "Compre con confianza, encuentre respuestas sobre péptidos, pedidos, envíos y calidad. Llame al 506 8404-6973 para obtener asistencia rápida hoy mismo."
       },
-      "untranslated": 0,
       "sections": [
         {
           "type": "heading",
@@ -2306,6 +2305,21 @@
           }
         },
         {
+          "type": "testimonials_slider",
+          "content": {
+            "items": [
+              {
+                "quote_en": "Everything was handled professionally, and the process was smooth and stress-free. I appreciated how efficiently they managed everything without unnecessary delays.",
+                "quote_es": "Todo se manejó profesionalmente, y el proceso fue fluido y sin estrés. Agradecí la eficiencia con la que gestionaron todo sin demoras innecesarias.",
+                "name_en": "Anthony J",
+                "name_es": "Anthony J",
+                "role_en": "United States",
+                "role_es": "Estados Unidos"
+              }
+            ]
+          }
+        },
+        {
           "type": "heading",
           "content": {
             "level": 2,
@@ -2320,7 +2334,8 @@
             "text_es": "Perspectivas y experiencias de nuestra creciente comunidad de clientes satisfechos."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "our-service-locations",
@@ -2332,7 +2347,6 @@
         "description_en": "Find peptide service locations across Costa Rica. Peptides Costa Rica supports customers in major provinces with availability checks, secure ordering, and local delivery coordination.",
         "description_es": "Encuentra ubicaciones de servicios de péptidos en Costa Rica. Peptides Costa Rica apoya a clientes en las principales provincias con verificaciones de disponibilidad, pedidos seguros y coordinación de entrega local."
       },
-      "untranslated": 0,
       "sections": [
         {
           "type": "heading",
@@ -2699,7 +2713,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "all-peptide-products-costa-rica",
@@ -2711,7 +2726,6 @@
         "description_en": "Buy now premium research peptides for weight loss, recovery, and performance. Call 506 8404-6973 to order high-quality peptides today.",
         "description_es": "Compre ahora péptidos de investigación premium para pérdida de peso, recuperación y rendimiento. Llame al 506 8404-6973 para pedir péptidos de alta calidad hoy mismo."
       },
-      "untranslated": 11,
       "sections": [
         {
           "type": "heading",
@@ -3564,7 +3578,8 @@
             "text_es": "Hablar directamente contigo es parte de nuestro servicio local. Siempre buscamos una comunicación clara y eficiente."
           }
         }
-      ]
+      ],
+      "untranslated": 11
     }
   ]
 }

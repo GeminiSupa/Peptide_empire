@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-07-31T14:58:35.153Z",
+  "harvestedAt": "2026-08-01T18:20:12.683Z",
   "group": "city",
   "count": 93,
   "pages": [
@@ -13,8 +13,15 @@
         "description_en": "Buy premium peptides in Limón, Costa Rica. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Limón, Costa Rica. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -717,7 +724,8 @@
             "text_es": "No. Peptides Costa Rica atiende solo a clientes dentro de Costa Rica. Los clientes en Limón y otras provincias de Costa Rica pueden revisar la disponibilidad de péptidos, hacer pedidos y coordinar la entrega local dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "heredia",
@@ -729,8 +737,15 @@
         "description_en": "Buy premium peptides in Heredia, Costa Rica. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos premium en Heredia, Costa Rica. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -1433,7 +1448,8 @@
             "text_es": "No. Peptides Costa Rica atiende a clientes únicamente dentro de Costa Rica. Los clientes en Heredia y otras localidades de Costa Rica pueden revisar productos, verificar disponibilidad y coordinar entregas locales, pero no se ofrece envío internacional fuera de Costa Rica."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "cartago",
@@ -1445,8 +1461,15 @@
         "description_en": "Buy premium peptides in Cartago, Costa Rica. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Cartago, Costa Rica. Probados en laboratorio para verificar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -2133,7 +2156,8 @@
             "text_es": "No. Peptides Costa Rica opera únicamente en Costa Rica. Los clientes en Cartago y otras partes de Costa Rica pueden revisar la disponibilidad de péptidos en Costa Rica y coordinar el soporte de entrega local una vez confirmados los detalles del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "alajuela",
@@ -2145,8 +2169,15 @@
         "description_en": "Buy premium peptides in Alajuela, Costa Rica. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Alajuela, Costa Rica. Probados en laboratorio para pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -2870,7 +2901,8 @@
             "text_es": "No. Peptides Costa Rica atiende exclusivamente a clientes dentro del país, garantizando entregas locales confiables y un servicio profesional para todos los pedidos de péptidos en Alajuela."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "san-jose",
@@ -2882,8 +2914,15 @@
         "description_en": "Buy premium peptides in San José, Costa Rica. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en San José, Costa Rica. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -3586,7 +3625,8 @@
             "text_es": "No. Peptides Costa Rica atiende únicamente a Costa Rica. Los clientes que deseen comprar péptidos en Costa Rica pueden solicitar disponibilidad, completar el pago y coordinar la entrega local dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "puntarenas",
@@ -3598,8 +3638,15 @@
         "description_en": "Buy premium peptides in Puntarenas, Costa Rica. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Puntarenas, Costa Rica. Analizados en laboratorio para determinar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -4295,7 +4342,8 @@
             "text_es": "No, Peptides Costa Rica atiende únicamente a clientes dentro de Costa Rica. Los clientes en Puntarenas y otras ubicaciones de Costa Rica pueden revisar las opciones de péptidos de grado de investigación, confirmar la disponibilidad antes del pago y coordinar la entrega localmente una vez confirmados los detalles del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "guanacaste",
@@ -4307,8 +4355,15 @@
         "description_en": "Buy premium peptides in Guanacaste, Costa Rica. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Guanacaste, Costa Rica. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -5011,7 +5066,8 @@
             "text_es": "No. Peptides Costa Rica atiende exclusivamente a clientes dentro de Costa Rica. Se brindan servicios de coordinación y soporte de entrega local en todo Guanacaste y otras provincias para garantizar un servicio confiable."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "cahuita-limon",
@@ -5023,8 +5079,15 @@
         "description_en": "Browse premium research-grade peptides in Cahuita, Limón. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora péptidos premium de grado de investigación en Cahuita, Limón. Verifica la disponibilidad, revisa las opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -5656,7 +5719,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos exclusivo para Costa Rica para clientes en Cahuita y áreas cercanas de Limón. Esto ayuda a los clientes a evitar la incertidumbre del envío internacional y a confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega a nivel local."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "cachi-cartago",
@@ -5668,8 +5732,15 @@
         "description_en": "Browse premium research-grade peptides in Cachí, Cartago. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Busca péptidos de grado de investigación premium en Cachí, Cartago. Verifica la disponibilidad, revisa las opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -6281,7 +6352,8 @@
             "text_es": "Sí. Los clientes que realicen pedidos grandes de péptidos en Costa Rica pueden tener derecho a descuentos por volumen, dependiendo de los detalles finales del pedido confirmados por Peptides Costa Rica. Los pedidos de 5 o más viales pueden tener derecho a un descuento de 15%, mientras que los pedidos de 10 o más viales pueden tener derecho a un descuento de 20%. También puede haber envío gratuito para pedidos superiores a $200."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "orosi-cartago",
@@ -6293,8 +6365,15 @@
         "description_en": "Browse premium research-grade peptides in Orosi, Cartago. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora péptidos premium de grado de investigación en Orosi, Cartago. Consulta disponibilidad, revisa opciones de productos y coordina entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -6906,7 +6985,8 @@
             "text_es": "Sí. Los clientes que realicen pedidos grandes de péptidos en Costa Rica pueden tener derecho a descuentos por volumen, dependiendo de los detalles finales del pedido confirmados por Peptides Costa Rica. Los pedidos de 5 o más viales pueden tener derecho a un descuento de 15%, mientras que los pedidos de 10 o más viales pueden tener derecho a un descuento de 20%. También puede haber envío gratuito para pedidos superiores a $200."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "ipis-san-jose",
@@ -6918,8 +6998,15 @@
         "description_en": "Buy premium peptides in Ipís San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Ipís, San José. Probados en laboratorio para confirmar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -7637,7 +7724,8 @@
             "text_es": "Peptides Costa Rica atiende a clientes únicamente en Costa Rica, por lo que los pedidos y la coordinación de entregas se gestionan dentro de Costa Rica."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "tejar-cartago",
@@ -7649,8 +7737,15 @@
         "description_en": "Browse research-grade peptides in Tejar, Cartago. Check current stock, confirm pricing before payment and coordinate delivery within Costa Rica.",
         "description_es": "Browse research-grade peptides in Tejar, Cartago. Check current stock, confirm pricing before payment and coordinate delivery within Costa Rica."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -8348,7 +8443,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "colima-heredia",
@@ -8360,8 +8456,15 @@
         "description_en": "Buy premium peptides in Colima, Heredia. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos premium en Colima, Heredia. Probados en laboratorio para verificar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -9052,7 +9155,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio únicamente para Costa Rica. Los clientes en Colima y otras áreas de Costa Rica pueden solicitar disponibilidad, revisar productos y coordinar la entrega local dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "guapiles-limon",
@@ -9064,8 +9168,15 @@
         "description_en": "Buy premium peptides in Guápiles Limón. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Guápiles, Limón. Probados en laboratorio para determinar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -9756,7 +9867,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio exclusivamente para Costa Rica. Los clientes en Guápiles y otras áreas de Costa Rica pueden revisar productos de péptidos de grado de investigación, confirmar la disponibilidad actual, completar los pasos de pedido y coordinar la entrega dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "jaco-puntarenas",
@@ -9768,8 +9880,15 @@
         "description_en": "Browse premium research-grade peptides in Jaco, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora péptidos premium de grado de investigación en Jacó, Puntarenas. Consulta disponibilidad, revisa opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -10401,7 +10520,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos solo para Costa Rica a clientes en Jaco y áreas cercanas de la costa del Pacífico de Puntarenas. Esto ayuda a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega a nivel local."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "arenal-alajuela",
@@ -10413,8 +10533,15 @@
         "description_en": "Browse premium research-grade peptides in Arenal, Costa Rica. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora una selección de péptidos de alta calidad para investigación en Arenal, Costa Rica. Verifica la disponibilidad, revisa las opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -11026,7 +11153,8 @@
             "text_es": "Sí, es posible que se apliquen descuentos por volumen a los pedidos grandes de péptidos en Costa Rica a través de Peptides Costa Rica. Los pedidos de 5 o más viales pueden tener derecho a un descuento de 15%, mientras que los pedidos de 10 o más viales pueden tener derecho a un descuento de 20%, dependiendo de los detalles finales del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "escazu-san-jose",
@@ -11038,8 +11166,15 @@
         "description_en": "Buy premium peptides in Escazú San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos premium en Escazú, San José. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -11757,7 +11892,8 @@
             "text_es": "Peptides Costa Rica enfoca sus servicios únicamente a clientes radicados en Costa Rica, brindando soporte para pedidos, verificación de disponibilidad y coordinación de entregas dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "siquirres-limon",
@@ -11769,8 +11905,15 @@
         "description_en": "Buy premium peptides in Siquirres Limón. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Siquirres, Limón. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -12461,7 +12604,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio únicamente dentro de Costa Rica. Los clientes en Siquirres y otras áreas de Costa Rica pueden revisar productos peptídicos de grado de investigación, confirmar la disponibilidad actual, completar los pasos de pedido y coordinar la entrega dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "aserri-san-jose",
@@ -12473,8 +12617,15 @@
         "description_en": "Buy premium peptides in Aserrí San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Aserrí San José. Probados en laboratorio para su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -13192,7 +13343,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "purral-san-jose",
@@ -13204,8 +13356,15 @@
         "description_en": "Buy premium peptides in Purral San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos de primera calidad en Purral, San José. Pureza comprobada en laboratorio, coordinación de entregas locales, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -13923,7 +14082,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "paraiso-cartago",
@@ -13935,8 +14095,15 @@
         "description_en": "Browse research-grade peptides in Paraíso, Cartago. Check current stock, confirm pricing before payment and coordinate delivery within Costa Rica.",
         "description_es": "Browse research-grade peptides in Paraíso, Cartago. Check current stock, confirm pricing before payment and coordinate delivery within Costa Rica."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -14634,7 +14801,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "uvita-puntarenas",
@@ -14646,8 +14814,15 @@
         "description_en": "Browse premium research-grade peptides in Uvita, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Busca péptidos de grado de investigación premium en Uvita, Puntarenas. Consulta disponibilidad, revisa opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -15279,7 +15454,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos solo para Costa Rica para clientes en Uvita y áreas cercanas de la costa del Pacífico en Puntarenas. Esto ayuda a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega a nivel local."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "tortuguero-limon",
@@ -15291,8 +15467,15 @@
         "description_en": "Browse premium research-grade peptides in Tortuguero, Limón. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos premium de grado de investigación en Tortuguero, Limón. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -15924,7 +16107,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos solo para Costa Rica para clientes en Tortuguero y áreas cercanas de Limón. Esto guía a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega a nivel local."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "bijagua-alajuela",
@@ -15936,8 +16120,15 @@
         "description_en": "Browse premium research-grade peptides in Bijagua, Costa Rica. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos premium de grado de investigación en Bijagua, Costa Rica. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -16549,7 +16740,8 @@
             "text_es": "Sí, es posible que se apliquen descuentos por volumen a los pedidos grandes de péptidos en Costa Rica a través de Peptides Costa Rica. Los pedidos de 5 o más viales pueden tener derecho a un descuento de 15%, mientras que los pedidos de 10 o más viales pueden tener derecho a un descuento de 20%, dependiendo de los detalles finales del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "manzanillo-limon",
@@ -16561,8 +16753,15 @@
         "description_en": "Browse premium research-grade peptides in Manzanillo, Limón. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora péptidos de grado investigación premium en Manzanillo, Limón. Verifica disponibilidad, revisa opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -17194,7 +17393,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos exclusivo para Costa Rica para clientes en Manzanillo y áreas cercanas de Limón. Esto guía a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega localmente."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "canas-guanacaste",
@@ -17206,8 +17406,15 @@
         "description_en": "Buy premium peptides in Cañas, Guanacaste. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Cañas, Guanacaste. Probados en laboratorio para mayor pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -17905,7 +18112,8 @@
             "text_es": "Peptides Costa Rica atiende a clientes únicamente en Costa Rica, por lo que el soporte de pedidos y la coordinación de entregas se manejan dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "patarra-san-jose",
@@ -17917,8 +18125,15 @@
         "description_en": "Buy premium peptides in Patarra San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos premium en Patarra, San José. Probados en laboratorio para verificar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -18636,7 +18851,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio solo para Costa Rica, y la entrega de péptidos se coordina dentro de Costa Rica después de confirmar la disponibilidad y los detalles del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "mercedes-heredia",
@@ -18648,8 +18864,15 @@
         "description_en": "Buy premium peptides in Mercedes, Heredia. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Mercedes, Heredia. Probados en laboratorio para pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -19340,7 +19563,8 @@
             "text_es": "No, Peptides Costa Rica se enfoca en soporte para pedidos únicamente en Costa Rica, verificación de disponibilidad de productos y coordinación de entregas locales."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "naranjo-alajuela",
@@ -19352,8 +19576,15 @@
         "description_en": "Browse peptide products in Naranjo, check current availability before payment, and arrange delivery within Costa Rica through Peptides Costa Rica.",
         "description_es": "Browse peptide products in Naranjo, check current availability before payment, and arrange delivery within Costa Rica through Peptides Costa Rica."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -20044,7 +20275,8 @@
             "text_es": "Peptides Costa Rica enfoca sus servicios únicamente a clientes radicados en Costa Rica, brindando soporte para pedidos, verificación de disponibilidad y coordinación de entregas dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "quesada-alajuela",
@@ -20056,8 +20288,15 @@
         "description_en": "Browse peptide products in Quesada, check current availability before payment, and arrange delivery within Costa Rica through Peptides Costa Rica.",
         "description_es": "Browse peptide products in Quesada, check current availability before payment, and arrange delivery within Costa Rica through Peptides Costa Rica."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -20748,7 +20987,8 @@
             "text_es": "Peptides Costa Rica atiende a clientes únicamente en Costa Rica, por lo que los pedidos y la coordinación de entregas se gestionan dentro de Costa Rica."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "cobano-puntarenas",
@@ -20760,8 +21000,15 @@
         "description_en": "Browse premium research-grade peptides in Cóbano, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora péptidos de grado de investigación premium en Cóbano, Puntarenas. Verifica disponibilidad, revisa opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -21393,7 +21640,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos exclusivo para Costa Rica para clientes en Cóbano y áreas cercanas de la costa del Pacífico de Puntarenas. Esto apoya a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega localmente."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "tambor-puntarenas",
@@ -21405,8 +21653,15 @@
         "description_en": "Browse premium research-grade peptides in Tambor, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora péptidos de grado de investigación premium en Tambor, Puntarenas. Consulta la disponibilidad, revisa las opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -22038,7 +22293,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos exclusivo para Costa Rica para clientes en Tambor y áreas cercanas de la costa del Pacífico de Puntarenas. Esto ayuda a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega localmente."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "quepos-puntarenas",
@@ -22050,8 +22306,15 @@
         "description_en": "Browse premium research-grade peptides in Quepos, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Busca péptidos premium de grado de investigación en Quepos, Puntarenas. Consulta disponibilidad, revisa opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -22683,7 +22946,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos exclusivo para Costa Rica para clientes en Quepos y áreas aledañas de la costa del Pacífico de Puntarenas. Esto ayuda a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega a nivel local."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "sarapiqui-heredia",
@@ -22695,8 +22959,15 @@
         "description_en": "Browse premium research-grade peptides in Sarapiquí, Heredia. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Investiga péptidos premium de grado de investigación en Sarapiquí, Heredia. Consulta disponibilidad, revisa opciones de productos y coordina entregas locales de péptidos en Costa Rica."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -23301,7 +23572,8 @@
             "text_es": "Sí. Los clientes que realicen pedidos grandes de péptidos en Costa Rica pueden tener derecho a descuentos por volumen, dependiendo de los detalles finales del pedido confirmados por Peptides Costa Rica. Los pedidos de 5 o más viales pueden tener derecho a un descuento de 15%, mientras que los pedidos de 10 o más viales pueden tener derecho a un descuento de 20%. También puede haber envío gratuito para pedidos superiores a $200."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "samara-guanacaste",
@@ -23313,8 +23585,15 @@
         "description_en": "Browse premium research-grade peptides in Sámara, Costa Rica. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos de grado de investigación premium en Sámara, Costa Rica. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 5,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -23947,7 +24226,8 @@
             "text_es": "Los pedidos de 5 o más viales pueden tener derecho a un descuento de 15%, mientras que los pedidos de 10 o más viales pueden tener derecho a un descuento de 20%. También puede haber envío gratuito en pedidos superiores a $200."
           }
         }
-      ]
+      ],
+      "untranslated": 5
     },
     {
       "slug": "nosara-guanacaste",
@@ -23959,8 +24239,15 @@
         "description_en": "Browse premium research-grade peptides in Nosara, Costa Rica. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos premium de grado de investigación en Nosara, Costa Rica. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 5,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -24593,7 +24880,8 @@
             "text_es": "Los pedidos de 5 o más viales pueden tener derecho a un descuento de 15%, mientras que los pedidos de 10 o más viales pueden tener derecho a un descuento de 20%. También puede haber envío gratuito en pedidos superiores a $200."
           }
         }
-      ]
+      ],
+      "untranslated": 5
     },
     {
       "slug": "nicoya-guanacaste",
@@ -24605,8 +24893,15 @@
         "description_en": "Buy premium peptides in Nicoya, Guanacaste. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos premium en Nicoya, Guanacaste. Probados en laboratorio para verificar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -25304,7 +25599,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio solo para Costa Rica, y la entrega de péptidos se coordina dentro de Costa Rica después de confirmar la disponibilidad y los detalles del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "san-pablo-heredia",
@@ -25316,8 +25612,15 @@
         "description_en": "Buy premium peptides in San Pablo, Heredia. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en San Pablo, Heredia. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -26008,7 +26311,8 @@
             "text_es": "No, el servicio se limita a Costa Rica. Los clientes que busquen péptidos de grado de investigación en Costa Rica pueden verificar la disponibilidad del producto y coordinar la entrega local, pero no se ofrece servicio internacional."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "tres-rios-cartago",
@@ -26020,8 +26324,15 @@
         "description_en": "Browse research-grade peptides in Tres Ríos, Cartago. Check current stock, confirm pricing before payment and coordinate delivery within Costa Rica.",
         "description_es": "Browse research-grade peptides in Tres Ríos, Cartago. Check current stock, confirm pricing before payment and coordinate delivery within Costa Rica."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -26719,7 +27030,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio solo para Costa Rica, y la entrega de péptidos se coordina dentro de Costa Rica después de confirmar la disponibilidad y los detalles del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "san-juan-san-jose",
@@ -26731,8 +27043,15 @@
         "description_en": "Buy premium peptides in San Juan San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos de alta calidad en San Juan San José. Probados en laboratorio para garantizar pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -27450,7 +27769,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "san-diego-cartago",
@@ -27462,8 +27782,15 @@
         "description_en": "Browse research-grade peptides in San Diego, Cartago. Check current stock, confirm pricing before payment and coordinate delivery within Costa Rica.",
         "description_es": "Browse research-grade peptides in San Diego, Cartago. Check current stock, confirm pricing before payment and coordinate delivery within Costa Rica."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -28161,7 +28488,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "turrialba-cartago",
@@ -28173,8 +28501,15 @@
         "description_en": "Browse research-grade peptides in Turrialba, Cartago. Check current stock, confirm pricing before payment and coordinate delivery within Costa Rica.",
         "description_es": "Browse research-grade peptides in Turrialba, Cartago. Check current stock, confirm pricing before payment and coordinate delivery within Costa Rica."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -28872,7 +29207,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "esparza-puntarenas",
@@ -28884,8 +29220,15 @@
         "description_en": "Buy premium peptides in Esparza Puntarenas. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on",
         "description_es": "Compre péptidos premium en Esparza, Puntarenas. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -29576,7 +29919,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio únicamente para Costa Rica. Los clientes en Esparza, comunidades cercanas a Puntarenas y otras áreas de Costa Rica pueden consultar productos de péptidos de grado de investigación, confirmar la disponibilidad actual, completar los pasos de pedido y coordinar la entrega dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "pavones-puntarenas",
@@ -29588,8 +29932,15 @@
         "description_en": "Browse premium research-grade peptides in Pavones, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos premium de grado de investigación en Pavones, Puntarenas. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -30221,7 +30572,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos exclusivo para Costa Rica para clientes en Pavones y áreas cercanas de la costa del Pacífico de Puntarenas. Esto apoya a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, detalles de pago y coordinación de entrega localmente."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "golfito-puntarenas",
@@ -30233,8 +30585,15 @@
         "description_en": "Browse premium research-grade peptides in Golfito, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos de grado de investigación premium en Golfito, Puntarenas. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -30866,7 +31225,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos exclusivo para Costa Rica para clientes en Golfito y áreas cercanas de la costa del Pacífico en Puntarenas. Esto guía a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega localmente."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "paquera-puntarenas",
@@ -30878,8 +31238,15 @@
         "description_en": "Browse premium research-grade peptides in Paquera, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora péptidos premium de grado de investigación en Paquera, Puntarenas. Verifica la disponibilidad, revisa las opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -31511,7 +31878,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos solo para Costa Rica para clientes en Paquera y áreas cercanas de la costa del Pacífico de Puntarenas. Esto apoya a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega a nivel local."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "malpais-puntarenas",
@@ -31523,8 +31891,15 @@
         "description_en": "Browse premium research-grade peptides in Malpaís, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos de grado de investigación de alta calidad en Malpaís, Puntarenas. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -32156,7 +32531,8 @@
             "text_es": "Sí, Peptides Costa Rica brinda soporte de pedidos solo para Costa Rica a clientes en Malpaís y áreas cercanas de la costa del Pacífico de Puntarenas. Esto ayuda a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega a nivel local."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "santa-ana-san-jose",
@@ -32168,8 +32544,15 @@
         "description_en": "Browse premium research-grade peptides in Santa Ana, San José. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Navega por péptidos de alta calidad de grado de investigación en Santa Ana, San José. Consulta disponibilidad, revisa opciones de productos y coordina entregas locales de péptidos dentro de Costa Rica."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -32781,7 +33164,8 @@
             "text_es": "Sí, es posible que se apliquen descuentos por volumen a los pedidos grandes de péptidos en Costa Rica a través de Peptides Costa Rica. Los pedidos de 5 o más viales pueden recibir un descuento de 15%, mientras que los pedidos de 10 o más viales pueden recibir un descuento de 20%, dependiendo de los detalles finales del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "puerto-viejo-limon",
@@ -32793,8 +33177,15 @@
         "description_en": "Browse premium research-grade peptides in Puerto Viejo, Limón. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora péptidos premium de grado de investigación en Puerto Viejo, Limón. Consulta disponibilidad, revisa opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -33426,7 +33817,8 @@
             "text_es": "Yes, Peptides Costa Rica gives Costa Rica-only ordering support for customers in Puerto Viejo and nearby areas of Limón. This guides customers who want to avoid international shipping uncertainty and confirm product availability, payment details, and delivery coordination locally."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "sabanilla-san-jose",
@@ -33438,8 +33830,15 @@
         "description_en": "Buy premium peptides in Sabanilla San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Sabanilla, San José. Probado en laboratorio para garantizar pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -34157,7 +34556,8 @@
             "text_es": "Peptides Costa Rica enfoca sus servicios únicamente a clientes radicados en Costa Rica, brindando soporte para pedidos, verificación de disponibilidad y coordinación de entregas dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "san-rafael-heredia",
@@ -34169,8 +34569,15 @@
         "description_en": "Buy premium peptides in San Rafael, Heredia. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en San Rafael, Heredia. Probados en laboratorio para determinar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -34861,7 +35268,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio solo para Costa Rica. Los clientes en San Rafael y otras áreas de Costa Rica pueden solicitar disponibilidad, revisar productos y coordinar la entrega local dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "guadalupe-san-jose",
@@ -34873,8 +35281,15 @@
         "description_en": "Buy premium peptides in Guadalupe San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos premium en Guadalupe, San José. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -35592,7 +36007,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "liberia-guanacaste",
@@ -35604,8 +36020,15 @@
         "description_en": "Buy premium peptides in Liberia, Guanacaste. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Liberia, Guanacaste. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -36296,7 +36719,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "san-pedro-san-jose",
@@ -36308,8 +36732,15 @@
         "description_en": "Buy premium peptides in San Pedro San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en San Pedro, San José. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -37027,7 +37458,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio solo para Costa Rica, y la entrega de péptidos se coordina dentro de Costa Rica después de confirmar la disponibilidad y los detalles del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "san-ramon-alajuela",
@@ -37039,8 +37471,15 @@
         "description_en": "Browse peptide products in San Ramón, check current availability before payment, and arrange delivery within Costa Rica through Peptides Costa Rica.",
         "description_es": "Browse peptide products in San Ramón, check current availability before payment, and arrange delivery within Costa Rica through Peptides Costa Rica."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -37731,7 +38170,8 @@
             "text_es": "Peptides Costa Rica enfoca sus servicios únicamente a clientes radicados en Costa Rica, brindando soporte para pedidos, verificación de disponibilidad y coordinación de entregas dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "la-fortuna-alajuela",
@@ -37743,8 +38183,15 @@
         "description_en": "Browse premium research-grade peptides in La Fortuna, Costa Rica. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos premium de grado de investigación en La Fortuna, Costa Rica. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -38356,7 +38803,8 @@
             "text_es": "Sí, es posible que haya descuentos por volumen disponibles para pedidos grandes de péptidos en Costa Rica a través de Peptides Costa Rica. Los pedidos de 5 o más viales pueden recibir un descuento de 15%, mientras que los pedidos de 10 o más viales pueden recibir un descuento de 20%, dependiendo de los detalles finales del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "granadilla-san-jose",
@@ -38368,8 +38816,15 @@
         "description_en": "Buy premium peptides in Granadilla San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Granadilla, San José. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -39087,7 +39542,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "alajuelita-san-jose",
@@ -39099,8 +39555,15 @@
         "description_en": "Buy premium peptides in Alajuelita San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Alajuelita San José. Analizados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes depender."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -39818,7 +40281,8 @@
             "text_es": "Peptides Costa Rica atiende a clientes únicamente en Costa Rica, por lo que los pedidos y la coordinación de entregas se gestionan dentro de Costa Rica."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "san-felipe-san-jose",
@@ -39830,8 +40294,15 @@
         "description_en": "Buy premium peptides in San Felipe San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en San Felipe, San José. Probados en laboratorio para verificar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -40549,7 +41020,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio solo para Costa Rica, y la entrega de péptidos se coordina dentro de Costa Rica después de confirmar la disponibilidad y los detalles del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "san-miguel-san-jose",
@@ -40561,8 +41033,15 @@
         "description_en": "Buy premium peptides in San Miguel San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en San Miguel, San José. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -41280,7 +41759,8 @@
             "text_es": "Peptides Costa Rica enfoca sus servicios únicamente a clientes radicados en Costa Rica, brindando soporte para pedidos, verificación de disponibilidad y coordinación de entregas dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "curridabat-san-jose",
@@ -41292,8 +41772,15 @@
         "description_en": "Buy premium peptides in Curridabat San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Curridabat, San José. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -42011,7 +42498,8 @@
             "text_es": "Peptides Costa Rica enfoca sus servicios únicamente a clientes radicados en Costa Rica, brindando soporte para pedidos, verificación de disponibilidad y coordinación de entregas dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "chacarita-puntarenas",
@@ -42023,8 +42511,15 @@
         "description_en": "Buy premium peptides in Chacarita Puntarenas. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on",
         "description_es": "Compra péptidos premium en Chacarita, Puntarenas. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -42715,7 +43210,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio únicamente para Costa Rica. Los clientes en Chacarita, comunidades cercanas a Puntarenas y otras áreas de Costa Rica pueden revisar productos de péptidos de grado de investigación, confirmar la disponibilidad actual, completar los pasos de pedido y coordinar la entrega dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "montezuma-puntarenas",
@@ -42727,8 +43223,15 @@
         "description_en": "Browse premium research-grade peptides in Montezuma, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos premium de grado de investigación en Montezuma, Puntarenas. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -43360,7 +43863,8 @@
             "text_es": "Sí, Peptides Costa Rica brinda soporte de pedidos exclusivo para Costa Rica a clientes en Montezuma y áreas cercanas de la costa del Pacífico de Puntarenas. Esto apoya a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega a nivel local."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "dominical-puntarenas",
@@ -43372,8 +43876,15 @@
         "description_en": "Browse premium research-grade peptides in Dominical, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora péptidos premium de grado de investigación en Dominical, Puntarenas. Verifica la disponibilidad, revisa las opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -44005,7 +44516,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos solo para Costa Rica para clientes en Dominical y áreas cercanas de la costa del Pacífico de Puntarenas. Esto apoya a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega localmente."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "rio-celeste-alajuela",
@@ -44017,8 +44529,15 @@
         "description_en": "Browse premium research-grade peptides in Río Celeste, Costa Rica. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Busca péptidos premium de grado de investigación en Río Celeste, Costa Rica. Consulta disponibilidad, revisa opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -44630,7 +45149,8 @@
             "text_es": "Sí, es posible que se apliquen descuentos por volumen a los pedidos grandes de péptidos en Costa Rica a través de Peptides Costa Rica. Los pedidos de 5 o más viales pueden tener derecho a un descuento de 15%, mientras que los pedidos de 10 o más viales pueden tener derecho a un descuento de 20%, dependiendo de los detalles finales del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "el-castillo-alajuela",
@@ -44642,8 +45162,15 @@
         "description_en": "Browse premium research-grade peptides in El Castillo, Costa Rica. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos premium de grado de investigación en El Castillo, Costa Rica. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -45255,7 +45782,8 @@
             "text_es": "Sí, se pueden aplicar descuentos por volumen a los pedidos grandes de péptidos en Costa Rica a través de Peptides Costa Rica. Los pedidos de 5 o más viales pueden recibir un descuento de 15%, mientras que los pedidos de 10 o más viales pueden recibir un descuento de 20%, dependiendo de los detalles finales del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "tamarindo-guanacaste",
@@ -45267,8 +45795,15 @@
         "description_en": "Browse premium research-grade peptides in Tamarindo, Costa Rica. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Busca péptidos de grado de investigación premium en Tamarindo, Costa Rica. Verifica la disponibilidad, revisa las opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 5,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -45901,7 +46436,8 @@
             "text_es": "Los pedidos de 5 o más viales pueden tener derecho a un descuento de 15%, mientras que los pedidos de 10 o más viales pueden tener derecho a un descuento de 20%. También puede haber envío gratuito en pedidos superiores a $200."
           }
         }
-      ]
+      ],
+      "untranslated": 5
     },
     {
       "slug": "san-antonio-san-jose",
@@ -45913,8 +46449,15 @@
         "description_en": "Buy premium peptides in San Antonio San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos premium en San Antonio San José. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -46632,7 +47175,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "san-vicente-san-jose",
@@ -46644,8 +47188,15 @@
         "description_en": "Buy premium peptides in San Vicente San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en San Vicente, San José. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -47363,7 +47914,8 @@
             "text_es": "Peptides Costa Rica enfoca sus servicios únicamente a clientes radicados en Costa Rica, brindando soporte para pedidos, verificación de disponibilidad y coordinación de entregas dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "los-suenos-puntarenas",
@@ -47375,8 +47927,15 @@
         "description_en": "Browse premium research-grade peptides in Los Sueños, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora péptidos de grado de investigación premium en Los Sueños, Puntarenas. Consulta la disponibilidad, revisa las opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -48008,7 +48567,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte para pedidos exclusivamente en Costa Rica a clientes en Los Sueños y áreas cercanas de la costa del Pacífico en Puntarenas. Esto ayuda a los clientes a evitar la incertidumbre del envío internacional y a confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega a nivel local."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "monteverde-puntarenas",
@@ -48020,8 +48580,15 @@
         "description_en": "Browse premium research-grade peptides in Monteverde, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos premium de grado de investigación en Monteverde, Puntarenas. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -48653,7 +49220,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos solo para Costa Rica para clientes en Monteverde y áreas cercanas de la costa del Pacífico de Puntarenas. Esto apoya a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega a nivel local."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "san-josecito-san-jose",
@@ -48665,8 +49233,15 @@
         "description_en": "Buy premium peptides in San Josecito San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos premium en San Josecito, San José. Probados en laboratorio para su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -49384,7 +49959,8 @@
             "text_es": "Peptides Costa Rica enfoca sus servicios únicamente a clientes radicados en Costa Rica, brindando soporte para pedidos, verificación de disponibilidad y coordinación de entregas dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "desamparados-san-jose",
@@ -49396,8 +49972,15 @@
         "description_en": "Buy premium peptides in Desamparados San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos premium en Desamparados San José. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -50115,7 +50698,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio solo para Costa Rica, y la entrega de péptidos se coordina dentro de Costa Rica después de confirmar la disponibilidad y los detalles del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "santa-elena-puntarenas",
@@ -50127,8 +50711,15 @@
         "description_en": "Browse premium research-grade peptides in Santa Elena, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Busca péptidos de grado de investigación premium en Santa Elena, Puntarenas. Consulta la disponibilidad, revisa las opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -50760,7 +51351,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos exclusivo para Costa Rica para clientes en Santa Elena y áreas cercanas de la costa del Pacífico de Puntarenas. Esto guía a los clientes que desean evitar la incertidumbre de los envíos internacionales y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega localmente."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "daniel-flores-san-jose",
@@ -50772,8 +51364,15 @@
         "description_en": "Buy premium peptides in Daniel Flores San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en Daniel Flores San José. Probados en laboratorio para su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -51491,7 +52090,8 @@
             "text_es": "Peptides Costa Rica enfoca sus servicios únicamente a clientes radicados en Costa Rica, brindando soporte para pedidos, verificación de disponibilidad y coordinación de entregas dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "calle-blancos-san-jose",
@@ -51503,8 +52103,15 @@
         "description_en": "Buy premium peptides in Calle Blancos San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos premium en Calle Blancos, San José. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -52222,7 +52829,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio solo para Costa Rica, y la entrega de péptidos se coordina dentro de Costa Rica después de confirmar la disponibilidad y los detalles del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "san-francisco-san-jose",
@@ -52234,8 +52842,15 @@
         "description_en": "Buy premium peptides in San Francisco San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en San Francisco y San José. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -52953,7 +53568,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio solo para Costa Rica, y la entrega de péptidos se coordina dentro de Costa Rica después de confirmar la disponibilidad y los detalles del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "buenos-aires-puntarenas",
@@ -52965,8 +53581,15 @@
         "description_en": "Buy premium peptides in Buenos Aires Puntarenas. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on",
         "description_es": "Compre péptidos premium en Buenos Aires Puntarenas. Probados en laboratorio para verificar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 0,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -53657,7 +54280,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio únicamente para Costa Rica. Los clientes en Buenos Aires, las comunidades cercanas a Puntarenas y otras áreas de Costa Rica pueden revisar productos de péptidos de grado de investigación, confirmar la disponibilidad actual, completar los pasos del pedido y coordinar la entrega dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "santa-teresa-puntarenas",
@@ -53669,8 +54293,15 @@
         "description_en": "Browse premium research-grade peptides in Santa Teresa, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos de grado de investigación premium en Santa Teresa, Puntarenas. Verifique disponibilidad, revise opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -54302,7 +54933,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos únicamente dentro de Costa Rica para clientes en Santa Teresa y áreas cercanas de la Costa del Pacífico en Puntarenas. Esto apoya a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega localmente."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "playa-hermosa-puntarenas",
@@ -54314,8 +54946,15 @@
         "description_en": "Browse premium research-grade peptides in Playa Hermosa, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora péptidos premium de grado de investigación en Playa Hermosa, Puntarenas. Consulta la disponibilidad, revisa las opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -54947,7 +55586,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos exclusivos para Costa Rica, dirigido a clientes en Playa Hermosa y áreas cercanas de la costa del Pacífico en Puntarenas. Esto guía a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega localmente."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "playa-conchal-guanacaste",
@@ -54959,8 +55599,15 @@
         "description_en": "Browse premium research-grade peptides in Playa Conchal, Costa Rica. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos premium de grado de investigación en Playa Conchal, Costa Rica. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 5,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -55593,7 +56240,8 @@
             "text_es": "Los pedidos de 5 o más viales pueden tener derecho a un descuento de 15%, mientras que los pedidos de 10 o más viales pueden tener derecho a un descuento de 20%. También puede haber envío gratuito en pedidos superiores a $200."
           }
         }
-      ]
+      ],
+      "untranslated": 5
     },
     {
       "slug": "puerto-jimenez-puntarenas",
@@ -55605,8 +56253,15 @@
         "description_en": "Browse premium research-grade peptides in Puerto Jiménez, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Busca péptidos de grado de investigación premium en Puerto Jiménez, Puntarenas. Consulta disponibilidad, revisa opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -56238,7 +56893,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos exclusivo para Costa Rica para clientes en Puerto Jiménez y áreas cercanas de la costa del Pacífico de Puntarenas. Esto ayuda a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega a nivel local."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "manuel-antonio-puntarenas",
@@ -56250,8 +56906,15 @@
         "description_en": "Browse premium research-grade peptides in Manuel Antonio, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos de grado de investigación premium en Manuel Antonio, Puntarenas. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -56883,7 +57546,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte para pedidos solo dentro de Costa Rica para clientes en Manuel Antonio y áreas cercanas de la costa del Pacífico de Puntarenas. Esto ayuda a los clientes que desean evitar la incertidumbre del envío internacional y confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega a nivel local."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "barrio-escalante-san-jose",
@@ -56895,8 +57559,15 @@
         "description_en": "Browse premium research-grade peptides in Barrio Escalante, San José. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos de grado de investigación premium en Barrio Escalante, San José. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -57508,7 +58179,8 @@
             "text_es": "Sí, se pueden aplicar descuentos por volumen a los pedidos grandes de péptidos en Costa Rica a través de Peptides Costa Rica. Los pedidos de 5 o más viales pueden recibir un descuento de 15%, mientras que los pedidos de 10 o más viales pueden recibir un descuento de 20%, dependiendo de los detalles finales del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "playa-flamingo-guanacaste",
@@ -57520,8 +58192,15 @@
         "description_en": "Browse premium research-grade peptides in Playa Flamingo, Costa Rica. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos de grado de investigación premium en Playa Flamingo, Costa Rica. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 5,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -58154,7 +58833,8 @@
             "text_es": "Los pedidos de 5 o más viales pueden recibir un descuento de 15%, mientras que los pedidos de 10 o más viales pueden recibir un descuento de 20%. También puede haber envío gratuito para pedidos superiores a $200."
           }
         }
-      ]
+      ],
+      "untranslated": 5
     },
     {
       "slug": "san-juan-de-dios-san-jose",
@@ -58166,8 +58846,15 @@
         "description_en": "Buy premium peptides in San Juan De Dios San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos premium en San Juan De Dios, San José. Probados en laboratorio para verificar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -58885,7 +59572,8 @@
             "text_es": "Peptides Costa Rica enfoca sus servicios únicamente a clientes radicados en Costa Rica, brindando soporte para pedidos, verificación de disponibilidad y coordinación de entregas dentro del país."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "san-rafael-abajo-san-jose",
@@ -58897,8 +59585,15 @@
         "description_en": "Buy premium peptides in San Rafael Abajo San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en San Rafael Abajo, San José. Probados en laboratorio para garantizar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -59616,7 +60311,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "playa-herradura-puntarenas",
@@ -59628,8 +60324,15 @@
         "description_en": "Browse premium research-grade peptides in Playa Herradura, Puntarenas. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explora péptidos de grado de investigación premium en Playa Herradura, Puntarenas. Consulta disponibilidad, revisa opciones de productos y coordina la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 2,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -60261,7 +60964,8 @@
             "text_es": "Sí, Peptides Costa Rica ofrece soporte de pedidos solo para Costa Rica para clientes en Playa Herradura y áreas cercanas de la costa del Pacífico en Puntarenas. Esto ayuda a los clientes a evitar la incertidumbre del envío internacional y a confirmar la disponibilidad del producto, los detalles de pago y la coordinación de la entrega localmente."
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "puerto-carrillo-guanacaste",
@@ -60273,8 +60977,15 @@
         "description_en": "Browse premium research-grade peptides in Puerto Carrillo, Costa Rica. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos premium de grado de investigación en Puerto Carrillo, Costa Rica. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 5,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -60907,7 +61618,8 @@
             "text_es": "Los pedidos de 5 o más viales pueden tener derecho a un descuento de 15%, mientras que los pedidos de 10 o más viales pueden tener derecho a un descuento de 20%. También puede haber envío gratuito para pedidos superiores a $200."
           }
         }
-      ]
+      ],
+      "untranslated": 5
     },
     {
       "slug": "playas-del-coco-guanacaste",
@@ -60919,8 +61631,15 @@
         "description_en": "Browse premium research-grade peptides in Playas Del Coco, Costa Rica. Check availability, review product options, and coordinate local peptide delivery within Costa Rica.",
         "description_es": "Explore péptidos premium de grado de investigación en Playas del Coco, Costa Rica. Verifique la disponibilidad, revise las opciones de productos y coordine la entrega local de péptidos dentro de Costa Rica."
       },
-      "untranslated": 5,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -61553,7 +62272,8 @@
             "text_es": "Los pedidos de 5 o más viales pueden tener derecho a un descuento de 15%, mientras que los pedidos de 10 o más viales pueden tener derecho a un descuento de 20%. También puede haber envío gratuito en pedidos superiores a $200."
           }
         }
-      ]
+      ],
+      "untranslated": 5
     },
     {
       "slug": "san-rafael-arriba-san-jose",
@@ -61565,8 +62285,15 @@
         "description_en": "Buy premium peptides in San Rafael Arriba San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos premium en San Rafael Arriba, San José. Probados en laboratorio para determinar su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -62284,7 +63011,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "san-vicente-de-moravia-san-jose",
@@ -62296,8 +63024,15 @@
         "description_en": "Buy premium peptides in San Vicente De Moravia San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compre péptidos de primera calidad en San Vicente De Moravia, San José. Probados en laboratorio por su pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puede confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -63015,7 +63750,8 @@
             "text_es": "No, Peptides Costa Rica ofrece servicio solo para Costa Rica, y la entrega de péptidos se coordina dentro de Costa Rica después de confirmar la disponibilidad y los detalles del pedido."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "san-isidro-de-el-general-san-jose",
@@ -63027,8 +63763,15 @@
         "description_en": "Buy premium peptides in San Isidro De El General San José. Lab-tested for purity, local delivery coordination, secure checkout, and trusted quality you can rely on.",
         "description_es": "Compra péptidos premium en San Isidro de El General, San José. Probado en laboratorio para garantizar pureza, coordinación de entrega local, pago seguro y calidad confiable en la que puedes confiar."
       },
-      "untranslated": 1,
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "PEPTIDES COSTA RICA",
+            "text_es": "PÉPTIDOS COSTA RICA"
+          }
+        },
         {
           "type": "heading",
           "content": {
@@ -63731,7 +64474,8 @@
             "text_es": "El servicio se limita a Costa Rica, y los clientes que se encuentren fuera de Costa Rica no están incluidos en el proceso local de pedidos y entrega."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     }
   ]
 }

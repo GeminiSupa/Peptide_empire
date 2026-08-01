@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-07-31T15:04:30.076Z",
+  "harvestedAt": "2026-08-01T18:20:14.483Z",
   "group": "legal",
   "count": 4,
   "pages": [
@@ -13,7 +13,6 @@
         "description_en": "",
         "description_es": ""
       },
-      "untranslated": 3,
       "sections": [
         {
           "type": "heading",
@@ -171,7 +170,8 @@
             "text_es": "CR: +506 8404‑6973 / EE. UU.: +1 (831) 471‑5559"
           }
         }
-      ]
+      ],
+      "untranslated": 3
     },
     {
       "slug": "shipping-policy",
@@ -183,8 +183,8 @@
         "description_en": "Review Peptides Costa Rica's shipping policy, including order processing, delivery methods, domestic-only shipping, and free shipping on orders over $500.",
         "description_es": "Consulta la política de envíos de Peptides Costa Rica, que incluye el procesamiento de pedidos, los métodos de entrega, los envíos solo dentro del país y el envío gratuito para pedidos superiores a $500."
       },
-      "untranslated": 0,
-      "sections": []
+      "sections": [],
+      "untranslated": 0
     },
     {
       "slug": "return-refund-policy",
@@ -196,7 +196,6 @@
         "description_en": "Review Peptides Costa Rica's return and refund policy, including eligibility, cancellations, process details, and conditions for returns on eligible purchases.",
         "description_es": "Revisa la política de devoluciones y reembolsos de Peptides Costa Rica, incluyendo elegibilidad, cancelaciones, detalles del proceso y condiciones para devoluciones de compras elegibles."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "paragraph",
@@ -689,7 +688,8 @@
             "text_es": "Effective Date:This Return and Refund Policy is effective as of 23 April 2026."
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "html-sitemap",
@@ -701,8 +701,8 @@
         "description_en": "Navigate Peptides Costa Rica easily with our full HTML sitemap. Discover all peptides, weight loss products, muscle growth solutions & helpful guides in one place.",
         "description_es": "Navega Peptides Costa Rica fácilmente con nuestro mapa de sitio HTML completo. Descubre todos los péptidos, productos para perder peso, soluciones para el crecimiento muscular y guías útiles en un solo lugar."
       },
-      "untranslated": 0,
-      "sections": []
+      "sections": [],
+      "untranslated": 0
     }
   ]
 }

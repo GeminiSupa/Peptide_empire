@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-07-31T14:58:37.708Z",
+  "harvestedAt": "2026-08-01T18:20:13.676Z",
   "group": "productLander",
   "count": 40,
   "pages": [
@@ -13,7 +13,6 @@
         "description_en": "Buy KPV peptide in Costa Rica. Ideal for healing, gut health, and inflammation research support. Call 506 8404-6973 to order today.",
         "description_es": "Compre péptido KPV en Costa Rica. Ideal para la curación, la salud intestinal y el apoyo a la investigación de la inflamación. Llame al 506 8404-6973 para ordenar hoy."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -461,7 +460,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "nad-costa-rica",
@@ -473,7 +473,6 @@
         "description_en": "Shop Peptides Costa Rica's NAD+ in Costa Rica for energy, cellular repair, and anti-aging support. Trusted supplier, fast shipping. Call 506 8404-6973 to order.",
         "description_es": "Compre NAD+ de Shop Peptides Costa Rica en Costa Rica para obtener energía, reparación celular y apoyo antienvejecimiento. Proveedor confiable, envío rápido. Llame al 506 8404-6973 para ordenar."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -1041,7 +1040,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "hcg-costa-rica",
@@ -1053,7 +1053,6 @@
         "description_en": "Shop Peptides Costa Rica’s premium research peptides for weight loss, recovery, and performance. Call 506 8404-6973 to order today.",
         "description_es": "Compre péptidos de investigación premium de Shop Peptides Costa Rica para perder peso, recuperación y rendimiento. Llame al 506 8404-6973 para ordenar hoy."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -1609,7 +1608,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "hgh-costa-rica",
@@ -1621,7 +1621,6 @@
         "description_en": "Shop Peptides Costa Rica’s HGH peptides for muscle growth, fat loss, and recovery support. Call 506 8404-6973 for trusted products today.",
         "description_es": "Compre péptidos de HGH de Shop Peptides Costa Rica para el crecimiento muscular, la pérdida de grasa y el apoyo a la recuperación. Llame al 506 8404-6973 para obtener productos confiables hoy."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -2225,7 +2224,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "dsip-costa-rica",
@@ -2237,7 +2237,6 @@
         "description_en": "Shop Peptides Costa Rica’s DSIP peptides for better sleep, recovery, and stress support. Call 506 8404-6973 for trusted supplier & fast shipping.",
         "description_es": "Compre péptidos DSIP de Shop Peptides Costa Rica para dormir mejor, recuperación y apoyo contra el estrés. Llame al 506 8404-6973 para un proveedor de confianza y envío rápido."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -2782,7 +2781,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "tb-4-costa-rica",
@@ -2794,7 +2794,6 @@
         "description_en": "Shop Peptides Costa Rica’s TB-4 peptides for tissue repair, muscle recovery, and recovery support. Call 506 8404-6973 to order premium quality today.",
         "description_es": "Compre péptidos TB-4 de Shop Peptides Costa Rica para la reparación de tejidos, la recuperación muscular y el apoyo a la recuperación. Llame al 506 8404-6973 para pedir productos de calidad premium hoy mismo."
       },
-      "untranslated": 2,
       "sections": [
         {
           "type": "heading",
@@ -3301,7 +3300,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "glow-costa-rica",
@@ -3313,7 +3313,6 @@
         "description_en": "Shop Peptides Costa Rica’s GLOW peptides for recovery, skin rejuvenation, and collagen support. Call 506 8404-6973 to order premium quality today.",
         "description_es": "Compre los péptidos GLOW de Shop Peptides Costa Rica para la recuperación, el rejuvenecimiento de la piel y el soporte de colágeno. Llame al 506 8404-6973 para pedir calidad premium hoy mismo."
       },
-      "untranslated": 5,
       "sections": [
         {
           "type": "heading",
@@ -3543,7 +3542,7 @@
           "type": "card",
           "content": {
             "title_en": "FREE Shipping Over ₡92,000",
-            "title_es": "FREE Shipping Over ₡92,000",
+            "title_es": "Envío GRATIS en compras superiores a ₡92,000",
             "text_en": "Orders over ₡92,000 qualify for free standard shipping anywhere in Costa Rica, with tracking provided.",
             "text_es": "Orders over ₡92,000 qualify for free standard shipping anywhere in Costa Rica, with tracking provided.",
             "href": null
@@ -3876,7 +3875,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 4
     },
     {
       "slug": "klow-costa-rica",
@@ -3888,7 +3888,6 @@
         "description_en": "Shop Peptides Costa Rica’s KLOW peptide blend with BPC-157, TB-500, GHK-Cu & KPV. Call 506 8404-6973 to order premium recovery support today.",
         "description_es": "Compra la mezcla de péptidos KLOW de Shop Peptides Costa Rica con BPC-157, TB-500, GHK-Cu y KPV. Llama al 506 8404-6973 para pedir hoy mismo soporte premium para la recuperación."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -4475,7 +4474,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "semax-costa-rica",
@@ -4487,7 +4487,6 @@
         "description_en": "Buy Semax peptides in Costa Rica. Ideal for cognitive performance, focus, and mental clarity research support. Call 506 8404-6973 to order today.",
         "description_es": "Compre péptidos Semax en Costa Rica. Ideal para la investigación de rendimiento cognitivo, enfoque y claridad mental. Llame al 506 8404-6973 para ordenar hoy."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -5021,7 +5020,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "aicar-costa-rica",
@@ -5033,7 +5033,6 @@
         "description_en": "Buy AICAR peptides in Costa Rica. Ideal for energy, endurance, and metabolic research support. Call 506 8404-6973 to order today.",
         "description_es": "Compre péptidos AICAR en Costa Rica. Ideal para energía, resistencia y apoyo a la investigación metabólica. Llame al 506 8404-6973 para ordenar hoy mismo."
       },
-      "untranslated": 0,
       "sections": [
         {
           "type": "heading",
@@ -5264,7 +5263,8 @@
             "href": null
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "mt-ii-costa-rica",
@@ -5276,7 +5276,6 @@
         "description_en": "Buy MT-II peptides in Costa Rica. Ideal for tanning, skin pigmentation, and melanocortin research support. Call 506 8404-6973 to order today.",
         "description_es": "Compra péptidos MT-II en Costa Rica. Ideal para bronceado, pigmentación de la piel y apoyo a la investigación de melanocortina. Llama al 506 8404-6973 para ordenar hoy mismo."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -5804,7 +5803,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "ss-31-costa-rica",
@@ -5816,7 +5816,6 @@
         "description_en": "Shop Peptides Costa Rica’s SS-31 peptides for cellular health and longevity support. Call 506 8404-6973 for trusted supplier & fast shipping.",
         "description_es": "Compra los péptidos SS-31 de Shop Peptides Costa Rica para promover la salud celular y la longevidad. Llama al 506 8404-6973 para contar con un proveedor de confianza y un envío rápido."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -6377,7 +6376,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "pt-141-costa-rica",
@@ -6389,7 +6389,6 @@
         "description_en": "Shop Peptides Costa Rica’s PT-141 peptides for libido, performance, and wellness support. Call 506 8404-6973 to order trusted products today.",
         "description_es": "Compre péptidos PT-141 de Shop Peptides Costa Rica para apoyar la libido, el rendimiento y el bienestar. Llame al 506 8404-6973 para pedir productos confiables hoy mismo."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -6944,7 +6943,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "ghk-cu-costa-rica",
@@ -6956,7 +6956,6 @@
         "description_en": "Shop Peptides Costa Rica's GHK-Cu peptides for skin repair, hair growth, and collagen support. Order today with fast delivery at 506 8404-6973.",
         "description_es": "Compre péptidos GHK-Cu de Shop Peptides Costa Rica para reparación de la piel, crecimiento del cabello y soporte de colágeno. Ordene hoy con entrega rápida al 506 8404-6973."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -7519,7 +7518,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "selank-costa-rica",
@@ -7531,7 +7531,6 @@
         "description_en": "Shop Peptides Costa Rica’s Selank peptides for mood balance, stress relief, and cognitive support. Call 506 8404-6973 to order trusted products today.",
         "description_es": "En Shop Peptides Costa Rica, encuentra péptidos Selank para el equilibrio del ánimo, alivio del estrés y apoyo cognitivo. Llama al 506 8404-6973 para ordenar productos confiables hoy."
       },
-      "untranslated": 0,
       "sections": [
         {
           "type": "heading",
@@ -8086,7 +8085,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "adamax-costa-rica",
@@ -8098,7 +8098,6 @@
         "description_en": "Buy Peptides Costa Rica’s Adamax peptides for energy, focus, and cognitive support. Call 506 8404-6973 for trusted supplier & fast shipping.",
         "description_es": "Compre péptidos Adamax de Buy Peptides Costa Rica para obtener energía, concentración y apoyo cognitivo. Llame al 506 8404-6973 para obtener un proveedor confiable y envío rápido."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -8157,6 +8156,14 @@
           }
         },
         {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "Buy Adamax Peptides: Research Grade & Lab Tested",
+            "text_es": "Comprar Péptidos Adamax: Grado de Investigación y Probado en Laboratorio"
+          }
+        },
+        {
           "type": "paragraph",
           "content": {
             "text_en": "Adamax Peptides, presented in a research-grade and lab-tested lyophilized powder form, offer a significant cognitive enhancement benefit. With a primary focus on improving mental clarity and memory, these peptides are ideal for individuals seeking both cognitive and physical performance support. The mechanism of Adamax Peptides involves enhancing cognitive function and protecting brain health, while supporting physical endurance. This dual action makes them a valuable asset for those aiming to focus and executive function. Accompanied by a verified Certificate of Analysis (COA), our peptides guarantee reliability and quality.",
@@ -8202,6 +8209,14 @@
           "content": {
             "text_en": "With the 15% bulk discount on 5+ vials, the effective per-vial cost drops to approximately ₡64,515 — a saving of about ₡57,040 across a five-vial order. Orders that combine Adamax with another product to cross the ₡92,000 threshold qualify for free Costa Rica delivery; otherwise standard local shipping rates apply.",
             "text_es": "Con el descuento por volumen del 15% para 5 o más frascos, el costo efectivo por frasco baja a aproximadamente ₡64,515, lo que representa un ahorro de unos ₡57,040 en un pedido de cinco frascos. Los pedidos que combinen Adamax con otro producto y superen el umbral de ₡92,000 tienen derecho a envío gratuito en Costa Rica; de lo contrario, se aplican las tarifas estándar de envío local."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "What are the Potential Effects of Adamax Peptides?",
+            "text_es": "¿Cuáles son los posibles efectos de los péptidos Adamax?"
           }
         },
         {
@@ -8634,7 +8649,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "mots-c-costa-rica",
@@ -8646,7 +8662,6 @@
         "description_en": "Buy MOTS-C peptide in Costa Rica for fat loss, metabolism, and energy support. Trusted supplier, fast shipping. Call 506 8404-6973 to order.",
         "description_es": "Compra el péptido MOTS-C en Costa Rica para la pérdida de grasa, el metabolismo y el apoyo energético. Proveedor confiable, envío rápido. Llama al 506 8404-6973 para ordenar."
       },
-      "untranslated": 2,
       "sections": [
         {
           "type": "heading",
@@ -9180,7 +9195,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "bpc-157-costa-rica",
@@ -9192,7 +9208,6 @@
         "description_en": "Shop Peptides Costa Rica’s BPC-157 peptides for muscle, tendon, and gut support. Call 506 8404-6973 to order premium peptides today.",
         "description_es": "Compre péptidos BPC-157 de Shop Peptides Costa Rica para el soporte de músculos, tendones e intestinos. Llame al 506 8404-6973 para pedir péptidos premium hoy mismo."
       },
-      "untranslated": 2,
       "sections": [
         {
           "type": "heading",
@@ -9754,7 +9769,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "cartalax-costa-rica",
@@ -9766,7 +9782,6 @@
         "description_en": "Buy Peptides Costa Rica’s Adamax peptides for energy, focus, and cognitive support. Call 506 8404-6973 for trusted supplier & fast shipping.",
         "description_es": "Compre péptidos Adamax de Buy Peptides Costa Rica para obtener energía, concentración y apoyo cognitivo. Llame al 506 8404-6973 para obtener un proveedor confiable y envío rápido."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -9825,6 +9840,14 @@
           }
         },
         {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "Buy Cartalax Peptides: Research Grade & Lab Tested",
+            "text_es": "Compre Péptidos Cartalax: Grado de Investigación y Probados en Laboratorio"
+          }
+        },
+        {
           "type": "paragraph",
           "content": {
             "text_en": "Cartalax Peptides are supplied in a research-grade, lab-tested lyophilized powder form for controlled laboratory investigations. Commonly associated with the AED peptide sequence, Cartalax is studied for its potential relationship with cartilage biology, connective tissue regulation, extracellular matrix activity, and age-related cellular processes. Researchers examine this peptide to better understand its possible interaction with cartilage-producing cells and molecular pathways involved in tissue structure and maintenance.",
@@ -9843,6 +9866,14 @@
           "content": {
             "text_en": "At Peptides Costa Rica, Cartalax is selected with a focus on product quality, consistency, and transparent research documentation. Available batch information and a Certificate of Analysis help researchers review important product specifications before beginning laboratory work. Local availability also provides a convenient ordering experience without the delays and complications commonly associated with international sourcing.",
             "text_es": "En Peptides Costa Rica, Cartalax es seleccionado con un enfoque en la calidad del producto, la consistencia y la documentación transparente de la investigación. La información de lotes disponible y un Certificado de Análisis ayudan a los investigadores a revisar las especificaciones importantes del producto antes de comenzar el trabajo de laboratorio. La disponibilidad local también proporciona una experiencia de pedido conveniente sin las demoras y complicaciones comúnmente asociadas con el abastecimiento internacional."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 0,
+            "text_en": "What are the Potential Effects of Cartalax Peptides?",
+            "text_es": "¿Cuáles son los posibles efectos de los péptidos Cartalax?"
           }
         },
         {
@@ -10237,7 +10268,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "pinealon-costa-rica",
@@ -10249,7 +10281,6 @@
         "description_en": "Buy Pinealon peptides in Costa Rica. Ideal for cognitive function, brain health, and neuro research support. Call 506 8404-6973 to order today.",
         "description_es": "Compre péptidos de Pinealon en Costa Rica. Ideal para la función cognitiva, la salud cerebral y el apoyo a la investigación neurológica. Llame al 506 8404-6973 para hacer su pedido hoy mismo."
       },
-      "untranslated": 0,
       "sections": [
         {
           "type": "heading",
@@ -10480,7 +10511,8 @@
             "href": null
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "igf-1lr3-costa-rica",
@@ -10492,7 +10524,6 @@
         "description_en": "Shop Peptides Costa Rica’s IGF-1 LR3 peptide for muscle growth, fat loss, and recovery support. Call 506 8404-6973 to order trusted products today.",
         "description_es": "Compre el péptido IGF-1 LR3 de Shop Peptides Costa Rica para el crecimiento muscular, la pérdida de grasa y el apoyo a la recuperación. Llame al 506 8404-6973 para pedir productos de confianza hoy mismo."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -11053,7 +11084,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "thymalin-costa-rica",
@@ -11065,7 +11097,6 @@
         "description_en": "Shop Peptides Costa Rica’s Thymalin peptides for immune support and tissue repair. Call 506 8404-6973 for trusted supplier & fast shipping.",
         "description_es": "Compra Péptidos Thymalin de Shop Peptides Costa Rica para apoyo inmunológico y reparación de tejidos. Llama al 506 8404-6973 para un proveedor confiable y envío rápido."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -11626,7 +11657,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "slu-pp332-costa-rica",
@@ -11638,7 +11670,6 @@
         "description_en": "Buy SLU-PP-332 peptides in Costa Rica. Ideal for energy, metabolism, and endurance research support. Call 506 8404-6973 to order today.",
         "description_es": "Compre péptidos SLU-PP-332 en Costa Rica. Ideal para la investigación de energía, metabolismo y resistencia. Llame al 506 8404-6973 para ordenar hoy."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -12172,7 +12203,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "bac-water-costa-rica",
@@ -12184,7 +12216,6 @@
         "description_en": "Shop Peptides Costa Rica’s BAC Water peptides for safe reconstitution and peptide mixing. Call 506 8404-6973 for trusted supplier & fast shipping.",
         "description_es": "Compre péptidos de agua BAC de Shop Peptides Costa Rica para una reconstitución y mezcla seguras de péptidos. Llame al 506 8404-6973 para obtener un proveedor confiable y envío rápido."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -12732,7 +12763,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "epithalon-costa-rica",
@@ -12744,7 +12776,6 @@
         "description_en": "Shop Peptides Costa Rica’s Epithalon peptides for anti-aging, cellular repair, and longevity. Call 506 8404-6973 for trusted supplier & fast shipping.",
         "description_es": "Compre péptidos Epithalon de Shop Peptides Costa Rica para antienvejecimiento, reparación celular y longevidad. Llame al 506 8404-6973 para un proveedor de confianza y envío rápido."
       },
-      "untranslated": 2,
       "sections": [
         {
           "type": "heading",
@@ -13328,7 +13359,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "ipamorelin-costa-rica",
@@ -13340,7 +13372,6 @@
         "description_en": "Shop Peptides Costa Rica’s Ipamorelin peptides for growth hormone support, recovery, and fat loss. Call 506 8404-6973 to order trusted products today.",
         "description_es": "Compra los péptidos de ipamorelina de Shop Peptides Costa Rica para estimular la hormona del crecimiento, la recuperación y la pérdida de grasa. Llama al 506 8404-6973 para pedir hoy mismo productos de confianza."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -13883,7 +13914,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "sermorelin-costa-rica",
@@ -13895,7 +13927,6 @@
         "description_en": "Shop Peptides Costa Rica’s Sermorelin peptides for growth hormone support, recovery, and anti-aging. Call 506 8404-6973 for high purity & fast delivery.",
         "description_es": "Compre péptidos de Sermorelina en Shop Peptides Costa Rica para apoyar la hormona del crecimiento, la recuperación y el antienvejecimiento. Llame al 506 8404-6973 para obtener alta pureza y entrega rápida."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -14464,7 +14495,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "tirzepatide-costa-rica",
@@ -14476,7 +14508,6 @@
         "description_en": "Buy Tirzepatide peptides in Costa Rica. Ideal for weight loss and metabolic research support. Call 506 8404-6973 to order today.",
         "description_es": "Compre péptidos de Tirzepatida en Costa Rica. Ideal para la pérdida de peso y el apoyo a la investigación metabólica. Llame al 506 8404-6973 para ordenar hoy."
       },
-      "untranslated": 0,
       "sections": [
         {
           "type": "heading",
@@ -14935,7 +14966,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "semaglutide-costa-rica",
@@ -14947,7 +14979,6 @@
         "description_en": "Buy Semaglutide peptides in Costa Rica. Ideal for weight loss and metabolic research support. Call 506 8404-6973 to order today.",
         "description_es": "Compre péptidos de Semaglutida en Costa Rica. Ideal para pérdida de peso y apoyo a la investigación metabólica. Llame al 506 8404-6973 para ordenar hoy."
       },
-      "untranslated": 0,
       "sections": [
         {
           "type": "heading",
@@ -15350,7 +15381,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 0
     },
     {
       "slug": "fat-blaster-costa-rica",
@@ -15362,7 +15394,6 @@
         "description_en": "Shop Peptides Costa Rica's Fat Blaster peptides in Costa Rica for fat loss and metabolism support. Call 506 8404-6973 to order premium quality today.",
         "description_es": "Compre péptidos Fat Blaster de Shop Peptides Costa Rica en Costa Rica para la pérdida de grasa y el apoyo al metabolismo. Llame al 506 8404-6973 para pedir productos de primera calidad hoy mismo."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -15880,7 +15911,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "glutathione-costa-rica",
@@ -15892,7 +15924,6 @@
         "description_en": "Shop Peptides Costa Rica’s Glutathione peptides for skin health, detox, and antioxidant support. Call 506 8404-6973 for trusted supplier & fast shipping.",
         "description_es": "Compre péptidos de glutatión de Shop Peptides Costa Rica para la salud de la piel, la desintoxicación y el apoyo antioxidante. Llame al 506 8404-6973 para un proveedor confiable y envío rápido."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -16467,7 +16498,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "5-amino-1mq-costa-rica",
@@ -16479,7 +16511,6 @@
         "description_en": "Shop Peptides Costa Rica's 5-Amino-1MQ peptides in Costa Rica for fat loss and metabolic support. Trusted supplier, fast shipping. Call 506 8404-6973 to order.",
         "description_es": "Compre péptidos 5-Amino-1MQ de Shop Peptides Costa Rica en Costa Rica para la pérdida de grasa y el soporte metabólico. Proveedor de confianza, envío rápido. Llame al 506 8404-6973 para realizar su pedido."
       },
-      "untranslated": 2,
       "sections": [
         {
           "type": "heading",
@@ -17056,7 +17087,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 2
     },
     {
       "slug": "tesamorelin-costa-rica",
@@ -17068,7 +17100,6 @@
         "description_en": "Shop Peptides Costa Rica’s Tesamorelin peptides for fat loss, IGF-1 support, and metabolic health. Call 506 8404-6973 to order today.",
         "description_es": "Compre péptidos Tesamorelin de Shop Peptides Costa Rica para la pérdida de grasa, el apoyo de IGF-1 y la salud metabólica. Llame al 506 8404-6973 para ordenar hoy."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -17604,7 +17635,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "retatrutide-costa-rica",
@@ -17616,7 +17648,6 @@
         "description_en": "Shop Peptides Costa Rica's Retatrutide peptide in Costa Rica for fat loss, appetite control, and metabolic support. Call 506 8404-6973 to order today.",
         "description_es": "Compre el péptido Retatrutide de Shop Peptides Costa Rica en Costa Rica para perder grasa, controlar el apetito y apoyar el metabolismo. Llame al 506 8404-6973 para ordenar hoy."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -18260,7 +18291,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "cjc-with-dac-costa-rica",
@@ -18272,7 +18304,6 @@
         "description_en": "Shop Peptides Costa Rica’s CJC with DAC peptides for growth hormone support, recovery, and fat loss. Call 506 8404-6973 to order premium peptides today.",
         "description_es": "Compre péptidos CJC con DAC de Shop Peptides Costa Rica para el apoyo de la hormona del crecimiento, la recuperación y la pérdida de grasa. Llame al 506 8404-6973 para pedir péptidos premium hoy mismo."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -18856,7 +18887,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "kisspeptin-10-costa-rica",
@@ -18868,7 +18900,6 @@
         "description_en": "Shop Peptides Costa Rica’s Kisspeptin-10 peptides for hormone balance and fertility support. Call 506 8404-6973 for trusted supplier & fast shipping.",
         "description_es": "Compre péptidos Kisspeptin-10 de Shop Peptides Costa Rica para el equilibrio hormonal y el apoyo a la fertilidad. Llame al 506 8404-6973 para un proveedor de confianza y envío rápido."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -19423,7 +19454,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "thymosin-alpha-1-costa-rica",
@@ -19435,7 +19467,6 @@
         "description_en": "Buy Thymosin Alpha-1 peptides in Costa Rica. Ideal for immune system and recovery research support. Call 506 8404-6973 to order today.",
         "description_es": "Compre péptidos de Timosin Alfa-1 en Costa Rica. Ideal para apoyar la investigación del sistema inmunológico y la recuperación. Llame al 506 8404-6973 para ordenar hoy."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -19898,7 +19929,8 @@
             "href": null
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "super-human-blend-costa-rica",
@@ -19910,7 +19942,6 @@
         "description_en": "Shop Peptides Costa Rica's SUPER Human Blend peptides in Costa Rica for energy, recovery, and performance support. Call 506 8404-6973 to order today.",
         "description_es": "Compra los péptidos SUPER Human Blend de Shop Peptides Costa Rica en Costa Rica para obtener soporte de energía, recuperación y rendimiento. Llama al 506 8404-6973 para ordenar hoy mismo."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -20422,7 +20453,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "bpc-157-tb-500-wolverine-stack",
@@ -20434,7 +20466,6 @@
         "description_en": "Shop Peptides Costa Rica’s BPC-157 peptides for muscle, tendon, and gut support. Call 506 8404-6973 to order premium peptides today.",
         "description_es": "Compre péptidos BPC-157 de Shop Peptides Costa Rica para el soporte de músculos, tendones e intestinos. Llame al 506 8404-6973 para pedir péptidos premium hoy mismo."
       },
-      "untranslated": 1,
       "sections": [
         {
           "type": "heading",
@@ -20900,7 +20931,8 @@
             ]
           }
         }
-      ]
+      ],
+      "untranslated": 1
     },
     {
       "slug": "cjc-1295-without-dac-ipa-costa-rica",
@@ -20912,7 +20944,6 @@
         "description_en": "Buy CJC-1295 without DAC + IPA peptides in Costa Rica. Ideal for muscle growth and HGH research support. Call 506 8404-6973 to order today.",
         "description_es": "Compre péptidos CJC-1295 sin DAC + IPA en Costa Rica. Ideal para el crecimiento muscular y el apoyo a la investigación de HGH. Llame al 506 8404-6973 para ordenar hoy mismo."
       },
-      "untranslated": 0,
       "sections": [
         {
           "type": "heading",
@@ -21150,7 +21181,8 @@
             "href": null
           }
         }
-      ]
+      ],
+      "untranslated": 0
     }
   ]
 }
