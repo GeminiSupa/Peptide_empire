@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-01T18:20:10.158Z",
+  "harvestedAt": "2026-08-03T05:14:49.323Z",
   "group": "homeBlocks",
   "count": 1,
   "pages": [
@@ -15,65 +15,69 @@
       },
       "sections": [
         {
-          "type": "heading",
+          "type": "hero_split",
           "content": {
-            "level": 0,
-            "text_en": "PEPTIDES COSTA RICA",
-            "text_es": "PÉPTIDOS COSTA RICA"
-          }
-        },
-        {
-          "type": "heading",
-          "content": {
-            "level": 1,
-            "text_en": "Premium Peptides in Costa Rica",
-            "text_es": "Péptidos Premium en Costa Rica"
-          }
-        },
-        {
-          "type": "paragraph",
-          "content": {
-            "text_en": "Welcome to Peptides Costa Rica, your local source for premium peptides, offering high-quality, research-grade peptide products with reliable delivery.",
-            "text_es": "Bienvenido a Peptides Costa Rica, tu fuente local de péptidos premium, ofreciendo productos de péptidos de alta calidad y grado de investigación con entrega confiable."
-          }
-        },
-        {
-          "type": "paragraph",
-          "content": {
-            "text_en": "More people are interested in peptides for performance, recovery, metabolism, weight management, and longevity. Getting them from international suppliers often leads to delays, uncertainty, and unnecessary customs hassles.",
-            "text_es": "Más personas están interesadas en péptidos para el rendimiento, la recuperación, el metabolismo, el control de peso y la longevidad. Obtenerlos de proveedores internacionales a menudo provoca retrasos, incertidumbre y trámites aduaneros innecesarios."
-          }
-        },
-        {
-          "type": "list",
-          "content": {
-            "icon": true,
-            "items_en": [
-              "Verified quality",
-              "Transparent pricing",
-              "Local reliability"
+            "body": [
+              {
+                "type": "heading",
+                "content": {
+                  "level": 0,
+                  "text_en": "PEPTIDES COSTA RICA",
+                  "text_es": "PÉPTIDOS COSTA RICA"
+                }
+              },
+              {
+                "type": "heading",
+                "content": {
+                  "level": 1,
+                  "text_en": "Premium Peptides in Costa Rica",
+                  "text_es": "Péptidos Premium en Costa Rica"
+                }
+              },
+              {
+                "type": "paragraph",
+                "content": {
+                  "text_en": "Welcome to Peptides Costa Rica, your local source for premium peptides, offering high-quality, research-grade peptide products with reliable delivery.",
+                  "text_es": "Bienvenido a Peptides Costa Rica, tu fuente local de péptidos premium, ofreciendo productos de péptidos de alta calidad y grado de investigación con entrega confiable."
+                }
+              },
+              {
+                "type": "paragraph",
+                "content": {
+                  "text_en": "More people are interested in peptides for performance, recovery, metabolism, weight management, and longevity. Getting them from international suppliers often leads to delays, uncertainty, and unnecessary customs hassles.",
+                  "text_es": "Más personas están interesadas en péptidos para el rendimiento, la recuperación, el metabolismo, el control de peso y la longevidad. Obtenerlos de proveedores internacionales a menudo provoca retrasos, incertidumbre y trámites aduaneros innecesarios."
+                }
+              },
+              {
+                "type": "list",
+                "content": {
+                  "icon": true,
+                  "items_en": [
+                    "Verified quality",
+                    "Transparent pricing",
+                    "Local reliability"
+                  ],
+                  "items_es": [
+                    "Calidad verificada",
+                    "Precios transparentes",
+                    "Fiabilidad local"
+                  ]
+                }
+              },
+              {
+                "type": "button",
+                "content": {
+                  "text_en": "Browse All Peptide Products",
+                  "text_es": "Explorar todos los productos peptídicos",
+                  "href": "/all-peptide-products-costa-rica/"
+                }
+              }
             ],
-            "items_es": [
-              "Calidad verificada",
-              "Precios transparentes",
-              "Fiabilidad local"
-            ]
-          }
-        },
-        {
-          "type": "button",
-          "content": {
-            "text_en": "Browse All Peptide Products",
-            "text_es": "Explorar todos los productos peptídicos",
-            "href": "/all-peptide-products-costa-rica/"
-          }
-        },
-        {
-          "type": "image",
-          "content": {
-            "src": "/wp-content/uploads/2026/04/Banner-Imagesz-1-e1774523007418-1536x1303__1_-removebg-preview-e1776934537173.png",
-            "alt_en": "Five Peptides Costa Rica bottles on blue background: Retatrutide, Seramorelin, NAD+, HCG, Glow 70 mg. Blue caps. Store at 2-8°C.",
-            "alt_es": "Cinco botellas de Peptides Costa Rica sobre fondo azul: Retatrutida, Seramorelina, NAD+, HCG, Glow 70 mg. Tapas azules. Almacenar a 2-8°C."
+            "image": {
+              "src": "/wp-content/uploads/2026/04/Banner-Imagesz-1-e1774523007418-1536x1303__1_-removebg-preview-e1776934537173.png",
+              "alt_en": "Five Peptides Costa Rica bottles on blue background: Retatrutide, Seramorelin, NAD+, HCG, Glow 70 mg. Blue caps. Store at 2-8°C.",
+              "alt_es": "Cinco botellas de Peptides Costa Rica sobre fondo azul: Retatrutida, Seramorelina, NAD+, HCG, Glow 70 mg. Tapas azules. Almacenar a 2-8°C."
+            }
           }
         },
         {

@@ -39,6 +39,10 @@ export const ui = {
   downloadPdf_es: 'Descargar PDF',
   noProducts_en: 'No products are currently listed in this category.',
   noProducts_es: 'Actualmente no hay productos en esta categoría.',
+  searchPlaceholder_en: 'Search Peptide Products Or Information',
+  searchPlaceholder_es: 'Buscar productos peptídicos o información',
+  cart_en: 'Cart',
+  cart_es: 'Carrito',
   // Build scaffolding, not site copy — see the transformation section.
   pendingImage_en: 'Before / after image (pending)',
   pendingImage_es: 'Imagen antes / después (pendiente)',

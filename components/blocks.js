@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Check, ExternalLink, FileText } from 'lucide-react';
+import { Check, CircleCheck, ExternalLink, FileText } from 'lucide-react';
 import Container from '@/components/ui/container';
 import FaqAccordion from '@/components/faq-accordion';
 import { catalogUrl, ui } from '@/content/global';
@@ -386,6 +386,89 @@ function TestimonialsSlider({ content, lang }) {
   );
 }
 
+
+/**
+ * The home hero: copy on the left, product photo on the right.
+ *
+ * Built to match the live page rather than harvested, because the arrangement
+ * lives in Elementor's framework stylesheets — the page's own CSS carries no
+ * flex-direction, grid-template-columns or container widths at all. See
+ * foldHero() in scripts/harvest-blocks.mjs.
+ *
+ * Matched by eye against peptidescostarica.net: red badge for the eyebrow,
+ * left-aligned navy h1, inline red check items with no pill borders, and a
+ * solid navy rectangular call to action.
+ *
+ * NOT reproduced: the hexagon watermark behind the copy. Its source file
+ * (Banner-Imagesz-1-e1774523007418.png) is one of the 12 images that 404 on the
+ * live server, so there is nothing to serve.
+ */
+function HeroSplit({ content, lang }) {
+  const body = content.body ?? [];
+  const eyebrow = body.find((b) => b.type === 'heading' && b.content.level === 0);
+  const title = body.find((b) => b.type === 'heading' && b.content.level === 1);
+  const paras = body.filter((b) => b.type === 'paragraph');
+  const chips = body.find((b) => b.type === 'list');
+  const cta = body.find((b) => b.type === 'button');
+  const items = chips ? listItems(chips.content, 'items', lang) : [];
+
+  return (
+    <div className="grid items-center gap-10 py-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)]">
+      <div>
+        {eyebrow && (
+          <span className="inline-block rounded bg-brand-red px-3 py-1.5 text-[11px] font-bold tracking-[0.12em] text-white uppercase">
+            {t(eyebrow.content, 'text', lang)}
+          </span>
+        )}
+        {title && (
+          <h1 className="mt-5 text-4xl leading-[1.1] font-extrabold tracking-tight text-primary sm:text-5xl">
+            {t(title.content, 'text', lang)}
+          </h1>
+        )}
+        {paras[0] && (
+          <p className="mt-5 text-lg leading-relaxed font-semibold text-text-main">
+            {t(paras[0].content, 'text', lang)}
+          </p>
+        )}
+        {paras[1] && (
+          <p className="mt-4 text-base leading-relaxed text-text-main">
+            {t(paras[1].content, 'text', lang)}
+          </p>
+        )}
+
+        {items.length > 0 && (
+          <ul className="mt-6 flex flex-wrap items-center gap-x-7 gap-y-3">
+            {items.map((item) => (
+              <li className="inline-flex items-center gap-2 text-base font-bold text-primary" key={item}>
+                <CircleCheck aria-hidden="true" className="h-5 w-5 shrink-0 text-brand-red" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        )}
+
+        {cta?.content.href && (
+          <Link
+            className="mt-8 inline-flex items-center justify-center rounded bg-primary px-7 py-4 text-sm font-bold text-white transition hover:brightness-110"
+            href={localePath(cta.content.href, lang)}
+          >
+            {t(cta.content, 'text', lang)}
+          </Link>
+        )}
+      </div>
+
+      {content.image?.src && (
+        // eslint-disable-next-line @next/next/no-img-element -- harvested asset
+        <img
+          alt={t(content.image, 'alt', lang)}
+          className="h-auto w-full"
+          src={imageUrl(content.image.src)}
+        />
+      )}
+    </div>
+  );
+}
+
 const RENDERERS = {
   heading: Heading,
   paragraph: Paragraph,
@@ -399,6 +482,7 @@ const RENDERERS = {
   coa_list: CoaList,
   faq: Faq,
   category_header: CategoryHeader,
+  hero_split: HeroSplit,
   testimonials_slider: TestimonialsSlider,
   product_grid_dynamic: ProductGridDynamic,
 };

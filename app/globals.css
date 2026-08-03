@@ -15,6 +15,8 @@
      (#c8530c) appears NOWHERE on peptidescostarica.net — it was invented, and
      it tinted every button, eyebrow and icon across all 632 pages. */
   --color-accent: #d35400;
+  /* The badge/check red, from the live stylesheet. */
+  --color-brand-red: #cf2e2e;
   /* White, matching the live site — Astra's site-background slot
      (--ast-global-color-4) is #FFFFFF. The brand kit specifies #F4F6F9, but the
      client chose live-site fidelity over the brand kit; see the README. */

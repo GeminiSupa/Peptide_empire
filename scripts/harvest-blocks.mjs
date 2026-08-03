@@ -468,6 +468,33 @@ async function markup(group, route, wp, attempt = 1) {
   }
 }
 
+
+/**
+ * Fold the home page's opening run into a single `hero_split` section.
+ *
+ * The live hero is two columns — copy on the left, the product photo on the
+ * right. That arrangement lives in Elementor's framework stylesheets, not in
+ * the page markup or its per-page CSS (verified: the page's own CSS file
+ * carries no flex-direction, grid-template-columns or container widths at
+ * all). So it cannot be harvested; it has to be declared.
+ *
+ * This is therefore a deliberate TEMPLATE RULE, not an inference: everything
+ * up to and including the first image becomes the hero, with the image as the
+ * right-hand column. It is applied only to the home page.
+ */
+function foldHero(sections) {
+  const imageAt = sections.findIndex((s) => s.type === 'image');
+  // Guard: only fold a short opening run that actually starts with a heading.
+  if (imageAt < 2 || imageAt > 8 || sections[0]?.type !== 'heading') return sections;
+
+  const lead = sections.slice(0, imageAt);
+  const image = sections[imageAt];
+  return [
+    { type: 'hero_split', content: { body: lead, image: image.content } },
+    ...sections.slice(imageAt + 1),
+  ];
+}
+
 async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
   const out = [];
   let hits = 0;
@@ -519,7 +546,9 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
         description_es: es?.head?.es?.description ?? '',
       },
       // The converged section vocabulary — see scripts/migrate-shape.mjs.
-      sections: blocks.map(({ type, ...rest }) => ({ type, content: rest })),
+      sections: (group === 'homeBlocks' ? foldHero : (x) => x)(
+        blocks.map(({ type, ...rest }) => ({ type, content: rest })),
+      ),
       untranslated: stats.misses,
     });
   }

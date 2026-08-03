@@ -1,9 +1,11 @@
 import Link from 'next/link';
-import { ChevronDown, Phone } from 'lucide-react';
+import { ChevronDown, Phone, ShoppingCart } from 'lucide-react';
 import Container from '@/components/ui/container';
 import Logo from '@/components/logo';
 import MobileMenu from '@/components/mobile-menu';
-import { announcement, headerContact, nav, catalogUrl } from '@/content/global';
+import HeaderSearch from '@/components/header-search';
+import { announcement, headerContact, nav, catalogUrl, ui } from '@/content/global';
+import { searchIndex } from '@/lib/search-index';
 import { label, t } from '@/lib/i18n';
 import { alternatePath, localePath, DEFAULT_LANG } from '@/lib/routes';
 
@@ -16,8 +18,9 @@ const UI = {
 };
 
 export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
-  const ui = UI[lang] || UI[DEFAULT_LANG];
+  const labels = UI[lang] || UI[DEFAULT_LANG];
   const lp = (href) => localePath(href, lang);
+  const index = searchIndex(lang);
 
   return (
     <header className="sticky top-0 z-40 bg-white shadow-sm">
@@ -97,18 +100,49 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
+          <div className="hidden xl:block">
+            <HeaderSearch index={index} lang={lang} />
+          </div>
+
           <Link
             href={alternatePath(path, lang)}
             className="hidden rounded-md px-2 py-1 text-xs font-semibold text-text-muted hover:text-primary sm:inline-block"
           >
-            {ui.switchTo}
+            {labels.switchTo}
           </Link>
+
+          {/* Currency indicator, deliberately NOT a switcher.
+              The live site converts prices with a WooCommerce plugin. Prices
+              here are a harvest-time snapshot in CRC, so a control that
+              relabelled them as USD without converting would show visitors
+              wrong prices — worse than not offering the choice. Shown as the
+              site's currency; the catalog site remains where anyone transacts. */}
+          <span
+            className="hidden items-center rounded border border-slate-300 px-2.5 py-1.5 text-xs font-semibold text-text-main lg:inline-flex"
+            title="Prices shown in Costa Rican colón"
+          >
+            ₡ CRC
+          </span>
+
+          {/* The cart lives on the catalog site; this links there rather than
+              rendering a basket that can never fill. No count is shown for the
+              same reason — a permanent "0" would be a broken control. */}
+          <a
+            aria-label={t(ui, 'cart', lang)}
+            className="hidden items-center gap-1.5 rounded border border-slate-300 px-2.5 py-1.5 text-xs font-semibold text-primary transition hover:border-primary lg:inline-flex"
+            href={catalogUrl(lang)}
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            <ShoppingCart aria-hidden="true" className="h-4 w-4" />
+            {t(ui, 'cart', lang)}
+          </a>
           <a
             href={catalogUrl(lang)}
             className="hidden rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent/90 sm:inline-flex"
           >
-            {ui.shop}
+            {labels.shop}
           </a>
           <MobileMenu lang={lang} path={path} />
         </div>
