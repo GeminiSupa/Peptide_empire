@@ -43,6 +43,9 @@ export const ui = {
   searchPlaceholder_es: 'Buscar productos peptídicos o información',
   cart_en: 'Cart',
   cart_es: 'Carrito',
+  // Both labels read off the live site (EN and /es/), not translated by hand.
+  contactUs_en: 'Contact Us',
+  contactUs_es: 'Contáctanos',
   // Build scaffolding, not site copy — see the transformation section.
   pendingImage_en: 'Before / after image (pending)',
   pendingImage_es: 'Imagen antes / después (pendiente)',

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ChevronDown, Phone, ShoppingCart } from 'lucide-react';
+import { ChevronDown, Mail, Phone, ShoppingCart } from 'lucide-react';
 import Container from '@/components/ui/container';
 import Logo from '@/components/logo';
 import MobileMenu from '@/components/mobile-menu';
@@ -28,14 +28,28 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
       <div className="bg-primary text-white">
         <Container className="flex flex-col items-center justify-between gap-1 py-2 text-center text-xs sm:flex-row sm:text-left sm:text-[13px]">
           <p className="font-medium">{t(announcement, 'text', lang)}</p>
-          <div className="flex items-center gap-4">
-            {headerContact.map((c) => (
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+            <Link
+              className="inline-flex items-center gap-1.5 font-medium hover:underline"
+              href={lp('/contact-costa-rica/')}
+            >
+              <Mail aria-hidden="true" className="h-3.5 w-3.5" />
+              {t(ui, 'contactUs', lang)}
+            </Link>
+
+            {/* The live site styles the first number as a filled button and the
+                second as an outline. */}
+            {headerContact.map((c, i) => (
               <a
-                key={c.href}
+                className={
+                  i === 0
+                    ? 'inline-flex items-center gap-1.5 rounded bg-brand-red px-3 py-1.5 font-semibold text-white transition hover:brightness-110'
+                    : 'inline-flex items-center gap-1.5 rounded border border-white/60 px-3 py-1.5 font-semibold text-white transition hover:bg-white/10'
+                }
                 href={c.href}
-                className="inline-flex items-center gap-1.5 hover:underline"
+                key={c.href}
               >
-                <Phone className="h-3.5 w-3.5" aria-hidden="true" />
+                <Phone aria-hidden="true" className="h-3.5 w-3.5" />
                 {label(c, lang)}
               </a>
             ))}
