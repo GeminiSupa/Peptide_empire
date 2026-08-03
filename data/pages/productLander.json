@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-01T18:20:13.676Z",
+  "harvestedAt": "2026-08-03T06:37:20.624Z",
   "group": "productLander",
   "count": 40,
   "pages": [
@@ -200,6 +200,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/05/KPV-10mg-key-benefit.webp",
+            "width": 1280,
+            "height": 720,
             "alt_en": "KPV 10mg key benefit",
             "alt_es": "Beneficio clave de KPV 10mg"
           }
@@ -780,6 +782,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-22-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Man on treadmill with vitamin bottle.",
             "alt_es": "Hombre en caminadora con botella de vitamina."
           }
@@ -1354,6 +1358,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-31-1.png",
+            "width": null,
+            "height": null,
             "alt_en": "Happy family in car laughter.jpg.",
             "alt_es": "Familia feliz riendo en el coche.jpg."
           }
@@ -1946,6 +1952,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-5-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Muscular man working out beside boldly labeled supplement bottle.",
             "alt_es": "Hombre musculoso entrenando junto a una botella de suplementos con etiqueta llamativa."
           }
@@ -2544,6 +2552,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-19-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Post-workout couple smiles outdoors.",
             "alt_es": "Pareja sonriendo al aire libre después de entrenar."
           }
@@ -3081,6 +3091,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-35-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Man working on laptop at home with coffee cup and supplement bottle nearby.",
             "alt_es": "Hombre trabajando en una laptop en casa con una taza de café y un frasco de suplementos cerca."
           }
@@ -3615,6 +3627,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-29-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Woman sipping coffee from white cup on balcony overlooking ocean with supplement bottle.",
             "alt_es": "Mujer bebiendo café de una taza blanca en un balcón con vista al océano, con un frasco de suplementos."
           }
@@ -4214,6 +4228,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-14-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Couple hiking outdoors with man climbing rock.",
             "alt_es": "Pareja de excursionistas al aire libre con un hombre escalando una roca."
           }
@@ -4760,6 +4776,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/05/Semax-10mg-product-information.webp",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Semax 10mg product information",
             "alt_es": "Información del producto Semax 10mg"
           }
@@ -5097,6 +5115,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/05/AICAR-50mg-key-benefit.webp",
+            "width": 1280,
+            "height": 720,
             "alt_en": "Man relaxing in bathroom near window.",
             "alt_es": "Man relaxing in bathroom near window."
           }
@@ -5549,6 +5569,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/05/MT-II-key-benefit.webp",
+            "width": 1280,
+            "height": 720,
             "alt_en": "Man smiling in stylish home setting.",
             "alt_es": "Man smiling in stylish home setting."
           }
@@ -6110,6 +6132,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-32-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Man drinking water with supplement bottle and glass on table in modern living room.",
             "alt_es": "Un hombre bebiendo agua con una botella de suplemento y un vaso sobre la mesa en una sala de estar moderna."
           }
@@ -6683,6 +6707,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-23-1.png",
+            "width": null,
+            "height": null,
             "alt_en": "{\"0\": \"Professional man writing in notebook with PT-141 supplement bottle and coffee cup on table.\" \"1\": \"Fit man holding water bottle with Kisspeptin-10 supplement on.",
             "alt_es": "Hombre profesional escribiendo en un cuaderno con una botella de suplemento PT-141 y una taza de café sobre la mesa.Hombre en forma sosteniendo una botella de agua con el suplemento Kisspeptin-10."
           }
@@ -7258,6 +7284,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-30-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Cozy living room scene with person relaxing on couch and supplement bottle on tray.",
             "alt_es": "Escena acogedora de sala de estar con una persona relajándose en el sofá y un frasco de suplemento en una bandeja."
           }
@@ -7825,6 +7853,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-27-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Individual reading on park bench beside supplement bottle and water bottle.",
             "alt_es": "Lectura individual en banco de parque al lado de un frasco de suplementos y una botella de agua."
           }
@@ -8399,6 +8429,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/02/peptides-7-1.webp",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Adamax 5mg product information",
             "alt_es": "Información del producto Adamax 5mg"
           }
@@ -8971,6 +9003,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-17-2.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Man on couch holding hydration bottle.",
             "alt_es": "Hombre en sofá sosteniendo botella de hidratación."
           }
@@ -9497,6 +9531,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-10-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Yoga woman stretching with hydration and supplements.",
             "alt_es": "Mujer haciendo yoga estirando con hidratación y suplementos."
           }
@@ -10042,6 +10078,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/02/peptides-7-1.webp",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Adamax 5mg product information",
             "alt_es": "Información del producto Adamax 5mg"
           }
@@ -10345,6 +10383,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/05/Pinealon-10mg-product-information.webp",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Asian woman posing beside beauty product.",
             "alt_es": "Asian woman posing beside beauty product."
           }
@@ -10818,6 +10858,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-13-2.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Muscular man lifting dumbbells in a gym.",
             "alt_es": "Hombre musculoso levantando mancuernas en un gimnasio."
           }
@@ -11391,6 +11433,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-33-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Woman performing stretching exercises outdoors on yoga mat with towel and bottle nearby.",
             "alt_es": "Mujer realizando ejercicios de estiramiento al aire libre sobre tapete de yoga con toalla y botella cerca."
           }
@@ -11943,6 +11987,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/05/Slu-pp332-5mg-key-benefit.webp",
+            "width": 1280,
+            "height": 720,
             "alt_en": "Woman stretching before exercise.",
             "alt_es": "Woman stretching before exercise."
           }
@@ -12503,6 +12549,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-11-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Runner on treadmill beside supplement bottles.",
             "alt_es": "Corredor en caminadora junto a botellas de suplementos."
           }
@@ -13070,6 +13118,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-20-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Woman meditating in bed with pills.",
             "alt_es": "Mujer meditando en la cama con pastillas."
           }
@@ -13666,6 +13716,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-12-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Man outdoors with supplement bottle at table.",
             "alt_es": "Hombre afuera con botella de suplemento en una mesa."
           }
@@ -14235,6 +14287,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-25-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Woman in yoga pose on mat with supplement bottles placed on wooden floor.",
             "alt_es": "Mujer en pose de yoga sobre tapete con botellas de suplementos puestas sobre piso de madera."
           }
@@ -14700,6 +14754,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/05/Tirzepatide-30mg-product-information.webp",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "South Asian man in living room with fitness bottle.",
             "alt_es": "South Asian man in living room with fitness bottle."
           }
@@ -15115,6 +15171,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/05/Semaglutide-20mg-product-image.webp",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Semaglutide 20mg product image",
             "alt_es": "Imagen del producto semaglutida 20 mg"
           }
@@ -15674,6 +15732,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-21-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Woman stretching outdoors with vitamins.",
             "alt_es": "Mujer haciendo estiramientos al aire libre con vitaminas."
           }
@@ -16232,6 +16292,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-28-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Yoga practitioner in green activewear practicing pose with water bottle on mat.",
             "alt_es": "Practicante de yoga con ropa deportiva verde practicando una postura con una botella de agua en la esterilla."
           }
@@ -16798,6 +16860,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-9-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Woman in yoga pose beside supplement bottles.",
             "alt_es": "Mujer en pose de yoga junto a botellas de suplementos."
           }
@@ -17393,6 +17457,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-34-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Woman stretching on rooftop with water bottle in evening sunlight.",
             "alt_es": "Mujer estirando en la azotea con botella de agua bajo la luz del sol de la tarde."
           }
@@ -18008,6 +18074,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-24-1.png",
+            "width": null,
+            "height": null,
             "alt_en": "",
             "alt_es": ""
           }
@@ -18598,6 +18666,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-18-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Couple doing push-ups on yoga mats.",
             "alt_es": "Pareja haciendo flexiones de brazos en colchonetas de yoga."
           }
@@ -19194,6 +19264,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-16-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Man sitting on couch with vitamin bottle.",
             "alt_es": "Hombre sentado en el sofá con un frasco de vitaminas."
           }
@@ -19740,6 +19812,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/05/Thymosin-Alpha-1-10mg-product-information.webp",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Man exercising with healthcare product on table.",
             "alt_es": "Man exercising with healthcare product on table."
           }
@@ -20222,6 +20296,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/peptides-26-1.png",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "Athlete squatting outdoors with workout gear and distant gym equipment visible.",
             "alt_es": "Atleta haciendo sentadillas al aire libre con equipo de entrenamiento y equipo de gimnasio a lo lejos visible."
           }
@@ -20712,6 +20788,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/05/157-TB-500.webp",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "157 + TB 500",
             "alt_es": "157 + TB 500"
           }
@@ -21015,6 +21093,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/05/CJC-1295-without-DAC-IPA-10mg-product-information-image.webp",
+            "width": 1000,
+            "height": 1000,
             "alt_en": "CJC-1295 without DAC + IPA 10mg product information image",
             "alt_es": "Imagen con información del producto CJC-1295 sin DAC + IPA 10 mg"
           }

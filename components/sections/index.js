@@ -376,12 +376,24 @@ function group(sections) {
   const out = [];
   for (const section of sections) {
     const last = out[out.length - 1];
-    if (section.type === 'card' && last?.kind === 'cards') {
-      last.items.push(section.content);
+
+    if (section.type === 'card') {
+      if (last?.kind === 'cards') last.items.push(section.content);
+      else out.push({ kind: 'cards', items: [section.content] });
       continue;
     }
-    if (section.type === 'card') out.push({ kind: 'cards', items: [section.content] });
-    else out.push({ kind: 'one', section });
+
+    // Consecutive product grids merge into ONE grid. The home page carries ten
+    // of them holding 4, 4, 2, 4, 4, 4, 4, 1, 3 and 4 products; rendered
+    // separately each started a new row, so the page showed orphan single-card
+    // rows instead of a continuous grid.
+    if (section.type === 'product_grid') {
+      if (last?.kind === 'products') last.products.push(...section.content.products);
+      else out.push({ kind: 'products', products: [...section.content.products] });
+      continue;
+    }
+
+    out.push({ kind: 'one', section });
   }
   return out;
 }
@@ -398,9 +410,21 @@ export default function Sections({ sections = [], lang, demoteH1 = false }) {
   return group(sections).map((entry, index) => {
     if (entry.kind === 'cards') {
       return (
-        <Container className="py-4" key={`cards-${index}`}>
+        <Container className="py-2" key={`cards-${index}`}>
           <div className="mx-auto max-w-5xl">
             <CardGrid items={entry.items} lang={lang} />
+          </div>
+        </Container>
+      );
+    }
+
+    if (entry.kind === 'products') {
+      const merged = { type: 'product_grid', content: { products: entry.products } };
+      const Grid = SECTION_COMPONENTS.product_grid;
+      return (
+        <Container className="py-2" key={`products-${index}`}>
+          <div className="mx-auto max-w-5xl">
+            <Grid content={merged.content} lang={lang} />
           </div>
         </Container>
       );
@@ -425,7 +449,7 @@ export default function Sections({ sections = [], lang, demoteH1 = false }) {
     // Prose stays at a readable measure; grids and tables get more room.
     const width = WIDE.has(section.type) ? 'max-w-5xl' : 'max-w-3xl';
     return (
-      <Container className="py-4" key={`${section.type}-${index}`}>
+      <Container className="py-2" key={`${section.type}-${index}`}>
         <div className={`mx-auto ${width}`}>
           <Component content={section.content} demote={demoteH1} lang={lang} />
         </div>

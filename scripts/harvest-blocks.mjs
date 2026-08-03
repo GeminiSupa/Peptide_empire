@@ -296,7 +296,11 @@ function widgetToBlock($, el, tr) {
     if (!img.length) return null;
     const src = realSrc($, img);
     if (!src) return null;
-    return { type: 'image', src: rel(src), ...bi('alt', clean(img.attr('alt')), tr) };
+    // WordPress emits the file's natural size. Without it every image rendered
+    // at one blanket max-width, so a 300x112 press logo was blown up to 672px.
+    const w = Number(img.attr('width')) || null;
+    const h = Number(img.attr('height')) || null;
+    return { type: 'image', src: rel(src), width: w, height: h, ...bi('alt', clean(img.attr('alt')), tr) };
   }
 
   if (type === 'icon-box') {

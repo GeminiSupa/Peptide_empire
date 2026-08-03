@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-03T05:14:49.323Z",
+  "harvestedAt": "2026-08-03T06:37:16.991Z",
   "group": "homeBlocks",
   "count": 1,
   "pages": [
@@ -75,6 +75,8 @@
             ],
             "image": {
               "src": "/wp-content/uploads/2026/04/Banner-Imagesz-1-e1774523007418-1536x1303__1_-removebg-preview-e1776934537173.png",
+              "width": 530,
+              "height": 354,
               "alt_en": "Five Peptides Costa Rica bottles on blue background: Retatrutide, Seramorelin, NAD+, HCG, Glow 70 mg. Blue caps. Store at 2-8°C.",
               "alt_es": "Cinco botellas de Peptides Costa Rica sobre fondo azul: Retatrutida, Seramorelina, NAD+, HCG, Glow 70 mg. Tapas azules. Almacenar a 2-8°C."
             }
@@ -91,6 +93,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/07/TCRN-logo.png",
+            "width": 300,
+            "height": 112,
             "alt_en": "The Costa Rica News logo with wildlife illustrations on a white background.",
             "alt_es": "The Costa Rica News logo with wildlife illustrations on a white background."
           }
@@ -143,6 +147,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/07/images-removebg-preview.png",
+            "width": 529,
+            "height": 134,
             "alt_en": "the tico times since 1956.",
             "alt_es": "the tico times since 1956."
           }
@@ -675,6 +681,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/07/3-13-1-2.webp",
+            "width": 2400,
+            "height": 1792,
             "alt_en": "Medical vials with assorted colored caps and labels on reflective surface.",
             "alt_es": "Medical vials with assorted colored caps and labels on reflective surface."
           }
@@ -706,6 +714,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/elementor/thumbs/befor-robag53fjy9jqse2kn1i5llc5dzq2g4qpd09u2gdn4.webp",
+            "width": null,
+            "height": null,
             "alt_en": "Before photo of man shirtless in bathroom.",
             "alt_es": "Before photo of man shirtless in bathroom."
           }
@@ -714,6 +724,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/elementor/thumbs/afte-robak3ywerp4rimjecssoljefyfikfvxx062s4kjdc.webp",
+            "width": null,
+            "height": null,
             "alt_en": "Shirtless man flexing muscles in mirror.",
             "alt_es": "Shirtless man flexing muscles in mirror."
           }
@@ -856,6 +868,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/04/Banner-Imagesz-1-e1774523007418-1536x1303__1_-removebg-preview-e1776934537173.png",
+            "width": 530,
+            "height": 354,
             "alt_en": "Five Peptides Costa Rica bottles on blue background: Retatrutide, Seramorelin, NAD+, HCG, Glow 70 mg. Blue caps. Store at 2-8°C.",
             "alt_es": "Cinco botellas de Peptides Costa Rica sobre fondo azul: Retatrutida, Seramorelina, NAD+, HCG, Glow 70 mg. Tapas azules. Almacenar a 2-8°C."
           }
@@ -956,6 +970,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/02/BPC-157-2-1024x1024.jpg",
+            "width": 1024,
+            "height": 1024,
             "alt_en": "BPC-157 10mg bottle with blue cap and white powder.",
             "alt_es": "Frasco de BPC-157 de 10 mg con tapa azul y polvo blanco."
           }
@@ -1012,6 +1028,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/02/HCG-1-1-1024x1024.jpg",
+            "width": 1024,
+            "height": 1024,
             "alt_en": "HCG 10,000 IU jar with atom logo, refrigerate at 2-8°C, for subcutaneous use.",
             "alt_es": "Frasco de HCG 10,000 UI con logo de átomo, refrigerar a 2-8°C, para uso subcutáneo."
           }
@@ -1130,6 +1148,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/07/Untitled-design-4.webp",
+            "width": 1280,
+            "height": 720,
             "alt_en": "Couple exercising with vials on coffee table.",
             "alt_es": "Couple exercising with vials on coffee table."
           }
@@ -1214,6 +1234,8 @@
           "type": "image",
           "content": {
             "src": "/wp-content/uploads/2026/07/Untitled-design-5-1-1024x576.webp",
+            "width": 1024,
+            "height": 576,
             "alt_en": "Bottles arranged on sandy beach in blue water.",
             "alt_es": "Bottles arranged on sandy beach in blue water."
           }

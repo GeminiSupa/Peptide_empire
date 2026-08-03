@@ -120,14 +120,22 @@ function BlockButton({ content, lang }) {
 function BlockImage({ content, lang }) {
   const src = imageUrl(content.src);
   if (!src) return null;
+
+  // Never scale an image UP. A press logo is 300px wide natively; rendering it
+  // at a blanket max-width blew it up to 672px and dominated the page.
+  const natural = content.width || null;
+  const cap = natural ? Math.min(natural, 672) : 672;
+
   return (
-    // eslint-disable-next-line @next/next/no-img-element -- harvested content
-    // images have no known intrinsic size; next/image would need one per file.
+    // eslint-disable-next-line @next/next/no-img-element -- harvested asset
     <img
       alt={t(content, 'alt', lang)}
-      className="mt-8 h-auto w-full max-w-2xl rounded-xl"
+      className="mx-auto h-auto w-full rounded"
+      height={content.height || undefined}
       loading="lazy"
       src={src}
+      style={{ maxWidth: `${cap}px` }}
+      width={natural || undefined}
     />
   );
 }
