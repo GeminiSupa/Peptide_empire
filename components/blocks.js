@@ -477,6 +477,58 @@ function HeroSplit({ content, lang }) {
   );
 }
 
+
+/**
+ * The "AS SEEN IN" press band: a centred rule, then each outlet's logo with its
+ * link, side by side. See foldPress() in scripts/harvest-blocks.mjs for why the
+ * harvested widgets have to be paired rather than rendered in document order.
+ */
+function PressBandBlock({ content, lang }) {
+  const items = content.items ?? [];
+  if (!items.length) return null;
+
+  return (
+    <section className="border-y border-slate-200 py-10">
+      <div className="flex items-center justify-center gap-4">
+        <span className="h-px w-12 bg-slate-300" />
+        <p className="text-xs font-bold tracking-[0.18em] text-text-muted uppercase">
+          {t(content, 'title', lang)}
+        </p>
+        <span className="h-px w-12 bg-slate-300" />
+      </div>
+
+      <div className="mt-8 grid gap-10 sm:grid-cols-2">
+        {items.map((item, i) => (
+          <div className="flex flex-col items-center text-center" key={`press-${i}`}>
+            {item.logo?.src && (
+              // eslint-disable-next-line @next/next/no-img-element -- harvested
+              <img
+                alt={t(item.logo, 'alt', lang)}
+                className="h-16 w-auto object-contain"
+                loading="lazy"
+                src={imageUrl(item.logo.src)}
+              />
+            )}
+            <p className="mt-4 text-sm text-text-muted">{t(item, 'intro', lang)}</p>
+            <p className="text-sm font-bold text-primary">{t(item, 'outlet', lang)}</p>
+            {item.link?.href && (
+              <a
+                className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-accent hover:underline"
+                href={item.link.href}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {t(item.link, 'text', lang)}
+                <ExternalLink aria-hidden="true" className="h-3.5 w-3.5" />
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 const RENDERERS = {
   heading: Heading,
   paragraph: Paragraph,
@@ -491,6 +543,7 @@ const RENDERERS = {
   faq: Faq,
   category_header: CategoryHeader,
   hero_split: HeroSplit,
+  press_band: PressBandBlock,
   testimonials_slider: TestimonialsSlider,
   product_grid_dynamic: ProductGridDynamic,
 };

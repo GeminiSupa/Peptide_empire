@@ -499,6 +499,61 @@ function foldHero(sections) {
   ];
 }
 
+
+/**
+ * Fold the "AS SEEN IN" run into a single `press_band` section.
+ *
+ * On the live page this is a centred divider followed by a container holding
+ * two press mentions side by side. Its widgets arrive FLAT and out of visual
+ * order — image, text, text, button, text, text, button, image — so the second
+ * logo is stranded at the end. Rendered literally that is a column of loose
+ * lines with a logo orphaned at the bottom, which is exactly how it looked.
+ *
+ * Pairs the Nth logo with the Nth outlet and the Nth link, which is the
+ * arrangement the live CSS produces.
+ */
+function foldPress(sections) {
+  const start = sections.findIndex((s) => /^as seen in$/i.test(s.content?.text_en ?? ''));
+  if (start === -1) return sections;
+
+  // The run ends at the next real heading — the band is self-contained.
+  let end = start + 1;
+  while (end < sections.length) {
+    const s = sections[end];
+    if (s.type === 'heading' && (s.content.level ?? 2) >= 1 && s.content.level !== 0) break;
+    if (s.type === 'product_grid' || s.type === 'faq') break;
+    end += 1;
+  }
+
+  const run = sections.slice(start + 1, end);
+  const images = run.filter((s) => s.type === 'image');
+  const buttons = run.filter((s) => s.type === 'button');
+  const paras = run.filter((s) => s.type === 'paragraph');
+  if (images.length < 2 || images.length !== buttons.length) return sections;
+
+  const items = images.map((img, i) => ({
+    logo: img.content,
+    intro_en: paras[i * 2]?.content.text_en ?? '',
+    intro_es: paras[i * 2]?.content.text_es ?? '',
+    outlet_en: paras[i * 2 + 1]?.content.text_en ?? '',
+    outlet_es: paras[i * 2 + 1]?.content.text_es ?? '',
+    link: buttons[i].content,
+  }));
+
+  return [
+    ...sections.slice(0, start),
+    {
+      type: 'press_band',
+      content: {
+        title_en: sections[start].content.text_en,
+        title_es: sections[start].content.text_es,
+        items,
+      },
+    },
+    ...sections.slice(end),
+  ];
+}
+
 async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
   const out = [];
   let hits = 0;
@@ -550,7 +605,7 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
         description_es: es?.head?.es?.description ?? '',
       },
       // The converged section vocabulary — see scripts/migrate-shape.mjs.
-      sections: (group === 'homeBlocks' ? foldHero : (x) => x)(
+      sections: (group === 'homeBlocks' ? (x) => foldPress(foldHero(x)) : (x) => x)(
         blocks.map(({ type, ...rest }) => ({ type, content: rest })),
       ),
       untranslated: stats.misses,

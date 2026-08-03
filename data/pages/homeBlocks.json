@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-03T06:37:16.991Z",
+  "harvestedAt": "2026-08-03T09:45:54.632Z",
   "group": "homeBlocks",
   "count": 1,
   "pages": [
@@ -83,74 +83,48 @@
           }
         },
         {
-          "type": "paragraph",
+          "type": "press_band",
           "content": {
-            "text_en": "AS SEEN IN",
-            "text_es": "COMO SE VE EN"
-          }
-        },
-        {
-          "type": "image",
-          "content": {
-            "src": "/wp-content/uploads/2026/07/TCRN-logo.png",
-            "width": 300,
-            "height": 112,
-            "alt_en": "The Costa Rica News logo with wildlife illustrations on a white background.",
-            "alt_es": "The Costa Rica News logo with wildlife illustrations on a white background."
-          }
-        },
-        {
-          "type": "paragraph",
-          "content": {
-            "text_en": "Peptides Costa Rica Was Featured In",
-            "text_es": "Péptidos Costa Rica fue destacado en"
-          }
-        },
-        {
-          "type": "paragraph",
-          "content": {
-            "text_en": "The Costa Rica News.",
-            "text_es": "Las Noticias de Costa Rica."
-          }
-        },
-        {
-          "type": "button",
-          "content": {
-            "text_en": "Read The Article",
-            "text_es": "Lee el artículo",
-            "href": "/introducing-peptides-costa-rica-bringing-trusted-peptide-products-to-costa-rica/"
-          }
-        },
-        {
-          "type": "paragraph",
-          "content": {
-            "text_en": "Peptides Costa Rica Was Featured In",
-            "text_es": "Péptidos Costa Rica fue destacado en"
-          }
-        },
-        {
-          "type": "paragraph",
-          "content": {
-            "text_en": "Tico Times",
-            "text_es": "Tico Times"
-          }
-        },
-        {
-          "type": "button",
-          "content": {
-            "text_en": "Read The Article",
-            "text_es": "Lee el artículo",
-            "href": "/2026/07/26/why-two-fitness-veterans-chose-costa-rica-to-launch-a-new-peptide-company-peptides-costa-rica"
-          }
-        },
-        {
-          "type": "image",
-          "content": {
-            "src": "/wp-content/uploads/2026/07/images-removebg-preview.png",
-            "width": 529,
-            "height": 134,
-            "alt_en": "the tico times since 1956.",
-            "alt_es": "the tico times since 1956."
+            "title_en": "AS SEEN IN",
+            "title_es": "COMO SE VE EN",
+            "items": [
+              {
+                "logo": {
+                  "src": "/wp-content/uploads/2026/07/TCRN-logo.png",
+                  "width": 300,
+                  "height": 112,
+                  "alt_en": "The Costa Rica News logo with wildlife illustrations on a white background.",
+                  "alt_es": "The Costa Rica News logo with wildlife illustrations on a white background."
+                },
+                "intro_en": "Peptides Costa Rica Was Featured In",
+                "intro_es": "Péptidos Costa Rica fue destacado en",
+                "outlet_en": "The Costa Rica News.",
+                "outlet_es": "Las Noticias de Costa Rica.",
+                "link": {
+                  "text_en": "Read The Article",
+                  "text_es": "Lee el artículo",
+                  "href": "/introducing-peptides-costa-rica-bringing-trusted-peptide-products-to-costa-rica/"
+                }
+              },
+              {
+                "logo": {
+                  "src": "/wp-content/uploads/2026/07/images-removebg-preview.png",
+                  "width": 529,
+                  "height": 134,
+                  "alt_en": "the tico times since 1956.",
+                  "alt_es": "the tico times since 1956."
+                },
+                "intro_en": "Peptides Costa Rica Was Featured In",
+                "intro_es": "Péptidos Costa Rica fue destacado en",
+                "outlet_en": "Tico Times",
+                "outlet_es": "Tico Times",
+                "link": {
+                  "text_en": "Read The Article",
+                  "text_es": "Lee el artículo",
+                  "href": "/2026/07/26/why-two-fitness-veterans-chose-costa-rica-to-launch-a-new-peptide-company-peptides-costa-rica"
+                }
+              }
+            ]
           }
         },
         {

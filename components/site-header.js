@@ -12,9 +12,12 @@ import { alternatePath, localePath, DEFAULT_LANG } from '@/lib/routes';
 // The only strings that live in code are UI affordances with no equivalent on
 // the live site's markup (the shop button and the language toggle labels).
 // Everything a visitor reads as content comes from content/global.js.
+// The live header has no "Shop Now" button — that was invented here and has
+// been removed. Only the language toggle label remains, which the live site
+// renders as a flag rather than text.
 const UI = {
-  es: { shop: 'Comprar Ahora', switchTo: 'English' },
-  en: { shop: 'Shop Now', switchTo: 'Español' },
+  es: { switchTo: 'English' },
+  en: { switchTo: 'Español' },
 };
 
 export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
@@ -151,12 +154,6 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
           >
             <ShoppingCart aria-hidden="true" className="h-4 w-4" />
             {t(ui, 'cart', lang)}
-          </a>
-          <a
-            href={catalogUrl(lang)}
-            className="hidden rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent/90 sm:inline-flex"
-          >
-            {labels.shop}
           </a>
           <MobileMenu lang={lang} path={path} />
         </div>

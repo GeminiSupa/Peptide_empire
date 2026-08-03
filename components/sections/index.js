@@ -362,7 +362,8 @@ export const SECTION_COMPONENTS = {
 
 /** Home sections lay out their own full-bleed backgrounds; the rest are prose. */
 const SELF_LAYOUT = new Set([...Object.keys(HOME_COMPONENTS), 'article']);
-const WIDE = new Set([...WIDE_TYPES, 'link_list', 'hero_split']);
+// press_band draws its own full-width rules.
+const WIDE = new Set([...WIDE_TYPES, 'link_list', 'hero_split', 'press_band']);
 
 /**
  * Collapse runs of `card` sections into one grid.
