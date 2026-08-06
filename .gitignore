@@ -38,3 +38,9 @@ next-env.d.ts
 # WordPress user export — author names, slugs and the hosting hostname.
 # Nothing in the clone reads it; the harvest no longer writes it.
 data/wp/users.json
+
+# Source archive of original images from the .net site's developer.
+# 84 MB, and everything the site needs has been extracted into public/ by
+# scripts/restore-from-zip.mjs. Committing it would bloat both the repo and the
+# Vercel deployment with files no page ever requests.
+Images.zip

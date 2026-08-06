@@ -1,5 +1,0 @@
-# Pre-launch: this build lives on a temporary domain and must not be indexed.
-# LAUNCH-DAY CHECKLIST ITEM: replace the Disallow below with the real rules
-# and remove the noindex metadata in app/layout.js at the same time.
-User-agent: *
-Disallow: /

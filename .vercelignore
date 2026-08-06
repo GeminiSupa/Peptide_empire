@@ -1,0 +1,6 @@
+# Nothing here is needed to serve the site; excluding it keeps the deployment
+# small and the build fast.
+Images.zip
+scripts
+docs
+supabase
