@@ -45,8 +45,21 @@ const exists = async (p) => {
 /** Every /wp-content/... reference anywhere in the harvested data. */
 async function collect() {
   const refs = new Set();
+
+  /**
+   * Matches paths EMBEDDED IN a string, not just strings that ARE a path.
+   *
+   * Guides and blog posts are stored as one HTML blob per article, so their
+   * images live inside `<img src=… srcset=…>` markup rather than in their own
+   * fields. A whole-value check only ever saw a string starting with `<figure`,
+   * so those images — and every srcset candidate in them — were invisible here.
+   * See the twin of this comment in scripts/mirror-image-sizes.mjs.
+   */
+  const EMBEDDED = /(?:https?:\/\/[^"'\s)]*)?(\/wp-content\/uploads\/[^"'\s)\\]+)/g;
+
   const add = (v) => {
-    if (typeof v === 'string' && v.startsWith('/wp-content/')) refs.add(v);
+    if (typeof v !== 'string') return;
+    for (const m of v.matchAll(EMBEDDED)) refs.add(m[1].replace(/&amp;/g, '&'));
   };
 
   const walk = (node) => {
@@ -64,6 +77,11 @@ async function collect() {
       walk(JSON.parse(await readFile(resolve(full, name), 'utf8')));
     }
   }
+
+  // Site chrome, not page content — the footer's review-band logos live here and
+  // are referenced by every page.
+  walk(JSON.parse(await readFile(resolve(ROOT, 'data/global.json'), 'utf8')));
+
   return [...refs].sort();
 }
 
