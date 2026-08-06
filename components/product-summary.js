@@ -1,7 +1,7 @@
 import { ExternalLink } from 'lucide-react';
 import { catalogUrl, ui } from '@/content/global';
 import { t } from '@/lib/i18n';
-import { imageUrl } from '@/lib/images';
+import { imageSource, SIZES } from '@/lib/images';
 
 /**
  * The commerce summary at the top of a product page: image, name, price, and
@@ -19,18 +19,20 @@ export default function ProductSummary({ product, lang }) {
   const store = product.store;
   if (!store) return null;
 
-  const image = store.images?.[0];
+  // Resolved so an unservable image is skipped, not rendered broken.
+  const image = imageSource(store.images?.[0]);
   const label = t(ui, 'buyOnCatalog', lang);
   const priceNote = t(ui, 'priceShownIn', lang);
 
   return (
     <div className="grid gap-8 sm:grid-cols-[minmax(0,20rem)_1fr] sm:items-start">
-      {image && (
+      {image.src && (
         // eslint-disable-next-line @next/next/no-img-element -- harvested asset
         <img
           alt={store.name}
           className="w-full rounded-xl border border-primary/10 bg-white object-cover"
-          src={imageUrl(image)}
+          sizes={SIZES.productHero}
+          {...image}
         />
       )}
 

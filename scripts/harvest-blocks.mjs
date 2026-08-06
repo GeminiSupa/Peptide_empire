@@ -36,8 +36,15 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
  * the page a visitor sees is assembled by an Elementor *product template* at
  * request time. So for these the rendered page has to be fetched — there is no
  * offline source to parse.
+ *
+ * The home page is here for a subtler reason. Its content.rendered DOES contain
+ * markup, but WordPress expands shortcodes in the REST context, where the
+ * WooCommerce and Trustindex widgets resolve differently than on the front end:
+ * the product carousels came back holding different products than the live page
+ * shows, and the review widget did not render at all. Parsing the page a visitor
+ * actually receives is the only way to reproduce what a visitor actually sees.
  */
-const FETCH_RENDERED = new Set(['wooProduct']);
+const FETCH_RENDERED = new Set(['wooProduct', 'homeBlocks']);
 
 /**
  * Named sets of individual pages that do not match their group's usual shape.
@@ -175,7 +182,13 @@ function realSrc($, img) {
   const src = img.attr('src');
   if (src && !src.startsWith('data:')) return src;
 
-  for (const attr of ['data-src', 'data-lazy-src', 'data-original', 'data-large_image']) {
+  // data-breeze first: on RENDERED pages the Breeze cache plugin is what swaps
+  // src for a placeholder, and for plain image widgets it is the only attribute
+  // holding the real URL — there is no srcset to fall back to. The REST payload
+  // is not lazy-loaded, so this gap only appeared once the home page began
+  // harvesting from the rendered page, where it silently dropped the
+  // before/after photos.
+  for (const attr of ['data-breeze', 'data-src', 'data-lazy-src', 'data-original', 'data-large_image']) {
     const v = img.attr(attr);
     if (v && !v.startsWith('data:')) return v;
   }
@@ -554,6 +567,128 @@ function foldPress(sections) {
   ];
 }
 
+/**
+ * Fold the "Shop By Category" tab strip and the product grids that follow it
+ * into a single `category_tabs` section.
+ *
+ * Elementor emits the tab titles as one widget and each panel's product grid as
+ * a separate sibling, so the harvest is a `tabs` block followed by eight
+ * `product_grid` blocks — flat, with nothing saying which grid belongs to which
+ * tab. Rendered literally that became one continuous 27-product wall, because
+ * the renderer merges consecutive grids; on the live site only the active tab's
+ * four products are visible.
+ *
+ * The Nth grid is the Nth tab's panel, which is the order Elementor emits and
+ * the order its own JavaScript reads back. Folding only when the counts match
+ * means an edited tab strip falls back to the flat blocks rather than silently
+ * pairing a grid with the wrong category.
+ */
+function foldCategoryTabs(sections) {
+  const at = sections.findIndex((s) => s.type === 'tabs');
+  if (at === -1) return sections;
+
+  const tabs = sections[at].content.items ?? [];
+  const grids = [];
+  let end = at + 1;
+  while (end < sections.length && sections[end].type === 'product_grid') {
+    grids.push(sections[end]);
+    end += 1;
+  }
+  if (!tabs.length || grids.length !== tabs.length) return sections;
+
+  // The tab's `body` is dropped, not kept. The generic nested-tabs handler
+  // flattens a whole pane to text, and these panes ARE the product grid — so the
+  // body is "HGH 12 IU ₡31,794 Add to cart Mots-C 10mg…", a run-on duplicate of
+  // the cards rendered right below it, complete with the cart labels this site
+  // must never show. The structured products are the real content.
+  const items = tabs.map((tab, i) => {
+    const { body_en: _en, body_es: _es, ...rest } = tab;
+    return { ...rest, products: grids[i].content.products };
+  });
+
+  return [
+    ...sections.slice(0, at),
+    { type: 'category_tabs', content: { items } },
+    ...sections.slice(end),
+  ];
+}
+
+/**
+ * The Trustindex review widget, pulled straight from the page DOM.
+ *
+ * This is NOT a widget-tree extraction, and cannot be. The plugin renders its
+ * markup outside Elementor's structure entirely — a review item has no
+ * `.elementor-widget` ancestor at all — so the widget loop that produces every
+ * other block on this page structurally cannot reach it. That is why six real
+ * customer reviews were missing from the clone rather than merely mis-rendered.
+ *
+ * The reviews are a snapshot, in the same way prices are: Trustindex refreshes
+ * them from the platform, so the profile linked in the footer stays the
+ * authority for what the current rating is.
+ *
+ * Deliberately NOT translated. Machine-translating a customer's review would
+ * put words in their mouth, and the live site leaves each one in the language
+ * it was written in — so there is no `_es` variant of the review text.
+ */
+function extractReviews($, tr) {
+  const widget = $('.ti-widget')
+    .toArray()
+    .find((el) => $(el).find('.ti-review-item').length);
+  if (!widget) return null;
+
+  const $widget = $(widget);
+  const reviews = $widget
+    .find('.ti-review-item')
+    .toArray()
+    .map((item) => {
+      const $i = $(item);
+      const author = clean($i.find('.ti-name').first().text());
+      // The tooltip inside .ti-stars is boilerplate about the review's
+      // provenance, not part of what the customer wrote.
+      const text = clean($i.find('.ti-review-text-container, .ti-review-content').first().text());
+      if (!author && !text) return null;
+      return {
+        author,
+        text,
+        source: ($i.attr('class') || '').match(/source-([\w-]+)/)?.[1] ?? null,
+        stars: $i.find('.ti-stars [alt*="star" i]').length || null,
+      };
+    })
+    .filter(Boolean);
+
+  if (!reviews.length) return null;
+
+  const summary = clean($widget.find('.ti-widget-header, .ti-header').first().text());
+  return {
+    type: 'reviews',
+    content: { ...bi('summary', summary, tr), reviews },
+  };
+}
+
+/**
+ * Put the harvested reviews back where the page shows them — under the
+ * "Customer Success Stories" heading, which is the only thing marking that
+ * section in the widget tree. Appended if that heading ever goes away, so the
+ * reviews cannot silently vanish again.
+ */
+function foldReviews(sections, reviews) {
+  if (!reviews) return sections;
+
+  // "Customer Success Stories" is the section's real title; "Testimonials" is
+  // the small eyebrow ABOVE it. Matching either in one pass hit the eyebrow
+  // first and filed the reviews above their own heading, so the title is tried
+  // on its own before falling back.
+  const find = (re) => sections.findIndex((s) => re.test(s.content?.text_en ?? ''));
+  const at = find(/customer success stories/i) !== -1 ? find(/customer success stories/i) : find(/testimonials/i);
+  if (at === -1) return [...sections, reviews];
+
+  // After the heading and any intro paragraph that belongs to it.
+  let insert = at + 1;
+  while (insert < sections.length && sections[insert].type === 'paragraph') insert += 1;
+
+  return [...sections.slice(0, insert), reviews, ...sections.slice(insert)];
+}
+
 async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
   const out = [];
   let hits = 0;
@@ -605,7 +740,9 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
         description_es: es?.head?.es?.description ?? '',
       },
       // The converged section vocabulary — see scripts/migrate-shape.mjs.
-      sections: (group === 'homeBlocks' ? (x) => foldPress(foldHero(x)) : (x) => x)(
+      sections: (group === 'homeBlocks'
+        ? (x) => foldReviews(foldCategoryTabs(foldPress(foldHero(x))), extractReviews($, tr))
+        : (x) => x)(
         blocks.map(({ type, ...rest }) => ({ type, content: rest })),
       ),
       untranslated: stats.misses,

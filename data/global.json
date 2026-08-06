@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-07-27T18:12:37.721Z",
+  "harvestedAt": "2026-08-06T04:28:35.745Z",
   "origin": "https://peptidescostarica.net",
   "announcement": {
     "text_en": "FREE Shipping On Orders Above ₡90,896",
@@ -253,7 +253,7 @@
         {
           "label_en": "Tirzepatide",
           "label_es": "Tirzepatida",
-          "href": "/tirzepatide-costa-rica/"
+          "href": "/tirzepatida-costa-rica/"
         },
         {
           "label_en": "Tesamorelin",
@@ -504,8 +504,55 @@
         "href": "https://www.pinterest.com/peptidescr/"
       },
       {
-        "name": "bsky.app",
+        "name": "Bluesky",
         "href": "https://bsky.app/profile/peptidescostarica.bsky.social"
+      }
+    ],
+    "bulk": {
+      "title_en": "Bulk Savings Program",
+      "title_es": "Programa de Ahorros al por Mayor",
+      "lines_en": [
+        "Purchase five or more vials of the same product to receive 15% off.",
+        "* There are no confusing levels or hidden rules. Our bulk pricing is simple and easy to understand."
+      ],
+      "lines_es": [
+        "Compra cinco o más frascos del mismo producto y obtén un descuento de 15%.",
+        "* No hay niveles confusos ni reglas ocultas. Nuestros precios por volumen son simples y fáciles de entender."
+      ],
+      "cta_en": "Call To Order",
+      "cta_es": "Se abre la sesión",
+      "cta_href": "tel:+50684046973"
+    },
+    "reviews": [
+      {
+        "name": "Trustpilot",
+        "score": "4.2",
+        "value": "4.2",
+        "best": "5",
+        "href": "https://www.trustpilot.com/review/peptidescostarica.net",
+        "logo": "/wp-content/uploads/2026/03/Untitled-design-9.png",
+        "logoAlt": "Trustpilot star",
+        "href_es": "https://es.trustpilot.com/review/peptidescostarica.net"
+      },
+      {
+        "name": "Google",
+        "score": "5.0",
+        "value": "5",
+        "best": "5",
+        "href": "https://maps.app.goo.gl/jJCMHBM8aPXx67G3A",
+        "logo": "/wp-content/uploads/2026/03/4de77119-3608-45d9-b440-e34488b88e61.png",
+        "logoAlt": "Google Logo",
+        "href_es": "https://maps.app.goo.gl/jJCMHBM8aPXx67G3A"
+      },
+      {
+        "name": "Facebook",
+        "score": "5.0",
+        "value": "5",
+        "best": "5",
+        "href": "https://www.facebook.com/costaricapeptides",
+        "logo": "/wp-content/uploads/2026/03/8019ccfd-bd9e-4d95-ae0b-dfe6d4c60e65.png",
+        "logoAlt": "Facebook logo",
+        "href_es": "https://www.facebook.com/costaricapeptides"
       }
     ]
   }

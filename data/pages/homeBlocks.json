@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-03T09:45:54.632Z",
+  "harvestedAt": "2026-08-06T04:26:35.172Z",
   "group": "homeBlocks",
   "count": 1,
   "pages": [
@@ -211,274 +211,218 @@
           }
         },
         {
-          "type": "tabs",
+          "type": "category_tabs",
           "content": {
             "items": [
               {
                 "label_en": "Peptides For Energy",
                 "label_es": "Péptidos para la Energía",
-                "body_en": "HGH 12 IU ₡ 31,794 Add to cart Add to Cart Mots-C 10mg ₡ 40,878 Read more Add to Cart Ipamorelin 10mg ₡ 45,420 Add to cart Add to Cart SUPER Human Blend 10ml ₡ 45,420 Add to cart Add to Cart",
-                "body_es": "HGH 12 IU ₡ 31,794 Add to cart Add to Cart Mots-C 10mg ₡ 40,878 Read more Add to Cart Ipamorelin 10mg ₡ 45,420 Add to cart Add to Cart SUPER Human Blend 10ml ₡ 45,420 Add to cart Add to Cart"
+                "products": [
+                  {
+                    "name": "HGH 12 IU",
+                    "price": "₡ 31,762",
+                    "href": "/product/hgh-12-iu/",
+                    "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
+                  },
+                  {
+                    "name": "Mots-C 10mg",
+                    "price": "₡ 40,837",
+                    "href": "/product/mots-c-10mg/",
+                    "image": "/wp-content/uploads/2026/02/MOTS-C-10-1-300x300.jpg"
+                  },
+                  {
+                    "name": "Ipamorelin 10mg",
+                    "price": "₡ 45,375",
+                    "href": "/product/ipamorelin-10mg/",
+                    "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
+                  },
+                  {
+                    "name": "SUPER Human Blend 10ml",
+                    "price": "₡ 45,375",
+                    "href": "/product/super-human-blend-10ml/",
+                    "image": "/wp-content/uploads/2026/04/SUPER-Human-Blend-1-300x300.jpg"
+                  }
+                ]
               },
               {
                 "label_en": "Peptides For Anti Aging",
                 "label_es": "Péptidos Antienvejecimiento",
-                "body_en": "CJC with DAC 5mg Read more Add to Cart Mots-C 10mg ₡ 40,878 Read more Add to Cart Selank 10mg ₡ 40,878 Add to cart Add to Cart KPV 10mg ₡ 40,878 Add to cart Add to Cart",
-                "body_es": "CJC with DAC 5mg Read more Add to Cart Mots-C 10mg ₡ 40,878 Read more Add to Cart Selank 10mg ₡ 40,878 Add to cart Add to Cart KPV 10mg ₡ 40,878 Add to cart Add to Cart"
+                "products": [
+                  {
+                    "name": "CJC with DAC 5mg",
+                    "price": "",
+                    "href": "/product/cjc-with-dac-5mg/",
+                    "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+                  },
+                  {
+                    "name": "Mots-C 10mg",
+                    "price": "₡ 40,837",
+                    "href": "/product/mots-c-10mg/",
+                    "image": "/wp-content/uploads/2026/02/MOTS-C-10-1-300x300.jpg"
+                  },
+                  {
+                    "name": "Selank 10mg",
+                    "price": "₡ 40,837",
+                    "href": "/product/selank-10mg/",
+                    "image": "/wp-content/uploads/2026/02/Selank-1-300x300.jpg"
+                  },
+                  {
+                    "name": "KPV 10mg",
+                    "price": "₡ 40,837",
+                    "href": "/product/kpv-10mg/",
+                    "image": "/wp-content/uploads/2026/05/KPV-1-1-300x300.webp"
+                  }
+                ]
               },
               {
                 "label_en": "Peptides For Fertility",
                 "label_es": "Péptidos para la fertilidad",
-                "body_en": "KissPeptin-10 10mg ₡ 59,045 Add to cart Add to Cart HCG 10,000 IU ₡ 72,671 Add to cart Add to Cart",
-                "body_es": "KissPeptin-10 10mg ₡ 59,045 Add to cart Add to Cart HCG 10,000 IU ₡ 72,671 Add to cart Add to Cart"
+                "products": [
+                  {
+                    "name": "KissPeptin-10 10mg",
+                    "price": "₡ 58,987",
+                    "href": "/product/kisspeptin-10-10mg/",
+                    "image": "/wp-content/uploads/2026/04/Kisspeptin-10-1-300x300.jpg"
+                  },
+                  {
+                    "name": "HCG 10,000 IU",
+                    "price": "₡ 72,599",
+                    "href": "/product/hcg-10000-iu/",
+                    "image": "/wp-content/uploads/2026/02/HCG-1-1-300x300.jpg"
+                  }
+                ]
               },
               {
                 "label_en": "Peptides For Healing",
                 "label_es": "Péptidos para la curación",
-                "body_en": "CJC with DAC 5mg Read more Add to Cart HGH 12 IU ₡ 31,794 Add to cart Add to Cart BPC-157 10mg ₡ 40,878 Add to cart Add to Cart Ipamorelin 10mg ₡ 45,420 Add to cart Add to Cart",
-                "body_es": "CJC with DAC 5mg Read more Add to Cart HGH 12 IU ₡ 31,794 Add to cart Add to Cart BPC-157 10mg ₡ 40,878 Add to cart Add to Cart Ipamorelin 10mg ₡ 45,420 Add to cart Add to Cart"
+                "products": [
+                  {
+                    "name": "CJC with DAC 5mg",
+                    "price": "",
+                    "href": "/product/cjc-with-dac-5mg/",
+                    "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+                  },
+                  {
+                    "name": "HGH 12 IU",
+                    "price": "₡ 31,762",
+                    "href": "/product/hgh-12-iu/",
+                    "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
+                  },
+                  {
+                    "name": "BPC-157 10mg",
+                    "price": "₡ 40,837",
+                    "href": "/product/bpc-157-10mg/",
+                    "image": "/wp-content/uploads/2026/02/BPC-157-2-300x300.jpg"
+                  },
+                  {
+                    "name": "Ipamorelin 10mg",
+                    "price": "₡ 45,375",
+                    "href": "/product/ipamorelin-10mg/",
+                    "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
+                  }
+                ]
               },
               {
                 "label_en": "Peptides For Muscle Growth",
                 "label_es": "Péptidos para el crecimiento muscular",
-                "body_en": "CJC with DAC 5mg Read more Add to Cart HGH 12 IU ₡ 31,794 Add to cart Add to Cart SLU-PP-332 5mg ₡ 36,336 Add to cart Add to Cart MT-II ₡ 40,878 Add to cart Add to Cart",
-                "body_es": "CJC with DAC 5mg Read more Add to Cart HGH 12 IU ₡ 31,794 Add to cart Add to Cart SLU-PP-332 5mg ₡ 36,336 Add to cart Add to Cart MT-II ₡ 40,878 Add to cart Add to Cart"
+                "products": [
+                  {
+                    "name": "CJC with DAC 5mg",
+                    "price": "",
+                    "href": "/product/cjc-with-dac-5mg/",
+                    "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+                  },
+                  {
+                    "name": "HGH 12 IU",
+                    "price": "₡ 31,762",
+                    "href": "/product/hgh-12-iu/",
+                    "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
+                  },
+                  {
+                    "name": "SLU-PP-332 5mg",
+                    "price": "₡ 36,300",
+                    "href": "/product/slu-pp-332-5mg/",
+                    "image": "/wp-content/uploads/2026/05/Slu-pp332-1-300x300.webp"
+                  },
+                  {
+                    "name": "MT-II",
+                    "price": "₡ 40,837",
+                    "href": "/product/mt-ii/",
+                    "image": "/wp-content/uploads/2026/05/MT-II-1-300x300.webp"
+                  }
+                ]
               },
               {
                 "label_en": "Peptides For Skin",
                 "label_es": "Péptidos para la piel",
-                "body_en": "CJC with DAC 5mg Read more Add to Cart GHK-CU 50mg ₡ 31,794 Read more Add to Cart Glutathione 1500mg ₡ 45,420 Add to cart Add to Cart GHK-CU 100mg ₡ 45,420 Add to cart Add to Cart",
-                "body_es": "CJC with DAC 5mg Read more Add to Cart GHK-CU 50mg ₡ 31,794 Read more Add to Cart Glutathione 1500mg ₡ 45,420 Add to cart Add to Cart GHK-CU 100mg ₡ 45,420 Add to cart Add to Cart"
+                "products": [
+                  {
+                    "name": "CJC with DAC 5mg",
+                    "price": "",
+                    "href": "/product/cjc-with-dac-5mg/",
+                    "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+                  },
+                  {
+                    "name": "GHK-CU 50mg",
+                    "price": "₡ 31,762",
+                    "href": "/product/ghk-cu-50mg/",
+                    "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
+                  },
+                  {
+                    "name": "Glutathione 1500mg",
+                    "price": "₡ 45,375",
+                    "href": "/product/glutathione-1500mg/",
+                    "image": "/wp-content/uploads/2026/04/Glutathione-1-300x300.jpg"
+                  },
+                  {
+                    "name": "GHK-CU 100mg",
+                    "price": "₡ 45,375",
+                    "href": "/product/ghk-cu-100mg/",
+                    "image": "/wp-content/uploads/2026/05/GHK-CU-100-2-300x300.webp"
+                  }
+                ]
               },
               {
                 "label_en": "Peptides For Weight Loss",
                 "label_es": "Péptidos para la pérdida de peso",
-                "body_en": "CJC with DAC 5mg Read more Add to Cart 5-amino-1mq 5mg ₡ 27,252 Add to cart Add to Cart HGH 12 IU ₡ 31,794 Add to cart Add to Cart Mots-C 10mg ₡ 40,878 Read more Add to Cart",
-                "body_es": "CJC with DAC 5mg Read more Add to Cart 5-amino-1mq 5mg ₡ 27,252 Add to cart Add to Cart HGH 12 IU ₡ 31,794 Add to cart Add to Cart Mots-C 10mg ₡ 40,878 Read more Add to Cart"
+                "products": [
+                  {
+                    "name": "CJC with DAC 5mg",
+                    "price": "",
+                    "href": "/product/cjc-with-dac-5mg/",
+                    "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+                  },
+                  {
+                    "name": "5-amino-1mq 5mg",
+                    "price": "₡ 27,225",
+                    "href": "/product/5-amino-1mq-5mg/",
+                    "image": "/wp-content/uploads/2026/02/5-Amino-1MQ-1-300x300.jpg"
+                  },
+                  {
+                    "name": "HGH 12 IU",
+                    "price": "₡ 31,762",
+                    "href": "/product/hgh-12-iu/",
+                    "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
+                  },
+                  {
+                    "name": "Mots-C 10mg",
+                    "price": "₡ 40,837",
+                    "href": "/product/mots-c-10mg/",
+                    "image": "/wp-content/uploads/2026/02/MOTS-C-10-1-300x300.jpg"
+                  }
+                ]
               },
               {
                 "label_en": "Copper Peptides",
                 "label_es": "Péptidos de Cobre",
-                "body_en": "GHK-CU 50mg ₡ 31,794 Read more Add to Cart",
-                "body_es": "GHK-CU 50mg ₡ 31,794 Read more Add to Cart"
-              }
-            ]
-          }
-        },
-        {
-          "type": "product_grid",
-          "content": {
-            "products": [
-              {
-                "name": "HGH 12 IU",
-                "price": "₡ 31,794",
-                "href": "/product/hgh-12-iu/",
-                "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
-              },
-              {
-                "name": "Mots-C 10mg",
-                "price": "₡ 40,878",
-                "href": "/product/mots-c-10mg/",
-                "image": "/wp-content/uploads/2026/02/MOTS-C-10-1-300x300.jpg"
-              },
-              {
-                "name": "Ipamorelin 10mg",
-                "price": "₡ 45,420",
-                "href": "/product/ipamorelin-10mg/",
-                "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
-              },
-              {
-                "name": "SUPER Human Blend 10ml",
-                "price": "₡ 45,420",
-                "href": "/product/super-human-blend-10ml/",
-                "image": "/wp-content/uploads/2026/04/SUPER-Human-Blend-1-300x300.jpg"
-              }
-            ]
-          }
-        },
-        {
-          "type": "product_grid",
-          "content": {
-            "products": [
-              {
-                "name": "CJC with DAC 5mg",
-                "price": "",
-                "href": "/product/cjc-with-dac-5mg/",
-                "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
-              },
-              {
-                "name": "Mots-C 10mg",
-                "price": "₡ 40,878",
-                "href": "/product/mots-c-10mg/",
-                "image": "/wp-content/uploads/2026/02/MOTS-C-10-1-300x300.jpg"
-              },
-              {
-                "name": "Selank 10mg",
-                "price": "₡ 40,878",
-                "href": "/product/selank-10mg/",
-                "image": "/wp-content/uploads/2026/02/Selank-1-300x300.jpg"
-              },
-              {
-                "name": "KPV 10mg",
-                "price": "₡ 40,878",
-                "href": "/product/kpv-10mg/",
-                "image": "/wp-content/uploads/2026/05/KPV-1-1-300x300.webp"
-              }
-            ]
-          }
-        },
-        {
-          "type": "product_grid",
-          "content": {
-            "products": [
-              {
-                "name": "KissPeptin-10 10mg",
-                "price": "₡ 59,045",
-                "href": "/product/kisspeptin-10-10mg/",
-                "image": "/wp-content/uploads/2026/04/Kisspeptin-10-1-300x300.jpg"
-              },
-              {
-                "name": "HCG 10,000 IU",
-                "price": "₡ 72,671",
-                "href": "/product/hcg-10000-iu/",
-                "image": "/wp-content/uploads/2026/02/HCG-1-1-300x300.jpg"
-              }
-            ]
-          }
-        },
-        {
-          "type": "product_grid",
-          "content": {
-            "products": [
-              {
-                "name": "CJC with DAC 5mg",
-                "price": "",
-                "href": "/product/cjc-with-dac-5mg/",
-                "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
-              },
-              {
-                "name": "HGH 12 IU",
-                "price": "₡ 31,794",
-                "href": "/product/hgh-12-iu/",
-                "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
-              },
-              {
-                "name": "BPC-157 10mg",
-                "price": "₡ 40,878",
-                "href": "/product/bpc-157-10mg/",
-                "image": "/wp-content/uploads/2026/02/BPC-157-2-300x300.jpg"
-              },
-              {
-                "name": "Ipamorelin 10mg",
-                "price": "₡ 45,420",
-                "href": "/product/ipamorelin-10mg/",
-                "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
-              }
-            ]
-          }
-        },
-        {
-          "type": "product_grid",
-          "content": {
-            "products": [
-              {
-                "name": "CJC with DAC 5mg",
-                "price": "",
-                "href": "/product/cjc-with-dac-5mg/",
-                "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
-              },
-              {
-                "name": "HGH 12 IU",
-                "price": "₡ 31,794",
-                "href": "/product/hgh-12-iu/",
-                "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
-              },
-              {
-                "name": "SLU-PP-332 5mg",
-                "price": "₡ 36,336",
-                "href": "/product/slu-pp-332-5mg/",
-                "image": "/wp-content/uploads/2026/05/Slu-pp332-1-300x300.webp"
-              },
-              {
-                "name": "MT-II",
-                "price": "₡ 40,878",
-                "href": "/product/mt-ii/",
-                "image": "/wp-content/uploads/2026/05/MT-II-1-300x300.webp"
-              }
-            ]
-          }
-        },
-        {
-          "type": "product_grid",
-          "content": {
-            "products": [
-              {
-                "name": "CJC with DAC 5mg",
-                "price": "",
-                "href": "/product/cjc-with-dac-5mg/",
-                "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
-              },
-              {
-                "name": "GHK-CU 50mg",
-                "price": "₡ 31,794",
-                "href": "/product/ghk-cu-50mg/",
-                "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
-              },
-              {
-                "name": "Glutathione 1500mg",
-                "price": "₡ 45,420",
-                "href": "/product/glutathione-1500mg/",
-                "image": "/wp-content/uploads/2026/04/Glutathione-1-300x300.jpg"
-              },
-              {
-                "name": "GHK-CU 100mg",
-                "price": "₡ 45,420",
-                "href": "/product/ghk-cu-100mg/",
-                "image": "/wp-content/uploads/2026/05/GHK-CU-100-2-300x300.webp"
-              }
-            ]
-          }
-        },
-        {
-          "type": "product_grid",
-          "content": {
-            "products": [
-              {
-                "name": "CJC with DAC 5mg",
-                "price": "",
-                "href": "/product/cjc-with-dac-5mg/",
-                "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
-              },
-              {
-                "name": "5-amino-1mq 5mg",
-                "price": "₡ 27,252",
-                "href": "/product/5-amino-1mq-5mg/",
-                "image": "/wp-content/uploads/2026/02/5-Amino-1MQ-1-300x300.jpg"
-              },
-              {
-                "name": "HGH 12 IU",
-                "price": "₡ 31,794",
-                "href": "/product/hgh-12-iu/",
-                "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
-              },
-              {
-                "name": "Mots-C 10mg",
-                "price": "₡ 40,878",
-                "href": "/product/mots-c-10mg/",
-                "image": "/wp-content/uploads/2026/02/MOTS-C-10-1-300x300.jpg"
-              }
-            ]
-          }
-        },
-        {
-          "type": "product_grid",
-          "content": {
-            "products": [
-              {
-                "name": "GHK-CU 50mg",
-                "price": "₡ 31,794",
-                "href": "/product/ghk-cu-50mg/",
-                "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
+                "products": [
+                  {
+                    "name": "GHK-CU 50mg",
+                    "price": "₡ 31,762",
+                    "href": "/product/ghk-cu-50mg/",
+                    "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
+                  }
+                ]
               }
             ]
           }
@@ -755,22 +699,22 @@
           "content": {
             "products": [
               {
-                "name": "Retatrutide 24mg",
-                "price": "₡ 74,942",
-                "href": "/product/retatrutide-24mg/",
-                "image": "/wp-content/uploads/2026/04/Retatrutide-24mg-1-300x300.jpg"
+                "name": "Tirzepatide 10mg",
+                "price": "₡ 63,298",
+                "href": "/product/tirzepatide-10mg/",
+                "image": "/wp-content/uploads/2026/05/Tirzepatide-10-1-300x300.webp"
               },
               {
-                "name": "Semaglutide 20mg",
-                "price": "₡ 124,904",
-                "href": "/product/semaglutide-20mg/",
-                "image": "/wp-content/uploads/2026/05/Semaglutide-20-1-300x300.webp"
+                "name": "KLOW 80mg",
+                "price": "₡ 81,674",
+                "href": "/product/klow-80mg/",
+                "image": "/wp-content/uploads/2026/02/KLOW-1-300x300.jpg"
               },
               {
-                "name": "Retatrutide 15mg",
-                "price": "₡ 63,587",
-                "href": "/product/retatrutide-15mg/",
-                "image": "/wp-content/uploads/2026/04/Retatrutide-15mg-1-300x300.jpg"
+                "name": "BPC-157 10mg",
+                "price": "₡ 40,837",
+                "href": "/product/bpc-157-10mg/",
+                "image": "/wp-content/uploads/2026/02/BPC-157-2-300x300.jpg"
               }
             ]
           }
@@ -1069,28 +1013,28 @@
           "content": {
             "products": [
               {
-                "name": "HGH 24 IU",
-                "price": "₡ 54,503",
-                "href": "/product/hgh-24-iu/",
-                "image": "/wp-content/uploads/2026/02/HGH-24-1-300x300.jpg"
-              },
-              {
-                "name": "Fat Blaster 10ml",
-                "price": "₡ 49,962",
-                "href": "/product/fat-blaster-10ml/",
-                "image": "/wp-content/uploads/2026/04/Untitled-design-1-300x300.webp"
-              },
-              {
-                "name": "Mots-C 40mg",
-                "price": "₡ 68,129",
-                "href": "/product/mots-c-40mg/",
-                "image": "/wp-content/uploads/2026/04/MOTS-C-40-1-300x300.jpg"
-              },
-              {
-                "name": "CJC with DAC 5mg",
+                "name": "BAC Water 2ml",
                 "price": "",
-                "href": "/product/cjc-with-dac-5mg/",
-                "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
+                "href": "/product/bac-water-2ml/",
+                "image": "/wp-content/uploads/2026/04/BAC-Water-2-1-300x300.jpg"
+              },
+              {
+                "name": "GHK-CU 50mg",
+                "price": "₡ 31,762",
+                "href": "/product/ghk-cu-50mg/",
+                "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
+              },
+              {
+                "name": "Tirzepatide 40mg",
+                "price": "₡ 100,051",
+                "href": "/product/tirzepatide-40mg/",
+                "image": "/wp-content/uploads/2026/06/Tirzepatide-40mg.jpg-300x300.webp"
+              },
+              {
+                "name": "BAC Water 3ml",
+                "price": "₡ 4,537",
+                "href": "/product/bac-water-3ml/",
+                "image": "/wp-content/uploads/2026/04/BAC-Water-3-1-300x300.jpg"
               }
             ]
           }
@@ -1182,6 +1126,51 @@
           }
         },
         {
+          "type": "reviews",
+          "content": {
+            "summary_en": "EXCELLENT Based on 6 reviews",
+            "summary_es": "EXCELLENT Based on 6 reviews",
+            "reviews": [
+              {
+                "author": "American Auto transport",
+                "text": "Excelente experiencia con Peptides Costa Rica. El servicio fue rápido, profesional y muy atento desde el primer contacto. Los productos llegaron en perfectas condiciones y se nota el compromiso con la calidad. Además, respondieron todas mis consultas de manera clara y oportuna, brindando mucha confianza durante todo el proceso. Sin duda, una empresa seria y confiable para quienes buscan productos de alta calidad y una atención al cliente excepcional. ¡Totalmente recomendados!",
+                "source": "Google",
+                "stars": 5
+              },
+              {
+                "author": "moving service in USA",
+                "text": "Ordering process was straightforward, communication was prompt, and my order arrived quickly and professionally packaged. I purchased Retatrutide, and the product met my expectations in terms of quality and presentation. The team was helpful in answering my questions and kept me informed throughout the process. Overall, I found them reliable, professional, and customer-focused. I would gladly purchase from them again and recommend Peptides Costa Rica to anyone looking for a trustworthy peptide supplier in Costa Rica.",
+                "source": "Google",
+                "stars": 5
+              },
+              {
+                "author": "Dorcas Baah",
+                "text": "I've had a very positive experience with buying Tirzepatide from Peptides Costa Rica. The results exceeded my expectations, particularly in helping manage appetite and support my overall wellness goals. I noticed a steady reduction in cravings, improved portion control, and consistent progress over time. What I appreciated most was how manageable the process felt compared to previous approaches I had tried. Combined with healthy eating habits and regular activity, Tirzepatide helped me stay on track and maintain better consistency. Overall, I'm very satisfied with my experience and would recommend Tirzepatide to others who are working with their healthcare provider to achieve similar health and weight-management goals.",
+                "source": "Google",
+                "stars": 5
+              },
+              {
+                "author": "Charly Contreras",
+                "text": "Desde el primer contacto recibí una atención profesional y rápida. El proceso de compra fue sencillo, la comunicación fue clara y el pedido llegó en perfectas condiciones. La calidad de los productos superó mis expectativas, con un empaque seguro y una presentación impecable. Además, el equipo de atención al cliente respondió todas mis consultas de manera amable y eficiente, lo que me dio mucha confianza durante todo el proceso. Sin duda recomiendo Peptides Costa Rica a cualquiera que busque productos de alta calidad, un servicio confiable y una experiencia de compra excepcional. ¡Seguiré siendo cliente y volveré a comprar con ellos!",
+                "source": "Google",
+                "stars": 5
+              },
+              {
+                "author": "Teri Taylor",
+                "text": "I had a great experience with Peptides Costa Rica. The team was responsive, professional, and took the time to answer all of my questions. The ordering process for Retatrutide was straightforward, communication was clear, and everything was handled efficiently. It's refreshing to work with a company that values customer service and transparency. I would definitely recommend Peptides Costa Rica to anyone looking for a reliable and knowledgeable provider.",
+                "source": "Google",
+                "stars": 5
+              },
+              {
+                "author": "Joe Webster",
+                "text": "Reliable Local Peptide Supplier in Costa Rica Peptides Costa Rica has quickly established itself as one of the most accessible peptide suppliers serving the Costa Rican market with Retatrutide, Tirzepatide, Semaglutide, Tesamorelin, HGH, and a whole lot more. Unlike many international vendors that require dealing with customs delays, import fees, and uncertain delivery times, the company focuses exclusively on customers within Costa Rica, creating a much smoother purchasing experience.",
+                "source": "Google",
+                "stars": 5
+              }
+            ]
+          }
+        },
+        {
           "type": "heading",
           "content": {
             "level": 6,
@@ -1233,8 +1222,8 @@
               {
                 "q_en": "What payment methods do you accept?",
                 "q_es": "¿Qué métodos de pago aceptan?",
-                "a_en": "We currently accept: SINPE Móvil Zelle PayPal Cash Once we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
-                "a_es": "Actualmente aceptamos: SINPE Móvil Zelle PayPal Efectivo Una vez que confirmemos que tu pedido está en stock, te enviaremos las instrucciones de pago. Nos aseguramos de que el proceso sea sencillo y de que conozcas el precio total antes de pagar."
+                "a_en": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+                "a_es": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
               },
               {
                 "q_en": "Is there a bulk discount?",
@@ -1366,7 +1355,7 @@
           }
         }
       ],
-      "untranslated": 11
+      "untranslated": 12
     }
   ]
 }

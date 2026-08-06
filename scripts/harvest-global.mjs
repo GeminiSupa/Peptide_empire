@@ -31,12 +31,54 @@ const rel = (h) => {
   return v.startsWith(ORIGIN) ? v.slice(ORIGIN.length) || '/' : v;
 };
 
-async function load(path) {
-  const res = await fetch(ORIGIN + path, {
-    headers: { 'user-agent': 'peptidescostarica-rebuild-harvest' },
-  });
-  if (!res.ok) throw new Error(`${path} → HTTP ${res.status}`);
-  return cheerio.load(await res.text());
+/**
+ * The real URL behind a lazy-loaded <img>.
+ *
+ * The Breeze cache plugin replaces `src` with an inline SVG placeholder and
+ * parks the true URL on `data-breeze`, so reading `src` yields a 1x1 data URI.
+ * Mirrors realSrc() in scripts/harvest-blocks.mjs.
+ */
+function realSrc($, img) {
+  if (!img?.length) return null;
+  for (const attr of ['data-breeze', 'data-lazy-src', 'src']) {
+    const v = (img.attr(attr) || '').trim();
+    if (v && !v.startsWith('data:')) return v;
+  }
+  for (const attr of ['srcset', 'data-srcset', 'data-brsrcset']) {
+    const set = img.attr(attr);
+    if (!set) continue;
+    const best = set
+      .split(',')
+      .map((part) => part.trim().split(/\s+/))
+      .filter(([url]) => url && !url.startsWith('data:'))
+      .sort((a, b) => (parseInt(b[1] ?? '0', 10) || 0) - (parseInt(a[1] ?? '0', 10) || 0))[0];
+    if (best) return best[0];
+  }
+  return null;
+}
+
+/**
+ * Fetch and parse a page, retrying with backoff.
+ *
+ * The live WordPress box intermittently 500s — /es/ did exactly that mid-run and
+ * took the whole harvest down with it, on a request that succeeded on the next
+ * attempt seconds later. Everything here is all-or-nothing (the run rewrites the
+ * chrome for all 322 pages), so a transient blip must not be fatal.
+ */
+async function load(path, attempt = 1) {
+  try {
+    const res = await fetch(ORIGIN + path, {
+      headers: { 'user-agent': 'peptidescostarica-rebuild-harvest' },
+      signal: AbortSignal.timeout(30000),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return cheerio.load(await res.text());
+  } catch (err) {
+    if (attempt >= 4) throw new Error(`${path} → ${err.message}`);
+    console.log(`  ${path} → ${err.message}; retrying (${attempt}/3)`);
+    await new Promise((r) => setTimeout(r, 1000 * 2 ** attempt));
+    return load(path, attempt + 1);
+  }
 }
 
 /** Assert two harvested lists line up before they get paired by index. */
@@ -100,6 +142,125 @@ function footerBlocks($) {
       return { heading, links, text: links.length ? '' : clean($el.text()) };
     })
     .filter((b) => b.heading || b.links.length || b.text);
+}
+
+/**
+ * The review band below the footer columns: Trustpilot, Google and Facebook,
+ * each a logo, a name, a score and a star rating, linked to that profile.
+ *
+ * This lives in the FOOTER template, which is why the page harvester never saw
+ * it — scripts/harvest-blocks.mjs walks page content, and the band is chrome. It
+ * was missing from all 322 pages, not just the home page.
+ *
+ * The scores are typed into Elementor by hand, so they are static content and
+ * safe to mirror. They are still a snapshot of what the live site claims today,
+ * exactly like the product prices — the linked profile is the authority.
+ */
+function reviewBand($) {
+  return $('.ekit-template-content-footer')
+    .find('a')
+    .toArray()
+    .map((el) => {
+      const $a = $(el);
+      if (!$a.find('.e-rating').length) return null;
+
+      // Two headings inside the card: the platform name, then the score. Taking
+      // them by position rather than by pattern keeps a renamed platform working.
+      const headings = $a
+        .find('.elementor-heading-title')
+        .toArray()
+        .map((h) => clean($(h).text()))
+        .filter(Boolean);
+      const name = headings[0];
+      if (!name) return null;
+
+      // Two values, deliberately. The heading is the DISPLAY copy — the live
+      // site writes "5.0" where the microdata says "5" — and the meta is the
+      // precise number the star widget fills to. Showing the meta printed "5"
+      // under a logo where the original reads "5.0".
+      const score = headings[1] || clean($a.find('[itemprop="ratingValue"]').first().attr('content'));
+      const value = clean($a.find('[itemprop="ratingValue"]').first().attr('content')) || score;
+      const best = clean($a.find('[itemprop="bestRating"]').first().attr('content')) || '5';
+      const img = $a.find('img').first();
+
+      return {
+        name,
+        score,
+        value,
+        best,
+        href: $a.attr('href') || null,
+        logo: rel(realSrc($, img)),
+        logoAlt: clean(img.attr('alt')),
+      };
+    })
+    .filter(Boolean);
+}
+
+/**
+ * The display name for a social profile link.
+ *
+ * Seven of the eight footer links are icon fonts whose anchor text is already
+ * the platform name, so the harvested label is used as-is and the live wording
+ * ("X-twitter") is preserved. The Bluesky link is an inline SVG instead, and its
+ * anchor text is the image's alt attribute — which shipped a footer link
+ * labelled "Butterfly Outline Vector Art." on all 322 pages.
+ *
+ * So: keep the label when it actually names the destination, otherwise fall back
+ * to the domain. The check is whether the label and the hostname share any text,
+ * which no alt-text description will.
+ */
+const PLATFORMS = { 'bsky.app': 'Bluesky', 'x.com': 'X-twitter', 'youtu.be': 'Youtube' };
+
+function socialName(label, href) {
+  const host = new URL(href).hostname.replace(/^www\./, '');
+  const site = host.split('.')[0];
+  const flat = (label || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+
+  if (flat && (host.replace(/[^a-z0-9]/g, '').includes(flat) || flat.includes(site))) return label;
+
+  return PLATFORMS[host] ?? site.charAt(0).toUpperCase() + site.slice(1);
+}
+
+/**
+ * The bulk-savings promo that sits above the footer columns: a small label, the
+ * offer, its fine print, and a call-to-order button.
+ *
+ * Footer chrome, like the review band — which is why the page harvester never
+ * saw it and the block was missing from all 322 pages. The home page's FAQ
+ * happens to answer a similar question in different words, so the loss was easy
+ * to miss when reading the rendered clone.
+ *
+ * Anchored on the h4 label rather than on its text, so the copy can be reworded
+ * without silently dropping the block.
+ */
+function bulkOffer($) {
+  const headings = $('.ekit-template-content-footer')
+    .find('.elementor-widget-heading')
+    .toArray()
+    .map((el) => {
+      const $h = $(el).find('.elementor-heading-title').first();
+      return { tag: ($h[0]?.tagName || '').toLowerCase(), text: clean($h.text()), el };
+    })
+    .filter((h) => h.text);
+
+  const at = headings.findIndex((h) => h.tag === 'h4');
+  if (at === -1) return null;
+
+  // The lines that belong to the promo are the h2s directly after its label.
+  const lines = [];
+  for (let i = at + 1; i < headings.length && headings[i].tag === 'h2'; i += 1) {
+    lines.push(headings[i].text);
+  }
+  if (!lines.length) return null;
+
+  const $button = $('.ekit-template-content-footer').find('.elementor-button-link').first();
+
+  return {
+    title: headings[at].text,
+    lines,
+    cta: clean($button.find('.elementor-button-text').first().text()) || null,
+    ctaHref: $button.attr('href') || null,
+  };
 }
 
 /**
@@ -192,7 +353,7 @@ async function main() {
   );
   const social = (socialBlock?.links ?? [])
     .filter((l) => /^https?:/i.test(l.href))
-    .map((l) => ({ name: l.label || new URL(l.href).hostname, href: l.href }));
+    .map((l) => ({ name: socialName(l.label, l.href), href: l.href }));
 
   const longestText = (blocks, re) =>
     blocks.filter((b) => b.text && re.test(b.text)).sort((a, b) => b.text.length - a.text.length)[0]
@@ -204,6 +365,30 @@ async function main() {
   const blurbEs = longestText(blocksEs, /péptidos premium|respaldados por/i);
   const copyEn = blocksEn.find((b) => /^Copyright ©/i.test(b.heading || ''))?.heading ?? null;
   const copyEs = blocksEs.find((b) => /^(Copyright|Derechos) ?©/i.test(b.heading || ''))?.heading ?? null;
+
+  // Platform names and numerals are identical in both languages, so the band is
+  // paired by index like every other footer list rather than translated.
+  const reviewsEn = reviewBand($en);
+  const reviewsEs = reviewBand($es);
+  if (!reviewsEn.length) throw new Error('Footer: no review band found');
+  const reviews = pairLists(reviewsEn, reviewsEs, 'Footer review band').map(([en, es]) => ({
+    ...en,
+    href_es: es.href ?? en.href,
+  }));
+
+  const bulkEn = bulkOffer($en);
+  const bulkEs = bulkOffer($es);
+  if (!bulkEn) throw new Error('Footer: no bulk-savings promo found');
+  pairLists(bulkEn.lines, bulkEs?.lines ?? [], 'Footer bulk offer lines');
+  const bulk = {
+    title_en: bulkEn.title,
+    title_es: bulkEs.title,
+    lines_en: bulkEn.lines,
+    lines_es: bulkEs.lines,
+    cta_en: bulkEn.cta,
+    cta_es: bulkEs.cta,
+    cta_href: bulkEn.ctaHref,
+  };
 
   for (const [name, value] of Object.entries({
     disclaimerEn, disclaimerEs, blurbEn, blurbEs, copyEn, copyEs,
@@ -235,6 +420,8 @@ async function main() {
       categories,
       contactLinks,
       social,
+      bulk,
+      reviews,
     },
   };
 

@@ -305,8 +305,14 @@ function Testimonials({ content, lang, index }) {
         title={t(content, 'title', lang)}
         intro={t(content, 'body', lang)}
       />
-      {/* The live site shows no individual quotes here either — only this
-          heading block. Nothing is missing. */}
+      {/* NOT complete. The live site renders six Google reviews here through the
+          Trustindex plugin, which injects them client-side — so they are absent
+          from both the REST content and the server HTML the harvester reads,
+          which is why this looked like a bare heading block.
+          Mirroring them is a live-data decision, not a harvesting one: the
+          plugin refreshes from Google, so a static snapshot would keep showing
+          reviews after they are edited or removed at the source. Left out
+          pending that call. */}
     </Section>
   );
 }
@@ -384,10 +390,14 @@ function group(sections) {
       continue;
     }
 
-    // Consecutive product grids merge into ONE grid. The home page carries ten
-    // of them holding 4, 4, 2, 4, 4, 4, 4, 1, 3 and 4 products; rendered
-    // separately each started a new row, so the page showed orphan single-card
-    // rows instead of a continuous grid.
+    // Consecutive product grids merge into ONE grid, so a run of small grids
+    // reads as a continuous wall of cards rather than a series of orphan rows.
+    //
+    // This applies only to grids that are genuinely adjacent in the page. The
+    // eight "Shop By Category" grids LOOKED adjacent but are the panels of a tab
+    // widget, and merging them produced one 27-product block where the live site
+    // shows four at a time — they are now folded into a `category_tabs` section
+    // by the harvester before they ever reach this function.
     if (section.type === 'product_grid') {
       if (last?.kind === 'products') last.products.push(...section.content.products);
       else out.push({ kind: 'products', products: [...section.content.products] });

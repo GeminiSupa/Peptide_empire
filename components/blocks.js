@@ -1,12 +1,15 @@
 import Link from 'next/link';
 import { Check, CircleCheck, ExternalLink, FileText } from 'lucide-react';
 import Container from '@/components/ui/container';
+import CategoryTabs from '@/components/category-tabs';
 import FaqAccordion from '@/components/faq-accordion';
-import { catalogUrl, ui } from '@/content/global';
+import ProductCard from '@/components/product-card';
+import ReviewWall from '@/components/review-wall';
+import { ui } from '@/content/global';
 import { t } from '@/lib/i18n';
 import ProductList from '@/components/product-list';
 import { productsFor } from '@/content/pages/categories';
-import { imageUrl } from '@/lib/images';
+import { imageSource, imageUrl, SIZES } from '@/lib/images';
 import { localePath } from '@/lib/routes';
 
 /**
@@ -118,12 +121,16 @@ function BlockButton({ content, lang }) {
 }
 
 function BlockImage({ content, lang }) {
-  const src = imageUrl(content.src);
-  if (!src) return null;
+  const source = imageSource(content.src);
+  if (!source.src) return null;
 
   // Never scale an image UP. A press logo is 300px wide natively; rendering it
   // at a blanket max-width blew it up to 672px and dominated the page.
-  const natural = content.width || null;
+  //
+  // The cap is now the widest MIRRORED width rather than the referenced file's,
+  // because a srcset can legitimately offer more resolution than the reference.
+  const widest = source.srcSet ? source.width : content.width;
+  const natural = widest || null;
   const cap = natural ? Math.min(natural, 672) : 672;
 
   return (
@@ -131,11 +138,13 @@ function BlockImage({ content, lang }) {
     <img
       alt={t(content, 'alt', lang)}
       className="mx-auto h-auto w-full rounded"
-      height={content.height || undefined}
+      height={source.height || content.height || undefined}
       loading="lazy"
-      src={src}
+      sizes={source.srcSet ? SIZES.prose : undefined}
+      src={source.src}
+      srcSet={source.srcSet}
       style={{ maxWidth: `${cap}px` }}
-      width={natural || undefined}
+      width={source.width || content.width || undefined}
     />
   );
 }
@@ -255,37 +264,10 @@ function Cards({ content, lang }) {
  */
 function ProductGrid({ content, lang }) {
   if (!content.products?.length) return null;
-  const buy = catalogUrl(lang);
   return (
     <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {content.products.map((product) => (
-        <div
-          className="flex h-full flex-col rounded-xl border border-primary/10 bg-white p-4 shadow-sm"
-          key={product.name}
-        >
-          {product.image && (
-            // eslint-disable-next-line @next/next/no-img-element -- harvested
-            <img
-              alt={product.name}
-              className="mb-3 aspect-square w-full rounded-lg object-cover"
-              loading="lazy"
-              src={imageUrl(product.image)}
-            />
-          )}
-          <h3 className="text-sm font-bold text-primary">{product.name}</h3>
-          {product.price && (
-            <p className="mt-1 text-sm font-semibold text-accent">{product.price}</p>
-          )}
-          <a
-            className="mt-auto inline-flex items-center justify-center gap-1 rounded-full bg-accent px-4 py-2 pt-2 text-xs font-bold text-white transition hover:brightness-110"
-            href={buy}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            {t(ui, 'viewInCatalog', lang)}
-            <ExternalLink aria-hidden="true" className="h-3.5 w-3.5" />
-          </a>
-        </div>
+      {content.products.map((product, i) => (
+        <ProductCard key={`${product.name}-${i}`} lang={lang} product={product} />
       ))}
     </div>
   );
@@ -465,12 +447,13 @@ function HeroSplit({ content, lang }) {
         )}
       </div>
 
-      {content.image?.src && (
+      {imageSource(content.image?.src).src && (
         // eslint-disable-next-line @next/next/no-img-element -- harvested asset
         <img
           alt={t(content.image, 'alt', lang)}
           className="h-auto w-full"
-          src={imageUrl(content.image.src)}
+          sizes={SIZES.prose}
+          {...imageSource(content.image.src)}
         />
       )}
     </div>
@@ -500,13 +483,14 @@ function PressBandBlock({ content, lang }) {
       <div className="mt-8 grid gap-10 sm:grid-cols-2">
         {items.map((item, i) => (
           <div className="flex flex-col items-center text-center" key={`press-${i}`}>
-            {item.logo?.src && (
+            {imageSource(item.logo?.src).src && (
               // eslint-disable-next-line @next/next/no-img-element -- harvested
               <img
                 alt={t(item.logo, 'alt', lang)}
                 className="h-16 w-auto object-contain"
                 loading="lazy"
-                src={imageUrl(item.logo.src)}
+                sizes="16rem"
+                {...imageSource(item.logo.src)}
               />
             )}
             <p className="mt-4 text-sm text-text-muted">{t(item, 'intro', lang)}</p>
@@ -539,6 +523,8 @@ const RENDERERS = {
   tabs: Tabs,
   cards: Cards,
   product_grid: ProductGrid,
+  category_tabs: CategoryTabs,
+  reviews: ReviewWall,
   coa_list: CoaList,
   faq: Faq,
   category_header: CategoryHeader,
@@ -554,6 +540,8 @@ const RENDERERS = {
  */
 export const WIDE_TYPES = [
   'product_grid',
+  'category_tabs',
+  'reviews',
   'cards',
   'table',
   'coa_list',
