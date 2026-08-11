@@ -1,13 +1,13 @@
 {
-  "harvestedAt": "2026-07-31T18:35:34.286Z",
+  "harvestedAt": "2026-08-11T09:20:06.164Z",
   "note": "Price is a snapshot. The catalog site is the authority on pricing.",
-  "count": 67,
+  "count": 69,
   "products": [
     {
       "id": 142,
       "name": "5-amino-1mq 5mg",
       "slug": "5-amino-1mq-5mg",
-      "price": "₡ 27,252",
+      "price": "₡ 27,251",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/5-Amino-1MQ-1.jpg"
@@ -23,7 +23,7 @@
       "id": 3193,
       "name": "Adamax 5mg",
       "slug": "adamax-5mg",
-      "price": "₡ 74,942",
+      "price": "₡ 74,940",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/Adamax-1.jpg"
@@ -39,10 +39,10 @@
       "id": 18810,
       "name": "AICAR 50mg",
       "slug": "aicar-50mg",
-      "price": "₡ 43,149",
+      "price": "₡ 43,148",
       "currency": "CRC",
       "images": [
-        "/wp-content/uploads/2026/05/AICAR-50mg.webp"
+        "/wp-content/uploads/2026/05/Untitled-design-3.webp"
       ],
       "categories": [
         {
@@ -55,7 +55,7 @@
       "id": 14586,
       "name": "BAC Water 10ml",
       "slug": "bac-water-10ml",
-      "price": "₡ 0",
+      "price": "₡ 9,084",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/04/BAC-Water-10-1.jpg"
@@ -115,7 +115,7 @@
       "id": 138,
       "name": "BPC-157 10mg",
       "slug": "bpc-157-10mg",
-      "price": "₡ 40,878",
+      "price": "₡ 40,877",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/BPC-157-2.jpg"
@@ -147,7 +147,7 @@
       "id": 23505,
       "name": "Cartalax 20mg",
       "slug": "cartalax-20mg",
-      "price": "₡ 45,420",
+      "price": "₡ 45,418",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/06/Cartalax-20mg-1.webp"
@@ -227,7 +227,7 @@
       "id": 3194,
       "name": "DSIP 15mg",
       "slug": "dsip-15mg",
-      "price": "₡ 61,316",
+      "price": "₡ 56,773",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/DSIP-1.jpg"
@@ -240,10 +240,26 @@
       ]
     },
     {
+      "id": 28577,
+      "name": "DSIP 5mg",
+      "slug": "dsip-5mg",
+      "price": "₡ 454",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/08/Untitled-design.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptides For Sleep",
+          "slug": "peptides-for-sleep"
+        }
+      ]
+    },
+    {
       "id": 3197,
       "name": "Epithalon 50mg",
       "slug": "epithalon-50mg",
-      "price": "₡ 77,213",
+      "price": "₡ 77,211",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/Epithalon-1.jpg"
@@ -259,7 +275,7 @@
       "id": 15061,
       "name": "Fat Blaster 10ml",
       "slug": "fat-blaster-10ml",
-      "price": "₡ 49,962",
+      "price": "₡ 49,960",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/04/Untitled-design-1.webp"
@@ -279,7 +295,7 @@
       "id": 18780,
       "name": "GHK-CU 100mg",
       "slug": "ghk-cu-100mg",
-      "price": "₡ 45,420",
+      "price": "₡ 45,418",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/GHK-CU-100-2.webp"
@@ -295,7 +311,7 @@
       "id": 146,
       "name": "GHK-CU 50mg",
       "slug": "ghk-cu-50mg",
-      "price": "₡ 31,794",
+      "price": "₡ 31,793",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/GHK-CU-1.jpg"
@@ -319,7 +335,7 @@
       "id": 18823,
       "name": "GLOW 50mg",
       "slug": "glow-50mg",
-      "price": "₡ 54,503",
+      "price": "₡ 54,502",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/GLOW-50-1.webp"
@@ -335,7 +351,7 @@
       "id": 6930,
       "name": "GLOW 70mg",
       "slug": "glow-70mg",
-      "price": "₡ 68,129",
+      "price": "₡ 68,128",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/03/GLOW-1.jpg"
@@ -355,7 +371,7 @@
       "id": 14583,
       "name": "Glutathione 1500mg",
       "slug": "glutathione-1500mg",
-      "price": "₡ 45,420",
+      "price": "₡ 45,418",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/04/Glutathione-1.jpg"
@@ -375,7 +391,7 @@
       "id": 140,
       "name": "HCG 10,000 IU",
       "slug": "hcg-10000-iu",
-      "price": "₡ 72,671",
+      "price": "₡ 72,670",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/HCG-1-1.jpg"
@@ -395,7 +411,7 @@
       "id": 3195,
       "name": "HGH 12 IU",
       "slug": "hgh-12-iu",
-      "price": "₡ 31,794",
+      "price": "₡ 31,793",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/HGH-12-1.jpg"
@@ -427,7 +443,7 @@
       "id": 3196,
       "name": "HGH 24 IU",
       "slug": "hgh-24-iu",
-      "price": "₡ 54,503",
+      "price": "₡ 54,502",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/HGH-24-1.jpg"
@@ -459,7 +475,7 @@
       "id": 23390,
       "name": "HGH 30 IU",
       "slug": "hgh-30-iu",
-      "price": "₡ 56,774",
+      "price": "₡ 56,773",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/06/Untitled-design-10.webp"
@@ -523,7 +539,7 @@
       "id": 14579,
       "name": "IGF-1LR3 1mg",
       "slug": "igf-1lr3-1mg",
-      "price": "₡ 72,671",
+      "price": "₡ 72,670",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/04/IGF-1mg.jpg.jpeg"
@@ -534,7 +550,7 @@
       "id": 8179,
       "name": "Ipamorelin 10mg",
       "slug": "ipamorelin-10mg",
-      "price": "₡ 45,420",
+      "price": "₡ 45,418",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/03/Ipamorelin-1.jpg"
@@ -562,7 +578,7 @@
       "id": 14582,
       "name": "KissPeptin-10 10mg",
       "slug": "kisspeptin-10-10mg",
-      "price": "₡ 59,045",
+      "price": "₡ 59,044",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/04/Kisspeptin-10-1.jpg"
@@ -578,7 +594,7 @@
       "id": 141,
       "name": "KLOW 80mg",
       "slug": "klow-80mg",
-      "price": "₡ 81,755",
+      "price": "₡ 81,753",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/KLOW-1.jpg"
@@ -598,7 +614,7 @@
       "id": 18820,
       "name": "KPV 10mg",
       "slug": "kpv-10mg",
-      "price": "₡ 40,878",
+      "price": "₡ 40,877",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/KPV-1-1.webp"
@@ -614,7 +630,7 @@
       "id": 144,
       "name": "Mots-C 10mg",
       "slug": "mots-c-10mg",
-      "price": "₡ 40,878",
+      "price": "₡ 40,877",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/MOTS-C-10-1.jpg"
@@ -638,7 +654,7 @@
       "id": 14580,
       "name": "Mots-C 40mg",
       "slug": "mots-c-40mg",
-      "price": "₡ 68,129",
+      "price": "₡ 68,128",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/04/MOTS-C-40-1.jpg"
@@ -658,7 +674,7 @@
       "id": 18805,
       "name": "MT-II",
       "slug": "mt-ii",
-      "price": "₡ 40,878",
+      "price": "₡ 40,877",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/MT-II-1.webp"
@@ -705,7 +721,7 @@
       "id": 18792,
       "name": "Pinealon 20mg",
       "slug": "pinealon-20mg",
-      "price": "₡ 54,503",
+      "price": "₡ 54,502",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/Pinealon-20-1.webp"
@@ -721,7 +737,7 @@
       "id": 14581,
       "name": "PT-141 10mg",
       "slug": "pt-141-10mgtest",
-      "price": "₡ 56,774",
+      "price": "₡ 56,773",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/04/PT-141-1.jpg"
@@ -732,7 +748,7 @@
       "id": 8177,
       "name": "Retatrutide 10mg",
       "slug": "reta-10mg",
-      "price": "₡ 56,774",
+      "price": "₡ 56,773",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/03/Retatrutide-10mg-1.jpg"
@@ -748,7 +764,7 @@
       "id": 3189,
       "name": "Retatrutide 12mg",
       "slug": "reta-12mg",
-      "price": "₡ 61,316",
+      "price": "₡ 61,315",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/Retatrutide-12mg-1.jpg"
@@ -764,7 +780,7 @@
       "id": 135,
       "name": "Retatrutide 30mg",
       "slug": "reta-30mg",
-      "price": "₡ 81,755",
+      "price": "₡ 81,753",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/Retatrutide-30mg-1.jpg"
@@ -780,7 +796,7 @@
       "id": 137,
       "name": "Retatrutide 40mg",
       "slug": "reta-40mg",
-      "price": "₡ 95,381",
+      "price": "₡ 95,379",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/Retatrutide-40mg-1.jpg"
@@ -800,7 +816,7 @@
       "id": 14408,
       "name": "Retatrutide 15mg",
       "slug": "retatrutide-15mg",
-      "price": "₡ 63,587",
+      "price": "₡ 63,586",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/04/Retatrutide-15mg-1.jpg"
@@ -820,7 +836,7 @@
       "id": 14576,
       "name": "Retatrutide  20mg",
       "slug": "retatrutide-20mg",
-      "price": "₡ 68,129",
+      "price": "₡ 68,128",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/04/Retatrutide-20mg-1.jpg"
@@ -840,7 +856,7 @@
       "id": 14554,
       "name": "Retatrutide 24mg",
       "slug": "retatrutide-24mg",
-      "price": "₡ 74,942",
+      "price": "₡ 74,940",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/04/Retatrutide-24mg-1.jpg"
@@ -880,7 +896,7 @@
       "id": 23496,
       "name": "Retatrutide 50mg",
       "slug": "retatrutide-50mg",
-      "price": "₡ 109,007",
+      "price": "₡ 109,004",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/06/Retarutide-50mg-1.webp"
@@ -897,10 +913,30 @@
       ]
     },
     {
+      "id": 28573,
+      "name": "Retatrutide 5mg",
+      "slug": "retatrutide-5mg",
+      "price": "₡ 45,441",
+      "currency": "CRC",
+      "images": [
+        "/wp-content/uploads/2026/08/Retatrutide-5mg.webp"
+      ],
+      "categories": [
+        {
+          "name": "Peptide for Cardiovascular",
+          "slug": "peptide-for-cardiovascular"
+        },
+        {
+          "name": "Peptides For Energy",
+          "slug": "peptides-for-energy"
+        }
+      ]
+    },
+    {
       "id": 23498,
       "name": "Retatrutide 60mg",
       "slug": "retatrutide-60mg",
-      "price": "₡ 122,633",
+      "price": "₡ 122,630",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/06/Retatrutide-60mg-1.webp"
@@ -920,7 +956,7 @@
       "id": 145,
       "name": "Selank 10mg",
       "slug": "selank-10mg",
-      "price": "₡ 40,878",
+      "price": "₡ 40,877",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/Selank-1.jpg"
@@ -940,7 +976,7 @@
       "id": 18816,
       "name": "Semaglutide 10mg",
       "slug": "semaglutide-10mg",
-      "price": "₡ 99,923",
+      "price": "₡ 99,921",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/Semaglutide-10-1.webp"
@@ -956,7 +992,7 @@
       "id": 18788,
       "name": "Semaglutide 20mg",
       "slug": "semaglutide-20mg",
-      "price": "₡ 124,904",
+      "price": "₡ 124,901",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/Semaglutide-20-1.webp"
@@ -972,7 +1008,7 @@
       "id": 18790,
       "name": "Semaglutide 30mg",
       "slug": "semaglutide-30mg",
-      "price": "₡ 136,259",
+      "price": "₡ 136,255",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/Semaglutide-30-1.webp"
@@ -988,7 +1024,7 @@
       "id": 18813,
       "name": "Semax 10mg",
       "slug": "semax-10mg",
-      "price": "₡ 40,878",
+      "price": "₡ 40,877",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/Semax-1.webp"
@@ -1004,7 +1040,7 @@
       "id": 14578,
       "name": "Sermorelin 10mg",
       "slug": "sermorelin-10mg",
-      "price": "₡ 68,129",
+      "price": "₡ 68,128",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/04/Sermorelin-1.jpg"
@@ -1020,7 +1056,7 @@
       "id": 18818,
       "name": "SLU-PP-332 5mg",
       "slug": "slu-pp-332-5mg",
-      "price": "₡ 36,336",
+      "price": "₡ 36,335",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/Slu-pp332-1.webp"
@@ -1031,7 +1067,7 @@
       "id": 3192,
       "name": "SS-31 10mg",
       "slug": "ss-31-10mg",
-      "price": "₡ 54,503",
+      "price": "₡ 54,502",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/SS-31-1.jpg"
@@ -1051,7 +1087,7 @@
       "id": 14557,
       "name": "SUPER Human Blend 10ml",
       "slug": "super-human-blend-10ml",
-      "price": "₡ 45,420",
+      "price": "₡ 45,418",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/04/SUPER-Human-Blend-1.jpg"
@@ -1071,7 +1107,7 @@
       "id": 6927,
       "name": "TB-4 10mg",
       "slug": "tb-4-10mg",
-      "price": "₡ 49,962",
+      "price": "₡ 49,960",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/03/TB-4-1.jpg"
@@ -1087,7 +1123,7 @@
       "id": 3190,
       "name": "Tesamorelin 10mg",
       "slug": "tesamorelin-10mg",
-      "price": "₡ 45,420",
+      "price": "₡ 45,418",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/Tesamorelin-1.jpg"
@@ -1103,7 +1139,7 @@
       "id": 27155,
       "name": "Tesamorelin 20mg",
       "slug": "tesamorelin-20mg",
-      "price": "₡ 68,129",
+      "price": "₡ 68,128",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/07/Tesa.jpg.jpeg"
@@ -1119,7 +1155,7 @@
       "id": 3191,
       "name": "Thymalin 10mg",
       "slug": "thymalin-10mg",
-      "price": "₡ 54,503",
+      "price": "₡ 54,502",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/02/Thymalin-1-1.jpg"
@@ -1135,7 +1171,7 @@
       "id": 18785,
       "name": "Thymosin Alpha-1 10mg",
       "slug": "thymosin-alpha-1-10mg",
-      "price": "₡ 68,129",
+      "price": "₡ 68,128",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/Thymosin-Alpha-1-10-1.webp"
@@ -1146,7 +1182,7 @@
       "id": 18795,
       "name": "Tirzepatide 10mg",
       "slug": "tirzepatide-10mg",
-      "price": "₡ 70,400",
+      "price": "₡ 70,399",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/Tirzepatide-10-1.webp"
@@ -1162,7 +1198,7 @@
       "id": 18798,
       "name": "Tirzepatide 15mg",
       "slug": "tirzepatide-15mg",
-      "price": "₡ 84,026",
+      "price": "₡ 84,024",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/Tirzepatide-15-2.webp"
@@ -1178,7 +1214,7 @@
       "id": 18800,
       "name": "Tirzepatide 20mg",
       "slug": "tirzepatide-20mg",
-      "price": "₡ 90,839",
+      "price": "₡ 90,837",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/Tirzepatide-20-1.webp"
@@ -1194,7 +1230,7 @@
       "id": 18803,
       "name": "Tirzepatide 30mg",
       "slug": "tirzepatide-30mg",
-      "price": "₡ 102,194",
+      "price": "₡ 102,192",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/05/Tirzepatide-30-1-2.webp"
@@ -1210,7 +1246,7 @@
       "id": 25299,
       "name": "Tirzepatide 40mg",
       "slug": "tirzepatide-40mg",
-      "price": "₡ 111,278",
+      "price": "₡ 111,275",
       "currency": "CRC",
       "images": [
         "/wp-content/uploads/2026/06/Tirzepatide-40mg.jpg.webp"

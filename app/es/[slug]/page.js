@@ -4,6 +4,7 @@ import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
 import { bySpanishSlug, spanishParams } from '@/content/pages/registry';
 import { alternates } from '@/lib/routes';
+import { pageTitle } from '@/lib/page-title';
 
 /**
  * The Spanish twins of app/[slug]. These slugs are NOT `/es/` + the English
@@ -43,7 +44,11 @@ export default async function PageEs({ params }) {
     <>
       <SiteHeader lang="es" path={page.es} />
       <main className="flex-1">
-        <Sections lang="es" sections={page.sections} />
+        <Sections
+          lang="es"
+          pageTitle={pageTitle(page, 'es')}
+          sections={page.sections}
+        />
       </main>
       <SiteFooter lang="es" />
     </>

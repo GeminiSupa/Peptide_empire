@@ -415,7 +415,12 @@ function group(sections) {
  * `demoteH1` is set by product pages, where the <h1> is already emitted by
  * ProductSummary and a level-1 heading in the data would be a second one.
  */
-export default function Sections({ sections = [], lang, demoteH1 = false }) {
+/**
+ * @param {string} [pageTitle] The page's own title. Passed to renderers that
+ *   need it because WordPress stores a title outside the body and lets the
+ *   theme print it — see GuideArticle, where 24 guides had no <h1> without it.
+ */
+export default function Sections({ sections = [], lang, demoteH1 = false, pageTitle }) {
   if (!sections.length) return null;
 
   return group(sections).map((entry, index) => {
@@ -453,6 +458,7 @@ export default function Sections({ sections = [], lang, demoteH1 = false }) {
           index={index}
           key={`${section.type}-${index}`}
           lang={lang}
+          title={pageTitle}
         />
       );
     }

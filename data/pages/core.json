@@ -1401,6 +1401,14 @@
       },
       "sections": [
         {
+          "type": "heading",
+          "content": {
+            "level": 1,
+            "text_en": "Peptide Product Lab Tests & COA Results",
+            "text_es": "Resultados de Pruebas de Laboratorio de Productos Peptídicos y COA"
+          }
+        },
+        {
           "type": "coa_list",
           "content": {
             "items": [
@@ -2101,7 +2109,7 @@
             "title_es": "Dirección",
             "text_en": "Jaco, Costa Rica",
             "text_es": "Jaco, Costa Rica",
-            "href": "/AgpzEd8NNRKYNbJj9"
+            "href": "https://maps.app.goo.gl/AgpzEd8NNRKYNbJj9"
           }
         },
         {

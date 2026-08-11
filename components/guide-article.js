@@ -17,18 +17,32 @@ import Container from '@/components/ui/container';
  * `.pcr-article` gives the injected markup sane defaults for anything the
  * guide's own scoped CSS does not cover — see globals.css.
  */
-export default function GuideArticle({ content, lang }) {
+export default function GuideArticle({ content, lang, title }) {
   // A section in the shared vocabulary: `{ type: 'article', content: {…} }`.
   const html = content?.[`html_${lang}`] || content?.html_en;
   if (!html) return null;
+
+  /**
+   * WordPress keeps a page's title out of its body and lets the theme print it
+   * as the <h1>. Most guides open with their own <h1>, but 24 of them do not,
+   * and those shipped with no <h1> at all — the live pages have one.
+   *
+   * Checked against the injected markup rather than assumed, so a guide that
+   * already opens with a heading does not get a duplicate.
+   */
+  const hasOwnH1 = /<h1[\s>]/i.test(html);
+
   return (
     <Container className="py-10 sm:py-14">
-      <article
-        className="pcr-article mx-auto max-w-3xl"
-        // eslint-disable-next-line react/no-danger -- sanitised at harvest time
-        dangerouslySetInnerHTML={{ __html: html }}
-        lang={lang}
-      />
+      <article className="pcr-article mx-auto max-w-3xl" lang={lang}>
+        {!hasOwnH1 && title && (
+          <h1 className="text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">
+            {title}
+          </h1>
+        )}
+        {/* eslint-disable-next-line react/no-danger -- sanitised at harvest time */}
+        <div dangerouslySetInnerHTML={{ __html: html }} />
+      </article>
     </Container>
   );
 }

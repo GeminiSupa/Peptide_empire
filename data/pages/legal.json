@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-03T06:37:22.449Z",
+  "harvestedAt": "2026-08-11T08:45:05.132Z",
   "group": "legal",
   "count": 4,
   "pages": [
@@ -183,8 +183,436 @@
         "description_en": "Review Peptides Costa Rica's shipping policy, including order processing, delivery methods, domestic-only shipping, and free shipping on orders over $500.",
         "description_es": "Consulta la política de envíos de Peptides Costa Rica, que incluye el procesamiento de pedidos, los métodos de entrega, los envíos solo dentro del país y el envío gratuito para pedidos superiores a $500."
       },
-      "sections": [],
-      "untranslated": 0
+      "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 1,
+            "text_en": "Shipping Policy",
+            "text_es": "Política de Envío"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Last updated: April 23, 2026",
+            "text_es": "Última actualización: 23 de abril de 2026"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "This Shipping Policy explains how Peptides Costa Rica (“we,” “us,” “our”) processes and ships orders placed through peptidescostarica.net.",
+            "text_es": "Esta Política de Envío explica cómo Peptides Costa Rica (“nosotros,” “nuestro/a”) procesa y envía los pedidos realizados a través de peptidescostarica.net."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "1. Order Processing Time",
+            "text_es": "1. Tiempo de procesamiento de pedidos"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "All orders are processed within 1–2 business days (excluding weekends and holidays) after receiving your order confirmation.",
+            "text_es": "Todos los pedidos se procesan en un plazo de 1 a 2 días hábiles (excluyendo fines de semana y feriados) después de recibir la confirmación de tu pedido."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Orders placed after 12 pm CST will be processed the next business day.",
+            "text_es": "Los pedidos realizados después de las 12 p.m. CST se procesarán al siguiente día hábil."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "During high-volume periods, holidays, or unforeseen circumstances, processing times may be extended.",
+            "text_es": "Durante períodos de alto volumen, días festivos o circunstancias imprevistas, los tiempos de procesamiento pueden extenderse."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Note: We handle all orders personally to confirm product availability before payment is collected. You will be contacted to confirm stock before your order is finalized.",
+            "text_es": "Nota: Manejamos todos los pedidos personalmente para confirmar la disponibilidad del producto antes de que se recoja el pago. Nos pondremos en contacto contigo para confirmar el stock antes de que tu pedido se finalice."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "2. Shipping Destinations",
+            "text_es": "2. Destinos de envío"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We currently ship exclusively within Costa Rica. We do not offer international shipping.",
+            "text_es": "Actualmente enviamos exclusivamente dentro de Costa Rica. No ofrecemos envíos internacionales."
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "Domestic: Costa Rica only",
+              "International: Unfortunately, we do not ship to destinations outside of Costa Rica."
+            ],
+            "items_es": [
+              "Nacional: Solo Costa Rica",
+              "Internacional: Lamentablemente, no realizamos envíos a destinos fuera de Costa Rica."
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We do not ship to PO boxes, APO/FPO addresses, or any international destinations.",
+            "text_es": "No enviamos a apartados postales, direcciones APO/FPO ni a ninguna dirección internacional."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "3. Shipping Methods & Delivery Times",
+            "text_es": "3. Métodos de envío y Tiempos de entrega"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We offer the following shipping options:",
+            "text_es": "Ofrecemos las siguientes opciones de envío:"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Delivery times are estimates only and are not guaranteed.",
+            "text_es": "Los tiempos de entrega son solo estimaciones y no están garantizados."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "4. Shipping Rates",
+            "text_es": "4. Tarifas de envío"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "Free shipping: Available on all orders over $500 USD",
+              "Bulk discounts: For customers purchasing in larger quantities, we offer a 15% discount on purchases of 5 or more vials of the same product.",
+              "Handling fees: We do not charge any additional handling fees for your orders."
+            ],
+            "items_es": [
+              "Envío gratuito: Disponible para todos los pedidos superiores a $500 USD",
+              "Descuentos por volumen: Para los clientes que compren en grandes cantidades, ofrecemos un descuento de 15% en compras de 5 o más viales del mismo producto.",
+              "Cargos por procesamiento: No cobramos cargos adicionales por procesamiento en tus pedidos."
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "All prices displayed on our site are in USD ($), and shipping fees are calculated during checkout.",
+            "text_es": "Todos los precios que aparecen en nuestro sitio web están en dólares estadounidenses ($), y los gastos de envío se calculan al finalizar la compra."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "5. International Shipping",
+            "text_es": "5. Envío Internacional"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "At present, we do not offer international shipping. Peptides Costa Rica operates exclusively within Costa Rica to ensure faster, more reliable delivery within the country. By limiting our services to the domestic market, we avoid complications related to customs, international import fees, and unpredictable delivery times, providing you with a seamless shopping experience.",
+            "text_es": "Actualmente, no ofrecemos envíos internacionales. Peptides Costa Rica opera exclusivamente dentro de Costa Rica para garantizar una entrega más rápida y confiable dentro del país. Al limitar nuestros servicios al mercado nacional, evitamos complicaciones relacionadas con aduanas, tarifas de importación internacionales y tiempos de entrega impredecibles, brindándole una experiencia de compra sin contratiempos."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "6. Order Tracking",
+            "text_es": "6. Seguimiento de Pedido"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "After your order has been processed and shipped, you will receive a confirmation email containing tracking information. You can use this information to monitor the progress of your delivery.",
+            "text_es": "Una vez que tu pedido haya sido procesado y enviado, recibirás un correo electrónico de confirmación con información de seguimiento. Puedes usar esta información para monitorear el progreso de tu entrega."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Please note that it may take 24 to 48 hours for tracking details to become active and show updates after the dispatch of your order.",
+            "text_es": "Tenga en cuenta que puede tardar entre 24 y 48 horas en que los detalles de seguimiento se activen y muestren actualizaciones después del envío de su pedido."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "7. Delivery Issues & Delays",
+            "text_es": "7. Problemas y demoras en la entrega"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "While we do our best to ensure timely delivery, Peptides Costa Rica cannot be held responsible for delays caused by the following:",
+            "text_es": "Si bien hacemos todo lo posible para garantizar la entrega oportuna, Peptides Costa Rica no puede ser responsable por retrasos causados por lo siguiente:"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "Carrier issues",
+              "Weather or road conditions",
+              "Incorrect address information provided by the customer"
+            ],
+            "items_es": [
+              "Problemas del transportista",
+              "Condiciones del tiempo o de la carretera",
+              "Información de dirección incorrecta proporcionada por el cliente"
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "If your order is delayed or lost, please don’t hesitate to get in touch with us. You can contact us via email at info@peptidescostarica.net or by calling our Costa Rica or US customer service numbers:",
+            "text_es": "Si su pedido se retrasa o se pierde, no dude en ponerse en contacto con nosotros. Puede contactarnos por correo electrónico a info@peptidescostarica.net o llamando a nuestros números de servicio al cliente en Costa Rica o EE. UU.:"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "Costa Rica: +506 8404-6973",
+              "US: +1 (831) 471-5559"
+            ],
+            "items_es": [
+              "Costa Rica: +506 8404-6973",
+              "EE. UU.: +1 (831) 471-5559"
+            ]
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "8. Incorrect or Incomplete Addresses",
+            "text_es": "8. Direcciones incorrectas o incompletas"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Customers are responsible for providing accurate shipping information at the time of ordering.",
+            "text_es": "Los clientes son responsables de proporcionar información de envío precisa al momento de realizar el pedido."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "If an order is returned or undeliverable due to an incorrect or incomplete address:",
+            "text_es": "Si un pedido es devuelto o no se puede entregar debido a una dirección incorrecta o incompleta:"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "Additional shipping fees may apply for redelivery",
+              "Refunds may be reduced by the original shipping costs"
+            ],
+            "items_es": [
+              "Pueden aplicarse cargos de envío adicionales para la redelivación.",
+              "El reembolso puede deducirse de los costos de envío originales"
+            ]
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "9. Damaged or Missing Items",
+            "text_es": "9. Artículos dañados o faltantes"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "If your order arrives damaged or incomplete:",
+            "text_es": "Si tu pedido llega dañado o incompleto:"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "Contact us within 7 days of delivery",
+              "Provide photos of the damaged item and packaging",
+              "We will arrange a replacement or refund where applicable"
+            ],
+            "items_es": [
+              "Contáctenos dentro de los 7 días posteriores a la entrega",
+              "Proporcione fotos del artículo dañado y del embalaje",
+              "Procederemos a organizar un reemplazo o un reembolso, cuando corresponda"
+            ]
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "10. Split Shipments",
+            "text_es": "10. Envíos Divididos"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Occasionally, orders may be shipped in multiple packages, depending on product availability. If this happens, you will receive separate tracking numbers for each shipment so you can track the progress of all parts of your order.",
+            "text_es": "Ocasionalmente, los pedidos pueden enviarse en múltiples paquetes, dependiendo de la disponibilidad del producto. Si esto sucede, recibirás números de seguimiento separados para cada envío para que puedas rastrear el progreso de todas las partes de tu pedido."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "11. Shipping Restrictions",
+            "text_es": "11. Restricciones de envío"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Certain products may be subject to shipping restrictions due to legal regulations, size limitations, or product type. Please note that all products sold by Peptides Costa Rica are intended strictly for research and laboratory use and are distributed only within Costa Rica.",
+            "text_es": "Ciertos productos pueden estar sujetos a restricciones de envío debido a regulaciones legales, limitaciones de tamaño o tipo de producto. Tenga en cuenta que todos los productos vendidos por Peptides Costa Rica están destinados estrictamente para uso en investigación y laboratorio y se distribuyen solamente dentro de Costa Rica."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "12. Returns & Refunds",
+            "text_es": "12. Devoluciones y reembolsos"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Please be sure to review our Return & Refund Policy for comprehensive information on returns and refunds. Unless otherwise stated, shipping fees are non-refundable.",
+            "text_es": "Por favor, asegúrese de revisar nuestra Política de Devoluciones y Reembolsos para obtener información completa sobre devoluciones y reembolsos. A menos que se indique lo contrario, los gastos de envío no son reembolsables."
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "In cases of returns due to damages, incomplete items, or issues under our control, we will ensure a refund or replacement, including shipping fees.",
+            "text_es": "En caso de devoluciones por daños, artículos incompletos o problemas bajo nuestro control, garantizaremos un reembolso o reemplazo, incluyendo los gastos de envío."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "13. Force Majeure",
+            "text_es": "13. Fuerza Mayor"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Peptides Costa Rica is not liable for any shipping delays or disruptions caused by events beyond our control. This includes, but is not limited to, natural disasters, pandemics, strikes, government actions, or other unforeseen situations that may affect our ability to process or deliver orders on time. We will do our best to mitigate delays, but in such cases, we cannot guarantee the usual delivery timelines.",
+            "text_es": "Peptides Costa Rica no será responsable por demoras o interrupciones en el envío causadas por eventos fuera de nuestro control. Esto incluye, entre otros, desastres naturales, pandemias, huelgas, acciones gubernamentales u otras situaciones imprevistas que puedan afectar nuestra capacidad para procesar o entregar pedidos a tiempo. Haremos todo lo posible para mitigar las demoras, pero en tales casos, no podemos garantizar los plazos de entrega habituales."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "14. Changes to This Policy",
+            "text_es": "14. Cambios a esta política"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "We reserve the right to update or modify this Shipping Policy at any time. Any changes made will be reflected on this page, along with an updated revision date. We encourage customers to review this policy periodically to stay informed of any updates or changes.",
+            "text_es": "Nos reservamos el derecho de actualizar o modificar esta Política de Envío en cualquier momento. Cualquier cambio que se realice se reflejará en esta página, junto con una fecha de revisión actualizada. Animamos a los clientes a revisar esta política periódicamente para mantenerse informados de cualquier actualización o cambio."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "15. Contact Us",
+            "text_es": "15. Contáctanos"
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "If you have any questions about shipping, please contact us:",
+            "text_es": "Si tiene alguna pregunta sobre el envío, por favor contáctenos:"
+          }
+        },
+        {
+          "type": "list",
+          "content": {
+            "ordered": false,
+            "items_en": [
+              "Email: info@peptidescostarica.net",
+              "Phone (Costa Rica): +506 8404-6973",
+              "Phone (US): +1 (831) 471-5559",
+              "WhatsApp: +506 8404-6973",
+              "Website: peptidescostarica.net/contact-costa-rica/"
+            ],
+            "items_es": [
+              "Correo electrónico: info@peptidescostarica.net",
+              "Teléfono (Costa Rica): +506 8404-6973",
+              "Teléfono (EE.UU.): +1 (831) 471-5559",
+              "WhatsApp: +506 8404-6973",
+              "Sitio web: peptidescostarica.net/contacto-costa-rica/"
+            ]
+          }
+        },
+        {
+          "type": "paragraph",
+          "content": {
+            "text_en": "Business Hours:Mon–Fri: 10:00 AM – 5:00 PM CSTClosed on weekends (Saturday & Sunday)",
+            "text_es": "Business Hours:Mon–Fri: 10:00 AM – 5:00 PM CSTClosed on weekends (Saturday & Sunday)"
+          }
+        }
+      ],
+      "untranslated": 1
     },
     {
       "slug": "return-refund-policy",
@@ -197,6 +625,14 @@
         "description_es": "Revisa la política de devoluciones y reembolsos de Peptides Costa Rica, incluyendo elegibilidad, cancelaciones, detalles del proceso y condiciones para devoluciones de compras elegibles."
       },
       "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 1,
+            "text_en": "Return & Refund Policy",
+            "text_es": "Política de Devoluciones y Reembolsos"
+          }
+        },
         {
           "type": "paragraph",
           "content": {
@@ -701,7 +1137,142 @@
         "description_en": "Navigate Peptides Costa Rica easily with our full HTML sitemap. Discover all peptides, weight loss products, muscle growth solutions & helpful guides in one place.",
         "description_es": "Navega Peptides Costa Rica fácilmente con nuestro mapa de sitio HTML completo. Descubre todos los péptidos, productos para perder peso, soluciones para el crecimiento muscular y guías útiles en un solo lugar."
       },
-      "sections": [],
+      "sections": [
+        {
+          "type": "heading",
+          "content": {
+            "level": 1,
+            "text_en": "HTML Sitemap",
+            "text_es": "Mapa del sitio HTML"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Main Pages",
+            "text_es": "Páginas principales"
+          }
+        },
+        {
+          "type": "link_list",
+          "content": {
+            "source": "core"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Shop By Category",
+            "text_es": "Comprar por categoría"
+          }
+        },
+        {
+          "type": "link_list",
+          "content": {
+            "source": "category"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Products",
+            "text_es": "Productos"
+          }
+        },
+        {
+          "type": "link_list",
+          "content": {
+            "source": "productLander"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Product Categories",
+            "text_es": "Categorías de producto"
+          }
+        },
+        {
+          "type": "link_list",
+          "content": {
+            "source": "wooCategory"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "All Products",
+            "text_es": "Todos los productos"
+          }
+        },
+        {
+          "type": "link_list",
+          "content": {
+            "source": "wooProduct"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Guides",
+            "text_es": "Guías"
+          }
+        },
+        {
+          "type": "link_list",
+          "content": {
+            "source": "guide"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Blog",
+            "text_es": "Blog"
+          }
+        },
+        {
+          "type": "link_list",
+          "content": {
+            "source": "blogPost"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Service Locations",
+            "text_es": "Zonas de servicio"
+          }
+        },
+        {
+          "type": "link_list",
+          "content": {
+            "source": "city"
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "Policies",
+            "text_es": "Políticas"
+          }
+        },
+        {
+          "type": "link_list",
+          "content": {
+            "source": "legal"
+          }
+        }
+      ],
       "untranslated": 0
     }
   ]

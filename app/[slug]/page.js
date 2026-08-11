@@ -4,6 +4,7 @@ import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
 import { byEnglishSlug, englishParams } from '@/content/pages/registry';
 import { alternates } from '@/lib/routes';
+import { pageTitle } from '@/lib/page-title';
 
 /**
  * Single-segment English pages — the city pages and the long-form guides today,
@@ -44,7 +45,11 @@ export default async function PageEn({ params }) {
     <>
       <SiteHeader lang="en" path={page.en} />
       <main className="flex-1">
-        <Sections lang="en" sections={page.sections} />
+        <Sections
+          lang="en"
+          pageTitle={pageTitle(page, 'en')}
+          sections={page.sections}
+        />
       </main>
       <SiteFooter lang="en" />
     </>

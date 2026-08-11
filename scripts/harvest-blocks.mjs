@@ -209,6 +209,58 @@ function realSrc($, img) {
   return null;
 }
 
+/**
+ * Convert a plain Gutenberg / classic-editor body into the same block
+ * vocabulary the Elementor path produces.
+ *
+ * Used only when a page has no Elementor widgets at all. It walks the stored
+ * post content top to bottom and emits the same `heading` / `paragraph` /
+ * `list` shapes, so these pages render through the identical pipeline as every
+ * other page rather than needing a renderer of their own.
+ */
+function gutenbergBlocks($, tr) {
+  const blocks = [];
+  const seen = new Set();
+
+  $('h1, h2, h3, h4, h5, h6, p, ul, ol').each((_, node) => {
+    // Skip anything nested inside a list we have already taken whole.
+    if ($(node).parents('ul, ol').length > 0) return;
+
+    const tag = node.tagName.toLowerCase();
+
+    if (/^h[1-6]$/.test(tag)) {
+      const text = clean($(node).text());
+      if (!text || seen.has(`h:${text}`)) return;
+      seen.add(`h:${text}`);
+      blocks.push({ type: 'heading', level: Number(tag[1]), ...bi('text', text, tr) });
+      return;
+    }
+
+    if (tag === 'ul' || tag === 'ol') {
+      const items = $(node)
+        .children('li')
+        .toArray()
+        .map((li) => clean($(li).text()))
+        .filter(Boolean);
+      if (!items.length) return;
+      blocks.push({
+        type: 'list',
+        ordered: tag === 'ol',
+        items_en: items,
+        items_es: items.map((i) => tr(i).es),
+      });
+      return;
+    }
+
+    const text = clean($(node).text());
+    if (!text || seen.has(`p:${text}`)) return;
+    seen.add(`p:${text}`);
+    blocks.push({ type: 'paragraph', ...bi('text', text, tr) });
+  });
+
+  return blocks;
+}
+
 function widgetToBlock($, el, tr) {
   const $w = $(el);
   const type = ($w.attr('data-widget_type') ?? '').split('.')[0];
@@ -721,6 +773,14 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
       if (!block) continue;
       if (Array.isArray(block)) blocks.push(...block);
       else blocks.push(block);
+    }
+
+    // Not every page is built with Elementor. The policy pages are plain
+    // Gutenberg, so there is no `.elementor-widget` anywhere in them and the
+    // loop above yields nothing — which shipped /shipping-policy/ as a blank
+    // page in both languages. Fall back to walking the stored post content.
+    if (blocks.length === 0) {
+      blocks.push(...gutenbergBlocks(cheerio.load(wp.content.rendered), tr));
     }
 
     const stats = tr.stats();
