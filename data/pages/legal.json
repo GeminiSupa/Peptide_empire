@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-11T08:45:05.132Z",
+  "harvestedAt": "2026-08-11T09:54:33.927Z",
   "group": "legal",
   "count": 4,
   "pages": [
@@ -648,6 +648,14 @@
           }
         },
         {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "1. Business & Offering Scope",
+            "text_es": "1. Alcance del negocio y la oferta"
+          }
+        },
+        {
           "type": "paragraph",
           "content": {
             "text_en": "This Refund Policy applies to all purchases made for the following offerings:",
@@ -673,6 +681,14 @@
           "content": {
             "text_en": "This policy covers purchases made directly through peptidescostarica.net or via our personal order process (e.g., SINPE Móvil, Zelle, PayPal, or Cash). All orders are confirmed manually before payment is collected to ensure product availability and accurate order processing.",
             "text_es": "Esta póliza cubre compras realizadas directamente a través de peptidescostarica.net o mediante nuestro proceso de pedido personal (por ejemplo, SINPE Móvil, Zelle, PayPal o en efectivo). Todos los pedidos se confirman manualmente antes de la recolección del pago para asegurar la disponibilidad del producto y el procesamiento preciso del pedido."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "2. Refund Eligibility",
+            "text_es": "2. Elegibilidad para reembolso"
           }
         },
         {
@@ -768,6 +784,14 @@
           }
         },
         {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "3. Cancellation Rules",
+            "text_es": "3. Reglas de cancelación"
+          }
+        },
+        {
           "type": "paragraph",
           "content": {
             "text_en": "Cancellation Allowed",
@@ -837,6 +861,14 @@
           "content": {
             "text_en": "There are no cancellation fees for orders canceled before shipment. However, if the order has already been processed or dispatched, cancellation may not be possible, or partial refunds may apply.",
             "text_es": "No hay cargos por cancelación para pedidos cancelados antes del envío. Sin embargo, si el pedido ya ha sido procesado o despachado, la cancelación podría no ser posible o podrían aplicarse reembolsos parciales."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "4. Refund Process",
+            "text_es": "4. Proceso de reembolso"
           }
         },
         {
@@ -952,6 +984,14 @@
           }
         },
         {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "5. Processing Timelines",
+            "text_es": "5. Tiempos de procesamiento"
+          }
+        },
+        {
           "type": "list",
           "content": {
             "ordered": false,
@@ -965,6 +1005,14 @@
               "Los reembolsos aprobados se procesan dentro de 5 a 10 días hábiles.",
               "Pueden ocurrir demoras en las pasarelas bancarias o de pago, y escapan a nuestro control."
             ]
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "6. Special Scenarios",
+            "text_es": "6. Escenarios especiales"
           }
         },
         {
@@ -1038,6 +1086,14 @@
           }
         },
         {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "7. Legal & Compliance",
+            "text_es": "7. Legal y Cumplimiento"
+          }
+        },
+        {
           "type": "paragraph",
           "content": {
             "text_en": "This Refund Policy is governed by applicable consumer protection laws of Costa Rica.",
@@ -1084,6 +1140,14 @@
           "content": {
             "text_en": "We reserve the right to modify or update this Refund Policy at any time. Any changes made will be reflected on this page, along with an updated effective date. We encourage our customers to review this policy regularly to stay informed of any updates.",
             "text_es": "Nos reservamos el derecho de modificar o actualizar esta Política de Reembolsos en cualquier momento. Cualquier cambio realizado se reflejará en esta página, junto con una fecha de entrada en vigor actualizada. Animamos a nuestros clientes a revisar esta política regularmente para mantenerse informados sobre cualquier actualización."
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 2,
+            "text_en": "8. Customer Support & Contact",
+            "text_es": "8. Soporte al cliente y contacto"
           }
         },
         {

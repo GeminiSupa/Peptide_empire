@@ -284,7 +284,10 @@ function widgetToBlock($, el, tr) {
   }
 
   if (type === 'text-editor') {
-    const kids = container.children('p,ul,ol,h4,h5,table').toArray();
+    // All six heading levels, not just h4/h5. A text-editor widget can hold a
+    // whole document: the returns policy keeps its eight <h2> section titles
+    // in one, and they were dropped entirely because h2 was not selected here.
+    const kids = container.children('p,ul,ol,h1,h2,h3,h4,h5,h6,table').toArray();
     const nodes = kids.length ? kids : [container[0]];
     const out = [];
     for (const node of nodes) {
@@ -330,6 +333,15 @@ function widgetToBlock($, el, tr) {
             items_es: li.map((t) => tr(t).es),
           });
         }
+        continue;
+      }
+
+      // A heading inside a text-editor is still a heading. Emitting it as a
+      // paragraph flattened the page's outline — the returns policy rendered
+      // as 45 undifferentiated paragraphs instead of eight titled sections.
+      if (/^h[1-6]$/.test(node.tagName)) {
+        const en = clean($n.text());
+        if (en) out.push({ type: 'heading', level: Number(node.tagName[1]), ...bi('text', en, tr) });
         continue;
       }
 

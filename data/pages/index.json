@@ -15,6 +15,14 @@
       },
       "sections": [
         {
+          "type": "heading",
+          "content": {
+            "level": 1,
+            "text_en": "Recent Blogs:",
+            "text_es": "Recent Blogs:"
+          }
+        },
+        {
           "type": "link_list",
           "content": {
             "source": "blogPost"
