@@ -10,6 +10,7 @@ import { BLOCK_COMPONENTS, CardGrid, WIDE_TYPES } from '@/components/blocks';
 import { nav, catalogUrl, ui } from '@/content/global';
 import { t, label } from '@/lib/i18n';
 import { localePath } from '@/lib/routes';
+import { imageUrl } from '@/lib/images';
 
 /**
  * One section type = one component. This registry is the single place where
@@ -334,6 +335,139 @@ function Faq({ content, lang, index }) {
   );
 }
 
+/**
+ * A harvested Elementor container — the block type that carries the site's
+ * actual layout.
+ *
+ * Everything it renders comes from the live page's own stylesheet: whether the
+ * children sit in a row or a column, how wide each column is, what the section
+ * is painted, which boxes are cards. See scripts/lib/elementor-css.mjs.
+ *
+ * Two responsibilities, because one Elementor container has both: the element
+ * is a flex ITEM in its parent row (its `width` share) and a flex CONTAINER for
+ * its own children.
+ *
+ * Rows collapse to a stack below `lg`, which is what the live site's own
+ * `--flex-wrap-mobile:wrap` does. The harvest deliberately keeps only the
+ * desktop arrangement, so this is where responsiveness is reintroduced.
+ */
+const JUSTIFY = {
+  center: 'justify-center',
+  'flex-start': 'justify-start',
+  'flex-end': 'justify-end',
+  'space-between': 'justify-between',
+  'space-around': 'justify-around',
+};
+const ITEMS = {
+  center: 'items-center',
+  'flex-start': 'items-start',
+  'flex-end': 'items-end',
+  stretch: 'items-stretch',
+};
+
+/** Elementor's own default container gap, applied when the page declares none. */
+const DEFAULT_GAP = 20;
+
+function Group({ content, lang, demote, depth = 0, inRow = false }) {
+  const {
+    dir = 'column',
+    width,
+    bg,
+    bgImage,
+    radius,
+    border,
+    gap,
+    justify,
+    items,
+    pad,
+    contentWidth,
+    minHeight,
+    marginTop,
+    children = [],
+  } = content;
+
+  const kids = children.map((child, i) => {
+    const Component = SECTION_COMPONENTS[child.type];
+    if (!Component) return null;
+    return (
+      <Component
+        content={child.content}
+        demote={demote}
+        depth={depth + 1}
+        inGroup
+        inRow={dir === 'row'}
+        key={`${child.type}-${i}`}
+        lang={lang}
+      />
+    );
+  });
+
+  const layout = [
+    'flex',
+    dir === 'row' ? 'flex-col lg:flex-row' : 'flex-col',
+    JUSTIFY[justify] ?? '',
+    ITEMS[items] ?? '',
+  ]
+    .filter(Boolean)
+    .join(' ');
+
+  const flexStyle = { gap: `${gap ?? DEFAULT_GAP}px` };
+  const paint = {
+    backgroundColor: bg || undefined,
+    backgroundImage: bgImage ? `url(${imageUrl(bgImage)})` : undefined,
+    backgroundSize: bgImage ? 'cover' : undefined,
+    backgroundPosition: bgImage ? 'center' : undefined,
+    borderRadius: radius ? `${radius}px` : undefined,
+    border: border ? `1px solid ${border}` : undefined,
+    minHeight: minHeight ? `${minHeight}px` : undefined,
+    marginTop: marginTop ? `${marginTop}px` : undefined,
+    padding: pad ? pad.map((n) => `${n}px`).join(' ') : undefined,
+  };
+
+  // A top-level container is a BAND: it paints edge to edge while its children
+  // stay in the middle column. That split — outer paints, inner measures — is
+  // what `e-con-boxed` means, and it is why the navy sections on the live site
+  // run the full width of the window with centred content inside them.
+  if (depth === 0) {
+    return (
+      <section style={paint}>
+        <div
+          className={`mx-auto w-full px-4 sm:px-5 ${layout}`}
+          // The cap applies whether or not the container is "boxed". On the live
+          // site even a full-width container is bounded by the theme's own
+          // ~1249px content wrapper, so letting one span a 2560px monitor would
+          // be wider than the original ever gets. The paint is on the <section>
+          // above, which is what lets a navy band still reach both edges.
+          style={{ ...flexStyle, maxWidth: `${contentWidth ?? 1280}px` }}
+        >
+          {kids}
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <div
+      className={`${layout} min-w-0 ${width ? 'w-full lg:w-auto' : ''} ${
+        // Elementor lets a column omit its width and take an equal share of the
+        // row. Without this the two halves of "Who This Is For" sized themselves
+        // to their content and came out 322px against 893px instead of level.
+        inRow && !width ? 'lg:flex-1 lg:basis-0' : ''
+      }`}
+      style={{
+        ...paint,
+        ...flexStyle,
+        // The width is a share of the parent ROW, so it must not apply once the
+        // row has stacked. `flexBasis` is read only while `lg:flex-row` is on.
+        ...(width ? { '--gw': `${width}%` } : null),
+      }}
+      {...(width ? { 'data-col': '' } : null)}
+    >
+      {kids}
+    </div>
+  );
+}
+
 /** Hand-built types: the full-bleed home page sections. */
 const HOME_COMPONENTS = {
   hero: Hero,
@@ -361,13 +495,17 @@ const HOME_COMPONENTS = {
  */
 export const SECTION_COMPONENTS = {
   ...HOME_COMPONENTS,
+  group: Group,
   ...BLOCK_COMPONENTS,
   article: GuideArticle,
   link_list: LinkList,
 };
 
 /** Home sections lay out their own full-bleed backgrounds; the rest are prose. */
-const SELF_LAYOUT = new Set([...Object.keys(HOME_COMPONENTS), 'article']);
+// `group` carries its own width, padding and background straight from the live
+// page's stylesheet, so wrapping it in this file's prose measure would override
+// the very thing it exists to reproduce.
+const SELF_LAYOUT = new Set([...Object.keys(HOME_COMPONENTS), 'article', 'group']);
 // press_band draws its own full-width rules.
 const WIDE = new Set([...WIDE_TYPES, 'link_list', 'hero_split', 'press_band']);
 
@@ -455,6 +593,7 @@ export default function Sections({ sections = [], lang, demoteH1 = false, pageTi
       return (
         <Component
           content={section.content}
+          demote={demoteH1}
           index={index}
           key={`${section.type}-${index}`}
           lang={lang}

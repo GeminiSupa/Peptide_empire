@@ -57,6 +57,29 @@ if (sample) {
  * a cart and a plugin-rendered footer that our clone does not reproduce
  * verbatim, so comparing whole documents measures the chrome, not the page.
  */
+/**
+ * Word-count text, with a space wherever a tag boundary was.
+ *
+ * cheerio's .text() concatenates adjacent inline elements, and the two sides
+ * are formatted very differently: WordPress ships newlines between elements,
+ * React minifies them away. So `<td>BPC-157</td><td>Download PDF</td>` counted
+ * as ONE word for us and three for the live page — /lab-tests-coa-results/
+ * reported 94 words against 170 while rendering all 38 identical rows. That is
+ * the measurement being wrong, not the page.
+ *
+ * Applied to both sides identically, so the comparison stays fair.
+ */
+function words(html) {
+  const spaced = (html || '').replace(/<[^>]+>/g, ' ');
+  // Re-parsed so entities (&amp;, &nbsp;) decode rather than counting as words.
+  return cheerio
+    .load(`<div>${spaced}</div>`)
+    .root()
+    .text()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function measure(html, isLive) {
   const $ = cheerio.load(html);
   $('script, style, noscript, header, footer, nav').remove();
@@ -65,7 +88,7 @@ function measure(html, isLive) {
     : $('main').first();
   const scope = root.length ? root : $('body');
 
-  const text = scope.text().replace(/\s+/g, ' ').trim();
+  const text = words(scope.html());
   return {
     words: text ? text.split(' ').length : 0,
     headings: scope.find('h1,h2,h3,h4,h5,h6').length,

@@ -25,6 +25,13 @@ import { writeFile, readFile, mkdir } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import * as cheerio from 'cheerio';
+import {
+  clearLayoutFailures,
+  layoutFailures,
+  layoutFor,
+  layoutFromUrls,
+  walkTree,
+} from './lib/elementor-tree.mjs';
 
 const ORIGIN = 'https://peptidescostarica.net';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -66,8 +73,39 @@ const EXTRA_GROUPS = {
   homeBlocks: ['/'],
 };
 const clean = (s) => (s || '').replace(/\s+/g, ' ').trim();
-const rel = (v) => (v ? v.replace(/^https?:\/\/[^/]+/, '') : null);
+/**
+ * A URL reduced to a site-relative path — but ONLY when it is ours.
+ *
+ * Stripping the host from every URL turned the contact page's Google Maps link
+ * (https://maps.app.goo.gl/AgpzEd8NNRKYNbJj9) into `/AgpzEd8NNRKYNbJj9`, a
+ * broken internal link. Another origin has to stay absolute.
+ * Mirrors rel() in scripts/harvest-global.mjs.
+ */
+const rel = (h) => {
+  const v = (h || '').trim();
+  if (!v) return null;
+  return v.startsWith(ORIGIN) ? v.slice(ORIGIN.length) || '/' : v;
+};
 const read = async (p) => JSON.parse(await readFile(resolve(ROOT, p), 'utf8'));
+
+/**
+ * Write a group file, retrying briefly if the OS still has it locked.
+ *
+ * These files are several megabytes, and on Windows something else — a file
+ * watcher, an indexer, a virus scanner — routinely holds one open for a moment
+ * after it has been read. That surfaces as `UNKNOWN: unknown error, open …`,
+ * and it killed two full harvest runs AFTER every page had already been
+ * fetched. The lock clears on its own; it just has to be waited out.
+ */
+async function writeRetrying(file, body, attempt = 1) {
+  try {
+    await writeFile(file, body, 'utf8');
+  } catch (err) {
+    if (attempt >= 5) throw err;
+    await new Promise((r) => setTimeout(r, 400 * attempt));
+    await writeRetrying(file, body, attempt + 1);
+  }
+}
 
 /** Longest run of harvested nodes that may be joined to match one string. */
 const MAX_RUN = 10;
@@ -149,7 +187,71 @@ function translator(pairs = [], fallbackDict = null) {
   };
 
   lookup.stats = () => ({ hits, runHits, dictHits, misses });
+
+  /**
+   * Translate WITHOUT consuming a pair, and without counting a miss.
+   *
+   * For fragments that are already part of a string this page has translated —
+   * the anchor text of a link inside a paragraph. Running those through the
+   * normal lookup would consume a pair the paragraph itself needs and report a
+   * miss for text that is not actually missing, so this consults only the
+   * site-wide dictionary and gives up quietly.
+   */
+  lookup.peek = (en) => fallbackDict?.[clean(en)] ?? null;
+
   return lookup;
+}
+
+/**
+ * The links inside a run of prose.
+ *
+ * The harvest reduces a paragraph to plain text so it can be matched against
+ * its Spanish twin, which drops every `<a>` inside it. On the city pages that
+ * was most of the internal linking on the page — /limon/ alone carries 18 links
+ * to product landers and neighbouring cities in its body copy, and the clone
+ * had five.
+ *
+ * Stored as anchor text plus href rather than as markup: the renderer finds the
+ * anchor text in whichever language it is displaying and wraps it. Spanish
+ * resolves through the site-wide dictionary, and any anchor it cannot translate
+ * simply renders as text rather than guessing.
+ */
+/**
+ * A widget's icon, in whichever of the two forms this site uses.
+ *
+ * Font Awesome is inlined by WordPress as an `<svg>` that needs nothing else.
+ * ElementsKit is a webfont glyph picked by class (`<i class="icon icon-savings">`),
+ * which needs the font — so the class is kept and scripts/mirror-icon-font.mjs
+ * mirrors `elementskit.woff` plus the `content:` rules for exactly the glyphs
+ * the site actually uses.
+ */
+function iconOf($, $w) {
+  const svg = $w.find('.elementor-icon svg').first();
+  if (svg.length) {
+    const html = $.html(svg);
+    if (html && html.length < 4000) return { icon: html };
+  }
+
+  const i = $w.find('.elementor-icon i[class]').first();
+  const cls = (i.attr('class') || '')
+    .split(/\s+/)
+    .filter((c) => /^icon-/.test(c))
+    .join(' ');
+  return cls ? { iconClass: cls } : {};
+}
+
+function inlineLinks($, $node, tr) {
+  const links = $node
+    .find('a[href]')
+    .toArray()
+    .map((a) => {
+      const text = clean($(a).text());
+      const href = rel($(a).attr('href'));
+      if (!text || !href) return null;
+      return { text_en: text, text_es: tr.peek(text) ?? text, href };
+    })
+    .filter(Boolean);
+  return links.length ? links : undefined;
 }
 
 /** `{ x_en, x_es }` from one English string. */
@@ -280,7 +382,7 @@ function widgetToBlock($, el, tr) {
     if (!en) return null;
     const tag = el[0]?.tagName ?? '';
     const level = /^h[1-6]$/i.test(tag) ? Number(tag[1]) : 0;
-    return { type: 'heading', level, ...bi('text', en, tr) };
+    return { type: 'heading', level, ...bi('text', en, tr), links: inlineLinks($, el, tr) };
   }
 
   if (type === 'text-editor') {
@@ -296,25 +398,46 @@ function widgetToBlock($, el, tr) {
 
       if (node.tagName === 'table') {
         // Tables were previously flattened into a run-on paragraph.
-        const rows = $n
+        //
+        // Cells keep their LINK as well as their text. /our-service-locations/
+        // is a table of 145 city names where every name is a link to that
+        // city's page; reading the cells with .text() alone reproduced the
+        // words and silently dropped every link, leaving the site's main
+        // directory of city pages navigable only through the sitemap.
+        const cells = $n
           .find('tr')
           .toArray()
           .map((tr_) =>
             $(tr_)
               .find('th,td')
               .toArray()
-              .map((c) => clean($(c).text())),
+              .map((c) => {
+                const $c = $(c);
+                const text = clean($c.text());
+                const a = $c.find('a[href]').first();
+                // Only when the link IS the cell — a link buried inside a
+                // sentence belongs to the prose, not to the cell.
+                const href =
+                  a.length && clean(a.text()) === text && text ? rel(a.attr('href')) : null;
+                return { text, href };
+              }),
           )
-          .filter((r) => r.some(Boolean));
-        if (!rows.length) continue;
-        const header = $n.find('thead th,thead td').length ? rows[0] : null;
-        const body = header ? rows.slice(1) : rows;
+          .filter((r) => r.some((c) => c.text));
+        if (!cells.length) continue;
+        const hasHead = $n.find('thead th,thead td').length > 0;
+        const header = hasHead ? cells[0].map((c) => c.text) : null;
+        const bodyCells = hasHead ? cells.slice(1) : cells;
+        const body = bodyCells.map((r) => r.map((c) => c.text));
+        const links = bodyCells.map((r) => r.map((c) => c.href));
         out.push({
           type: 'table',
           header_en: header,
           header_es: header ? header.map((c) => tr(c).es) : null,
           rows_en: body,
           rows_es: body.map((r) => r.map((c) => tr(c).es)),
+          // Omitted entirely when the table has no links, so the common case
+          // stays exactly as it was.
+          ...(links.some((r) => r.some(Boolean)) ? { links } : {}),
         });
         continue;
       }
@@ -341,24 +464,48 @@ function widgetToBlock($, el, tr) {
       // as 45 undifferentiated paragraphs instead of eight titled sections.
       if (/^h[1-6]$/.test(node.tagName)) {
         const en = clean($n.text());
-        if (en) out.push({ type: 'heading', level: Number(node.tagName[1]), ...bi('text', en, tr) });
+        if (en) {
+          out.push({
+            type: 'heading',
+            level: Number(node.tagName[1]),
+            ...bi('text', en, tr),
+            links: inlineLinks($, $n, tr),
+          });
+        }
         continue;
       }
 
       const en = clean($n.text());
-      if (en) out.push({ type: 'paragraph', ...bi('text', en, tr) });
+      if (en) out.push({ type: 'paragraph', ...bi('text', en, tr), links: inlineLinks($, $n, tr) });
     }
     return out.length ? out : null;
   }
 
   if (type === 'icon-list') {
-    const li = $w
-      .find('.elementor-icon-list-text')
+    const items = $w
+      .find('.elementor-icon-list-item')
       .toArray()
-      .map((l) => clean($(l).text()))
+      .map((el) => {
+        const $i = $(el);
+        const text = clean($i.find('.elementor-icon-list-text').text() || $i.text());
+        if (!text) return null;
+        return { text, href: rel($i.find('a').first().attr('href')) };
+      })
       .filter(Boolean);
-    if (!li.length) return null;
-    return { type: 'list', icon: true, items_en: li, items_es: li.map((t) => tr(t).es) };
+    if (!items.length) return null;
+
+    const li = items.map((i) => i.text);
+    return {
+      type: 'list',
+      icon: true,
+      // `elementor-inline-items` is how Elementor marks a HORIZONTAL icon list.
+      // It is in the markup, so it needs no stylesheet lookup — and without it
+      // the hero's three inline assurances stacked into a vertical column.
+      inline: $w.find('.elementor-icon-list-items').hasClass('elementor-inline-items'),
+      items_en: li,
+      items_es: li.map((t) => tr(t).es),
+      hrefs: items.map((i) => i.href),
+    };
   }
 
   if (type === 'button') {
@@ -384,17 +531,36 @@ function widgetToBlock($, el, tr) {
     const title = clean($w.find('.elementor-icon-box-title').text());
     const text = clean($w.find('.elementor-icon-box-description').text());
     if (!title && !text) return null;
+
     return {
       type: 'card',
       ...bi('title', title, tr),
       ...bi('text', text, tr),
+      ...iconOf($, $w),
       href: rel($w.find('a').first().attr('href')),
     };
   }
 
+  // A standalone icon widget. These sit above each card in "What We Offer" as
+  // their own sibling widget rather than inside an icon-box, so they were not
+  // covered by the branch above and were dropped entirely.
+  if (type === 'icon') {
+    const icon = iconOf($, $w);
+    return icon.icon || icon.iconClass ? { type: 'icon', ...icon } : null;
+  }
+
   if (type === 'divider') {
     const en = clean($w.find('.elementor-divider__text').text());
-    return en ? { type: 'heading', level: 2, ...bi('text', en, tr) } : null;
+
+    // A divider carrying text is how this site draws its section titles:
+    // "Popular Products" followed by a rule running to the edge of the column.
+    // It stays a heading — the text really is the section's title and the page
+    // outline should say so — and `rule` restores the line beside it.
+    if (en) return { type: 'heading', level: 2, rule: true, ...bi('text', en, tr) };
+
+    // A divider with no text is the decorative rule itself. Dropping it lost
+    // the two lines flanking "AS SEEN IN", leaving the label floating alone.
+    return { type: 'divider' };
   }
 
   // Elementor's nested tabs: titles and panes are siblings in document order.
@@ -404,11 +570,40 @@ function widgetToBlock($, el, tr) {
     const items = [];
     for (let i = 0; i < titles.length; i += 1) {
       const label = clean($(titles[i]).text());
-      const body = clean($(panes[i]).text());
       if (!label) continue;
-      items.push({ ...bi('label', label, tr), ...bi('body', body, tr) });
+
+      // Pull the pane's PRODUCTS, not its text. On the home page these panes
+      // are WooCommerce grids, so flattening one to a string produced
+      // "HGH 12 IU ₡31,794 Add to cart Mots-C 10mg…" — a run-on duplicate of the
+      // cards below it, carrying the cart labels this site must never show.
+      const products = [];
+      $(panes[i])
+        .find('li.product')
+        .each((_, li) => {
+          const $p = $(li);
+          const name = clean($p.find('.woocommerce-loop-product__title').text());
+          if (!name) return;
+          products.push({
+            name,
+            price: clean($p.find('.price').text()),
+            href: rel($p.find('a').first().attr('href')),
+            image: rel(realSrc($, $p.find('img').first())),
+          });
+        });
+
+      items.push(
+        products.length
+          ? { ...bi('label', label, tr), products }
+          : { ...bi('label', label, tr), ...bi('body', clean($(panes[i]).text()), tr) },
+      );
     }
-    return items.length ? { type: 'tabs', items } : null;
+    if (!items.length) return null;
+
+    // Panes carrying products are the "Shop By Category" strip; panes carrying
+    // prose are an ordinary tab widget. The walk never descends into a widget,
+    // so this pairing has to happen here rather than in a later fold — the
+    // grids are inside the tab widget, not siblings of it.
+    return items.every((i) => i.products) ? { type: 'category_tabs', items } : { type: 'tabs', items };
   }
 
   if (type === 'nested-carousel') {
@@ -502,7 +697,18 @@ function widgetToBlock($, el, tr) {
         image: rel(realSrc($, $p.find('img').first())),
       });
     });
-    return products.length ? { type: 'product_grid', products } : null;
+    if (products.length) return { type: 'product_grid', products };
+
+    // The Trustindex review widget. Its markup does not follow Elementor's
+    // structure — a review item has no `.elementor-widget` ancestor — so it is
+    // extracted whole by extractReviews rather than parsed here. This leaves a
+    // marker at the point in the tree where the reviews belong, and
+    // fillReviewSlot swaps the real block in. Without it the reviews were
+    // appended after the last section instead of sitting inside the navy
+    // testimonials band that introduces them.
+    if ($w.find('.ti-widget').length) return { type: 'reviews_slot' };
+
+    return null;
   }
 
   return null;
@@ -522,6 +728,11 @@ const SKIP = new Map([
   ['/blog/', 'dynamic index (loop-grid) — must be built from our own post data'],
   ['/peptide-guides/', 'dynamic index (loop-grid) — must be built from our own guide data'],
   ['/shop/', 'WooCommerce archive — no Elementor content at all'],
+  // Generated by scripts/build-html-sitemap.mjs from our own route inventory.
+  // WordPress renders it from a plugin and stores NO content for it, so
+  // harvesting produced a page with zero sections that overwrote the generated
+  // one — silently deleting the site's full index on any re-harvest of `legal`.
+  ['/html-sitemap/', 'generated by build-html-sitemap.mjs — harvesting it yields a blank page'],
 ]);
 
 /**
@@ -532,16 +743,37 @@ const SKIP = new Map([
  * run to a single dropped socket is not acceptable.
  */
 async function markup(group, route, wp, attempt = 1) {
-  if (!FETCH_RENDERED.has(group)) return wp.content.rendered;
+  if (!FETCH_RENDERED.has(group)) return { html: wp.content.rendered, cssUrls: null };
   try {
     const res = await fetch(ORIGIN + route.en, {
       headers: { 'user-agent': 'peptidescostarica-rebuild-harvest' },
       signal: AbortSignal.timeout(30000),
     });
     if (res.status === 429 || res.status >= 500) throw new Error(`HTTP ${res.status}`);
+
+    // A 404 means the page is gone from the live site, which is an answer, not
+    // a failure to get one — retrying cannot change it. Returning null lets the
+    // caller drop that one page and report it, instead of one withdrawn product
+    // aborting the run and leaving the other 66 on their previous harvest.
+    if (res.status === 404 || res.status === 410) return null;
+
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const $ = cheerio.load(await res.text());
-    return $('#content').html() ?? '';
+    const body = await res.text();
+    const $ = cheerio.load(body);
+
+    // The stylesheets the page itself asks for. A product page carries no CSS
+    // of its own — its layout is declared against the Elementor product
+    // TEMPLATE's post id — so the only reliable way to find it is to read the
+    // links, exactly as a browser would.
+    const cssUrls = [
+      ...new Set(
+        [...body.matchAll(/href=["']([^"']*\/elementor\/css\/post-\d+[^"']*)["']/g)].map((m) =>
+          m[1].replace(/&amp;/g, '&'),
+        ),
+      ),
+    ];
+
+    return { html: $('#content').html() ?? '', cssUrls };
   } catch (err) {
     if (attempt >= 4) throw new Error(`${route.en} -> ${err.message} after ${attempt} attempts`);
     await new Promise((r) => setTimeout(r, 750 * 2 ** attempt));
@@ -551,84 +783,31 @@ async function markup(group, route, wp, attempt = 1) {
 
 
 /**
- * Fold the home page's opening run into a single `hero_split` section.
- *
- * The live hero is two columns — copy on the left, the product photo on the
- * right. That arrangement lives in Elementor's framework stylesheets, not in
- * the page markup or its per-page CSS (verified: the page's own CSS file
- * carries no flex-direction, grid-template-columns or container widths at
- * all). So it cannot be harvested; it has to be declared.
- *
- * This is therefore a deliberate TEMPLATE RULE, not an inference: everything
- * up to and including the first image becomes the hero, with the image as the
- * right-hand column. It is applied only to the home page.
+ * Wrap the walker's `{ type, ...rest }` blocks into the stored
+ * `{ type, content }` shape, all the way down a group's children.
  */
-function foldHero(sections) {
-  const imageAt = sections.findIndex((s) => s.type === 'image');
-  // Guard: only fold a short opening run that actually starts with a heading.
-  if (imageAt < 2 || imageAt > 8 || sections[0]?.type !== 'heading') return sections;
-
-  const lead = sections.slice(0, imageAt);
-  const image = sections[imageAt];
-  return [
-    { type: 'hero_split', content: { body: lead, image: image.content } },
-    ...sections.slice(imageAt + 1),
-  ];
+function normalise(blocks) {
+  return blocks.map(({ type, children, ...rest }) => ({
+    type,
+    content: children ? { ...rest, children: normalise(children) } : rest,
+  }));
 }
 
-
 /**
- * Fold the "AS SEEN IN" run into a single `press_band` section.
+ * Run the sibling-level folds at EVERY level of the container tree.
  *
- * On the live page this is a centred divider followed by a container holding
- * two press mentions side by side. Its widgets arrive FLAT and out of visual
- * order — image, text, text, button, text, text, button, image — so the second
- * logo is stranded at the end. Rendered literally that is a column of loose
- * lines with a logo orphaned at the bottom, which is exactly how it looked.
- *
- * Pairs the Nth logo with the Nth outlet and the Nth link, which is the
- * arrangement the live CSS produces.
+ * The folds pair widgets that Elementor emits as flat siblings. Now that the
+ * harvest keeps the container tree, those siblings are no longer all at the top
+ * level — the tab strip and its grids sit inside whichever container holds
+ * them — so folding only the outermost array would silently miss them.
  */
-function foldPress(sections) {
-  const start = sections.findIndex((s) => /^as seen in$/i.test(s.content?.text_en ?? ''));
-  if (start === -1) return sections;
-
-  // The run ends at the next real heading — the band is self-contained.
-  let end = start + 1;
-  while (end < sections.length) {
-    const s = sections[end];
-    if (s.type === 'heading' && (s.content.level ?? 2) >= 1 && s.content.level !== 0) break;
-    if (s.type === 'product_grid' || s.type === 'faq') break;
-    end += 1;
-  }
-
-  const run = sections.slice(start + 1, end);
-  const images = run.filter((s) => s.type === 'image');
-  const buttons = run.filter((s) => s.type === 'button');
-  const paras = run.filter((s) => s.type === 'paragraph');
-  if (images.length < 2 || images.length !== buttons.length) return sections;
-
-  const items = images.map((img, i) => ({
-    logo: img.content,
-    intro_en: paras[i * 2]?.content.text_en ?? '',
-    intro_es: paras[i * 2]?.content.text_es ?? '',
-    outlet_en: paras[i * 2 + 1]?.content.text_en ?? '',
-    outlet_es: paras[i * 2 + 1]?.content.text_es ?? '',
-    link: buttons[i].content,
-  }));
-
-  return [
-    ...sections.slice(0, start),
-    {
-      type: 'press_band',
-      content: {
-        title_en: sections[start].content.text_en,
-        title_es: sections[start].content.text_es,
-        items,
-      },
-    },
-    ...sections.slice(end),
-  ];
+function foldTree(sections) {
+  const folded = sections.map((s) =>
+    s.content?.children
+      ? { ...s, content: { ...s.content, children: foldTree(s.content.children) } }
+      : s,
+  );
+  return foldCategoryTabs(folded);
 }
 
 /**
@@ -730,27 +909,34 @@ function extractReviews($, tr) {
 }
 
 /**
- * Put the harvested reviews back where the page shows them — under the
- * "Customer Success Stories" heading, which is the only thing marking that
- * section in the widget tree. Appended if that heading ever goes away, so the
- * reviews cannot silently vanish again.
+ * Put the harvested reviews where the page actually shows them.
+ *
+ * The Trustindex widget renders client-side and OUTSIDE Elementor's tree, so
+ * the container walk finds only an empty shortcode widget where the reviews
+ * belong. widgetToBlock leaves a `reviews_slot` there; this swaps the real
+ * block in, keeping them inside the navy testimonials band rather than
+ * stranded at the end of the page.
  */
-function foldReviews(sections, reviews) {
-  if (!reviews) return sections;
+function fillReviewSlot(sections, reviews) {
+  let placed = false;
 
-  // "Customer Success Stories" is the section's real title; "Testimonials" is
-  // the small eyebrow ABOVE it. Matching either in one pass hit the eyebrow
-  // first and filed the reviews above their own heading, so the title is tried
-  // on its own before falling back.
-  const find = (re) => sections.findIndex((s) => re.test(s.content?.text_en ?? ''));
-  const at = find(/customer success stories/i) !== -1 ? find(/customer success stories/i) : find(/testimonials/i);
-  if (at === -1) return [...sections, reviews];
+  const swap = (list) =>
+    list.flatMap((s) => {
+      if (s.type === 'reviews_slot') {
+        if (!reviews || placed) return [];
+        placed = true;
+        return [reviews];
+      }
+      if (s.content?.children) {
+        return [{ ...s, content: { ...s.content, children: swap(s.content.children) } }];
+      }
+      return [s];
+    });
 
-  // After the heading and any intro paragraph that belongs to it.
-  let insert = at + 1;
-  while (insert < sections.length && sections[insert].type === 'paragraph') insert += 1;
-
-  return [...sections.slice(0, insert), reviews, ...sections.slice(insert)];
+  const out = swap(sections);
+  // Appended rather than dropped if the slot ever disappears, so six real
+  // customer reviews cannot silently vanish from the page again.
+  return reviews && !placed ? [...out, reviews] : out;
 }
 
 async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
@@ -760,6 +946,27 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
   let misses = 0;
   const noSpanish = [];
   const skipped = [];
+  /** Pages the live site no longer serves. Reported, never silently dropped. */
+  const gone = [];
+  clearLayoutFailures();
+  /** Pages whose fetch failed for reasons that are not the page's fault. */
+  const failed = [];
+
+  /**
+   * The previous harvest of this group, for carry-forward.
+   *
+   * A dropped connection is a fact about the network, not about the page. Losing
+   * the run to one flaky fetch is bad; quietly writing the group WITHOUT that
+   * page is worse, because it deletes a live page from the site. So a transient
+   * failure keeps the previous harvest of that page and says so.
+   */
+  const previous = new Map();
+  try {
+    const old = await read(`data/pages/${group}.json`);
+    for (const page of old.pages ?? []) previous.set(page.en, page);
+  } catch {
+    // First run for this group; nothing to carry forward.
+  }
 
   const wanted = EXTRA_GROUPS[group]
     ? routes.filter((r) => EXTRA_GROUPS[group].includes(r.en))
@@ -778,14 +985,31 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
     if (!es) noSpanish.push(route.en);
 
     const tr = translator(es?.pairs, dict);
-    const $ = cheerio.load(await markup(group, route, wp));
-    const blocks = [];
-    for (const el of $('.elementor-widget').toArray()) {
-      const block = widgetToBlock($, el, tr);
-      if (!block) continue;
-      if (Array.isArray(block)) blocks.push(...block);
-      else blocks.push(block);
+
+    let fetched;
+    try {
+      fetched = await markup(group, route, wp);
+    } catch (err) {
+      const carried = previous.get(route.en);
+      if (!carried) throw err;
+      failed.push([route.en, err.message]);
+      out.push(carried);
+      continue;
     }
+    if (fetched === null) {
+      gone.push(route.en);
+      continue;
+    }
+    const $ = cheerio.load(fetched.html);
+
+    // Walk the CONTAINER tree, not a flat sweep of widgets. The layout map is
+    // this page's own Elementor stylesheet, which is where every column width,
+    // section background and card is declared — see scripts/lib/elementor-*.
+    const css = fetched.cssUrls?.length
+      ? await layoutFromUrls(fetched.cssUrls)
+      : await layoutFor(wp.id, route.en);
+    const root = $('[data-elementor-type]').first();
+    const blocks = walkTree($, root.length ? root : $.root(), tr, css, widgetToBlock);
 
     // Not every page is built with Elementor. The policy pages are plain
     // Gutenberg, so there is no `.elementor-widget` anywhere in them and the
@@ -812,25 +1036,70 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
         description_es: es?.head?.es?.description ?? '',
       },
       // The converged section vocabulary — see scripts/migrate-shape.mjs.
-      sections: (group === 'homeBlocks'
-        ? (x) => foldReviews(foldCategoryTabs(foldPress(foldHero(x))), extractReviews($, tr))
-        : (x) => x)(
-        blocks.map(({ type, ...rest }) => ({ type, content: rest })),
-      ),
+      //
+      // foldHero and foldPress are gone: both existed only to rebuild a
+      // two-column arrangement the flat sweep had destroyed, and the container
+      // walk now carries the real one. foldCategoryTabs still earns its place —
+      // Elementor emits the tab strip and each panel's grid as siblings, with
+      // nothing in the markup saying which grid belongs to which tab.
+      // Reviews are filled in for EVERY group, not just the home page. The
+      // about page carries the same Trustindex widget and showed six customer
+      // reviews on the live site against none here, because this ran only for
+      // homeBlocks. On a page that has no review widget both halves are no-ops:
+      // extractReviews returns null and fillReviewSlot drops the empty marker.
+      sections: fillReviewSlot(foldTree(normalise(blocks)), extractReviews($, tr)),
       untranslated: stats.misses,
     });
   }
 
+  /**
+   * Refuse to replace a good harvest with a layout-less one.
+   *
+   * Page CONTENT comes from the stored REST snapshot, but LAYOUT is fetched
+   * live, one stylesheet per page. So if the site is unreachable — rate
+   * limiting, an outage, no network — every page still harvests perfectly well
+   * and simply comes out as one flat column, which is exactly the defect this
+   * whole pipeline exists to fix. Writing that over a good file would undo the
+   * work silently and look like success.
+   *
+   * The check is a comparison against what is already on disk rather than a
+   * fixed threshold, so a group that legitimately has no rows is not blocked.
+   */
+  const countLayout = (pages) => {
+    let signals = 0;
+    const walk = (s) => {
+      if (s.type !== 'group') return;
+      const c = s.content;
+      // Every property that only a stylesheet can supply. Counting rows alone
+      // missed a group whose sole piece of layout was a background colour.
+      if (c.dir === 'row' || c.width || c.bg || c.bgImage || c.radius || c.border) signals += 1;
+      c.children.forEach(walk);
+    };
+    for (const p of pages) p.sections.forEach(walk);
+    return signals;
+  };
+
   const file = resolve(ROOT, `data/pages/${group}.json`);
+  const layoutNow = countLayout(out);
+  const layoutBefore = countLayout([...previous.values()]);
+
+  if (layoutFailures.length && layoutNow < layoutBefore) {
+    throw new Error(
+      `${group}: ${layoutFailures.length} stylesheet(s) failed to fetch and layout was lost ` +
+        `(${layoutNow} styled containers, was ${layoutBefore}). ` +
+        `Refusing to overwrite data/pages/${group}.json. ` +
+        `Check the live site is reachable, then re-run.`,
+    );
+  }
+
   await mkdir(dirname(file), { recursive: true });
-  await writeFile(
+  await writeRetrying(
     file,
     `${JSON.stringify(
       { harvestedAt: new Date().toISOString(), group, count: out.length, pages: out },
       null,
       2,
     )}\n`,
-    'utf8',
   );
 
   const blocks = out.reduce((n, p) => n + p.sections.length, 0);
@@ -850,6 +1119,20 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
       .join(' · ')}`,
   );
   if (noSpanish.length) console.log(`  ${noSpanish.length} pages had no Spanish pairs`);
+  if (failed.length) {
+    console.log(`  ${failed.length} pages FAILED to fetch — kept their previous harvest:`);
+    for (const [path, why] of failed) console.log(`    ${path} — ${why}`);
+    console.log('    re-run this group to pick them up.');
+  }
+  if (layoutFailures.length) {
+    console.log(`  ${layoutFailures.length} stylesheet(s) could not be fetched — those pages lost their LAYOUT:`);
+    for (const f of layoutFailures) console.log(`    ${f}`);
+    console.log('    re-run this group; a page with no stylesheet renders as one flat column.');
+  }
+  if (gone.length) {
+    console.log(`  ${gone.length} GONE from the live site (404) — not harvested:`);
+    for (const path of gone) console.log(`    ${path}`);
+  }
   if (skipped.length) {
     console.log(`  skipped ${skipped.length}, deliberately:`);
     for (const [path, why] of skipped) console.log(`    ${path} — ${why}`);

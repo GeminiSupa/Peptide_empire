@@ -30,7 +30,7 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
       {/* Announcement bar */}
       <div className="bg-primary text-white">
         <Container className="flex flex-col items-center justify-between gap-1 py-2 text-center text-xs sm:flex-row sm:text-left sm:text-[13px]">
-          <p className="font-medium">{t(announcement, 'text', lang)}</p>
+          <p className="font-medium uppercase">{t(announcement, 'text', lang)}</p>
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <Link
               className="inline-flex items-center gap-1.5 font-medium hover:underline"
@@ -75,13 +75,13 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
                   {item.href ? (
                     <Link
                       href={lp(item.href)}
-                      className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-[13px] font-bold tracking-wide text-primary uppercase hover:text-accent"
+                      className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap text-black uppercase hover:text-accent"
                     >
                       {text}
                       {hasChildren && <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />}
                     </Link>
                   ) : (
-                    <span className="inline-flex cursor-default items-center gap-1 rounded-md px-3 py-2 text-[13px] font-bold tracking-wide text-primary uppercase group-hover:text-accent">
+                    <span className="inline-flex cursor-default items-center gap-1 rounded-md px-3 py-2 text-sm font-medium whitespace-nowrap text-black uppercase group-hover:text-accent">
                       {text}
                       <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
                     </span>
@@ -117,7 +117,7 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-3">
           <div className="hidden xl:block">
             <HeaderSearch index={index} lang={lang} />
           </div>

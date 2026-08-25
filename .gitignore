@@ -44,3 +44,8 @@ data/wp/users.json
 # scripts/restore-from-zip.mjs. Committing it would bloat both the repo and the
 # Vercel deployment with files no page ever requests.
 Images.zip
+
+# Reference screenshots used to compare the clone against the live site by hand.
+# 11 MB of PNGs that no page requests — same reason as Images.zip above. Kept on
+# disk for reference, out of the repo and the deployment.
+Manual comparisons between our cloned website and the original/

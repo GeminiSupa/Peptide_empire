@@ -103,6 +103,35 @@ function shape(html) {
 const sameShape = (a, b) => Object.keys(a).every((k) => a[k] === b[k]);
 
 /**
+ * Is the Spanish document still recognisably the SAME article?
+ *
+ * The Spanish body is taken whole from the /es/ page rather than paired node by
+ * node, so the shape check is not guarding against misalignment — it is asking
+ * "did TranslatePress serve a translation of this article, or something else?"
+ *
+ * Exact equality answered that too strictly. A blog post whose Spanish render
+ * differed by ONE paragraph out of 63 was thrown away entirely — losing the
+ * English page as well, which is a worse outcome than the thing being guarded
+ * against. A genuinely broken Spanish page looks nothing like this: the one
+ * real failure here collapsed 50 paragraphs, 11 h2s and a table down to a
+ * single stray paragraph.
+ *
+ * So: allow a small absolute drift per tag, and require the big structural
+ * counts to survive. Anything below that keeps its English body instead of
+ * being deleted.
+ */
+function nearShape(a, b) {
+  return Object.keys(a).every((k) => {
+    const x = a[k] ?? 0;
+    const y = b[k] ?? 0;
+    if (x === y) return true;
+    if (Math.abs(x - y) > Math.max(1, Math.round(x * 0.05))) return false;
+    // A count that survives at all must not have essentially vanished.
+    return x === 0 || y > x * 0.5;
+  });
+}
+
+/**
  * The article widget. Usually an Elementor `html` widget, but three guides
  * paste the same self-contained article into a `text-editor` instead. Falls
  * back to the largest text-editor on the page, which on those pages is the
@@ -185,6 +214,7 @@ async function main() {
 
   const pages = [];
   const rejected = [];
+  const degraded = [];
   let done = 0;
 
   await pool(guides, 5, async (route) => {
@@ -196,12 +226,16 @@ async function main() {
       }
       const shapeEn = shape(en.html);
       const shapeEs = shape(es.html);
-      if (!sameShape(shapeEn, shapeEs)) {
-        rejected.push({
+      // Three outcomes, not two: matching, close enough to trust, or Spanish
+      // that cannot be trusted — in which case the page still ships in English
+      // rather than disappearing from the site.
+      const exact = sameShape(shapeEn, shapeEs);
+      const near = exact || nearShape(shapeEn, shapeEs);
+      if (!near) {
+        degraded.push({
           ...route,
           reason: `shape differs EN ${JSON.stringify(shapeEn)} vs ES ${JSON.stringify(shapeEs)}`,
         });
-        return;
       }
 
       pages.push({
@@ -211,11 +245,13 @@ async function main() {
         group: route.group,
         head: {
           title_en: en.head.title,
-          title_es: es.head.title,
+          title_es: near ? es.head.title : en.head.title,
           description_en: en.head.description,
-          description_es: es.head.description,
+          description_es: near ? es.head.description : en.head.description,
         },
         shape: shapeEn,
+        // Recorded so the gap is measurable rather than invisible.
+        ...(near ? {} : { untranslated: true }),
         // The converged section vocabulary — see scripts/migrate-shape.mjs.
         // A heading section is prepended only when the article does not already
         // carry its own <h1>, so guides are untouched and posts regain theirs.
@@ -225,10 +261,10 @@ async function main() {
             : [
                 {
                   type: 'heading',
-                  content: { level: 1, text_en: en.h1, text_es: es.h1 || en.h1 },
+                  content: { level: 1, text_en: en.h1, text_es: (near && es.h1) || en.h1 },
                 },
               ]),
-          { type: 'article', content: { html_en: en.html, html_es: es.html } },
+          { type: 'article', content: { html_en: en.html, html_es: near ? es.html : en.html } },
         ],
       });
     } catch (err) {
@@ -245,7 +281,7 @@ async function main() {
   await writeFile(
     OUT,
     `${JSON.stringify(
-      { harvestedAt: new Date().toISOString(), group: GROUP, count: pages.length, pages, rejected },
+      { harvestedAt: new Date().toISOString(), group: GROUP, count: pages.length, pages, rejected, degraded },
       null,
       2,
     )}\n`,
@@ -265,8 +301,14 @@ async function main() {
   console.log(`\nWrote ${pages.length}/${guides.length} ${GROUP} → data/pages/${GROUP}.json`);
   console.log(`~${words.toLocaleString()} English words captured`);
   if (rejected.length) {
-    console.log(`\n${rejected.length} rejected — EN/ES structure differs, not guessed at:`);
+    console.log(`\n${rejected.length} rejected — no article found:`);
     for (const r of rejected) console.log(`  ${r.en}\n     ${r.reason}`);
+  }
+  if (degraded.length) {
+    console.log(
+      `\n${degraded.length} kept in ENGLISH — the Spanish render is not the same article:`,
+    );
+    for (const r of degraded) console.log(`  ${r.en}\n     ${r.reason}`);
   }
 }
 

@@ -1,5 +1,5 @@
 /**
- * Repair link defects the harvest introduced, across every harvested page file.
+ * Repair link defects the harvest introduced, across every harvested file.
  *
  * Each rule below is a bug confirmed against the live site, not a guess:
  *
@@ -13,7 +13,7 @@
  *     live site actually serves, so the clone has no redirect hops:
  *       /dsip/            -> /dsip-costa-rica/
  *       /costa-rica-map/  -> the .webp it resolves to (an image attachment)
- *       /tirzepatide-costa-rica/ -> /tirzepatida-costa-rica/
+ *       /tirzepatida-costa-rica/ -> /tirzepatide-costa-rica/
  *
  *  3. Trailing whitespace inside href attributes, which made otherwise valid
  *     internal links unresolvable.
@@ -25,7 +25,7 @@
  */
 
 import { readFile, writeFile, readdir } from 'node:fs/promises';
-import { resolve, dirname } from 'node:path';
+import { resolve, dirname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
@@ -65,9 +65,24 @@ const RULES = [
     'href=\\"/wp-content/uploads/2026/07/Costa-Rica-Map.webp\\"',
   ],
   [
+    // REVERSED 2026-08-20. The live site used to serve the Spanish spelling in
+    // English and redirect the other way; it now does the opposite —
+    // /tirzepatida-costa-rica/ 301s to /tirzepatide-costa-rica/, which is a 200.
+    // The old rule pointed 40 city-page links at a slug that no longer exists
+    // on either site, and data/wp/pages.json only holds the -e- spelling, so
+    // the page was not being generated under the name being linked.
     'tirzepatide lander uses the slug the live site serves',
-    '/tirzepatide-costa-rica/',
     '/tirzepatida-costa-rica/',
+    '/tirzepatide-costa-rica/',
+  ],
+  [
+    // ...but ONLY in English. These are literal replacements, so the rule above
+    // also rewrites the Spanish route, whose slug legitimately keeps the
+    // Spanish spelling (/es/tirzepatida-costa-rica/). This puts those four
+    // links back; it must stay directly after the rule it corrects.
+    'tirzepatida keeps its Spanish spelling on the /es/ route',
+    '/es/tirzepatide-costa-rica/',
+    '/es/tirzepatida-costa-rica/',
   ],
 ];
 
@@ -75,12 +90,23 @@ const RULES = [
 const trimHrefs = (text) =>
   text.replace(/href=\\"([^"\\]*?)\\"/g, (m, url) => `href=\\"${url.trim()}\\"`);
 
-const files = (await readdir(PAGES)).filter((f) => f.endsWith('.json'));
+/**
+ * Every harvested file that can hold a link — page bodies AND the site chrome.
+ *
+ * data/global.json belongs here because the header and footer navigation is
+ * harvested too, and it carries the same defects. The nav's Tirzepatide entry
+ * pointed at a URL the live site only 301-redirects, which made it a dead link
+ * on all 227 pages of the clone rather than on one.
+ */
+const files = [
+  ...(await readdir(PAGES)).filter((f) => f.endsWith('.json')).map((f) => resolve(PAGES, f)),
+  resolve(ROOT, 'data/global.json'),
+];
 let touched = 0;
 const report = [];
 
-for (const file of files) {
-  const path = resolve(PAGES, file);
+for (const path of files) {
+  const file = path.slice(ROOT.length + 1).split(sep).join('/');
   const before = await readFile(path, 'utf8');
   let after = before;
   const applied = [];

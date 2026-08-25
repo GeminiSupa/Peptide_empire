@@ -22,17 +22,22 @@ const nextConfig = {
    * Redirects the live site already serves, reproduced so no indexed URL
    * changes behaviour when we cut over.
    *
-   * The XML sitemap lists /tirzepatide-costa-rica/, but that URL 301s on the
-   * live site to /tirzepatida-costa-rica/ — which is the page the nav actually
-   * links to. Harvesting the sitemap without following redirects put the
-   * redirect URL in our route table and no page at the real one, so the
-   * "Tirzepatide" item in the SHOP BY PRODUCT menu 404'd on all 630 pages.
+   * REVERSED 2026-08-21, because the live site reversed it. The tirzepatide
+   * lander has two slugs, one with the Spanish spelling; whichever is not
+   * canonical 301s to the other. It used to serve /tirzepatida-costa-rica/ and
+   * redirect the -e- spelling to it. It now does the opposite: the -e- spelling
+   * is the 200 and /tirzepatida-costa-rica/ is the 301.
+   *
+   * Three places carried the old direction and all three are now aligned on the
+   * canonical URL — this redirect, the nav href (scripts/fix-links.mjs) and the
+   * route table. They have to agree: when they disagreed, the "Tirzepatide"
+   * item in the SHOP BY PRODUCT menu was a dead link on every page.
    */
   async redirects() {
     return [
       {
-        source: '/tirzepatide-costa-rica',
-        destination: '/tirzepatida-costa-rica/',
+        source: '/tirzepatida-costa-rica',
+        destination: '/tirzepatide-costa-rica/',
         permanent: true,
       },
     ];

@@ -25,7 +25,8 @@
         {
           "type": "link_list",
           "content": {
-            "source": "blogPost"
+            "source": "blogPost",
+            "layout": "cards"
           }
         }
       ]
@@ -52,7 +53,8 @@
         {
           "type": "link_list",
           "content": {
-            "source": "guide"
+            "source": "mixingGuide",
+            "layout": "cards"
           }
         }
       ]
@@ -79,7 +81,8 @@
         {
           "type": "link_list",
           "content": {
-            "source": "wooProduct"
+            "source": "wooProduct",
+            "layout": "cards"
           }
         }
       ]

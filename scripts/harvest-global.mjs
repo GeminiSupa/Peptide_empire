@@ -327,6 +327,38 @@ async function main() {
       ).values(),
     ];
 
+  /**
+   * The floating contact bar.
+   *
+   * On the live site this is `position: fixed`, pinned to the bottom of the
+   * VIEWPORT above everything else — not a strip sitting in the page flow. The
+   * clone had its three buttons stitched into the document instead, so they
+   * scrolled away with the content and appeared in the middle of sections.
+   *
+   * Its per-button colours are read from the live styles rather than assumed:
+   * WhatsApp and the phone number are orange, Email Us is navy.
+   */
+  const contactBar = (lang$) =>
+    lang$('.scroll-contact-bar a')
+      .toArray()
+      .map((a) => {
+        const $a = lang$(a);
+        const style = ($a.attr('style') || '') + ($a.parent().attr('style') || '');
+        return {
+          label: clean($a.text()),
+          href: (($a.attr('href') || '').trim()) || null,
+          // The classes carry the colour on this widget; the harvest keeps the
+          // class so the renderer can map it, rather than guessing from text.
+          kind: /wa\.me|whatsapp/i.test($a.attr('href') || '')
+            ? 'whatsapp'
+            : /^mailto:/i.test($a.attr('href') || '')
+              ? 'email'
+              : 'phone',
+          style,
+        };
+      })
+      .filter((l) => l.label && l.href);
+
   // ---- Footer -----------------------------------------------------------
   const blocksEn = footerBlocks($en);
   const blocksEs = footerBlocks($es);
@@ -408,6 +440,12 @@ async function main() {
       headerContact($es),
       'Header contact links'
     ).map(([en, es]) => ({ label_en: en.label, label_es: es.label, href: en.href })),
+    contactBar: pairLists(contactBar($en), contactBar($es), 'Contact bar').map(([en, es]) => ({
+      label_en: en.label,
+      label_es: es.label,
+      href: en.href,
+      kind: en.kind,
+    })),
     nav,
     footer: {
       blurb_en: blurbEn,

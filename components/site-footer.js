@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Mail, Phone } from 'lucide-react';
 import Container from '@/components/ui/container';
+import ContactBar from '@/components/contact-bar';
 import { footer } from '@/content/global';
 import { imageSource } from '@/lib/images';
 import { label, t } from '@/lib/i18n';
@@ -228,6 +229,12 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
           {t(footer, 'copyright', lang)}
         </div>
       </Container>
+
+      {/* Rendered here because the footer is the one component on every page
+          that already knows the language. The bar itself is fixed to the
+          viewport, so where it sits in the markup does not affect where it
+          appears. */}
+      <ContactBar lang={lang} />
     </footer>
   );
 }

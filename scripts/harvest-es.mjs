@@ -162,6 +162,30 @@ async function main() {
   const { routes } = JSON.parse(await readFile(ROUTES, 'utf8'));
   let work = routes.filter((r) => r.es && r.en);
   if (group) work = work.filter((r) => r.group === group);
+
+  /**
+   * Only the routes that have no Spanish pairs on disk yet.
+   *
+   * A full run is ~900 fetches, well past what the live site will answer in one
+   * session, so picking up newly discovered pages could not be done at all
+   * without this. Pairs the previous runs produced are untouched — combine with
+   * --merge, which is what keeps them.
+   */
+  if (args.includes('--only-new')) {
+    const prior = JSON.parse(await readFile(OUT_PAGES, 'utf8'));
+    const have = new Set([
+      ...(prior.pages ?? []).map((p) => p.en),
+      // A page REJECTED before was reached and judged, not missed; re-fetching
+      // it every run would spend the budget re-confirming the same answer.
+      ...(prior.rejected ?? []).map((p) => p.en),
+    ]);
+    // `excludeCandidate` is the junk WordPress left indexed — /blog-2/,
+    // /return-refund-policy-2/ and friends. They 404 on the live site and this
+    // project deliberately does not render them, so they would otherwise be
+    // re-fetched and re-failed on every single run.
+    work = work.filter((r) => !have.has(r.en) && r.group !== 'excludeCandidate');
+  }
+
   if (limit) work = work.slice(0, limit);
 
   console.log(`Pairing ${work.length} routes (EN + ES = ${work.length * 2} fetches)…\n`);

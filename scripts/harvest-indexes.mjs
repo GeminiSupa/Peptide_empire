@@ -27,11 +27,20 @@ const OUT = resolve(ROOT, 'data/pages/index.json');
 
 const clean = (s) => (s || '').replace(/\s+/g, ' ').trim();
 
-/** Which harvested collection each index lists. */
+/**
+ * Which harvested collection each index lists, and how.
+ *
+ * `layout: 'cards'` is what the live loop-grid and WooCommerce archive both
+ * render — a featured image and a heading per entry. The default compact link
+ * list is kept for /html-sitemap/, which is generated elsewhere.
+ */
 const INDEXES = [
-  { path: '/blog/', source: 'blogPost' },
-  { path: '/peptide-guides/', source: 'guide' },
-  { path: '/shop/', source: 'wooProduct' },
+  { path: '/blog/', source: 'blogPost', layout: 'cards' },
+  // The live index lists the `guide` CUSTOM POST TYPE (/blog/guide/...), not
+  // the 56 long-form guides in the `guide` route group. Pointing it at the
+  // latter listed the wrong collection entirely.
+  { path: '/peptide-guides/', source: 'mixingGuide', layout: 'cards' },
+  { path: '/shop/', source: 'wooProduct', layout: 'cards' },
 ];
 
 async function load(path, attempt = 1) {
@@ -62,16 +71,29 @@ async function main() {
   const pages = [];
   const failed = [];
 
-  for (const { path, source } of INDEXES) {
+  for (const { path, source, layout } of INDEXES) {
     const route = routes.get(path);
     if (!route) {
       failed.push(`${path} — not in the route map`);
       continue;
     }
     try {
-      const [$en, $es] = await Promise.all([load(route.en), load(route.es)]);
+      const $en = await load(route.en);
       const en = describe($en);
-      const es = describe($es);
+
+      // A missing Spanish page must not take the English one down with it.
+      //
+      // /es/tienda/ began returning 404 on the live site while /shop/ kept
+      // serving, and because both were fetched as one all-or-nothing pair, a
+      // re-run deleted the whole /shop/ index rather than losing its Spanish
+      // title. The English page is the one that has to exist; Spanish degrades
+      // to it, and the shortfall is reported instead of thrown.
+      let es = en;
+      try {
+        es = describe(await load(route.es));
+      } catch (err) {
+        failed.push(`${route.es} — ${err.message} (kept English)`);
+      }
 
       const sections = [];
       if (en.heading || es.heading) {
@@ -80,7 +102,7 @@ async function main() {
           content: { level: 1, text_en: en.heading, text_es: es.heading || en.heading },
         });
       }
-      sections.push({ type: 'link_list', content: { source } });
+      sections.push({ type: 'link_list', content: { source, layout } });
 
       pages.push({
         slug: path.replace(/^\/|\/$/g, ''),

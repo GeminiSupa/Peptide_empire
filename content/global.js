@@ -14,6 +14,7 @@ import globalData from '@/data/global.json';
 
 export const announcement = globalData.announcement;
 export const headerContact = globalData.headerContact;
+export const contactBar = globalData.contactBar;
 export const nav = globalData.nav;
 export const footer = globalData.footer;
 export const harvestedAt = globalData.harvestedAt;

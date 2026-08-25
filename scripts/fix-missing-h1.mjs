@@ -34,6 +34,21 @@ const cleanTitle = (s) =>
     .split('–')[0]
     .trim();
 
+/**
+ * Does this page already have a level-1 heading ANYWHERE in its tree?
+ *
+ * Must recurse. Since the harvest started keeping Elementor's container tree, a
+ * page's <h1> is normally nested inside the group that lays out its hero — so a
+ * check that looked only at top-level sections found none and prepended a
+ * second one, giving 20 pages two <h1>s.
+ */
+const hasH1 = (sections) =>
+  sections.some((s) =>
+    s.content?.children
+      ? hasH1(s.content.children)
+      : s.type === 'heading' && Number(s.content?.level) === 1,
+  );
+
 let changed = 0;
 const report = [];
 
@@ -48,10 +63,7 @@ for (const file of FILES) {
 
   let fileTouched = false;
   for (const page of data.pages ?? []) {
-    const hasH1 = (page.sections ?? []).some(
-      (s) => s.type === 'heading' && Number(s.content?.level) === 1
-    );
-    if (hasH1) continue;
+    if (hasH1(page.sections ?? [])) continue;
 
     const en = cleanTitle(page.head?.title_en);
     const es = cleanTitle(page.head?.title_es) || en;

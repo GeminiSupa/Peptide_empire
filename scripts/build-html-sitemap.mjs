@@ -27,6 +27,9 @@ const GROUPS = [
   ['wooCategory', 'Product Categories', 'Categorías de producto'],
   ['wooProduct', 'All Products', 'Todos los productos'],
   ['guide', 'Guides', 'Guías'],
+  // The `guide` custom post type at /blog/guide/... — a different collection
+  // from the long-form guides above, and the one /peptide-guides/ lists.
+  ['mixingGuide', 'Mixing & Dosage Guides', 'Guías de mezcla y dosificación'],
   ['blogPost', 'Blog', 'Blog'],
   ['city', 'Service Locations', 'Zonas de servicio'],
   ['legal', 'Policies', 'Políticas'],

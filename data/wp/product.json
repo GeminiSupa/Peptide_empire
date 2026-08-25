@@ -1,13 +1,497 @@
 [
   {
+    "id": 28577,
+    "date": "2026-08-08T11:59:54",
+    "date_gmt": "2026-08-08T11:59:54",
+    "guid": {
+      "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=28577"
+    },
+    "modified": "2026-08-22T16:31:55",
+    "modified_gmt": "2026-08-22T16:31:55",
+    "slug": "dsip-5mg",
+    "status": "publish",
+    "type": "product",
+    "link": "https://peptidescostarica.net/product/dsip-5mg/",
+    "title": {
+      "rendered": "DSIP 5mg"
+    },
+    "content": {
+      "rendered": "<p class=\"PDq2pG_selectionAnchorContainer\" data-start=\"518\" data-end=\"823\">DSIP 5mg is a premium research peptide designed for scientific and laboratory research applications. It is studied for its unique molecular properties and peptide activity related to sleep and biological research. This product is supplied as a high-quality research compound for professional laboratory use.</p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p>DSIP 5mg is a premium research peptide studied for laboratory applications. It is researched for peptide activity, molecular properties, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
+      "protected": false
+    },
+    "featured_media": 28579,
+    "comment_status": "open",
+    "ping_status": "closed",
+    "template": "",
+    "meta": {
+      "_acf_changed": false,
+      "site-sidebar-layout": "default",
+      "site-content-layout": "",
+      "ast-site-content-layout": "default",
+      "site-content-style": "default",
+      "site-sidebar-style": "default",
+      "ast-global-header-display": "",
+      "ast-banner-title-visibility": "",
+      "ast-main-header-display": "",
+      "ast-hfb-above-header-display": "",
+      "ast-hfb-below-header-display": "",
+      "ast-hfb-mobile-header-display": "",
+      "site-post-title": "",
+      "ast-breadcrumbs-content": "",
+      "ast-featured-img": "",
+      "footer-sml-layout": "",
+      "ast-disable-related-posts": "",
+      "theme-transparent-header-meta": "default",
+      "adv-header-id-meta": "",
+      "stick-header-meta": "",
+      "header-above-stick-meta": "",
+      "header-main-stick-meta": "",
+      "header-below-stick-meta": "",
+      "astra-migrate-meta-layouts": "set",
+      "ast-page-background-enabled": "default",
+      "ast-page-background-meta": {
+        "desktop": {
+          "background-color": "var(--ast-global-color-5)",
+          "background-image": "",
+          "background-repeat": "repeat",
+          "background-position": "center center",
+          "background-size": "auto",
+          "background-attachment": "scroll",
+          "background-type": "",
+          "background-media": "",
+          "overlay-type": "",
+          "overlay-color": "",
+          "overlay-opacity": "",
+          "overlay-gradient": ""
+        },
+        "tablet": {
+          "background-color": "",
+          "background-image": "",
+          "background-repeat": "repeat",
+          "background-position": "center center",
+          "background-size": "auto",
+          "background-attachment": "scroll",
+          "background-type": "",
+          "background-media": "",
+          "overlay-type": "",
+          "overlay-color": "",
+          "overlay-opacity": "",
+          "overlay-gradient": ""
+        },
+        "mobile": {
+          "background-color": "",
+          "background-image": "",
+          "background-repeat": "repeat",
+          "background-position": "center center",
+          "background-size": "auto",
+          "background-attachment": "scroll",
+          "background-type": "",
+          "background-media": "",
+          "overlay-type": "",
+          "overlay-color": "",
+          "overlay-opacity": "",
+          "overlay-gradient": ""
+        }
+      },
+      "ast-content-background-meta": {
+        "desktop": {
+          "background-color": "var(--ast-global-color-4)",
+          "background-image": "",
+          "background-repeat": "repeat",
+          "background-position": "center center",
+          "background-size": "auto",
+          "background-attachment": "scroll",
+          "background-type": "",
+          "background-media": "",
+          "overlay-type": "",
+          "overlay-color": "",
+          "overlay-opacity": "",
+          "overlay-gradient": ""
+        },
+        "tablet": {
+          "background-color": "var(--ast-global-color-4)",
+          "background-image": "",
+          "background-repeat": "repeat",
+          "background-position": "center center",
+          "background-size": "auto",
+          "background-attachment": "scroll",
+          "background-type": "",
+          "background-media": "",
+          "overlay-type": "",
+          "overlay-color": "",
+          "overlay-opacity": "",
+          "overlay-gradient": ""
+        },
+        "mobile": {
+          "background-color": "var(--ast-global-color-4)",
+          "background-image": "",
+          "background-repeat": "repeat",
+          "background-position": "center center",
+          "background-size": "auto",
+          "background-attachment": "scroll",
+          "background-type": "",
+          "background-media": "",
+          "overlay-type": "",
+          "overlay-color": "",
+          "overlay-opacity": "",
+          "overlay-gradient": ""
+        }
+      }
+    },
+    "product_brand": [],
+    "product_cat": [
+      80
+    ],
+    "product_tag": [],
+    "class_list": [
+      "post-28577",
+      "product",
+      "type-product",
+      "status-publish",
+      "has-post-thumbnail",
+      "product_cat-peptides-for-sleep",
+      "desktop-align-left",
+      "tablet-align-left",
+      "mobile-align-left",
+      "first",
+      "instock",
+      "shipping-taxable",
+      "purchasable",
+      "product-type-simple"
+    ],
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/28577",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/types/product"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/comments?post=28577"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 15,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/28577/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 30215,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/28577/revisions/30215"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/media/28579"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/media?parent=28577"
+        }
+      ],
+      "wp:term": [
+        {
+          "taxonomy": "product_brand",
+          "embeddable": true,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_brand?post=28577"
+        },
+        {
+          "taxonomy": "product_cat",
+          "embeddable": true,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat?post=28577"
+        },
+        {
+          "taxonomy": "product_tag",
+          "embeddable": true,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_tag?post=28577"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 28573,
+    "date": "2026-08-08T10:51:06",
+    "date_gmt": "2026-08-08T10:51:06",
+    "guid": {
+      "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=28573"
+    },
+    "modified": "2026-08-22T12:30:39",
+    "modified_gmt": "2026-08-22T12:30:39",
+    "slug": "retatrutide-5mg",
+    "status": "publish",
+    "type": "product",
+    "link": "https://peptidescostarica.net/product/retatrutide-5mg/",
+    "title": {
+      "rendered": "Retatrutide 5mg"
+    },
+    "content": {
+      "rendered": "<p class=\"PDq2pG_selectionAnchorContainer\" data-start=\"598\" data-end=\"817\">Retatrutide 5mg is a research peptide supplied for controlled laboratory and analytical research. Retatrutide is an investigational triple receptor agonist studied for its activity at GIP, GLP-1, and glucagon receptors.</p>\n<p data-start=\"819\" data-end=\"946\">This product is intended strictly for qualified research purposes and is not approved for human consumption or therapeutic use.</p>\n",
+      "protected": false
+    },
+    "excerpt": {
+      "rendered": "<p class=\"PDq2pG_selectionAnchorContainer\" data-start=\"598\" data-end=\"817\">Retatrutide 5mg is a premium research peptide studied for metabolic pathways and triple receptor activity. It is researched for GIP, GLP-1, glucagon signaling, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
+      "protected": false
+    },
+    "featured_media": 28608,
+    "comment_status": "open",
+    "ping_status": "closed",
+    "template": "",
+    "meta": {
+      "_acf_changed": false,
+      "site-sidebar-layout": "default",
+      "site-content-layout": "",
+      "ast-site-content-layout": "default",
+      "site-content-style": "default",
+      "site-sidebar-style": "default",
+      "ast-global-header-display": "",
+      "ast-banner-title-visibility": "",
+      "ast-main-header-display": "",
+      "ast-hfb-above-header-display": "",
+      "ast-hfb-below-header-display": "",
+      "ast-hfb-mobile-header-display": "",
+      "site-post-title": "",
+      "ast-breadcrumbs-content": "",
+      "ast-featured-img": "",
+      "footer-sml-layout": "",
+      "ast-disable-related-posts": "",
+      "theme-transparent-header-meta": "default",
+      "adv-header-id-meta": "",
+      "stick-header-meta": "",
+      "header-above-stick-meta": "",
+      "header-main-stick-meta": "",
+      "header-below-stick-meta": "",
+      "astra-migrate-meta-layouts": "set",
+      "ast-page-background-enabled": "default",
+      "ast-page-background-meta": {
+        "desktop": {
+          "background-color": "var(--ast-global-color-5)",
+          "background-image": "",
+          "background-repeat": "repeat",
+          "background-position": "center center",
+          "background-size": "auto",
+          "background-attachment": "scroll",
+          "background-type": "",
+          "background-media": "",
+          "overlay-type": "",
+          "overlay-color": "",
+          "overlay-opacity": "",
+          "overlay-gradient": ""
+        },
+        "tablet": {
+          "background-color": "",
+          "background-image": "",
+          "background-repeat": "repeat",
+          "background-position": "center center",
+          "background-size": "auto",
+          "background-attachment": "scroll",
+          "background-type": "",
+          "background-media": "",
+          "overlay-type": "",
+          "overlay-color": "",
+          "overlay-opacity": "",
+          "overlay-gradient": ""
+        },
+        "mobile": {
+          "background-color": "",
+          "background-image": "",
+          "background-repeat": "repeat",
+          "background-position": "center center",
+          "background-size": "auto",
+          "background-attachment": "scroll",
+          "background-type": "",
+          "background-media": "",
+          "overlay-type": "",
+          "overlay-color": "",
+          "overlay-opacity": "",
+          "overlay-gradient": ""
+        }
+      },
+      "ast-content-background-meta": {
+        "desktop": {
+          "background-color": "var(--ast-global-color-4)",
+          "background-image": "",
+          "background-repeat": "repeat",
+          "background-position": "center center",
+          "background-size": "auto",
+          "background-attachment": "scroll",
+          "background-type": "",
+          "background-media": "",
+          "overlay-type": "",
+          "overlay-color": "",
+          "overlay-opacity": "",
+          "overlay-gradient": ""
+        },
+        "tablet": {
+          "background-color": "var(--ast-global-color-4)",
+          "background-image": "",
+          "background-repeat": "repeat",
+          "background-position": "center center",
+          "background-size": "auto",
+          "background-attachment": "scroll",
+          "background-type": "",
+          "background-media": "",
+          "overlay-type": "",
+          "overlay-color": "",
+          "overlay-opacity": "",
+          "overlay-gradient": ""
+        },
+        "mobile": {
+          "background-color": "var(--ast-global-color-4)",
+          "background-image": "",
+          "background-repeat": "repeat",
+          "background-position": "center center",
+          "background-size": "auto",
+          "background-attachment": "scroll",
+          "background-type": "",
+          "background-media": "",
+          "overlay-type": "",
+          "overlay-color": "",
+          "overlay-opacity": "",
+          "overlay-gradient": ""
+        }
+      }
+    },
+    "product_brand": [],
+    "product_cat": [
+      43,
+      28
+    ],
+    "product_tag": [],
+    "class_list": [
+      "post-28573",
+      "product",
+      "type-product",
+      "status-publish",
+      "has-post-thumbnail",
+      "product_cat-peptide-for-cardiovascular",
+      "product_cat-peptides-for-energy",
+      "desktop-align-left",
+      "tablet-align-left",
+      "mobile-align-left",
+      "",
+      "instock",
+      "shipping-taxable",
+      "purchasable",
+      "product-type-simple"
+    ],
+    "acf": [],
+    "_links": {
+      "self": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/28573",
+          "targetHints": {
+            "allow": [
+              "GET"
+            ]
+          }
+        }
+      ],
+      "collection": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product"
+        }
+      ],
+      "about": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/types/product"
+        }
+      ],
+      "replies": [
+        {
+          "embeddable": true,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/comments?post=28573"
+        }
+      ],
+      "version-history": [
+        {
+          "count": 5,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/28573/revisions"
+        }
+      ],
+      "predecessor-version": [
+        {
+          "id": 30254,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/28573/revisions/30254"
+        }
+      ],
+      "wp:featuredmedia": [
+        {
+          "embeddable": true,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/media/28608"
+        }
+      ],
+      "wp:attachment": [
+        {
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/media?parent=28573"
+        }
+      ],
+      "wp:term": [
+        {
+          "taxonomy": "product_brand",
+          "embeddable": true,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_brand?post=28573"
+        },
+        {
+          "taxonomy": "product_cat",
+          "embeddable": true,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat?post=28573"
+        },
+        {
+          "taxonomy": "product_tag",
+          "embeddable": true,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_tag?post=28573"
+        }
+      ],
+      "curies": [
+        {
+          "name": "wp",
+          "href": "https://api.w.org/{rel}",
+          "templated": true
+        }
+      ]
+    }
+  },
+  {
     "id": 27155,
     "date": "2026-07-23T10:34:48",
     "date_gmt": "2026-07-23T10:34:48",
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=27155"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:06",
+    "modified_gmt": "2026-08-24T14:35:06",
     "slug": "tesamorelin-20mg",
     "status": "publish",
     "type": "product",
@@ -20,7 +504,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Tesamorelin 20mg is a clinically advanced growth hormone-releasing hormone (GHRH) analog renowned for its ability to stimulate natural HGH production while specifically targeting stubborn visceral fat. FDA-approved for certain medical applications, Tesamorelin stands out for its precision in reducing deep abdominal fat, the type most linked to metabolic risk. Beyond fat loss, it supports lean muscle development, sharper cognitive function, healthier lipid profiles, and improved overall vitality. For those seeking targeted body recomposition with science-backed HGH support, Tesamorelin 20mg delivers proven, research-driven results.</p>\n",
+      "rendered": "<p>Tesamorelin 20mg is a premium research peptide studied for GHRH pathways and growth hormone signaling. It is researched for IGF-1 activity, metabolic pathways, body composition research, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 27216,
@@ -159,7 +643,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -195,14 +679,14 @@
       ],
       "version-history": [
         {
-          "count": 1,
+          "count": 3,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/27155/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 27164,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/27155/revisions/27164"
+          "id": 30290,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/27155/revisions/30290"
         }
       ],
       "wp:featuredmedia": [
@@ -249,8 +733,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=26438"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "tirzepatide-60mg",
     "status": "publish",
     "type": "product",
@@ -263,7 +747,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Tirzepatide is a prescription injectable medicine that activates both GIP and GLP-1 receptors. When prescribed alongside a balanced diet and regular physical activity, it may help improve blood-sugar control, reduce appetite and support long-term weight management. Tirzepatide is used medically for type 2 diabetes and, under specific brand indications, for chronic weight management and moderate-to-severe obstructive sleep apnea in adults with obesity.</p>\n",
+      "rendered": "<p>Tirzepatide 60mg is a premium research peptide studied for GIP and GLP-1 receptor pathways. It is researched for metabolic signaling, glucose metabolism, appetite pathways, and body composition studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 27217,
@@ -400,7 +884,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "outofstock",
       "shipping-taxable",
       "purchasable",
@@ -436,14 +920,14 @@
       ],
       "version-history": [
         {
-          "count": 13,
+          "count": 15,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/26438/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 27643,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/26438/revisions/27643"
+          "id": 30288,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/26438/revisions/30288"
         }
       ],
       "wp:featuredmedia": [
@@ -490,8 +974,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=26278"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "hgh-50-iu-pfizer-brand-genotropin",
     "status": "publish",
     "type": "product",
@@ -504,7 +988,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>HGH 50 IU contains somatropin, a recombinant human growth hormone used in clinical and research-related growth hormone applications. Genotropin is [&hellip;]</p>\n",
+      "rendered": "<p>HGH 50 IU (Pfizer Brand Genotropin) is a premium research compound studied for growth hormone pathways and metabolic research. It is researched for somatropin activity, IGF-1 pathways, body composition, and recovery studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 26281,
@@ -651,7 +1135,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "first",
       "outofstock",
       "shipping-taxable",
       "purchasable",
@@ -687,14 +1171,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/26278/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26286,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/26278/revisions/26286"
+          "id": 30237,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/26278/revisions/30237"
         }
       ],
       "wp:featuredmedia": [
@@ -741,8 +1225,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=25805"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:06",
+    "modified_gmt": "2026-08-24T14:35:06",
     "slug": "dsip-10mg",
     "status": "publish",
     "type": "product",
@@ -755,7 +1239,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p><strong data-start=\"364\" data-end=\"377\">DSIP 10mg</strong>, also known as Delta Sleep-Inducing Peptide, is a synthetic nonapeptide supplied in lyophilized powder form for controlled laboratory research. It is primarily studied in relation to sleep-associated signaling, circadian rhythms, neurological activity, and biological stress responses. Each vial is intended strictly for qualified research and analytical applications.</p>\n",
+      "rendered": "<p>DSIP 10mg is a premium research peptide studied for sleep regulation and neurological research applications. It is researched for stress balance, delta-wave activity, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 25807,
@@ -892,7 +1376,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "",
       "outofstock",
       "shipping-taxable",
       "product-type-variable"
@@ -927,14 +1411,14 @@
       ],
       "version-history": [
         {
-          "count": 6,
+          "count": 7,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/25805/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 25808,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/25805/revisions/25808"
+          "id": 30225,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/25805/revisions/30225"
         }
       ],
       "wp:featuredmedia": [
@@ -981,8 +1465,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=25442"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-22T12:27:12",
+    "modified_gmt": "2026-08-22T12:27:12",
     "slug": "retatrutide-25mg",
     "status": "publish",
     "type": "product",
@@ -1134,7 +1618,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "outofstock",
       "shipping-taxable",
       "purchasable",
@@ -1170,14 +1654,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/25442/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26643,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/25442/revisions/26643"
+          "id": 29221,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/25442/revisions/29221"
         }
       ],
       "wp:featuredmedia": [
@@ -1224,8 +1708,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=25299"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "tirzepatide-40mg",
     "status": "publish",
     "type": "product",
@@ -1238,7 +1722,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Tirzepatide 40mg is a synthetic peptide designed to activate both GIP and GLP-1 receptors. It is studied for its effects on glucose metabolism, appetite regulation, insulin response, and energy balance. Each vial is labeled to contain 40mg of Tirzepatide for laboratory research purposes only.</p>\n",
+      "rendered": "<p>Tirzepatide 40mg is a premium research peptide studied for GIP and GLP-1 receptor pathways. It is researched for metabolic signaling, glucose regulation, appetite pathways, and energy balance studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 26773,
@@ -1375,7 +1859,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -1411,14 +1895,14 @@
       ],
       "version-history": [
         {
-          "count": 6,
+          "count": 8,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/25299/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 27642,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/25299/revisions/27642"
+          "id": 30287,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/25299/revisions/30287"
         }
       ],
       "wp:featuredmedia": [
@@ -1465,8 +1949,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=23505"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "cartalax-20mg",
     "status": "publish",
     "type": "product",
@@ -1479,7 +1963,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Cartalax 20mg – a synthetic tripeptide (AED) supporting cellular regeneration, fibroblast activity, and extracellular matrix balance. Research-backed for preclinical applications.</p>\n",
+      "rendered": "<p>Cartalax 20mg is a premium research peptide studied for cellular regeneration and tissue research applications. It is researched for fibroblast activity, extracellular matrix balance, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 26769,
@@ -1616,7 +2100,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "first",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -1652,14 +2136,14 @@
       ],
       "version-history": [
         {
-          "count": 9,
+          "count": 10,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23505/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26697,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23505/revisions/26697"
+          "id": 30224,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23505/revisions/30224"
         }
       ],
       "wp:featuredmedia": [
@@ -1706,8 +2190,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=23500"
     },
-    "modified": "2026-07-23T13:57:04",
-    "modified_gmt": "2026-07-23T13:57:04",
+    "modified": "2026-08-21T16:47:14",
+    "modified_gmt": "2026-08-21T16:47:14",
     "slug": "nad-1000mg",
     "status": "publish",
     "type": "product",
@@ -1720,7 +2204,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>NAD+ 1000mg – premium supplement supporting cellular energy, metabolism, and cognitive function. Boost your vitality and overall wellness.</p>\n",
+      "rendered": "<p>NAD+ 1000mg is a premium research compound studied for cellular energy and mitochondrial pathways. It is researched for DNA repair processes, metabolic activity, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 26770,
@@ -1857,7 +2341,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -1893,14 +2377,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23500/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 27219,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23500/revisions/27219"
+          "id": 30251,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23500/revisions/30251"
         }
       ],
       "wp:featuredmedia": [
@@ -1947,8 +2431,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=23498"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "retatrutide-60mg",
     "status": "publish",
     "type": "product",
@@ -1961,7 +2445,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Retatrutide 60mg – a high-potency peptide designed to support metabolic balance, appetite control, and glucose regulation. Clinically studied for effective results.</p>\n",
+      "rendered": "<p>Retatrutide 60mg is a premium metabolic research peptide studied for triple receptor activity. It is researched for GLP-1, GIP, glucagon pathways, appetite signaling, and metabolic regulation studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 24277,
@@ -2100,7 +2584,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -2136,14 +2620,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 8,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23498/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26701,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23498/revisions/26701"
+          "id": 30354,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23498/revisions/30354"
         }
       ],
       "wp:featuredmedia": [
@@ -2190,8 +2674,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=23496"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "retatrutide-50mg",
     "status": "publish",
     "type": "product",
@@ -2204,7 +2688,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Retatrutide 50mg – a cutting-edge peptide designed to support metabolic health, appetite regulation, and glucose control. Fast-acting and research-backed for optimal results.</p>\n",
+      "rendered": "<p>Retatrutide 50mg is a premium metabolic research peptide studied for triple receptor activity. It is researched for GLP-1, GIP, glucagon pathways, appetite control, and energy regulation studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 26771,
@@ -2343,7 +2827,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "outofstock",
       "shipping-taxable",
       "purchasable",
@@ -2379,14 +2863,14 @@
       ],
       "version-history": [
         {
-          "count": 6,
+          "count": 7,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23496/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 25444,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23496/revisions/25444"
+          "id": 30262,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23496/revisions/30262"
         }
       ],
       "wp:featuredmedia": [
@@ -2433,8 +2917,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=23390"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "hgh-30-iu",
     "status": "publish",
     "type": "product",
@@ -2447,7 +2931,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>HGH 30 IU is a recombinant human growth hormone peptide used in research to support muscle growth, fat metabolism, recovery, and tissue repair. High-purity and stable for reliable research use.</p>\n",
+      "rendered": "<p>HGH 30 IU is a premium research compound studied for growth hormone pathways and cellular functions. It is researched for hormone signaling, tissue processes, recovery mechanisms, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 26772,
@@ -2594,7 +3078,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "first",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -2630,14 +3114,14 @@
       ],
       "version-history": [
         {
-          "count": 2,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23390/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 25843,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23390/revisions/25843"
+          "id": 30236,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/23390/revisions/30236"
         }
       ],
       "wp:featuredmedia": [
@@ -2684,8 +3168,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18823"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:06",
+    "modified_gmt": "2026-08-24T14:35:06",
     "slug": "glow-50mg",
     "status": "publish",
     "type": "product",
@@ -2698,7 +3182,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>GLOW 50mg is a research-grade peptide blend commonly studied in relation to skin biology, cellular repair pathways, collagen support, tissue regeneration research, and overall skin-focused peptide studies.</p>\n<p>This 50mg vial provides a larger research quantity for laboratory studies involving GLOW and its role in skin, cellular, and regenerative research applications.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>GLOW 50mg is a premium peptide blend studied for skin regeneration and tissue research applications. It is researched for collagen support, cellular renewal, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18834,
@@ -2835,8 +3319,8 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
-      "instock",
+      "",
+      "outofstock",
       "shipping-taxable",
       "purchasable",
       "product-type-simple"
@@ -2871,14 +3355,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 7,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18823/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26227,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18823/revisions/26227"
+          "id": 30230,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18823/revisions/30230"
         }
       ],
       "wp:featuredmedia": [
@@ -2925,8 +3409,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18820"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "kpv-10mg",
     "status": "publish",
     "type": "product",
@@ -2939,7 +3423,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>KPV 10mg is a research-grade peptide commonly studied in relation to inflammatory response, skin barrier research, tissue repair pathways, cellular protection, and immune-related signaling studies.</p>\n<p>This 10mg vial provides a focused research quantity for laboratory studies involving KPV and its role in skin, cellular, and inflammation-related research applications.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>KPV 10mg is a premium research peptide studied for inflammatory pathways and cellular protection. It is researched for skin barrier studies, tissue repair, immune signaling, and advanced biological applications. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18835,
@@ -3076,7 +3560,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -3112,14 +3596,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18820/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26262,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18820/revisions/26262"
+          "id": 30245,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18820/revisions/30245"
         }
       ],
       "wp:featuredmedia": [
@@ -3166,8 +3650,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18818"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "slu-pp-332-5mg",
     "status": "publish",
     "type": "product",
@@ -3180,7 +3664,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>SLU-PP-332 5mg is a research-grade compound commonly studied in relation to ERR receptor activity, cellular energy pathways, metabolic signaling, mitochondrial function, and exercise-mimetic research models.</p>\n<p>This 5mg vial provides a focused research quantity for laboratory studies involving SLU-PP-332 and its role in metabolic and cellular performance research applications.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>SLU-PP-332 5mg is a premium research compound studied for ERR receptor activity and cellular energy pathways. It is researched for mitochondrial function, metabolic signaling, oxidative metabolism, and advanced biological studies. Supplied as a high-quality research compound.</p>\n",
       "protected": false
     },
     "featured_media": 18844,
@@ -3317,7 +3801,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -3353,14 +3837,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18818/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26233,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18818/revisions/26233"
+          "id": 30278,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18818/revisions/30278"
         }
       ],
       "wp:featuredmedia": [
@@ -3407,8 +3891,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18816"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "semaglutide-10mg",
     "status": "publish",
     "type": "product",
@@ -3421,7 +3905,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Semaglutide 10mg is a research-grade GLP-1 receptor agonist peptide commonly studied in relation to metabolic pathways, glucose metabolism, appetite signaling, gastric emptying research, and body composition studies.</p>\n<p>This 10mg vial provides a focused research quantity for laboratory studies involving Semaglutide and its role in receptor-based metabolic research applications.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>Semaglutide 10mg is a premium research peptide studied for GLP-1 receptor activity and metabolic pathways. It is researched for glucose metabolism, appetite signaling, energy balance, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18840,
@@ -3558,7 +4042,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "first",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -3594,14 +4078,14 @@
       ],
       "version-history": [
         {
-          "count": 2,
+          "count": 3,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18816/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26231,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18816/revisions/26231"
+          "id": 30269,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18816/revisions/30269"
         }
       ],
       "wp:featuredmedia": [
@@ -3648,8 +4132,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18813"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "semax-10mg",
     "status": "publish",
     "type": "product",
@@ -3662,7 +4146,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Semax 10mg is a research-grade peptide commonly studied in relation to cognitive function, neuroprotective pathways, cellular signaling, focus-related research models, and brain health studies.</p>\n<p>This 10mg vial provides a focused research quantity for laboratory studies involving Semax and its role in neurological and cognitive research applications.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>Semax 10mg is a premium research peptide studied for cognitive function and neurological pathways. It is researched for neuroprotective mechanisms, cellular signaling, brain health studies, and advanced biological research. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18843,
@@ -3799,7 +4283,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -3835,14 +4319,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 4,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18813/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26261,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18813/revisions/26261"
+          "id": 30265,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18813/revisions/30265"
         }
       ],
       "wp:featuredmedia": [
@@ -3889,8 +4373,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18810"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "aicar-50mg",
     "status": "publish",
     "type": "product",
@@ -3903,10 +4387,10 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>AICAR 50mg is a research-grade peptide compound commonly studied in relation to AMPK pathway activity, cellular energy research, metabolic signaling, endurance-related research models, and mitochondrial function studies.</p>\n<p>This 50mg vial provides a larger research quantity for laboratory studies involving AICAR and its role in energy metabolism and cellular performance research.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>AICAR 50mg is a premium research compound studied for cellular energy pathways and metabolic regulation. It is researched for AMPK activation, glucose metabolism, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
-    "featured_media": 18827,
+    "featured_media": 28587,
     "comment_status": "open",
     "ping_status": "closed",
     "template": "",
@@ -4040,7 +4524,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -4076,20 +4560,20 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18810/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26272,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18810/revisions/26272"
+          "id": 30219,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18810/revisions/30219"
         }
       ],
       "wp:featuredmedia": [
         {
           "embeddable": true,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/media/18827"
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/media/28587"
         }
       ],
       "wp:attachment": [
@@ -4130,8 +4614,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18805"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "mt-ii",
     "status": "publish",
     "type": "product",
@@ -4144,7 +4628,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>MT-II is a research-grade peptide commonly studied in relation to melanocortin receptor activity, pigmentation pathway research, skin biology studies, and cellular response mechanisms.</p>\n<p>This vial provides a focused research option for laboratory studies involving MT-II and its role in melanocortin-based research applications.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>MT-II is a premium research peptide studied for melanocortin receptor activity and pigmentation pathways. It is researched for skin biology, receptor interaction, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18837,
@@ -4281,7 +4765,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -4317,14 +4801,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18805/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26267,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18805/revisions/26267"
+          "id": 30249,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18805/revisions/30249"
         }
       ],
       "wp:featuredmedia": [
@@ -4371,8 +4855,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18803"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "tirzepatide-30mg",
     "status": "publish",
     "type": "product",
@@ -4385,7 +4869,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Tirzepatide 30mg is a research-grade dual incretin peptide commonly studied in relation to GIP and GLP-1 receptor activity, metabolic signaling, glucose metabolism, appetite pathways, gastric emptying research, and body composition studies.</p>\n<p>This 30mg vial provides a higher-strength research quantity for laboratory studies that require a larger Tirzepatide format for receptor-based metabolic research applications.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>Tirzepatide 30mg is a premium research peptide studied for GIP and GLP-1 receptor pathways. It is researched for metabolic signaling, glucose regulation, appetite pathways, and energy balance studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18849,
@@ -4522,7 +5006,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "first",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -4558,14 +5042,14 @@
       ],
       "version-history": [
         {
-          "count": 8,
+          "count": 9,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18803/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 27825,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18803/revisions/27825"
+          "id": 30286,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18803/revisions/30286"
         }
       ],
       "wp:featuredmedia": [
@@ -4612,8 +5096,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18800"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "tirzepatide-20mg",
     "status": "publish",
     "type": "product",
@@ -4626,7 +5110,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Tirzepatide 20mg is a research-grade dual incretin peptide commonly studied in relation to GIP and GLP-1 receptor activity, metabolic signaling, glucose metabolism, appetite pathways, gastric emptying research, and body composition studies.</p>\n<p>This 20mg vial provides a higher-strength research quantity for laboratory studies involving Tirzepatide and its role in receptor-based metabolic research applications.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>Tirzepatide 20mg is a premium research peptide studied for GIP and GLP-1 receptor pathways. It is researched for glucose regulation, metabolic signaling, appetite pathways, and energy balance studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18848,
@@ -4763,7 +5247,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -4799,14 +5283,14 @@
       ],
       "version-history": [
         {
-          "count": 11,
+          "count": 12,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18800/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 27644,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18800/revisions/27644"
+          "id": 30285,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18800/revisions/30285"
         }
       ],
       "wp:featuredmedia": [
@@ -4853,8 +5337,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18798"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "tirzepatide-15mg",
     "status": "publish",
     "type": "product",
@@ -4867,7 +5351,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Tirzepatide 15mg is a research-grade dual incretin peptide commonly studied in relation to GIP and GLP-1 receptor activity, metabolic signaling, glucose metabolism, appetite pathways, and body composition research.</p>\n<p>This 15mg vial provides a mid-strength research quantity for laboratory studies involving Tirzepatide and its role in receptor-based metabolic research applications.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>Tirzepatide 15mg is a premium research peptide studied for GLP-1 and GIP receptor pathways. It is researched for metabolic signaling, energy regulation, glucose pathways, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18847,
@@ -5004,7 +5488,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -5040,14 +5524,14 @@
       ],
       "version-history": [
         {
-          "count": 9,
+          "count": 10,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18798/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 27721,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18798/revisions/27721"
+          "id": 30283,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18798/revisions/30283"
         }
       ],
       "wp:featuredmedia": [
@@ -5094,8 +5578,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18795"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "tirzepatide-10mg",
     "status": "publish",
     "type": "product",
@@ -5108,7 +5592,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Tirzepatide 10mg is a research-grade dual incretin peptide commonly studied in relation to GIP and GLP-1 receptor activity, metabolic pathways, glucose metabolism, appetite signaling, and body composition research.</p>\n<p>This 10mg vial provides a focused research quantity for laboratory studies involving Tirzepatide and its role in receptor-based metabolic research applications.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>Tirzepatide 10mg is a premium research peptide studied for GIP and GLP-1 receptor activity. It is researched for glucose metabolism, appetite signaling, metabolic pathways, and body composition studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18846,
@@ -5245,7 +5729,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -5281,14 +5765,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 4,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18795/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 27639,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18795/revisions/27639"
+          "id": 30284,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18795/revisions/30284"
         }
       ],
       "wp:featuredmedia": [
@@ -5335,8 +5819,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18792"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:06",
+    "modified_gmt": "2026-08-24T14:35:06",
     "slug": "pinealon-20mg",
     "status": "publish",
     "type": "product",
@@ -5349,7 +5833,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Pinealon 20mg is a research-grade peptide commonly studied in relation to cognitive function, cellular aging, brain health research, neuroprotective pathways, and peptide-based longevity studies.</p>\n<p>This 20mg vial provides a higher-strength research quantity for laboratory studies involving Pinealon and its role in cellular and neurological research applications.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>Pinealon 20mg is a premium research peptide studied for cognitive function and neurological pathways. It is researched for cellular aging, brain health, oxidative stress, and longevity studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18839,
@@ -5505,7 +5989,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "first",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -5541,14 +6025,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18792/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26239,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18792/revisions/26239"
+          "id": 30253,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18792/revisions/30253"
         }
       ],
       "wp:featuredmedia": [
@@ -5595,8 +6079,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18790"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "semaglutide-30mg",
     "status": "publish",
     "type": "product",
@@ -5609,7 +6093,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Semaglutide 30mg is a research-grade GLP-1 receptor agonist peptide commonly studied in relation to metabolic pathways, appetite signaling, glucose metabolism, gastric emptying research, and body composition studies.</p>\n<p>This 30mg vial provides a higher-strength research quantity for laboratory studies that require a larger Semaglutide format.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>Semaglutide 30mg is a premium GLP-1 research peptide studied for metabolic pathways and receptor activity. It is researched for glucose metabolism, appetite signaling, gastric emptying, and body composition studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18842,
@@ -5746,8 +6230,8 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
-      "outofstock",
+      "",
+      "instock",
       "shipping-taxable",
       "purchasable",
       "product-type-simple"
@@ -5782,14 +6266,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18790/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26225,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18790/revisions/26225"
+          "id": 30272,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18790/revisions/30272"
         }
       ],
       "wp:featuredmedia": [
@@ -5836,8 +6320,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18788"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "semaglutide-20mg",
     "status": "publish",
     "type": "product",
@@ -5850,7 +6334,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Semaglutide 20mg is a research-grade peptide commonly studied in relation to metabolic pathways, GLP-1 receptor activity, appetite signaling, glucose metabolism, and body composition research.</p>\n<p>This 20mg vial provides a mid-to-high strength research quantity for studies involving Semaglutide and its role in metabolic and receptor-based research applications.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>Semaglutide 20mg is a premium research peptide studied for GLP-1 receptor activity and metabolic pathways. It is researched for glucose metabolism, appetite signaling, gastric emptying, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18841,
@@ -5987,7 +6471,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -6023,14 +6507,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 4,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18788/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 25858,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18788/revisions/25858"
+          "id": 30270,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18788/revisions/30270"
         }
       ],
       "wp:featuredmedia": [
@@ -6077,8 +6561,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18785"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "thymosin-alpha-1-10mg",
     "status": "publish",
     "type": "product",
@@ -6091,7 +6575,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Thymosin Alpha-1 10mg is a research-grade peptide commonly studied in relation to immune system signaling, cellular defense mechanisms, inflammatory response, and overall immune function research.</p>\n<p>This 10mg vial provides a focused research quantity for studies involving Thymosin Alpha-1 and its role in immune-related biological pathways.</p>\n<p>Verified COA Available</p>\n<p>For laboratory research use only. Not for human or veterinary use.</p>\n",
+      "rendered": "<p>Thymosin Alpha-1 10mg is a premium research peptide studied for immune pathways and cellular signaling. It is researched for T-cell function, immune regulation, biological communication, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18845,
@@ -6228,7 +6712,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -6264,14 +6748,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 4,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18785/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26224,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18785/revisions/26224"
+          "id": 30282,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18785/revisions/30282"
         }
       ],
       "wp:featuredmedia": [
@@ -6318,8 +6802,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18782"
     },
-    "modified": "2026-07-30T08:24:40",
-    "modified_gmt": "2026-07-30T08:24:40",
+    "modified": "2026-08-21T15:36:14",
+    "modified_gmt": "2026-08-21T15:36:14",
     "slug": "cjc-1295-without-dac-ipa-10mg",
     "status": "publish",
     "type": "product",
@@ -6332,7 +6816,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>CJC-1295 without DAC combined with Ipamorelin (IPA) 10mg is a research-grade peptide blend. This combination is commonly studied in areas [&hellip;]</p>\n",
+      "rendered": "<p>CJC-1295 without DAC + IPA 10mg is a premium research peptide blend studied for growth hormone pathways. It is researched for GHRH activity, Ipamorelin interaction, peptide signaling, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18830,
@@ -6469,7 +6953,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "first",
       "outofstock",
       "shipping-taxable",
       "product-type-simple"
@@ -6504,14 +6988,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18782/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26234,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18782/revisions/26234"
+          "id": 30223,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18782/revisions/30223"
         }
       ],
       "wp:featuredmedia": [
@@ -6558,8 +7042,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=18780"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "ghk-cu-100mg",
     "status": "publish",
     "type": "product",
@@ -6572,7 +7056,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>GHK-Cu 100mg is a copper-binding peptide complex commonly studied for its role in skin regeneration, tissue repair, collagen support, and cellular health. As a higher-strength option, this 100mg vial is suitable for research-focused use where a larger quantity of GHK-Cu is required.</p>\n",
+      "rendered": "<p>GHK-CU 100mg is a premium copper peptide studied for skin regeneration and cellular repair research. It is researched for collagen support, tissue recovery, antioxidant pathways, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 18833,
@@ -6709,7 +7193,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -6745,14 +7229,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18780/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26264,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18780/revisions/26264"
+          "id": 30233,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/18780/revisions/30233"
         }
       ],
       "wp:featuredmedia": [
@@ -6799,8 +7283,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=15061"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "fat-blaster-10ml",
     "status": "publish",
     "type": "product",
@@ -6813,7 +7297,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"346\" data-end=\"794\">Fat Blaster 10ml is a powerful lipotropic blend formulated to support efficient fat metabolism, energy production, and overall metabolic balance. Designed for individuals focused on improving body composition, this advanced formula combines key compounds that work synergistically to help the body process and utilize stored fat more effectively.<br />\nPeptides Costa Rica promises you high-quality ingredients and strict standards to ensure consistency, purity, and reliable results.</p>\n",
+      "rendered": "<p data-start=\"346\" data-end=\"794\">Fat Blaster 10ml is a premium lipotropic blend studied for fat metabolism and cellular energy pathways. It is researched for metabolic balance, liver support, energy production, and advanced biological applications. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 26738,
@@ -6952,7 +7436,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -6988,14 +7472,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/15061/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26251,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/15061/revisions/26251"
+          "id": 30228,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/15061/revisions/30228"
         }
       ],
       "wp:featuredmedia": [
@@ -7042,8 +7526,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14586"
     },
-    "modified": "2026-07-04T07:05:30",
-    "modified_gmt": "2026-07-04T07:05:30",
+    "modified": "2026-08-24T14:35:06",
+    "modified_gmt": "2026-08-24T14:35:06",
     "slug": "bac-water-10ml",
     "status": "publish",
     "type": "product",
@@ -7056,7 +7540,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"154\" data-end=\"439\">BAC Water 10ml (Bacteriostatic Water) is a sterile, preservative-containing solution designed for reconstituting peptides safely and efficiently. Formulated with a small amount of benzyl alcohol, it helps inhibit bacterial growth and supports multi-use applications. This makes it an essential companion product for maintaining peptide stability after mixing, ensuring a more controlled and reliable research or wellness experience.</p>\n",
+      "rendered": "<p data-start=\"228\" data-end=\"660\"><span style=\"color: #000000;\">BAC Water 10ml (<span style=\"color: #333399;\"><strong><a style=\"color: #333399;\" href=\"https://peptidescostarica.net/bac-water-costa-rica/\">Bacteriostatic Water</a></strong></span>) is a sterile bacteriostatic solution used for safely reconstituting peptides. Containing benzyl alcohol to help prevent bacterial growth, it supports multi-use applications and helps maintain peptide stability for reliable research and wellness use.</span></p>\n<p>\n<span style=\"color: #000000;\"><strong>BAC Water 10ml requires a minimum purchase of 3 vials or more. Add any peptide and that minimum goes away — and your peptide still comes with a free 3ml vial.</strong></span></p>\n<p data-start=\"228\" data-end=\"660\">\n",
       "protected": false
     },
     "featured_media": 16550,
@@ -7200,9 +7684,10 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
+      "purchasable",
       "product-type-simple"
     ],
     "acf": [],
@@ -7235,14 +7720,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 13,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14586/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 25830,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14586/revisions/25830"
+          "id": 30183,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14586/revisions/30183"
         }
       ],
       "wp:featuredmedia": [
@@ -7289,8 +7774,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14585"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:06",
+    "modified_gmt": "2026-08-24T14:35:06",
     "slug": "bac-water-3ml",
     "status": "publish",
     "type": "product",
@@ -7303,7 +7788,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"93\" data-end=\"343\">BAC Water 3ml (<a href=\"https://peptidescostarica.net/bac-water-costa-rica/\"><span style=\"color: #333399;\"><strong>Bacteriostatic Water</strong></span></a>) is a sterile solution commonly used for reconstituting peptides and injectable compounds. It contains benzyl alcohol, which helps prevent bacterial growth and allows for safe multi-use over an extended period.</p>\n<p data-start=\"345\" data-end=\"481\">The 3ml size offers a balanced option between minimal and extended use, making it ideal for moderate-length protocols and controlled peptide preparation.</p>\n",
+      "rendered": "<p data-start=\"93\" data-end=\"343\">BAC Water 3ml (<a href=\"https://peptidescostarica.net/bac-water-costa-rica/\"><span style=\"color: #333399;\"><strong>Bacteriostatic Water</strong></span></a>) is a sterile bacteriostatic solution used for reconstituting peptides and injectable compounds. With benzyl alcohol to help prevent bacterial growth, it supports safe multi-use applications and is ideal for controlled peptide preparation.</p>\n<p>\n<strong>Every peptide you buy includes a free 3ml vial. Need to buy more? BAC Water 3ml requires a minimum purchase of 5 vials or more.</strong></p>\n",
       "protected": false
     },
     "featured_media": 16553,
@@ -7447,7 +7932,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "first",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -7483,14 +7968,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 7,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14585/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26265,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14585/revisions/26265"
+          "id": 30176,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14585/revisions/30176"
         }
       ],
       "wp:featuredmedia": [
@@ -7531,261 +8016,14 @@
     }
   },
   {
-    "id": 14584,
-    "date": "2026-04-04T08:16:24",
-    "date_gmt": "2026-04-04T08:16:24",
-    "guid": {
-      "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14584"
-    },
-    "modified": "2026-07-07T13:34:57",
-    "modified_gmt": "2026-07-07T13:34:57",
-    "slug": "bac-water-2ml",
-    "status": "publish",
-    "type": "product",
-    "link": "https://peptidescostarica.net/product/bac-water-2ml/",
-    "title": {
-      "rendered": "BAC Water 2ml"
-    },
-    "content": {
-      "rendered": "<p data-start=\"93\" data-end=\"351\"><strong data-start=\"93\" data-end=\"133\">BAC Water 2ml (Bacteriostatic Water)</strong> is a sterile solution used for reconstituting peptides and other compounds for research purposes. It contains benzyl alcohol, which helps prevent bacterial growth and allows for safe multi-use over an extended period.</p>\n<p data-start=\"353\" data-end=\"477\">This makes it an essential component for maintaining the stability, sterility, and effectiveness of reconstituted solutions.</p>\n",
-      "protected": false
-    },
-    "excerpt": {
-      "rendered": "<p data-start=\"93\" data-end=\"351\">BAC Water 2ml (Bacteriostatic Water) is a sterile solution formulated with benzyl alcohol to support safe and effective peptide reconstitution. Its compact size makes it ideal for smaller protocols or single-cycle use while still allowing multi-dose withdrawals.</p>\n<p data-start=\"93\" data-end=\"351\">Designed for convenience and reliability, it helps maintain the stability of reconstituted peptides while reducing contamination risk during handling.</p>\n",
-      "protected": false
-    },
-    "featured_media": 16555,
-    "comment_status": "open",
-    "ping_status": "closed",
-    "template": "",
-    "meta": {
-      "_acf_changed": false,
-      "site-sidebar-layout": "default",
-      "site-content-layout": "",
-      "ast-site-content-layout": "default",
-      "site-content-style": "default",
-      "site-sidebar-style": "default",
-      "ast-global-header-display": "",
-      "ast-banner-title-visibility": "",
-      "ast-main-header-display": "",
-      "ast-hfb-above-header-display": "",
-      "ast-hfb-below-header-display": "",
-      "ast-hfb-mobile-header-display": "",
-      "site-post-title": "",
-      "ast-breadcrumbs-content": "",
-      "ast-featured-img": "",
-      "footer-sml-layout": "",
-      "ast-disable-related-posts": "",
-      "theme-transparent-header-meta": "default",
-      "adv-header-id-meta": "",
-      "stick-header-meta": "",
-      "header-above-stick-meta": "",
-      "header-main-stick-meta": "",
-      "header-below-stick-meta": "",
-      "astra-migrate-meta-layouts": "set",
-      "ast-page-background-enabled": "default",
-      "ast-page-background-meta": {
-        "desktop": {
-          "background-color": "var(--ast-global-color-5)",
-          "background-image": "",
-          "background-repeat": "repeat",
-          "background-position": "center center",
-          "background-size": "auto",
-          "background-attachment": "scroll",
-          "background-type": "",
-          "background-media": "",
-          "overlay-type": "",
-          "overlay-color": "",
-          "overlay-opacity": "",
-          "overlay-gradient": ""
-        },
-        "tablet": {
-          "background-color": "",
-          "background-image": "",
-          "background-repeat": "repeat",
-          "background-position": "center center",
-          "background-size": "auto",
-          "background-attachment": "scroll",
-          "background-type": "",
-          "background-media": "",
-          "overlay-type": "",
-          "overlay-color": "",
-          "overlay-opacity": "",
-          "overlay-gradient": ""
-        },
-        "mobile": {
-          "background-color": "",
-          "background-image": "",
-          "background-repeat": "repeat",
-          "background-position": "center center",
-          "background-size": "auto",
-          "background-attachment": "scroll",
-          "background-type": "",
-          "background-media": "",
-          "overlay-type": "",
-          "overlay-color": "",
-          "overlay-opacity": "",
-          "overlay-gradient": ""
-        }
-      },
-      "ast-content-background-meta": {
-        "desktop": {
-          "background-color": "var(--ast-global-color-4)",
-          "background-image": "",
-          "background-repeat": "repeat",
-          "background-position": "center center",
-          "background-size": "auto",
-          "background-attachment": "scroll",
-          "background-type": "",
-          "background-media": "",
-          "overlay-type": "",
-          "overlay-color": "",
-          "overlay-opacity": "",
-          "overlay-gradient": ""
-        },
-        "tablet": {
-          "background-color": "var(--ast-global-color-4)",
-          "background-image": "",
-          "background-repeat": "repeat",
-          "background-position": "center center",
-          "background-size": "auto",
-          "background-attachment": "scroll",
-          "background-type": "",
-          "background-media": "",
-          "overlay-type": "",
-          "overlay-color": "",
-          "overlay-opacity": "",
-          "overlay-gradient": ""
-        },
-        "mobile": {
-          "background-color": "var(--ast-global-color-4)",
-          "background-image": "",
-          "background-repeat": "repeat",
-          "background-position": "center center",
-          "background-size": "auto",
-          "background-attachment": "scroll",
-          "background-type": "",
-          "background-media": "",
-          "overlay-type": "",
-          "overlay-color": "",
-          "overlay-opacity": "",
-          "overlay-gradient": ""
-        }
-      }
-    },
-    "product_brand": [],
-    "product_cat": [
-      25,
-      34
-    ],
-    "product_tag": [
-      163,
-      162
-    ],
-    "class_list": [
-      "post-14584",
-      "product",
-      "type-product",
-      "status-publish",
-      "has-post-thumbnail",
-      "product_cat-bac-water",
-      "product_cat-peptide-reconstitution",
-      "product_tag-free",
-      "product_tag-included",
-      "desktop-align-left",
-      "tablet-align-left",
-      "mobile-align-left",
-      "last",
-      "outofstock",
-      "shipping-taxable",
-      "product-type-simple"
-    ],
-    "acf": [],
-    "_links": {
-      "self": [
-        {
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14584",
-          "targetHints": {
-            "allow": [
-              "GET"
-            ]
-          }
-        }
-      ],
-      "collection": [
-        {
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product"
-        }
-      ],
-      "about": [
-        {
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/types/product"
-        }
-      ],
-      "replies": [
-        {
-          "embeddable": true,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/comments?post=14584"
-        }
-      ],
-      "version-history": [
-        {
-          "count": 5,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14584/revisions"
-        }
-      ],
-      "predecessor-version": [
-        {
-          "id": 24692,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14584/revisions/24692"
-        }
-      ],
-      "wp:featuredmedia": [
-        {
-          "embeddable": true,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/media/16555"
-        }
-      ],
-      "wp:attachment": [
-        {
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/media?parent=14584"
-        }
-      ],
-      "wp:term": [
-        {
-          "taxonomy": "product_brand",
-          "embeddable": true,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_brand?post=14584"
-        },
-        {
-          "taxonomy": "product_cat",
-          "embeddable": true,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_cat?post=14584"
-        },
-        {
-          "taxonomy": "product_tag",
-          "embeddable": true,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product_tag?post=14584"
-        }
-      ],
-      "curies": [
-        {
-          "name": "wp",
-          "href": "https://api.w.org/{rel}",
-          "templated": true
-        }
-      ]
-    }
-  },
-  {
     "id": 14583,
     "date": "2026-04-04T08:14:19",
     "date_gmt": "2026-04-04T08:14:19",
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14583"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "glutathione-1500mg",
     "status": "publish",
     "type": "product",
@@ -7798,7 +8036,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"98\" data-end=\"338\">Glutathione 1500mg is a high-potency antioxidant widely used in Costa Rica for supporting skin clarity, detoxification, and cellular health. Known as the body’s “master antioxidant,” it helps protect against oxidative stress while promoting a brighter, more even-looking complexion and overall wellness.</p>\n",
+      "rendered": "<p data-start=\"98\" data-end=\"338\">Glutathione 1500mg is a premium antioxidant compound studied for cellular health and oxidative stress research. It is researched for detoxification pathways, skin clarity, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16557,
@@ -7937,7 +8175,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -7973,14 +8211,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14583/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26252,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14583/revisions/26252"
+          "id": 30229,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14583/revisions/30229"
         }
       ],
       "wp:featuredmedia": [
@@ -8027,8 +8265,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14582"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "kisspeptin-10-10mg",
     "status": "publish",
     "type": "product",
@@ -8041,7 +8279,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"98\" data-end=\"369\">Kisspeptin-10 10mg is a specialized peptide known for its central role in regulating reproductive hormones and supporting sexual health. It works by signaling pathways that influence natural hormone production, making it highly relevant for individuals focused on hormonal balance, libido, and overall reproductive function. Often used in wellness protocols, Kisspeptin-10 is valued for its targeted and physiologically aligned approach to optimizing vitality and endocrine health.</p>\n",
+      "rendered": "<p data-start=\"98\" data-end=\"369\">KissPeptin-10 10mg is a premium research peptide studied for reproductive signaling and hormonal pathways. It is researched for GnRH stimulation, LH and FSH regulation, and advanced endocrine studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16559,
@@ -8214,14 +8452,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14582/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26241,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14582/revisions/26241"
+          "id": 30244,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14582/revisions/30244"
         }
       ],
       "wp:featuredmedia": [
@@ -8268,8 +8506,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14581"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "pt-141-10mgtest",
     "status": "publish",
     "type": "product",
@@ -8282,7 +8520,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"91\" data-end=\"357\">PT-141 10mg from Peptides Costa Rica is designed for people interested in advanced sexual wellness and intimacy-focused support. Commonly discussed for its relationship with libido, arousal response, and desire, PT-141 stands apart from many sexual wellness products because it is researched for central nervous system activity rather than only vascular effects. It is a targeted option for individuals seeking a more specialized peptide experience.</p>\n",
+      "rendered": "<p data-start=\"91\" data-end=\"357\">PT-141 10mg is a premium research peptide studied for melanocortin receptor pathways and neurological research. It is researched for CNS signaling, arousal pathways, receptor activity, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16562,
@@ -8419,7 +8657,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -8455,14 +8693,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 4,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14581/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26238,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14581/revisions/26238"
+          "id": 30252,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14581/revisions/30252"
         }
       ],
       "wp:featuredmedia": [
@@ -8509,8 +8747,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14580"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:06",
+    "modified_gmt": "2026-08-24T14:35:06",
     "slug": "mots-c-40mg",
     "status": "publish",
     "type": "product",
@@ -8523,7 +8761,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"859\" data-end=\"1340\">MOTS-C 40mg is a premium peptide offered by Peptides Costa Rica for people seeking advanced support for cellular energy, metabolism, and vitality-focused wellness goals. As a mitochondrial-derived peptide, MOTS-C is commonly associated with energy regulation, metabolic balance, exercise performance, and healthy aging research. It is especially appealing to individuals looking for a more science-driven peptide option beyond standard recovery or cosmetic-focused products.</p>\n<p data-start=\"355\" data-end=\"529\">This peptide is gaining attention for its potential to enhance insulin sensitivity, improve energy production, and support healthy aging by targeting core cellular processes.</p>\n",
+      "rendered": "<p data-start=\"859\" data-end=\"1340\">MOTS-C 40mg is a mitochondrial-derived peptide studied for metabolic function and cellular energy balance. It is researched for AMPK activation, glucose regulation, fat metabolism, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16565,
@@ -8662,7 +8900,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "first",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -8698,14 +8936,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14580/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26247,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14580/revisions/26247"
+          "id": 30247,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14580/revisions/30247"
         }
       ],
       "wp:featuredmedia": [
@@ -8752,8 +8990,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14579"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T00:35:04",
+    "modified_gmt": "2026-08-24T00:35:04",
     "slug": "igf-1lr3-1mg",
     "status": "publish",
     "type": "product",
@@ -8766,7 +9004,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"376\" data-end=\"806\">IGF-1 LR3 1mg is a long-acting growth factor peptide known for its role in muscle development, recovery, and nutrient efficiency. Engineered for enhanced stability and extended activity, it is widely used in performance-focused routines. This peptide supports cellular growth and repair processes, making it a valuable option for individuals aiming to optimize muscle development, recovery speed, and overall physical performance.</p>\n",
+      "rendered": "<p data-start=\"376\" data-end=\"806\">IGF-1LR3 1mg is a premium research peptide studied for muscle growth and metabolic pathways. It is researched for IGF-1 receptor activity, cellular development, and recovery studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 25733,
@@ -8903,7 +9141,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -8939,14 +9177,14 @@
       ],
       "version-history": [
         {
-          "count": 2,
+          "count": 4,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14579/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26240,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14579/revisions/26240"
+          "id": 30241,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14579/revisions/30241"
         }
       ],
       "wp:featuredmedia": [
@@ -8993,8 +9231,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14578"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "sermorelin-10mg",
     "status": "publish",
     "type": "product",
@@ -9007,7 +9245,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"95\" data-end=\"393\">Sermorelin 10mg is a growth hormone-releasing peptide designed to stimulate the body&#8217;s natural production of human growth hormone (HGH) through the pituitary gland. Unlike synthetic HGH, Sermorelin works with the body&#8217;s own rhythms, promoting steady, balanced hormone release that supports anti-aging, recovery, lean muscle development, and improved sleep quality.</p>\n<p data-start=\"95\" data-end=\"393\">Favored by those seeking a gentler, more sustainable approach to hormonal optimization, Sermorelin 10mg offers a research-backed path to renewed vitality, sharper body composition, and the feeling of youthful energy restored from within.</p>\n",
+      "rendered": "<p data-start=\"95\" data-end=\"393\">Sermorelin 10mg is a premium research peptide studied for growth hormone pathways and biological signaling. It is researched for GHRH activity, pituitary function, recovery processes, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16569,
@@ -9182,14 +9420,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 4,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14578/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26253,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14578/revisions/26253"
+          "id": 30275,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14578/revisions/30275"
         }
       ],
       "wp:featuredmedia": [
@@ -9236,8 +9474,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14576"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "retatrutide-20mg",
     "status": "publish",
     "type": "product",
@@ -9250,7 +9488,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"120\" data-end=\"416\">Retatrutide 20mg is an advanced research peptide associated with metabolic wellness, appetite regulation, body composition support, and weight-management research. Known for its multi-receptor activity, Retatrutide has gained attention for its relationship with GLP-1, GIP, and glucagon pathways, making it one of the most discussed peptides in modern metabolic optimization.</p>\n<p data-start=\"418\" data-end=\"777\">Unlike traditional single-pathway treatments, Retatrutide activates GLP-1, GIP, and glucagon receptors simultaneously, which may result in significantly enhanced outcomes in weight reduction and metabolic improvement. It is widely researched for its potential to support individuals dealing with obesity, insulin resistance, and overall metabolic dysfunction.</p>\n",
+      "rendered": "<p data-start=\"120\" data-end=\"416\">Retatrutide 20mg is a premium metabolic research peptide studied for triple receptor activity. It is researched for GLP-1, GIP, glucagon pathways, appetite regulation, and metabolic research applications. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16571,
@@ -9389,7 +9627,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -9425,14 +9663,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14576/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26274,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14576/revisions/26274"
+          "id": 30258,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14576/revisions/30258"
         }
       ],
       "wp:featuredmedia": [
@@ -9479,8 +9717,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14557"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "super-human-blend-10ml",
     "status": "publish",
     "type": "product",
@@ -9493,7 +9731,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>SUPER Human Blend 10ml is a specialized amino acid formula engineered to support physical performance, metabolic efficiency, and cellular recovery. This advanced blend combines key amino acids such as L-Arginine, L-Citrulline, and L-Ornithine to promote nitric oxide production, helping improve blood flow, oxygen delivery, and endurance. Whether you&#8217;re focused on performance, recovery, or overall vitality, this formulation provides targeted support.Additionally, the inclusion of L-Carnitine supports fat metabolism and energy production, while NAC (N-Acetyl Cysteine) contributes to antioxidant activity and cellular detoxification. Supporting amino acids like L-Glutamine, L-Taurine, and L-Lysine aid in muscle repair, immune function, and overall recovery.This blend is commonly used in performance and recovery protocols where improved circulation, metabolic support, and cellular health are desired.</p>\n",
+      "rendered": "<p>SUPER Human Blend 10ml is a premium research blend studied for energy pathways and recovery applications. It is researched for cellular function, performance support, metabolic activity, and advanced biological studies. Supplied as a high-quality research compound.</p>\n",
       "protected": false
     },
     "featured_media": 16572,
@@ -9632,7 +9870,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "first",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -9668,14 +9906,14 @@
       ],
       "version-history": [
         {
-          "count": 2,
+          "count": 4,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14557/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 25866,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14557/revisions/25866"
+          "id": 30274,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14557/revisions/30274"
         }
       ],
       "wp:featuredmedia": [
@@ -9722,8 +9960,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14554"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "retatrutide-24mg",
     "status": "publish",
     "type": "product",
@@ -9736,7 +9974,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"118\" data-end=\"463\">Retatrutide 24mg is a next-generation triple-agonist peptide engineered for advanced metabolic support, weight management, and body composition transformation. Acting on GLP-1, GIP, and glucagon receptors simultaneously, it targets appetite, energy expenditure, and fat metabolism from three angles at once. Early clinical research highlights its remarkable ability to drive significant fat loss, improve insulin sensitivity, and support liver and cardiovascular health. Retatrutide 24mg represents a powerful step forward for individuals seeking a science-backed approach to sustainable metabolic balance and lasting physique improvement.</p>\n",
+      "rendered": "<p data-start=\"118\" data-end=\"463\">Retatrutide 24mg is a premium metabolic research peptide studied for triple receptor activity. It is researched for GLP-1, GIP, glucagon pathways, metabolic regulation, and energy balance studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16573,
@@ -9875,7 +10113,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -9911,14 +10149,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14554/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26222,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14554/revisions/26222"
+          "id": 30259,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14554/revisions/30259"
         }
       ],
       "wp:featuredmedia": [
@@ -9965,8 +10203,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=14408"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "retatrutide-15mg",
     "status": "publish",
     "type": "product",
@@ -9979,7 +10217,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Retatrutide 15mg is an advanced research peptide being studied for its powerful effects on weight management, metabolic health, and blood sugar regulation. It is designed for customers interested in advanced metabolic support and body composition-focused wellness. Known for its triple-receptor activity, Retatrutide is commonly discussed in relation to appetite regulation, satiety, glucose-related signaling, fuel utilization, and weight-management research.</p>\n<p data-start=\"413\" data-end=\"861\">The 15mg size offers a strong mid-to-high format for buyers comparing different Retatrutide options.</p>\n",
+      "rendered": "<p>Retatrutide 15mg is a premium metabolic research peptide studied for triple receptor activity. It is researched for GLP-1, GIP, glucagon pathways, metabolic signaling, energy regulation, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16574,
@@ -10154,14 +10392,14 @@
       ],
       "version-history": [
         {
-          "count": 7,
+          "count": 8,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14408/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 27845,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14408/revisions/27845"
+          "id": 30257,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/14408/revisions/30257"
         }
       ],
       "wp:featuredmedia": [
@@ -10208,8 +10446,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=8180"
     },
-    "modified": "2026-07-30T08:20:56",
-    "modified_gmt": "2026-07-30T08:20:56",
+    "modified": "2026-08-21T15:33:18",
+    "modified_gmt": "2026-08-21T15:33:18",
     "slug": "cjc-with-dac-5mg",
     "status": "publish",
     "type": "product",
@@ -10222,7 +10460,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>CJC with DAC 5mg is a long-acting peptide designed to support sustained growth hormone release over extended periods. It is a Growth Hormone Releasing Hormone (GHRH) analog peptide studied widely for its ability to stimulate the natural production of growth hormone (GH) and insulin-like growth factor-1 (IGF-1). The addition of DAC (Drug Affinity Complex) allows the peptide to bind to albumin in the bloodstream, significantly extending its half-life and allowing for sustained activity over several days.</p>\n",
+      "rendered": "<p>CJC with DAC 5mg is a premium research peptide studied for growth hormone pathways and biological research. It is researched for GHRH activity, peptide stability, and advanced laboratory studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16575,
@@ -10369,7 +10607,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "outofstock",
       "shipping-taxable",
       "product-type-simple"
@@ -10404,14 +10642,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/8180/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26258,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/8180/revisions/26258"
+          "id": 30222,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/8180/revisions/30222"
         }
       ],
       "wp:featuredmedia": [
@@ -10458,8 +10696,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=8179"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "ipamorelin-10mg",
     "status": "publish",
     "type": "product",
@@ -10472,7 +10710,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"106\" data-end=\"504\">Ipamorelin 10mg is a selective growth hormone–releasing peptide designed to support natural HGH stimulation in a controlled and targeted manner. Known for its precision and balanced profile, it is commonly used in wellness and performance routines focused on recovery, fat metabolism, and sleep quality. Its gentle mechanism makes it a preferred option for individuals seeking effective HGH support without a broad systemic impact.</p>\n",
+      "rendered": "<p data-start=\"106\" data-end=\"504\">Ipamorelin 10mg is a premium research peptide studied for natural growth hormone pathways and recovery applications. It is researched for HGH stimulation, sleep quality, fat metabolism, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16578,
@@ -10617,7 +10855,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "first",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -10653,14 +10891,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 4,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/8179/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26226,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/8179/revisions/26226"
+          "id": 30239,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/8179/revisions/30239"
         }
       ],
       "wp:featuredmedia": [
@@ -10707,8 +10945,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=8178"
     },
-    "modified": "2026-07-30T08:08:59",
-    "modified_gmt": "2026-07-30T08:08:59",
+    "modified": "2026-08-21T15:27:36",
+    "modified_gmt": "2026-08-21T15:27:36",
     "slug": "bpc-157-tb-500-20mg-wolverine-stack",
     "status": "publish",
     "type": "product",
@@ -10721,7 +10959,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"128\" data-end=\"377\">BPC-157 + TB-500 20mg is a powerful dual-peptide blend designed to support full-body recovery, tissue repair, and physical resilience. Combining the localized repair potential of BPC-157 with the systemic recovery support of TB-500, this stack is widely explored for injury recovery, mobility, and performance optimization. It is a popular choice for individuals seeking a more complete and efficient approach to healing and regeneration.</p>\n",
+      "rendered": "<p data-start=\"128\" data-end=\"377\">BPC-157 + TB-500 20mg is a premium research peptide blend studied for tissue recovery and biological pathways. It is researched for muscle support, cellular repair, mobility, and advanced laboratory studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16580,
@@ -10858,7 +11096,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "outofstock",
       "shipping-taxable",
       "purchasable",
@@ -10894,14 +11132,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/8178/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26242,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/8178/revisions/26242"
+          "id": 30221,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/8178/revisions/30221"
         }
       ],
       "wp:featuredmedia": [
@@ -10948,8 +11186,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=8177"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "reta-10mg",
     "status": "publish",
     "type": "product",
@@ -10962,7 +11200,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<div class=\"elementor-element elementor-element-2b5bb73 elementor-widget elementor-widget-text-editor\" data-id=\"2b5bb73\" data-element_type=\"widget\" data-e-type=\"widget\" data-widget_type=\"text-editor.default\">\n<p data-start=\"47\" data-end=\"532\">Retatrutide 10mg is designed for customers seeking a focused metabolic peptide option in a smaller vial size. It is commonly discussed for its triple-receptor activity involving GLP-1, GIP, and glucagon pathways, which are linked to appetite signaling, energy balance, glucose metabolism, and body composition research.</p>\n</div>\n",
+      "rendered": "<div class=\"elementor-element elementor-element-2b5bb73 elementor-widget elementor-widget-text-editor\" data-id=\"2b5bb73\" data-element_type=\"widget\" data-e-type=\"widget\" data-widget_type=\"text-editor.default\">\n<p data-start=\"47\" data-end=\"532\">Retatrutide 10mg is a premium metabolic research peptide studied for triple receptor activity. It is researched for GLP-1, GIP, glucagon pathways, appetite signaling, glucose metabolism, and energy balance studies. Supplied as a high-quality research compound for professional use.</p>\n</div>\n",
       "protected": false
     },
     "featured_media": 16582,
@@ -11135,14 +11373,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/8177/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26268,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/8177/revisions/26268"
+          "id": 30255,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/8177/revisions/30255"
         }
       ],
       "wp:featuredmedia": [
@@ -11189,8 +11427,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=6930"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "glow-70mg",
     "status": "publish",
     "type": "product",
@@ -11203,7 +11441,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"0\" data-end=\"275\">GLOW 70mg is a carefully formulated peptide blend designed to support skin regeneration, hydration, and overall skin vitality. It is designed promote a healthier, more radiant appearance by supporting the body’s natural repair processes and improving skin texture and tone.</p>\n<p data-start=\"277\" data-end=\"613\" data-is-last-node=\"\" data-is-only-node=\"\">It combines key compounds that promote collagen support, antioxidant protection, and improved skin appearance, helping you maintain a healthier, more radiant look from within. Get now if you are beauty and wellness focused.</p>\n",
+      "rendered": "<p data-start=\"0\" data-end=\"275\">GLOW 70mg is a premium peptide blend studied for skin regeneration and cellular repair research. It is researched for collagen support, antioxidant protection, tissue renewal, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16583,
@@ -11342,8 +11580,8 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
-      "outofstock",
+      "last",
+      "instock",
       "shipping-taxable",
       "purchasable",
       "product-type-simple"
@@ -11378,14 +11616,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/6930/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 27823,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/6930/revisions/27823"
+          "id": 30231,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/6930/revisions/30231"
         }
       ],
       "wp:featuredmedia": [
@@ -11432,8 +11670,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=6927"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:06",
+    "modified_gmt": "2026-08-24T14:35:06",
     "slug": "tb-4-10mg",
     "status": "publish",
     "type": "product",
@@ -11446,7 +11684,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">TB-4 10mg (Thymosin Beta-4) is a powerful regenerative peptide naturally produced in the body, renowned for its exceptional ability to accelerate healing, reduce inflammation, and support tissue repair. Found in nearly every cell, TB-4 plays a critical role in cellular migration, blood vessel formation, and recovery from injury.</p>\n<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">Favored by athletes, biohackers, and those recovering from physical stress, TB-4 10mg offers research-backed support for faster muscle and tendon repair, enhanced flexibility, and renewed mobility, making it a cornerstone peptide for true regenerative wellness.</p>\n",
+      "rendered": "<p class=\"font-claude-response-body break-words whitespace-normal leading-[1.7]\">TB-4 10mg is a premium research peptide studied for tissue repair and cellular regeneration. It is researched for muscle recovery, cell migration, angiogenesis, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16584,
@@ -11583,7 +11821,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "first",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -11619,14 +11857,14 @@
       ],
       "version-history": [
         {
-          "count": 2,
+          "count": 3,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/6927/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 24814,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/6927/revisions/24814"
+          "id": 30281,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/6927/revisions/30281"
         }
       ],
       "wp:featuredmedia": [
@@ -11673,8 +11911,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=3197"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "epithalon-50mg",
     "status": "publish",
     "type": "product",
@@ -11687,7 +11925,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"443\" data-end=\"696\">Epithalon 50mg is a synthetic peptide designed to support healthy aging at the cellular level. It has gained attention for its role in promoting telomere health, regulating circadian rhythms, and supporting overall biological resilience. This peptide is commonly used in longevity-focused protocols for individuals looking to maintain vitality, improve sleep quality, and support long-term cellular function.</p>\n<p data-start=\"870\" data-end=\"1013\">At Peptides Costa Rica, our Epithalon is sourced and handled under strict quality standards, ensuring purity, consistency, and reliability.</p>\n",
+      "rendered": "<p data-start=\"443\" data-end=\"696\">Epithalon 50mg is a premium research peptide studied for cellular aging and longevity research. It is researched for telomere activity, circadian rhythm regulation, and biological resilience. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16594,
@@ -11824,7 +12062,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -11860,14 +12098,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 4,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3197/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26256,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3197/revisions/26256"
+          "id": 30227,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3197/revisions/30227"
         }
       ],
       "wp:featuredmedia": [
@@ -11914,8 +12152,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=3196"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "hgh-24-iu",
     "status": "publish",
     "type": "product",
@@ -11928,7 +12166,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"322\" data-end=\"776\">HGH 24 IU is a higher-capacity growth hormone peptide designed for individuals seeking extended support for recovery, muscle development, and overall vitality. With a larger IU offering, it is ideal for those following structured wellness or performance routines. HGH plays a key role in cellular repair, metabolism, and physical resilience, making it a valuable option for supporting body composition, energy levels, and long-term physiological balance.</p>\n",
+      "rendered": "<p data-start=\"322\" data-end=\"776\">HGH 24 IU is a premium research compound studied for growth hormone pathways and cellular processes. It is researched for hormone signaling, tissue support, recovery mechanisms, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16601,
@@ -12111,14 +12349,14 @@
       ],
       "version-history": [
         {
-          "count": 2,
+          "count": 3,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3196/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26249,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3196/revisions/26249"
+          "id": 30235,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3196/revisions/30235"
         }
       ],
       "wp:featuredmedia": [
@@ -12165,8 +12403,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=3195"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "hgh-12-iu",
     "status": "publish",
     "type": "product",
@@ -12179,7 +12417,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>HGH 12 IU is a high-quality synthetic growth hormone peptide designed to support recovery, lean muscle development, and overall vitality. Commonly used in wellness and performance-focused routines, it plays a role in cellular regeneration, metabolism, and physical resilience. This peptide is valued for its ability to complement active lifestyles, helping individuals maintain energy levels, support body composition goals, and promote a more youthful physiological balance.</p>\n",
+      "rendered": "<p>HGH 12 IU is a premium research compound studied for growth hormone pathways and biological research applications. It is researched for cellular growth, recovery processes, and advanced hormone-related studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16598,
@@ -12326,7 +12564,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -12362,14 +12600,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3195/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26245,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3195/revisions/26245"
+          "id": 30234,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3195/revisions/30234"
         }
       ],
       "wp:featuredmedia": [
@@ -12416,8 +12654,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=3194"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "dsip-15mg",
     "status": "publish",
     "type": "product",
@@ -12430,7 +12668,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>DSIP 15mg (Delta Sleep-Inducing Peptide) is a research peptide commonly explored for its role in supporting deep, restorative sleep and neurological balance. It is often associated with improved sleep quality, stress regulation, and mental recovery. Popular in wellness-focused protocols, DSIP is used by individuals seeking better sleep cycles, enhanced recovery, and overall cognitive and physiological reset.</p>\n",
+      "rendered": "<p>DSIP 15mg is a premium research peptide studied for sleep regulation and neurological research applications. It is researched for sleep cycles, stress balance, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16592,
@@ -12567,7 +12805,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "first",
       "outofstock",
       "shipping-taxable",
       "purchasable",
@@ -12603,14 +12841,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3194/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26273,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3194/revisions/26273"
+          "id": 30226,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3194/revisions/30226"
         }
       ],
       "wp:featuredmedia": [
@@ -12657,8 +12895,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=3193"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "adamax-5mg",
     "status": "publish",
     "type": "product",
@@ -12671,7 +12909,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Adamax 5mg is a premium peptide formulated to support both cognitive performance and physical vitality. It is increasingly explored for its potential role in enhancing focus, mental clarity, and energy levels while also supporting recovery and endurance. This dual-action profile makes it a strong choice for individuals seeking a balanced approach to high performance, mentally and physically, within advanced wellness and fitness protocols.</p>\n",
+      "rendered": "<p>Adamax 5mg is a premium research peptide studied for cognitive performance, mental clarity, and physical vitality applications. It is researched for molecular activity, energy support, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16588,
@@ -12808,7 +13046,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "outofstock",
       "shipping-taxable",
       "purchasable",
@@ -12844,14 +13082,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3193/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26248,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3193/revisions/26248"
+          "id": 30216,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3193/revisions/30216"
         }
       ],
       "wp:featuredmedia": [
@@ -12898,8 +13136,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=3192"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "ss-31-10mg",
     "status": "publish",
     "type": "product",
@@ -12912,7 +13150,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"0\" data-end=\"264\">SS-31 10mg, also known as Elamipretide, is a cutting-edge mitochondrial-targeted peptide designed to restore cellular energy at its source. By concentrating in the inner mitochondrial membrane, SS-31 protects and revitalizes the very structures responsible for powering every cell in the body. It&#8217;s gaining recognition for its remarkable role in combating oxidative stress, supporting cardiovascular health, and slowing age-related cellular decline. For those seeking deep, foundational wellness, from heart function to muscular endurance, SS-31 10mg offers a science-driven approach to renewed cellular vitality and longevity.</p>\n",
+      "rendered": "<p data-start=\"0\" data-end=\"264\">SS-31 10mg is a premium mitochondrial research peptide studied for cellular energy and oxidative stress pathways. It is researched for ATP production, cardiolipin protection, mitochondrial function, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16609,
@@ -13087,14 +13325,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3192/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26223,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3192/revisions/26223"
+          "id": 30264,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3192/revisions/30264"
         }
       ],
       "wp:featuredmedia": [
@@ -13141,8 +13379,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=3191"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "thymalin-10mg",
     "status": "publish",
     "type": "product",
@@ -13155,7 +13393,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p data-start=\"0\" data-end=\"271\">Thymalin 10mg is a research-backed thymic peptide derived from the thymus gland, renowned for its powerful immune-modulating and anti-aging properties. By restoring balance to the immune system and supporting healthy thymus function, Thymalin helps the body defend itself more effectively while slowing key markers of biological aging. Studied extensively for its role in longevity and immune resilience, Thymalin 10mg is favored by individuals seeking comprehensive support for immune strength, cellular regeneration, and the kind of foundational wellness that promotes a longer, healthier life.</p>\n",
+      "rendered": "<p data-start=\"0\" data-end=\"271\">Thymalin 10mg is a premium research peptide studied for immune pathways and cellular signaling. It is researched for T-cell maturation, immune regulation, thymus function, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16605,
@@ -13292,7 +13530,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -13328,14 +13566,14 @@
       ],
       "version-history": [
         {
-          "count": 2,
+          "count": 4,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3191/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 25868,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3191/revisions/25868"
+          "id": 30280,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3191/revisions/30280"
         }
       ],
       "wp:featuredmedia": [
@@ -13382,8 +13620,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=3190"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:06",
+    "modified_gmt": "2026-08-24T14:35:06",
     "slug": "tesamorelin-10mg",
     "status": "publish",
     "type": "product",
@@ -13396,7 +13634,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Tesamorelin 10mg is a clinically advanced growth hormone-releasing hormone (GHRH) analog renowned for its ability to stimulate natural HGH production while specifically targeting stubborn visceral fat.</p>\n<p>FDA-approved for certain medical applications, Tesamorelin stands out for its precision in reducing deep abdominal fat, the type most linked to metabolic risk. Beyond fat loss, it supports lean muscle development, sharper cognitive function, healthier lipid profiles, and improved overall vitality. For those seeking targeted body recomposition with science-backed HGH support, Tesamorelin 10mg delivers proven, research-driven results.</p>\n",
+      "rendered": "<p>Tesamorelin 10mg is a premium research peptide studied for GHRH pathways and growth hormone signaling. It is researched for IGF-1 activity, metabolic pathways, body composition research, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16607,
@@ -13535,7 +13773,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "first",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -13571,14 +13809,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3190/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 24819,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3190/revisions/24819"
+          "id": 30289,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3190/revisions/30289"
         }
       ],
       "wp:featuredmedia": [
@@ -13625,8 +13863,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=3189"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "reta-12mg",
     "status": "publish",
     "type": "product",
@@ -13639,7 +13877,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Retatrutide 12mg is designed for customers interested in advanced metabolic wellness and body composition-focused support. Its triple-receptor profile makes it especially relevant for appetite balance, satiety, glucose-related signaling, energy regulation, and weight-management research. The 12mg size offers a balanced middle option between smaller and higher-strength vial formats.</p>\n",
+      "rendered": "<p>Retatrutide 12mg is a premium metabolic research peptide studied for triple receptor activity. It is researched for GLP-1, GIP, glucagon pathways, appetite balance, glucose metabolism, and energy regulation studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16616,
@@ -13776,8 +14014,8 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
-      "outofstock",
+      "",
+      "instock",
       "shipping-taxable",
       "purchasable",
       "product-type-simple"
@@ -13812,14 +14050,14 @@
       ],
       "version-history": [
         {
-          "count": 7,
+          "count": 8,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3189/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 27822,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3189/revisions/27822"
+          "id": 30256,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/3189/revisions/30256"
         }
       ],
       "wp:featuredmedia": [
@@ -13866,8 +14104,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=146"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:06",
+    "modified_gmt": "2026-08-24T14:35:06",
     "slug": "ghk-cu-50mg",
     "status": "publish",
     "type": "product",
@@ -13880,7 +14118,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>GHK-Cu 50mg is a copper-binding peptide widely recognized for its role in supporting skin regeneration, tissue repair, and overall cellular health. Commonly used in wellness and cosmetic-focused protocols, it is valued for promoting healthier skin appearance, improving recovery processes, and supporting long-term cellular function.</p>\n",
+      "rendered": "<p>GHK-CU 50mg is a copper-binding peptide studied for skin regeneration and tissue research applications. It is researched for collagen support, cellular health, tissue repair, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16596,
@@ -14057,14 +14295,14 @@
       ],
       "version-history": [
         {
-          "count": 12,
+          "count": 13,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/146/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26377,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/146/revisions/26377"
+          "id": 30232,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/146/revisions/30232"
         }
       ],
       "wp:featuredmedia": [
@@ -14111,8 +14349,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=145"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "selank-10mg",
     "status": "publish",
     "type": "product",
@@ -14125,7 +14363,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Selank 10mg is a research-backed nootropic peptide celebrated for its calming, mood-balancing, and cognitive-enhancing properties. Originally developed as a synthetic analog of tuftsin, Selank works gently on the nervous system to ease anxiety, sharpen focus, and stabilize emotional well-being, without the sedation or dependency risks of traditional anti-anxiety options. Favored by individuals seeking mental clarity under pressure, Selank 10mg offers a unique blend of stress relief and cognitive support, making it a versatile peptide for modern lifestyles demanding both calm and peak mental performance.</p>\n",
+      "rendered": "<p>Selank 10mg is a premium research peptide studied for mood regulation and cognitive function. It is researched for stress response, neurological pathways, mental clarity, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16611,
@@ -14264,7 +14502,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -14300,14 +14538,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 7,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/145/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26254,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/145/revisions/26254"
+          "id": 30268,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/145/revisions/30268"
         }
       ],
       "wp:featuredmedia": [
@@ -14354,8 +14592,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=144"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:04",
+    "modified_gmt": "2026-08-24T14:35:04",
     "slug": "mots-c-10mg",
     "status": "publish",
     "type": "product",
@@ -14368,7 +14606,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>MOTS-C 10mg is a mitochondrial-derived peptide designed to support metabolic function, energy production, and cellular health. Known for its role in regulating how the body utilizes energy, it is commonly used in wellness and performance routines focused on fat metabolism, endurance, and longevity. This peptide is particularly valued for its ability to support metabolic balance and promote more efficient energy use at the cellular level.</p>\n",
+      "rendered": "<p>MOTS-C 10mg is a premium research peptide studied for mitochondrial function and metabolic pathways. It is researched for energy production, glucose utilization, fat metabolism, and cellular health studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16620,
@@ -14509,7 +14747,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "first",
       "outofstock",
       "shipping-taxable",
       "purchasable",
@@ -14545,14 +14783,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/144/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26230,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/144/revisions/26230"
+          "id": 30246,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/144/revisions/30246"
         }
       ],
       "wp:featuredmedia": [
@@ -14599,8 +14837,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=143"
     },
-    "modified": "2026-07-30T08:04:22",
-    "modified_gmt": "2026-07-30T08:04:22",
+    "modified": "2026-08-21T16:44:01",
+    "modified_gmt": "2026-08-21T16:44:01",
     "slug": "nad-500mg",
     "status": "publish",
     "type": "product",
@@ -14613,7 +14851,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>NAD+ 500mg from Peptides Costa Rica is designed for individuals seeking advanced support for cellular energy, healthy aging, and daily vitality. NAD+ is a naturally occurring coenzyme involved in mitochondrial function, energy production, DNA repair processes, and metabolic activity. It is commonly chosen by wellness-focused individuals who want targeted cellular support for performance, clarity, and long-term health optimization.</p>\n",
+      "rendered": "<p>NAD+ 500mg is a premium research compound studied for cellular energy and mitochondrial function. It is researched for metabolic activity, DNA repair processes, healthy aging pathways, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16618,
@@ -14752,7 +14990,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "outofstock",
       "shipping-taxable",
       "purchasable",
@@ -14788,14 +15026,14 @@
       ],
       "version-history": [
         {
-          "count": 10,
+          "count": 11,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/143/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26229,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/143/revisions/26229"
+          "id": 30250,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/143/revisions/30250"
         }
       ],
       "wp:featuredmedia": [
@@ -14842,8 +15080,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=142"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "5-amino-1mq-5mg",
     "status": "publish",
     "type": "product",
@@ -14856,7 +15094,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>5-Amino-1MQ (5-Amino-1-Methylquinolinium) is a research peptide gaining attention for its potential role in metabolic regulation and fat metabolism support. It is commonly explored in wellness and fitness-focused protocols for individuals looking to optimize body composition and metabolic efficiency.<br />\nAt Peptides Costa Rica, our 5-Amino-1MQ 5mg formulation is produced under strict quality standards to ensure purity, consistency, and reliability.</p>\n",
+      "rendered": "<p>5-Amino-1MQ 5mg is a premium research compound studied for metabolic pathways and cellular energy regulation. It is researched for NNMT inhibition, NAD+ metabolism, and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16586,
@@ -14994,7 +15232,7 @@
       "tablet-align-left",
       "mobile-align-left",
       "",
-      "instock",
+      "outofstock",
       "shipping-taxable",
       "purchasable",
       "product-type-simple"
@@ -15029,14 +15267,14 @@
       ],
       "version-history": [
         {
-          "count": 3,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/142/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26232,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/142/revisions/26232"
+          "id": 30218,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/142/revisions/30218"
         }
       ],
       "wp:featuredmedia": [
@@ -15083,8 +15321,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=141"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "klow-80mg",
     "status": "publish",
     "type": "product",
@@ -15097,7 +15335,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>KLOW 80mg is a targeted peptide blend formulated to support fat metabolism, energy levels, and overall metabolic efficiency. Designed for individuals focused on body composition and performance, it combines key compounds known for their role in fat utilization and cellular energy processes. This makes it a strong option for those aiming to enhance physical conditioning, support weight management efforts, and maintain consistent energy throughout the day.</p>\n",
+      "rendered": "<p>KLOW 80mg is a premium peptide blend studied for tissue repair and cellular regeneration research. It combines BPC-157, TB-500, GHK-Cu, and KPV for recovery pathways and advanced biological studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16622,
@@ -15236,7 +15474,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -15272,14 +15510,14 @@
       ],
       "version-history": [
         {
-          "count": 6,
+          "count": 8,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/141/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26259,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/141/revisions/26259"
+          "id": 30243,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/141/revisions/30243"
         }
       ],
       "wp:featuredmedia": [
@@ -15326,8 +15564,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=140"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T00:35:05",
+    "modified_gmt": "2026-08-24T00:35:05",
     "slug": "hcg-10000-iu",
     "status": "publish",
     "type": "product",
@@ -15340,7 +15578,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>HCG 10,000 IU (Human Chorionic Gonadotropin) is widely used in Costa Rica for supporting hormonal balance, recovery, and reproductive health protocols. It is commonly included in structured wellness and fitness routines, particularly for individuals looking to support natural hormone function and maintain overall balance.</p>\n",
+      "rendered": "<p>HCG 10,000 IU is a premium research compound studied for hormonal balance and reproductive health pathways. It is researched for endocrine function, testosterone signaling, fertility studies, and advanced biological applications. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16597,
@@ -15479,7 +15717,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "last",
+      "first",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -15515,14 +15753,14 @@
       ],
       "version-history": [
         {
-          "count": 1,
+          "count": 2,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/140/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 24546,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/140/revisions/24546"
+          "id": 30238,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/140/revisions/30238"
         }
       ],
       "wp:featuredmedia": [
@@ -15569,8 +15807,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=138"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "bpc-157-10mg",
     "status": "publish",
     "type": "product",
@@ -15583,7 +15821,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>BPC-157 10mg is a widely researched peptide known for its potential role in supporting recovery and tissue repair, especially tendon, ligament, and muscle recovery. It is commonly explored in wellness and performance protocols focused on injury recovery, joint support, and overall physical resilience. Its growing popularity comes from its association with faster recovery processes and improved structural support, making it a key peptide for active individuals and advanced users.</p>\n",
+      "rendered": "<p>BPC-157 10mg is a premium research peptide studied for tissue recovery and biological pathways. It is researched for ligament repair, muscle recovery, wound healing, and advanced laboratory studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16590,
@@ -15720,7 +15958,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "first",
+      "",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -15756,14 +15994,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/138/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26228,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/138/revisions/26228"
+          "id": 30220,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/138/revisions/30220"
         }
       ],
       "wp:featuredmedia": [
@@ -15810,8 +16048,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=137"
     },
-    "modified": "2026-07-31T13:36:40",
-    "modified_gmt": "2026-07-31T13:36:40",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "reta-40mg",
     "status": "publish",
     "type": "product",
@@ -15824,7 +16062,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Retatrutide 40mg is the highest-strength offering in our triple-agonist peptide lineup, formulated for experienced users pursuing maximum metabolic impact. This premium dose simultaneously activates GLP-1, GIP, and glucagon receptors, delivering unmatched support for fat loss, appetite control, and energy expenditure. Ideal for extended protocols and ambitious transformation goals, Retatrutide 40mg offers the convenience of fewer reconstitutions and greater dosing flexibility — making it the go-to choice for individuals committed to serious metabolic recalibration, long-term physique change, and comprehensive wellness optimization.</p>\n",
+      "rendered": "<p>Retatrutide 40mg is a premium metabolic research peptide studied for triple receptor activity. It is researched for GLP-1, GIP, glucagon pathways, appetite control, energy expenditure, and metabolic regulation studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16613,
@@ -15999,14 +16237,14 @@
       ],
       "version-history": [
         {
-          "count": 4,
+          "count": 5,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/137/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 25295,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/137/revisions/25295"
+          "id": 30261,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/137/revisions/30261"
         }
       ],
       "wp:featuredmedia": [
@@ -16053,8 +16291,8 @@
     "guid": {
       "rendered": "https://peptidescostarica.net/?post_type=product&#038;p=135"
     },
-    "modified": "2026-07-31T13:36:41",
-    "modified_gmt": "2026-07-31T13:36:41",
+    "modified": "2026-08-24T14:35:05",
+    "modified_gmt": "2026-08-24T14:35:05",
     "slug": "reta-30mg",
     "status": "publish",
     "type": "product",
@@ -16067,7 +16305,7 @@
       "protected": false
     },
     "excerpt": {
-      "rendered": "<p>Reta 30mg is a high-strength triple-agonist peptide formulated for individuals pursuing advanced metabolic transformation and significant body composition goals. By simultaneously activating GLP-1, GIP, and glucagon receptors, this elevated dose delivers amplified support for appetite regulation, fat oxidation, and energy expenditure. Backed by promising clinical research, Retatrutide 30mg is designed for those ready to take their metabolic health to the next level, offering powerful fat loss potential, improved insulin response, and comprehensive support for long-term cardiovascular and liver wellness.</p>\n",
+      "rendered": "<p>Retatrutide 30mg is a premium metabolic research peptide studied for triple receptor activity. It is researched for GLP-1, GIP, glucagon pathways, appetite control, metabolic regulation, and energy balance studies. Supplied as a high-quality research compound for professional use.</p>\n",
       "protected": false
     },
     "featured_media": 16614,
@@ -16204,7 +16442,7 @@
       "desktop-align-left",
       "tablet-align-left",
       "mobile-align-left",
-      "",
+      "last",
       "instock",
       "shipping-taxable",
       "purchasable",
@@ -16240,14 +16478,14 @@
       ],
       "version-history": [
         {
-          "count": 5,
+          "count": 6,
           "href": "https://peptidescostarica.net/wp-json/wp/v2/product/135/revisions"
         }
       ],
       "predecessor-version": [
         {
-          "id": 26266,
-          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/135/revisions/26266"
+          "id": 30260,
+          "href": "https://peptidescostarica.net/wp-json/wp/v2/product/135/revisions/30260"
         }
       ],
       "wp:featuredmedia": [

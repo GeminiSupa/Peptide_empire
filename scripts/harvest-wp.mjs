@@ -54,7 +54,13 @@ const EXPECTED = {
 
 /** Rows X-WP-Total counts but REST will not serve. See harvestType(). */
 const KNOWN_UNREACHABLE = {
-  media: 4,
+  // Re-verified 2026-08-24: X-WP-Total said 583, REST served 570. Paging by
+  // date, id and title each returned the IDENTICAL 570 ids, so the 13-row gap
+  // is withheld rows rather than a truncated read — the same phenomenon as the
+  // original 4, and it grows as more attachments are orphaned. Re-run that
+  // three-sort-order comparison before ever raising this again; raising it
+  // without the evidence would turn a real truncation into a silent data loss.
+  media: 13,
 };
 
 const PER_PAGE = 100;

@@ -21,7 +21,7 @@
  * Usage: node scripts/harvest-routes.mjs
  */
 
-import { writeFile, mkdir } from 'node:fs/promises';
+import { writeFile, mkdir, readFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -128,7 +128,52 @@ async function get(path) {
   return res.text();
 }
 
+const args = process.argv.slice(2);
+
 const toPath = (url) => url.replace(ORIGIN, '') || '/';
+
+/**
+ * The `guide` custom post type, at /blog/guide/<slug>/.
+ *
+ * These 15 mixing-and-dosage guides have NO Xagio sitemap of their own and do
+ * not appear in /html-sitemap/ either, so both of this script's normal sources
+ * are blind to them — which is why the clone had none of them and the
+ * /peptide-guides/ index, which lists exactly these, had nothing real to list.
+ *
+ * The REST API does expose the type, so it is the source here. The Spanish twin
+ * cannot be paired positionally for the same reason (not in the HTML sitemap),
+ * so each one is resolved the authoritative way instead: ask the site where
+ * /es/blog/guide/<slug>/ redirects to.
+ */
+async function mixingGuideRoutes() {
+  const res = await fetch(
+    `${ORIGIN}/wp-json/wp/v2/guide?per_page=100&_fields=slug,link`,
+    { headers: { 'user-agent': 'peptidescostarica-rebuild-harvest' } },
+  );
+  if (!res.ok) throw new Error(`/wp-json/wp/v2/guide → HTTP ${res.status}`);
+  const entries = await res.json();
+
+  const out = [];
+  // Serialised: the site refuses connections under concurrency.
+  for (const entry of entries) {
+    const en = toPath(entry.link);
+    let es = null;
+    try {
+      const probe = await fetch(`${ORIGIN}/es/blog/guide/${entry.slug}/`, {
+        headers: { 'user-agent': 'peptidescostarica-rebuild-harvest' },
+        redirect: 'follow',
+      });
+      if (probe.ok) {
+        const landed = toPath(probe.url);
+        if (landed.startsWith('/es/')) es = landed;
+      }
+    } catch {
+      // Leave es null; missingEs reports it rather than guessing a slug.
+    }
+    out.push({ en, es });
+  }
+  return out;
+}
 
 /** Pull <loc> values out of a sitemap without a full XML parser. */
 function locs(xml) {
@@ -148,19 +193,220 @@ function sitemapLinks(html) {
   );
 }
 
-async function main() {
-  console.log('Fetching XML sitemaps…');
-  const [pageXml, productXml, productCatXml, postXml] = await Promise.all([
+/**
+ * Fetch the live URL inventory: the sitemaps, plus the REST fallback for the
+ * product categories whose sitemap is gone.
+ */
+/**
+ * Keep a newly discovered Spanish path on the scheme this site already uses.
+ *
+ * The live WordPress has renamed its Spanish post-type bases — /es/producto-2/
+ * became /es/producto/, /es/categoria-producto-2/ became
+ * /es/categoria-producto/ — so following a redirect for a NEW product returns
+ * the new base while the 67 products already mapped keep the old one. Left
+ * alone that mixes two schemes in one route table and points the new pages at
+ * URLs this app does not serve.
+ *
+ * The `-2` bases are the ones documented as indexed SEO (docs/url-inventory.md)
+ * and are what app/es/producto-2/ and app/es/categoria-producto-2/ render, so
+ * they stay canonical here until someone decides to migrate all of them at once.
+ */
+const ES_BASE_ALIASES = [
+  [/^\/es\/producto\//, '/es/producto-2/'],
+  [/^\/es\/categoria-producto\//, '/es/categoria-producto-2/'],
+  [/^\/es\/shop\/$/, '/es/tienda/'],
+];
+
+const canonicalEs = (es) => {
+  if (!es) return es;
+  for (const [pattern, base] of ES_BASE_ALIASES) {
+    if (pattern.test(es)) return es.replace(pattern, base);
+  }
+  return es;
+};
+
+async function fetchInventory() {
+  const [pageXml, productXml, postXml] = await Promise.all([
     get('/sitemap-xagio-page.xml'),
     get('/sitemap-xagio-product.xml'),
-    get('/sitemap-xagio-product_cat.xml'),
+    get('/sitemap-xagio-post.xml'),
+  ]);
+
+  let wooCategories;
+  try {
+    wooCategories = locs(await get('/sitemap-xagio-product_cat.xml'));
+  } catch (err) {
+    const cats = JSON.parse(await readFile(resolve(ROOT, 'data/wp/product_cat.json'), 'utf8'));
+    wooCategories = cats.map((c) => toPath(c.link));
+    console.log(
+      `  product-category sitemap unavailable (${err.message}) — using the ${wooCategories.length} in data/wp/product_cat.json`,
+    );
+  }
+
+  return {
+    pages: locs(pageXml),
+    wooProducts: locs(productXml),
+    posts: locs(postXml),
+    wooCategories,
+  };
+}
+
+/** Sort the English inventory into the site's page groups. */
+function classify({ pages, wooProducts, posts, wooCategories }) {
+  const known = new Set([...CORE_PAGES, ...LEGAL_PAGES, ...CATEGORY_PAGES, ...EXCLUDE_CANDIDATES]);
+
+  const productLanders = pages.filter(
+    (p) => (p.endsWith('-costa-rica/') || p === '/bpc-157-tb-500-wolverine-stack/') && !known.has(p)
+  );
+  const cityPages = pages.filter(isCityPage);
+
+  const claimed = new Set([...known, ...productLanders, ...cityPages]);
+  const guides = pages.filter((p) => !claimed.has(p));
+
+  return {
+    core: CORE_PAGES,
+    legal: LEGAL_PAGES,
+    category: CATEGORY_PAGES,
+    productLander: productLanders,
+    guide: guides,
+    city: cityPages,
+    blogPost: posts,
+    wooProduct: wooProducts,
+    wooCategory: wooCategories,
+    excludeCandidate: EXCLUDE_CANDIDATES,
+  };
+}
+
+/**
+ * Ask the live site where the Spanish twin of an English path is.
+ *
+ * TranslatePress 301s /es/<english-slug>/ to the translated slug, so this is
+ * the authoritative per-page answer — and unlike the positional pairing from
+ * the two HTML sitemaps, it cannot drift out of alignment.
+ */
+async function spanishTwin(en) {
+  try {
+    const res = await fetch(`${ORIGIN}/es${en}`, {
+      headers: { 'user-agent': 'peptidescostarica-rebuild-harvest' },
+      redirect: 'follow',
+    });
+    if (!res.ok) return null;
+    const landed = toPath(res.url);
+    return landed.startsWith('/es/') ? landed : null;
+  } catch {
+    return null;
+  }
+}
+
+async function main() {
+  /**
+   * Additive mode: add the guide CPT to an existing routes.json, touching
+   * nothing else.
+   *
+   * A full run rebuilds the whole map from the live site, and the live site has
+   * since changed its Spanish slug scheme (/es/tienda/ → /es/shop/,
+   * /es/producto-2/ → /es/producto/). Adopting that is an SEO decision about
+   * ~97 indexed URLs, not a side effect anyone should get from re-running a
+   * harvest to pick up 15 new pages. So this mode exists to do exactly the
+   * additive part, and the spot-check guard still protects the full run.
+   */
+  /**
+   * Additive mode: add pages the live site has and routes.json does not,
+   * touching nothing that is already mapped.
+   *
+   * A full run rebuilds the whole map, and the live site has since changed its
+   * Spanish slug scheme (/es/tienda/ → /es/shop/, /es/producto-2/ →
+   * /es/producto/, /es/categoria-producto-2/ → /es/categoria-producto/).
+   * Adopting that is an SEO decision about ~97 indexed URLs and must be made
+   * deliberately, not picked up as a side effect of harvesting new pages — so
+   * the spot-check guard on the full run is left in place to force the
+   * decision, and this mode exists to do the purely additive part meanwhile.
+   *
+   * Spanish twins here come from following each page's own /es/ redirect rather
+   * than from the positional sitemap pairing, which is both authoritative and
+   * immune to the alignment problem the guard exists to catch.
+   */
+  if (args.includes('--add-new')) {
+    const existing = JSON.parse(await readFile(OUT, 'utf8'));
+    const have = new Set(existing.routes.map((r) => r.en));
+
+    console.log('Fetching XML sitemaps…');
+    const inventory = await fetchInventory();
+    const groups = classify(inventory);
+
+    console.log('Fetching the guide custom post type from the REST API…');
+    const cptGuides = await mixingGuideRoutes();
+
+    const discovered = [];
+    for (const [group, paths] of Object.entries(groups)) {
+      for (const en of paths) if (!have.has(en)) discovered.push({ en, group });
+    }
+    for (const g of cptGuides) {
+      if (!have.has(g.en)) discovered.push({ en: g.en, group: 'mixingGuide', es: canonicalEs(g.es) });
+    }
+
+    if (!discovered.length) {
+      console.log('\nNothing new — routes.json already has every live URL.');
+      return;
+    }
+
+    console.log(`\n${discovered.length} new URL(s); resolving Spanish twins…`);
+    for (const entry of discovered) {
+      // Serialised: the site refuses connections under concurrency.
+      if (entry.es === undefined) entry.es = canonicalEs(await spanishTwin(entry.en));
+      if (!entry.es) existing.missingEs.push(entry.en);
+      existing.routes.push({ en: entry.en, es: entry.es, group: entry.group });
+      console.log(`  + [${entry.group}] ${entry.en}  ←→  ${entry.es ?? '(no Spanish twin)'}`);
+    }
+
+    const counts = {};
+    for (const r of existing.routes) counts[r.group] = (counts[r.group] ?? 0) + 1;
+    existing.counts = {
+      ...counts,
+      totalEn: existing.routes.length,
+      totalEs: existing.routes.filter((r) => r.es).length,
+    };
+
+    await writeFile(OUT, `${JSON.stringify(existing, null, 2)}\n`, 'utf8');
+    console.log(`\nAdded ${discovered.length} route(s) → ${OUT}`);
+    console.table(counts);
+    return;
+  }
+
+  console.log('Fetching XML sitemaps…');
+  const [pageXml, productXml, postXml] = await Promise.all([
+    get('/sitemap-xagio-page.xml'),
+    get('/sitemap-xagio-product.xml'),
     get('/sitemap-xagio-post.xml'),
   ]);
 
   const pages = locs(pageXml);
   const wooProducts = locs(productXml);
-  const wooCategories = locs(productCatXml);
   const posts = locs(postXml);
+
+  /**
+   * Product categories, from the REST snapshot when their sitemap is gone.
+   *
+   * /sitemap-xagio-product_cat.xml now 404s on the live site, and because every
+   * sitemap was required this script could no longer run at all — which is why
+   * data/routes.json went stale and the clone lost pages the live site still
+   * serves. The categories are already in data/wp/product_cat.json, so a dead
+   * sitemap costs nothing; falling back is better than refusing to regenerate.
+   */
+  let wooCategories;
+  try {
+    wooCategories = locs(await get('/sitemap-xagio-product_cat.xml'));
+  } catch (err) {
+    const cats = JSON.parse(await readFile(resolve(ROOT, 'data/wp/product_cat.json'), 'utf8'));
+    wooCategories = cats.map((c) => toPath(c.link));
+    console.log(
+      `  product-category sitemap unavailable (${err.message}) — using the ${wooCategories.length} in data/wp/product_cat.json`,
+    );
+  }
+
+  console.log('Fetching the guide custom post type from the REST API…');
+  const mixingGuides = await mixingGuideRoutes();
+  console.log(`  ${mixingGuides.length} guides · ${mixingGuides.filter((g) => g.es).length} with a Spanish twin`);
 
   console.log('Fetching HTML sitemaps for the EN↔ES pairing…');
   const [enHtml, esHtml] = await Promise.all([
@@ -238,6 +484,13 @@ async function main() {
     }
   }
 
+  // The CPT guides carry their own resolved Spanish twin, so they bypass the
+  // positional `pairs` map entirely.
+  for (const { en, es } of mixingGuides) {
+    if (!es) missingEs.push(en);
+    routes.push({ en, es, group: 'mixingGuide' });
+  }
+
   // Anything in a sitemap that no group claimed is a classification bug.
   const grouped = new Set(routes.map((r) => r.en));
   const unclassified = [...pages, ...wooProducts, ...wooCategories, ...posts].filter(
@@ -247,9 +500,10 @@ async function main() {
     throw new Error(`Unclassified URLs (fix the grouping rules):\n  ${unclassified.join('\n  ')}`);
   }
 
-  const counts = Object.fromEntries(
-    Object.entries(groups).map(([k, v]) => [k, v.length])
-  );
+  const counts = Object.fromEntries([
+    ...Object.entries(groups).map(([k, v]) => [k, v.length]),
+    ['mixingGuide', mixingGuides.length],
+  ]);
 
   const payload = {
     harvestedAt: new Date().toISOString(),

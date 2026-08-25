@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-06T04:28:35.745Z",
+  "harvestedAt": "2026-08-19T20:17:32.770Z",
   "origin": "https://peptidescostarica.net",
   "announcement": {
     "text_en": "FREE Shipping On Orders Above ₡90,896",
@@ -15,6 +15,26 @@
       "label_en": "US: +1 (831) 471-5559",
       "label_es": "EE. UU.: +1 (831) 471-5559",
       "href": "tel:+18314715559"
+    }
+  ],
+  "contactBar": [
+    {
+      "label_en": "Order on WhatsApp",
+      "label_es": "Pedir por WhatsApp",
+      "href": "https://wa.me/50684046973",
+      "kind": "whatsapp"
+    },
+    {
+      "label_en": "CR +506 8404-6973",
+      "label_es": "CR +506 8404-6973",
+      "href": "tel:+50684046973",
+      "kind": "phone"
+    },
+    {
+      "label_en": "Email Us",
+      "label_es": "Escríbenos un correo",
+      "href": "mailto:info@peptidescostarica.net",
+      "kind": "email"
     }
   ],
   "nav": [
@@ -253,7 +273,7 @@
         {
           "label_en": "Tirzepatide",
           "label_es": "Tirzepatida",
-          "href": "/tirzepatida-costa-rica/"
+          "href": "/tirzepatide-costa-rica/"
         },
         {
           "label_en": "Tesamorelin",
@@ -481,7 +501,7 @@
       },
       {
         "name": "Youtube",
-        "href": "https://www.youtube.com/@ResearchpeptidesCostaRica"
+        "href": "https://www.youtube.com/@ResearchPeptides1"
       },
       {
         "name": "Tiktok",
