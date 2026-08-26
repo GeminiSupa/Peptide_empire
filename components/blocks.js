@@ -412,12 +412,21 @@ function BlockImage({ content, lang, inGroup, inRow }) {
   // equal share instead. Left at `w-full` it claimed the whole row as its flex
   // basis and starved the text beside it to zero width — which is what happened
   // to "Our Approach to Quality" on the about page.
+  // Never scale an image UP — in a group either.
+  //
+  // `w-full` gives the flex item a basis, but on its own it also stretches a
+  // small image to whatever the column is: the two press logos on the home page
+  // are 300px and 529px wide natively and were being blown up to fill half the
+  // viewport each. Elementor does not upscale, so the natural width is the cap.
+  const widest = source.srcSet ? source.width : content.width;
+  const natural = widest || null;
+
   if (inGroup) {
     return (
       // eslint-disable-next-line @next/next/no-img-element -- harvested asset
       <img
         alt={t(content, 'alt', lang)}
-        className={`h-auto w-full max-w-full ${inRow ? 'lg:min-w-0 lg:flex-1 lg:basis-0' : ''} ${
+        className={`h-auto w-full ${inRow ? 'lg:min-w-0 lg:flex-1 lg:basis-0' : ''} ${
           content.align === 'center' ? 'mx-auto' : ''
         }`}
         height={source.height || content.height || undefined}
@@ -425,18 +434,13 @@ function BlockImage({ content, lang, inGroup, inRow }) {
         sizes={source.srcSet ? SIZES.prose : undefined}
         src={source.src}
         srcSet={source.srcSet}
+        style={{ maxWidth: natural ? `${natural}px` : '100%' }}
         width={source.width || content.width || undefined}
       />
     );
   }
 
-  // Never scale an image UP. A press logo is 300px wide natively; rendering it
-  // at a blanket max-width blew it up to 672px and dominated the page.
-  //
-  // The cap is now the widest MIRRORED width rather than the referenced file's,
-  // because a srcset can legitimately offer more resolution than the reference.
-  const widest = source.srcSet ? source.width : content.width;
-  const natural = widest || null;
+  // Outside a group the same rule applies, bounded by the prose measure.
   const cap = natural ? Math.min(natural, 672) : 672;
 
   return (

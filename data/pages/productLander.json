@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-21T21:19:38.496Z",
+  "harvestedAt": "2026-08-26T16:30:07.397Z",
   "group": "productLander",
   "count": 40,
   "pages": [
@@ -120,7 +120,7 @@
                               "products": [
                                 {
                                   "name": "KPV 10mg",
-                                  "price": "₡ 40,878",
+                                  "price": "₡ 40,661",
                                   "href": "/product/kpv-10mg/",
                                   "image": "/wp-content/uploads/2026/05/KPV-1-1-300x300.webp"
                                 }
@@ -270,8 +270,8 @@
                         "src": "/wp-content/uploads/2026/05/KPV-10mg-key-benefit.webp",
                         "width": 1280,
                         "height": 720,
-                        "alt_en": "KPV 10mg key benefit",
-                        "alt_es": "Beneficio clave de KPV 10mg"
+                        "alt_en": "Man relaxing at home with KPV 10mg peptide vial on bedside table",
+                        "alt_es": "Man relaxing at home with KPV 10mg peptide vial on bedside table"
                       }
                     }
                   ]
@@ -926,6 +926,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/KPV-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "KPV 10mg peptide vial beside a woman preparing a healthy smoothie in a kitchen",
+                        "alt_es": "KPV 10mg peptide vial beside a woman preparing a healthy smoothie in a kitchen"
+                      }
                     }
                   ]
                 }
@@ -999,7 +1009,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "nad-costa-rica",
@@ -2047,6 +2057,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/NAD-500mg-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "NAD+ 500mg vial beside a woman exercising on an elliptical machine at home",
+                        "alt_es": "NAD+ 500mg vial beside a woman exercising on an elliptical machine at home"
+                      }
                     }
                   ]
                 }
@@ -2120,7 +2140,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "hcg-costa-rica",
@@ -2233,7 +2253,7 @@
                         "products": [
                           {
                             "name": "HCG 10,000 IU",
-                            "price": "₡ 72,671",
+                            "price": "₡ 72,287",
                             "href": "/product/hcg-10000-iu/",
                             "image": "/wp-content/uploads/2026/02/HCG-1-1-300x300.jpg"
                           }
@@ -2449,11 +2469,11 @@
                     {
                       "type": "image",
                       "content": {
-                        "src": "/wp-content/uploads/2026/04/peptides-31-1.png",
-                        "width": null,
-                        "height": null,
-                        "alt_en": "Happy family in car laughter.jpg.",
-                        "alt_es": "Familia feliz riendo en el coche.jpg."
+                        "src": "/wp-content/uploads/2026/04/peptides-58-1.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Happy family traveling by car with an HCG 10,000 IU vial in the center console",
+                        "alt_es": "Happy family traveling by car with an HCG 10,000 IU vial in the center console"
                       }
                     }
                   ]
@@ -3108,6 +3128,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/04/peptides-57-2.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Pregnant woman standing beside an HCG 10,000 IU vial in a bright home setting",
+                        "alt_es": "Pregnant woman standing beside an HCG 10,000 IU vial in a bright home setting"
+                      }
                     }
                   ]
                 }
@@ -3175,7 +3205,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "hgh-costa-rica",
@@ -3288,19 +3318,19 @@
                         "products": [
                           {
                             "name": "HGH 12 IU",
-                            "price": "₡ 31,794",
+                            "price": "₡ 31,626",
                             "href": "/product/hgh-12-iu/",
                             "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
                           },
                           {
                             "name": "HGH 24 IU",
-                            "price": "₡ 54,503",
+                            "price": "₡ 54,215",
                             "href": "/product/hgh-24-iu/",
                             "image": "/wp-content/uploads/2026/02/HGH-24-1-300x300.jpg"
                           },
                           {
                             "name": "HGH 30 IU",
-                            "price": "₡ 56,774",
+                            "price": "₡ 56,474",
                             "href": "/product/hgh-30-iu/",
                             "image": "/wp-content/uploads/2026/06/Untitled-design-10-300x300.webp"
                           },
@@ -4181,6 +4211,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/HGH-50-IU-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "HGH 50 IU vial beside a glass of water in a bright wellness setting",
+                        "alt_es": "HGH 50 IU vial beside a glass of water in a bright wellness setting"
+                      }
                     }
                   ]
                 }
@@ -4272,7 +4312,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "dsip-costa-rica",
@@ -4384,6 +4424,12 @@
                       "content": {
                         "products": [
                           {
+                            "name": "DSIP 5mg",
+                            "price": "₡ 44,908",
+                            "href": "/product/dsip-5mg/",
+                            "image": "/wp-content/uploads/2026/08/Untitled-design-300x300.webp"
+                          },
+                          {
                             "name": "DSIP 10mg",
                             "price": "",
                             "href": "/product/dsip-10mg/",
@@ -4391,7 +4437,7 @@
                           },
                           {
                             "name": "DSIP 15mg",
-                            "price": "₡ 61,316",
+                            "price": "₡ 56,474",
                             "href": "/product/dsip-15mg/",
                             "image": "/wp-content/uploads/2026/02/DSIP-1-300x300.jpg"
                           }
@@ -5195,6 +5241,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/DSIP-15mg-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "DSIP 15mg peptide vial beside a woman stretching outdoors with a water bottle",
+                        "alt_es": "DSIP 15mg peptide vial beside a woman stretching outdoors with a water bottle"
+                      }
                     }
                   ]
                 }
@@ -5268,7 +5324,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "tb-4-costa-rica",
@@ -5381,7 +5437,7 @@
                         "products": [
                           {
                             "name": "TB-4 10mg",
-                            "price": "₡ 49,962",
+                            "price": "₡ 49,697",
                             "href": "/product/tb-4-10mg/",
                             "image": "/wp-content/uploads/2026/03/TB-4-1-300x300.jpg"
                           }
@@ -5625,8 +5681,8 @@
                         "src": "/wp-content/uploads/2026/04/peptides-35-1.png",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Man working on laptop at home with coffee cup and supplement bottle nearby.",
-                        "alt_es": "Hombre trabajando en una laptop en casa con una taza de café y un frasco de suplementos cerca."
+                        "alt_en": "Man working on laptop at home with coffee cup TB-4 10 mg supplement bottle nearby.",
+                        "alt_es": "Man working on laptop at home with coffee cup TB-4 10 mg supplement bottle nearby."
                       }
                     }
                   ]
@@ -6212,6 +6268,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/TB-4-main-page-faqs-images-1024x576.png",
+                        "width": 1024,
+                        "height": 576,
+                        "alt_en": "TB-4 10mg peptide vial beside a man holding a cup on an outdoor terrace with a scenic view",
+                        "alt_es": "TB-4 10mg peptide vial beside a man holding a cup on an outdoor terrace with a scenic view"
+                      }
                     }
                   ]
                 }
@@ -6267,7 +6333,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "glow-costa-rica",
@@ -6380,13 +6446,13 @@
                         "products": [
                           {
                             "name": "GLOW 50mg",
-                            "price": "₡ 54,503",
+                            "price": "₡ 54,215",
                             "href": "/product/glow-50mg/",
                             "image": "/wp-content/uploads/2026/05/GLOW-50-1-300x300.webp"
                           },
                           {
                             "name": "GLOW 70mg",
-                            "price": "₡ 68,129",
+                            "price": "₡ 67,769",
                             "href": "/product/glow-70mg/",
                             "image": "/wp-content/uploads/2026/03/GLOW-1-300x300.jpg"
                           }
@@ -6614,8 +6680,8 @@
                         "src": "/wp-content/uploads/2026/04/peptides-29-1.png",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Woman sipping coffee from white cup on balcony overlooking ocean with supplement bottle.",
-                        "alt_es": "Mujer bebiendo café de una taza blanca en un balcón con vista al océano, con un frasco de suplementos."
+                        "alt_en": "Woman sipping coffee from white cup on balcony overlooking ocean with GLOW 70 mg supplement bottle.",
+                        "alt_es": "Woman sipping coffee from white cup on balcony overlooking ocean with GLOW 70 mg supplement bottle."
                       }
                     }
                   ]
@@ -7270,6 +7336,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/GLOW-70mg-main-page-faqs-iamge.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "GLOW 70mg peptide vial beside a man running on a treadmill at home",
+                        "alt_es": "GLOW 70mg peptide vial beside a man running on a treadmill at home"
+                      }
                     }
                   ]
                 }
@@ -7343,7 +7419,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "klow-costa-rica",
@@ -7456,7 +7532,7 @@
                         "products": [
                           {
                             "name": "KLOW 80mg",
-                            "price": "₡ 81,755",
+                            "price": "₡ 81,323",
                             "href": "/product/klow-80mg/",
                             "image": "/wp-content/uploads/2026/02/KLOW-1-300x300.jpg"
                           }
@@ -8335,6 +8411,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/KLOW-80mg-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "KLOW 80mg peptide vial beside a woman exercising with a resistance band outdoors",
+                        "alt_es": "KLOW 80mg peptide vial beside a woman exercising with a resistance band outdoors"
+                      }
                     }
                   ]
                 }
@@ -8408,7 +8494,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "semax-costa-rica",
@@ -8527,7 +8613,7 @@
                               "products": [
                                 {
                                   "name": "Semax 10mg",
-                                  "price": "₡ 40,878",
+                                  "price": "₡ 40,661",
                                   "href": "/product/semax-10mg/",
                                   "image": "/wp-content/uploads/2026/05/Semax-1-300x300.webp"
                                 }
@@ -8750,8 +8836,8 @@
                         "src": "/wp-content/uploads/2026/05/Semax-10mg-product-information.webp",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Semax 10mg product information",
-                        "alt_es": "Información del producto Semax 10mg"
+                        "alt_en": "Fit man resting after a workout with Semax 10mg peptide vial nearby",
+                        "alt_es": "Hombre en forma descansando después de un entrenamiento con un frasco de péptido Semax de 10 mg cerca"
                       }
                     }
                   ]
@@ -9406,6 +9492,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/05/Semax-10mg-key-benefit.webp",
+                        "width": 1280,
+                        "height": 720,
+                        "alt_en": "Fit man preparing a healthy smoothie with Semax 10mg peptide vial on kitchen counter",
+                        "alt_es": "Fit man preparing a healthy smoothie with Semax 10mg peptide vial on kitchen counter"
+                      }
                     }
                   ]
                 }
@@ -9479,7 +9575,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "aicar-costa-rica",
@@ -9592,9 +9688,9 @@
                         "products": [
                           {
                             "name": "AICAR 50mg",
-                            "price": "₡ 43,149",
+                            "price": "₡ 42,920",
                             "href": "/product/aicar-50mg/",
-                            "image": "/wp-content/uploads/2026/05/AICAR-50mg-300x300.webp"
+                            "image": "/wp-content/uploads/2026/05/Untitled-design-3-300x300.webp"
                           }
                         ]
                       }
@@ -9683,8 +9779,8 @@
                         "src": "/wp-content/uploads/2026/05/AICAR-50mg-key-benefit.webp",
                         "width": 1280,
                         "height": 720,
-                        "alt_en": "Man relaxing in bathroom near window.",
-                        "alt_es": "Man relaxing in bathroom near window."
+                        "alt_en": "Fit man holding his shoulder with AICAR 50mg peptide vial nearby",
+                        "alt_es": "Hombre en forma sosteniéndose el hombro con un frasco de péptido AICAR de 50 mg cerca"
                       }
                     }
                   ]
@@ -10332,7 +10428,7 @@
                               "products": [
                                 {
                                   "name": "MT-II",
-                                  "price": "₡ 40,878",
+                                  "price": "₡ 40,661",
                                   "href": "/product/mt-ii/",
                                   "image": "/wp-content/uploads/2026/05/MT-II-1-300x300.webp"
                                 }
@@ -10555,8 +10651,8 @@
                         "src": "/wp-content/uploads/2026/05/MT-II-key-benefit.webp",
                         "width": 1280,
                         "height": 720,
-                        "alt_en": "Man smiling in stylish home setting.",
-                        "alt_es": "Man smiling in stylish home setting."
+                        "alt_en": "Fit man sitting outdoors with MT-II 10mg peptide vial on table",
+                        "alt_es": "Fit man sitting outdoors with MT-II 10mg peptide vial on table"
                       }
                     }
                   ]
@@ -11210,6 +11306,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/MT-II-main-page-images-faqs.png",
+                        "width": 1280,
+                        "height": 720,
+                        "alt_en": "MT-II 10mg peptide vial beside a woman in activewear relaxing on an outdoor terrace",
+                        "alt_es": "MT-II 10mg peptide vial beside a woman in activewear relaxing on an outdoor terrace"
+                      }
                     }
                   ]
                 }
@@ -11277,7 +11383,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "ss-31-costa-rica",
@@ -11390,7 +11496,7 @@
                         "products": [
                           {
                             "name": "SS-31 10mg",
-                            "price": "₡ 54,503",
+                            "price": "₡ 54,215",
                             "href": "/product/ss-31-10mg/",
                             "image": "/wp-content/uploads/2026/02/SS-31-1-300x300.jpg"
                           }
@@ -11609,8 +11715,8 @@
                         "src": "/wp-content/uploads/2026/04/peptides-32-1.png",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Man drinking water with supplement bottle and glass on table in modern living room.",
-                        "alt_es": "Un hombre bebiendo agua con una botella de suplemento y un vaso sobre la mesa en una sala de estar moderna."
+                        "alt_en": "Man drinking water with supplement SS-31 10 mg bottle and glass on table in modern living room.",
+                        "alt_es": "Man drinking water with supplement SS-31 10 mg bottle and glass on table in modern living room."
                       }
                     }
                   ]
@@ -12267,6 +12373,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/SS-31-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "SS-31 10mg peptide vial beside a couple doing push-ups on exercise mats at home",
+                        "alt_es": "SS-31 10mg peptide vial beside a couple doing push-ups on exercise mats at home"
+                      }
                     }
                   ]
                 }
@@ -12346,7 +12462,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "pt-141-costa-rica",
@@ -12459,7 +12575,7 @@
                         "products": [
                           {
                             "name": "PT-141 10mg",
-                            "price": "₡ 56,774",
+                            "price": "₡ 56,474",
                             "href": "/product/pt-141-10mgtest/",
                             "image": "/wp-content/uploads/2026/04/PT-141-1-300x300.jpg"
                           }
@@ -12675,11 +12791,11 @@
                     {
                       "type": "image",
                       "content": {
-                        "src": "/wp-content/uploads/2026/04/peptides-23-1.png",
-                        "width": null,
-                        "height": null,
-                        "alt_en": "{\"0\": \"Professional man writing in notebook with PT-141 supplement bottle and coffee cup on table.\" \"1\": \"Fit man holding water bottle with Kisspeptin-10 supplement on.",
-                        "alt_es": "Hombre profesional escribiendo en un cuaderno con una botella de suplemento PT-141 y una taza de café sobre la mesa.Hombre en forma sosteniendo una botella de agua con el suplemento Kisspeptin-10."
+                        "src": "/wp-content/uploads/2026/04/peptides-12-1.webp",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Man writing in a notebook outdoors with PT-141 10mg peptide vial nearby",
+                        "alt_es": "Hombre escribiendo en un cuaderno al aire libre con un vial de péptido PT-141 de 10 mg cerca"
                       }
                     }
                   ]
@@ -13334,6 +13450,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/PT-141-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "PT-141 10mg peptide vial beside a woman meditating outdoors on a yoga mat",
+                        "alt_es": "PT-141 10mg peptide vial beside a woman meditating outdoors on a yoga mat"
+                      }
                     }
                   ]
                 }
@@ -13407,7 +13533,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "ghk-cu-costa-rica",
@@ -13520,13 +13646,13 @@
                         "products": [
                           {
                             "name": "GHK-CU 50mg",
-                            "price": "₡ 31,794",
+                            "price": "₡ 31,626",
                             "href": "/product/ghk-cu-50mg/",
                             "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
                           },
                           {
                             "name": "GHK-CU 100mg",
-                            "price": "₡ 45,420",
+                            "price": "₡ 45,179",
                             "href": "/product/ghk-cu-100mg/",
                             "image": "/wp-content/uploads/2026/05/GHK-CU-100-2-300x300.webp"
                           }
@@ -13745,8 +13871,8 @@
                         "src": "/wp-content/uploads/2026/04/peptides-30-1.png",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Cozy living room scene with person relaxing on couch and supplement bottle on tray.",
-                        "alt_es": "Escena acogedora de sala de estar con una persona relajándose en el sofá y un frasco de suplemento en una bandeja."
+                        "alt_en": "Cozy living room scene with person relaxing on couch and GHK-CU 50 mg supplement bottle on tray.",
+                        "alt_es": "Cozy living room scene with person relaxing on couch and GHK-CU 50 mg supplement bottle on tray."
                       }
                     }
                   ]
@@ -14403,6 +14529,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/GHK-CU-50mg-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "GHK-CU 50mg peptide vial beside a glass of water and a woman standing indoors",
+                        "alt_es": "GHK-CU 50mg peptide vial beside a glass of water and a woman standing indoors"
+                      }
                     }
                   ]
                 }
@@ -14476,7 +14612,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "selank-costa-rica",
@@ -14595,7 +14731,7 @@
                               "products": [
                                 {
                                   "name": "Selank 10mg",
-                                  "price": "₡ 40,878",
+                                  "price": "₡ 40,661",
                                   "href": "/product/selank-10mg/",
                                   "image": "/wp-content/uploads/2026/02/Selank-1-300x300.jpg"
                                 }
@@ -15511,6 +15647,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/selank-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Selank 10mg peptide vial beside a woman relaxing on a bed with a glass of water",
+                        "alt_es": "Selank 10mg peptide vial beside a woman relaxing on a bed with a glass of water"
+                      }
                     }
                   ]
                 }
@@ -15584,7 +15730,7 @@
           }
         }
       ],
-      "untranslated": 0
+      "untranslated": 1
     },
     {
       "slug": "adamax-costa-rica",
@@ -15697,7 +15843,7 @@
                         "products": [
                           {
                             "name": "Adamax 5mg",
-                            "price": "₡ 74,942",
+                            "price": "₡ 51,956",
                             "href": "/product/adamax-5mg/",
                             "image": "/wp-content/uploads/2026/02/Adamax-1-300x300.jpg"
                           }
@@ -15916,8 +16062,8 @@
                         "src": "/wp-content/uploads/2026/02/peptides-7-1.webp",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Adamax 5mg product information",
-                        "alt_es": "Información del producto Adamax 5mg"
+                        "alt_en": "Woman stretching in a bright bedroom with ADAMAX 5mg vial, water glass and candle on bedside table",
+                        "alt_es": "Woman stretching in a bright bedroom with ADAMAX 5mg vial, water glass and candle on bedside table"
                       }
                     }
                   ]
@@ -16507,6 +16653,16 @@
                         "text_en": "Here are answers to the most common questions about Adamax pricing, storage, research applications, and delivery in Costa Rica.",
                         "text_es": "Aquí están las respuestas a las preguntas más frecuentes sobre precios, almacenamiento, aplicaciones de investigación y entrega de Adamax en Costa Rica."
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/Adamax-main-product-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Adamax 5mg peptide vial beside a glass of water in a bright wellness setting",
+                        "alt_es": "Adamax 5mg peptide vial beside a glass of water in a bright wellness setting"
+                      }
                     }
                   ]
                 }
@@ -16586,7 +16742,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "mots-c-costa-rica",
@@ -16705,13 +16861,13 @@
                               "products": [
                                 {
                                   "name": "Mots-C 10mg",
-                                  "price": "₡ 40,878",
+                                  "price": "₡ 40,661",
                                   "href": "/product/mots-c-10mg/",
                                   "image": "/wp-content/uploads/2026/02/MOTS-C-10-1-300x300.jpg"
                                 },
                                 {
                                   "name": "Mots-C 40mg",
-                                  "price": "₡ 68,129",
+                                  "price": "₡ 67,769",
                                   "href": "/product/mots-c-40mg/",
                                   "image": "/wp-content/uploads/2026/04/MOTS-C-40-1-300x300.jpg"
                                 }
@@ -17785,7 +17941,7 @@
                         "products": [
                           {
                             "name": "BPC-157 10mg",
-                            "price": "₡ 40,878",
+                            "price": "₡ 40,661",
                             "href": "/product/bpc-157-10mg/",
                             "image": "/wp-content/uploads/2026/02/BPC-157-2-300x300.jpg"
                           }
@@ -18649,6 +18805,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/BPC-157-10mg-main-page-faqs-images.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "BPC-157 10mg peptide vial beside an athletic man resting after a workout in a gym",
+                        "alt_es": "BPC-157 10mg peptide vial beside an athletic man resting after a workout in a gym"
+                      }
                     }
                   ]
                 }
@@ -18734,7 +18900,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "cartalax-costa-rica",
@@ -18847,7 +19013,7 @@
                         "products": [
                           {
                             "name": "Cartalax 20mg",
-                            "price": "₡ 45,420",
+                            "price": "₡ 45,179",
                             "href": "/product/cartalax-20mg/",
                             "image": "/wp-content/uploads/2026/06/Cartalax-20mg-1-300x300.webp"
                           }
@@ -19042,8 +19208,8 @@
                         "src": "/wp-content/uploads/2026/02/peptides-7-1.webp",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Adamax 5mg product information",
-                        "alt_es": "Información del producto Adamax 5mg"
+                        "alt_en": "Woman stretching in a bright bedroom with ADAMAX 5mg vial, water glass and candle on bedside table",
+                        "alt_es": "Woman stretching in a bright bedroom with ADAMAX 5mg vial, water glass and candle on bedside table"
                       }
                     }
                   ]
@@ -19633,6 +19799,16 @@
                         "text_en": "Here are answers to the most common questions about Adamax pricing, storage, research applications, and delivery in Costa Rica.",
                         "text_es": "Aquí están las respuestas a las preguntas más frecuentes sobre precios, almacenamiento, aplicaciones de investigación y entrega de Adamax en Costa Rica."
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/Cartalax-20mg-main-page-faqs-images.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "",
+                        "alt_es": ""
+                      }
                     }
                   ]
                 }
@@ -19688,7 +19864,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "pinealon-costa-rica",
@@ -19801,7 +19977,7 @@
                         "products": [
                           {
                             "name": "Pinealon 20mg",
-                            "price": "₡ 54,503",
+                            "price": "₡ 54,215",
                             "href": "/product/pinealon-20mg/",
                             "image": "/wp-content/uploads/2026/05/Pinealon-20-1-300x300.webp"
                           }
@@ -19892,8 +20068,8 @@
                         "src": "/wp-content/uploads/2026/05/Pinealon-10mg-product-information.webp",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Asian woman posing beside beauty product.",
-                        "alt_es": "Asian woman posing beside beauty product."
+                        "alt_en": "Woman sitting at home with Pinealon 10mg peptide vial on table",
+                        "alt_es": "Woman sitting at home with Pinealon 10mg peptide vial on table"
                       }
                     }
                   ]
@@ -20422,7 +20598,7 @@
           }
         }
       ],
-      "untranslated": 0
+      "untranslated": 1
     },
     {
       "slug": "igf-1lr3-costa-rica",
@@ -20535,7 +20711,7 @@
                         "products": [
                           {
                             "name": "IGF-1LR3 1mg",
-                            "price": "₡ 72,671",
+                            "price": "₡ 72,287",
                             "href": "/product/igf-1lr3-1mg/",
                             "image": "/wp-content/uploads/2026/04/IGF-1mg.jpg-300x300.jpeg"
                           }
@@ -21411,6 +21587,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/IGF-1LR3-1mg-main-page-faqs-images.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "IGF-1 LR3 1mg peptide vial beside an athletic man holding a shaker bottle in a gym setting",
+                        "alt_es": "IGF-1 LR3 1mg peptide vial beside an athletic man holding a shaker bottle in a gym setting"
+                      }
                     }
                   ]
                 }
@@ -21490,7 +21676,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "thymalin-costa-rica",
@@ -21603,7 +21789,7 @@
                         "products": [
                           {
                             "name": "Thymalin 10mg",
-                            "price": "₡ 54,503",
+                            "price": "₡ 54,215",
                             "href": "/product/thymalin-10mg/",
                             "image": "/wp-content/uploads/2026/02/Thymalin-1-1-300x300.jpg"
                           }
@@ -21822,8 +22008,8 @@
                         "src": "/wp-content/uploads/2026/04/peptides-33-1.png",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Woman performing stretching exercises outdoors on yoga mat with towel and bottle nearby.",
-                        "alt_es": "Mujer realizando ejercicios de estiramiento al aire libre sobre tapete de yoga con toalla y botella cerca."
+                        "alt_en": "Woman performing stretching exercises outdoors on yoga mat with towel and Thymalin 10 mg bottle nearby.",
+                        "alt_es": "Woman performing stretching exercises outdoors on yoga mat with towel and Thymalin 10 mg bottle nearby."
                       }
                     }
                   ]
@@ -22479,6 +22665,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/Thymalin-main-page-faaqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Thymalin 10mg peptide vial beside a woman exercising with a resistance band outdoors",
+                        "alt_es": "Thymalin 10mg peptide vial beside a woman exercising with a resistance band outdoors"
+                      }
                     }
                   ]
                 }
@@ -22558,7 +22754,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "slu-pp332-costa-rica",
@@ -22677,7 +22873,7 @@
                               "products": [
                                 {
                                   "name": "SLU-PP-332 5mg",
-                                  "price": "₡ 36,336",
+                                  "price": "₡ 36,144",
                                   "href": "/product/slu-pp-332-5mg/",
                                   "image": "/wp-content/uploads/2026/05/Slu-pp332-1-300x300.webp"
                                 }
@@ -22900,8 +23096,94 @@
                         "src": "/wp-content/uploads/2026/05/Slu-pp332-5mg-key-benefit.webp",
                         "width": 1280,
                         "height": 720,
-                        "alt_en": "Woman stretching before exercise.",
-                        "alt_es": "Woman stretching before exercise."
+                        "alt_en": "Fitness woman tying her shoes with SLU-PP-332 5mg peptide vial nearby",
+                        "alt_es": "Fitness woman tying her shoes with SLU-PP-332 5mg peptide vial nearby"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "group",
+          "content": {
+            "dir": "row",
+            "pad": [
+              80,
+              20,
+              80,
+              20
+            ],
+            "boxed": true,
+            "children": [
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "bg": "#092771",
+                  "gap": 20,
+                  "items": "stretch",
+                  "pad": [
+                    32,
+                    0,
+                    32,
+                    0
+                  ],
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "group",
+                      "content": {
+                        "dir": "column",
+                        "width": 100,
+                        "justify": "center",
+                        "boxed": false,
+                        "children": [
+                          {
+                            "type": "group",
+                            "content": {
+                              "dir": "column",
+                              "justify": "center",
+                              "items": "center",
+                              "boxed": false,
+                              "children": [
+                                {
+                                  "type": "heading",
+                                  "content": {
+                                    "level": 2,
+                                    "text_en": "Get In Touch",
+                                    "text_es": "Ponte en contacto",
+                                    "color": "#FFFFFF"
+                                  }
+                                },
+                                {
+                                  "type": "paragraph",
+                                  "content": {
+                                    "text_en": "Have questions about SLU-PP-332 pricing, ERR pathway research, availability, or shipping inside Costa Rica? Our team can walk you through current stock, bulk pricing, and storage details.",
+                                    "text_es": "¿Tienes preguntas sobre el precio de SLU-PP-332, investigación de la vía ERR, disponibilidad o envío dentro de Costa Rica? Nuestro equipo puede guiarte sobre el stock actual, precios por volumen y detalles de almacenamiento.",
+                                    "align": "center",
+                                    "color": "#FFFFFF",
+                                    "font": {
+                                      "size": "16px"
+                                    }
+                                  }
+                                },
+                                {
+                                  "type": "button",
+                                  "content": {
+                                    "text_en": "Contact Us",
+                                    "text_es": "Contáctanos",
+                                    "href": "/contact-costa-rica/",
+                                    "bg": "#FFFFFF",
+                                    "color": "#092771"
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
@@ -22934,38 +23216,6 @@
                   "items": "center",
                   "boxed": false,
                   "children": [
-                    {
-                      "type": "group",
-                      "content": {
-                        "dir": "column",
-                        "boxed": false,
-                        "children": [
-                          {
-                            "type": "heading",
-                            "content": {
-                              "level": 2,
-                              "text_en": "Get In Touch",
-                              "text_es": "Ponte en contacto"
-                            }
-                          },
-                          {
-                            "type": "paragraph",
-                            "content": {
-                              "text_en": "Have questions about SLU-PP-332 pricing, ERR pathway research, availability, or shipping inside Costa Rica? Our team can walk you through current stock, bulk pricing, and storage details.",
-                              "text_es": "¿Tienes preguntas sobre el precio de SLU-PP-332, investigación de la vía ERR, disponibilidad o envío dentro de Costa Rica? Nuestro equipo puede guiarte sobre el stock actual, precios por volumen y detalles de almacenamiento."
-                            }
-                          },
-                          {
-                            "type": "button",
-                            "content": {
-                              "text_en": "Contact Us",
-                              "text_es": "Contáctanos",
-                              "href": "/contact-costa-rica/"
-                            }
-                          }
-                        ]
-                      }
-                    },
                     {
                       "type": "heading",
                       "content": {
@@ -23517,6 +23767,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/SLU-PP-332-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "SLU-PP-332 5mg peptide vial beside an athletic man tying his shoes before a workout",
+                        "alt_es": "SLU-PP-332 5mg peptide vial beside an athletic man tying his shoes before a workout"
+                      }
                     }
                   ]
                 }
@@ -23590,7 +23850,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "bac-water-costa-rica",
@@ -23647,11 +23907,16 @@
                       }
                     },
                     {
-                      "type": "heading",
+                      "type": "paragraph",
                       "content": {
-                        "level": 2,
-                        "text_en": "BAC Water (Bacteriostatic Water) is a sterile solution used in research for reconstituting peptide compounds. It contains a small amount of benzyl alcohol to help prevent bacterial growth and maintain solution integrity. We provide it as a complimentary courtesy with every peptide order — it is not sold as a standalone product.",
-                        "text_es": "Agua BAC (Agua Bacteriostática) es una solución estéril utilizada en investigación para reconstituir compuestos peptídicos. Contiene una pequeña cantidad de alcohol bencílico para ayudar a prevenir el crecimiento bacteriano y mantener la integridad de la solución. La proporcionamos como cortesía de cortesía con cada pedido de péptidos; no se vende como producto independiente."
+                        "text_en": "BAC Water (Bacteriostatic Water) is a sterile solution used in research for reconstituting peptide compounds. It contains a small amount of benzyl alcohol to help prevent bacterial growth and maintain solution integrity. We provide it as a complimentary courtesy with every peptide order. Every peptide order includes a free 3ml vial of BAC Water as a complimentary courtesy.",
+                        "text_es": "BAC Water (Bacteriostatic Water) is a sterile solution used in research for reconstituting peptide compounds. It contains a small amount of benzyl alcohol to help prevent bacterial growth and maintain solution integrity. We provide it as a complimentary courtesy with every peptide order. Every peptide order includes a free 3ml vial of BAC Water as a complimentary courtesy.",
+                        "align": "center",
+                        "font": {
+                          "size": "16px",
+                          "weight": "400",
+                          "family": "Inter"
+                        }
                       }
                     }
                   ]
@@ -23694,20 +23959,14 @@
                       "content": {
                         "products": [
                           {
-                            "name": "BAC Water 2ml",
-                            "price": "",
-                            "href": "/product/bac-water-2ml/",
-                            "image": "/wp-content/uploads/2026/04/BAC-Water-2-1-300x300.jpg"
-                          },
-                          {
                             "name": "BAC Water 3ml",
-                            "price": "₡ 4,542",
+                            "price": "₡ 4,518",
                             "href": "/product/bac-water-3ml/",
                             "image": "/wp-content/uploads/2026/04/BAC-Water-3-1-300x300.jpg"
                           },
                           {
                             "name": "BAC Water 10ml",
-                            "price": "",
+                            "price": "₡ 9,036",
                             "href": "/product/bac-water-10ml/",
                             "image": "/wp-content/uploads/2026/04/BAC-Water-10-1-300x300.jpg"
                           }
@@ -24584,6 +24843,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/BAC-Water-10ml-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "BAC Water 10ml vial beside an athletic man holding a shaker bottle in a gym setting",
+                        "alt_es": "BAC Water 10ml vial beside an athletic man holding a shaker bottle in a gym setting"
+                      }
                     }
                   ]
                 }
@@ -24657,7 +24926,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "epithalon-costa-rica",
@@ -24770,7 +25039,7 @@
                         "products": [
                           {
                             "name": "Epithalon 50mg",
-                            "price": "₡ 77,213",
+                            "price": "₡ 76,805",
                             "href": "/product/epithalon-50mg/",
                             "image": "/wp-content/uploads/2026/02/Epithalon-1-300x300.jpg"
                           }
@@ -25716,6 +25985,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/Epithalon-50mg-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Epithalon 50mg peptide vial beside a woman meditating outdoors on a yoga mat",
+                        "alt_es": "Epithalon 50mg peptide vial beside a woman meditating outdoors on a yoga mat"
+                      }
                     }
                   ]
                 }
@@ -25795,7 +26074,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "ipamorelin-costa-rica",
@@ -25908,7 +26187,7 @@
                         "products": [
                           {
                             "name": "Ipamorelin 10mg",
-                            "price": "₡ 45,420",
+                            "price": "₡ 45,179",
                             "href": "/product/ipamorelin-10mg/",
                             "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
                           }
@@ -26785,6 +27064,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/Ipamorelin-10mg-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Ipamorelin 10mg peptide vial beside a smiling mother and daughter indoors",
+                        "alt_es": "Ipamorelin 10mg peptide vial beside a smiling mother and daughter indoors"
+                      }
                     }
                   ]
                 }
@@ -26846,7 +27135,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "sermorelin-costa-rica",
@@ -26965,7 +27254,7 @@
                               "products": [
                                 {
                                   "name": "Sermorelin 10mg",
-                                  "price": "₡ 68,129",
+                                  "price": "₡ 67,769",
                                   "href": "/product/sermorelin-10mg/",
                                   "image": "/wp-content/uploads/2026/04/Sermorelin-1-300x300.jpg"
                                 }
@@ -27880,6 +28169,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/Sermorelin-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Sermorelin 10mg peptide vial beside a glass of water and folded towels in a clean wellness setting",
+                        "alt_es": "Sermorelin 10mg peptide vial beside a glass of water and folded towels in a clean wellness setting"
+                      }
                     }
                   ]
                 }
@@ -27953,7 +28252,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "tirzepatide-costa-rica",
@@ -28072,31 +28371,31 @@
                               "products": [
                                 {
                                   "name": "Tirzepatide 15mg",
-                                  "price": "₡ 84,026",
+                                  "price": "₡ 83,582",
                                   "href": "/product/tirzepatide-15mg/",
                                   "image": "/wp-content/uploads/2026/05/Tirzepatide-15-2-300x300.webp"
                                 },
                                 {
                                   "name": "Tirzepatide 10mg",
-                                  "price": "₡ 70,400",
+                                  "price": "₡ 70,028",
                                   "href": "/product/tirzepatide-10mg/",
                                   "image": "/wp-content/uploads/2026/05/Tirzepatide-10-1-300x300.webp"
                                 },
                                 {
                                   "name": "Tirzepatide 20mg",
-                                  "price": "₡ 90,839",
+                                  "price": "₡ 90,359",
                                   "href": "/product/tirzepatide-20mg/",
                                   "image": "/wp-content/uploads/2026/05/Tirzepatide-20-1-300x300.webp"
                                 },
                                 {
                                   "name": "Tirzepatide 30mg",
-                                  "price": "₡ 102,194",
+                                  "price": "₡ 101,654",
                                   "href": "/product/tirzepatide-30mg/",
                                   "image": "/wp-content/uploads/2026/05/Tirzepatide-30-1-2-300x300.webp"
                                 },
                                 {
                                   "name": "Tirzepatide 40mg",
-                                  "price": "₡ 111,278",
+                                  "price": "₡ 110,689",
                                   "href": "/product/tirzepatide-40mg/",
                                   "image": "/wp-content/uploads/2026/06/Tirzepatide-40mg.jpg-300x300.webp"
                                 },
@@ -28975,6 +29274,16 @@
                               "text_en": "Frequently Asked Questions",
                               "text_es": "Preguntas frecuentes"
                             }
+                          },
+                          {
+                            "type": "image",
+                            "content": {
+                              "src": "/wp-content/uploads/2026/08/Tirzepatide-main-page-faqs-image.png",
+                              "width": 1000,
+                              "height": 1000,
+                              "alt_en": "Tirzepatide 30mg peptide vial beside a woman sitting at a table in a bright indoor setting",
+                              "alt_es": "Tirzepatide 30mg peptide vial beside a woman sitting at a table in a bright indoor setting"
+                            }
                           }
                         ]
                       }
@@ -29057,7 +29366,7 @@
           }
         }
       ],
-      "untranslated": 0
+      "untranslated": 1
     },
     {
       "slug": "semaglutide-costa-rica",
@@ -29176,19 +29485,19 @@
                               "products": [
                                 {
                                   "name": "Semaglutide 10mg",
-                                  "price": "₡ 99,923",
+                                  "price": "₡ 99,395",
                                   "href": "/product/semaglutide-10mg/",
                                   "image": "/wp-content/uploads/2026/05/Semaglutide-10-1-300x300.webp"
                                 },
                                 {
                                   "name": "Semaglutide 20mg",
-                                  "price": "₡ 124,904",
+                                  "price": "₡ 124,243",
                                   "href": "/product/semaglutide-20mg/",
                                   "image": "/wp-content/uploads/2026/05/Semaglutide-20-1-300x300.webp"
                                 },
                                 {
                                   "name": "Semaglutide 30mg",
-                                  "price": "₡ 136,259",
+                                  "price": "₡ 135,538",
                                   "href": "/product/semaglutide-30mg/",
                                   "image": "/wp-content/uploads/2026/05/Semaglutide-30-1-300x300.webp"
                                 }
@@ -29348,8 +29657,8 @@
                         "src": "/wp-content/uploads/2026/05/Semaglutide-20mg-product-image.webp",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Semaglutide 20mg product image",
-                        "alt_es": "Imagen del producto semaglutida 20 mg"
+                        "alt_en": "Fitness woman preparing a healthy smoothie with Semaglutide 20mg vial on kitchen counter",
+                        "alt_es": "Mujer fitness preparando un batido saludable con un vial de Semaglutida de 20 mg en la barra de la cocina"
                       }
                     }
                   ]
@@ -30005,6 +30314,16 @@
                               "text_en": "Frequently Asked Questions",
                               "text_es": "Preguntas frecuentes"
                             }
+                          },
+                          {
+                            "type": "image",
+                            "content": {
+                              "src": "/wp-content/uploads/2026/05/Semaglutide-20mg-key-benefit.webp",
+                              "width": 1280,
+                              "height": 720,
+                              "alt_en": "Woman sitting outdoors with Semaglutide 20mg peptide vial on table",
+                              "alt_es": "Mujer sentada al aire libre con un frasco de péptido de semaglutida de 20 mg sobre la mesa"
+                            }
                           }
                         ]
                       }
@@ -30200,7 +30519,7 @@
                         "products": [
                           {
                             "name": "Fat Blaster 10ml",
-                            "price": "₡ 49,962",
+                            "price": "₡ 49,697",
                             "href": "/product/fat-blaster-10ml/",
                             "image": "/wp-content/uploads/2026/04/Untitled-design-1-300x300.webp"
                           }
@@ -30982,6 +31301,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/Fat-Blaster-10ml-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Fat Blaster 10mg peptide vial beside an athletic man holding a water bottle indoors",
+                        "alt_es": "Fat Blaster 10mg peptide vial beside an athletic man holding a water bottle indoors"
+                      }
                     }
                   ]
                 }
@@ -31055,7 +31384,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "glutathione-costa-rica",
@@ -31168,7 +31497,7 @@
                         "products": [
                           {
                             "name": "Glutathione 1500mg",
-                            "price": "₡ 45,420",
+                            "price": "₡ 45,179",
                             "href": "/product/glutathione-1500mg/",
                             "image": "/wp-content/uploads/2026/04/Glutathione-1-300x300.jpg"
                           }
@@ -31387,8 +31716,8 @@
                         "src": "/wp-content/uploads/2026/04/peptides-28-1.png",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Yoga practitioner in green activewear practicing pose with water bottle on mat.",
-                        "alt_es": "Practicante de yoga con ropa deportiva verde practicando una postura con una botella de agua en la esterilla."
+                        "alt_en": "Yoga practitioner in green activewear practicing pose Glutathione 1500 mg with water bottle on mat.",
+                        "alt_es": "Yoga practitioner in green activewear practicing pose Glutathione 1500 mg with water bottle on mat."
                       }
                     }
                   ]
@@ -32045,6 +32374,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/Glutathione-1500mg-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Glutathione 1500mg vial beside a woman stretching outdoors with a water bottle",
+                        "alt_es": "Glutathione 1500mg vial beside a woman stretching outdoors with a water bottle"
+                      }
                     }
                   ]
                 }
@@ -32124,7 +32463,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "5-amino-1mq-costa-rica",
@@ -32237,7 +32576,7 @@
                         "products": [
                           {
                             "name": "5-amino-1mq 5mg",
-                            "price": "₡ 27,252",
+                            "price": "₡ 27,108",
                             "href": "/product/5-amino-1mq-5mg/",
                             "image": "/wp-content/uploads/2026/02/5-Amino-1MQ-1-300x300.jpg"
                           }
@@ -33183,6 +33522,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/5-Amino-1MQ-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "5-Amino-1MQ 5mg peptide vial on a table beside a woman overlooking the beach",
+                        "alt_es": "5-Amino-1MQ 5mg peptide vial on a table beside a woman overlooking the beach"
+                      }
                     }
                   ]
                 }
@@ -33262,7 +33611,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "tesamorelin-costa-rica",
@@ -33381,13 +33730,13 @@
                               "products": [
                                 {
                                   "name": "Tesamorelin 10mg",
-                                  "price": "₡ 45,420",
+                                  "price": "₡ 45,179",
                                   "href": "/product/tesamorelin-10mg/",
                                   "image": "/wp-content/uploads/2026/02/Tesamorelin-1-300x300.jpg"
                                 },
                                 {
                                   "name": "Tesamorelin 20mg",
-                                  "price": "₡ 68,129",
+                                  "price": "₡ 67,769",
                                   "href": "/product/tesamorelin-20mg/",
                                   "image": "/wp-content/uploads/2026/07/Tesa.jpg-300x300.jpeg"
                                 }
@@ -33634,8 +33983,8 @@
                         "src": "/wp-content/uploads/2026/04/peptides-34-1.png",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Woman stretching on rooftop with water bottle in evening sunlight.",
-                        "alt_es": "Mujer estirando en la azotea con botella de agua bajo la luz del sol de la tarde."
+                        "alt_en": "Woman stretching on rooftop with Tesamorelin 10 mg water bottle in evening sunlight.",
+                        "alt_es": "Woman stretching on rooftop with Tesamorelin 10 mg water bottle in evening sunlight."
                       }
                     }
                   ]
@@ -34289,6 +34638,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/Tesamorelin-main-page-faqs-image-1024x576.png",
+                        "width": 1024,
+                        "height": 576,
+                        "alt_en": "Tesamorelin 10mg peptide vial beside a woman in a bright indoor wellness setting",
+                        "alt_es": "Tesamorelin 10mg peptide vial beside a woman in a bright indoor wellness setting"
+                      }
                     }
                   ]
                 }
@@ -34344,7 +34703,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "retatrutide-costa-rica",
@@ -34462,44 +34821,50 @@
                             "content": {
                               "products": [
                                 {
+                                  "name": "Retatrutide 5mg",
+                                  "price": "₡ 45,441",
+                                  "href": "/product/retatrutide-5mg/",
+                                  "image": "/wp-content/uploads/2026/08/Retatrutide-5mg-300x300.webp"
+                                },
+                                {
                                   "name": "Retatrutide 10mg",
-                                  "price": "₡ 56,774",
+                                  "price": "₡ 56,474",
                                   "href": "/product/reta-10mg/",
                                   "image": "/wp-content/uploads/2026/03/Retatrutide-10mg-1-300x300.jpg"
                                 },
                                 {
                                   "name": "Retatrutide 12mg",
-                                  "price": "₡ 61,316",
+                                  "price": "₡ 60,992",
                                   "href": "/product/reta-12mg/",
                                   "image": "/wp-content/uploads/2026/02/Retatrutide-12mg-1-300x300.jpg"
                                 },
                                 {
                                   "name": "Retatrutide 15mg",
-                                  "price": "₡ 63,587",
+                                  "price": "₡ 63,251",
                                   "href": "/product/retatrutide-15mg/",
                                   "image": "/wp-content/uploads/2026/04/Retatrutide-15mg-1-300x300.jpg"
                                 },
                                 {
                                   "name": "Retatrutide 20mg",
-                                  "price": "₡ 68,129",
+                                  "price": "₡ 67,769",
                                   "href": "/product/retatrutide-20mg/",
                                   "image": "/wp-content/uploads/2026/04/Retatrutide-20mg-1-300x300.jpg"
                                 },
                                 {
                                   "name": "Retatrutide 24mg",
-                                  "price": "₡ 74,942",
+                                  "price": "₡ 74,546",
                                   "href": "/product/retatrutide-24mg/",
                                   "image": "/wp-content/uploads/2026/04/Retatrutide-24mg-1-300x300.jpg"
                                 },
                                 {
                                   "name": "Retatrutide 30mg",
-                                  "price": "₡ 81,755",
+                                  "price": "₡ 81,323",
                                   "href": "/product/reta-30mg/",
                                   "image": "/wp-content/uploads/2026/02/Retatrutide-30mg-1-300x300.jpg"
                                 },
                                 {
                                   "name": "Retatrutide 40mg",
-                                  "price": "₡ 95,381",
+                                  "price": "₡ 94,877",
                                   "href": "/product/reta-40mg/",
                                   "image": "/wp-content/uploads/2026/02/Retatrutide-40mg-1-300x300.jpg"
                                 },
@@ -34511,13 +34876,13 @@
                                 },
                                 {
                                   "name": "Retatrutide 50mg",
-                                  "price": "₡ 109,007",
+                                  "price": "₡ 108,431",
                                   "href": "/product/retatrutide-50mg/",
                                   "image": "/wp-content/uploads/2026/06/Retarutide-50mg-1-300x300.webp"
                                 },
                                 {
                                   "name": "Retatrutide 60mg",
-                                  "price": "₡ 122,633",
+                                  "price": "₡ 121,984",
                                   "href": "/product/retatrutide-60mg/",
                                   "image": "/wp-content/uploads/2026/06/Retatrutide-60mg-1-300x300.webp"
                                 }
@@ -34780,11 +35145,11 @@
                     {
                       "type": "image",
                       "content": {
-                        "src": "/wp-content/uploads/2026/04/peptides-24-1.png",
-                        "width": null,
-                        "height": null,
-                        "alt_en": "",
-                        "alt_es": ""
+                        "src": "/wp-content/uploads/2026/04/peptides-48-1.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Retatrutide 12mg vial displayed beside a fit man holding a shaker bottle in a gym setting",
+                        "alt_es": "Retatrutide 12mg vial displayed beside a fit man holding a shaker bottle in a gym setting"
                       }
                     }
                   ]
@@ -35514,6 +35879,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/04/peptides-47-1.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Retatrutide 5mg, 12mg, and 40mg vials displayed beside a fit man holding a shaker bottle in a gym setting",
+                        "alt_es": "Retatrutide 5mg, 12mg, and 40mg vials displayed beside a fit man holding a shaker bottle in a gym setting"
+                      }
                     }
                   ]
                 }
@@ -35587,7 +35962,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 3
     },
     {
       "slug": "cjc-with-dac-costa-rica",
@@ -36648,6 +37023,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/CJC-with-DAC-5mg-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "",
+                        "alt_es": ""
+                      }
                     }
                   ]
                 }
@@ -36840,7 +37225,7 @@
                         "products": [
                           {
                             "name": "KissPeptin-10 10mg",
-                            "price": "₡ 59,045",
+                            "price": "₡ 58,733",
                             "href": "/product/kisspeptin-10-10mg/",
                             "image": "/wp-content/uploads/2026/04/Kisspeptin-10-1-300x300.jpg"
                           }
@@ -37718,6 +38103,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/Kisspeptin-10-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Kisspeptin-10 peptide vial beside a woman exercising with a resistance band outdoors",
+                        "alt_es": "Kisspeptin-10 peptide vial beside a woman exercising with a resistance band outdoors"
+                      }
                     }
                   ]
                 }
@@ -37791,7 +38186,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "thymosin-alpha-1-costa-rica",
@@ -37910,7 +38305,7 @@
                               "products": [
                                 {
                                   "name": "Thymosin Alpha-1 10mg",
-                                  "price": "₡ 68,129",
+                                  "price": "₡ 67,769",
                                   "href": "/product/thymosin-alpha-1-10mg/",
                                   "image": "/wp-content/uploads/2026/05/Thymosin-Alpha-1-10-1-300x300.webp"
                                 }
@@ -38142,8 +38537,8 @@
                         "src": "/wp-content/uploads/2026/05/Thymosin-Alpha-1-10mg-product-information.webp",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Man exercising with healthcare product on table.",
-                        "alt_es": "Man exercising with healthcare product on table."
+                        "alt_en": "Fit man resting after workout with Thymosin Alpha-1 10mg peptide vial nearby",
+                        "alt_es": "Hombre en forma descansando después de entrenar con un frasco de péptido de Timosina Alfa-1 de 10 mg cerca"
                       }
                     }
                   ]
@@ -38865,7 +39260,7 @@
                               "products": [
                                 {
                                   "name": "SUPER Human Blend 10ml",
-                                  "price": "₡ 45,420",
+                                  "price": "₡ 45,179",
                                   "href": "/product/super-human-blend-10ml/",
                                   "image": "/wp-content/uploads/2026/04/SUPER-Human-Blend-1-300x300.jpg"
                                 }
@@ -39687,6 +40082,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/SUPER-Human-Blend-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "SUPER Human Blend 110ml vial beside workout gear while a woman exercises with battle ropes outdoors",
+                        "alt_es": "SUPER Human Blend 110ml vial beside workout gear while a woman exercises with battle ropes outdoors"
+                      }
                     }
                   ]
                 }
@@ -39754,7 +40159,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "bpc-157-tb-500-wolverine-stack",
@@ -40062,8 +40467,8 @@
                         "src": "/wp-content/uploads/2026/05/157-TB-500.webp",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "157 + TB 500",
-                        "alt_es": "157 + TB 500"
+                        "alt_en": "Woman sitting at home with BPC-157+TB-500 peptide vial on table",
+                        "alt_es": "Mujer sentada en casa con un frasco de péptidos BPC-157+TB-500 sobre la mesa"
                       }
                     }
                   ]
@@ -40647,6 +41052,16 @@
                         "text_en": "Frequently Asked Questions",
                         "text_es": "Preguntas frecuentes"
                       }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/08/BPC-157-TB-500-20mg-main-page-faqs-image.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "BPC-157 + TB-500 20mg peptide vial beside a woman stretching on a yoga mat indoors",
+                        "alt_es": "BPC-157 + TB-500 20mg peptide vial beside a woman stretching on a yoga mat indoors"
+                      }
                     }
                   ]
                 }
@@ -40702,7 +41117,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "cjc-1295-without-dac-ipa-costa-rica",

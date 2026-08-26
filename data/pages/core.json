@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-24T16:15:24.867Z",
+  "harvestedAt": "2026-08-26T16:26:09.295Z",
   "group": "core",
   "count": 9,
   "pages": [
@@ -753,6 +753,12 @@
           "type": "group",
           "content": {
             "dir": "row",
+            "pad": [
+              112,
+              0,
+              80,
+              0
+            ],
             "boxed": true,
             "children": [
               {
@@ -1038,6 +1044,12 @@
           "type": "group",
           "content": {
             "dir": "row",
+            "pad": [
+              80,
+              0,
+              80,
+              0
+            ],
             "boxed": true,
             "children": [
               {
@@ -2824,6 +2836,12 @@
           "type": "group",
           "content": {
             "dir": "row",
+            "pad": [
+              70,
+              20,
+              70,
+              20
+            ],
             "boxed": true,
             "children": [
               {
@@ -3733,6 +3751,12 @@
           "type": "group",
           "content": {
             "dir": "row",
+            "pad": [
+              0,
+              0,
+              80,
+              0
+            ],
             "boxed": true,
             "children": [
               {
@@ -3869,6 +3893,12 @@
           "type": "group",
           "content": {
             "dir": "row",
+            "pad": [
+              0,
+              0,
+              80,
+              0
+            ],
             "boxed": true,
             "children": [
               {
@@ -4472,7 +4502,7 @@
                     [
                       "Golfito",
                       "Pavones",
-                      "Drake Bay",
+                      "Bahía Drake",
                       "",
                       ""
                     ]
@@ -5017,7 +5047,7 @@
           }
         }
       ],
-      "untranslated": 52
+      "untranslated": 51
     },
     {
       "slug": "all-peptide-products-costa-rica",
@@ -6162,6 +6192,12 @@
           "type": "group",
           "content": {
             "dir": "row",
+            "pad": [
+              80,
+              0,
+              80,
+              0
+            ],
             "boxed": true,
             "children": [
               {
@@ -6264,6 +6300,12 @@
           "type": "group",
           "content": {
             "dir": "row",
+            "pad": [
+              0,
+              0,
+              80,
+              0
+            ],
             "boxed": true,
             "children": [
               {

@@ -158,6 +158,27 @@ const px = (v) => {
 const radius = (v) => (v ? px(v.split(/\s+/)[0]) : null);
 
 /**
+ * A CSS `padding` shorthand -> [top, right, bottom, left].
+ *
+ * Legacy `elementor-section` / `elementor-column` pages predate the
+ * `--padding-*` custom properties and declare ordinary `padding` instead. Only
+ * the custom properties were being read, so those pages came through with no
+ * padding at all — the home page kept 8 of 18 section paddings, the city pages
+ * 37%, while the container-era product pages kept ~90%. That difference is the
+ * spacing being wrong, not a design choice.
+ */
+const shorthandPad = (v) => {
+  if (!v) return null;
+  const parts = String(v).trim().split(/\s+/).map(px);
+  if (!parts.length || parts.some((n) => n === null)) return null;
+  const [a, b, c, d] = parts;
+  if (parts.length === 1) return [a, a, a, a];
+  if (parts.length === 2) return [a, b, a, b];
+  if (parts.length === 3) return [a, b, c, b];
+  return [a, b, c, d];
+};
+
+/**
  * Turn one container's raw declarations into the small layout record the
  * renderer understands. Anything absent stays absent rather than being
  * defaulted here, so the renderer owns the fallbacks in one place.
@@ -208,6 +229,11 @@ export function containerLayout(props = {}, cls = '', kind = 'container') {
     px(props[k]),
   );
   if (pad.some((n) => n)) out.pad = pad.map((n) => n ?? 0);
+  else {
+    // Legacy sections and columns: an ordinary `padding` declaration.
+    const legacy = shorthandPad(props.padding);
+    if (legacy && legacy.some((n) => n)) out.pad = legacy;
+  }
 
   const mt = px(props['--margin-top']);
   if (mt) out.marginTop = mt;
