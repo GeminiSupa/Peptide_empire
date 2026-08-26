@@ -122,9 +122,20 @@ async function main() {
   const $l = cheerio.load(liveHtml);
   const $o = cheerio.load(oursHtml);
 
+  /**
+   * Compare like with like: the page body only.
+   *
+   * Our side is scoped to <main>, so scanning the live document whole counted
+   * its header and footer templates as page content — "quick links", "contact
+   * us", "trustpilot" and the rest were reported missing from /limon/ when they
+   * are simply in our footer instead. That inflated every miss count on every
+   * page.
+   */
+  const liveBody = $l('#content').length ? $l('#content') : $l('body');
+
   // --- what the live page declares, keyed so our side can be matched to it ---
   const liveHeadings = new Map();
-  $l('[data-widget_type^="heading"]').each((_, el) => {
+  liveBody.find('[data-widget_type^="heading"]').each((_, el) => {
     const $w = $l(el);
     const d = declared.get($w.attr('data-id')) ?? {};
     const h = $w.find('h1,h2,h3,h4,h5,h6').first();
@@ -140,7 +151,7 @@ async function main() {
   });
 
   const liveImages = new Map();
-  $l('[data-widget_type^="image"]').each((_, el) => {
+  liveBody.find('[data-widget_type^="image"]').each((_, el) => {
     const $w = $l(el);
     const d = declared.get($w.attr('data-id')) ?? {};
     const img = $w.find('img').first();
@@ -206,6 +217,45 @@ async function main() {
 
   console.log(`${pagePath}  (elementor post ${id})`);
   console.log(`  headings matched ${matched}/${liveHeadings.size} · images matched ${imatched}/${liveImages.size}`);
+
+  /**
+   * What the live page has and ours does not.
+   *
+   * The match RATE is the real signal — a page can score zero style mismatches
+   * while carrying half the content, because only what both sides have gets
+   * compared. Listing the misses is what turns "16 of 26" into something
+   * actionable.
+   */
+  if (args.includes('--missing')) {
+    const oursText = new Set();
+    $o('main h1,main h2,main h3,main h4,main h5,main h6').each((_, el) => oursText.add(norm($o(el).text())));
+    /**
+     * Badge headings render as <span>, by design.
+     *
+     * Elementor's eyebrow labels — "Common Questions", "BULK OFFER",
+     * "Testimonials" — are heading widgets painted as a pill. components/
+     * blocks.js emits them as a styled span with the identical fill, radius and
+     * padding, so they are visually the same and semantically not a heading.
+     * Counting only h1-h6 reported every one of them as missing content.
+     */
+    $o('main span').each((_, el) => {
+      if ($o(el).children().length === 0) oursText.add(norm($o(el).text()));
+    });
+    const missingH = [...liveHeadings.keys()].filter((t) => !oursText.has(t));
+    const oursImg = new Set();
+    $o('main img').each((_, el) => oursImg.add(($o(el).attr('src') ?? '').split('?')[0].split('/').pop()));
+    const missingI = [...liveImages.keys()].filter((f) => !oursImg.has(f));
+    if (missingH.length) {
+      console.log(`
+  HEADINGS ON LIVE, ABSENT HERE — ${missingH.length}`);
+      for (const t of missingH.slice(0, 15)) console.log(`    ${t}`);
+    }
+    if (missingI.length) {
+      console.log(`
+  IMAGES ON LIVE, ABSENT HERE — ${missingI.length}`);
+      for (const f of missingI.slice(0, 15)) console.log(`    ${f}`);
+    }
+  }
 
   const total = Object.values(findings).reduce((a, v) => a + v.length, 0);
   for (const [kind, list] of Object.entries(findings)) {
