@@ -156,6 +156,24 @@ const BOX =
   /^\.elementor-\d+\s+\.elementor-element\.elementor-element-([\w-]+)\s*>\s*\.elementor-widget-container$/;
 
 /**
+ * The DISPLAY WIDTH of an image widget.
+ *
+ * Elementor does not resize the file; it sizes the <img> in CSS, per widget:
+ *
+ *   .elementor-element-1f50a44 img{width:40%}
+ *
+ * Nothing was reading that, so every harvested image fell back to filling its
+ * column. The press logo is 300px wide natively, the live site draws it at
+ * 120px, and the clone drew it at 300px+ — the same class of error on every
+ * image widget on the site (live also sets 270px, 162px, 444px this way).
+ *
+ * Captured as `img-width`, kept as the authored unit so a percentage stays
+ * relative to the column exactly as it is on the live site.
+ */
+const IMG =
+  /^\.elementor-\d+\s+\.elementor-element\.elementor-element-([\w-]+)(?:\s*>\s*\.elementor-widget-container)?\s+img$/;
+
+/**
  * @param {string} css      one page's stylesheet (or several, concatenated)
  * @param {object} globals  `--e-global-color-*` values, for var() resolution
  * @returns {Map<string, Record<string,string>>} data-id -> declarations
@@ -190,11 +208,12 @@ export function parseElementorCss(css, globals = {}) {
       // Article", and every heading inside the navy bands stayed navy-on-navy.
       const inner = !m && INNER.exec(s);
       const box = !m && !inner && BOX.exec(s);
+      const img = !m && !inner && !box && IMG.exec(s);
 
-      if (!m && !inner && !box) continue;
+      if (!m && !inner && !box && !img) continue;
 
-      const id = (m ?? inner ?? box)[1];
-      const prefix = box ? 'box-' : inner ? (PART[inner[2]] ?? '') : '';
+      const id = (m ?? inner ?? box ?? img)[1];
+      const prefix = box ? 'box-' : img ? 'img-' : inner ? (PART[inner[2]] ?? '') : '';
       const target = byId.get(id) ?? {};
       byId.set(id, target);
 

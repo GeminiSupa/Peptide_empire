@@ -421,20 +421,35 @@ function BlockImage({ content, lang, inGroup, inRow }) {
   const widest = source.srcSet ? source.width : content.width;
   const natural = widest || null;
 
+  /**
+   * The width the live site DRAWS this image at, when it says so.
+   *
+   * Elementor sizes an image in CSS per widget — `img{width:40%}` on the press
+   * logos, and 300px / 270px / 162px / 444px elsewhere on the home page — and
+   * that is the real intent. Honouring it is what stops an image being as wide
+   * as whatever column it happens to sit in; the natural size is only the
+   * fallback ceiling for images the stylesheet says nothing about.
+   */
+  const authored = content.displayWidth || null;
+
   if (inGroup) {
     return (
       // eslint-disable-next-line @next/next/no-img-element -- harvested asset
       <img
         alt={t(content, 'alt', lang)}
-        className={`h-auto w-full ${inRow ? 'lg:min-w-0 lg:flex-1 lg:basis-0' : ''} ${
-          content.align === 'center' ? 'mx-auto' : ''
-        }`}
+        className={`h-auto ${authored ? '' : 'w-full'} ${
+          inRow ? 'lg:min-w-0 lg:flex-1 lg:basis-0' : ''
+        } ${content.align === 'center' ? 'mx-auto' : ''}`}
         height={source.height || content.height || undefined}
         loading="lazy"
         sizes={source.srcSet ? SIZES.prose : undefined}
         src={source.src}
         srcSet={source.srcSet}
-        style={{ maxWidth: natural ? `${natural}px` : '100%' }}
+        style={
+          authored
+            ? { width: authored, maxWidth: '100%' }
+            : { maxWidth: natural ? `${natural}px` : '100%' }
+        }
         width={source.width || content.width || undefined}
       />
     );
@@ -442,6 +457,7 @@ function BlockImage({ content, lang, inGroup, inRow }) {
 
   // Outside a group the same rule applies, bounded by the prose measure.
   const cap = natural ? Math.min(natural, 672) : 672;
+  const proseStyle = authored ? { width: authored, maxWidth: '100%' } : { maxWidth: `${cap}px` };
 
   return (
     // eslint-disable-next-line @next/next/no-img-element -- harvested asset
@@ -453,7 +469,7 @@ function BlockImage({ content, lang, inGroup, inRow }) {
       sizes={source.srcSet ? SIZES.prose : undefined}
       src={source.src}
       srcSet={source.srcSet}
-      style={{ maxWidth: `${cap}px` }}
+      style={proseStyle}
       width={source.width || content.width || undefined}
     />
   );

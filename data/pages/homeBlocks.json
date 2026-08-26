@@ -187,7 +187,8 @@
                               "height": 354,
                               "alt_en": "Five Peptides Costa Rica bottles on blue background: Retatrutide, Seramorelin, NAD+, HCG, Glow 70 mg. Blue caps. Store at 2-8°C.",
                               "alt_es": "Cinco botellas de Peptides Costa Rica sobre fondo azul: Retatrutida, Seramorelina, NAD+, HCG, Glow 70 mg. Tapas azules. Almacenar a 2-8°C.",
-                              "align": "center"
+                              "align": "center",
+                              "displayWidth": "90%"
                             }
                           }
                         ]
@@ -253,7 +254,8 @@
                         "width": 300,
                         "height": 112,
                         "alt_en": "The Costa Rica News Logo",
-                        "alt_es": "The Costa Rica News Logo"
+                        "alt_es": "The Costa Rica News Logo",
+                        "displayWidth": "40%"
                       }
                     },
                     {
@@ -368,7 +370,8 @@
                         "width": 529,
                         "height": 134,
                         "alt_en": "The Tico Times Since 1956 Logo",
-                        "alt_es": "The Tico Times Since 1956 Logo"
+                        "alt_es": "The Tico Times Since 1956 Logo",
+                        "displayWidth": "30%"
                       }
                     }
                   ]
@@ -1770,7 +1773,8 @@
                         "width": 530,
                         "height": 354,
                         "alt_en": "Five Peptides Costa Rica bottles on blue background: Retatrutide, Seramorelin, NAD+, HCG, Glow 70 mg. Blue caps. Store at 2-8°C.",
-                        "alt_es": "Cinco botellas de Peptides Costa Rica sobre fondo azul: Retatrutida, Seramorelina, NAD+, HCG, Glow 70 mg. Tapas azules. Almacenar a 2-8°C."
+                        "alt_es": "Cinco botellas de Peptides Costa Rica sobre fondo azul: Retatrutida, Seramorelina, NAD+, HCG, Glow 70 mg. Tapas azules. Almacenar a 2-8°C.",
+                        "displayWidth": "90%"
                       }
                     }
                   ]
@@ -2618,7 +2622,8 @@
                                                       "width": 512,
                                                       "height": 96,
                                                       "alt_en": "trustpilot reviews star",
-                                                      "alt_es": "trustpilot reviews star"
+                                                      "alt_es": "trustpilot reviews star",
+                                                      "displayWidth": "14%"
                                                     }
                                                   },
                                                   {
@@ -2705,7 +2710,8 @@
                                                       "width": 512,
                                                       "height": 96,
                                                       "alt_en": "trustpilot reviews star",
-                                                      "alt_es": "trustpilot reviews star"
+                                                      "alt_es": "trustpilot reviews star",
+                                                      "displayWidth": "14%"
                                                     }
                                                   },
                                                   {
@@ -2792,7 +2798,8 @@
                                                       "width": 512,
                                                       "height": 96,
                                                       "alt_en": "trustpilot reviews star",
-                                                      "alt_es": "trustpilot reviews star"
+                                                      "alt_es": "trustpilot reviews star",
+                                                      "displayWidth": "14%"
                                                     }
                                                   },
                                                   {

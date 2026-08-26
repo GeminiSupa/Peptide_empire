@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-26T16:26:09.295Z",
+  "harvestedAt": "2026-08-26T16:48:43.059Z",
   "group": "core",
   "count": 9,
   "pages": [
@@ -178,7 +178,8 @@
                         "width": 1000,
                         "height": 1000,
                         "alt_en": "Person demonstrating leg stretch beside supplement bottles in modern living room.",
-                        "alt_es": "Persona realizando estiramiento de piernas junto a botellas de suplementos en una sala de estar moderna."
+                        "alt_es": "Persona realizando estiramiento de piernas junto a botellas de suplementos en una sala de estar moderna.",
+                        "displayWidth": "100%"
                       }
                     }
                   ]
@@ -321,7 +322,8 @@
                   "width": 1280,
                   "height": 720,
                   "alt_en": "Bottles of white and colored capsules arranged on wooden desk with fitness journal.",
-                  "alt_es": "Botellas de cápsulas blancas y de colores dispuestas sobre un escritorio de madera con un diario de fitness."
+                  "alt_es": "Botellas de cápsulas blancas y de colores dispuestas sobre un escritorio de madera con un diario de fitness.",
+                  "displayWidth": "100%"
                 }
               },
               {
@@ -1019,7 +1021,8 @@
                               "width": 512,
                               "height": 96,
                               "alt_en": "trustpilot reviews star",
-                              "alt_es": "trustpilot reviews star"
+                              "alt_es": "trustpilot reviews star",
+                              "displayWidth": "14%"
                             }
                           },
                           {
@@ -1250,7 +1253,8 @@
                   "width": 1000,
                   "height": 1000,
                   "alt_en": "Person demonstrating leg stretch beside supplement bottles in modern living room.",
-                  "alt_es": "Persona realizando estiramiento de piernas junto a botellas de suplementos en una sala de estar moderna."
+                  "alt_es": "Persona realizando estiramiento de piernas junto a botellas de suplementos en una sala de estar moderna.",
+                  "displayWidth": "85%"
                 }
               },
               {
@@ -1378,7 +1382,8 @@
                         "width": 1440,
                         "height": 1800,
                         "alt_en": "Two athletes pose with boxing gloves in gym, 'ROCKS' banner visible.",
-                        "alt_es": "Dos atletas posan con guantes de boxeo en un gimnasio, se ve un cartel que dice \"ROCKS\"."
+                        "alt_es": "Dos atletas posan con guantes de boxeo en un gimnasio, se ve un cartel que dice \"ROCKS\".",
+                        "displayWidth": "85%"
                       }
                     }
                   ]
@@ -1415,7 +1420,8 @@
                         "width": 1170,
                         "height": 1218,
                         "alt_en": "Shirtless fighter holds championship belt at event, muscular pose on stage.",
-                        "alt_es": "Luchador sin camisa sostiene un cinturón de campeonato en un evento, pose muscular en el escenario."
+                        "alt_es": "Luchador sin camisa sostiene un cinturón de campeonato en un evento, pose muscular en el escenario.",
+                        "displayWidth": "85%"
                       }
                     }
                   ]
@@ -1569,7 +1575,8 @@
                   "width": 1000,
                   "height": 1000,
                   "alt_en": "Woman holding supplement in yoga pose on mat.",
-                  "alt_es": "Mujer sosteniendo un suplemento en pose de yoga sobre una esterilla."
+                  "alt_es": "Mujer sosteniendo un suplemento en pose de yoga sobre una esterilla.",
+                  "displayWidth": "85%"
                 }
               },
               {
@@ -1807,7 +1814,8 @@
                         "width": 1000,
                         "height": 1000,
                         "alt_en": "Muscular man working out beside boldly labeled supplement bottle.",
-                        "alt_es": "Hombre musculoso entrenando junto a una botella de suplementos con etiqueta llamativa."
+                        "alt_es": "Hombre musculoso entrenando junto a una botella de suplementos con etiqueta llamativa.",
+                        "displayWidth": "85%"
                       }
                     }
                   ]
@@ -2091,7 +2099,8 @@
                   "width": 2000,
                   "height": 2000,
                   "alt_en": "Man running on treadmill in modern living room.",
-                  "alt_es": "Man running on treadmill in modern living room."
+                  "alt_es": "Man running on treadmill in modern living room.",
+                  "displayWidth": "85%"
                 }
               },
               {
@@ -2602,7 +2611,8 @@
                         "width": null,
                         "height": null,
                         "alt_en": "",
-                        "alt_es": ""
+                        "alt_es": "",
+                        "displayWidth": "41%"
                       }
                     }
                   ]
@@ -4108,7 +4118,8 @@
                   "width": 512,
                   "height": 96,
                   "alt_en": "trustpilot reviews star",
-                  "alt_es": "trustpilot reviews star"
+                  "alt_es": "trustpilot reviews star",
+                  "displayWidth": "14%"
                 }
               },
               {

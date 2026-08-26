@@ -348,6 +348,18 @@ export function walkTree($, node, tr, css, widgetToBlock) {
       // bulk-offer panel), on an icon-box it is the card the box sits in. Kept
       // as one record so the renderer decides, and so "white text" can be told
       // apart from "white text on red".
+      /**
+       * An image widget's DISPLAY width, authored in CSS rather than in the file.
+       *
+       * Elementor draws the press logo at `width:40%` of its column while the
+       * file itself is 300px wide. Without this the renderer had nothing to go
+       * on and stretched every image to its column, which is why the two press
+       * logos filled half the viewport each.
+       */
+      if (b.type === 'image' && own['img-width']) {
+        b.displayWidth = own['img-width'];
+      }
+
       if (own['box-background-color']) {
         b.box = {
           bg: own['box-background-color'],

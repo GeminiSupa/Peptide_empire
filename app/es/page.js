@@ -2,6 +2,7 @@ import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
 import homeData from '@/data/pages/homeBlocks.json';
+import { alternates } from '@/lib/routes';
 
 /**
  * Spanish home at `/es/` — the live site's own path.
@@ -12,6 +13,16 @@ import homeData from '@/data/pages/homeBlocks.json';
  * the page's 45 images and only 12 of its 63 headings.
  */
 const page = homeData.pages[0];
+
+/** Stated explicitly rather than inherited, so it cannot drift from the English side. */
+export function generateMetadata() {
+  const alt = alternates('/');
+  return {
+    title: page.head.title_es || undefined,
+    description: page.head.description_es || undefined,
+    alternates: { canonical: alt.es, languages: { 'en-US': alt.en, 'es-CR': alt.es } },
+  };
+}
 
 export default function HomeEs() {
   return (
