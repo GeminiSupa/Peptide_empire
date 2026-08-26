@@ -36,10 +36,38 @@ const GROUPS = [
 ];
 
 const data = JSON.parse(await readFile(FILE, 'utf8'));
-const page = data.pages.find((p) => p.slug === 'html-sitemap');
+let page = data.pages.find((p) => p.slug === 'html-sitemap');
+
+/**
+ * Create the page when it is absent, rather than failing.
+ *
+ * harvest-blocks SKIPs /html-sitemap/ — WordPress renders it from a plugin and
+ * stores no content, so harvesting it produced a blank page that overwrote this
+ * generated one. But skipping it also means a re-harvest of `legal` writes the
+ * group WITHOUT it, silently dropping the site's full index from 4 pages to 3.
+ * This script owns the page outright, so it can rebuild the whole entry.
+ */
 if (!page) {
-  console.error('html-sitemap page not found in legal.json');
-  process.exit(1);
+  const routeData = JSON.parse(await readFile(resolve(ROOT, 'data/routes.json'), 'utf8'));
+  const route = routeData.routes.find((r) => r.en === '/html-sitemap/');
+  if (!route) {
+    console.error('/html-sitemap/ is not in data/routes.json');
+    process.exit(1);
+  }
+  page = {
+    slug: 'html-sitemap',
+    en: route.en,
+    es: route.es,
+    head: {
+      title_en: 'HTML Sitemap | Peptides Costa Rica',
+      title_es: 'Mapa del sitio HTML | Peptides Costa Rica',
+      description_en: 'Every page on Peptides Costa Rica, listed by section.',
+      description_es: 'Todas las páginas de Peptides Costa Rica, por sección.',
+    },
+    sections: [],
+  };
+  data.pages.push(page);
+  console.log('build-html-sitemap: html-sitemap page was missing — recreated');
 }
 
 const sections = [

@@ -430,7 +430,20 @@ function BlockImage({ content, lang, inGroup, inRow }) {
    * as whatever column it happens to sit in; the natural size is only the
    * fallback ceiling for images the stylesheet says nothing about.
    */
-  const authored = content.displayWidth || null;
+  /**
+   * Resolved against the IMAGE, not the column.
+   *
+   * Elementor's image widget wraps the <img> in an inline <a>/span that shrinks
+   * to the file's natural width, so `img{width:40%}` on a 300px logo is 120px —
+   * which is exactly what the live site renders. Our <img> is a direct flex
+   * child of the column instead, where the same 40% resolved against 610px and
+   * came out at 244px. Converting the percentage against the natural width
+   * reproduces the live geometry wherever the file's size is known.
+   */
+  const authoredRaw = content.displayWidth || null;
+  const pct = authoredRaw && /^\d+(\.\d+)?%$/.test(authoredRaw) ? parseFloat(authoredRaw) : null;
+  const authored =
+    pct !== null && natural ? `${Math.round((pct / 100) * natural)}px` : authoredRaw;
 
   if (inGroup) {
     return (

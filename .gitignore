@@ -49,3 +49,4 @@ Images.zip
 # 11 MB of PNGs that no page requests — same reason as Images.zip above. Kept on
 # disk for reference, out of the repo and the deployment.
 Manual comparisons between our cloned website and the original/
+.qa-cache/
