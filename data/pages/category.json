@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-26T18:46:33.594Z",
+  "harvestedAt": "2026-08-26T19:26:48.494Z",
   "group": "category",
   "count": 14,
   "pages": [
@@ -222,7 +222,8 @@
                   "level": 2,
                   "rule": true,
                   "text_en": "Peptides For Weight Loss",
-                  "text_es": "Péptidos para la pérdida de peso"
+                  "text_es": "Péptidos para la pérdida de peso",
+                  "semantic": false
                 }
               },
               {
@@ -1852,7 +1853,8 @@
                   "level": 2,
                   "rule": true,
                   "text_en": "Peptides For Muscle Growth",
-                  "text_es": "Péptidos para el crecimiento muscular"
+                  "text_es": "Péptidos para el crecimiento muscular",
+                  "semantic": false
                 }
               },
               {
@@ -3233,7 +3235,8 @@
                   "level": 2,
                   "rule": true,
                   "text_en": "Peptides For Anti Aging",
-                  "text_es": "Péptidos Antienvejecimiento"
+                  "text_es": "Péptidos Antienvejecimiento",
+                  "semantic": false
                 }
               },
               {
@@ -4508,7 +4511,8 @@
                   "level": 2,
                   "rule": true,
                   "text_en": "Peptides For Healing",
-                  "text_es": "Péptidos para la curación"
+                  "text_es": "Péptidos para la curación",
+                  "semantic": false
                 }
               },
               {
@@ -5995,7 +5999,8 @@
                   "level": 2,
                   "rule": true,
                   "text_en": "Peptides For Energy",
-                  "text_es": "Péptidos para la Energía"
+                  "text_es": "Péptidos para la Energía",
+                  "semantic": false
                 }
               },
               {
@@ -7278,7 +7283,8 @@
                   "level": 2,
                   "rule": true,
                   "text_en": "Peptides For Fertility",
-                  "text_es": "Péptidos para la fertilidad"
+                  "text_es": "Péptidos para la fertilidad",
+                  "semantic": false
                 }
               },
               {
@@ -8553,7 +8559,8 @@
                   "level": 2,
                   "rule": true,
                   "text_en": "Peptides For Skin",
-                  "text_es": "Péptidos para la piel"
+                  "text_es": "Péptidos para la piel",
+                  "semantic": false
                 }
               },
               {
@@ -9892,7 +9899,8 @@
                   "level": 2,
                   "rule": true,
                   "text_en": "Peptides For Sleep",
-                  "text_es": "Péptidos para dormir"
+                  "text_es": "Péptidos para dormir",
+                  "semantic": false
                 }
               },
               {
@@ -11090,7 +11098,8 @@
                   "level": 2,
                   "rule": true,
                   "text_en": "Copper Peptides",
-                  "text_es": "Péptidos de Cobre"
+                  "text_es": "Péptidos de Cobre",
+                  "semantic": false
                 }
               },
               {
@@ -12400,7 +12409,8 @@
                   "level": 2,
                   "rule": true,
                   "text_en": "Collagen Peptides",
-                  "text_es": "Péptidos de colágeno"
+                  "text_es": "Péptidos de colágeno",
+                  "semantic": false
                 }
               },
               {
@@ -14842,7 +14852,8 @@
                   "level": 2,
                   "rule": true,
                   "text_en": "HGH (Human Growth Hormone)",
-                  "text_es": "HGH (Hormona de Crecimiento Humano)"
+                  "text_es": "HGH (Hormona de Crecimiento Humano)",
+                  "semantic": false
                 }
               },
               {
@@ -16122,7 +16133,8 @@
                   "level": 2,
                   "rule": true,
                   "text_en": "Peptide for Cognitive Function",
-                  "text_es": "Péptido para la función cognitiva"
+                  "text_es": "Péptido para la función cognitiva",
+                  "semantic": false
                 }
               },
               {

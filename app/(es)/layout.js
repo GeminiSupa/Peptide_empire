@@ -1,11 +1,10 @@
 import { Inter, Open_Sans } from 'next/font/google';
 import { ALLOW_INDEXING, SITE_URL } from '@/lib/indexing';
-import './globals.css';
+import '../globals.css';
 
 // The live site loads Open Sans for body copy and Inter for the h1.
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const openSans = Open_Sans({ subsets: ['latin'], variable: '--font-open-sans', display: 'swap' });
-
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -26,11 +25,18 @@ export const metadata = {
     : { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } },
 };
 
+/**
+ * Spanish, served under /es/ with translated slugs.
+ *
+ * There are TWO root layouts, one per language, because `<html lang>` can only
+ * be set in a root layout and this site serves both languages from one app.
+ * A single layout hardcoding `lang="es"` put Spanish on all 434 English pages:
+ * a screen reader pronounced English copy with Spanish phonetics and search
+ * engines were told the wrong language for every English URL. The route groups
+ * `(en)` and `(es)` do not appear in any URL, so nothing moved.
+ */
 export default function RootLayout({ children }) {
   return (
-    // Spanish is the default language: the customers are Spanish-speaking.
-    // The URL structure still matches the live site exactly (English at `/`,
-    // Spanish at its own translated slugs) so no indexed URL moves.
     <html lang="es" className={`${inter.variable} ${openSans.variable}`}>
       <body className="flex min-h-screen flex-col">{children}</body>
     </html>

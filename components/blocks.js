@@ -198,11 +198,16 @@ function Heading({ content, lang, demote, inGroup }) {
   // rule running out to the edge of the column. "Popular Products" and "Latest
   // Product" are both this on the live site.
   if (content.rule) {
+    // `semantic: false` — the page already has this heading, so the divider is
+    // decoration repeating it. Elementor renders divider text as a plain span
+    // and never as a heading; emitting a second h2 with identical words put two
+    // page titles in the outline. See demoteDuplicateRules in harvest-blocks.
+    const RuleTag = content.semantic === false ? 'p' : Tag;
     return (
       <div className={`${gap(inGroup, 'mt-12')} flex items-center gap-4`}>
-        <Tag className={`shrink-0 ${size.replace(/mt-\d+/, '')} ${common}`} style={style}>
+        <RuleTag className={`shrink-0 ${size.replace(/mt-\d+/, '')} ${common}`} style={style}>
           {body}
-        </Tag>
+        </RuleTag>
         <span aria-hidden="true" className="h-px flex-1 bg-primary/25" />
       </div>
     );

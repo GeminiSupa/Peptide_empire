@@ -917,6 +917,40 @@ function extractReviews($, tr) {
  * block in, keeping them inside the navy testimonials band rather than
  * stranded at the end of the page.
  */
+/**
+ * A section title drawn with a divider is a heading — unless the page already
+ * has that heading.
+ *
+ * The divider widget carrying text is how this site draws "Popular Products"
+ * and "Latest Product", and those really are section titles, so they become
+ * headings. But the category pages draw their OWN page title that way a second
+ * time, below the h1: /peptides-for-weight-loss/ ended up with a styled h1 and
+ * a bare h2 saying the same words, where the live page has one h1 and a divider.
+ *
+ * Elementor renders divider text as `.elementor-divider__text`, never as a
+ * heading, so dropping the semantics on the duplicate is what matches the
+ * original. The rule beside it is kept either way.
+ */
+function demoteDuplicateRules(sections) {
+  const seen = new Map();
+  const visit = (node, pass) => {
+    if (!node || typeof node !== 'object') return;
+    if (Array.isArray(node)) return node.forEach((n) => visit(n, pass));
+    if (node.type === 'heading' && node.content) {
+      const text = (node.content.text_en ?? '').trim().toLowerCase();
+      if (text) {
+        if (pass === 'count') seen.set(text, (seen.get(text) ?? 0) + 1);
+        else if (node.content.rule && seen.get(text) > 1) node.content.semantic = false;
+      }
+    }
+    const kids = node.content?.children;
+    if (Array.isArray(kids)) kids.forEach((k) => visit(k, pass));
+  };
+  visit(sections, 'count');
+  visit(sections, 'mark');
+  return sections;
+}
+
 function fillReviewSlot(sections, reviews) {
   let placed = false;
 
@@ -1047,7 +1081,9 @@ async function harvestGroup(group, { wpByPath, esByEn, routes, dict }) {
       // reviews on the live site against none here, because this ran only for
       // homeBlocks. On a page that has no review widget both halves are no-ops:
       // extractReviews returns null and fillReviewSlot drops the empty marker.
-      sections: fillReviewSlot(foldTree(normalise(blocks)), extractReviews($, tr)),
+      sections: demoteDuplicateRules(
+        fillReviewSlot(foldTree(normalise(blocks)), extractReviews($, tr)),
+      ),
       untranslated: stats.misses,
     });
   }
