@@ -471,8 +471,15 @@ function BlockImage({ content, lang, inGroup, inRow }) {
         srcSet={source.srcSet}
         style={
           authored
-            ? { width: authored, maxWidth: '100%' }
-            : { maxWidth: natural ? `${natural}px` : '100%' }
+            ? {
+                width: authored,
+                maxWidth: '100%',
+                borderRadius: content.radius != null ? `${content.radius}px` : undefined,
+              }
+            : {
+                maxWidth: natural ? `${natural}px` : '100%',
+                borderRadius: content.radius != null ? `${content.radius}px` : undefined,
+              }
         }
         width={source.width || content.width || undefined}
       />

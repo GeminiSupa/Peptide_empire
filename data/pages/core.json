@@ -1184,6 +1184,12 @@
             "justify": "center",
             "items": "center",
             "minHeight": 400,
+            "pad": [
+              48,
+              20,
+              48,
+              20
+            ],
             "boxed": true,
             "children": [
               {
@@ -1236,7 +1242,7 @@
           "type": "group",
           "content": {
             "dir": "row",
-            "gap": 10,
+            "gap": 40,
             "items": "stretch",
             "pad": [
               70,
@@ -1254,7 +1260,8 @@
                   "height": 1000,
                   "alt_en": "Person demonstrating leg stretch beside supplement bottles in modern living room.",
                   "alt_es": "Persona realizando estiramiento de piernas junto a botellas de suplementos en una sala de estar moderna.",
-                  "displayWidth": "85%"
+                  "displayWidth": "85%",
+                  "radius": 16
                 }
               },
               {
@@ -1303,7 +1310,7 @@
           "type": "group",
           "content": {
             "dir": "row",
-            "gap": 10,
+            "gap": 40,
             "items": "stretch",
             "pad": [
               70,
@@ -1319,7 +1326,7 @@
                   "dir": "column",
                   "width": 60,
                   "justify": "center",
-                  "items": "center",
+                  "items": "stretch",
                   "boxed": false,
                   "children": [
                     {
@@ -1383,7 +1390,8 @@
                         "height": 1800,
                         "alt_en": "Two athletes pose with boxing gloves in gym, 'ROCKS' banner visible.",
                         "alt_es": "Dos atletas posan con guantes de boxeo en un gimnasio, se ve un cartel que dice \"ROCKS\".",
-                        "displayWidth": "85%"
+                        "displayWidth": "85%",
+                        "radius": 16
                       }
                     }
                   ]
@@ -1396,7 +1404,7 @@
           "type": "group",
           "content": {
             "dir": "row",
-            "gap": 10,
+            "gap": 40,
             "items": "stretch",
             "pad": [
               0,
@@ -1421,7 +1429,8 @@
                         "height": 1218,
                         "alt_en": "Shirtless fighter holds championship belt at event, muscular pose on stage.",
                         "alt_es": "Luchador sin camisa sostiene un cinturón de campeonato en un evento, pose muscular en el escenario.",
-                        "displayWidth": "85%"
+                        "displayWidth": "85%",
+                        "radius": 16
                       }
                     }
                   ]
@@ -1433,7 +1442,7 @@
                   "dir": "column",
                   "width": 60,
                   "justify": "center",
-                  "items": "center",
+                  "items": "stretch",
                   "boxed": false,
                   "children": [
                     {
@@ -1576,14 +1585,15 @@
                   "height": 1000,
                   "alt_en": "Woman holding supplement in yoga pose on mat.",
                   "alt_es": "Mujer sosteniendo un suplemento en pose de yoga sobre una esterilla.",
-                  "displayWidth": "85%"
+                  "displayWidth": "85%",
+                  "radius": 16
                 }
               },
               {
                 "type": "group",
                 "content": {
                   "dir": "column",
-                  "gap": 15,
+                  "gap": 28,
                   "boxed": false,
                   "children": [
                     {
