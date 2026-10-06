@@ -1,5 +1,6 @@
 import { Inter, Open_Sans } from 'next/font/google';
 import { ALLOW_INDEXING, SITE_URL } from '@/lib/indexing';
+import AgeGate from '@/components/age-gate';
 import '../globals.css';
 
 // The live site loads Open Sans for body copy and Inter for the h1.
@@ -38,7 +39,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${openSans.variable}`}>
-      <body className="flex min-h-screen flex-col">{children}</body>
+      <body className="flex min-h-screen flex-col">
+        <AgeGate lang="en" />
+        {children}
+      </body>
     </html>
   );
 }

@@ -1203,9 +1203,9 @@
                   "items": "center",
                   "minHeight": 320,
                   "pad": [
-                    0,
+                    48,
                     50,
-                    0,
+                    48,
                     50
                   ],
                   "boxed": false,
@@ -1567,7 +1567,7 @@
           "type": "group",
           "content": {
             "dir": "row",
-            "gap": 10,
+            "gap": 40,
             "items": "stretch",
             "pad": [
               70,
@@ -1664,8 +1664,16 @@
           "content": {
             "dir": "row",
             "radius": 10,
+            "gap": 40,
             "justify": "center",
+            "items": "stretch",
             "minHeight": 450,
+            "pad": [
+              70,
+              20,
+              70,
+              20
+            ],
             "boxed": true,
             "children": [
               {
@@ -1673,6 +1681,7 @@
                 "content": {
                   "dir": "column",
                   "width": 60,
+                  "gap": 28,
                   "boxed": false,
                   "children": [
                     {
@@ -1825,7 +1834,8 @@
                         "height": 1000,
                         "alt_en": "Muscular man working out beside boldly labeled supplement bottle.",
                         "alt_es": "Hombre musculoso entrenando junto a una botella de suplementos con etiqueta llamativa.",
-                        "displayWidth": "85%"
+                        "displayWidth": "85%",
+                        "radius": 16
                       }
                     }
                   ]
@@ -2092,7 +2102,7 @@
           "type": "group",
           "content": {
             "dir": "row",
-            "gap": 10,
+            "gap": 40,
             "items": "stretch",
             "pad": [
               70,
@@ -2110,7 +2120,8 @@
                   "height": 2000,
                   "alt_en": "Man running on treadmill in modern living room.",
                   "alt_es": "Man running on treadmill in modern living room.",
-                  "displayWidth": "85%"
+                  "displayWidth": "85%",
+                  "radius": 16
                 }
               },
               {

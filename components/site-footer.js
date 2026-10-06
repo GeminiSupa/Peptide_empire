@@ -1,129 +1,50 @@
 import Link from 'next/link';
 import { Mail, Phone } from 'lucide-react';
 import Container from '@/components/ui/container';
-import ContactBar from '@/components/contact-bar';
+import Logo from '@/components/logo';
 import { footer } from '@/content/global';
 import { imageSource } from '@/lib/images';
 import { label, t } from '@/lib/i18n';
 import { localePath, DEFAULT_LANG } from '@/lib/routes';
 
-// Column headings are the live site's own words, harvested in both languages.
 const HEADINGS = {
   es: { quick: 'Enlaces rápidos', categories: 'Comprar por categorías', contact: 'Contáctenos', legal: 'Aviso legal:' },
   en: { quick: 'Quick Links', categories: 'Shop By Categories', contact: 'Contact Us', legal: 'Legal Notice:' },
 };
 
-/**
- * The bulk-savings promo above the footer columns.
- *
- * The heading levels are the live site's, not the ones an outline would suggest:
- * an <h4> label over two <h2> sentences. Reproducing the original's outline is
- * the point of the clone — the same reasoning as the level-0 headings in
- * components/blocks.js.
- */
 function BulkOffer({ lang }) {
   const bulk = footer.bulk;
   if (!bulk?.lines_en?.length) return null;
-
   const lines = (lang === 'es' ? bulk.lines_es : bulk.lines_en) ?? bulk.lines_en;
-  const cta = t(bulk, 'cta', lang);
 
   return (
-    <div className="border-b border-white/15 pb-12 text-center">
-      {/* The colours carry `!` because a global rule paints every heading the
-          primary navy — which on this navy footer rendered the whole block
-          invisible. Same reason PromoBanner uses !text-white. */}
-      <h4 className="text-xs font-bold tracking-[0.2em] !text-accent uppercase">
-        {t(bulk, 'title', lang)}
-      </h4>
-      {lines.map((line, i) => (
-        <h2
-          className={
-            i === 0
-              ? 'mx-auto mt-4 max-w-3xl text-2xl font-bold !text-white sm:text-3xl'
-              : 'mx-auto mt-3 max-w-2xl text-sm leading-relaxed font-normal !text-white/70'
-          }
-          key={i}
-        >
-          {line}
-        </h2>
-      ))}
-      {cta && bulk.cta_href && (
-        <a
-          className="mt-7 inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-bold text-white transition hover:brightness-110"
-          href={bulk.cta_href}
-        >
-          <Phone aria-hidden="true" className="h-4 w-4" />
-          {cta}
-        </a>
-      )}
-    </div>
-  );
-}
-
-/**
- * The Trustpilot / Google / Facebook band that sits below the footer columns.
- *
- * Site chrome, not page content, so it belongs here rather than in any page's
- * section list — it renders on all 322 pages exactly as it does on the live
- * site. The scores are a harvest snapshot; each card links to the profile that
- * is the actual authority for its rating.
- */
-function ReviewBand({ lang }) {
-  const reviews = footer.reviews ?? [];
-  if (!reviews.length) return null;
-
-  return (
-    <ul className="mt-12 grid gap-4 border-t border-white/15 pt-10 sm:grid-cols-3">
-      {reviews.map((r) => {
-        // r.score is the display copy ("5.0"); r.value is the precise number the
-        // stars fill to. See reviewBand() in scripts/harvest-global.mjs.
-        const score = Number(r.value ?? r.score);
-        const best = Number(r.best) || 5;
-        return (
-          <li key={r.name}>
+    <section className="bg-primary text-white">
+      <Container className="grid gap-8 py-12 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:gap-24">
+        <div>
+          <h2 className="text-3xl font-bold !text-white sm:text-4xl">{t(bulk, 'title', lang)}</h2>
+          <p className="mt-5 max-w-xl text-xl leading-7 font-semibold text-white">{lines[0]}</p>
+        </div>
+        <div>
+          <p className="max-w-lg text-sm leading-6 text-white">{String(lines[1] || '').replace(/^\*\s*/, '')}</p>
+          {bulk.cta_href && (
             <a
-              className="flex h-full items-center justify-center gap-4 rounded-xl bg-white/5 px-5 py-4 transition hover:bg-white/10"
-              href={(lang === 'es' ? r.href_es : r.href) || r.href}
-              rel="noopener noreferrer"
-              target="_blank"
+              className="mt-5 inline-flex min-w-[190px] items-center justify-center rounded bg-[#c90008] px-7 py-3 text-base font-semibold text-white transition hover:brightness-110"
+              href={bulk.cta_href}
             >
-              {imageSource(r.logo).src && (
-                // eslint-disable-next-line @next/next/no-img-element -- harvested
-                <img
-                  alt={r.logoAlt || r.name}
-                  className="h-10 w-10 shrink-0 object-contain"
-                  loading="lazy"
-                  sizes="2.5rem"
-                  {...imageSource(r.logo)}
-                />
-              )}
-              {/* <h2> for the name and the score, as on the live site. */}
-              <span>
-                <h2 className="block text-sm font-bold !text-white">{r.name}</h2>
-                <span className="mt-0.5 flex items-center gap-1.5">
-                  <h2 className="text-lg font-extrabold !text-white">{r.score}</h2>
-                  <Stars best={best} score={score} />
-                </span>
-              </span>
+              {t(bulk, 'cta', lang)}
             </a>
-          </li>
-        );
-      })}
-    </ul>
+          )}
+        </div>
+      </Container>
+    </section>
   );
 }
 
-/**
- * Five stars with the score's fraction filled, mirroring Elementor's rating
- * widget. Rendered as one accessible label rather than five icons, so a screen
- * reader announces "Rated 4.2 out of 5" instead of counting stars.
- */
 function Stars({ score, best }) {
   const filled = Math.max(0, Math.min(1, (score || 0) / best)) * 100;
   return (
     <span aria-label={`Rated ${score} out of ${best}`} className="relative inline-block" role="img">
-      <span className="text-sm text-white/25">{'★'.repeat(5)}</span>
+      <span className="text-sm text-slate-300">{'★'.repeat(5)}</span>
       <span
         aria-hidden="true"
         className="absolute inset-0 overflow-hidden text-sm text-amber-400"
@@ -135,87 +56,123 @@ function Stars({ score, best }) {
   );
 }
 
+function ReviewBand({ lang }) {
+  const reviews = footer.reviews ?? [];
+  if (!reviews.length) return null;
+
+  const border = ['border-emerald-400', 'border-red-400', 'border-blue-400'];
+  return (
+    <ul className="mt-10 grid gap-3 sm:grid-cols-3">
+      {reviews.map((review, index) => {
+        const score = Number(review.value ?? review.score);
+        const best = Number(review.best) || 5;
+        const logo = imageSource(review.logo);
+        return (
+          <li key={review.name}>
+            <a
+              className={`flex min-h-[78px] items-center justify-center gap-4 rounded-xl border bg-white px-5 py-3 ${border[index] || 'border-slate-300'}`}
+              href={(lang === 'es' ? review.href_es : review.href) || review.href}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {logo.src && (
+                // eslint-disable-next-line @next/next/no-img-element -- harvested asset
+                <img alt={review.logoAlt || review.name} className="h-9 w-9 object-contain" {...logo} />
+              )}
+              <span>
+                <span className="block text-sm font-bold text-primary">{review.name}</span>
+                <span className="mt-0.5 flex items-center gap-1.5">
+                  <span className="text-lg font-extrabold text-primary">{review.score}</span>
+                  <Stars best={best} score={score} />
+                </span>
+              </span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+function FooterLink({ href, children, lang }) {
+  if (/^https?:/i.test(href)) {
+    return (
+      <a className="hover:text-accent" href={href} rel="noopener noreferrer" target="_blank">
+        {children}
+      </a>
+    );
+  }
+  return (
+    <Link className="hover:text-accent" href={localePath(href, lang)}>
+      {children}
+    </Link>
+  );
+}
+
 export default function SiteFooter({ lang = DEFAULT_LANG }) {
-  const h = HEADINGS[lang] || HEADINGS[DEFAULT_LANG];
-  const lp = (href) => localePath(href, lang);
+  const headings = HEADINGS[lang] || HEADINGS[DEFAULT_LANG];
 
   return (
-    <footer className="mt-auto bg-primary text-white/85">
-      <Container className="py-14">
-        <BulkOffer lang={lang} />
+    <footer className="mt-auto bg-white text-primary">
+      <BulkOffer lang={lang} />
 
-        <div className="mt-12 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-          {/* Brand + legal */}
+      <Container className="py-12">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.15fr_0.9fr_0.95fr_1fr]">
           <div>
-            <p className="text-lg font-extrabold text-white">Peptides Costa Rica</p>
-            <p className="mt-4 text-sm leading-relaxed">{t(footer, 'blurb', lang)}</p>
-            <div className="mt-6">
-              <h5 className="text-xs font-bold tracking-wider text-white uppercase">{h.legal}</h5>
-              {/* Required on every page. */}
-              <p className="mt-2 text-xs leading-relaxed text-white/70">
-                {t(footer, 'disclaimer', lang)}
-              </p>
-            </div>
+            <Logo className="mb-4" imageClassName="h-auto w-[156px]" lang={lang} />
+            <p className="text-base leading-6 text-primary">{t(footer, 'blurb', lang)}</p>
+            <h5 className="mt-5 text-lg font-bold text-primary">{headings.legal}</h5>
+            <p className="mt-2 text-sm leading-6 text-primary">{t(footer, 'disclaimer', lang)}</p>
           </div>
 
-          {/* Quick links */}
           <div>
-            <h5 className="text-sm font-bold tracking-wider text-white uppercase">{h.quick}</h5>
-            <ul className="mt-4 space-y-2.5 text-sm">
+            <h5 className="text-xl font-bold text-primary">{headings.quick}</h5>
+            <ul className="mt-4 space-y-2 text-base">
               {footer.quickLinks.map((item) => (
                 <li key={`${item.href}-${item.label_en}`}>
-                  <Link href={lp(item.href)} className="hover:text-white hover:underline">
-                    {label(item, lang)}
-                  </Link>
+                  <FooterLink href={item.href} lang={lang}>{label(item, lang)}</FooterLink>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Categories */}
           <div>
-            <h5 className="text-sm font-bold tracking-wider text-white uppercase">{h.categories}</h5>
-            <ul className="mt-4 space-y-2.5 text-sm">
-              {footer.categories.map((c) => (
-                <li key={`${c.href}-${c.label_en}`}>
-                  <Link href={lp(c.href)} className="hover:text-white hover:underline">
-                    {label(c, lang)}
-                  </Link>
+            <h5 className="text-xl font-bold text-primary">{headings.categories}</h5>
+            <ul className="mt-4 space-y-2 text-base">
+              {footer.categories.map((category) => (
+                <li key={`${category.href}-${category.label_en}`}>
+                  <FooterLink href={category.href} lang={lang}>{label(category, lang)}</FooterLink>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Contact + social */}
           <div>
-            <h5 className="text-sm font-bold tracking-wider text-white uppercase">{h.contact}</h5>
-            <ul className="mt-4 space-y-3 text-sm">
-              {footer.contactLinks.map((c) => (
-                <li key={c.href}>
-                  <a
-                    href={c.href}
-                    className="inline-flex items-center gap-2 break-all hover:text-white hover:underline"
-                  >
-                    {c.href.startsWith('mailto:') && (
-                      <Mail className="h-4 w-4 shrink-0" aria-hidden="true" />
-                    )}
-                    {label(c, lang)}
-                  </a>
-                </li>
-              ))}
+            <h5 className="text-xl font-bold text-primary">{headings.contact}</h5>
+            <ul className="mt-4 space-y-3 text-base">
+              {footer.contactLinks.map((contact) => {
+                const Icon = contact.href.startsWith('mailto:') ? Mail : Phone;
+                return (
+                  <li key={contact.href}>
+                    <a className="inline-flex items-start gap-2 hover:text-accent" href={contact.href}>
+                      <Icon aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-brand-red" />
+                      {label(contact, lang)}
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
-
-            {/* Eight real profiles, harvested from the live footer. */}
-            <ul className="mt-6 flex flex-wrap gap-x-4 gap-y-2 text-xs">
-              {footer.social.map((s) => (
-                <li key={s.href}>
+            <ul className="mt-5 flex flex-wrap gap-2">
+              {footer.social.map((social) => (
+                <li key={social.href}>
                   <a
-                    href={s.href}
-                    className="hover:text-white hover:underline"
+                    aria-label={social.name}
+                    className="flex h-6 min-w-6 items-center justify-center rounded-full bg-[#c90008] px-1 text-[9px] font-bold text-white"
+                    href={social.href}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    {s.name}
+                    {social.name === 'Linkedin' ? 'in' : social.name.slice(0, 2)}
                   </a>
                 </li>
               ))}
@@ -224,17 +181,23 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
         </div>
 
         <ReviewBand lang={lang} />
+      </Container>
 
-        <div className="mt-12 border-t border-white/15 pt-6 text-center text-xs text-white/60">
-          {t(footer, 'copyright', lang)}
+      <Container className="pb-6">
+        <div className="relative overflow-hidden">
+          <iframe
+            className="h-[450px] w-full border-0"
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=Costa%20Rica&output=embed&t=k&z=7"
+            title="Google Maps location of Peptides Costa Rica"
+          />
         </div>
       </Container>
 
-      {/* Rendered here because the footer is the one component on every page
-          that already knows the language. The bar itself is fixed to the
-          viewport, so where it sits in the markup does not affect where it
-          appears. */}
-      <ContactBar lang={lang} />
+      <div className="bg-primary py-3 text-center text-xs text-white">
+        {t(footer, 'copyright', lang)}
+      </div>
     </footer>
   );
 }

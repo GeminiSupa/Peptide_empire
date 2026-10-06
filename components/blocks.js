@@ -1,5 +1,13 @@
 import Link from 'next/link';
-import { Check, CircleCheck, ExternalLink, FileText } from 'lucide-react';
+import {
+  BadgeDollarSign,
+  Check,
+  CircleCheck,
+  ExternalLink,
+  FileCheck2,
+  FileText,
+  Headphones,
+} from 'lucide-react';
 import Container from '@/components/ui/container';
 import CategoryTabs from '@/components/category-tabs';
 import AlphabetProductGrid from '@/components/alphabet-product-grid';
@@ -241,6 +249,22 @@ function Glyph({ html, name, color, className = 'mb-2 h-9 w-9' }) {
     );
   }
   if (name) {
+    const LegacyIcon = {
+      'icon-document': FileCheck2,
+      'icon-pricing-table': BadgeDollarSign,
+      'icon-customer-service': Headphones,
+    }[name];
+
+    if (LegacyIcon) {
+      return (
+        <LegacyIcon
+          aria-hidden="true"
+          className={`shrink-0 ${className}`}
+          style={{ color: color ?? undefined }}
+        />
+      );
+    }
+
     return (
       <i
         aria-hidden="true"
@@ -521,16 +545,34 @@ function Card({ content, lang }) {
   const text = t(content, 'text', lang);
   if (!title && !text) return null;
 
+  const glyph = content.iconBadge ? (
+    <span
+      className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
+      style={{ backgroundColor: content.iconBadge }}
+    >
+      <Glyph
+        className="h-5 w-5"
+        color={content.iconColor}
+        html={content.icon}
+        name={content.iconClass}
+      />
+    </span>
+  ) : (
+    <Glyph color={content.iconColor} html={content.icon} name={content.iconClass} />
+  );
+
   const body = (
-    <>
-      <Glyph color={content.iconColor} html={content.icon} name={content.iconClass} />
+    <div className={content.layout === 'row' ? 'flex items-center gap-4' : ''}>
+      {glyph}
+      <div>
       {title && (
         <h3 className={`text-lg font-bold ${content.color ? '' : 'text-primary'}`} style={tint(content)}>
           {title}
         </h3>
       )}
       {text && <p className="mt-1 text-base leading-relaxed text-text-main">{text}</p>}
-    </>
+      </div>
+    </div>
   );
 
   // Some of these boxes ARE painted on the live site — the three white panels

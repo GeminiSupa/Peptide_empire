@@ -23,22 +23,30 @@ export default function ReviewWall({ content, lang }) {
   const summary = t(content, 'summary', lang);
 
   return (
-    <div className="mt-10">
+    <div className="mt-10 w-full">
       {summary && (
         <p className="text-center text-sm font-semibold text-text-muted">{summary}</p>
       )}
 
-      <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <ul className="mt-8 grid gap-4 sm:grid-cols-2">
         {reviews.map((review, i) => (
           <li
-            className="flex h-full flex-col rounded-xl border border-slate-200 bg-bg-card p-6 shadow-sm"
+            className="flex min-h-[206px] flex-col rounded-xl bg-[#f7f7f7] p-5 shadow-sm"
             key={`${review.author}-${i}`}
           >
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-sm font-bold text-primary">{review.author}</p>
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
+                  {review.author?.trim()?.charAt(0) || 'P'}
+                </span>
+                <div>
+                  <p className="text-sm font-bold text-black">{review.author}</p>
+                  <p className="text-xs text-text-muted">1 month ago</p>
+                </div>
+              </div>
               {review.source && (
-                <span className="shrink-0 text-xs font-semibold text-text-muted">
-                  {review.source}
+                <span className="shrink-0 text-lg font-bold text-[#4285F4]" aria-label={review.source}>
+                  G
                 </span>
               )}
             </div>
@@ -54,7 +62,9 @@ export default function ReviewWall({ content, lang }) {
               </p>
             )}
 
-            <p className="mt-4 flex-1 text-sm leading-relaxed text-text-muted">{review.text}</p>
+            <p className="mt-2 flex-1 text-sm leading-relaxed text-black">
+              {review.text || 'This user only left a rating.'}
+            </p>
           </li>
         ))}
       </ul>

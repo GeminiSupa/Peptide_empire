@@ -367,8 +367,8 @@
     }
   ],
   "footer": {
-    "blurb_en": "Peptides Costa Rica offers premium, research-backed peptides for weight loss, muscle growth, energy, recovery, and healthy aging — with trusted quality and bulk savings across Costa Rica.",
-    "blurb_es": "Péptidos Costa Rica ofrece péptidos premium respaldados por la investigación para la pérdida de peso, el crecimiento muscular, la energía, la recuperación y el envejecimiento saludable, con calidad confiable y ahorros por volumen en toda Costa Rica.",
+    "blurb_en": "Peptides Costa Rica provides research materials and product information for eligible purchasers in Costa Rica. Contact us for availability, documentation, and order support.",
+    "blurb_es": "Peptides Costa Rica proporciona materiales de investigación e información de productos para compradores elegibles en Costa Rica. Contáctenos para consultar disponibilidad, documentación y asistencia con pedidos.",
     "disclaimer_en": "Products offered by Peptides Costa Rica are intended strictly for laboratory research use only. They are not approved or licensed by the FDA for the prevention, diagnosis, treatment, or cure of any disease. Information on this website is for educational purposes only and should not be considered medical or legal advice. Not for human or veterinary use.",
     "disclaimer_es": "Los productos ofrecidos por Peptides Costa Rica están destinados estrictamente únicamente para uso en investigación de laboratorio. No están aprobados ni autorizados por la FDA para la prevención, diagnóstico, tratamiento o cura de ninguna enfermedad. La información en este sitio web es solo para fines educativos y no debe considerarse consejo médico o legal. No apto para uso humano o veterinario.",
     "copyright_en": "Copyright © 2026 Peptides Costa Rica, All Rights Reserved.",
@@ -452,23 +452,23 @@
     ],
     "categories": [
       {
-        "label_en": "Peptides For Weight Loss",
-        "label_es": "Péptidos para la pérdida de peso",
+        "label_en": "Metabolic & GLP-1 Compounds",
+        "label_es": "Compuestos metabólicos y GLP-1",
         "href": "/peptides-for-weight-loss/"
       },
       {
-        "label_en": "Peptides For Muscle Growth",
-        "label_es": "Péptidos para el crecimiento muscular",
+        "label_en": "Growth Hormone Secretagogues",
+        "label_es": "Secretagogos de la hormona del crecimiento",
         "href": "/peptides-for-muscle-growth/"
       },
       {
-        "label_en": "Peptides For Anti Aging",
-        "label_es": "Péptidos Antienvejecimiento",
+        "label_en": "Bioregulator Peptides",
+        "label_es": "Péptidos biorreguladores",
         "href": "/peptides-for-anti-aging/"
       },
       {
-        "label_en": "Peptides For Healing",
-        "label_es": "Péptidos para la curación",
+        "label_en": "Tissue Repair Compounds",
+        "label_es": "Compuestos para la reparación de tejidos",
         "href": "/peptides-for-healing/"
       },
       {

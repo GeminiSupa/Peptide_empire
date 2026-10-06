@@ -374,6 +374,8 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
     width,
     bg,
     bgImage,
+    bgOverlay,
+    color,
     radius,
     border,
     gap,
@@ -386,6 +388,7 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
     order,
     hide,
     cols,
+    copyWidth,
     children = [],
   } = content;
 
@@ -443,7 +446,9 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
   const flexStyle = { gap: `${gap ?? DEFAULT_GAP}px` };
   const paint = {
     backgroundColor: bg || undefined,
-    backgroundImage: bgImage ? `url(${imageUrl(bgImage)})` : undefined,
+    backgroundImage: bgImage
+      ? `${bgOverlay ? `${bgOverlay}, ` : ''}url(${imageUrl(bgImage)})`
+      : undefined,
     backgroundSize: bgImage ? 'cover' : undefined,
     backgroundPosition: bgImage ? 'center' : undefined,
     borderRadius: radius ? `${radius}px` : undefined,
@@ -452,7 +457,20 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
     marginTop: marginTop ? `${marginTop}px` : undefined,
     padding: pad ? pad.map((n) => `${n}px`).join(' ') : undefined,
     order: order != null ? order : undefined,
+    color: color || undefined,
   };
+
+  const body = copyWidth ? (
+    <div
+      className="flex w-full flex-col"
+      data-copy-width=""
+      style={{ '--copy-width': `${copyWidth}%`, gap: `${gap ?? DEFAULT_GAP}px` }}
+    >
+      {kids}
+    </div>
+  ) : (
+    kids
+  );
 
   // A top-level container is a BAND: it paints edge to edge while its children
   // stay in the middle column. That split — outer paints, inner measures — is
@@ -475,7 +493,7 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
           }}
           {...(cols ? { 'data-grid': '' } : null)}
         >
-          {kids}
+          {body}
         </div>
       </section>
     );
@@ -500,7 +518,7 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
       {...(width ? { 'data-col': '' } : null)}
       {...(cols ? { 'data-grid': '' } : null)}
     >
-      {kids}
+      {body}
     </div>
   );
 }

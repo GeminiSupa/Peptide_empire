@@ -26,7 +26,7 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
   const index = searchIndex(lang);
 
   return (
-    <header className="sticky top-0 z-40 bg-white shadow-sm">
+    <header className="relative z-40 bg-white shadow-sm">
       {/* Announcement bar */}
       <div className="bg-primary text-white">
         <Container className="flex flex-col items-center justify-between gap-1 py-2 text-center text-xs sm:flex-row sm:text-left sm:text-[13px]">

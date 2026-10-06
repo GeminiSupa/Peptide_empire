@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { ExternalLink } from 'lucide-react';
 import { catalogUrl, ui } from '@/content/global';
 import { byEnglishSlug } from '@/content/pages/products';
 import { t } from '@/lib/i18n';
@@ -81,13 +80,12 @@ export default function ProductCard({ product, lang }) {
       )}
       {product.price && <p className="mt-1 text-sm font-semibold text-accent">{product.price}</p>}
       <a
-        className="mt-auto inline-flex items-center justify-center gap-1 rounded-full bg-accent px-4 py-2 pt-2 text-xs font-bold text-white transition hover:brightness-110"
+        className="mt-4 inline-flex w-fit items-center justify-center rounded bg-primary px-4 py-2.5 text-sm font-medium text-white transition hover:brightness-110"
         href={catalogUrl(lang)}
         rel="noopener noreferrer"
         target="_blank"
       >
-        {t(ui, 'viewInCatalog', lang)}
-        <ExternalLink aria-hidden="true" className="h-3.5 w-3.5" />
+        {t(ui, 'addToCart', lang)}
       </a>
     </div>
   );

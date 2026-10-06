@@ -32,6 +32,8 @@ export const harvestedAt = globalData.harvestedAt;
 export const ui = {
   viewInCatalog_en: 'View in catalog',
   viewInCatalog_es: 'Ver en el catálogo',
+  addToCart_en: 'Add to Cart',
+  addToCart_es: 'Añadir al carrito',
   buyOnCatalog_en: 'Buy on our catalog',
   buyOnCatalog_es: 'Comprar en nuestro catálogo',
   priceShownIn_en: 'Price shown in',

@@ -140,17 +140,10 @@ h6 {
     display: grid;
     grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
   }
-}
 
-/*
- * Clearance for the floating contact bar.
- *
- * The bar is fixed to the bottom of the viewport, so it overlays whatever is
- * beneath it — without this the last rows of the footer sit underneath it and
- * cannot be read or clicked.
- */
-body {
-  padding-bottom: 84px;
+  [data-copy-width] {
+    width: var(--copy-width);
+  }
 }
 
 /*
