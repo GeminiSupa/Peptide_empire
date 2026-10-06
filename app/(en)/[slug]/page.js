@@ -4,7 +4,7 @@ import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
 import { byEnglishSlug, englishParams } from '@/content/pages/registry';
 import { alternates } from '@/lib/routes';
-import { pageTitle } from '@/lib/page-title';
+import { metaTitle, pageTitle } from '@/lib/page-title';
 
 /**
  * Single-segment English pages — the city pages and the long-form guides today,
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }) {
   if (!page) return {};
   const alt = alternates(page.en);
   return {
-    title: page.head.title_en || undefined,
+    title: metaTitle(page, 'en'),
     description: page.head.description_en || undefined,
     alternates: {
       canonical: page.en,

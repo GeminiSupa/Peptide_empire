@@ -134,6 +134,12 @@ h6 {
   [data-col] {
     flex: 0 1 var(--gw);
   }
+
+  /* Elementor container grids, e.g. the six "How We Operate" cards. */
+  [data-grid] {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  }
 }
 
 /*

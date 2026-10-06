@@ -195,6 +195,13 @@ export function containerLayout(props = {}, cls = '', kind = 'container') {
   // does for it. Those pages carry no --flex-direction at all.
   out.dir = kind === 'section' ? 'row' : props['--flex-direction'] === 'row' ? 'row' : 'column';
 
+  // Elementor grids are not flex rows. "How We Operate" is
+  // `--display:grid; --e-con-grid-template-columns:repeat(3, 1fr)`. Reading
+  // only flex-direction stored that container as a column, so the six cards
+  // stacked instead of sitting three across.
+  const cols = /repeat\(\s*(\d+)\s*,/.exec(props['--e-con-grid-template-columns'] || '');
+  if (props['--display'] === 'grid' && cols) out.cols = Number(cols[1]);
+
   // Percentages are the only widths worth carrying: they are what makes a
   // 55/45 split. A pixel width would not survive a change of container size.
   const w = props['--width'] || props.width;
@@ -238,6 +245,19 @@ export function containerLayout(props = {}, cls = '', kind = 'container') {
   const mt = px(props['--margin-top']);
   if (mt) out.marginTop = mt;
 
+  // Flex `order` is how Elementor pulls a widget above its siblings without
+  // moving it in the markup. The Tico Times logo is `order: -99999`, so it
+  // sits above its caption even though it follows that caption in the DOM.
+  // Dropping the property left the logo under the button.
+  // Elementor writes this as `--order:-99999`, not `order`. Its frontend CSS
+  // turns the custom property into the real flex order.
+  const ord = props.order || props['--order'];
+  if (ord && ord !== '0') out.order = Number(ord);
+
+  const hide = hideClass(cls);
+  if (hide) out.hide = hide;
+  else if (props.display === 'none') out.hide = 'hidden';
+
   // `e-con-boxed` is Elementor's "constrain my children to the content width"
   // flag; `e-con-full` spans the whole band. That distinction is what lets a
   // navy section run edge to edge while its text stays in the middle column.
@@ -245,6 +265,30 @@ export function containerLayout(props = {}, cls = '', kind = 'container') {
   out.boxed = cls.includes('e-con-boxed') || cls.includes('elementor-section-boxed');
 
   return out;
+}
+
+/**
+ * Elementor's responsive visibility classes, as a Tailwind class string.
+ *
+ * `elementor-hidden-desktop` (and the tablet / mobile twins) are not in the
+ * per-post stylesheet this module reads — they live in Elementor's frontend
+ * CSS. A container carrying all three is removed at every breakpoint; the
+ * home page's old "Shop By Category" block is one of those, and rendering it
+ * put a product wall on the clone that the live site never shows.
+ */
+function hideClass(cls) {
+  const mobile = cls.includes('elementor-hidden-mobile');
+  const tablet = cls.includes('elementor-hidden-tablet');
+  const desktop = cls.includes('elementor-hidden-desktop');
+  if (!mobile && !tablet && !desktop) return null;
+  if (mobile && tablet && desktop) return 'hidden';
+  return [
+    mobile ? 'max-md:hidden' : '',
+    tablet ? 'md:max-lg:hidden' : '',
+    desktop ? 'lg:hidden' : '',
+  ]
+    .filter(Boolean)
+    .join(' ');
 }
 
 /** Elementor's two generations of layout node, both of which this site uses. */
@@ -390,6 +434,11 @@ export function walkTree($, node, tr, css, widgetToBlock) {
         const r = radius(own['btn-border-radius']);
         if (r !== null) b.radius = r;
       }
+      const widgetOrder = own.order || own['--order'];
+      if (widgetOrder && widgetOrder !== '0') b.order = Number(widgetOrder);
+      if (own.display === 'none') b.hide = 'hidden';
+      const widgetHide = hideClass(cls);
+      if (widgetHide) b.hide = widgetHide;
       return b;
     };
 

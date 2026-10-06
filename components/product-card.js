@@ -60,18 +60,24 @@ export default function ProductCard({ product, lang }) {
     />
   );
 
+  const details = (
+    <>
+      {media}
+      {product.category && (
+        <p className="mb-1 text-[11px] leading-4 text-text-muted">{product.category}</p>
+      )}
+      <h2 className="text-sm font-bold text-primary group-hover:underline">{product.name}</h2>
+    </>
+  );
+
   return (
     <div className="flex h-full flex-col rounded-xl border border-primary/10 bg-white p-4 shadow-sm">
       {own ? (
         <Link className="group" href={localePath(own, lang)}>
-          {media}
-          <h2 className="text-sm font-bold text-primary group-hover:underline">{product.name}</h2>
+          {details}
         </Link>
       ) : (
-        <>
-          {media}
-          <h2 className="text-sm font-bold text-primary">{product.name}</h2>
-        </>
+        <div>{details}</div>
       )}
       {product.price && <p className="mt-1 text-sm font-semibold text-accent">{product.price}</p>}
       <a

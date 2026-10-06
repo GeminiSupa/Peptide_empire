@@ -6,6 +6,7 @@ import Container from '@/components/ui/container';
 import ProductSummary from '@/components/product-summary';
 import { bySpanishSlug, spanishParams } from '@/content/pages/products';
 import { alternates } from '@/lib/routes';
+import { metaTitle } from '@/lib/page-title';
 
 /**
  * Spanish product pages at `/es/producto-2/<slug>/`.
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }) {
   if (!page) return {};
   const alt = alternates(page.en);
   return {
-    title: page.head.title_es || undefined,
+    title: metaTitle(page, 'es'),
     description: page.head.description_es || undefined,
     alternates: { canonical: page.es, languages: { 'en-US': alt.en, 'es-CR': alt.es } },
   };

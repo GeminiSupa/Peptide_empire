@@ -18,7 +18,10 @@ const page = homeData.pages[0];
 export function generateMetadata() {
   const alt = alternates('/');
   return {
-    title: page.head.title_es || undefined,
+    // `absolute` bypasses the layout's `%s | Peptides Costa Rica` template so the
+    // Spanish home reads exactly as harvested — brand-led, with no English brand
+    // appended after it — matching how the English home renders.
+    title: { absolute: page.head.title_es || undefined },
     description: page.head.description_es || undefined,
     alternates: { canonical: alt.es, languages: { 'en-US': alt.en, 'es-CR': alt.es } },
   };

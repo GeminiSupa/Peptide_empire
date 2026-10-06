@@ -4,6 +4,7 @@ import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
 import { byEnglishSlug, englishParams } from '@/content/pages/categories';
 import { alternates } from '@/lib/routes';
+import { metaTitle } from '@/lib/page-title';
 
 /** English WooCommerce category archives at `/product-category/<slug>/`. */
 export const dynamicParams = false;
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }) {
   if (!page) return {};
   const alt = alternates(page.en);
   return {
-    title: page.head.title_en || undefined,
+    title: metaTitle(page, 'en'),
     description: page.head.description_en || undefined,
     alternates: { canonical: page.en, languages: { 'en-US': alt.en, 'es-CR': alt.es } },
   };

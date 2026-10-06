@@ -90,6 +90,7 @@ const WANTED = new Set([
   '--border-top-width',
   '--overlay-opacity',
   '--align-self',
+  '--order',
   'background-color',
   'background-image',
   'border-radius',
@@ -98,6 +99,8 @@ const WANTED = new Set([
   'width',
   'padding',
   'margin',
+  'order',
+  'display',
   'text-align',
   'color',
   'fill',
@@ -198,7 +201,7 @@ export function parseElementorCss(css, globals = {}) {
       // that has no parallax layer — which is every ordinary section — and it
       // is the ONLY place background-color is ever declared.
       const s = sel.trim();
-      const m = /^\.elementor-\d+\s+\.elementor-element\.elementor-element-([\w-]+)(?::not\(\.elementor-motion-effects-element-type-background\))?$/.exec(
+      const m = /^\.elementor-\d+\s+\.elementor-element\.elementor-element-([\w-]+)(?:\.elementor-element)?(?::not\(\.elementor-motion-effects-element-type-background\))?$/.exec(
         s,
       );
 

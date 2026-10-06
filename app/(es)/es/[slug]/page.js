@@ -4,7 +4,7 @@ import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
 import { bySpanishSlug, spanishParams } from '@/content/pages/registry';
 import { alternates } from '@/lib/routes';
-import { pageTitle } from '@/lib/page-title';
+import { metaTitle, pageTitle } from '@/lib/page-title';
 
 /**
  * The Spanish twins of app/[slug]. These slugs are NOT `/es/` + the English
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }) {
   if (!page) return {};
   const alt = alternates(page.en);
   return {
-    title: page.head.title_es || undefined,
+    title: metaTitle(page, 'es'),
     description: page.head.description_es || undefined,
     alternates: {
       canonical: page.es,

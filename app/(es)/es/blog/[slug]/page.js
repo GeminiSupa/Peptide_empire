@@ -4,6 +4,7 @@ import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
 import { bySpanishSlug, spanishParams } from '@/content/pages/posts';
 import { alternates } from '@/lib/routes';
+import { metaTitle } from '@/lib/page-title';
 
 /** Spanish blog posts. The `/blog/` segment is kept but the post slug is translated. */
 export const dynamicParams = false;
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }) {
   if (!page) return {};
   const alt = alternates(page.en);
   return {
-    title: page.head.title_es || undefined,
+    title: metaTitle(page, 'es'),
     description: page.head.description_es || undefined,
     alternates: { canonical: page.es, languages: { 'en-US': alt.en, 'es-CR': alt.es } },
   };

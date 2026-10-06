@@ -26,6 +26,8 @@ import * as cheerio from 'cheerio';
 import routeData from '../data/routes.json' with { type: 'json' };
 
 const BASE = process.env.QA_BASE || 'http://localhost:3000';
+const CONCURRENCY = Math.max(1, Number(process.env.QA_CONCURRENCY) || 12);
+const FETCH_TIMEOUT_MS = Math.max(1_000, Number(process.env.QA_FETCH_TIMEOUT_MS) || 30_000);
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const PUBLIC = resolve(ROOT, 'public');
 
@@ -90,7 +92,10 @@ const PLACEHOLDER_RE =
 async function checkPage(target) {
   let res;
   try {
-    res = await fetch(BASE + target.path, { redirect: 'manual' });
+    res = await fetch(BASE + target.path, {
+      redirect: 'manual',
+      signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+    });
   } catch (err) {
     add(target.path, 'FETCH_FAILED', err.message);
     return;
@@ -180,7 +185,7 @@ async function pool(items, size, worker) {
 }
 
 console.log(`Checking ${list.length} pages against ${BASE}…`);
-await pool(list, 12, checkPage);
+await pool(list, CONCURRENCY, checkPage);
 
 const byKind = new Map();
 for (const i of issues) {

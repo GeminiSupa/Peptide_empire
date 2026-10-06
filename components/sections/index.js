@@ -383,12 +383,41 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
     contentWidth,
     minHeight,
     marginTop,
+    order,
+    hide,
+    cols,
     children = [],
   } = content;
 
   const kids = children.map((child, i) => {
     const Component = SECTION_COMPONENTS[child.type];
     if (!Component) return null;
+    const el = (
+      <Component
+        content={child.content}
+        demote={demote}
+        depth={depth + 1}
+        inGroup
+        inRow={dir === 'row'}
+        lang={lang}
+      />
+    );
+    // A group paints its own box, so order and visibility belong on that box.
+    // A widget has no layout box of its own — wrapping it is what makes
+    // `order: -99999` pull the Tico Times logo above the caption beside it.
+    const childOrder = child.content?.order;
+    const childHide = child.content?.hide;
+    if (child.type !== 'group' && (childOrder != null || childHide)) {
+      return (
+        <div
+          className={childHide || undefined}
+          key={`${child.type}-${i}`}
+          style={childOrder != null ? { order: childOrder } : undefined}
+        >
+          {el}
+        </div>
+      );
+    }
     return (
       <Component
         content={child.content}
@@ -422,6 +451,7 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
     minHeight: minHeight ? `${minHeight}px` : undefined,
     marginTop: marginTop ? `${marginTop}px` : undefined,
     padding: pad ? pad.map((n) => `${n}px`).join(' ') : undefined,
+    order: order != null ? order : undefined,
   };
 
   // A top-level container is a BAND: it paints edge to edge while its children
@@ -430,7 +460,7 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
   // run the full width of the window with centred content inside them.
   if (depth === 0) {
     return (
-      <section style={paint}>
+      <section className={hide || undefined} style={paint}>
         <div
           className={`mx-auto w-full px-4 sm:px-5 ${layout}`}
           // The cap applies whether or not the container is "boxed". On the live
@@ -438,7 +468,12 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
           // ~1249px content wrapper, so letting one span a 2560px monitor would
           // be wider than the original ever gets. The paint is on the <section>
           // above, which is what lets a navy band still reach both edges.
-          style={{ ...flexStyle, maxWidth: `${contentWidth ?? 1280}px` }}
+          style={{
+            ...flexStyle,
+            maxWidth: `${contentWidth ?? 1280}px`,
+            ...(cols ? { '--cols': cols } : null),
+          }}
+          {...(cols ? { 'data-grid': '' } : null)}
         >
           {kids}
         </div>
@@ -448,7 +483,7 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
 
   return (
     <div
-      className={`${layout} min-w-0 ${width ? 'w-full lg:w-auto' : ''} ${
+      className={`${layout} min-w-0 ${hide ?? ''} ${width ? 'w-full lg:w-auto' : ''} ${
         // Elementor lets a column omit its width and take an equal share of the
         // row. Without this the two halves of "Who This Is For" sized themselves
         // to their content and came out 322px against 893px instead of level.
@@ -460,8 +495,10 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
         // The width is a share of the parent ROW, so it must not apply once the
         // row has stacked. `flexBasis` is read only while `lg:flex-row` is on.
         ...(width ? { '--gw': `${width}%` } : null),
+        ...(cols ? { '--cols': cols } : null),
       }}
       {...(width ? { 'data-col': '' } : null)}
+      {...(cols ? { 'data-grid': '' } : null)}
     >
       {kids}
     </div>

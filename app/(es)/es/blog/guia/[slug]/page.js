@@ -4,6 +4,7 @@ import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
 import { bySpanishSlug, spanishParams } from '@/content/pages/mixing-guides';
 import { alternates } from '@/lib/routes';
+import { metaTitle } from '@/lib/page-title';
 
 /**
  * Spanish mixing & dosage guides at `/es/blog/guia/<slug>/`.
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }) {
   if (!page) return {};
   const alt = alternates(page.en);
   return {
-    title: page.head.title_es || undefined,
+    title: metaTitle(page, 'es'),
     description: page.head.description_es || undefined,
     alternates: { canonical: page.es, languages: { 'en-US': alt.en, 'es-CR': alt.es } },
   };

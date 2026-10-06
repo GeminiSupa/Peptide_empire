@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ChevronDown, Mail, Phone, ShoppingCart } from 'lucide-react';
+import { ChevronDown, Mail, MapPin, Phone, ShoppingCart } from 'lucide-react';
 import Container from '@/components/ui/container';
 import Logo from '@/components/logo';
 import MobileMenu from '@/components/mobile-menu';
@@ -30,7 +30,10 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
       {/* Announcement bar */}
       <div className="bg-primary text-white">
         <Container className="flex flex-col items-center justify-between gap-1 py-2 text-center text-xs sm:flex-row sm:text-left sm:text-[13px]">
-          <p className="font-medium uppercase">{t(announcement, 'text', lang)}</p>
+          <p className="inline-flex items-center gap-1.5 font-medium uppercase">
+            <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
+            {t(announcement, 'text', lang)}
+          </p>
           <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <Link
               className="inline-flex items-center gap-1.5 font-medium hover:underline"
@@ -46,8 +49,8 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
               <a
                 className={
                   i === 0
-                    ? 'inline-flex items-center gap-1.5 rounded bg-brand-red px-3 py-1.5 font-semibold text-white transition hover:brightness-110'
-                    : 'inline-flex items-center gap-1.5 rounded border border-white/60 px-3 py-1.5 font-semibold text-white transition hover:bg-white/10'
+                    ? 'inline-flex items-center gap-1.5 rounded-[5px] bg-[#D14900] px-[15px] py-2.5 text-[13px] font-semibold text-white transition hover:brightness-110'
+                    : 'inline-flex items-center gap-1.5 rounded-[6px] bg-white px-[15px] py-2.5 text-[13px] font-semibold text-primary transition hover:bg-white/90'
                 }
                 href={c.href}
                 key={c.href}
@@ -124,9 +127,12 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
 
           <Link
             href={alternatePath(path, lang)}
-            className="hidden rounded-md px-2 py-1 text-xs font-semibold text-text-muted hover:text-primary sm:inline-block"
+            aria-label={labels.switchTo}
+            className="hidden items-center gap-1.5 sm:inline-flex"
+            title={labels.switchTo}
           >
-            {labels.switchTo}
+            <Flag code={lang === 'es' ? 'es' : 'en'} />
+            <ChevronDown aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
           </Link>
 
           {/* Currency indicator, deliberately NOT a switcher.
@@ -159,5 +165,27 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
         </div>
       </Container>
     </header>
+  );
+}
+
+/** The language switcher on the live header is a pair of flags, not a word. */
+function Flag({ code }) {
+  if (code === 'es') {
+    return (
+      <svg aria-hidden="true" className="h-3.5 w-[18px] rounded-[2px] shadow-sm" viewBox="0 0 18 14">
+        <rect fill="#002B7F" height="14" width="18" />
+        <rect fill="#fff" height="8" width="18" y="3" />
+        <rect fill="#CE1126" height="4" width="18" y="5" />
+      </svg>
+    );
+  }
+  return (
+    <svg aria-hidden="true" className="h-3.5 w-[18px] rounded-[2px] shadow-sm" viewBox="0 0 18 14">
+      <rect fill="#BF0A30" height="14" width="18" />
+      <rect fill="#fff" height="2" width="18" y="2" />
+      <rect fill="#fff" height="2" width="18" y="6" />
+      <rect fill="#fff" height="2" width="18" y="10" />
+      <rect fill="#002868" height="7" width="8" />
+    </svg>
   );
 }

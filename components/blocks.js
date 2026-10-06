@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Check, CircleCheck, ExternalLink, FileText } from 'lucide-react';
 import Container from '@/components/ui/container';
 import CategoryTabs from '@/components/category-tabs';
+import AlphabetProductGrid from '@/components/alphabet-product-grid';
 import FaqAccordion from '@/components/faq-accordion';
 import ProductCard from '@/components/product-card';
 import ReviewWall from '@/components/review-wall';
@@ -271,7 +272,12 @@ function Divider({ inRow }) {
   return (
     <span
       aria-hidden="true"
-      className={`h-px bg-primary/25 ${inRow ? 'w-full lg:flex-1 lg:basis-0' : 'w-full'}`}
+      className={`h-px bg-primary/25 ${
+        // `w-full` at every breakpoint makes each rule 100% of the row, so the
+        // "AS SEEN IN" label gets pushed off centre. On desktop the rule is a
+        // flex item that shares the row; it only spans the width once stacked.
+        inRow ? 'w-full lg:w-auto lg:flex-1 lg:basis-0' : 'w-full'
+      }`}
     />
   );
 }
@@ -934,6 +940,7 @@ const RENDERERS = {
   cards: Cards,
   product_grid: ProductGrid,
   category_tabs: CategoryTabs,
+  alphabet_product_grid: AlphabetProductGrid,
   reviews: ReviewWall,
   coa_list: CoaList,
   faq: Faq,
@@ -951,6 +958,7 @@ const RENDERERS = {
 export const WIDE_TYPES = [
   'product_grid',
   'category_tabs',
+  'alphabet_product_grid',
   'reviews',
   'cards',
   'table',
