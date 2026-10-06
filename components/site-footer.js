@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Mail, Phone } from 'lucide-react';
+import { Cloud, Mail, Music2, Phone } from 'lucide-react';
 import Container from '@/components/ui/container';
 import Logo from '@/components/logo';
 import { footer } from '@/content/global';
@@ -109,6 +109,27 @@ function FooterLink({ href, children, lang }) {
   );
 }
 
+function SocialIcon({ name }) {
+  const iconClass = 'h-4 w-4';
+  const brandClass = 'h-4 w-4 fill-current';
+  switch (name.toLowerCase()) {
+    case 'facebook':
+      return <svg aria-hidden="true" className={brandClass} viewBox="0 0 24 24"><path d="M13.5 21v-7h2.5l.5-3h-3V9.5c0-.87.29-1.5 1.58-1.5H16V5.31c-.27-.04-1.2-.12-2.27-.12-2.25 0-3.79 1.37-3.79 3.9V11H7.5v3h2.44v7h3.56Z" /></svg>;
+    case 'youtube':
+      return <svg aria-hidden="true" className={brandClass} viewBox="0 0 24 24"><path d="M21.58 7.19a3 3 0 0 0-2.11-2.12C17.61 4.57 12 4.57 12 4.57s-5.61 0-7.47.5A3 3 0 0 0 2.42 7.2C1.92 9.06 1.92 12 1.92 12s0 2.94.5 4.81a3 3 0 0 0 2.11 2.12c1.86.5 7.47.5 7.47.5s5.61 0 7.47-.5a3 3 0 0 0 2.11-2.12c.5-1.86.5-4.81.5-4.81s0-2.94-.5-4.81ZM10.2 15.03V8.97L15.45 12l-5.25 3.03Z" /></svg>;
+    case 'linkedin':
+      return <svg aria-hidden="true" className={brandClass} viewBox="0 0 24 24"><path d="M5.34 7.43A2.06 2.06 0 1 1 5.34 3.3a2.06 2.06 0 0 1 0 4.13ZM3.56 20.45h3.56V9H3.56v11.45ZM9.35 9h3.41v1.56h.05c.47-.9 1.64-1.85 3.37-1.85 3.61 0 4.27 2.37 4.27 5.46v6.28H16.9v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.13 1.45-2.13 2.94v5.67H9.35V9Z" /></svg>;
+    case 'instagram':
+      return <svg aria-hidden="true" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect height="16" rx="4" width="16" x="4" y="4" /><circle cx="12" cy="12" r="3.5" /><circle cx="17" cy="7" fill="currentColor" r="1" stroke="none" /></svg>;
+    case 'tiktok':
+      return <Music2 aria-hidden="true" className={iconClass} />;
+    case 'bluesky':
+      return <Cloud aria-hidden="true" className={iconClass} />;
+    default:
+      return <span aria-hidden="true" className="text-xs font-bold">{name.slice(0, 1)}</span>;
+  }
+}
+
 export default function SiteFooter({ lang = DEFAULT_LANG }) {
   const headings = HEADINGS[lang] || HEADINGS[DEFAULT_LANG];
 
@@ -167,12 +188,12 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
                 <li key={social.href}>
                   <a
                     aria-label={social.name}
-                    className="flex h-6 min-w-6 items-center justify-center rounded-full bg-[#c90008] px-1 text-[9px] font-bold text-white"
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-[#c90008] text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c90008]"
                     href={social.href}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    {social.name === 'Linkedin' ? 'in' : social.name.slice(0, 2)}
+                    <SocialIcon name={social.name} />
                   </a>
                 </li>
               ))}
