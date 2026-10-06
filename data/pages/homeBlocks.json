@@ -189,8 +189,40 @@
           }
         },
         {
-          "type": "group",
+          "type": "press_showcase",
           "content": {
+            "eyebrow_en": "As Seen In",
+            "eyebrow_es": "Como se ve en",
+            "title_en": "Peptides Costa Rica in the Press",
+            "title_es": "Peptides Costa Rica en la prensa",
+            "intro_en": "Featured by trusted publications covering Costa Rica, business, and local innovation.",
+            "intro_es": "Presentado por publicaciones confiables que cubren Costa Rica, negocios e innovación local.",
+            "cta_en": "Read the feature",
+            "cta_es": "Leer el artículo",
+            "items": [
+              {
+                "logo": "/wp-content/uploads/2026/08/TCRN-logo.webp",
+                "logoWidth": "230px",
+                "logoAlt_en": "The Costa Rica News logo",
+                "logoAlt_es": "Logotipo de The Costa Rica News",
+                "kicker_en": "Featured in",
+                "kicker_es": "Presentado en",
+                "outlet_en": "The Costa Rica News",
+                "outlet_es": "The Costa Rica News",
+                "href": "https://thecostaricanews.com/introducing-peptides-costa-rica-bringing-trusted-peptide-products-to-costa-rica/"
+              },
+              {
+                "logo": "/wp-content/uploads/2026/08/images-removebg-preview.webp",
+                "logoWidth": "280px",
+                "logoAlt_en": "The Tico Times logo",
+                "logoAlt_es": "Logotipo de The Tico Times",
+                "kicker_en": "Featured in",
+                "kicker_es": "Presentado en",
+                "outlet_en": "The Tico Times",
+                "outlet_es": "The Tico Times",
+                "href": "https://ticotimes.net/2026/07/26/why-two-fitness-veterans-chose-costa-rica-to-launch-a-new-peptide-company-peptides-costa-rica"
+              }
+            ],
             "dir": "row",
             "justify": "center",
             "boxed": true,
@@ -223,6 +255,7 @@
           "content": {
             "dir": "row",
             "bgImage": "/wp-content/uploads/2026/07/Banner-02.jpg-scaled.webp",
+            "hide": "hidden",
             "radius": 10,
             "border": "#D1D5DB",
             "boxed": false,

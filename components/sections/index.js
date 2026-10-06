@@ -96,6 +96,71 @@ function PressBand({ content, lang }) {
   );
 }
 
+function PressShowcase({ content, lang }) {
+  const items = content.items || [];
+
+  return (
+    <section className="bg-white py-14 sm:py-16 lg:py-20">
+      <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-5">
+        <div className="flex items-center gap-5 sm:gap-8">
+          <span aria-hidden="true" className="h-px flex-1 bg-primary/25" />
+          <p className="shrink-0 text-sm font-extrabold tracking-[0.18em] text-primary uppercase sm:text-base">
+            {t(content, 'eyebrow', lang)}
+          </p>
+          <span aria-hidden="true" className="h-px flex-1 bg-primary/25" />
+        </div>
+
+        <div className="mx-auto mt-5 max-w-2xl text-center">
+          <h2 className="text-2xl font-extrabold tracking-tight text-primary sm:text-3xl">
+            {t(content, 'title', lang)}
+          </h2>
+          <p className="mt-3 text-base leading-7 text-text-muted">
+            {t(content, 'intro', lang)}
+          </p>
+        </div>
+
+        <div className="mt-9 grid gap-5 md:grid-cols-2 lg:gap-7">
+          {items.map((item, index) => (
+            <article
+              className="group relative flex min-h-[285px] flex-col overflow-hidden rounded-2xl border border-primary/15 bg-[linear-gradient(145deg,#ffffff_0%,#f5f7fc_100%)] p-6 shadow-[0_14px_40px_rgba(9,39,113,0.09)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(9,39,113,0.14)] sm:p-8"
+              key={`${item.outlet_en}-${index}`}
+            >
+              <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-accent" />
+              <div className="flex min-h-24 items-center justify-center rounded-xl border border-slate-200/80 bg-white px-6 py-4 shadow-sm">
+                <img
+                  alt={t(item, 'logoAlt', lang)}
+                  className="h-auto max-h-16 w-auto max-w-full object-contain sm:max-h-20"
+                  loading="lazy"
+                  src={imageUrl(item.logo)}
+                  style={{ maxWidth: item.logoWidth || '260px' }}
+                />
+              </div>
+
+              <div className="mt-6 flex flex-1 flex-col items-center text-center">
+                <p className="text-sm font-semibold tracking-wide text-text-muted uppercase">
+                  {t(item, 'kicker', lang)}
+                </p>
+                <h3 className="mt-1 text-xl font-extrabold text-primary sm:text-2xl">
+                  {t(item, 'outlet', lang)}
+                </h3>
+                <a
+                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-bold text-white transition hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  href={item.href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {t(content, 'cta', lang)}
+                  <ExternalLink aria-hidden="true" className="h-4 w-4" />
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function FeatureCards({ content, lang, index }) {
   const cols = content.columns === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4';
   return (
@@ -527,6 +592,7 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
 const HOME_COMPONENTS = {
   hero: Hero,
   press_band: PressBand,
+  press_showcase: PressShowcase,
   feature_cards: FeatureCards,
   category_chips: CategoryChips,
   transformation: Transformation,
