@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ChevronDown, Mail, MapPin, Phone, ShoppingCart } from 'lucide-react';
+import { Check, ChevronDown, Mail, MapPin, Phone, ShoppingCart } from 'lucide-react';
 import Container from '@/components/ui/container';
 import Logo from '@/components/logo';
 import MobileMenu from '@/components/mobile-menu';
@@ -16,8 +16,8 @@ import { alternatePath, localePath, DEFAULT_LANG } from '@/lib/routes';
 // been removed. Only the language toggle label remains, which the live site
 // renders as a flag rather than text.
 const UI = {
-  es: { switchTo: 'English' },
-  en: { switchTo: 'Español' },
+  es: { current: 'Español', switchTo: 'English' },
+  en: { current: 'English', switchTo: 'Español' },
 };
 
 export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
@@ -125,15 +125,7 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
             <HeaderSearch index={index} lang={lang} />
           </div>
 
-          <Link
-            href={alternatePath(path, lang)}
-            aria-label={labels.switchTo}
-            className="hidden items-center gap-1.5 sm:inline-flex"
-            title={labels.switchTo}
-          >
-            <Flag code={lang === 'es' ? 'es' : 'en'} />
-            <ChevronDown aria-hidden="true" className="h-3.5 w-3.5 text-primary" />
-          </Link>
+          <LanguageDropdown lang={lang} labels={labels} path={path} />
 
           {/* Currency indicator, deliberately NOT a switcher.
               The live site converts prices with a WooCommerce plugin. Prices
@@ -165,6 +157,43 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
         </div>
       </Container>
     </header>
+  );
+}
+
+function LanguageDropdown({ lang, labels, path }) {
+  const currentCode = lang === 'es' ? 'es' : 'en';
+  const alternateCode = lang === 'es' ? 'en' : 'es';
+
+  return (
+    <details className="group relative hidden sm:block">
+      <summary
+        aria-label={lang === 'es' ? 'Elegir idioma' : 'Choose language'}
+        className="flex cursor-pointer list-none items-center gap-1.5 rounded-md border border-transparent px-2 py-1.5 transition hover:border-slate-200 hover:bg-slate-50 [&::-webkit-details-marker]:hidden"
+        title={lang === 'es' ? 'Elegir idioma' : 'Choose language'}
+      >
+        <Flag code={currentCode} />
+        <ChevronDown
+          aria-hidden="true"
+          className="h-3.5 w-3.5 text-primary transition-transform group-open:rotate-180"
+        />
+      </summary>
+
+      <div className="absolute top-full right-0 z-50 mt-2 w-40 overflow-hidden rounded-lg border border-slate-200 bg-white py-1.5 shadow-xl">
+        <div className="flex items-center gap-2.5 px-3 py-2 text-sm font-semibold text-primary">
+          <Flag code={currentCode} />
+          <span className="flex-1">{labels.current}</span>
+          <Check aria-hidden="true" className="h-4 w-4 text-accent" />
+        </div>
+        <Link
+          href={alternatePath(path, lang)}
+          className="flex items-center gap-2.5 px-3 py-2 text-sm text-text-main transition hover:bg-slate-50 hover:text-primary"
+          hrefLang={alternateCode}
+        >
+          <Flag code={alternateCode} />
+          <span>{labels.switchTo}</span>
+        </Link>
+      </div>
+    </details>
   );
 }
 
