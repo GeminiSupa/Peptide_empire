@@ -1,4 +1,9 @@
 import { t } from '@/lib/i18n';
+import { imageUrl } from '@/lib/images';
+
+const PLATFORM_LOGOS = {
+  Google: '/wp-content/uploads/2026/03/4de77119-3608-45d9-b440-e34488b88e61.png',
+};
 
 /**
  * The customer reviews under "Customer Success Stories".
@@ -44,10 +49,13 @@ export default function ReviewWall({ content, lang }) {
                   <p className="text-xs text-text-muted">1 month ago</p>
                 </div>
               </div>
-              {review.source && (
-                <span className="shrink-0 text-lg font-bold text-[#4285F4]" aria-label={review.source}>
-                  G
-                </span>
+              {review.source && PLATFORM_LOGOS[review.source] && (
+                <img
+                  alt={`${review.source} review`}
+                  className="h-5 w-5 shrink-0 object-contain"
+                  loading="lazy"
+                  src={imageUrl(PLATFORM_LOGOS[review.source])}
+                />
               )}
             </div>
 
