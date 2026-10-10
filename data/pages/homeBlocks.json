@@ -202,7 +202,7 @@
             "items": [
               {
                 "logo": "/wp-content/uploads/2026/08/TCRN-logo.webp",
-                "logoWidth": "180px",
+                "logoWidth": "160px",
                 "logoAlt_en": "The Costa Rica News logo",
                 "logoAlt_es": "Logotipo de The Costa Rica News",
                 "kicker_en": "Featured in",
@@ -213,7 +213,7 @@
               },
               {
                 "logo": "/wp-content/uploads/2026/08/images-removebg-preview.webp",
-                "logoWidth": "220px",
+                "logoWidth": "200px",
                 "logoAlt_en": "The Tico Times logo",
                 "logoAlt_es": "Logotipo de The Tico Times",
                 "kicker_en": "Featured in",

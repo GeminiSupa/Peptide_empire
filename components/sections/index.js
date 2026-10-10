@@ -119,24 +119,24 @@ function PressShowcase({ content, lang }) {
           </p>
         </div>
 
-        <div className="mt-9 grid gap-5 md:grid-cols-2 lg:gap-7">
+        <div className="mx-auto mt-8 grid max-w-[1040px] gap-5 md:grid-cols-2 lg:gap-6">
           {items.map((item, index) => (
             <article
-              className="group relative flex min-h-[285px] flex-col overflow-hidden rounded-2xl border border-primary/15 bg-[linear-gradient(145deg,#ffffff_0%,#f5f7fc_100%)] p-6 shadow-[0_14px_40px_rgba(9,39,113,0.09)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(9,39,113,0.14)] sm:p-8"
+              className="group relative flex min-h-[240px] flex-col overflow-hidden rounded-2xl border border-primary/15 bg-[linear-gradient(145deg,#ffffff_0%,#f5f7fc_100%)] p-5 shadow-[0_14px_40px_rgba(9,39,113,0.09)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(9,39,113,0.14)] sm:p-6"
               key={`${item.outlet_en}-${index}`}
             >
               <span aria-hidden="true" className="absolute inset-x-0 top-0 h-1 bg-accent" />
-              <div className="flex min-h-24 items-center justify-center rounded-xl border border-slate-200/80 bg-white px-6 py-4 shadow-sm">
+              <div className="flex min-h-20 items-center justify-center rounded-xl border border-slate-200/80 bg-white px-5 py-3 shadow-sm">
                 <img
                   alt={t(item, 'logoAlt', lang)}
-                  className="h-auto max-h-16 w-auto max-w-full object-contain sm:max-h-20"
+                  className="h-auto max-h-12 w-auto max-w-full object-contain sm:max-h-14"
                   loading="lazy"
                   src={imageUrl(item.logo)}
                   style={{ maxWidth: item.logoWidth || '260px' }}
                 />
               </div>
 
-              <div className="mt-6 flex flex-1 flex-col items-center text-center">
+              <div className="mt-4 flex flex-1 flex-col items-center text-center">
                 <p className="text-sm font-semibold tracking-wide text-text-muted uppercase">
                   {t(item, 'kicker', lang)}
                 </p>
@@ -144,7 +144,7 @@ function PressShowcase({ content, lang }) {
                   {t(item, 'outlet', lang)}
                 </h3>
                 <a
-                  className="mt-6 inline-flex items-center justify-center gap-2 rounded-md bg-primary px-6 py-3 text-sm font-bold text-white transition hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  className="mt-4 inline-flex items-center justify-center gap-2 rounded-md bg-primary px-5 py-2.5 text-sm font-bold text-white transition hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                   href={item.href}
                   rel="noopener noreferrer"
                   target="_blank"
