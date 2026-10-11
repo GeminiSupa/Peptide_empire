@@ -60,7 +60,7 @@ function ReviewBand({ lang }) {
   const reviews = footer.reviews ?? [];
   if (!reviews.length) return null;
 
-  const border = ['border-emerald-400', 'border-red-400', 'border-blue-400'];
+  const border = ['border-slate-200', 'border-slate-200', 'border-slate-200'];
   return (
     <ul className="mt-10 grid gap-3 sm:grid-cols-3">
       {reviews.map((review, index) => {
@@ -70,7 +70,7 @@ function ReviewBand({ lang }) {
         return (
           <li key={review.name}>
             <a
-              className={`flex min-h-[78px] items-center justify-center gap-4 rounded-xl border bg-white px-5 py-3 ${border[index] || 'border-slate-300'}`}
+              className={`flex min-h-[78px] items-center justify-center gap-4 rounded-2xl border bg-white px-5 py-3 shadow-[0_8px_24px_rgba(9,39,113,0.05)] transition hover:-translate-y-0.5 hover:border-primary/20 hover:shadow-md ${border[index] || 'border-slate-200'}`}
               href={(lang === 'es' ? review.href_es : review.href) || review.href}
               rel="noopener noreferrer"
               target="_blank"
@@ -134,10 +134,10 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
   const headings = HEADINGS[lang] || HEADINGS[DEFAULT_LANG];
 
   return (
-    <footer className="mt-auto bg-white text-primary">
+    <footer className="mt-auto border-t border-slate-200 bg-slate-50 text-primary">
       <BulkOffer lang={lang} />
 
-      <Container className="py-12">
+      <Container className="py-14 sm:py-16">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.15fr_0.9fr_0.95fr_1fr]">
           <div>
             <Logo className="mb-4" imageClassName="h-auto w-[156px]" lang={lang} />
@@ -205,9 +205,9 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
       </Container>
 
       <Container className="pb-6">
-        <div className="relative overflow-hidden">
+        <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_30px_rgba(9,39,113,0.06)]">
           <iframe
-            className="h-[450px] w-full border-0"
+            className="h-[300px] w-full border-0 sm:h-[340px]"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             src="https://www.google.com/maps?q=Costa%20Rica&output=embed&t=k&z=7"
@@ -216,7 +216,7 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
         </div>
       </Container>
 
-      <div className="bg-primary py-3 text-center text-xs text-white">
+      <div className="mt-8 bg-primary py-4 text-center text-xs text-white">
         {t(footer, 'copyright', lang)}
       </div>
     </footer>

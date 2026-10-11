@@ -15,7 +15,7 @@ import { imageUrl } from '@/lib/images';
  */
 const LOGO_SRC = '/wp-content/uploads/2026/02/COSTA-RICA-1-e1771916272916.png';
 
-export default function Logo({ lang = DEFAULT_LANG, className = '', imageClassName = 'h-12 w-auto sm:h-14' }) {
+export default function Logo({ lang = DEFAULT_LANG, className = '', imageClassName = 'h-11 w-auto sm:h-12' }) {
   return (
     <Link
       aria-label="Peptides Costa Rica"

@@ -52,7 +52,7 @@ export default function ProductCard({ product, lang }) {
     // eslint-disable-next-line @next/next/no-img-element -- harvested asset
     <img
       alt={product.name}
-      className="mb-3 aspect-square w-full rounded-lg object-cover"
+      className="mb-4 aspect-square w-full rounded-xl bg-slate-50 p-3 object-contain"
       loading="lazy"
       sizes={SIZES.productCard}
       {...image}
@@ -65,28 +65,28 @@ export default function ProductCard({ product, lang }) {
       {product.category && (
         <p className="mb-1 text-[11px] leading-4 text-text-muted">{product.category}</p>
       )}
-      <h2 className="text-sm font-bold text-primary group-hover:underline">{product.name}</h2>
+      <h2 className="line-clamp-2 text-base font-bold leading-6 text-primary group-hover/card:text-accent">{product.name}</h2>
     </>
   );
 
   return (
-    <div className="flex h-full flex-col rounded-xl border border-primary/10 bg-white p-4 shadow-sm">
+    <article className="group/card flex h-full flex-col rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_8px_24px_rgba(9,39,113,0.06)] transition duration-200 hover:-translate-y-1 hover:border-primary/20 hover:shadow-[0_16px_34px_rgba(9,39,113,0.12)]">
       {own ? (
-        <Link className="group" href={localePath(own, lang)}>
+        <Link className="flex flex-1 flex-col" href={localePath(own, lang)}>
           {details}
         </Link>
       ) : (
         <div>{details}</div>
       )}
-      {product.price && <p className="mt-1 text-sm font-semibold text-accent">{product.price}</p>}
+      {product.price && <p className="mt-3 text-base font-extrabold text-accent">{product.price}</p>}
       <a
-        className="mt-4 inline-flex w-fit items-center justify-center rounded bg-primary px-4 py-2.5 text-sm font-medium text-white transition hover:brightness-110"
+        className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         href={catalogUrl(lang)}
         rel="noopener noreferrer"
         target="_blank"
       >
         {t(ui, 'addToCart', lang)}
       </a>
-    </div>
+    </article>
   );
 }

@@ -17,10 +17,10 @@ export default function FaqAccordion({ items }) {
   if (!items?.length) return null;
 
   return (
-    <div className="mx-auto mt-10 max-w-3xl divide-y divide-slate-200 rounded-xl border border-slate-200 bg-bg-card">
+    <div className="mx-auto mt-10 max-w-3xl divide-y divide-slate-200 overflow-hidden rounded-2xl border border-slate-200 bg-bg-card shadow-[0_10px_30px_rgba(9,39,113,0.05)]">
       {items.map((item, i) => (
         <details className="group" key={`${item.q}-${i}`} open={i === 0}>
-          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-5 text-left [&::-webkit-details-marker]:hidden">
+          <summary className="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-5 text-left transition hover:bg-slate-50 [&::-webkit-details-marker]:hidden">
             <span className="text-base font-bold text-primary">{item.q}</span>
             <ChevronDown
               aria-hidden="true"

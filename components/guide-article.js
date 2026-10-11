@@ -34,7 +34,7 @@ export default function GuideArticle({ content, lang, title }) {
 
   return (
     <Container className="py-10 sm:py-14">
-      <article className="pcr-article mx-auto max-w-3xl" lang={lang}>
+      <article className="pcr-article mx-auto max-w-3xl rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_12px_36px_rgba(9,39,113,0.06)] sm:p-8 lg:p-10" lang={lang}>
         {!hasOwnH1 && title && (
           <h1 className="text-3xl font-extrabold tracking-tight text-primary sm:text-4xl">
             {title}

@@ -25,12 +25,12 @@ export default function ProductSummary({ product, lang }) {
   const priceNote = t(ui, 'priceShownIn', lang);
 
   return (
-    <div className="grid gap-8 sm:grid-cols-[minmax(0,20rem)_1fr] sm:items-start">
+    <div className="grid gap-8 rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_12px_36px_rgba(9,39,113,0.07)] sm:grid-cols-[minmax(0,20rem)_1fr] sm:items-center sm:p-7">
       {image.src && (
         // eslint-disable-next-line @next/next/no-img-element -- harvested asset
         <img
           alt={store.name}
-          className="w-full rounded-xl border border-primary/10 bg-white object-cover"
+          className="aspect-square w-full rounded-xl bg-slate-50 p-4 object-contain"
           sizes={SIZES.productHero}
           {...image}
         />
@@ -53,7 +53,7 @@ export default function ProductSummary({ product, lang }) {
         )}
 
         <a
-          className="mt-6 inline-flex items-center gap-2 rounded-full bg-accent px-7 py-3 text-sm font-bold text-white shadow-sm transition hover:brightness-110"
+          className="mt-6 inline-flex min-h-11 items-center gap-2 rounded-lg bg-accent px-6 py-2.5 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-accent/90 hover:shadow-md"
           href={catalogUrl(lang)}
           rel="noopener noreferrer"
           target="_blank"

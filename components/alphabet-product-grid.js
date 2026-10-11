@@ -71,7 +71,7 @@ ${rules}`}</style>
       <div className="az-controls mt-3 flex flex-wrap gap-1.5">
         {['ALL', ...LETTERS].map((letter) => (
           <label
-            className="cursor-pointer rounded bg-primary px-3 py-1.5 text-xs font-bold text-white transition hover:bg-brand-red"
+            className="min-w-8 cursor-pointer rounded-md border border-slate-200 bg-white px-2.5 py-1.5 text-center text-xs font-bold text-primary transition hover:border-primary/40 hover:bg-primary/5"
             htmlFor={`${id}-${letter}`}
             key={letter}
           >

@@ -174,7 +174,7 @@ function FeatureCards({ content, lang, index }) {
         {(content.cards || []).map((card, i) => (
           <div
             key={`${i}-${card.title_en}`}
-            className="rounded-xl border border-slate-100 bg-bg-card p-6 shadow-sm"
+            className="rounded-2xl border border-slate-200/80 bg-bg-card p-6 shadow-[0_8px_24px_rgba(9,39,113,0.06)]"
           >
             <h3 className="text-base font-bold">{t(card, 'title', lang)}</h3>
             <p className="mt-3 text-sm leading-relaxed text-text-muted">
@@ -205,7 +205,7 @@ function CategoryChips({ content, lang, index }) {
           <li key={cat.href}>
             <Link
               href={localePath(cat.href, lang)}
-              className="inline-flex rounded-full border border-primary/15 bg-white px-4 py-2 text-sm font-semibold text-primary shadow-sm transition-colors hover:border-accent hover:text-accent"
+              className="inline-flex rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-primary shadow-sm transition hover:-translate-y-0.5 hover:border-accent hover:text-accent"
             >
               {label(cat, lang)}
             </Link>
@@ -275,7 +275,7 @@ function InfoDuo({ content, lang, index }) {
         {(content.panels || []).map((panel, i) => (
           <div
             key={`${i}-${panel.title_en}`}
-            className="flex flex-col rounded-xl border border-slate-100 bg-bg-main p-8"
+            className="flex flex-col rounded-2xl border border-slate-200/80 bg-white p-7 shadow-[0_8px_24px_rgba(9,39,113,0.05)]"
           >
             <h2 className="text-2xl font-bold sm:text-3xl">{t(panel, 'title', lang)}</h2>
             <p className="mt-4 flex-1 text-sm leading-relaxed text-text-muted">
@@ -327,7 +327,7 @@ function CallToOrderCards({ content, lang, index }) {
           return (
             <div
               key={`${i}-${card.name_en}`}
-              className="flex flex-col rounded-xl border border-slate-200 bg-bg-card p-7 shadow-sm"
+              className="flex flex-col rounded-2xl border border-slate-200/80 bg-bg-card p-7 shadow-[0_10px_30px_rgba(9,39,113,0.06)]"
             >
               <span className="inline-flex w-fit rounded-full bg-accent/10 px-3 py-1 text-xs font-bold text-accent">
                 {t(card, 'badge', lang)}
@@ -545,7 +545,7 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
     return (
       <section className={hide || undefined} style={paint}>
         <div
-          className={`mx-auto w-full px-4 sm:px-5 ${layout}`}
+          className={`mx-auto w-full px-4 sm:px-6 lg:px-8 ${layout}`}
           // The cap applies whether or not the container is "boxed". On the live
           // site even a full-width container is bounded by the theme's own
           // ~1249px content wrapper, so letting one span a 2560px monitor would
@@ -553,7 +553,7 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
           // above, which is what lets a navy band still reach both edges.
           style={{
             ...flexStyle,
-            maxWidth: `${contentWidth ?? 1280}px`,
+            maxWidth: `${contentWidth ?? 1180}px`,
             ...(cols ? { '--cols': cols } : null),
           }}
           {...(cols ? { 'data-grid': '' } : null)}
@@ -685,7 +685,7 @@ export default function Sections({ sections = [], lang, demoteH1 = false, pageTi
   return group(sections).map((entry, index) => {
     if (entry.kind === 'cards') {
       return (
-        <Container className="py-2" key={`cards-${index}`}>
+        <Container className="py-4 sm:py-5" key={`cards-${index}`}>
           <div className="mx-auto max-w-5xl">
             <CardGrid items={entry.items} lang={lang} />
           </div>
@@ -697,7 +697,7 @@ export default function Sections({ sections = [], lang, demoteH1 = false, pageTi
       const merged = { type: 'product_grid', content: { products: entry.products } };
       const Grid = SECTION_COMPONENTS.product_grid;
       return (
-        <Container className="py-2" key={`products-${index}`}>
+        <Container className="py-4 sm:py-5" key={`products-${index}`}>
           <div className="mx-auto max-w-5xl">
             <Grid content={merged.content} lang={lang} />
           </div>
@@ -726,7 +726,7 @@ export default function Sections({ sections = [], lang, demoteH1 = false, pageTi
     // Prose stays at a readable measure; grids and tables get more room.
     const width = WIDE.has(section.type) ? 'max-w-5xl' : 'max-w-3xl';
     return (
-      <Container className="py-2" key={`${section.type}-${index}`}>
+      <Container className={`${index === 0 ? 'pt-10 sm:pt-14' : 'py-3 sm:py-4'}`} key={`${section.type}-${index}`}>
         <div className={`mx-auto ${width}`}>
           <Component content={section.content} demote={demoteH1} lang={lang} />
         </div>

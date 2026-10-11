@@ -40,7 +40,7 @@ export default function MobileMenu({ lang = DEFAULT_LANG, path = '/' }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center justify-center rounded-md p-2 text-primary lg:hidden"
+        className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white p-2 text-primary shadow-sm transition hover:bg-slate-50 lg:hidden"
         aria-label={ui.open}
         aria-expanded={open}
       >
@@ -131,14 +131,14 @@ export default function MobileMenu({ lang = DEFAULT_LANG, path = '/' }) {
             <div className="border-t border-slate-200 p-4">
               <a
                 href={catalogUrl(lang)}
-                className="flex w-full items-center justify-center rounded-full bg-accent px-6 py-3 text-sm font-semibold text-white"
+                className="flex w-full items-center justify-center rounded-lg bg-accent px-6 py-3 text-sm font-bold text-white shadow-sm"
               >
                 {ui.shop}
               </a>
               <Link
                 href={alternatePath(path, lang)}
                 onClick={() => setOpen(false)}
-                className="mt-3 flex w-full items-center justify-center rounded-full border border-slate-200 px-6 py-2.5 text-sm font-semibold text-primary"
+                className="mt-3 flex w-full items-center justify-center rounded-lg border border-slate-200 bg-white px-6 py-2.5 text-sm font-bold text-primary"
               >
                 {ui.switchTo}
               </Link>

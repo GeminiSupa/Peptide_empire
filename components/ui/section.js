@@ -10,12 +10,12 @@ export function SectionHeading({ eyebrow, title, intro, align = 'center' }) {
         </p>
       )}
       {title && (
-        <h2 className={`text-3xl font-bold sm:text-4xl ${eyebrow ? 'mt-3' : ''}`}>
+        <h2 className={`text-3xl font-extrabold tracking-tight sm:text-[2.5rem] ${eyebrow ? 'mt-3' : ''}`}>
           {title}
         </h2>
       )}
       {intro && (
-        <p className="mt-4 text-base leading-relaxed text-text-muted">{intro}</p>
+        <p className="mt-4 text-base leading-7 text-text-muted">{intro}</p>
       )}
     </div>
   );
@@ -28,7 +28,7 @@ export default function Section({
   children,
 }) {
   return (
-    <section id={id} className={`py-14 sm:py-20 ${className}`}>
+    <section id={id} className={`py-12 sm:py-16 lg:py-20 ${className}`}>
       <Container className={containerClassName}>{children}</Container>
     </section>
   );

@@ -614,7 +614,7 @@ export function CardGrid({ items, lang }) {
           </>
         );
         const shell =
-          'flex h-full flex-col rounded-xl border border-primary/10 bg-white p-5 shadow-sm';
+          'flex h-full flex-col rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_24px_rgba(9,39,113,0.06)]';
         return content.href ? (
           <Link
             className={`${shell} transition hover:border-primary/30 hover:shadow-md`}
@@ -642,14 +642,14 @@ function Table({ content, lang }) {
   if (!rows.length) return null;
   return (
     // The wrapper scrolls so a wide table never widens the page.
-    <div className="mt-6 -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+    <div className="mt-6 -mx-4 overflow-x-auto px-4 sm:mx-0 sm:overflow-hidden sm:rounded-2xl sm:border sm:border-slate-200 sm:bg-white sm:px-0 sm:shadow-[0_8px_24px_rgba(9,39,113,0.05)]">
       <table className="w-full min-w-[32rem] border-collapse text-left text-sm">
         {header && (
           <thead>
             <tr>
               {header.map((cell, i) => (
                 <th
-                  className="border border-slate-200 bg-slate-50 px-3 py-2 font-semibold text-primary"
+                  className="border-b border-primary/15 bg-primary px-4 py-3 font-bold text-white"
                   key={`${cell}-${i}`}
                 >
                   {cell}
@@ -660,11 +660,11 @@ function Table({ content, lang }) {
         )}
         <tbody>
           {rows.map((row, r) => (
-            <tr key={`row-${r}`}>
+            <tr className="odd:bg-white even:bg-slate-50/70" key={`row-${r}`}>
               {row.map((cell, c) => {
                 const href = links[r]?.[c];
                 return (
-                  <td className="border border-slate-200 px-3 py-2 text-text-main" key={`c-${c}`}>
+                  <td className="border-b border-slate-200 px-4 py-3 text-text-main" key={`c-${c}`}>
                     {href ? (
                       <Link className="text-primary underline-offset-2 hover:underline" href={localePath(href, lang)}>
                         {cell}
@@ -705,7 +705,7 @@ function Cards({ content, lang }) {
     <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {content.items.map((item, i) => (
         <div
-          className="rounded-xl border border-primary/10 bg-white p-5 shadow-sm"
+          className="rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_24px_rgba(9,39,113,0.06)]"
           key={`slide-${i}`}
         >
           <h3 className="text-base font-bold text-primary">{t(item, 'title', lang)}</h3>
@@ -820,7 +820,7 @@ function TestimonialsSlider({ content, lang }) {
     <div className="mt-8 grid gap-5 sm:grid-cols-2">
       {content.items.map((item, i) => (
         <figure
-          className="flex h-full flex-col rounded-xl border border-primary/10 bg-white p-5 shadow-sm"
+          className="flex h-full flex-col rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_24px_rgba(9,39,113,0.06)]"
           key={`quote-${i}`}
         >
           <blockquote className="text-sm leading-relaxed text-text-main">
@@ -913,7 +913,7 @@ function HeroSplit({ content, lang }) {
         // eslint-disable-next-line @next/next/no-img-element -- harvested asset
         <img
           alt={t(content.image, 'alt', lang)}
-          className="h-auto w-full"
+          className="h-auto w-full rounded-2xl bg-white shadow-[0_16px_40px_rgba(9,39,113,0.12)]"
           sizes={SIZES.prose}
           {...imageSource(content.image.src)}
         />

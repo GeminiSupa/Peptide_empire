@@ -57,34 +57,34 @@ export default function AgeGate({ lang = 'en' }) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-black/85 p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-primary/90 p-4 backdrop-blur-md">
       <section
         aria-labelledby="age-gate-title"
         aria-modal="true"
-        className="w-full max-w-[500px] rounded-[10px] bg-white px-6 py-7 text-center shadow-2xl sm:px-9"
+        className="max-h-[calc(100vh-2rem)] w-full max-w-[560px] overflow-y-auto rounded-3xl border border-white/20 bg-white px-6 py-7 text-center shadow-[0_28px_80px_rgba(0,0,0,0.32)] sm:px-10 sm:py-9"
         role="dialog"
       >
         <img
           alt="Peptides Costa Rica"
-          className="mx-auto h-auto w-[250px] max-w-[75%]"
+          className="mx-auto h-auto w-[190px] max-w-[65%]"
           height="148"
           src="/wp-content/uploads/2026/02/COSTA-RICA-1-e1771916272916.png"
           width="300"
         />
-        <h2 className="mt-4 text-lg font-bold tracking-tight text-primary" id="age-gate-title">
+        <h2 className="mt-5 text-2xl font-extrabold tracking-tight text-primary" id="age-gate-title">
           {copy.title}
         </h2>
         <p className="mx-auto mt-3 max-w-[390px] text-sm leading-5 text-black">{copy.intro}</p>
         <p className="mx-auto mt-4 max-w-[420px] text-sm leading-5 text-black">{copy.confirm}</p>
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-2.5">
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
           <a
-            className="rounded-md bg-[#dc2626] px-4 py-2 text-sm font-bold text-white"
+            className="inline-flex min-h-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-bold text-slate-700 transition hover:bg-slate-50"
             href="https://www.google.com/"
           >
             {copy.disagree}
           </a>
           <button
-            className="cursor-pointer rounded-md bg-[#07840b] px-4 py-2 text-sm font-bold text-white"
+            className="min-h-11 cursor-pointer rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-primary/90 hover:shadow-md"
             onClick={accept}
             type="button"
           >
@@ -92,10 +92,10 @@ export default function AgeGate({ lang = 'en' }) {
           </button>
         </div>
         <label className="mt-4 inline-flex cursor-pointer items-center gap-1.5 text-xs text-primary">
-          <input checked={remember} onChange={(event) => setRemember(event.target.checked)} type="checkbox" />
+          <input checked={remember} className="h-4 w-4 accent-primary" onChange={(event) => setRemember(event.target.checked)} type="checkbox" />
           {copy.remember}
         </label>
-        <p className="mt-5 text-[11px] leading-[21px] text-black">{copy.legal}</p>
+        <p className="mt-5 rounded-xl bg-slate-50 p-4 text-left text-[11px] leading-5 text-slate-600">{copy.legal}</p>
       </section>
     </div>
   );

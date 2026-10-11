@@ -18,7 +18,7 @@ export default function ProductList({ products, lang, emptyLabel }) {
   }
 
   return (
-    <ul className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {products.map((product) => {
         const store = product.store;
         const name = store?.name ?? product.slug;
@@ -27,22 +27,22 @@ export default function ProductList({ products, lang, emptyLabel }) {
         return (
           <li key={product.slug}>
             <Link
-              className="flex h-full flex-col rounded-xl border border-primary/10 bg-white p-4 shadow-sm transition hover:border-primary/30 hover:shadow-md"
+              className="group flex h-full flex-col rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_8px_24px_rgba(9,39,113,0.06)] transition duration-200 hover:-translate-y-1 hover:border-primary/20 hover:shadow-[0_16px_34px_rgba(9,39,113,0.12)]"
               href={localePath(product.en, lang)}
             >
               {image.src && (
                 // eslint-disable-next-line @next/next/no-img-element -- harvested
                 <img
                   alt={name}
-                  className="mb-3 aspect-square w-full rounded-lg object-cover"
+                  className="mb-4 aspect-square w-full rounded-xl bg-slate-50 p-3 object-contain"
                   loading="lazy"
                   sizes={SIZES.productCard}
                   {...image}
                 />
               )}
-              <h3 className="text-sm font-bold text-primary">{name}</h3>
+              <h3 className="line-clamp-2 text-base font-bold leading-6 text-primary transition group-hover:text-accent">{name}</h3>
               {store?.price && (
-                <p className="mt-1 text-sm font-semibold text-accent">{store.price}</p>
+                <p className="mt-3 text-base font-extrabold text-accent">{store.price}</p>
               )}
             </Link>
           </li>

@@ -1711,8 +1711,8 @@
               {
                 "type": "paragraph",
                 "content": {
-                  "text_en": "We take pride in the trust and loyalty of our customers. Numerous individuals across Costa Rica have experienced transformative results with our peptide products. Our testimonials section is a living showcase of positive outcomes, featuring stories of enhanced energy, impressive muscle growth, and dramatic reductions in body fat.",
-                  "text_es": "Nos enorgullecemos de la confianza y lealtad de nuestros clientes. Numerosas personas en toda Costa Rica han experimentado resultados transformadores con nuestros productos peptídicos. Nuestra sección de testimonios es una muestra viva de resultados positivos, presentando historias de mayor energía, crecimiento muscular impresionante y reducciones drásticas en la grasa corporal.",
+                  "text_en": "We value feedback from customers across Costa Rica. Read recent ratings and comments shared on independent review platforms.",
+                  "text_es": "Valoramos los comentarios de clientes de toda Costa Rica. Consulta calificaciones y opiniones recientes compartidas en plataformas de reseñas independientes.",
                   "align": "center",
                   "color": "#FFFFFF"
                 }
@@ -1735,37 +1735,14 @@
                       "source": "Google",
                       "stars": 5
                     }
-                  ]
-                }
-              },
-              {
-                "type": "heading",
-                "content": {
-                  "level": 4,
-                  "text_en": "Trustpilot",
-                  "text_es": "Trustpilot",
-                  "align": "center",
-                  "color": "#FFFFFF"
-                }
-              },
-              {
-                "type": "image",
-                "content": {
-                  "src": "/wp-content/uploads/2026/08/imgi_3_stars-5-1.webp",
-                  "width": 512,
-                  "height": 96,
-                  "alt_en": "trustpilot reviews star",
-                  "alt_es": "trustpilot reviews star",
-                  "displayWidth": "14%"
-                }
-              },
-              {
-                "type": "paragraph",
-                "content": {
-                  "text_en": "Rated 4.5 out of 5",
-                  "text_es": "Rated 4.5 out of 5",
-                  "align": "center",
-                  "color": "#FFFFFF"
+                  ],
+                  "aggregate": {
+                    "source": "Trustpilot",
+                    "score": 4.5,
+                    "best": 5,
+                    "href": "https://www.trustpilot.com/review/peptidescostarica.net",
+                    "href_es": "https://es.trustpilot.com/review/peptidescostarica.net"
+                  }
                 }
               }
             ]

@@ -33,7 +33,7 @@ export default function HeaderSearch({ lang, index = [] }) {
       <label className="sr-only" htmlFor="site-search">
         {t(ui, 'searchPlaceholder', lang)}
       </label>
-      <div className="flex items-center gap-2 rounded border border-slate-300 bg-white px-3 py-2 focus-within:border-primary">
+      <div className="flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 shadow-sm transition focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10">
         <input
           autoComplete="off"
           className="w-full bg-transparent text-sm text-text-main outline-none placeholder:text-text-muted"

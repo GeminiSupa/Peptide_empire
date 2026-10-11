@@ -1,15 +1,15 @@
 import Link from 'next/link';
 
 const VARIANTS = {
-  primary: 'bg-primary text-white hover:bg-primary/90',
-  accent: 'bg-accent text-white hover:bg-accent/90',
-  outline: 'border-2 border-primary text-primary hover:bg-primary hover:text-white',
+  primary: 'bg-primary text-white shadow-sm hover:bg-primary/90 hover:shadow-md',
+  accent: 'bg-accent text-white shadow-sm hover:bg-accent/90 hover:shadow-md',
+  outline: 'border border-primary/25 bg-white text-primary hover:border-primary hover:bg-primary hover:text-white',
 };
 
 const SIZES = {
-  sm: 'px-4 py-2 text-sm',
-  md: 'px-6 py-3 text-base',
-  lg: 'px-8 py-4 text-base sm:text-lg',
+  sm: 'min-h-10 px-4 py-2 text-sm',
+  md: 'min-h-11 px-5 py-2.5 text-sm',
+  lg: 'min-h-12 px-7 py-3 text-base',
 };
 
 /**
@@ -25,7 +25,7 @@ export default function Button({
   children,
   ...props
 }) {
-  const classes = `inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${VARIANTS[variant]} ${SIZES[size]} ${className}`;
+  const classes = `inline-flex items-center justify-center gap-2 rounded-lg font-bold transition duration-200 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${VARIANTS[variant]} ${SIZES[size]} ${className}`;
 
   const isExternal = /^(https?:|tel:|mailto:)/.test(href || '');
 
