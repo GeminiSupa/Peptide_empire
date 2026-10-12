@@ -5,6 +5,7 @@ import { formatCrInstant, formatCrDate, crWallToIso, isoToCrWall } from '@/lib/c
 import { toPercent, hasUntrackedStock, isUnavailableForDeal } from '@/lib/dealOfWeek.mjs';
 import { OFFERS_PRICING_MODE, dealOfferRuleSummaries, dealOfferSummaries, dealOffersError, normalizeDealOffers } from '@/lib/dealOffers.mjs';
 import { isBacWater } from '@/lib/bacWater.mjs';
+import { composeStoredProductName } from '@/lib/catalogCategories.mjs';
 
 /**
  * Deal of the Week — one promotion a week, ending Sunday midnight Costa Rica.
@@ -227,7 +228,19 @@ function crWallAtOrAfter(iso) {
   return isoToCrWall(new Date(Math.ceil(ms / 60000) * 60000).toISOString());
 }
 
-export default function DealOfWeekPanel({ products = [], onSendAnnouncement, onProductsChanged }) {
+export default function DealOfWeekPanel({ products: adminProducts = [], onSendAnnouncement, onProductsChanged }) {
+  // The products grid splits "GLP-1 50mg" into a name and a size field, so the
+  // rows handed to this panel carry the bare compound. Deals are stored and
+  // matched by the full name, so sending the bare one made every sized product
+  // come back as "No product matches" and no deal could be scheduled. Rejoin
+  // them once here, with the same helper the grid uses when it saves a row.
+  const products = useMemo(
+    () => (adminProducts || []).map((product) => ({
+      ...product,
+      product: composeStoredProductName(product.product, product.vialSize),
+    })),
+    [adminProducts],
+  );
   const [live, setLive] = useState(null);
   const [flash, setFlash] = useState(null);
   const [flashProducts, setFlashProducts] = useState([]);

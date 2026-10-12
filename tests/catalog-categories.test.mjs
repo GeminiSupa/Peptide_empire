@@ -17,6 +17,7 @@ import {
   splitCompoundAndSize,
   catalogCompoundAndSize,
   composeStoredProductName,
+  splitStoredProductForAdmin,
   groupCatalogCards,
   cardOpeningItem,
   visibleSizeChips,
@@ -288,4 +289,30 @@ test('the A-Z list groups single compounds by letter, sizes smallest first, blen
   assert.deepEqual(g.rows.map((r) => r.product.product), ['GHK-CU 100mg', 'GLP-1 5mg', 'GLP-1 12mg']);
   assert.deepEqual(blends.map((r) => r.product.product), ['KLOW 80mg']);
   assert.ok(!groups.some((group) => group.rows.some((r) => /bac water/i.test(r.product.product))), 'supplies are left out');
+});
+
+test('a name split for the products grid rejoins to the stored name', () => {
+  // The Deal of the Week panel is handed grid rows, whose name has had the
+  // size peeled off into its own field. It has to rejoin them before matching,
+  // or every sized product comes back as "No product matches" and no deal can
+  // be scheduled. These are the real shapes in the catalog.
+  const stored = [
+    ['GLP-1 50mg', '50mg'],
+    ['5-Amino-1MQ 5mg', '5mg'],
+    ['AA Water 3ml', '3ml'],
+    ['BPC-157 + TB-500 (Wolverine Stack) 20mg', '20mg'],
+    ['HGH (Pfizer Genotropin) 50IU', '50IU'],
+    ['HCG 10000 IU', '10000 IU'],
+    ['Amino Acid Blend 10ml', '10ml'],
+    ['MT-II', ''],          // no size field at all
+    ['Lipotropic Blend 10ml', null],
+  ];
+  for (const [name, size] of stored) {
+    const shown = splitStoredProductForAdmin(name, size);
+    assert.equal(
+      composeStoredProductName(shown.product, shown.vialSize),
+      name,
+      `"${name}" must survive the trip through the grid and back`,
+    );
+  }
 });
