@@ -252,15 +252,27 @@ export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge =
       // cheapest vials are the ones given away, as elsewhere in this file.
       const pooled = [...quantities.values()].reduce((sum, entry) => sum + entry.qty, 0);
       let owed = Math.floor(pooled / item.buy_qty) * item.free_qty;
-      for (const entry of [...quantities.values()].sort((a, b) => a.unitPrice - b.unitPrice)) {
-        if (owed <= 0) break;
+      // Counted one vial at a time, not one product at a time. Giving away as
+      // many as possible of the cheapest product first handed a customer two
+      // free vials of something they had bought one of, and charged them more
+      // than the two genuinely cheapest vials would have. A paid vial can be
+      // matched by a free one at most once, and only if the shelf has a spare.
+      const candidates = [];
+      for (const entry of quantities.values()) {
         const spare = trackedSpare(entry);
-        const qty = spare === null ? owed : Math.min(owed, spare);
-        if (qty > 0) {
-          freeLines.push({ product: entry.product, qty, unitPrice: entry.unitPrice });
-          owed -= qty;
-        }
-        if (spare !== null && spare < owed + qty) shortByStock.push(entry.product);
+        const giveable = spare === null ? entry.qty : Math.min(entry.qty, spare);
+        if (spare !== null && spare < entry.qty) shortByStock.push(entry.product);
+        for (let i = 0; i < giveable; i += 1) candidates.push(entry);
+      }
+      candidates.sort((a, b) => a.unitPrice - b.unitPrice);
+      const given = new Map();
+      for (const entry of candidates) {
+        if (owed <= 0) break;
+        given.set(entry, (given.get(entry) || 0) + 1);
+        owed -= 1;
+      }
+      for (const [entry, qty] of given) {
+        freeLines.push({ product: entry.product, qty, unitPrice: entry.unitPrice });
       }
     } else {
       for (const entry of quantities.values()) {

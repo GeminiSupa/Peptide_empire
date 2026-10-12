@@ -164,3 +164,34 @@ test('mix counting says so in the customer copy, in both languages', () => {
   assert.doesNotMatch(dealOfferSummaries(ANY_MIX, 'en')[0], /same vial/);
   assert.match(dealOfferSummaries(CAPPED, 'en')[0], /of the same vial/);
 });
+
+test('the free vials are the cheapest vials, not the cheapest product twice', () => {
+  // Found in QA against the live deal: a cart of 1 BPC ($90) + 1 GHK ($80)
+  // + 3 Tirzepatide earned "2x GHK free" — two of a product the customer had
+  // bought one of, and $10 less than the two genuinely cheapest vials.
+  const buy5free2 = { items: [
+    { id: 'm5', type: 'bundle', enabled: true, count_mode: 'any_mix', product_names: ['BPC-157 10mg', 'GHK-CU 50mg', 'Tirzepatide 20mg'], buy_qty: 5, free_qty: 2, max_free_qty: 2 },
+  ] };
+  const choice = chooseDealOffer(buy5free2, [
+    line('BPC-157 10mg', 1, 90),
+    line('GHK-CU 50mg', 1, 80),
+    line('Tirzepatide 20mg', 3, 200),
+  ]);
+  assert.equal(choice.savings, 170, 'the two cheapest vials are $80 + $90');
+  const byProduct = Object.fromEntries(choice.bundle.freeLines.map((l) => [l.product, l.qty]));
+  assert.deepEqual(byProduct, { 'GHK-CU 50mg': 1, 'BPC-157 10mg': 1 });
+});
+
+test('nobody is given more free vials of a product than they bought', () => {
+  const buy5free2 = { items: [
+    { id: 'm5', type: 'bundle', enabled: true, count_mode: 'any_mix', product_names: ['KPV 10mg', 'Tirzepatide 20mg'], buy_qty: 5, free_qty: 2, max_free_qty: 2 },
+  ] };
+  const choice = chooseDealOffer(buy5free2, [
+    line('KPV 10mg', 1, 40),
+    line('Tirzepatide 20mg', 4, 200),
+  ]);
+  for (const l of choice.bundle.freeLines) {
+    assert.ok(l.qty <= (l.product === 'KPV 10mg' ? 1 : 4), `${l.qty} free of ${l.product} is more than were bought`);
+  }
+  assert.equal(choice.savings, 240); // 1 KPV at 40 + 1 Tirzepatide at 200
+});
