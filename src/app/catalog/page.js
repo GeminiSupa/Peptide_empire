@@ -11,6 +11,7 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { buildWhatsAppLink, cleanPhoneNumber, logWhatsAppSource } from '@/lib/whatsapp';
 import { useBusinessLinks } from '@/hooks/useBusinessLinks';
 import { getFacebookReviewUrl, getTrustpilotReviewUrl, ORGANIZATION_PROFILES } from '@/lib/businessLinks';
+import { appStorefrontHref } from '@/lib/appStorefront';
 import { useTrustpilotRating } from '@/hooks/useTrustpilotRating';
 import { getPromoBadgeForProduct } from '@/lib/promoBadge.mjs';
 import {
@@ -3973,6 +3974,9 @@ export default function CatalogPage() {
           <Link href="/about" className="catalog-about-link">
             {lang === 'en' ? 'About' : 'Nosotros'}
           </Link>
+          <a href={appStorefrontHref({ source: 'catalog_nav', lang })} className="catalog-about-link">
+            App
+          </a>
           </div>
           <div className="header-controls">
             <select
@@ -6276,6 +6280,9 @@ export default function CatalogPage() {
               window.open(buildWhatsAppLink(links.whatsappNumber, lang === 'en' ? 'Hi! I have a question about my order.' : '¡Hola! Tengo algunas preguntas.'), '_blank');
             }}>
               {lang === 'en' ? 'Contact WhatsApp' : 'Contactar WhatsApp'}
+            </a>
+            <a href={appStorefrontHref({ source: 'catalog_footer', lang })}>
+              App
             </a>
             <a href="/admin">
               {lang === 'en' ? 'Admin login' : 'Acceso admin'}

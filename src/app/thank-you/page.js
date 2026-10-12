@@ -11,9 +11,7 @@ import { useBusinessLinks } from '@/hooks/useBusinessLinks';
 import { useAccountAccess } from '@/hooks/useAccountAccess';
 import GoogleCustomerReviews from '@/components/GoogleCustomerReviews';
 
-// Web app at app.peptidescostarica.net — same destination the launch email
-// and QR point at. UTM keeps thank-you traffic countable in analytics.
-const APP_URL = 'https://app.peptidescostarica.net';
+import { appStorefrontHref } from '@/lib/appStorefront';
 
 const APP_FEATURE_ICONS = [ShoppingCart, CreditCard, Package, ShieldCheck];
 
@@ -30,7 +28,7 @@ function ThankYouContent() {
   const [reviewClicked, setReviewClicked] = useState(false);
   const [copiedReferral, setCopiedReferral] = useState(false);
 
-  const appHref = `${APP_URL}/?utm_source=thank_you&utm_medium=web&utm_campaign=app_launch&lang=${lang}`;
+  const appHref = appStorefrontHref({ source: 'thank_you', lang });
   const appImageSrc = lang === 'en' ? '/email-app-launch-en.jpg' : '/email-app-launch-es.jpg';
 
   useEffect(() => {

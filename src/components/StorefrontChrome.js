@@ -11,6 +11,7 @@ import { useTrustpilotRating } from '@/hooks/useTrustpilotRating';
 import { DEFAULT_LANDING_PAGE_SETTINGS } from '@/lib/landingContent';
 import { normalizeBannerCopy, replaceUsdPlaceholders, sanitizeBannerHref } from '@/lib/bannerText';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
+import { appStorefrontHref } from '@/lib/appStorefront';
 import PromoTicker from '@/components/PromoTicker';
 
 function parseBannerText(text = '') {
@@ -170,13 +171,14 @@ export function StorefrontHeader({ lang, onLanguage, settings, active = '' }) {
 
   // Every entry needs a distinct id — two items sharing one made the active
   // state highlight both at once.
+  // "App" is short on purpose: Bulk Discounts and FAQ stay in the footer because
+  // a long sixth label overflows the bar and pushes search + cart off screen.
   const navItems = [
     { id: 'story', label: lang === 'en' ? 'About' : 'Nosotros', href: `/about?lang=${lang}` },
     { id: 'catalog', label: lang === 'en' ? 'Shop by Product' : 'Comprar por producto', href: `/catalog?lang=${lang}` },
     { id: 'categories', label: lang === 'en' ? 'Shop by Category' : 'Comprar por categoría', children: categoryLinks },
     { id: 'info', label: lang === 'en' ? 'Info Center' : 'Centro de información', href: `/info-center?lang=${lang}` },
-    // Bulk Discounts and FAQ live in the footer: a sixth item overflows the bar
-    // and pushes the search box and cart off screen.
+    { id: 'app', label: 'App', href: appStorefrontHref({ source: 'nav', lang }), external: true },
     { id: 'affiliate', label: lang === 'en' ? 'Affiliate Program' : 'Afiliados', href: `/affiliate-program?lang=${lang}` },
   ];
 
@@ -232,6 +234,15 @@ export function StorefrontHeader({ lang, onLanguage, settings, active = '' }) {
                     ))}
                   </div>
                 </div>
+              ) : item.external ? (
+                <a
+                  key={item.id}
+                  href={item.href}
+                  className={active && item.id === active ? 'is-active' : ''}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item.label}
+                </a>
               ) : (
                 <Link
                   key={item.id}
@@ -360,6 +371,14 @@ export function StorefrontFooter({ lang, settings, categories = [] }) {
   };
   const quickLinks = Array.isArray(settings?.footerQuickLinks) ? settings.footerQuickLinks : [];
   const footerCategoryLinks = Array.isArray(settings?.footerCategoryLinks) ? settings.footerCategoryLinks : [];
+  // CMS-saved quick links often predate the app launch. Strip any stale App
+  // row and always append one with the current UTM + lang.
+  const footerQuickLinks = [
+    ...(quickLinks.length ? quickLinks : DEFAULT_QUICK_LINKS).filter(
+      (item) => !String(item?.href || '').includes('app.peptidescostarica.net'),
+    ),
+    { labelEn: 'App', labelEs: 'App', href: appStorefrontHref({ source: 'footer', lang }) },
+  ];
   const categoryList = categories.length
     ? categories.slice(0, 5)
     // Fallback only — must match real product categories so the links filter.
@@ -387,11 +406,24 @@ export function StorefrontFooter({ lang, settings, categories = [] }) {
         </div>
         <div>
           <h3>{lang === 'en' ? 'Quick Links' : 'Enlaces rápidos'}</h3>
-          {(quickLinks.length ? quickLinks : DEFAULT_QUICK_LINKS).map((item, index) => (
-            <Link key={`${item.href}-${index}`} href={withLang(item.href)}>
-              {item[`label${suffix}`] || item.labelEn}
-            </Link>
-          ))}
+          {footerQuickLinks.map((item, index) => {
+            const href = withLang(item.href);
+            const label = item[`label${suffix}`] || item.labelEn;
+            // External app link: plain <a> so we do not wrap a cross-origin URL
+            // in the Next router.
+            if (String(href).includes('app.peptidescostarica.net')) {
+              return (
+                <a key={`${href}-${index}`} href={href}>
+                  {label}
+                </a>
+              );
+            }
+            return (
+              <Link key={`${href}-${index}`} href={href}>
+                {label}
+              </Link>
+            );
+          })}
         </div>
         <div>
           <h3>{lang === 'en' ? 'Shop By Categories' : 'Comprar por categorías'}</h3>
