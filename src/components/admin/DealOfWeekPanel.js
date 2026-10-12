@@ -106,7 +106,7 @@ const OFFER_SCOPE_PREVIOUS = 'same_as_previous';
 
 function newOffer(type = 'mix', id = `${type}-${Date.now()}`) {
   if (type === 'bundle') {
-    return { id, type, enabled: true, scope: OFFER_SCOPE_PREVIOUS, selected: [], name_en: '', name_es: '', buy_qty: 4, free_qty: 1 };
+    return { id, type, enabled: true, scope: OFFER_SCOPE_PREVIOUS, selected: [], name_en: '', name_es: '', buy_qty: 4, free_qty: 1, max_free_qty: 0 };
   }
   if (type === 'pair') {
     return { id, type, enabled: true, scope: OFFER_SCOPE_AVAILABLE, selected: [], name_en: '', name_es: '', discount_pct: 50 };
@@ -299,7 +299,7 @@ export default function DealOfWeekPanel({ products = [], onSendAnnouncement, onP
         name_es: offer.name_es,
       };
       return offer.type === 'bundle'
-        ? { ...shared, buy_qty: Number(offer.buy_qty), free_qty: Number(offer.free_qty) }
+        ? { ...shared, buy_qty: Number(offer.buy_qty), free_qty: Number(offer.free_qty), max_free_qty: Number(offer.max_free_qty) || 0 }
         : offer.type === 'pair'
           ? { ...shared, discount_pct: Number(offer.discount_pct) / 100 }
           : { ...shared, min_units: Number(offer.min_units), discount_pct: Number(offer.discount_pct) / 100 };
@@ -1202,10 +1202,18 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
                               <label style={labelStyle}>Get free</label>
                               <input className="admin-input" type="number" min="1" value={offer.free_qty} onChange={(event) => updateOffer(offer.id, { free_qty: event.target.value })} disabled={!offer.enabled} />
                             </div>
+                            <div>
+                              <label style={labelStyle}>Most free vials per order (0 = no limit)</label>
+                              <input className="admin-input" type="number" min="0" value={offer.max_free_qty ?? 0} onChange={(event) => updateOffer(offer.id, { max_free_qty: event.target.value })} disabled={!offer.enabled} />
+                            </div>
                           </div>
                           <p className="weekly-deal-offer-explanation">
                             Every {offer.buy_qty || '?'} paid vials of one qualifying product adds {offer.free_qty || '?'} of that same product free.
-                            The pattern repeats automatically ({Number(offer.buy_qty) * 2 || '?'} paid → {Number(offer.free_qty) * 2 || '?'} free).
+                            The pattern repeats automatically ({Number(offer.buy_qty) * 2 || '?'} paid → {Number(offer.free_qty) * 2 || '?'} free),
+                            and it repeats for each qualifying product separately.
+                            {Number(offer.max_free_qty) > 0
+                              ? ` No order gives away more than ${Number(offer.max_free_qty)} free ${Number(offer.max_free_qty) === 1 ? 'vial' : 'vials'} in total — past that the cheapest free vials are the ones kept.`
+                              : ' With no limit set, a cart holding several qualifying products earns a free vial for each of them.'}
                           </p>
                         </>
                       ) : offer.type === 'pair' ? (

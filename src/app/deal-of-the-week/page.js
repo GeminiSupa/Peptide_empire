@@ -178,8 +178,8 @@ export default function DealOfTheWeekPage() {
           ? `${offer.free_qty} free ${offer.free_qty === 1 ? 'vial' : 'vials'}`
           : `${offer.free_qty} ${offer.free_qty === 1 ? 'vial gratis' : 'viales gratis'}`,
         condition: en
-          ? `Buy ${offer.buy_qty} of the same vial`
-          : `Compra ${offer.buy_qty} del mismo vial`,
+          ? `Buy ${offer.buy_qty} of the same vial${offer.max_free_qty > 0 ? `, up to ${offer.max_free_qty} free per order` : ''}`
+          : `Compra ${offer.buy_qty} del mismo vial${offer.max_free_qty > 0 ? `, máximo ${offer.max_free_qty} gratis por pedido` : ''}`,
       };
     }
     if (offer.type === 'flat') {

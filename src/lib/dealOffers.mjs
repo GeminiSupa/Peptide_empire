@@ -87,7 +87,9 @@ function normalizeOffer(raw, index) {
     deal_id: String(raw?.deal_id || '').trim() || null,
   };
   if (type === BUNDLE_OFFER_TYPE) {
-    return { ...base, buy_qty: Math.max(1, toInt(raw?.buy_qty, 4)), free_qty: Math.max(1, toInt(raw?.free_qty, 1)) };
+    // max_free_qty is the ceiling on free vials for the whole order. 0 is no
+    // ceiling, which is how every bundle stored before this field behaved.
+    return { ...base, buy_qty: Math.max(1, toInt(raw?.buy_qty, 4)), free_qty: Math.max(1, toInt(raw?.free_qty, 1)), max_free_qty: Math.max(0, toInt(raw?.max_free_qty, 0)) };
   }
   if (type === FLAT_OFFER_TYPE || type === PAIR_OFFER_TYPE) {
     return { ...base, discount_pct: Number(raw?.discount_pct) || 0 };
@@ -96,7 +98,7 @@ function normalizeOffer(raw, index) {
 }
 
 const disabledMix = () => ({ id: 'mix-1', type: MIX_OFFER_TYPE, enabled: false, product_names: [], name_en: '', name_es: '', min_units: 2, discount_pct: 0 });
-const disabledBundle = () => ({ id: 'bundle-1', type: BUNDLE_OFFER_TYPE, enabled: false, product_names: [], name_en: '', name_es: '', buy_qty: 4, free_qty: 1 });
+const disabledBundle = () => ({ id: 'bundle-1', type: BUNDLE_OFFER_TYPE, enabled: false, product_names: [], name_en: '', name_es: '', buy_qty: 4, free_qty: 1, max_free_qty: 0 });
 
 /** A stored or posted offers object, cleaned into one extensible shape. */
 export function normalizeDealOffers(raw) {
@@ -136,6 +138,9 @@ export function dealOffersError(offers) {
       if (!Number.isInteger(Number(item.buy_qty)) || Number(item.buy_qty) < 1) return `${label}: the buy quantity must be a whole number of 1 or more.`;
       if (!Number.isInteger(Number(item.free_qty)) || Number(item.free_qty) < 1) return `${label}: the free quantity must be a whole number of 1 or more.`;
       if (Number(item.free_qty) > Number(item.buy_qty)) return `${label}: the free vials cannot outnumber the vials bought.`;
+      const cap = Number(item.max_free_qty ?? 0);
+      if (!Number.isInteger(cap) || cap < 0) return `${label}: the most free vials per order must be a whole number, or 0 for no limit.`;
+      if (cap > 0 && cap < Number(item.free_qty)) return `${label}: the most free vials per order cannot be less than the ${item.free_qty} this offer gives away.`;
     }
   }
   return '';
@@ -222,7 +227,7 @@ export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge =
       entry.qty += line.qty;
       quantities.set(line.key, entry);
     }
-    const freeLines = [];
+    let freeLines = [];
     const shortByStock = [];
     for (const entry of quantities.values()) {
       let free = Math.floor(entry.qty / item.buy_qty) * item.free_qty;
@@ -238,8 +243,26 @@ export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge =
       }
       if (free > 0) freeLines.push({ product: entry.product, qty: free, unitPrice: entry.unitPrice });
     }
+    // The buy/get pattern repeats per product, so without a ceiling a large
+    // mixed cart gives away a free vial for every qualifying product at once.
+    // The cheapest free vials are the ones kept, matching the 2nd-vial offer's
+    // "the cheaper one" rule. A cap of 0 leaves the old behaviour untouched.
+    const maxFree = Math.max(0, toInt(item.max_free_qty, 0));
+    const earnedFree = freeLines.reduce((sum, line) => sum + line.qty, 0);
+    const cappedByMax = maxFree > 0 && earnedFree > maxFree;
+    if (cappedByMax) {
+      let remaining = maxFree;
+      freeLines = [...freeLines]
+        .sort((a, b) => a.unitPrice - b.unitPrice)
+        .map((line) => {
+          const qty = Math.min(line.qty, remaining);
+          remaining -= qty;
+          return { ...line, qty };
+        })
+        .filter((line) => line.qty > 0);
+    }
     const savings = freeLines.reduce((sum, line) => sum + line.unitPrice * line.qty, 0);
-    return { id: item.id, dealId: item.deal_id, type: item.type, config: item, qualifies: freeLines.length > 0, savings, freeLines, shortByStock };
+    return { id: item.id, dealId: item.deal_id, type: item.type, config: item, qualifies: freeLines.length > 0, savings, freeLines, shortByStock, cappedByMax };
   });
 
   const volumeSavings = Math.max(0, Number(volumePct) || 0) / 100 * merchSubtotal;
@@ -281,6 +304,8 @@ export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge =
       possibleFreeLines: firstBundle?.freeLines || [],
       savings: firstBundle?.savings || 0,
       shortByStock: firstBundle?.shortByStock || [],
+      maxFreeQty: firstBundle?.config.max_free_qty || 0,
+      cappedByMax: firstBundle?.cappedByMax || false,
     },
     volumeSavings,
   };
@@ -311,8 +336,8 @@ function offerSummary(item, lang = 'en') {
       : `Compra 1 y el 2.º vial queda con ${pct}% de descuento — el más barato, una sola vez por pedido`)
     : item.type === BUNDLE_OFFER_TYPE
     ? (isEn
-      ? `Buy ${item.buy_qty} of the same vial, get ${item.free_qty} free`
-      : `Compra ${item.buy_qty} del mismo vial y llévate ${item.free_qty} gratis`)
+      ? `Buy ${item.buy_qty} of the same vial, get ${item.free_qty} free${item.max_free_qty > 0 ? ` — up to ${item.max_free_qty} free per order` : ''}`
+      : `Compra ${item.buy_qty} del mismo vial y llévate ${item.free_qty} gratis${item.max_free_qty > 0 ? ` — máximo ${item.max_free_qty} gratis por pedido` : ''}`)
     : (isEn
       ? `Buy ${item.min_units}+ vials, get ${pct}% off your whole order`
       : `Compra ${item.min_units}+ viales y obtén ${pct}% de descuento en todo tu pedido`);
@@ -445,8 +470,8 @@ export function dealOfferCartMessage(choice, deal, lang = 'en') {
         : `agrega un 2.º vial y el de menor precio queda con ${pct}% de descuento`;
     }
     return isEn
-      ? `buy ${item.buy_qty} of the same qualifying vial to get ${item.free_qty} free`
-      : `compra ${item.buy_qty} del mismo vial participante y llévate ${item.free_qty} gratis`;
+      ? `buy ${item.buy_qty} of the same qualifying vial to get ${item.free_qty} free${item.max_free_qty > 0 ? ` (up to ${item.max_free_qty} free per order)` : ''}`
+      : `compra ${item.buy_qty} del mismo vial participante y llévate ${item.free_qty} gratis${item.max_free_qty > 0 ? ` (máximo ${item.max_free_qty} gratis por pedido)` : ''}`;
   });
   if (nudge && hints.length === 0) return nudge;
   const parts = nudge ? [nudge.replace(/\.$/, ''), ...hints] : hints;
@@ -501,9 +526,15 @@ export function dealOfferRuleSummaries(offers, lang = 'en') {
         : `${prefix}: compra ${item.min_units} o más viales de péptidos participantes en cualquier combinación y obtén ${pct}% de descuento en todo tu pedido.`);
     } else {
       const { buy_qty: buy, free_qty: free } = item;
+      const cap = Number(item.max_free_qty) || 0;
       rules.push(isEn
         ? `${prefix}: every ${buy} paid vials of the exact same product and size add ${free} more of that same item free (${buy * 2} → ${free * 2} free, ${buy * 3} → ${free * 3} free).`
         : `${prefix}: cada ${buy} viales pagados del mismo producto y tamaño agregan ${free} más del mismo artículo gratis (${buy * 2} → ${free * 2} gratis, ${buy * 3} → ${free * 3} gratis).`);
+      if (cap > 0) {
+        rules.push(isEn
+          ? `${prefix}: no more than ${cap} free ${cap === 1 ? 'vial' : 'vials'} per order in total, however many qualifying products the order holds. When an order earns more than that, the ${cap === 1 ? 'cheapest one is the vial' : `${cap} cheapest are the vials`} given free.`
+          : `${prefix}: máximo ${cap} ${cap === 1 ? 'vial gratis' : 'viales gratis'} por pedido en total, sin importar cuántos productos participantes lleve el pedido. Si el pedido genera más, ${cap === 1 ? 'el vial gratis es el más barato' : `los ${cap} viales gratis son los más baratos`}.`);
+      }
     }
   }
 

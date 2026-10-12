@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { chooseDealOffer } from '../src/lib/dealOffers.mjs';
+import { chooseDealOffer, freeVialLine } from '../src/lib/dealOffers.mjs';
+import { isBacWater, isGiftLine, stripGiftSuffix, summarizeBacWater } from '../src/lib/bacWater.mjs';
+import { getVolumeDiscountPct } from '../src/lib/pricing.js';
 import { buildCheckoutBreakdown } from '../src/lib/checkoutBreakdown.mjs';
 import { authoritativeCheckout } from '../src/lib/authoritativeCheckout.mjs';
 
@@ -138,6 +140,69 @@ for (const currency of ['USD', 'CRC']) {
       assert.equal(browserVolumePct(offer, 0), server.volumeDiscountPct, 'volume tier must match');
       const shown = server.subtotal - server.volumeDiscountAmount - server.promoDiscount + server.shipping;
       assert.equal(Math.round(shown * 100) / 100, server.total);
+    });
+  }
+}
+
+// A capped Buy/Get-Free offer. The free vials are gift lines rather than a
+// money discount, so parity here means the browser and the server hand the
+// customer the same free vials — and that the cap trims both the same way.
+const BPC = 'BPC-157 10mg';
+const cappedProducts = [
+  ...products,
+  { id: '3', product: BPC, price_usd: '$40', price_crc: '17947', status: 'In Stock', inventory_count: 100 },
+];
+const cappedOffers = { items: [
+  { id: 'b3', type: 'bundle', enabled: true, product_names: [GHK, TIRZ, BPC], buy_qty: 3, free_qty: 1, max_free_qty: 2 },
+  { id: 'b5', type: 'bundle', enabled: true, product_names: [GHK, TIRZ, BPC], buy_qty: 5, free_qty: 2, max_free_qty: 2 },
+] };
+const cappedCarts = [
+  [{ product: GHK, qty: 3 }],
+  [{ product: GHK, qty: 5 }],
+  [{ product: GHK, qty: 12 }],
+  [{ product: GHK, qty: 6 }, { product: TIRZ, qty: 6 }],
+  [{ product: GHK, qty: 3 }, { product: TIRZ, qty: 3 }, { product: BPC, qty: 3 }],
+  [{ product: GHK, qty: 9 }, { product: TIRZ, qty: 9 }, { product: BPC, qty: 9 }],
+];
+
+for (const currency of ['USD', 'CRC']) {
+  for (const items of cappedCarts) {
+    const label = `${currency}: ${items.map((i) => `${i.qty}x ${i.product}`).join(' + ')}`;
+    test(`browser and server hand over the same capped free vials — ${label}`, () => {
+      const server = authoritativeCheckout({
+        postedOrder: { currency, items, lang: 'en' },
+        products: cappedProducts, exchangeRate: 448.67, dealOffers: cappedOffers,
+      });
+      assert.equal(server.ok, true);
+
+      const lines = items.map((item) => {
+        const row = cappedProducts.find((p) => p.product === item.product);
+        const unitPrice = currency === 'USD'
+          ? Number(String(row.price_usd).replace(/[^0-9.]/g, ''))
+          : Number(String(row.price_crc).replace(/[^0-9.]/g, ''));
+        return { product: item.product, qty: item.qty, unitPrice, inventoryCount: row.inventory_count };
+      });
+      // The server scores the bundle against the standard volume tier, so the
+      // browser side has to see the same tier or the comparison is rigged.
+      const vialCount = lines.filter((l) => !isBacWater(l.product)).reduce((sum, l) => sum + l.qty, 0);
+      const tierPct = getVolumeDiscountPct(vialCount);
+      const bacCharge = summarizeBacWater(lines, currency, 448.67).charge;
+      const offer = chooseDealOffer(cappedOffers, lines, { volumePct: tierPct, bacCharge });
+
+      const browserFree = offer.kind === 'bundle'
+        ? offer.bundle.freeLines.map((l) => freeVialLine(l.product, l.qty, 'en'))
+        : [];
+      // Every peptide order also carries free BAC water; only the bundle's own
+      // free vials are what the two paths must agree on here.
+      const serverFree = server.items
+        .filter((item) => isGiftLine(item) && !isBacWater(stripGiftSuffix(item.product)));
+      assert.deepEqual(
+        serverFree.map((l) => ({ product: l.product, qty: l.qty })),
+        browserFree.map((l) => ({ product: l.product, qty: l.qty })),
+        'the free vials the cart promises must be the ones the server adds',
+      );
+      const freeCount = browserFree.reduce((n, l) => n + l.qty, 0);
+      assert.ok(freeCount <= 2, `the cap must hold: ${freeCount} free vials went out`);
     });
   }
 }
