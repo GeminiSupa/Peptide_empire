@@ -37,6 +37,9 @@ export const OFFERS_PRICING_MODE = 'offers';
 export const MIX_OFFER_TYPE = 'mix';
 export const FLAT_OFFER_TYPE = 'flat';
 export const BUNDLE_OFFER_TYPE = 'bundle';
+/** A bundle counts the buy quantity per product, or across any of its products. */
+export const SAME_PRODUCT_COUNT = 'same_product';
+export const ANY_MIX_COUNT = 'any_mix';
 export const PAIR_OFFER_TYPE = 'pair';
 
 const nameKey = (value) => String(value ?? '').replace(/\s+/g, ' ').trim().toLowerCase();
@@ -89,7 +92,16 @@ function normalizeOffer(raw, index) {
   if (type === BUNDLE_OFFER_TYPE) {
     // max_free_qty is the ceiling on free vials for the whole order. 0 is no
     // ceiling, which is how every bundle stored before this field behaved.
-    return { ...base, buy_qty: Math.max(1, toInt(raw?.buy_qty, 4)), free_qty: Math.max(1, toInt(raw?.free_qty, 1)), max_free_qty: Math.max(0, toInt(raw?.max_free_qty, 0)) };
+    // count_mode says whether the buy quantity must be one product or may be
+    // any mix of the offer's products. Older bundles have no mode and keep
+    // counting per product, which is what they have always done.
+    return {
+      ...base,
+      buy_qty: Math.max(1, toInt(raw?.buy_qty, 4)),
+      free_qty: Math.max(1, toInt(raw?.free_qty, 1)),
+      max_free_qty: Math.max(0, toInt(raw?.max_free_qty, 0)),
+      count_mode: raw?.count_mode === ANY_MIX_COUNT ? ANY_MIX_COUNT : SAME_PRODUCT_COUNT,
+    };
   }
   if (type === FLAT_OFFER_TYPE || type === PAIR_OFFER_TYPE) {
     return { ...base, discount_pct: Number(raw?.discount_pct) || 0 };
@@ -98,7 +110,7 @@ function normalizeOffer(raw, index) {
 }
 
 const disabledMix = () => ({ id: 'mix-1', type: MIX_OFFER_TYPE, enabled: false, product_names: [], name_en: '', name_es: '', min_units: 2, discount_pct: 0 });
-const disabledBundle = () => ({ id: 'bundle-1', type: BUNDLE_OFFER_TYPE, enabled: false, product_names: [], name_en: '', name_es: '', buy_qty: 4, free_qty: 1, max_free_qty: 0 });
+const disabledBundle = () => ({ id: 'bundle-1', type: BUNDLE_OFFER_TYPE, enabled: false, product_names: [], name_en: '', name_es: '', buy_qty: 4, free_qty: 1, max_free_qty: 0, count_mode: SAME_PRODUCT_COUNT });
 
 /** A stored or posted offers object, cleaned into one extensible shape. */
 export function normalizeDealOffers(raw) {
@@ -227,21 +239,40 @@ export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge =
       entry.qty += line.qty;
       quantities.set(line.key, entry);
     }
+    // A free vial has to exist to be given; the paid ones take stock first.
+    const trackedSpare = (entry) => {
+      const tracked = entry.inventoryCount !== null && entry.inventoryCount !== undefined && entry.inventoryCount !== '';
+      return tracked ? Math.max(0, toInt(entry.inventoryCount, 0) - entry.qty) : null;
+    };
     let freeLines = [];
     const shortByStock = [];
-    for (const entry of quantities.values()) {
-      let free = Math.floor(entry.qty / item.buy_qty) * item.free_qty;
-      if (free <= 0) continue;
-      const tracked = entry.inventoryCount !== null && entry.inventoryCount !== undefined && entry.inventoryCount !== '';
-      if (tracked) {
-        // A free vial has to exist to be given; the paid ones take stock first.
-        const spare = Math.max(0, toInt(entry.inventoryCount, 0) - entry.qty);
-        if (spare < free) {
+    if (item.count_mode === ANY_MIX_COUNT) {
+      // Mix & match: every vial the offer covers counts toward the same buy
+      // quantity, so 2 of one product and 1 of another reach "buy 3". The
+      // cheapest vials are the ones given away, as elsewhere in this file.
+      const pooled = [...quantities.values()].reduce((sum, entry) => sum + entry.qty, 0);
+      let owed = Math.floor(pooled / item.buy_qty) * item.free_qty;
+      for (const entry of [...quantities.values()].sort((a, b) => a.unitPrice - b.unitPrice)) {
+        if (owed <= 0) break;
+        const spare = trackedSpare(entry);
+        const qty = spare === null ? owed : Math.min(owed, spare);
+        if (qty > 0) {
+          freeLines.push({ product: entry.product, qty, unitPrice: entry.unitPrice });
+          owed -= qty;
+        }
+        if (spare !== null && spare < owed + qty) shortByStock.push(entry.product);
+      }
+    } else {
+      for (const entry of quantities.values()) {
+        let free = Math.floor(entry.qty / item.buy_qty) * item.free_qty;
+        if (free <= 0) continue;
+        const spare = trackedSpare(entry);
+        if (spare !== null && spare < free) {
           shortByStock.push(entry.product);
           free = spare;
         }
+        if (free > 0) freeLines.push({ product: entry.product, qty: free, unitPrice: entry.unitPrice });
       }
-      if (free > 0) freeLines.push({ product: entry.product, qty: free, unitPrice: entry.unitPrice });
     }
     // The buy/get pattern repeats per product, so without a ceiling a large
     // mixed cart gives away a free vial for every qualifying product at once.
@@ -336,8 +367,8 @@ function offerSummary(item, lang = 'en') {
       : `Compra 1 y el 2.º vial queda con ${pct}% de descuento — el más barato, una sola vez por pedido`)
     : item.type === BUNDLE_OFFER_TYPE
     ? (isEn
-      ? `Buy ${item.buy_qty} of the same vial, get ${item.free_qty} free${item.max_free_qty > 0 ? ` — up to ${item.max_free_qty} free per order` : ''}`
-      : `Compra ${item.buy_qty} del mismo vial y llévate ${item.free_qty} gratis${item.max_free_qty > 0 ? ` — máximo ${item.max_free_qty} gratis por pedido` : ''}`)
+      ? `Buy ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'vials in any mix' : 'of the same vial'}, get ${item.free_qty} free${item.max_free_qty > 0 ? ` — up to ${item.max_free_qty} free per order` : ''}`
+      : `Compra ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'viales combinados como quieras' : 'del mismo vial'} y llévate ${item.free_qty} gratis${item.max_free_qty > 0 ? ` — máximo ${item.max_free_qty} gratis por pedido` : ''}`)
     : (isEn
       ? `Buy ${item.min_units}+ vials, get ${pct}% off your whole order`
       : `Compra ${item.min_units}+ viales y obtén ${pct}% de descuento en todo tu pedido`);
@@ -470,8 +501,8 @@ export function dealOfferCartMessage(choice, deal, lang = 'en') {
         : `agrega un 2.º vial y el de menor precio queda con ${pct}% de descuento`;
     }
     return isEn
-      ? `buy ${item.buy_qty} of the same qualifying vial to get ${item.free_qty} free${item.max_free_qty > 0 ? ` (up to ${item.max_free_qty} free per order)` : ''}`
-      : `compra ${item.buy_qty} del mismo vial participante y llévate ${item.free_qty} gratis${item.max_free_qty > 0 ? ` (máximo ${item.max_free_qty} gratis por pedido)` : ''}`;
+      ? `buy ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'qualifying vials in any combination' : 'of the same qualifying vial'} to get ${item.free_qty} free${item.max_free_qty > 0 ? ` (up to ${item.max_free_qty} free per order)` : ''}`
+      : `compra ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'viales participantes en cualquier combinación' : 'del mismo vial participante'} y llévate ${item.free_qty} gratis${item.max_free_qty > 0 ? ` (máximo ${item.max_free_qty} gratis por pedido)` : ''}`;
   });
   if (nudge && hints.length === 0) return nudge;
   const parts = nudge ? [nudge.replace(/\.$/, ''), ...hints] : hints;
@@ -527,9 +558,13 @@ export function dealOfferRuleSummaries(offers, lang = 'en') {
     } else {
       const { buy_qty: buy, free_qty: free } = item;
       const cap = Number(item.max_free_qty) || 0;
-      rules.push(isEn
-        ? `${prefix}: every ${buy} paid vials of the exact same product and size add ${free} more of that same item free (${buy * 2} → ${free * 2} free, ${buy * 3} → ${free * 3} free).`
-        : `${prefix}: cada ${buy} viales pagados del mismo producto y tamaño agregan ${free} más del mismo artículo gratis (${buy * 2} → ${free * 2} gratis, ${buy * 3} → ${free * 3} gratis).`);
+      rules.push(item.count_mode === ANY_MIX_COUNT
+        ? (isEn
+          ? `${prefix}: every ${buy} paid qualifying vials, in any combination of products and sizes, add ${free} free (${buy * 2} → ${free * 2} free, ${buy * 3} → ${free * 3} free). The ${free === 1 ? 'free vial is the cheapest' : `free vials are the cheapest`} in the order.`
+          : `${prefix}: cada ${buy} viales participantes pagados, en cualquier combinación de productos y tamaños, agregan ${free} gratis (${buy * 2} → ${free * 2} gratis, ${buy * 3} → ${free * 3} gratis). ${free === 1 ? 'El vial gratis es el más barato' : 'Los viales gratis son los más baratos'} del pedido.`)
+        : (isEn
+          ? `${prefix}: every ${buy} paid vials of the exact same product and size add ${free} more of that same item free (${buy * 2} → ${free * 2} free, ${buy * 3} → ${free * 3} free).`
+          : `${prefix}: cada ${buy} viales pagados del mismo producto y tamaño agregan ${free} más del mismo artículo gratis (${buy * 2} → ${free * 2} gratis, ${buy * 3} → ${free * 3} gratis).`));
       if (cap > 0) {
         rules.push(isEn
           ? `${prefix}: no more than ${cap} free ${cap === 1 ? 'vial' : 'vials'} per order in total, however many qualifying products the order holds. When an order earns more than that, the ${cap === 1 ? 'cheapest one is the vial' : `${cap} cheapest are the vials`} given free.`

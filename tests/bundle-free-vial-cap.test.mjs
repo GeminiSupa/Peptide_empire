@@ -100,3 +100,67 @@ test('the cap survives normalization and reaches the customer copy', () => {
   const uncapped = { items: [{ ...CAPPED.items[0], max_free_qty: 0 }] };
   assert.doesNotMatch(dealOfferSummaries(uncapped, 'en')[0], /up to/);
 });
+
+// Mix & match counting: the buy quantity is reached across the offer's
+// products, not within one of them.
+const ANY_MIX = {
+  items: [
+    { id: 'm3', type: 'bundle', enabled: true, count_mode: 'any_mix', product_names: ['BPC-157 10mg', 'GHK-CU 50mg', 'KPV 10mg'], buy_qty: 3, free_qty: 1, max_free_qty: 2 },
+  ],
+};
+
+test('three different vials reach "buy 3" when the offer counts any mix', () => {
+  const choice = chooseDealOffer(ANY_MIX, [
+    line('BPC-157 10mg', 1, 100),
+    line('GHK-CU 50mg', 1, 80),
+    line('KPV 10mg', 1, 40),
+  ]);
+  assert.equal(choice.kind, 'bundle');
+  // The cheapest of the three is the free one.
+  assert.deepEqual(choice.bundle.freeLines, [{ product: 'KPV 10mg', qty: 1, unitPrice: 40 }]);
+});
+
+test('the same cart earns nothing when the offer counts one product only', () => {
+  const samePerProduct = { items: [{ ...ANY_MIX.items[0], count_mode: 'same_product' }] };
+  const choice = chooseDealOffer(samePerProduct, [
+    line('BPC-157 10mg', 1, 100),
+    line('GHK-CU 50mg', 1, 80),
+    line('KPV 10mg', 1, 40),
+  ]);
+  assert.equal(choice.kind, 'none');
+});
+
+test('a bundle with no mode stored keeps counting per product', () => {
+  const legacy = { items: [{ id: 'old', type: 'bundle', enabled: true, product_names: ['BPC-157 10mg', 'GHK-CU 50mg'], buy_qty: 3, free_qty: 1 }] };
+  assert.equal(normalizeDealOffers(legacy).items[0].count_mode, 'same_product');
+  const spread = chooseDealOffer(legacy, [line('BPC-157 10mg', 2, 100), line('GHK-CU 50mg', 1, 80)]);
+  assert.equal(spread.kind, 'none', 'an old deal must not start giving vials away across products');
+});
+
+test('mix counting repeats, and the order cap still holds it to 2', () => {
+  const choice = chooseDealOffer(ANY_MIX, [
+    line('BPC-157 10mg', 5, 100),
+    line('GHK-CU 50mg', 5, 80),
+  ]);
+  // 10 vials / 3 = 3 free earned, trimmed to the cap of 2, cheapest first.
+  assert.deepEqual(choice.bundle.freeLines, [{ product: 'GHK-CU 50mg', qty: 2, unitPrice: 80 }]);
+  assert.equal(choice.bundle.cappedByMax, true);
+});
+
+test('a free vial still has to be in stock under mix counting', () => {
+  const choice = chooseDealOffer(ANY_MIX, [
+    line('KPV 10mg', 2, 40, 2),      // cheapest, but no spare stock
+    line('GHK-CU 50mg', 1, 80, 50),
+  ]);
+  assert.deepEqual(choice.bundle.freeLines, [{ product: 'GHK-CU 50mg', qty: 1, unitPrice: 80 }]);
+  assert.ok(choice.bundle.shortByStock.includes('KPV 10mg'));
+});
+
+test('mix counting says so in the customer copy, in both languages', () => {
+  assert.match(dealOfferSummaries(ANY_MIX, 'en')[0], /Buy 3 vials in any mix, get 1 free/);
+  assert.match(dealOfferSummaries(ANY_MIX, 'es')[0], /Compra 3 viales combinados como quieras/);
+  assert.match(dealOfferRuleSummaries(ANY_MIX, 'en').join(' '), /in any combination of products and sizes/);
+  // The same-product wording must not leak into a mix offer.
+  assert.doesNotMatch(dealOfferSummaries(ANY_MIX, 'en')[0], /same vial/);
+  assert.match(dealOfferSummaries(CAPPED, 'en')[0], /of the same vial/);
+});

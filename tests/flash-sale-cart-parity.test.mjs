@@ -206,3 +206,44 @@ for (const currency of ['USD', 'CRC']) {
     });
   }
 }
+
+// The same carts again, with the bundle counting any mix of its products.
+const mixOffers = { items: [
+  { id: 'm3', type: 'bundle', enabled: true, count_mode: 'any_mix', product_names: [GHK, TIRZ, BPC], buy_qty: 3, free_qty: 1, max_free_qty: 2 },
+] };
+
+for (const currency of ['USD', 'CRC']) {
+  for (const items of cappedCarts) {
+    const label = `${currency}: ${items.map((i) => `${i.qty}x ${i.product}`).join(' + ')}`;
+    test(`browser and server agree on a mix-and-match bundle — ${label}`, () => {
+      const server = authoritativeCheckout({
+        postedOrder: { currency, items, lang: 'en' },
+        products: cappedProducts, exchangeRate: 448.67, dealOffers: mixOffers,
+      });
+      assert.equal(server.ok, true);
+
+      const lines = items.map((item) => {
+        const row = cappedProducts.find((p) => p.product === item.product);
+        const unitPrice = currency === 'USD'
+          ? Number(String(row.price_usd).replace(/[^0-9.]/g, ''))
+          : Number(String(row.price_crc).replace(/[^0-9.]/g, ''));
+        return { product: item.product, qty: item.qty, unitPrice, inventoryCount: row.inventory_count };
+      });
+      const vialCount = lines.filter((l) => !isBacWater(l.product)).reduce((sum, l) => sum + l.qty, 0);
+      const bacCharge = summarizeBacWater(lines, currency, 448.67).charge;
+      const offer = chooseDealOffer(mixOffers, lines, { volumePct: getVolumeDiscountPct(vialCount), bacCharge });
+
+      const browserFree = offer.kind === 'bundle'
+        ? offer.bundle.freeLines.map((l) => freeVialLine(l.product, l.qty, 'en'))
+        : [];
+      const serverFree = server.items
+        .filter((item) => isGiftLine(item) && !isBacWater(stripGiftSuffix(item.product)));
+      assert.deepEqual(
+        serverFree.map((l) => ({ product: l.product, qty: l.qty })),
+        browserFree.map((l) => ({ product: l.product, qty: l.qty })),
+        'the free vials the cart promises must be the ones the server adds',
+      );
+      assert.ok(browserFree.reduce((n, l) => n + l.qty, 0) <= 2, 'the cap must hold under mix counting too');
+    });
+  }
+}
