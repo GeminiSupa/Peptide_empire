@@ -9174,16 +9174,17 @@ body:has(.product-grid.grid-view) {
 
   .catalog-page-shell .product-grid.grid-view,
   .catalog-page-shell .product-grid.list-view {
-    grid-template-columns: 1fr;
-    gap: 14px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
   }
 
   .catalog-page-shell .product-grid .product-card {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    height: auto;
-    padding: 16px;
+    height: 100%;
+    min-width: 0;
+    padding: 10px;
     background: #fff;
     color: #171717;
     border-color: rgba(0, 0, 0, 0.08);
@@ -9193,8 +9194,8 @@ body:has(.product-grid.grid-view) {
 
   .catalog-page-shell .product-grid .product-image {
     width: 100%;
-    height: 220px;
-    flex: 0 0 220px;
+    height: 140px;
+    flex: 0 0 140px;
     background: #fff;
   }
 
@@ -9217,8 +9218,9 @@ body:has(.product-grid.grid-view) {
     height: auto;
     min-height: 0;
     padding-right: 0;
-    font-size: 1rem;
-    line-height: 1.3;
+    font-size: 0.88rem;
+    line-height: 1.25;
+    -webkit-line-clamp: 2;
   }
 
   .catalog-page-shell .product-grid .card-scarcity {
@@ -9226,7 +9228,7 @@ body:has(.product-grid.grid-view) {
     min-height: 0;
     margin-top: 2px;
     color: #c2410c;
-    font-size: 0.8rem;
+    font-size: 0.68rem;
     text-align: left;
     white-space: normal;
   }
@@ -9235,8 +9237,9 @@ body:has(.product-grid.grid-view) {
     height: auto;
     min-height: 0;
     color: #5c6570;
-    font-size: 0.82rem;
-    line-height: 1.35;
+    font-size: 0.7rem;
+    line-height: 1.3;
+    -webkit-line-clamp: 2;
   }
 
   .catalog-page-shell .product-grid .product-pricing {
@@ -9246,17 +9249,23 @@ body:has(.product-grid.grid-view) {
 
   .catalog-page-shell .product-grid .price-main {
     color: #171717;
-    font-size: 1.05rem;
+    font-size: 0.95rem;
+  }
+
+  .catalog-page-shell .product-grid .price-sub {
+    display: none;
   }
 
   .catalog-page-shell .product-grid .dosage-label {
-    font-size: 0.72rem;
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
   .catalog-page-shell .product-grid .dosage-chip {
-    min-height: 36px;
-    padding: 6px 12px;
-    font-size: 0.85rem;
+    min-height: 30px;
+    padding: 4px 8px;
+    font-size: 0.72rem;
   }
 
   .catalog-page-shell .product-grid .dosage-chip.is-selected {
@@ -9268,11 +9277,31 @@ body:has(.product-grid.grid-view) {
   .catalog-page-shell .product-grid .add-to-cart-btn {
     width: 100%;
     max-width: none;
-    min-height: 44px;
-    background: #e87722;
+    min-height: 40px;
+    border-radius: 8px;
+    background: #d85002;
     color: #fff;
     border: none;
-    font-size: 0.95rem;
+    font-size: 0.78rem;
+  }
+
+  .catalog-page-shell .product-grid .add-to-cart-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .catalog-page-shell .catalog-back,
+  .catalog-page-shell .header-select--theme,
+  .catalog-page-shell .catalog-icon-btn {
+    display: none;
+  }
+
+  .catalog-page-shell .catalog-seo-header {
+    display: none;
+  }
+
+  .catalog-page-shell .catalog-deal-line {
+    display: none;
   }
 
   .catalog-page-shell .product-page {

@@ -491,7 +491,7 @@ export default function CatalogPage() {
   const [priceFilter, setPriceFilter] = useState('all');
   const [sortOrder, setSortOrder] = useState('pop');
   const [inStockOnly, setInStockOnly] = useState(false);
-  const [viewMode, setViewMode] = useState('list'); // 'list', 'grid'
+  const [viewMode, setViewMode] = useState('grid'); // 'list', 'grid', 'az' — grid matches the mobile Figma
   // Which vial size a grouped card is showing. Keys are the compound name, lowercased.
   const [dosagePick, setDosagePick] = useState({});
 
@@ -1239,8 +1239,8 @@ export default function CatalogPage() {
     document.documentElement.setAttribute('data-theme', savedTheme);
 
     // Viewmode loaded from localStorage
-    const savedView = localStorage.getItem('viewMode') || 'list';
-    setViewMode(['list', 'grid', 'az'].includes(savedView) ? savedView : 'list');
+    const savedView = localStorage.getItem('viewMode') || 'grid';
+    setViewMode(['list', 'grid', 'az'].includes(savedView) ? savedView : 'grid');
 
     // The acknowledgement survives a reload, but only for as long as this tab
     // is open, and only if it was given against the wording we still show. A
@@ -4321,7 +4321,6 @@ export default function CatalogPage() {
           settings={landingSettings}
           links={links}
         />
-        <CatalogCroStats lang={lang} productCount={products.length} rating={liveTrustpilotRating} />
         <CatalogCroTrust lang={lang} />
         <nav className="catalog-cro-cats" aria-label={lang === 'en' ? 'Product categories' : 'Categorías de productos'}>
           <button
@@ -4671,8 +4670,11 @@ export default function CatalogPage() {
                     <h3 className="product-name">{showSizes ? catalogFacingCompound(card.compound, lang) : catalogFacingName(p.product, lang)}</h3>
                     {(() => {
                       const blurb = productComposition(p.product, lang)
-                        || withRetatrutideLead(p.product, lang === 'en' ? p.descriptionEn : p.descriptionEs, lang);
-                      return <div className="product-card-blurb">{blurb || ''}</div>;
+                        || withRetatrutideLead(p.product, lang === 'en' ? p.descriptionEn : p.descriptionEs, lang)
+                        || (lang === 'en'
+                          ? 'Lyophilized powder for research use.'
+                          : 'Polvo liofilizado para uso de investigación.');
+                      return <div className="product-card-blurb">{blurb}</div>;
                     })()}
                     <div className="product-pricing">
                       {isBac ? (
@@ -4722,7 +4724,7 @@ export default function CatalogPage() {
                         className="dosage-block"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        <div className="dosage-label">{lang === 'en' ? 'Select size' : 'Seleccionar tamaño'}</div>
+                        <div className="dosage-label">{lang === 'en' ? 'Strength' : 'Potencia'}</div>
                         <div className="dosage-chips">
                           {sizeMenu.visible.map((item) => {
                             const itemInStock = isBacWater(item.product.product) || isInStock(item.product.status);
@@ -4800,6 +4802,8 @@ export default function CatalogPage() {
         </div>
       )}
       </main>
+
+      <CatalogCroStats lang={lang} productCount={products.length} rating={liveTrustpilotRating} />
 
       {/* One bottom action at a time: WhatsApp for an empty cart, checkout once
           the customer adds an item. Both reserve page space and never cover copy. */}

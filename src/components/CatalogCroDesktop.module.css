@@ -274,13 +274,14 @@
   }
 
   .trust svg {
-    color: #16a34a;
+    color: #e87722;
   }
 
   .stats {
     display: block;
     grid-column: 1 / -1;
-    margin: 28px 0 8px;
+    width: min(1216px, calc(100% - 48px));
+    margin: 28px auto 8px;
     padding: 28px 12px 8px;
     border-top: 1px solid rgba(0, 0, 0, 0.06);
     text-align: center;
@@ -580,7 +581,7 @@
   .trust svg {
     flex: 0 0 auto;
     margin-top: 2px;
-    color: #16a34a;
+    color: #e87722;
   }
 
   .stats {

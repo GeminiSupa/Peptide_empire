@@ -140,20 +140,20 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
           </li>
         </ul>
         <div className={styles.scores} aria-label={en ? 'Review scores' : 'Puntajes'}>
-          <a
-            href={googleHref || undefined}
-            target={googleHref ? '_blank' : undefined}
-            rel={googleHref ? 'noopener noreferrer' : undefined}
-          >
-            <GoogleMark />
-            <span>5.0</span>
-          </a>
           <a href={trustpilotHref} target="_blank" rel="noopener noreferrer">
             <TrustpilotMark />
             <span>{score}</span>
           </a>
           <a href={facebookHref} target="_blank" rel="noopener noreferrer">
             <FacebookMark />
+            <span>5.0</span>
+          </a>
+          <a
+            href={googleHref || undefined}
+            target={googleHref ? '_blank' : undefined}
+            rel={googleHref ? 'noopener noreferrer' : undefined}
+          >
+            <GoogleMark />
             <span>5.0</span>
           </a>
         </div>
@@ -206,8 +206,18 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
 export function CatalogCroTrust({ lang = 'es' }) {
   const en = lang === 'en';
   const items = en
-    ? ['Free shipping over $200', 'Lab-tested batches', 'Research grade. Verified purity', 'Certificate of analysis']
-    : ['Envío gratis sobre $200', 'Lotes analizados en laboratorio', 'Grado de investigación. Pureza verificada', 'Certificado de análisis'];
+    ? [
+      'Free Shipping Over $200',
+      '+3,400 verified researchers',
+      'Research Grade. Verified Purity',
+      'Lab-Tested & Certified',
+    ]
+    : [
+      'Envío gratis sobre $200',
+      '+3,400 investigadores verificados',
+      'Grado de investigación. Pureza verificada',
+      'Analizado en laboratorio y certificado',
+    ];
   return (
     <ul className={styles.trust}>
       {items.map((item) => (
@@ -219,17 +229,26 @@ export function CatalogCroTrust({ lang = 'es' }) {
 
 export function CatalogCroStats({ lang = 'es', productCount = 0, rating = '' }) {
   const en = lang === 'en';
-  const products = Number(productCount) > 0 ? `${productCount}+` : '';
-  const bits = [
-    products && (en ? `${products} products` : `${products} productos`),
-    rating && `${rating}★`,
-    en ? '≥98% purity' : '≥98% pureza',
-    en ? 'Free shipping from $200' : 'Envío gratis desde $200',
-  ].filter(Boolean);
+  const products = Number(productCount) > 0 ? `${productCount}+` : '50+';
+  const score = rating ? String(rating) : TRUSTPILOT_RATING;
+  const items = [
+    { value: '3400+', label: en ? 'Customers Served' : 'Clientes atendidos' },
+    { value: `${score} ★`, label: en ? 'Average Rating' : 'Calificación promedio' },
+    { value: products, label: en ? 'Peptide Products' : 'Productos de péptidos' },
+    { value: '99.9%', label: en ? 'Purity Guaranteed' : 'Pureza garantizada' },
+  ];
 
   return (
-    <p className="catalog-inline-facts">
-      {bits.join(' · ')}
-    </p>
+    <section className={styles.stats} aria-label={en ? 'Trusted by thousands' : 'La confianza de miles'}>
+      <p>{en ? 'Trusted by thousands' : 'La confianza de miles'}</p>
+      <div>
+        {items.map((item) => (
+          <div key={item.label}>
+            <strong>{item.value}</strong>
+            <span>{item.label}</span>
+          </div>
+        ))}
+      </div>
+    </section>
   );
 }
