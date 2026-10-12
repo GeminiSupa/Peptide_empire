@@ -178,7 +178,7 @@ export function StorefrontHeader({ lang, onLanguage, settings, active = '' }) {
     { id: 'catalog', label: lang === 'en' ? 'Shop by Product' : 'Comprar por producto', href: `/catalog?lang=${lang}` },
     { id: 'categories', label: lang === 'en' ? 'Shop by Category' : 'Comprar por categoría', children: categoryLinks },
     { id: 'info', label: lang === 'en' ? 'Info Center' : 'Centro de información', href: `/info-center?lang=${lang}` },
-    { id: 'app', label: 'App', href: appStorefrontHref({ source: 'nav', lang }), external: true },
+    { id: 'app', label: 'Mobile App', href: appStorefrontHref({ source: 'nav', lang }), external: true },
     { id: 'affiliate', label: lang === 'en' ? 'Affiliate Program' : 'Afiliados', href: `/affiliate-program?lang=${lang}` },
   ];
 
@@ -377,7 +377,7 @@ export function StorefrontFooter({ lang, settings, categories = [] }) {
     ...(quickLinks.length ? quickLinks : DEFAULT_QUICK_LINKS).filter(
       (item) => !String(item?.href || '').includes('app.peptidescostarica.net'),
     ),
-    { labelEn: 'App', labelEs: 'App', href: appStorefrontHref({ source: 'footer', lang }) },
+    { labelEn: 'Mobile App', labelEs: 'Mobile App', href: appStorefrontHref({ source: 'footer', lang }) },
   ];
   const categoryList = categories.length
     ? categories.slice(0, 5)

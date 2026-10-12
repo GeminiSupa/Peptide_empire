@@ -75,13 +75,13 @@ import {
 } from '@/lib/checkoutIdentity.mjs';
 import { HONEYPOT_FIELD, junkOrderMessage } from '@/lib/checkoutJunkGuard.mjs';
 import { 
-  ShoppingCart, X, Search, SlidersHorizontal,
+  ShoppingCart, X, Search, SlidersHorizontal, ZoomIn,
   List, Grid, Sparkles, Phone, FileText, 
   Plus, Minus, Trash2, Check, CheckCircle, AlertCircle,
   ChevronLeft, ChevronRight,
   Dna, FlaskConical, Syringe, TestTubes, Atom,
   Brain, Shield, Moon, Sun, Flame, Zap, Droplets, Microscope, Star,
-  CreditCard, MessageCircle, Share2, User
+  CreditCard, MessageCircle, Share2, User, Users
 } from 'lucide-react';
 import { getCustomerSupabase } from '@/lib/customerSupabase';
 import { useCustomerSession } from '@/hooks/useCustomerSession';
@@ -3975,7 +3975,7 @@ export default function CatalogPage() {
             {lang === 'en' ? 'About' : 'Nosotros'}
           </Link>
           <a href={appStorefrontHref({ source: 'catalog_nav', lang })} className="catalog-about-link">
-            App
+            Mobile App
           </a>
           </div>
           <div className="header-controls">
@@ -5926,135 +5926,249 @@ export default function CatalogPage() {
                 ? getPromoBadgeForProduct(promoBadges, selectedProduct.product, lang)
                 : null;
               const promoPct = promoSale && promoSale.discountPct > 0 ? promoSale.discountPct : 0;
-              const priceLabel = promoPct > 0
-                ? formatPriceVal((() => {
+              const unitPriceNum = promoPct > 0
+                ? (() => {
                   const value = getPriceAsNumber(selectedProduct, currency) * (1 - promoPct / 100);
                   return currency === 'USD' ? (Number.isInteger(value) ? value : Number(value.toFixed(2))) : Math.round(value);
-                })(), currency)
-                : getPriceLabel(selectedProduct, currency);
+                })()
+                : getPriceAsNumber(selectedProduct, currency);
+              const priceLabel = formatPriceVal(unitPriceNum, currency);
+              const lineTotalLabel = formatPriceVal(
+                currency === 'USD'
+                  ? Number((unitPriceNum * detailQty).toFixed(2))
+                  : Math.round(unitPriceNum * detailQty),
+                currency,
+              );
+              const cartUnits = cart.reduce((sum, item) => sum + (Number(item.qty) || 0), 0);
+              const restockLook = inStock && hasUnits && units <= 40;
+              const stockPill = !inStock
+                ? translateStatus(selectedProduct.status)
+                : restockLook
+                  ? (en ? 'Just got back in stock' : 'Recién volvió a stock')
+                  : (en ? 'In stock' : 'Disponible');
+              const sizeLabel = catalogCompoundAndSize(selectedProduct).size;
+              const faqItems = [
+                {
+                  q: en ? 'About the ingredients' : 'Sobre los ingredientes',
+                  a: composition
+                    || (en
+                      ? 'Single research compound. See the certificate of analysis for the lot.'
+                      : 'Un solo compuesto de investigación. El certificado de análisis muestra el lote.'),
+                },
+                {
+                  q: en ? 'Storage & handling' : 'Almacenamiento y manejo',
+                  a: en
+                    ? 'Store sealed vials as labeled. Keep dry and away from direct light. Follow the lot certificate for any product-specific instructions.'
+                    : 'Guarde los viales sellados según la etiqueta. Manténgalos secos y lejos de la luz directa. Siga el certificado del lote para instrucciones específicas.',
+                },
+                {
+                  q: en ? 'Available documentation' : 'Documentación disponible',
+                  a: selectedProduct.coa && selectedProduct.coa !== '—' && selectedProduct.coa !== ''
+                    ? (en ? 'A certificate of analysis is available for download below.' : 'Hay un certificado de análisis disponible para descargar abajo.')
+                    : (en ? 'A certificate of analysis is listed here when a lot is on file.' : 'El certificado de análisis aparece aquí cuando hay un lote archivado.'),
+                },
+                {
+                  q: en ? 'Delivery & returns' : 'Entrega y devoluciones',
+                  a: en
+                    ? 'Orders ship within Costa Rica and select international routes. See the shipping policy for timing and return rules.'
+                    : 'Los pedidos se envían dentro de Costa Rica y rutas internacionales seleccionadas. Vea la política de envío para plazos y devoluciones.',
+                },
+                {
+                  q: en ? 'Research use restrictions' : 'Restricciones de uso de investigación',
+                  a: en
+                    ? 'For laboratory research only. Not for human or veterinary use.'
+                    : 'Solo para investigación de laboratorio. No apto para uso humano ni veterinario.',
+                },
+              ];
+              const addProduct = () => addToCart(selectedProduct, detailQty);
               return (
                 <>
-                  <button type="button" className="product-page-back" onClick={closeProductModal}>
-                    <ChevronLeft size={18} aria-hidden="true" />
-                    {en ? 'Back to catalog' : 'Volver al catálogo'}
-                  </button>
-                  <div className="product-page-hero">
-                    <div className="product-page-photo">
-                      {selectedProduct.imageUrl ? (
-                        <img src={selectedProduct.imageUrl} alt={catalogFacingName(selectedProduct.product, lang)} decoding="async" />
-                      ) : getCategoryIcon(selectedProduct.category, 72)}
-                    </div>
-                    <div className="product-page-buy">
-                      <div className="product-page-status">
-                        <span className={inStock ? 'product-page-pill' : 'product-page-pill is-out'}>
-                          {inStock ? (en ? 'In stock' : 'Disponible') : translateStatus(selectedProduct.status)}
-                        </span>
-                        <button type="button" className="product-page-share" onClick={(e) => handleShareProduct(e, selectedProduct)} aria-label={en ? 'Share product' : 'Compartir producto'}>
-                          <Share2 size={16} />
-                        </button>
+                  <header className="product-page-top">
+                    <button type="button" className="product-page-back" onClick={closeProductModal}>
+                      <ChevronLeft size={16} aria-hidden="true" />
+                      {en ? 'Back to catalog' : 'Volver al catálogo'}
+                    </button>
+                    <button
+                      type="button"
+                      className="product-page-cart"
+                      onClick={() => setIsCartOpen(true)}
+                      aria-label={en ? `Cart, ${cartUnits} items` : `Carrito, ${cartUnits} artículos`}
+                    >
+                      <ShoppingCart size={20} aria-hidden="true" />
+                      {cartUnits > 0 && <span className="product-page-cart-dot" aria-hidden="true" />}
+                    </button>
+                  </header>
+
+                  <div className="product-page-body">
+                    <div className="product-page-hero">
+                      <div className="product-page-photo">
+                        {selectedProduct.imageUrl ? (
+                          <img src={selectedProduct.imageUrl} alt={catalogFacingName(selectedProduct.product, lang)} decoding="async" />
+                        ) : getCategoryIcon(selectedProduct.category, 72)}
+                        {selectedProduct.imageUrl && (
+                          <a
+                            className="product-page-zoom"
+                            href={selectedProduct.imageUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label={en ? 'Zoom image' : 'Ampliar imagen'}
+                          >
+                            <ZoomIn size={16} aria-hidden="true" />
+                          </a>
+                        )}
                       </div>
-                      {shelf.text && <p className="product-page-left">{shelf.text}</p>}
-                      <h2 id="product-detail-title">{catalogFacingCompound(catalogCompoundAndSize(selectedProduct).compound, lang)}</h2>
-                      <div className="product-page-rating">{renderRatingSummary(selectedProduct.product)}</div>
-                      <p className="product-page-price">
-                        <strong>{priceLabel}</strong>
-                        {(hasRealMarkdown || promoPct > 0) && <s>{hasRealMarkdown ? getOriginalPriceLabel(selectedProduct, currency) : getPriceLabel(selectedProduct, currency)}</s>}
-                      </p>
-                      {description && <p className="product-page-copy">{description}</p>}
-                      {sizeOptions.some((item) => catalogCompoundAndSize(item).size) && (
-                        <div className="product-page-field">
-                          <span>{en ? 'Select dosage' : 'Seleccionar tamaño'}</span>
-                          <div className="product-page-sizes">
-                            {sizeOptions.map((item) => {
-                              const size = catalogCompoundAndSize(item).size || item.product;
-                              const selected = item.product === selectedProduct.product;
-                              const itemInStock = isBacWater(item.product) || isInStock(item.status);
-                              return (
+                      <div className="product-page-buy">
+                        <div className="product-page-status">
+                          <span className={inStock ? 'product-page-pill' : 'product-page-pill is-out'}>
+                            {inStock && <Check size={14} aria-hidden="true" />}
+                            {stockPill}
+                          </span>
+                          <button type="button" className="product-page-share" onClick={(e) => handleShareProduct(e, selectedProduct)} aria-label={en ? 'Share product' : 'Compartir producto'}>
+                            <Share2 size={16} />
+                          </button>
+                        </div>
+                        {shelf.text && <p className="product-page-left">{shelf.text}</p>}
+                        <h2 id="product-detail-title">{catalogFacingCompound(catalogCompoundAndSize(selectedProduct).compound, lang)}</h2>
+                        <div className="product-page-rating">{renderRatingSummary(selectedProduct.product)}</div>
+                        <p className="product-page-price">
+                          <strong>{priceLabel}</strong>
+                          {(hasRealMarkdown || promoPct > 0) && <s>{hasRealMarkdown ? getOriginalPriceLabel(selectedProduct, currency) : getPriceLabel(selectedProduct, currency)}</s>}
+                        </p>
+                        {description && <p className="product-page-copy">{description}</p>}
+                        {sizeOptions.some((item) => catalogCompoundAndSize(item).size) && (
+                          <div className="product-page-field">
+                            <span>{en ? 'Select strength' : 'Seleccionar potencia'}</span>
+                            <div className="product-page-sizes">
+                              {sizeOptions.map((item) => {
+                                const size = catalogCompoundAndSize(item).size || item.product;
+                                const selected = item.product === selectedProduct.product;
+                                const itemInStock = isBacWater(item.product) || isInStock(item.status);
+                                return (
+                                  <button
+                                    type="button"
+                                    key={item.product}
+                                    className={`product-page-size${selected ? ' is-selected' : ''}${itemInStock ? '' : ' is-unavailable'}`}
+                                    aria-pressed={selected}
+                                    onClick={() => openLinkedProduct(item, { mode: 'replace' })}
+                                  >
+                                    {size}
+                                  </button>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        )}
+                        {inStock && (
+                          <div className="product-page-field">
+                            <span>{en ? 'Select quantity' : 'Seleccionar cantidad'}</span>
+                            <div className="product-page-qty-row">
+                              <div className="product-page-qty">
+                                <button type="button" onClick={() => setDetailQty((qty) => Math.max(1, qty - 1))} aria-label={en ? 'One less' : 'Uno menos'}><Minus size={16} /></button>
+                                <strong>{detailQty}</strong>
+                                <button type="button" onClick={() => setDetailQty((qty) => Math.min(maxQty, qty + 1))} aria-label={en ? 'One more' : 'Uno más'}><Plus size={16} /></button>
+                              </div>
+                              {unlockLabel && (
                                 <button
                                   type="button"
-                                  key={item.product}
-                                  className={`product-page-size${selected ? ' is-selected' : ''}${itemInStock ? '' : ' is-unavailable'}`}
-                                  aria-pressed={selected}
-                                  onClick={() => openLinkedProduct(item, { mode: 'replace' })}
+                                  className="product-page-unlock"
+                                  onClick={() => setDetailQty((qty) => Math.min(maxQty, qty + unlockNeed))}
                                 >
-                                  {size}
+                                  {unlockLabel}
                                 </button>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      )}
-                      {inStock && (
-                        <div className="product-page-field">
-                          <span>{en ? 'Select quantity' : 'Seleccionar cantidad'}</span>
-                          <div className="product-page-qty-row">
-                            <div className="product-page-qty">
-                              <button type="button" onClick={() => setDetailQty((qty) => Math.max(1, qty - 1))} aria-label={en ? 'One less' : 'Uno menos'}><Minus size={16} /></button>
-                              <strong>{detailQty}</strong>
-                              <button type="button" onClick={() => setDetailQty((qty) => Math.min(maxQty, qty + 1))} aria-label={en ? 'One more' : 'Uno más'}><Plus size={16} /></button>
+                              )}
                             </div>
-                            {unlockLabel && (
-                              <button
-                                type="button"
-                                className="product-page-unlock"
-                                onClick={() => setDetailQty((qty) => Math.min(maxQty, qty + unlockNeed))}
-                              >
-                                {unlockLabel}
-                              </button>
-                            )}
                           </div>
-                        </div>
-                      )}
-                      {isBacWater(selectedProduct.product) && (
-                        <p className="product-page-copy">
-                          {getBacWaterSizeMl(selectedProduct.product) === 10
-                            ? (en
-                              ? `Water-only orders start at ${BAC_WATER_10ML_ONLY_MIN_UNITS} vials. Add any peptide and that minimum goes away.`
-                              : `Los pedidos de solo agua empiezan en ${BAC_WATER_10ML_ONLY_MIN_UNITS} viales. Agrega cualquier péptido y ese mínimo desaparece.`)
-                            : (en
-                              ? 'One 3ml vial is free with every peptide. Extra vials can be added here.'
-                              : 'Un vial de 3ml es gratis con cada péptido. Los viales extra se agregan aquí.')}
-                        </p>
-                      )}
-                      {inStock ? (
-                        <button type="button" className="product-page-add" onClick={() => addToCart(selectedProduct, detailQty)}>
-                          {en ? 'Add to cart' : 'Agregar al carrito'}
-                        </button>
-                      ) : (
-                        <button type="button" className="product-page-add" disabled>
-                          {translateStatus(selectedProduct.status)}
-                        </button>
-                      )}
-                      {!isBacWater(selectedProduct.product) && (
-                        <p className="product-page-sold">
-                          {en
-                            ? `+${soldCount} vials have been purchased in total`
-                            : `+${soldCount} viales comprados en total`}
-                        </p>
-                      )}
+                        )}
+                        {isBacWater(selectedProduct.product) && (
+                          <p className="product-page-copy">
+                            {getBacWaterSizeMl(selectedProduct.product) === 10
+                              ? (en
+                                ? `Water-only orders start at ${BAC_WATER_10ML_ONLY_MIN_UNITS} vials. Add any peptide and that minimum goes away.`
+                                : `Los pedidos de solo agua empiezan en ${BAC_WATER_10ML_ONLY_MIN_UNITS} viales. Agrega cualquier péptido y ese mínimo desaparece.`)
+                              : (en
+                                ? 'One 3ml vial is free with every peptide. Extra vials can be added here.'
+                                : 'Un vial de 3ml es gratis con cada péptido. Los viales extra se agregan aquí.')}
+                          </p>
+                        )}
+                        {inStock ? (
+                          <button type="button" className="product-page-add" onClick={addProduct}>
+                            {en ? 'Add to cart' : 'Agregar al carrito'}
+                          </button>
+                        ) : (
+                          <button type="button" className="product-page-add" disabled>
+                            {translateStatus(selectedProduct.status)}
+                          </button>
+                        )}
+                        {!isBacWater(selectedProduct.product) && (
+                          <p className="product-page-sold">
+                            {en
+                              ? `+${soldCount} vials have been purchased all time`
+                              : `+${soldCount} viales comprados en total`}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <section className="product-page-info">
-                    <h3>{en ? 'Product information' : 'Información del producto'}</h3>
-                    <div className="product-page-facts">
-                      <div>
-                        <strong>{en ? 'Ingredients' : 'Ingredientes'}</strong>
+
+                    <section className="product-page-trust" aria-label={en ? 'Trusted by thousands' : 'La confianza de miles'}>
+                      <h3>{en ? 'Trusted by thousands' : 'La confianza de miles'}</h3>
+                      <ul>
+                        <li><Users size={18} aria-hidden="true" /><strong>3400+</strong><span>{en ? 'Customers served' : 'Clientes atendidos'}</span></li>
+                        <li><Star size={18} aria-hidden="true" /><strong>{liveTrustpilotRating || '4.7'}★</strong><span>{en ? 'Average rating' : 'Calificación promedio'}</span></li>
+                        <li><FlaskConical size={18} aria-hidden="true" /><strong>{products.length > 0 ? `${products.length}+` : '50+'}</strong><span>{en ? 'Peptide products' : 'Productos de péptidos'}</span></li>
+                        <li><Shield size={18} aria-hidden="true" /><strong>99.9%</strong><span>{en ? 'Purity guaranteed' : 'Pureza garantizada'}</span></li>
+                      </ul>
+                    </section>
+
+                    <section className="product-page-info">
+                      <h3>{en ? 'Product information' : 'Información del producto'}</h3>
+                      <div className="product-page-card">
+                        <h4>{en ? 'Product specifications' : 'Especificaciones'}</h4>
+                        <dl className="product-page-specs">
+                          <div><dt>{en ? 'Compound' : 'Compuesto'}</dt><dd>{catalogFacingCompound(catalogCompoundAndSize(selectedProduct).compound, lang)}</dd></div>
+                          {sizeLabel && <div><dt>{en ? 'Strength' : 'Potencia'}</dt><dd>{sizeLabel}</dd></div>}
+                          {selectedProduct.category && <div><dt>{en ? 'Category' : 'Categoría'}</dt><dd>{translateCategoryLabel(selectedProduct.category, lang)}</dd></div>}
+                          <div><dt>{en ? 'Format' : 'Formato'}</dt><dd>{en ? 'Lyophilized peptide in vial' : 'Péptido liofilizado en vial'}</dd></div>
+                          <div><dt>{en ? 'Purity' : 'Pureza'}</dt><dd>{en ? 'Research grade; see lot COA' : 'Grado de investigación; ver COA del lote'}</dd></div>
+                          <div><dt>{en ? 'Intended use' : 'Uso previsto'}</dt><dd>{en ? 'Laboratory research only. Not for human or veterinary use.' : 'Solo investigación de laboratorio. No apto para uso humano ni veterinario.'}</dd></div>
+                        </dl>
+                        <h4>{en ? 'Ingredients' : 'Ingredientes'}</h4>
                         <p>{composition || (en ? 'Single research compound. See the certificate of analysis for the lot.' : 'Un solo compuesto de investigación. El certificado de análisis muestra el lote.')}</p>
-                      </div>
-                      <div>
-                        <strong>{en ? 'Documentation' : 'Documentación'}</strong>
+                        <h4>{en ? 'Available documentation' : 'Documentación disponible'}</h4>
                         {selectedProduct.coa && selectedProduct.coa !== '—' && selectedProduct.coa !== '' ? (
-                          <a href={selectedProduct.coa.startsWith('http') ? selectedProduct.coa : '#'} target="_blank" rel="noreferrer">
-                            <FileText size={16} /> {en ? 'View certificate of analysis' : 'Ver certificado de análisis'}
+                          <a className="product-page-coa" href={selectedProduct.coa.startsWith('http') ? selectedProduct.coa : '#'} target="_blank" rel="noreferrer">
+                            <FileText size={16} /> {en ? 'Download certificate of analysis' : 'Descargar certificado de análisis'}
                           </a>
-                        ) : <p>{en ? 'Certificate of analysis is listed on the product when a lot is on file.' : 'El certificado de análisis aparece aquí cuando hay un lote archivado.'}</p>}
+                        ) : (
+                          <p>{en ? 'Certificate of analysis is listed here when a lot is on file.' : 'El certificado de análisis aparece aquí cuando hay un lote archivado.'}</p>
+                        )}
                       </div>
-                      <div>
-                        <strong>{en ? 'Research use' : 'Uso de investigación'}</strong>
-                        <p>{en ? 'For laboratory research only. Not for human or animal use.' : 'Solo para investigación de laboratorio. No apto para uso humano ni animal.'}</p>
-                      </div>
+                    </section>
+
+                    <section className="product-page-faq">
+                      <h3>{en ? 'Frequently asked questions' : 'Preguntas frecuentes'}</h3>
+                      {faqItems.map((item) => (
+                        <details key={item.q} className="product-page-faq-item">
+                          <summary>{item.q}</summary>
+                          <p>{item.a}</p>
+                        </details>
+                      ))}
+                    </section>
+                  </div>
+
+                  <aside className="product-page-sticky" aria-label={en ? 'Quick add to cart' : 'Agregar rápido al carrito'}>
+                    <div className="product-page-sticky-price">
+                      <span>{en ? 'Total price' : 'Precio total'}</span>
+                      <strong>{lineTotalLabel}</strong>
                     </div>
-                  </section>
+                    <button
+                      type="button"
+                      className="product-page-sticky-add"
+                      onClick={addProduct}
+                      disabled={!inStock}
+                    >
+                      {inStock ? (en ? 'Add to cart' : 'Agregar') : translateStatus(selectedProduct.status)}
+                    </button>
+                  </aside>
                 </>
               );
             })()}
@@ -6282,7 +6396,7 @@ export default function CatalogPage() {
               {lang === 'en' ? 'Contact WhatsApp' : 'Contactar WhatsApp'}
             </a>
             <a href={appStorefrontHref({ source: 'catalog_footer', lang })}>
-              App
+              Mobile App
             </a>
             <a href="/admin">
               {lang === 'en' ? 'Admin login' : 'Acceso admin'}

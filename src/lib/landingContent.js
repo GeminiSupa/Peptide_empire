@@ -154,7 +154,7 @@ export const DEFAULT_LANDING_PAGE_SETTINGS = {
     { labelEn: 'Bulk Discounts', labelEs: 'Descuentos por volumen', href: '/bulk-discounts' },
     { labelEn: 'FAQ', labelEs: 'Preguntas frecuentes', href: '/faq' },
     { labelEn: 'Blog', labelEs: 'Blog', href: '/blog' },
-    { labelEn: 'App', labelEs: 'App', href: 'https://app.peptidescostarica.net' },
+    { labelEn: 'Mobile App', labelEs: 'Mobile App', href: 'https://app.peptidescostarica.net' },
   ],
   footerCategoryLinks: [
     // These are compound names, not categories, so they deep-link through

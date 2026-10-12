@@ -157,9 +157,9 @@ test('a free vial still has to be in stock under mix counting', () => {
 });
 
 test('mix counting says so in the customer copy, in both languages', () => {
-  assert.match(dealOfferSummaries(ANY_MIX, 'en')[0], /Buy 3 vials in any mix, get 1 free/);
-  assert.match(dealOfferSummaries(ANY_MIX, 'es')[0], /Compra 3 viales combinados como quieras/);
-  assert.match(dealOfferRuleSummaries(ANY_MIX, 'en').join(' '), /in any combination of products and sizes/);
+  assert.match(dealOfferSummaries(ANY_MIX, 'en')[0], /Buy 3 vials in any mix, get 1 free of equal or lesser value/);
+  assert.match(dealOfferSummaries(ANY_MIX, 'es')[0], /Compra 3 viales combinados como quieras.*gratis de igual o menor valor/);
+  assert.match(dealOfferRuleSummaries(ANY_MIX, 'en').join(' '), /equal or lesser value.*cannot choose a more expensive/);
   // The same-product wording must not leak into a mix offer.
   assert.doesNotMatch(dealOfferSummaries(ANY_MIX, 'en')[0], /same vial/);
   assert.match(dealOfferSummaries(CAPPED, 'en')[0], /of the same vial/);

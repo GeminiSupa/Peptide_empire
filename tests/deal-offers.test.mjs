@@ -111,7 +111,7 @@ test('product names and summaries cover both offers', () => {
   assert.deepEqual(dealOfferProductNames(OFFERS), ['Retatrutide 12mg', 'Tirzepatide 40mg', 'BPC-157 10mg']);
   assert.deepEqual(dealOfferSummaries(OFFERS, 'en'), [
     'Buy 2+ vials, get 10% off your whole order',
-    'Buy 4 of the same vial, get 1 free',
+    'Buy 4 of the same vial, get 1 free of equal or lesser value',
   ]);
   assert.equal(normalizeDealOffers(null).mix.enabled, false);
 });
@@ -138,7 +138,7 @@ test('an admin can configure, name, and price any number of offers', () => {
 test('shared rule copy includes every enforced rule and follows admin quantities', () => {
   const rules = dealOfferRuleSummaries(OFFERS, 'en');
   assert.match(rules[0], /2 or more.*10% off your entire order/);
-  assert.match(rules[1], /exact same product and size.*8 → 2 free.*12 → 3 free/);
+  assert.match(rules[1], /exact same product and size.*8 → 2 free.*12 → 3 free.*same product and size only/);
   assert.match(rules[2], /saves the customer the most.*never stack/);
   assert.match(rules[3], /BAC Water does not count.*cannot earn a free vial.*discount still includes BAC Water/);
   assert.match(rules[4], /automatically at checkout.*No code/);

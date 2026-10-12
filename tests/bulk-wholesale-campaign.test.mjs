@@ -28,11 +28,11 @@ test('two-offer Deal of the Week remains visible in the storefront callouts', ()
   assert.deepEqual(state.products, ['A', 'B']);
   assert.deepEqual(state.summariesEn, [
     'Buy 2+ vials, get 10% off your whole order',
-    'Buy 4 of the same vial, get 1 free',
+    'Buy 4 of the same vial, get 1 free of equal or lesser value',
   ]);
   assert.deepEqual(state.summariesEs, [
     'Compra 2+ viales y obtén 10% de descuento en todo tu pedido',
-    'Compra 4 del mismo vial y llévate 1 gratis',
+    'Compra 4 del mismo vial y llévate 1 gratis de igual o menor valor',
   ]);
 });
 

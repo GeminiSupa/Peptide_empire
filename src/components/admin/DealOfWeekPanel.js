@@ -1234,8 +1234,8 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
                           </div>
                           <p className="weekly-deal-offer-explanation">
                             {offer.count_mode === 'any_mix'
-                              ? `Every ${offer.buy_qty || '?'} paid qualifying vials, in any combination of products, add ${offer.free_qty || '?'} free. The pattern repeats automatically (${Number(offer.buy_qty) * 2 || '?'} paid → ${Number(offer.free_qty) * 2 || '?'} free). The free vials are the cheapest ones in the order.`
-                              : `Every ${offer.buy_qty || '?'} paid vials of one qualifying product adds ${offer.free_qty || '?'} of that same product free. The pattern repeats automatically (${Number(offer.buy_qty) * 2 || '?'} paid → ${Number(offer.free_qty) * 2 || '?'} free), and it repeats for each qualifying product separately.`}
+                              ? `Every ${offer.buy_qty || '?'} paid qualifying vials, in any combination of products, add ${offer.free_qty || '?'} free. The pattern repeats automatically (${Number(offer.buy_qty) * 2 || '?'} paid → ${Number(offer.free_qty) * 2 || '?'} free). Free vials must be equal or lesser value — checkout always gives the cheapest ones. Customers cannot pick a more expensive product free.`
+                              : `Every ${offer.buy_qty || '?'} paid vials of one qualifying product adds ${offer.free_qty || '?'} of that same product free (same product and size only — equal value, not a different or more expensive item). The pattern repeats automatically (${Number(offer.buy_qty) * 2 || '?'} paid → ${Number(offer.free_qty) * 2 || '?'} free), and it repeats for each qualifying product separately.`}
                             {Number(offer.max_free_qty) > 0
                               ? ` No order gives away more than ${Number(offer.max_free_qty)} free ${Number(offer.max_free_qty) === 1 ? 'vial' : 'vials'} in total — past that the cheapest free vials are the ones kept.`
                               : (offer.count_mode === 'any_mix'

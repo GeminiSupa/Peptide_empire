@@ -379,8 +379,8 @@ function offerSummary(item, lang = 'en') {
       : `Compra 1 y el 2.º vial queda con ${pct}% de descuento — el más barato, una sola vez por pedido`)
     : item.type === BUNDLE_OFFER_TYPE
     ? (isEn
-      ? `Buy ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'vials in any mix' : 'of the same vial'}, get ${item.free_qty} free${item.max_free_qty > 0 ? ` — up to ${item.max_free_qty} free per order` : ''}`
-      : `Compra ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'viales combinados como quieras' : 'del mismo vial'} y llévate ${item.free_qty} gratis${item.max_free_qty > 0 ? ` — máximo ${item.max_free_qty} gratis por pedido` : ''}`)
+      ? `Buy ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'vials in any mix' : 'of the same vial'}, get ${item.free_qty} free of equal or lesser value${item.max_free_qty > 0 ? ` — up to ${item.max_free_qty} free per order` : ''}`
+      : `Compra ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'viales combinados como quieras' : 'del mismo vial'} y llévate ${item.free_qty} gratis de igual o menor valor${item.max_free_qty > 0 ? ` — máximo ${item.max_free_qty} gratis por pedido` : ''}`)
     : (isEn
       ? `Buy ${item.min_units}+ vials, get ${pct}% off your whole order`
       : `Compra ${item.min_units}+ viales y obtén ${pct}% de descuento en todo tu pedido`);
@@ -513,8 +513,8 @@ export function dealOfferCartMessage(choice, deal, lang = 'en') {
         : `agrega un 2.º vial y el de menor precio queda con ${pct}% de descuento`;
     }
     return isEn
-      ? `buy ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'qualifying vials in any combination' : 'of the same qualifying vial'} to get ${item.free_qty} free${item.max_free_qty > 0 ? ` (up to ${item.max_free_qty} free per order)` : ''}`
-      : `compra ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'viales participantes en cualquier combinación' : 'del mismo vial participante'} y llévate ${item.free_qty} gratis${item.max_free_qty > 0 ? ` (máximo ${item.max_free_qty} gratis por pedido)` : ''}`;
+      ? `buy ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'qualifying vials in any combination' : 'of the same qualifying vial'} to get ${item.free_qty} free of equal or lesser value${item.max_free_qty > 0 ? ` (up to ${item.max_free_qty} free per order)` : ''}`
+      : `compra ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'viales participantes en cualquier combinación' : 'del mismo vial participante'} y llévate ${item.free_qty} gratis de igual o menor valor${item.max_free_qty > 0 ? ` (máximo ${item.max_free_qty} gratis por pedido)` : ''}`;
   });
   if (nudge && hints.length === 0) return nudge;
   const parts = nudge ? [nudge.replace(/\.$/, ''), ...hints] : hints;
@@ -572,15 +572,15 @@ export function dealOfferRuleSummaries(offers, lang = 'en') {
       const cap = Number(item.max_free_qty) || 0;
       rules.push(item.count_mode === ANY_MIX_COUNT
         ? (isEn
-          ? `${prefix}: every ${buy} paid qualifying vials, in any combination of products and sizes, add ${free} free (${buy * 2} → ${free * 2} free, ${buy * 3} → ${free * 3} free). The ${free === 1 ? 'free vial is the cheapest' : `free vials are the cheapest`} in the order.`
-          : `${prefix}: cada ${buy} viales participantes pagados, en cualquier combinación de productos y tamaños, agregan ${free} gratis (${buy * 2} → ${free * 2} gratis, ${buy * 3} → ${free * 3} gratis). ${free === 1 ? 'El vial gratis es el más barato' : 'Los viales gratis son los más baratos'} del pedido.`)
+          ? `${prefix}: every ${buy} paid qualifying vials, in any combination of products and sizes, add ${free} free (${buy * 2} → ${free * 2} free, ${buy * 3} → ${free * 3} free). Free vials must be equal or lesser value — checkout always gives the cheapest qualifying vial(s) free. You cannot choose a more expensive product as the free gift.`
+          : `${prefix}: cada ${buy} viales participantes pagados, en cualquier combinación de productos y tamaños, agregan ${free} gratis (${buy * 2} → ${free * 2} gratis, ${buy * 3} → ${free * 3} gratis). Los viales gratis deben ser de igual o menor valor: el pago siempre regala el/los vial(es) más barato(s). No puedes elegir un producto más caro como regalo.`)
         : (isEn
-          ? `${prefix}: every ${buy} paid vials of the exact same product and size add ${free} more of that same item free (${buy * 2} → ${free * 2} free, ${buy * 3} → ${free * 3} free).`
-          : `${prefix}: cada ${buy} viales pagados del mismo producto y tamaño agregan ${free} más del mismo artículo gratis (${buy * 2} → ${free * 2} gratis, ${buy * 3} → ${free * 3} gratis).`));
+          ? `${prefix}: every ${buy} paid vials of the exact same product and size add ${free} more of that same item free (${buy * 2} → ${free * 2} free, ${buy * 3} → ${free * 3} free). The free vial is that same product and size only — equal value, not a different or more expensive product.`
+          : `${prefix}: cada ${buy} viales pagados del mismo producto y tamaño agregan ${free} más del mismo artículo gratis (${buy * 2} → ${free * 2} gratis, ${buy * 3} → ${free * 3} gratis). El vial gratis es solo ese mismo producto y tamaño — igual valor, no un producto distinto o más caro.`));
       if (cap > 0) {
         rules.push(isEn
-          ? `${prefix}: no more than ${cap} free ${cap === 1 ? 'vial' : 'vials'} per order in total, however many qualifying products the order holds. When an order earns more than that, the ${cap === 1 ? 'cheapest one is the vial' : `${cap} cheapest are the vials`} given free.`
-          : `${prefix}: máximo ${cap} ${cap === 1 ? 'vial gratis' : 'viales gratis'} por pedido en total, sin importar cuántos productos participantes lleve el pedido. Si el pedido genera más, ${cap === 1 ? 'el vial gratis es el más barato' : `los ${cap} viales gratis son los más baratos`}.`);
+          ? `${prefix}: no more than ${cap} free ${cap === 1 ? 'vial' : 'vials'} per order in total, however many qualifying products the order holds. When an order earns more than that, the ${cap === 1 ? 'cheapest one is the vial' : `${cap} cheapest are the vials`} given free (equal or lesser value).`
+          : `${prefix}: máximo ${cap} ${cap === 1 ? 'vial gratis' : 'viales gratis'} por pedido en total, sin importar cuántos productos participantes lleve el pedido. Si el pedido genera más, ${cap === 1 ? 'el vial gratis es el más barato' : `los ${cap} viales gratis son los más baratos`} (igual o menor valor).`);
       }
     }
   }
