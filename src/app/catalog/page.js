@@ -3975,7 +3975,7 @@ export default function CatalogPage() {
             {lang === 'en' ? 'About' : 'Nosotros'}
           </Link>
           <a href={appStorefrontHref({ source: 'catalog_nav', lang })} className="catalog-about-link">
-            Mobile App
+            {lang === 'en' ? 'Mobile App' : 'Aplicación Móvil'}
           </a>
           </div>
           <div className="header-controls">
@@ -6400,7 +6400,7 @@ export default function CatalogPage() {
               {lang === 'en' ? 'Contact WhatsApp' : 'Contactar WhatsApp'}
             </a>
             <a href={appStorefrontHref({ source: 'catalog_footer', lang })}>
-              Mobile App
+              {lang === 'en' ? 'Mobile App' : 'Aplicación Móvil'}
             </a>
             <a href="/admin">
               {lang === 'en' ? 'Admin login' : 'Acceso admin'}
