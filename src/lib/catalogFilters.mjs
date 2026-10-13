@@ -248,11 +248,24 @@ export function compareBySaleAndStock(a, b, predicates) {
  * GLP-1 first, then Tirzepatide, then every other product.
  * Checked before sale and stock so a promotion cannot push them down the grid.
  */
+// The owner sets the running order of the first cards in the grid. These lead
+// the page ahead of the sale and stock banding below; everything after them
+// keeps the old behaviour.
+const CATALOG_LEAD_ORDER = [
+  (name) => name.startsWith('glp-1'),
+  (name) => name.startsWith('tirzepatide'),
+  (name) => name.startsWith('semaglutide'),
+  (name) => name.startsWith('ghk'),
+  (name) => name.startsWith('tesamorelin'),
+  (name) => name.includes('wolverine'),
+  (name) => name.startsWith('klow'),
+  (name) => name.startsWith('glow'),
+];
+
 export function catalogLeadRank(product) {
   const name = String(product?.product || '').trim().toLowerCase();
-  if (name.startsWith('glp-1')) return 0;
-  if (name.startsWith('tirzepatide')) return 1;
-  return 2;
+  const lead = CATALOG_LEAD_ORDER.findIndex((matches) => matches(name));
+  return lead === -1 ? CATALOG_LEAD_ORDER.length : lead;
 }
 
 /**

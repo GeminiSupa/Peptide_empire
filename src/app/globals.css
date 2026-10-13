@@ -877,6 +877,14 @@ body {
     gap: 16px;
 }
 
+/* The trust numbers ride inside the grid, on the row under the first line of
+   cards. Pinning the row means it lands there whether the grid is running one,
+   two or four cards across. */
+.product-grid .product-grid-stats {
+    grid-column: 1 / -1;
+    grid-row: 2;
+}
+
 .product-card {
     background: var(--bg-card);
     border: 1px solid var(--border);

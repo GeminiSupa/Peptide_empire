@@ -4590,6 +4590,11 @@ export default function CatalogPage() {
         ) : (
           <>
           <div className={`product-grid ${viewMode}-view`}>
+            {/* The trust numbers sit on the row under the first line of cards,
+                where a shopper meets them while still looking at products. */}
+            <div className="product-grid-stats">
+              <CatalogCroStats lang={lang} productCount={products.length} rating={liveTrustpilotRating} />
+            </div>
             {(() => {
               let lastCarts = null;
               return groupCatalogCards(filteredProducts).map((card, idx) => {
@@ -4845,7 +4850,11 @@ export default function CatalogPage() {
       )}
       </main>
 
-      <CatalogCroStats lang={lang} productCount={products.length} rating={liveTrustpilotRating} />
+      {/* The A-Z index renders its own list, so there the numbers stay at the
+          foot of the page as before. */}
+      {viewMode === 'az' && (
+        <CatalogCroStats lang={lang} productCount={products.length} rating={liveTrustpilotRating} />
+      )}
 
       {/* One bottom action at a time: WhatsApp for an empty cart, checkout once
           the customer adds an item. Both reserve page space and never cover copy. */}
