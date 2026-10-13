@@ -3964,6 +3964,7 @@ export default function CatalogPage() {
             <ChevronLeft size={22} aria-hidden="true" />
           </Link>
           <div className="catalog-brand-cluster">
+          <div className="catalog-brand-lockup">
           <Link href="/" className="logo logo--emblem catalog-topbar-logo">
             <img
               src="/catalog-logo.webp"
@@ -3971,6 +3972,10 @@ export default function CatalogPage() {
               className="logo-emblem"
             />
           </Link>
+          <span className="catalog-brand-slogan">
+            {lang === 'en' ? 'Limitless Potential' : 'Potencial ilimitado'}
+          </span>
+          </div>
           <Link href="/about" className="catalog-about-link">
             {lang === 'en' ? 'About' : 'Nosotros'}
           </Link>
