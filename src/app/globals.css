@@ -9149,6 +9149,13 @@ body:has(.product-grid.grid-view) {
 
   .catalog-page-shell .catalog-topbar-logo {
     height: 88px;
+    /* Shorter on a phone: fewer frames of the page re-flowing underneath. */
+    transition-duration: 0.22s;
+  }
+
+  .catalog-page-shell .catalog-topbar .catalog-topbar-logo .logo-emblem,
+  .catalog-brand-slogan {
+    transition-duration: 0.2s;
   }
 
   .catalog-page-shell .catalog-topbar-logo .logo-emblem {

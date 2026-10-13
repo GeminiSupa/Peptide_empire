@@ -460,11 +460,16 @@ export default function CatalogPage() {
   // one of its events.
   const [brandCompact, setBrandCompact] = useState(false);
   useEffect(() => {
+    const narrow = window.matchMedia('(max-width: 1099px)');
     let frame = 0;
     const measure = () => {
       frame = 0;
       const y = window.scrollY;
-      setBrandCompact((wasCompact) => (wasCompact ? y > 120 : y > 220));
+      // A phone screen is short and the header only gives back about 30px
+      // there, so it can switch much sooner and still clear the nudge.
+      const shrinkAt = narrow.matches ? 90 : 220;
+      const growAt = narrow.matches ? 30 : 120;
+      setBrandCompact((wasCompact) => (wasCompact ? y > growAt : y > shrinkAt));
     };
     const onScroll = () => {
       if (!frame) frame = window.requestAnimationFrame(measure);
