@@ -677,7 +677,15 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
         const cleanupLine = summary.cleanupFailed
           ? ` ${summary.cleanupFailed} old zero-dollar row${summary.cleanupFailed === 1 ? '' : 's'} could not be cleared.`
           : '';
-        alert(`Commission scan complete for ${periodMsg}${agentMsg}.\n\n${summary.reports || 0} payable report${summary.reports === 1 ? '' : 's'} found. ${accountingLine}\n${summary.skippedNoPay || 0} zero-dollar profile${summary.skippedNoPay === 1 ? '' : 's'} skipped.${cleanupLine}`);
+        // Paid orders still sitting at 'Processing' are left out of the totals
+        // by design, and used to be left out silently: eight of them worth
+        // ₡818,841 vanished from one agent's week in Oct 2026. Named here so the
+        // person who just ran the scan sees it before approving anything.
+        const held = data.heldBack || {};
+        const heldLine = held.count
+          ? `\n\n⚠ ${held.count} paid order${held.count === 1 ? '' : 's'} worth ₡${Math.round(held.crc || 0).toLocaleString('en-US')} ${held.count === 1 ? 'is' : 'are'} NOT counted — still marked Processing:\n${(held.agents || []).map((a) => `  • ${a.name}: ${a.count} order${a.count === 1 ? '' : 's'}, ₡${Math.round(a.crc || 0).toLocaleString('en-US')}`).join('\n')}\n\nClose those orders off, then run this scan again for the same period before approving.`
+          : '';
+        alert(`Commission scan complete for ${periodMsg}${agentMsg}.\n\n${summary.reports || 0} payable report${summary.reports === 1 ? '' : 's'} found. ${accountingLine}\n${summary.skippedNoPay || 0} zero-dollar profile${summary.skippedNoPay === 1 ? '' : 's'} skipped.${cleanupLine}${heldLine}`);
         setCommissionScanResult({ period: data.period, summary });
         setActiveSubTab('payouts');
         setPayoutFilterStatus('active');

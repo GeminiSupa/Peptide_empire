@@ -39,6 +39,12 @@ import { hasPositivePayout, summarizeCommissionScan } from '@/lib/commissionScan
 import { PAYOUT_RESERVED_STATUSES } from '@/lib/payoutSettlement.mjs';
 import { orderReportableAtMs } from '@/lib/agentDashboard.mjs';
 import { buildCommissionAdminRecipients } from '@/lib/commissionReportRecipients.mjs';
+import {
+  HELD_BACK_ORDER_STATUSES,
+  findHeldBackOrders,
+  summarizeHeldBackOrders,
+  describeHeldBackOrders,
+} from '@/lib/heldBackOrders.mjs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -174,6 +180,29 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Failed to fetch weekly orders' }, { status: 500 });
     }
 
+    // Money that is real but not countable yet. The scan runs Monday 08:00 CR
+    // and the team closes the weekend's parcels later that morning, so an order
+    // paid on Saturday can still be sitting at 'Processing' when this runs. It
+    // is correctly left out of the totals below — but on 12 Oct 2026 eight such
+    // orders worth ₡818,841 dropped out of one agent's week with nothing saying
+    // so, and the shortfall was only found because she kept her own tally.
+    // Reported here so an understated week announces itself.
+    const { data: rawHeldBack, error: heldBackError } = await supabaseAdmin
+      .from('orders')
+      .select('*')
+      .in('status', HELD_BACK_ORDER_STATUSES);
+
+    if (heldBackError) {
+      // Never fatal. A missing warning is bad; a weekly payout run that dies
+      // because the warning could not be built is worse.
+      console.error('[Weekly Commissions] Could not check for held-back orders:', heldBackError);
+    }
+
+    const heldBackOrders = findHeldBackOrders(withoutExcludedOrders(rawHeldBack || []), {
+      startMs: startDate.getTime(),
+      endMs: endDate.getTime(),
+    });
+
     // 4. Fetch all admin profiles with their commission rates
     const { data: profiles, error: profilesError } = await supabaseAdmin
       .from('admin_profiles')
@@ -191,6 +220,11 @@ export async function GET(request) {
 
     const reportResults = [];
     const skippedNoPay = [];
+    // Collected for every agent scanned, including those whose payout came to
+    // zero. An agent whose entire week is still at 'Processing' is exactly the
+    // case that must not pass silently, and that agent never reaches
+    // reportResults.
+    const heldBackReport = [];
 
     if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
       console.warn('[Weekly Commissions] SMTP credentials missing. Skipping email dispatch.');
@@ -243,6 +277,26 @@ export async function GET(request) {
       const handledAffiliates = (affiliates || []).filter(
         (affiliate) => affiliate?.handling_agent_id === agent.user_id
       );
+
+      // Recorded before the zero-payout gate below, which returns early.
+      const agentHeldBack = heldBackOrders.filter((order) => orderBelongsToAgent(order, agent));
+      if (agentHeldBack.length > 0) {
+        const heldBackTotals = summarizeHeldBackOrders(
+          agentHeldBack,
+          (order) => getOrderSalesAmounts(order, currentExchangeRate)
+        );
+        heldBackReport.push({
+          name: agent.name || agent.email,
+          email: agent.email,
+          count: heldBackTotals.count,
+          usd: heldBackTotals.usd,
+          crc: heldBackTotals.crc,
+          orders: describeHeldBackOrders(
+            agentHeldBack,
+            (order) => getOrderSalesAmounts(order, currentExchangeRate)
+          ),
+        });
+      }
       const handledAffiliateIds = new Set(handledAffiliates.map((affiliate) => affiliate.id).filter(Boolean));
       
       const agentOrders = (orders || [])
@@ -545,8 +599,30 @@ export async function GET(request) {
     let adminEmailSent = false;
     let adminEmailError = null;
 
+    // The warning goes above the payout table, because its whole job is to be
+    // read before anybody approves one of those figures.
+    const heldBackTotalCrc = heldBackReport.reduce((total, row) => total + Number(row.crc || 0), 0);
+    const heldBackTotalCount = heldBackReport.reduce((total, row) => total + Number(row.count || 0), 0);
+    const heldBackBlock = heldBackReport.length === 0 ? '' : `
+            <div style="border:2px solid #b45309;background:#fffbeb;border-radius:12px;padding:16px 18px;margin-bottom:22px;">
+              <p style="margin:0 0 8px;font-size:15px;font-weight:800;color:#92400e;">Hold on — ${heldBackTotalCount} paid order${heldBackTotalCount === 1 ? '' : 's'} worth ${formatMoney(heldBackTotalCrc, 'CRC')} ${heldBackTotalCount === 1 ? 'is' : 'are'} NOT in the figures below.</p>
+              <p style="margin:0 0 12px;font-size:13px;line-height:1.5;color:#78350f;">${heldBackTotalCount === 1 ? 'This order was' : 'These orders were'} paid during ${escapeHtml(periodDisplay)} but ${heldBackTotalCount === 1 ? 'is' : 'are'} still marked <strong>Processing</strong> — the parcel has not been closed off yet, so the scan cannot count ${heldBackTotalCount === 1 ? 'it' : 'them'}. Close ${heldBackTotalCount === 1 ? 'it' : 'them'} off, then re-run the commission scan for this same period before approving anyone. Re-running updates the pending row in place; it does not pay anybody twice.</p>
+              ${heldBackReport.map((row) => `
+                <div style="border-top:1px solid #fcd34d;padding:10px 0 0;margin-top:10px;">
+                  <div style="font-size:13px;font-weight:700;color:#92400e;">${escapeHtml(row.name)} — ${row.count} order${row.count === 1 ? '' : 's'}, ${formatMoney(row.crc, 'CRC')} or ${formatMoney(row.usd, 'USD')}</div>
+                  ${row.orders.map((order) => `
+                    <div style="font-size:12px;color:#78350f;padding:3px 0 0;">${escapeHtml(order.orderNumber)} · ${escapeHtml(order.customerName)} · ${formatMoney(order.crc, 'CRC')}${order.paidAt ? ` · paid ${escapeHtml(formatCrDate(order.paidAt))}` : ''}</div>
+                  `).join('')}
+                </div>
+              `).join('')}
+            </div>`;
+
+    const heldBackText = heldBackReport.length === 0 ? '' : `\n\nWARNING: ${heldBackTotalCount} paid order(s) worth ${formatMoney(heldBackTotalCrc, 'CRC')} are NOT included above. They were paid in this period but are still marked Processing.\n${heldBackReport.map((row) => `  ${row.name}: ${row.count} order(s), ${formatMoney(row.crc, 'CRC')}\n${row.orders.map((o) => `    ${o.orderNumber} ${o.customerName} ${formatMoney(o.crc, 'CRC')}`).join('\n')}`).join('\n')}\nClose them off, then re-run the scan for this period before approving.`;
+
     // 7. Send notification email to admins
-    if (transporter && reportResults.length > 0) {
+    // Held-back money alone is reason enough to send: the week an agent's whole
+    // period is still at 'Processing' is precisely the week nobody hears about.
+    if (transporter && (reportResults.length > 0 || heldBackReport.length > 0)) {
       try {
         const adminEmailHtml = `
           <div style="background:#f1f5f9;padding:24px 12px;">
@@ -558,7 +634,10 @@ export async function GET(request) {
               <p style="color:#cbd5e1;font-size:13px;margin:0;">${periodDisplay} · Costa Rica time</p>
             </div>
             <div style="padding:26px 24px;">
-              <p style="font-size:15px;line-height:1.5;margin:0 0 18px;">Reports are ready for ${reportResults.length} agent${reportResults.length === 1 ? '' : 's'}. Each row shows one payout in two equivalent currencies; the USD and CRC figures are alternatives, not amounts to add together.</p>
+              ${heldBackBlock}
+              <p style="font-size:15px;line-height:1.5;margin:0 0 18px;">${reportResults.length === 0
+                ? 'No agent had a payable total for this period.'
+                : `Reports are ready for ${reportResults.length} agent${reportResults.length === 1 ? '' : 's'}. Each row shows one payout in two equivalent currencies; the USD and CRC figures are alternatives, not amounts to add together.`}</p>
             <div style="border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:24px;">
               <table style="width:100%;border-collapse:collapse;">
                 <thead>
@@ -603,7 +682,7 @@ export async function GET(request) {
           to: adminRecipients,
           subject: `Weekly team pay report · ${periodDisplay}`,
           html: adminEmailHtml,
-          text: `Weekly team pay report for ${periodDisplay}\n\n${reportResults.map(r => `${r.name || r.email}: ${formatMoney(r.totalPayoutUsd, 'USD')} OR ${formatMoney(r.totalPayoutCrc, 'CRC')}`).join('\n')}\n\nEach pair is one payout expressed in two currencies. Choose one—not both.`
+          text: `Weekly team pay report for ${periodDisplay}\n\n${reportResults.map(r => `${r.name || r.email}: ${formatMoney(r.totalPayoutUsd, 'USD')} OR ${formatMoney(r.totalPayoutCrc, 'CRC')}`).join('\n')}\n\nEach pair is one payout expressed in two currencies. Choose one—not both.${heldBackText}`
         });
         adminEmailSent = true;
       } catch (mailErr) {
@@ -624,6 +703,13 @@ export async function GET(request) {
       },
       payoutReport: reportResults,
       skippedNoPay,
+      // Paid money this period that the scan could not count yet, so the admin
+      // screen can say so without having to work it out for itself.
+      heldBack: {
+        count: heldBackTotalCount,
+        crc: heldBackTotalCrc,
+        agents: heldBackReport,
+      },
       summary,
       adminNotification: {
         emailSent: adminEmailSent,
