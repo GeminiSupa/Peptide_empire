@@ -8,6 +8,7 @@ import { announcement, headerContact, nav, catalogUrl, ui } from '@/content/glob
 import { searchIndex } from '@/lib/search-index';
 import { label, t } from '@/lib/i18n';
 import { alternatePath, localePath, DEFAULT_LANG } from '@/lib/routes';
+import StructuredData from '@/components/structured-data';
 
 // The only strings that live in code are UI affordances with no equivalent on
 // the live site's markup (the shop button and the language toggle labels).
@@ -26,7 +27,9 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
   const index = searchIndex(lang);
 
   return (
-    <header className="relative z-40 border-b border-slate-200/80 bg-white/95 shadow-[0_4px_18px_rgba(9,39,113,0.06)] backdrop-blur">
+    <>
+      <StructuredData path={path} />
+      <header className="relative z-40 border-b border-slate-200/80 bg-white/95 shadow-[0_4px_18px_rgba(9,39,113,0.06)] backdrop-blur">
       {/* Announcement bar */}
       <div className="bg-primary text-white">
         <Container className="flex flex-col items-center justify-between gap-1 py-2 text-center text-xs sm:flex-row sm:text-left sm:text-[13px]">
@@ -156,7 +159,8 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
           <MobileMenu lang={lang} path={path} />
         </div>
       </Container>
-    </header>
+      </header>
+    </>
   );
 }
 

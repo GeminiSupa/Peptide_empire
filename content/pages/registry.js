@@ -45,6 +45,82 @@ const BY_ES = new Map();
 for (const { kind, group, pages } of SOURCES) {
   for (const page of pages) {
     const entry = { ...page, kind, group };
+    if (entry.en === '/peptide-specification-sheets/' && !entry.sections?.length) {
+      entry.sections = [
+        {
+          type: 'heading',
+          content: {
+            level: 1,
+            text_en: 'Peptide Specification Sheets',
+            text_es: 'Hojas de Especificación de Péptidos',
+          },
+        },
+        {
+          type: 'paragraph',
+          content: {
+            text_en:
+              'Technical specifications, analytical details, storage information, and downloadable documents for our research compounds.',
+            text_es:
+              'Especificaciones técnicas, detalles analíticos, información de almacenamiento y documentos descargables para nuestros compuestos de investigación.',
+          },
+        },
+        { type: 'link_list', content: { source: 'specificationSheet' } },
+      ];
+    }
+    if (entry.en === '/extra/') {
+      entry.sections = [
+        {
+          type: 'heading',
+          content: {
+            level: 1,
+            text_en: 'Why Choose Peptides Costa Rica',
+            text_es: 'Por qué elegir Péptidos Costa Rica',
+          },
+        },
+        ...(entry.sections ?? []),
+      ];
+    }
+    if (entry.en === '/extra-affliate-page/') {
+      entry.sections = [
+        {
+          type: 'heading',
+          content: {
+            level: 1,
+            text_en: 'Peptides Costa Rica Affiliate Application',
+            text_es: 'Solicitud de Afiliación de Péptidos Costa Rica',
+          },
+        },
+        ...(entry.sections ?? []),
+        {
+          type: 'paragraph',
+          content: {
+            text_en:
+              'Prospective affiliates can use this page to learn how to apply. Our team reviews each request for fit, provides clear program information, and contacts qualified applicants directly with the next steps.',
+            text_es:
+              'Los posibles afiliados pueden usar esta página para conocer cómo postularse. Nuestro equipo revisa cada solicitud, brinda información clara del programa y contacta directamente a los candidatos calificados con los siguientes pasos.',
+          },
+        },
+      ];
+    }
+    if (entry.en === '/extra-home/') {
+      entry.head = {
+        ...entry.head,
+        title_en: 'Peptide Product Directory | Peptides Costa Rica',
+        title_es: 'Directorio de Productos Peptídicos | Péptidos Costa Rica',
+      };
+      entry.sections = [
+        ...(entry.sections ?? []),
+        {
+          type: 'paragraph',
+          content: {
+            text_en:
+              'Use this directory to browse the peptide catalog by name. Open an individual product page to review its current format, specifications, listed price, and local ordering details for customers in Costa Rica.',
+            text_es:
+              'Utilice este directorio para explorar el catálogo de péptidos por nombre. Abra la página de cada producto para revisar su formato, especificaciones, precio e información de pedidos locales para clientes en Costa Rica.',
+          },
+        },
+      ];
+    }
     const en = segment(page.en);
     // First registration wins, so a slug collision between groups cannot
     // silently swap one page for another. Collisions are reported below.

@@ -83,7 +83,7 @@ async function main() {
 
       // A missing Spanish page must not take the English one down with it.
       //
-      // /es/tienda/ began returning 404 on the live site while /shop/ kept
+      // /es/shop/ began returning 404 on the live site while /shop/ kept
       // serving, and because both were fetched as one all-or-nothing pair, a
       // re-run deleted the whole /shop/ index rather than losing its Spanish
       // title. The English page is the one that has to exist; Spanish degrades

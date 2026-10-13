@@ -230,8 +230,8 @@ function socialName(label, href) {
  * happens to answer a similar question in different words, so the loss was easy
  * to miss when reading the rendered clone.
  *
- * Anchored on the h4 label rather than on its text, so the copy can be reworded
- * without silently dropping the block.
+ * WordPress changed this from an h4 label followed by h2 lines to an h2 title
+ * followed by paragraph-tag heading widgets. Support both shapes.
  */
 function bulkOffer($) {
   const headings = $('.ekit-template-content-footer')
@@ -243,12 +243,18 @@ function bulkOffer($) {
     })
     .filter((h) => h.text);
 
-  const at = headings.findIndex((h) => h.tag === 'h4');
+  const at = headings.findIndex(
+    (h) => h.tag === 'h4' || (h.tag === 'h2' && /bulk savings|ahorros al por mayor/i.test(h.text)),
+  );
   if (at === -1) return null;
 
-  // The lines that belong to the promo are the h2s directly after its label.
+  // The lines are h2s in the former layout and p-tag heading widgets now.
   const lines = [];
-  for (let i = at + 1; i < headings.length && headings[i].tag === 'h2'; i += 1) {
+  for (
+    let i = at + 1;
+    i < headings.length && ['h2', 'p'].includes(headings[i].tag);
+    i += 1
+  ) {
     lines.push(headings[i].text);
   }
   if (!lines.length) return null;
@@ -362,12 +368,16 @@ async function main() {
   // ---- Footer -----------------------------------------------------------
   const blocksEn = footerBlocks($en);
   const blocksEs = footerBlocks($es);
-  pairLists(blocksEn, blocksEs, 'Footer blocks');
 
-  const pairGroup = (matcherEn, what) => {
+  /**
+   * Match each language's footer group by its own heading. WordPress currently
+   * injects three extra Spanish-only widgets, so the old whole-footer
+   * positional assertion rejected a healthy footer and index-based lookup
+   * risked pairing the wrong group.
+   */
+  const pairGroup = (matcherEn, matcherEs, what) => {
     const en = groupAfter(blocksEn, matcherEn, what);
-    const iEn = blocksEn.findIndex((b) => b.links === en);
-    const es = blocksEs[iEn]?.links ?? [];
+    const es = groupAfter(blocksEs, matcherEs, what);
     return pairLists(en, es, `Footer ${what}`).map(([a, b]) => ({
       label_en: a.label,
       label_es: b.label,
@@ -375,9 +385,17 @@ async function main() {
     }));
   };
 
-  const quickLinks = pairGroup(/^Quick Links$/i, 'quick links');
-  const categories = pairGroup(/^Shop By Categories$/i, 'categories');
-  const contactLinks = pairGroup(/^Contact Us$/i, 'contact');
+  const quickLinks = pairGroup(/^Quick Links$/i, /^(Enlaces rápidos|Quick Links)$/i, 'quick links');
+  const categories = pairGroup(
+    /^Shop By Categories$/i,
+    /^(Comprar por categorías|Shop By Categories)$/i,
+    'categories',
+  );
+  const contactLinks = pairGroup(
+    /^Contact Us$/i,
+    /^(Contáctanos|Contáctenos|Contacto|Contact Us)$/i,
+    'contact',
+  );
 
   // Social profiles are external absolute URLs — same in both languages.
   const socialBlock = blocksEn.find((b) =>
@@ -393,8 +411,14 @@ async function main() {
 
   const disclaimerEn = longestText(blocksEn, /laboratory research use only/i);
   const disclaimerEs = longestText(blocksEs, /investigación de laboratorio|uso exclusivo/i);
-  const blurbEn = longestText(blocksEn, /premium, research-backed peptides/i);
-  const blurbEs = longestText(blocksEs, /péptidos premium|respaldados por/i);
+  const blurbEn = longestText(
+    blocksEn,
+    /premium, research-backed peptides|Peptides Costa Rica provides/i,
+  );
+  const blurbEs = longestText(
+    blocksEs,
+    /péptidos premium|respaldados por|Peptides Costa Rica (ofrece|proporciona)/i,
+  );
   const copyEn = blocksEn.find((b) => /^Copyright ©/i.test(b.heading || ''))?.heading ?? null;
   const copyEs = blocksEs.find((b) => /^(Copyright|Derechos) ?©/i.test(b.heading || ''))?.heading ?? null;
 

@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-10-01T18:19:36.455Z",
+  "harvestedAt": "2026-10-12T18:40:22.506Z",
   "group": "homeBlocks",
   "count": 1,
   "pages": [
@@ -189,40 +189,8 @@
           }
         },
         {
-          "type": "press_showcase",
+          "type": "group",
           "content": {
-            "eyebrow_en": "As Seen In",
-            "eyebrow_es": "Como se ve en",
-            "title_en": "Peptides Costa Rica in the Press",
-            "title_es": "Peptides Costa Rica en la prensa",
-            "intro_en": "Featured by trusted publications covering Costa Rica, business, and local innovation.",
-            "intro_es": "Presentado por publicaciones confiables que cubren Costa Rica, negocios e innovación local.",
-            "cta_en": "Read the feature",
-            "cta_es": "Leer el artículo",
-            "items": [
-              {
-                "logo": "/wp-content/uploads/2026/08/TCRN-logo.webp",
-                "logoWidth": "160px",
-                "logoAlt_en": "The Costa Rica News logo",
-                "logoAlt_es": "Logotipo de The Costa Rica News",
-                "kicker_en": "Featured in",
-                "kicker_es": "Presentado en",
-                "outlet_en": "The Costa Rica News",
-                "outlet_es": "The Costa Rica News",
-                "href": "https://thecostaricanews.com/introducing-peptides-costa-rica-bringing-trusted-peptide-products-to-costa-rica/"
-              },
-              {
-                "logo": "/wp-content/uploads/2026/08/images-removebg-preview.webp",
-                "logoWidth": "200px",
-                "logoAlt_en": "The Tico Times logo",
-                "logoAlt_es": "Logotipo de The Tico Times",
-                "kicker_en": "Featured in",
-                "kicker_es": "Presentado en",
-                "outlet_en": "The Tico Times",
-                "outlet_es": "The Tico Times",
-                "href": "https://ticotimes.net/2026/07/26/why-two-fitness-veterans-chose-costa-rica-to-launch-a-new-peptide-company-peptides-costa-rica"
-              }
-            ],
             "dir": "row",
             "justify": "center",
             "boxed": true,
@@ -255,7 +223,6 @@
           "content": {
             "dir": "row",
             "bgImage": "/wp-content/uploads/2026/07/Banner-02.jpg-scaled.webp",
-            "hide": "hidden",
             "radius": 10,
             "border": "#D1D5DB",
             "boxed": false,
@@ -405,7 +372,7 @@
         {
           "type": "group",
           "content": {
-            "dir": "column",
+            "dir": "row",
             "gap": 10,
             "items": "stretch",
             "pad": [
@@ -417,43 +384,154 @@
             "boxed": true,
             "children": [
               {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "content": {
+                        "level": 2,
+                        "rule": true,
+                        "text_en": "Shop By Category",
+                        "text_es": "Comprar por categoría",
+                        "semantic": false
+                      }
+                    },
+                    {
+                      "type": "product_grid",
+                      "content": {
+                        "products": [
+                          {
+                            "name": "5-Amino-1MQ 50mg",
+                            "price": "₡ 40,827",
+                            "href": "/product/5-amino-1mq-50mg/",
+                            "image": "/wp-content/uploads/2026/08/5-Amino-50mg.Webp-300x300.webp"
+                          },
+                          {
+                            "name": "5-amino-1mq 50mg",
+                            "price": "₡ 40,506",
+                            "href": "/product/lp-5-amino-1mq-50mg/",
+                            "image": "/wp-content/uploads/2026/08/5-Amino-50mg.Webp-300x300.webp"
+                          },
+                          {
+                            "name": "AA Water 3ml",
+                            "price": "₡ 6,805",
+                            "href": "/product/aa-water-3ml/",
+                            "image": "/wp-content/uploads/2026/09/AA-Water-3ml.jpg-300x300.jpeg"
+                          },
+                          {
+                            "name": "Adamax 10mg",
+                            "price": "₡ 61,241",
+                            "href": "/product/adamax-10mg/",
+                            "image": "/wp-content/uploads/2026/08/Adamax-10-mg.Webp-300x300.webp"
+                          },
+                          {
+                            "name": "AHK-Cu 50mg",
+                            "price": "₡ 45,364",
+                            "href": "/product/ahk-cu-50mg/",
+                            "image": "/wp-content/uploads/2026/09/AHK-CU-50mg-300x300.webp"
+                          },
+                          {
+                            "name": "AICAR 50mg",
+                            "price": "₡ 43,095",
+                            "href": "/product/aicar-50mg/",
+                            "image": "/wp-content/uploads/2026/05/Untitled-design-3-300x300.webp"
+                          },
+                          {
+                            "name": "AICAR 50mg",
+                            "price": "₡ 42,757",
+                            "href": "/product/lp-aicar-50mg/",
+                            "image": "/wp-content/uploads/2026/05/Untitled-design-3-300x300.webp"
+                          },
+                          {
+                            "name": "Bacteriostatic Water 10ml",
+                            "price": "₡ 9,073",
+                            "href": "/product/bac-water-10ml/",
+                            "image": "/wp-content/uploads/2026/04/BAC-Water-10-1-300x300.jpg"
+                          },
+                          {
+                            "name": "Bacteriostatic Water 3ml",
+                            "price": "₡ 4,536",
+                            "href": "/product/bac-water-3ml/",
+                            "image": "/wp-content/uploads/2026/04/BAC-Water-3-1-300x300.jpg"
+                          },
+                          {
+                            "name": "BPC-157 + TB 500 20mg (Wolverine Stack)",
+                            "price": "₡ 68,045",
+                            "href": "/product/bpc-157-tb-500-20mg-wolverine-stack/",
+                            "image": "/wp-content/uploads/2026/03/BPC-157-TB-500-1-300x300.jpg"
+                          },
+                          {
+                            "name": "BPC-157 10mg",
+                            "price": "₡ 40,827",
+                            "href": "/product/bpc-157-10mg/",
+                            "image": "/wp-content/uploads/2026/02/BPC-157-2-300x300.jpg"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "group",
+          "content": {
+            "dir": "column",
+            "gap": 10,
+            "items": "stretch",
+            "pad": [
+              96,
+              0,
+              0,
+              0
+            ],
+            "hide": "hidden",
+            "boxed": true,
+            "children": [
+              {
                 "type": "heading",
                 "content": {
                   "level": 2,
                   "rule": true,
                   "text_en": "Shop By Category",
-                  "text_es": "Comprar por categoría"
+                  "text_es": "Comprar por categoría",
+                  "semantic": false
                 }
               },
               {
-                "type": "alphabet_product_grid",
+                "type": "category_tabs",
                 "content": {
                   "items": [
                     {
                       "label_en": "Metabolic & GLP-1 Compounds",
-                      "label_es": "Metabolic & GLP-1 Compounds",
+                      "label_es": "Compuestos metabólicos y de GLP-1",
                       "products": [
                         {
                           "name": "GLP-1 5mg",
-                          "price": "₡ 45,597",
+                          "price": "₡ 45,364",
                           "href": "/product/retatrutide-5mg/",
                           "image": "/wp-content/uploads/2026/08/GLP-5MG-300x300.webp"
                         },
                         {
                           "name": "GLP-1 10mg",
-                          "price": "₡ 56,996",
+                          "price": "₡ 56,704",
                           "href": "/product/reta-10mg/",
                           "image": "/wp-content/uploads/2026/03/GLP-1-10mg-300x300.webp"
                         },
                         {
                           "name": "GLP-1 12mg",
-                          "price": "₡ 61,556",
+                          "price": "₡ 61,241",
                           "href": "/product/reta-12mg/",
                           "image": "/wp-content/uploads/2026/02/GLP-12MG-300x300.webp"
                         },
                         {
                           "name": "GLP-1 15mg",
-                          "price": "₡ 63,836",
+                          "price": "₡ 63,509",
                           "href": "/product/retatrutide-15mg/",
                           "image": "/wp-content/uploads/2026/04/GLP-15MG-300x300.webp"
                         }
@@ -461,23 +539,23 @@
                     },
                     {
                       "label_en": "Mitochondrial Compounds",
-                      "label_es": "Mitochondrial Compounds",
+                      "label_es": "Compuestos mitocondriales",
                       "products": [
                         {
                           "name": "SLU-PP-332 5mg",
-                          "price": "₡ 36,478",
+                          "price": "₡ 36,291",
                           "href": "/product/slu-pp-332-5mg/",
                           "image": "/wp-content/uploads/2026/05/Slu-pp332-1-300x300.webp"
                         },
                         {
                           "name": "5-Amino-1MQ 50mg",
-                          "price": "₡ 41,037",
+                          "price": "₡ 40,827",
                           "href": "/product/5-amino-1mq-50mg/",
                           "image": "/wp-content/uploads/2026/08/5-Amino-50mg.Webp-300x300.webp"
                         },
                         {
                           "name": "AICAR 50mg",
-                          "price": "₡ 43,317",
+                          "price": "₡ 43,095",
                           "href": "/product/aicar-50mg/",
                           "image": "/wp-content/uploads/2026/05/Untitled-design-3-300x300.webp"
                         },
@@ -491,91 +569,91 @@
                     },
                     {
                       "label_en": "Bioregulator Peptides",
-                      "label_es": "Bioregulator Peptides",
+                      "label_es": "Péptidos biorreguladores",
                       "products": [
                         {
+                          "name": "Selank 10mg",
+                          "price": "₡ 40,506",
+                          "href": "/product/lp-selank-10mg/",
+                          "image": "/wp-content/uploads/2026/02/Selank-1-300x300.jpg"
+                        },
+                        {
+                          "name": "Ipamorelin 10mg",
+                          "price": "₡ 45,007",
+                          "href": "/product/lp-ipamorelin-10mg/",
+                          "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
+                        },
+                        {
                           "name": "Cartalax 20mg",
-                          "price": "₡ 45,597",
+                          "price": "₡ 45,364",
                           "href": "/product/cartalax-20mg/",
                           "image": "/wp-content/uploads/2026/06/Cartalax-20mg-1-300x300.webp"
                         },
                         {
                           "name": "Thymalin 10mg",
-                          "price": "₡ 54,716",
+                          "price": "₡ 54,436",
                           "href": "/product/thymalin-10mg/",
-                          "image": "/wp-content/uploads/2026/02/Thymalin-1-1-300x300.jpg.webp"
-                        },
-                        {
-                          "name": "Pinealon 20mg",
-                          "price": "₡ 54,716",
-                          "href": "/product/pinealon-20mg/",
-                          "image": "/wp-content/uploads/2026/05/Pinealon-20-1-300x300.webp"
-                        },
-                        {
-                          "name": "Thymosin Alpha-1 10mg",
-                          "price": "₡ 68,396",
-                          "href": "/product/thymosin-alpha-1-10mg/",
-                          "image": "/wp-content/uploads/2026/05/Thymosin-Alpha-1-10-1-300x300.webp"
+                          "image": "/wp-content/uploads/2026/02/Thymalin-1-1-300x300.jpg"
                         }
                       ]
                     },
                     {
                       "label_en": "Reproductive Signalling Peptides",
-                      "label_es": "Reproductive Signalling Peptides",
+                      "label_es": "Péptidos de señalización reproductiva",
                       "products": [
                         {
                           "name": "MT-II",
-                          "price": "₡ 41,037",
+                          "price": "₡ 40,827",
                           "href": "/product/mt-ii/",
                           "image": "/wp-content/uploads/2026/05/MT-II-1-300x300.webp"
                         },
                         {
                           "name": "Oxytocin Acetate 5mg",
-                          "price": "₡ 47,877",
+                          "price": "₡ 47,632",
                           "href": "/product/oxytocin-acetate-5mg/",
                           "image": "/wp-content/uploads/2026/08/Oxytocin-Acetate-5-mg-300x300.webp"
                         },
                         {
                           "name": "PT-141 10mg",
-                          "price": "₡ 56,996",
+                          "price": "₡ 56,704",
                           "href": "/product/pt-141-10mgtest/",
-                          "image": "/wp-content/uploads/2026/04/PT-141-1-300x300.jpg.webp"
+                          "image": "/wp-content/uploads/2026/04/PT-141-1-300x300.jpg"
                         },
                         {
-                          "name": "KissPeptin-10 10mg",
-                          "price": "₡ 59,276",
-                          "href": "/product/kisspeptin-10-10mg/",
-                          "image": "/wp-content/uploads/2026/04/Kisspeptin-10-1-300x300.jpg.webp"
+                          "name": "HMG 75 IU",
+                          "price": "₡ 56,704",
+                          "href": "/product/hmg-75-iu/",
+                          "image": "/wp-content/uploads/2026/09/HMG-75-IU.jpg-300x300.jpeg"
                         }
                       ]
                     },
                     {
                       "label_en": "Tissue Repair Compounds",
-                      "label_es": "Tissue Repair Compounds",
+                      "label_es": "Compuestos para la reparación de tejidos",
                       "products": [
                         {
                           "name": "GHK-CU 50mg",
-                          "price": "₡ 31,918",
+                          "price": "₡ 31,754",
                           "href": "/product/ghk-cu-50mg/",
-                          "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg.webp"
+                          "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
                         },
                         {
                           "name": "BPC-157 10mg",
-                          "price": "₡ 41,037",
+                          "price": "₡ 40,827",
                           "href": "/product/bpc-157-10mg/",
-                          "image": "/wp-content/uploads/2026/02/BPC-157-2-300x300.jpg.webp"
+                          "image": "/wp-content/uploads/2026/02/BPC-157-2-300x300.jpg"
                         },
                         {
                           "name": "KPV 10mg",
-                          "price": "₡ 41,037",
+                          "price": "₡ 40,827",
                           "href": "/product/kpv-10mg/",
                           "image": "/wp-content/uploads/2026/05/KPV-1-1-300x300.webp"
                         },
                         {
-                          "name": "GHK-CU 100mg",
-                          "price": "₡ 45,597",
-                          "href": "/product/ghk-cu-100mg/",
-                          "image": "/wp-content/uploads/2026/05/GHK-CU-100-2-300x300.webp"
+                          "name": "Ipamorelin 10mg",
+                          "price": "₡ 45,007",
+                          "href": "/product/lp-ipamorelin-10mg/",
+                          "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
                         }
                       ]
                     },
@@ -584,58 +662,58 @@
                       "label_es": "Secretagogos de la hormona del crecimiento",
                       "products": [
                         {
-                          "name": "Tesamorelin 10mg",
-                          "price": "₡ 45,597",
-                          "href": "/product/tesamorelin-10mg/",
-                          "image": "/wp-content/uploads/2026/02/Tesamorelin-1-300x300.jpg.webp"
+                          "name": "SLU-PP-332 5mg",
+                          "price": "₡ 36,006",
+                          "href": "/product/lp-slu-pp-332-5mg/",
+                          "image": "/wp-content/uploads/2026/05/Slu-pp332-1-300x300.webp"
+                        },
+                        {
+                          "name": "GHRP-6 10mg",
+                          "price": "₡ 43,095",
+                          "href": "/product/ghrp-6-10mg/",
+                          "image": "/wp-content/uploads/2026/09/GHRP-6-10-mg.jpg-1-300x300.jpeg"
                         },
                         {
                           "name": "Ipamorelin 10mg",
-                          "price": "₡ 45,597",
-                          "href": "/product/ipamorelin-10mg/",
-                          "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg.webp"
+                          "price": "₡ 45,007",
+                          "href": "/product/lp-ipamorelin-10mg/",
+                          "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
                         },
                         {
-                          "name": "CJC with DAC 5mg",
-                          "price": "₡ 54,716",
-                          "href": "/product/cjc-with-dac-5mg/",
-                          "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg.webp"
-                        },
-                        {
-                          "name": "CJC-1295 without DAC + IPA 10mg",
-                          "price": "₡ 54,716",
-                          "href": "/product/cjc-1295-without-dac-ipa-10mg/",
-                          "image": "/wp-content/uploads/2026/05/CJC-1295-without-DAC-IPA-1-1-300x300.webp"
+                          "name": "Tesamorelin 10mg",
+                          "price": "₡ 45,364",
+                          "href": "/product/tesamorelin-10mg/",
+                          "image": "/wp-content/uploads/2026/02/Tesamorelin-1-300x300.jpg"
                         }
                       ]
                     },
                     {
                       "label_en": "Copper & Dermatological Peptides",
-                      "label_es": "Copper & Dermatological Peptides",
+                      "label_es": "Péptidos de Cobre y Dermatológicos",
                       "products": [
                         {
                           "name": "GHK-CU 50mg",
-                          "price": "₡ 31,918",
+                          "price": "₡ 31,754",
                           "href": "/product/ghk-cu-50mg/",
-                          "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg.webp"
+                          "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
                         },
                         {
                           "name": "MT-II",
-                          "price": "₡ 41,037",
+                          "price": "₡ 40,827",
                           "href": "/product/mt-ii/",
                           "image": "/wp-content/uploads/2026/05/MT-II-1-300x300.webp"
                         },
                         {
-                          "name": "Glutathione 1500mg",
-                          "price": "₡ 45,597",
-                          "href": "/product/glutathione-1500mg/",
-                          "image": "/wp-content/uploads/2026/04/Glutathione-1-300x300.jpg.webp"
+                          "name": "GHK-CU 100mg",
+                          "price": "₡ 45,007",
+                          "href": "/product/lp-ghk-cu-100mg/",
+                          "image": "/wp-content/uploads/2026/05/GHK-CU-100-2-300x300.webp"
                         },
                         {
-                          "name": "GHK-CU 100mg",
-                          "price": "₡ 45,597",
-                          "href": "/product/ghk-cu-100mg/",
-                          "image": "/wp-content/uploads/2026/05/GHK-CU-100-2-300x300.webp"
+                          "name": "Glutathione 1500mg",
+                          "price": "₡ 45,364",
+                          "href": "/product/glutathione-1500mg/",
+                          "image": "/wp-content/uploads/2026/04/Glutathione-1-300x300.jpg"
                         }
                       ]
                     },
@@ -645,19 +723,25 @@
                       "products": [
                         {
                           "name": "GHK-CU 50mg",
-                          "price": "₡ 31,918",
+                          "price": "₡ 31,754",
                           "href": "/product/ghk-cu-50mg/",
-                          "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg.webp"
+                          "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
+                        },
+                        {
+                          "name": "Glutathione 1500mg",
+                          "price": "₡ 45,007",
+                          "href": "/product/lp-glutathione-1500mg/",
+                          "image": "/wp-content/uploads/2026/04/Glutathione-1-300x300.jpg"
                         },
                         {
                           "name": "GHK-CU 100mg",
-                          "price": "₡ 45,597",
+                          "price": "₡ 45,364",
                           "href": "/product/ghk-cu-100mg/",
                           "image": "/wp-content/uploads/2026/05/GHK-CU-100-2-300x300.webp"
                         },
                         {
                           "name": "AHK-Cu 50mg",
-                          "price": "₡ 45,597",
+                          "price": "₡ 45,364",
                           "href": "/product/ahk-cu-50mg/",
                           "image": "/wp-content/uploads/2026/09/AHK-CU-50mg-300x300.webp"
                         }
@@ -678,7 +762,7 @@
             "pad": [
               48,
               0,
-              36,
+              0,
               0
             ],
             "boxed": true,
@@ -710,11 +794,10 @@
         },
         {
           "type": "group",
-      "content": {
-        "dir": "column",
-        "cols": 3,
-        "color": "#BD0A0D",
-        "contentWidth": 1300,
+          "content": {
+            "dir": "column",
+            "cols": 3,
+            "contentWidth": 1300,
             "pad": [
               0,
               20,
@@ -739,11 +822,10 @@
                   ],
                   "boxed": false,
                   "children": [
-              {
-                "type": "icon",
-                "content": {
-                  "iconColor": "#BD0A0D",
-                  "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-info-circle\" viewBox=\"0 0 512 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z\"></path></svg>"
+                    {
+                      "type": "icon",
+                      "content": {
+                        "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-info-circle\" viewBox=\"0 0 512 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 110c23.196 0 42 18.804 42 42s-18.804 42-42 42-42-18.804-42-42 18.804-42 42-42zm56 254c0 6.627-5.373 12-12 12h-88c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h12v-64h-12c-6.627 0-12-5.373-12-12v-24c0-6.627 5.373-12 12-12h64c6.627 0 12 5.373 12 12v100h12c6.627 0 12 5.373 12 12v24z\"></path></svg>"
                       }
                     },
                     {
@@ -790,11 +872,10 @@
                   ],
                   "boxed": false,
                   "children": [
-              {
-                "type": "icon",
-                "content": {
-                  "iconColor": "#BD0A0D",
-                  "iconClass": "icon-document"
+                    {
+                      "type": "icon",
+                      "content": {
+                        "iconClass": "icon-document"
                       }
                     },
                     {
@@ -841,11 +922,10 @@
                   ],
                   "boxed": false,
                   "children": [
-              {
-                "type": "icon",
-                "content": {
-                  "iconColor": "#BD0A0D",
-                  "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-store\" viewBox=\"0 0 616 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M602 118.6L537.1 15C531.3 5.7 521 0 510 0H106C95 0 84.7 5.7 78.9 15L14 118.6c-33.5 53.5-3.8 127.9 58.8 136.4 4.5.6 9.1.9 13.7.9 29.6 0 55.8-13 73.8-33.1 18 20.1 44.3 33.1 73.8 33.1 29.6 0 55.8-13 73.8-33.1 18 20.1 44.3 33.1 73.8 33.1 29.6 0 55.8-13 73.8-33.1 18.1 20.1 44.3 33.1 73.8 33.1 4.7 0 9.2-.3 13.7-.9 62.8-8.4 92.6-82.8 59-136.4zM529.5 288c-10 0-19.9-1.5-29.5-3.8V384H116v-99.8c-9.6 2.2-19.5 3.8-29.5 3.8-6 0-12.1-.4-18-1.2-5.6-.8-11.1-2.1-16.4-3.6V480c0 17.7 14.3 32 32 32h448c17.7 0 32-14.3 32-32V283.2c-5.4 1.6-10.8 2.9-16.4 3.6-6.1.8-12.1 1.2-18.2 1.2z\"></path></svg>"
+                    {
+                      "type": "icon",
+                      "content": {
+                        "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-store\" viewBox=\"0 0 616 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M602 118.6L537.1 15C531.3 5.7 521 0 510 0H106C95 0 84.7 5.7 78.9 15L14 118.6c-33.5 53.5-3.8 127.9 58.8 136.4 4.5.6 9.1.9 13.7.9 29.6 0 55.8-13 73.8-33.1 18 20.1 44.3 33.1 73.8 33.1 29.6 0 55.8-13 73.8-33.1 18 20.1 44.3 33.1 73.8 33.1 29.6 0 55.8-13 73.8-33.1 18.1 20.1 44.3 33.1 73.8 33.1 4.7 0 9.2-.3 13.7-.9 62.8-8.4 92.6-82.8 59-136.4zM529.5 288c-10 0-19.9-1.5-29.5-3.8V384H116v-99.8c-9.6 2.2-19.5 3.8-29.5 3.8-6 0-12.1-.4-18-1.2-5.6-.8-11.1-2.1-16.4-3.6V480c0 17.7 14.3 32 32 32h448c17.7 0 32-14.3 32-32V283.2c-5.4 1.6-10.8 2.9-16.4 3.6-6.1.8-12.1 1.2-18.2 1.2z\"></path></svg>"
                       }
                     },
                     {
@@ -892,11 +972,10 @@
                   ],
                   "boxed": false,
                   "children": [
-              {
-                "type": "icon",
-                "content": {
-                  "iconColor": "#BD0A0D",
-                  "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-shipping-fast\" viewBox=\"0 0 640 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H112C85.5 0 64 21.5 64 48v48H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h272c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H40c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H64v128c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z\"></path></svg>"
+                    {
+                      "type": "icon",
+                      "content": {
+                        "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-shipping-fast\" viewBox=\"0 0 640 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M624 352h-16V243.9c0-12.7-5.1-24.9-14.1-33.9L494 110.1c-9-9-21.2-14.1-33.9-14.1H416V48c0-26.5-21.5-48-48-48H112C85.5 0 64 21.5 64 48v48H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h272c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H40c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H8c-4.4 0-8 3.6-8 8v16c0 4.4 3.6 8 8 8h208c4.4 0 8 3.6 8 8v16c0 4.4-3.6 8-8 8H64v128c0 53 43 96 96 96s96-43 96-96h128c0 53 43 96 96 96s96-43 96-96h48c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zM160 464c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm320 0c-26.5 0-48-21.5-48-48s21.5-48 48-48 48 21.5 48 48-21.5 48-48 48zm80-208H416V144h44.1l99.9 99.9V256z\"></path></svg>"
                       }
                     },
                     {
@@ -943,11 +1022,10 @@
                   ],
                   "boxed": false,
                   "children": [
-              {
-                "type": "icon",
-                "content": {
-                  "iconColor": "#BD0A0D",
-                  "iconClass": "icon-pricing-table"
+                    {
+                      "type": "icon",
+                      "content": {
+                        "iconClass": "icon-pricing-table"
                       }
                     },
                     {
@@ -994,11 +1072,10 @@
                   ],
                   "boxed": false,
                   "children": [
-              {
-                "type": "icon",
-                "content": {
-                  "iconColor": "#BD0A0D",
-                  "iconClass": "icon-customer-service"
+                    {
+                      "type": "icon",
+                      "content": {
+                        "iconClass": "icon-customer-service"
                       }
                     },
                     {
@@ -1114,8 +1191,8 @@
                             "type": "image",
                             "content": {
                               "src": "/wp-content/uploads/elementor/thumbs/homepage-vial-images-rtgk8jt11w1u91pxr1seokiilchqnar03fwri7e5n4.webp",
-                              "width": 1200,
-                              "height": 1000,
+                              "width": null,
+                              "height": null,
                               "alt_en": "BPC-157 and Epitalon peptide vials from Peptides Costa Rica.",
                               "alt_es": "BPC-157 and Epitalon peptide vials from Peptides Costa Rica."
                             }
@@ -1124,8 +1201,8 @@
                             "type": "image",
                             "content": {
                               "src": "/wp-content/uploads/elementor/thumbs/secure-peptide-packaging-rtgk8mmjme5p7vlual0ae1swdi3uae273tv7y19z4g.webp",
-                              "width": 1200,
-                              "height": 1000,
+                              "width": null,
+                              "height": null,
                               "alt_en": "Peptides Costa Rica gift box with BPC-157, Epitalon, and NAD+ vials.",
                               "alt_es": "Peptides Costa Rica gift box with BPC-157, Epitalon, and NAD+ vials."
                             }
@@ -1151,44 +1228,35 @@
                         "children": [
                           {
                             "type": "card",
-                      "content": {
-                        "title_en": "Compound names and vial sizes",
+                            "content": {
+                              "title_en": "Compound names and vial sizes",
                               "title_es": "Compound names and vial sizes",
                               "text_en": "",
                               "text_es": "",
                               "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-star\" viewBox=\"0 0 576 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z\"></path></svg>",
-                        "href": null,
-                        "layout": "row",
-                        "iconColor": "#092771",
-                        "iconBadge": "#F0F4F7"
+                              "href": null
                             }
                           },
                           {
                             "type": "card",
-                      "content": {
-                        "title_en": "Stock confirmation before payment",
+                            "content": {
+                              "title_en": "Stock confirmation before payment",
                               "title_es": "Stock confirmation before payment",
                               "text_en": "",
                               "text_es": "",
                               "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-star\" viewBox=\"0 0 576 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z\"></path></svg>",
-                        "href": null,
-                        "layout": "row",
-                        "iconColor": "#092771",
-                        "iconBadge": "#F0F4F7"
+                              "href": null
                             }
                           },
                           {
                             "type": "card",
-                      "content": {
-                        "title_en": "Delivery across Costa Rica",
+                            "content": {
+                              "title_en": "Delivery across Costa Rica",
                               "title_es": "Delivery across Costa Rica",
                               "text_en": "",
                               "text_es": "",
                               "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-star\" viewBox=\"0 0 576 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z\"></path></svg>",
-                        "href": null,
-                        "layout": "row",
-                        "iconColor": "#092771",
-                        "iconBadge": "#F0F4F7"
+                              "href": null
                             }
                           },
                           {
@@ -1254,24 +1322,25 @@
                       "content": {
                         "products": [
                           {
-                            "name": "Selank 10mg",
-                            "price": "₡ 41,037",
-                            "href": "/product/selank-10mg/",
-                            "image": "/wp-content/uploads/2026/02/Selank-1-300x300.jpg.webp"
+                            "name": "Adamax 10mg",
+                            "price": "₡ 61,241",
+                            "href": "/product/adamax-10mg/",
+                            "image": "/wp-content/uploads/2026/08/Adamax-10-mg.Webp-300x300.webp"
                           },
                           {
-                            "name": "Tirzepatide 15mg",
-                            "price": "₡ 84,354",
-                            "href": "/product/tirzepatide-15mg/",
-                            "image": "/wp-content/uploads/2026/05/Tirzepatide-15-2-300x300.webp"
+                            "name": "NAD+ 500mg",
+                            "price": "",
+                            "href": "/product/nad-500mg/",
+                            "image": "/wp-content/uploads/2026/02/NAD-1-300x300.jpg"
                           },
                           {
-                            "name": "HGH 12 IU",
-                            "price": "₡ 31,918",
-                            "href": "/product/hgh-12-iu/",
-                            "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg.webp"
+                            "name": "Cartalax 20mg",
+                            "price": "₡ 45,007",
+                            "href": "/product/lp-cartalax-20mg/",
+                            "image": "/wp-content/uploads/2026/06/Cartalax-20mg-1-300x300.webp"
                           }
-                        ]
+                        ],
+                        "hide": "hidden"
                       }
                     }
                   ]
@@ -1325,15 +1394,15 @@
                           "Collagen Peptides"
                         ],
                         "items_es": [
-                          "Mitochondrial Compounds",
-                          "Bioregulator Peptides",
-                          "Reproductive Signalling Peptides",
-                          "Tissue Repair Compounds",
+                          "Compuestos mitocondriales",
+                          "Péptidos biorreguladores",
+                          "Péptidos de señalización reproductiva",
+                          "Compuestos para la reparación de tejidos",
                           "Secretagogos de la hormona del crecimiento",
-                          "Copper & Dermatological Peptides",
-                          "Metabolic & GLP-1 Compounds",
+                          "Péptidos de Cobre y Dermatológicos",
+                          "Compuestos metabólicos y de GLP-1",
                           "Péptidos de Cobre",
-                          "Nootropic & Neuropeptides",
+                          "Noótropicos y Neuropéptidos",
                           "Agua BAC",
                           "Péptidos de colágeno"
                         ],
@@ -1563,12 +1632,10 @@
                     },
                     {
                       "type": "group",
-                "content": {
-                  "dir": "column",
-                  "bgImage": "/wp-content/uploads/2026/04/imgi_295_Banner-3-02-02-scaled-1.png",
-                  "bgOverlay": "linear-gradient(90deg, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.94) 58%, rgba(255,255,255,0.18) 82%, rgba(255,255,255,0) 100%)",
-                  "copyWidth": 64,
-                  "radius": 10,
+                      "content": {
+                        "dir": "column",
+                        "bgImage": "/wp-content/uploads/2026/04/imgi_295_Banner-3-02-02-scaled-1.png",
+                        "radius": 10,
                         "justify": "center",
                         "minHeight": 332,
                         "boxed": false,
@@ -1642,29 +1709,30 @@
                   "products": [
                     {
                       "name": "AHK-Cu 50mg",
-                      "price": "₡ 45,597",
+                      "price": "₡ 45,364",
                       "href": "/product/ahk-cu-50mg/",
                       "image": "/wp-content/uploads/2026/09/AHK-CU-50mg-300x300.webp"
                     },
                     {
-                      "name": "Tirzepatide 120mg",
-                      "price": "₡ 170,989",
-                      "href": "/product/tirzepatide-120mg/",
-                      "image": "/wp-content/uploads/2026/09/tirzipatide-120mg.-2-300x300.webp"
+                      "name": "VIP 5 mg",
+                      "price": "₡ 56,704",
+                      "href": "/product/vip-5-mg/",
+                      "image": "/wp-content/uploads/2026/09/VIP-5-mg-300x300.jpg"
                     },
                     {
-                      "name": "SS-31 25mg",
-                      "price": "₡ 68,396",
-                      "href": "/product/ss-31-25mg/",
-                      "image": "/wp-content/uploads/2026/09/ss-31-25mg-300x300.webp"
+                      "name": "TB-500 10mg",
+                      "price": "₡ 45,364",
+                      "href": "/product/tb-500-10mg/",
+                      "image": "/wp-content/uploads/2026/09/TB-500-10-mg.jpg-300x300.jpeg"
                     },
                     {
-                      "name": "Oxytocin Acetate 5mg",
-                      "price": "₡ 47,877",
-                      "href": "/product/oxytocin-acetate-5mg/",
-                      "image": "/wp-content/uploads/2026/08/Oxytocin-Acetate-5-mg-300x300.webp"
+                      "name": "SNAP-8 10mg",
+                      "price": "₡ 58,973",
+                      "href": "/product/snap-8-10mg/",
+                      "image": "/wp-content/uploads/2026/09/SNAP-8-10-mg.jpg-1-300x300.jpeg"
                     }
-                  ]
+                  ],
+                  "hide": "hidden"
                 }
               }
             ]
@@ -1691,7 +1759,7 @@
               {
                 "type": "heading",
                 "content": {
-                  "level": 6,
+                  "level": 0,
                   "text_en": "Testimonials",
                   "text_es": "Testimonios",
                   "align": "center",
@@ -1711,8 +1779,8 @@
               {
                 "type": "paragraph",
                 "content": {
-                  "text_en": "We value feedback from customers across Costa Rica. Read recent ratings and comments shared on independent review platforms.",
-                  "text_es": "Valoramos los comentarios de clientes de toda Costa Rica. Consulta calificaciones y opiniones recientes compartidas en plataformas de reseñas independientes.",
+                  "text_en": "We take pride in the trust and loyalty of our customers. Numerous individuals across Costa Rica have experienced transformative results with our peptide products. Our testimonials section is a living showcase of positive outcomes, featuring stories of enhanced energy, impressive muscle growth, and dramatic reductions in body fat.",
+                  "text_es": "Nos enorgullecemos de la confianza y lealtad de nuestros clientes. Numerosas personas en toda Costa Rica han experimentado resultados transformadores con nuestros productos peptídicos. Nuestra sección de testimonios es una muestra viva de resultados positivos, presentando historias de mayor energía, crecimiento muscular impresionante y reducciones drásticas en la grasa corporal.",
                   "align": "center",
                   "color": "#FFFFFF"
                 }
@@ -1735,14 +1803,37 @@
                       "source": "Google",
                       "stars": 5
                     }
-                  ],
-                  "aggregate": {
-                    "source": "Trustpilot",
-                    "score": 4.5,
-                    "best": 5,
-                    "href": "https://www.trustpilot.com/review/peptidescostarica.net",
-                    "href_es": "https://es.trustpilot.com/review/peptidescostarica.net"
-                  }
+                  ]
+                }
+              },
+              {
+                "type": "heading",
+                "content": {
+                  "level": 4,
+                  "text_en": "Trustpilot",
+                  "text_es": "Trustpilot",
+                  "align": "center",
+                  "color": "#FFFFFF"
+                }
+              },
+              {
+                "type": "image",
+                "content": {
+                  "src": "/wp-content/uploads/2026/08/imgi_3_stars-5-1.webp",
+                  "width": 512,
+                  "height": 96,
+                  "alt_en": "trustpilot reviews star",
+                  "alt_es": "trustpilot reviews star",
+                  "displayWidth": "14%"
+                }
+              },
+              {
+                "type": "paragraph",
+                "content": {
+                  "text_en": "Rated 4.5 out of 5",
+                  "text_es": "Rated 4.5 out of 5",
+                  "align": "center",
+                  "color": "#FFFFFF"
                 }
               }
             ]
@@ -1778,7 +1869,7 @@
                     {
                       "type": "heading",
                       "content": {
-                        "level": 6,
+                        "level": 0,
                         "text_en": "Common Questions",
                         "text_es": "Preguntas frecuentes",
                         "color": "#FFFFFF",
@@ -1893,7 +1984,7 @@
           }
         }
       ],
-      "untranslated": 49
+      "untranslated": 36
     }
   ]
 }

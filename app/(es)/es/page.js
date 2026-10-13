@@ -3,6 +3,7 @@ import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
 import homeData from '@/data/pages/homeBlocks.json';
 import { alternates } from '@/lib/routes';
+import { metadataForPath } from '@/lib/seo';
 
 /**
  * Spanish home at `/es/` — the live site's own path.
@@ -17,14 +18,12 @@ const page = homeData.pages[0];
 /** Stated explicitly rather than inherited, so it cannot drift from the English side. */
 export function generateMetadata() {
   const alt = alternates('/');
-  return {
-    // `absolute` bypasses the layout's `%s | Peptides Costa Rica` template so the
-    // Spanish home reads exactly as harvested — brand-led, with no English brand
-    // appended after it — matching how the English home renders.
-    title: { absolute: page.head.title_es || undefined },
-    description: page.head.description_es || undefined,
-    alternates: { canonical: alt.es, languages: { 'en-US': alt.en, 'es-CR': alt.es } },
-  };
+  return metadataForPath('/es/', {
+    title: page.head.title_es,
+    description: page.head.description_es,
+    en: alt.en,
+    es: alt.es,
+  });
 }
 
 export default function HomeEs() {

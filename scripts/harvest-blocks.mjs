@@ -63,7 +63,17 @@ const FETCH_RENDERED = new Set(['wooProduct', 'homeBlocks']);
  * `guide` group here would wrongly flatten the other 55.
  */
 const EXTRA_GROUPS = {
-  guideBlocks: ['/retatrutide-complete-guide/'],
+  guideBlocks: [
+    '/retatrutide-complete-guide/',
+    // These live guide-group URLs are Elementor/Gutenberg pages rather than a
+    // single self-contained HTML article, so the article harvester rejects
+    // them and the shared block renderer is the correct fallback.
+    '/lp/',
+    '/extra/',
+    '/extra-affliate-page/',
+    '/lp-glutathione/',
+    '/peptide-specification-sheets/',
+  ],
   // The home page. It was originally harvested by a bespoke script into 11
   // hand-authored section components whose layout was invented rather than
   // reproduced, and which captured text only — none of its 45 images and only

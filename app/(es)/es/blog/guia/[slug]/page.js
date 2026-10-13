@@ -5,6 +5,7 @@ import Sections from '@/components/sections';
 import { bySpanishSlug, spanishParams } from '@/content/pages/mixing-guides';
 import { alternates } from '@/lib/routes';
 import { metaTitle } from '@/lib/page-title';
+import { metadataForPath } from '@/lib/seo';
 
 /**
  * Spanish mixing & dosage guides at `/es/blog/guia/<slug>/`.
@@ -23,11 +24,12 @@ export async function generateMetadata({ params }) {
   const page = bySpanishSlug(slug);
   if (!page) return {};
   const alt = alternates(page.en);
-  return {
+  return metadataForPath(page.es, {
     title: metaTitle(page, 'es'),
-    description: page.head.description_es || undefined,
-    alternates: { canonical: page.es, languages: { 'en-US': alt.en, 'es-CR': alt.es } },
-  };
+    description: page.head.description_es,
+    en: alt.en,
+    es: alt.es,
+  });
 }
 
 export default async function MixingGuideEs({ params }) {

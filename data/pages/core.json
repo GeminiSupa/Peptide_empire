@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-26T16:48:43.059Z",
+  "harvestedAt": "2026-10-12T18:35:54.437Z",
   "group": "core",
   "count": 9,
   "pages": [
@@ -54,8 +54,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Peptides Costa Rica started with the goal of making high-quality peptide products easily available in Costa Rica.More people are looking into peptides for performance, recovery, metabolism, and longevity.However, ordering from international suppliers often brings uncertainty, with delays, customs issues, unclear sources, and poor communication.We decided to do things differently.Rather than operating as a global distributor, Peptides Costa Rica focuses exclusively on serving customers within Costa Rica. This local approach allows us to maintain closer oversight of inventory, clearer communication, and a more streamlined ordering experience.",
-                        "text_es": "Peptides Costa Rica nació con el objetivo de hacer que productos de péptidos de alta calidad estén fácilmente disponibles en Costa Rica. Cada vez más personas recurren a los péptidos para mejorar el rendimiento, la recuperación, el metabolismo y la longevidad. Sin embargo, los pedidos a proveedores internacionales a menudo conllevan incertidumbre, con retrasos, problemas aduaneros, fuentes poco claras y una comunicación deficiente. Decidimos hacer las cosas de manera diferente. En lugar de operar como un distribuidor global, Peptides Costa Rica se enfoca exclusivamente en atender a clientes dentro de Costa Rica. Este enfoque local nos permite mantener una supervisión más cercana del inventario, una comunicación más clara y una experiencia de pedido más eficiente.",
+                        "text_en": "Peptides Costa Rica was established to provide a simple and reliable way for eligible customers in Costa Rica to access research materials with clear product information and transparent service. We focus on accurate product details, available documentation, straightforward ordering, and dependable local delivery support. Our goal is to make the purchasing process easier through clear communication, responsible information, and a customer-focused approach.",
+                        "text_es": "Peptides Costa Rica was established to provide a simple and reliable way for eligible customers in Costa Rica to access research materials with clear product information and transparent service. We focus on accurate product details, available documentation, straightforward ordering, and dependable local delivery support. Our goal is to make the purchasing process easier through clear communication, responsible information, and a customer-focused approach.",
                         "align": "center",
                         "color": "#000000",
                         "font": {
@@ -113,15 +113,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Because we operate locally, we avoid many of the problems that come with buying from abroad. Our customers talk directly with us, check product availability before paying, and arrange delivery within Costa Rica.",
-                        "text_es": "Como operamos localmente, evitamos muchos de los problemas que surgen al comprar en el extranjero. Nuestros clientes hablan directamente con nosotros, verifican la disponibilidad del producto antes de pagar y coordinan la entrega dentro de Costa Rica."
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "This structure allows us to prioritize:",
-                        "text_es": "Esta estructura nos permite priorizar:"
+                        "text_en": "Because we operate locally, we understand the importance of building trust through clear communication and dependable service. We work to provide accurate product information, straightforward ordering, and responsive customer support. Our approach is focused on helping customers understand available products, documentation, pricing, and delivery options while creating a simple and transparent experience throughout Costa Rica.",
+                        "text_es": "Because we operate locally, we understand the importance of building trust through clear communication and dependable service. We work to provide accurate product information, straightforward ordering, and responsive customer support. Our approach is focused on helping customers understand available products, documentation, pricing, and delivery options while creating a simple and transparent experience throughout Costa Rica."
                       }
                     },
                     {
@@ -129,26 +122,19 @@
                       "content": {
                         "ordered": false,
                         "items_en": [
-                          "Clear pricing",
-                          "Verified availability",
-                          "Direct communication",
-                          "Responsible positioning",
-                          "Consistent service"
+                          "Clear Product Information",
+                          "Transparent Pricing",
+                          "Direct Communication",
+                          "Reliable Customer Support",
+                          "Consistent Service"
                         ],
                         "items_es": [
-                          "Precios claros",
-                          "Disponibilidad verificada",
+                          "Clear Product Information",
+                          "Precios transparentes",
                           "Comunicación directa",
-                          "Posicionamiento responsable",
-                          "Servicio constante"
+                          "Reliable Customer Support",
+                          "Consistent Service"
                         ]
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "We believe that staying focused and consistent helps us earn your trust over time.",
-                        "text_es": "Creemos que mantenernos enfocados y consistentes nos ayuda a ganarnos su confianza con el tiempo."
                       }
                     },
                     {
@@ -169,6 +155,7 @@
                 "content": {
                   "dir": "column",
                   "width": 40,
+                  "hide": "md:max-lg:hidden",
                   "boxed": false,
                   "children": [
                     {
@@ -203,6 +190,7 @@
               0
             ],
             "marginTop": 112,
+            "hide": "hidden",
             "boxed": true,
             "children": [
               {
@@ -342,23 +330,10 @@
                       }
                     },
                     {
-                      "type": "card",
+                      "type": "paragraph",
                       "content": {
-                        "title_en": "Quality starts with choosing the right products.",
-                        "title_es": "La calidad comienza eligiendo los productos adecuados.",
-                        "text_en": "We select every product based on what the wellness and performance community needs. We focus on trusted sources and make sure our products are stored and handled properly to keep them in top condition.",
-                        "text_es": "Seleccionamos cada producto basándonos en las necesidades de la comunidad de bienestar y rendimiento. Nos enfocamos en fuentes confiables y nos aseguramos de que nuestros productos se almacenen y manipulen adecuadamente para mantenerlos en óptimas condiciones.",
-                        "href": null
-                      }
-                    },
-                    {
-                      "type": "card",
-                      "content": {
-                        "title_en": "Certificates of Analysis are available to provide documentation and transparency.",
-                        "title_es": "Los Certificados de Análisis están disponibles para brindar documentación y transparencia.",
-                        "text_en": "We don’t make big promises or use flashy marketing. Instead, we share product details honestly so you can make informed choices.",
-                        "text_es": "No hacemos grandes promesas ni usamos marketing ostentoso. En cambio, compartimos detalles del producto honestamente para que puedas tomar decisiones informadas.",
-                        "href": null
+                        "text_en": "Quality starts with providing accurate information and maintaining transparency throughout the customer experience. We focus on clear product details, available documentation, and responsible communication so customers can better understand what they are ordering. Our team is available to answer questions about product availability, documentation, and delivery processes while maintaining a straightforward approach to service.We provide available product documentation and verified details to support informed purchasing decisions. Customers can contact our team for additional information about products, availability, and ordering support.",
+                        "text_es": "Quality starts with providing accurate information and maintaining transparency throughout the customer experience. We focus on clear product details, available documentation, and responsible communication so customers can better understand what they are ordering. Our team is available to answer questions about product availability, documentation, and delivery processes while maintaining a straightforward approach to service.We provide available product documentation and verified details to support informed purchasing decisions. Customers can contact our team for additional information about products, availability, and ordering support."
                       }
                     },
                     {
@@ -369,380 +344,6 @@
                         "href": "/all-peptide-products-costa-rica/",
                         "bg": "#092771",
                         "color": "#FFFFFF"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "group",
-          "content": {
-            "dir": "column",
-            "width": 86,
-            "gap": 10,
-            "justify": "center",
-            "items": "center",
-            "boxed": false,
-            "children": [
-              {
-                "type": "heading",
-                "content": {
-                  "level": 2,
-                  "text_en": "Serving a Performance-Driven Community",
-                  "text_es": "Sirviendo a una comunidad impulsada por el rendimiento"
-                }
-              },
-              {
-                "type": "paragraph",
-                "content": {
-                  "text_en": "Peptides Costa Rica helps people who are serious about their health and performance. Our customers often use peptides for things like:",
-                  "text_es": "Peptides Costa Rica ayuda a las personas que se toman en serio su salud y su rendimiento. Nuestros clientes suelen utilizar péptidos para cosas como:",
-                  "align": "center"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "group",
-          "content": {
-            "dir": "row",
-            "gap": 20,
-            "items": "stretch",
-            "boxed": true,
-            "children": [
-              {
-                "type": "group",
-                "content": {
-                  "dir": "column",
-                  "width": 50,
-                  "radius": 10,
-                  "gap": 10,
-                  "pad": [
-                    10,
-                    15,
-                    10,
-                    15
-                  ],
-                  "boxed": false,
-                  "children": [
-                    {
-                      "type": "group",
-                      "content": {
-                        "dir": "column",
-                        "boxed": false,
-                        "children": [
-                          {
-                            "type": "heading",
-                            "content": {
-                              "level": 2,
-                              "text_en": "Metabolic efficiency",
-                              "text_es": "Eficiencia metabólica",
-                              "color": "#08236B",
-                              "font": {
-                                "size": "24.88px",
-                                "weight": "600",
-                                "spacing": "0px",
-                                "family": "Open Sans"
-                              }
-                            }
-                          },
-                          {
-                            "type": "paragraph",
-                            "content": {
-                              "text_en": "Supports the body’s ability to manage energy use and maintain a balanced metabolism.",
-                              "text_es": "Apoya la capacidad del cuerpo para gestionar el uso de energía y mantener un metabolismo equilibrado.",
-                              "color": "#000000"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "group",
-                "content": {
-                  "dir": "column",
-                  "width": 49.999,
-                  "radius": 10,
-                  "pad": [
-                    10,
-                    15,
-                    10,
-                    15
-                  ],
-                  "boxed": false,
-                  "children": [
-                    {
-                      "type": "group",
-                      "content": {
-                        "dir": "column",
-                        "width": 100,
-                        "boxed": false,
-                        "children": [
-                          {
-                            "type": "heading",
-                            "content": {
-                              "level": 2,
-                              "text_en": "Recovery and tissue support",
-                              "text_es": "Recuperación y soporte de tejidos",
-                              "color": "#08236B",
-                              "font": {
-                                "size": "24.88px",
-                                "weight": "600",
-                                "spacing": "0px",
-                                "family": "Open Sans"
-                              }
-                            }
-                          },
-                          {
-                            "type": "paragraph",
-                            "content": {
-                              "text_en": "Helps promote faster recovery and supports the repair of muscles and tissues.",
-                              "text_es": "Ayuda a promover una recuperación más rápida y apoya la reparación de músculos y tejidos.",
-                              "color": "#000000"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "group",
-          "content": {
-            "dir": "row",
-            "gap": 20,
-            "items": "stretch",
-            "pad": [
-              18,
-              0,
-              0,
-              0
-            ],
-            "boxed": true,
-            "children": [
-              {
-                "type": "group",
-                "content": {
-                  "dir": "column",
-                  "width": 50,
-                  "radius": 10,
-                  "gap": 10,
-                  "pad": [
-                    10,
-                    15,
-                    10,
-                    15
-                  ],
-                  "boxed": false,
-                  "children": [
-                    {
-                      "type": "group",
-                      "content": {
-                        "dir": "column",
-                        "boxed": false,
-                        "children": [
-                          {
-                            "type": "heading",
-                            "content": {
-                              "level": 2,
-                              "text_en": "Cognitive clarity",
-                              "text_es": "Claridad cognitiva",
-                              "color": "#08236B",
-                              "font": {
-                                "size": "24.88px",
-                                "weight": "600",
-                                "spacing": "0px",
-                                "family": "Open Sans"
-                              }
-                            }
-                          },
-                          {
-                            "type": "paragraph",
-                            "content": {
-                              "text_en": "May support mental focus, memory, and overall cognitive performance.",
-                              "text_es": "Puede apoyar el enfoque mental, la memoria y el rendimiento cognitivo general.",
-                              "color": "#000000"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "group",
-                "content": {
-                  "dir": "column",
-                  "width": 49.999,
-                  "radius": 10,
-                  "pad": [
-                    10,
-                    15,
-                    10,
-                    15
-                  ],
-                  "boxed": false,
-                  "children": [
-                    {
-                      "type": "group",
-                      "content": {
-                        "dir": "column",
-                        "width": 100,
-                        "boxed": false,
-                        "children": [
-                          {
-                            "type": "heading",
-                            "content": {
-                              "level": 2,
-                              "text_en": "Energy optimization",
-                              "text_es": "Optimización de energía",
-                              "color": "#08236B",
-                              "font": {
-                                "size": "24.88px",
-                                "weight": "600",
-                                "spacing": "0px",
-                                "family": "Open Sans"
-                              }
-                            }
-                          },
-                          {
-                            "type": "paragraph",
-                            "content": {
-                              "text_en": "Helps the body maintain stable energy levels throughout daily activities.",
-                              "text_es": "Ayuda al cuerpo a mantener niveles de energía estables durante las actividades diarias.",
-                              "color": "#000000"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "group",
-          "content": {
-            "dir": "row",
-            "gap": 20,
-            "items": "stretch",
-            "pad": [
-              18,
-              0,
-              0,
-              0
-            ],
-            "boxed": true,
-            "children": [
-              {
-                "type": "group",
-                "content": {
-                  "dir": "column",
-                  "width": 50,
-                  "radius": 10,
-                  "gap": 10,
-                  "pad": [
-                    10,
-                    15,
-                    10,
-                    15
-                  ],
-                  "boxed": false,
-                  "children": [
-                    {
-                      "type": "group",
-                      "content": {
-                        "dir": "column",
-                        "boxed": false,
-                        "children": [
-                          {
-                            "type": "heading",
-                            "content": {
-                              "level": 2,
-                              "text_en": "Skin and regenerative applications",
-                              "text_es": "Aplicaciones dermatológicas y regenerativas",
-                              "color": "#08236B",
-                              "font": {
-                                "size": "24.88px",
-                                "weight": "600",
-                                "spacing": "0px",
-                                "family": "Open Sans"
-                              }
-                            }
-                          },
-                          {
-                            "type": "paragraph",
-                            "content": {
-                              "text_en": "Supports skin health and may assist natural regeneration processes.",
-                              "text_es": "Apoya la salud de la piel y puede ayudar a los procesos naturales de regeneración.",
-                              "color": "#000000"
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "group",
-                "content": {
-                  "dir": "column",
-                  "width": 49.999,
-                  "radius": 10,
-                  "pad": [
-                    10,
-                    15,
-                    10,
-                    15
-                  ],
-                  "boxed": false,
-                  "children": [
-                    {
-                      "type": "group",
-                      "content": {
-                        "dir": "column",
-                        "width": 100,
-                        "boxed": false,
-                        "children": [
-                          {
-                            "type": "heading",
-                            "content": {
-                              "level": 2,
-                              "text_en": "Hormonal balance",
-                              "text_es": "Equilibrio hormonal",
-                              "color": "#08236B",
-                              "font": {
-                                "size": "24.88px",
-                                "weight": "600",
-                                "spacing": "0px",
-                                "family": "Open Sans"
-                              }
-                            }
-                          },
-                          {
-                            "type": "paragraph",
-                            "content": {
-                              "text_en": "May help support the body’s natural hormonal regulation and overall wellness.",
-                              "text_es": "Puede ayudar a apoyar la regulación hormonal natural del cuerpo y el bienestar general.",
-                              "color": "#000000"
-                            }
-                          }
-                        ]
                       }
                     }
                   ]
@@ -781,8 +382,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Our mission is to become Costa Rica’s most trusted local source for peptides.",
-                        "text_es": "Nuestra misión es convertirnos en la fuente local más confiable de péptidos en Costa Rica.",
+                        "text_en": "Our mission is to provide clear product information, transparent pricing, and reliable customer support for eligible customers in Costa Rica. We are committed to making the ordering process simple by offering accurate details, available documentation, and clear communication about product availability and delivery options.",
+                        "text_es": "Our mission is to provide clear product information, transparent pricing, and reliable customer support for eligible customers in Costa Rica. We are committed to making the ordering process simple by offering accurate details, available documentation, and clear communication about product availability and delivery options.",
                         "color": "#000000"
                       }
                     },
@@ -809,8 +410,8 @@
                     {
                       "type": "card",
                       "content": {
-                        "title_en": "Reliable access",
-                        "title_es": "Acceso confiable",
+                        "title_en": "Clear Information",
+                        "title_es": "Clear Information",
                         "text_en": "Ensuring consistent availability of peptides for customers across Costa Rica.",
                         "text_es": "Garantizar la disponibilidad constante de péptidos para los clientes en Costa Rica.",
                         "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-award\" viewBox=\"0 0 384 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M97.12 362.63c-8.69-8.69-4.16-6.24-25.12-11.85-9.51-2.55-17.87-7.45-25.43-13.32L1.2 448.7c-4.39 10.77 3.81 22.47 15.43 22.03l52.69-2.01L105.56 507c8 8.44 22.04 5.81 26.43-4.96l52.05-127.62c-10.84 6.04-22.87 9.58-35.31 9.58-19.5 0-37.82-7.59-51.61-21.37zM382.8 448.7l-45.37-111.24c-7.56 5.88-15.92 10.77-25.43 13.32-21.07 5.64-16.45 3.18-25.12 11.85-13.79 13.78-32.12 21.37-51.62 21.37-12.44 0-24.47-3.55-35.31-9.58L252 502.04c4.39 10.77 18.44 13.4 26.43 4.96l36.25-38.28 52.69 2.01c11.62.44 19.82-11.27 15.43-22.03zM263 340c15.28-15.55 17.03-14.21 38.79-20.14 13.89-3.79 24.75-14.84 28.47-28.98 7.48-28.4 5.54-24.97 25.95-45.75 10.17-10.35 14.14-25.44 10.42-39.58-7.47-28.38-7.48-24.42 0-52.83 3.72-14.14-.25-29.23-10.42-39.58-20.41-20.78-18.47-17.36-25.95-45.75-3.72-14.14-14.58-25.19-28.47-28.98-27.88-7.61-24.52-5.62-44.95-26.41-10.17-10.35-25-14.4-38.89-10.61-27.87 7.6-23.98 7.61-51.9 0-13.89-3.79-28.72.25-38.89 10.61-20.41 20.78-17.05 18.8-44.94 26.41-13.89 3.79-24.75 14.84-28.47 28.98-7.47 28.39-5.54 24.97-25.95 45.75-10.17 10.35-14.15 25.44-10.42 39.58 7.47 28.36 7.48 24.4 0 52.82-3.72 14.14.25 29.23 10.42 39.59 20.41 20.78 18.47 17.35 25.95 45.75 3.72 14.14 14.58 25.19 28.47 28.98C104.6 325.96 106.27 325 121 340c13.23 13.47 33.84 15.88 49.74 5.82a39.676 39.676 0 0 1 42.53 0c15.89 10.06 36.5 7.65 49.73-5.82zM97.66 175.96c0-53.03 42.24-96.02 94.34-96.02s94.34 42.99 94.34 96.02-42.24 96.02-94.34 96.02-94.34-42.99-94.34-96.02z\"></path></svg>",
@@ -825,8 +426,8 @@
                     {
                       "type": "card",
                       "content": {
-                        "title_en": "Structured bulk savings",
-                        "title_es": "Ahorros estructurados a granel",
+                        "title_en": "Transparent Service",
+                        "title_es": "Transparent Service",
                         "text_en": "Clear and organized bulk discount options for customers ordering larger quantities.",
                         "text_es": "Opciones de descuento por volumen claras y organizadas para clientes que piden grandes cantidades.",
                         "iconClass": "icon-savings",
@@ -841,8 +442,8 @@
                     {
                       "type": "card",
                       "content": {
-                        "title_en": "Transparent documentation",
-                        "title_es": "Documentación transparente",
+                        "title_en": "Reliable Support",
+                        "title_es": "Reliable Support",
                         "text_en": "Providing clear product documentation, including Certificates of Analysis when available.",
                         "text_es": "Proporcionar documentación clara del producto, incluyendo Certificados de Análisis cuando estén disponibles.",
                         "iconClass": "icon-Document-Search",
@@ -857,8 +458,8 @@
                     {
                       "type": "card",
                       "content": {
-                        "title_en": "Responsible product information",
-                        "title_es": "Información responsable del producto",
+                        "title_en": "Local Delivery",
+                        "title_es": "Local Delivery",
                         "text_en": "Sharing accurate product details to help customers make informed decisions.",
                         "text_es": "Compartir detalles precisos del producto para ayudar a los clientes a tomar decisiones informadas.",
                         "iconClass": "icon-information",
@@ -911,7 +512,7 @@
                     {
                       "type": "heading",
                       "content": {
-                        "level": 6,
+                        "level": 0,
                         "text_en": "Testimonial",
                         "text_es": "Testimonio",
                         "align": "center",
@@ -949,42 +550,18 @@
                     {
                       "type": "reviews",
                       "content": {
-                        "summary_en": "EXCELLENT Based on 6 reviews",
-                        "summary_es": "EXCELLENT Based on 6 reviews",
+                        "summary_en": "",
+                        "summary_es": "",
                         "reviews": [
                           {
-                            "author": "American Auto transport",
-                            "text": "Excelente experiencia con Peptides Costa Rica. El servicio fue rápido, profesional y muy atento desde el primer contacto. Los productos llegaron en perfectas condiciones y se nota el compromiso con la calidad. Además, respondieron todas mis consultas de manera clara y oportuna, brindando mucha confianza durante todo el proceso. Sin duda, una empresa seria y confiable para quienes buscan productos de alta calidad y una atención al cliente excepcional. ¡Totalmente recomendados!",
+                            "author": "LIC. JUAN ALFONSO MATA CHAVARRÍA.",
+                            "text": "Son excelentes mil estrellas",
                             "source": "Google",
                             "stars": 5
                           },
                           {
-                            "author": "moving service in USA",
-                            "text": "Ordering process was straightforward, communication was prompt, and my order arrived quickly and professionally packaged. I purchased Retatrutide, and the product met my expectations in terms of quality and presentation. The team was helpful in answering my questions and kept me informed throughout the process. Overall, I found them reliable, professional, and customer-focused. I would gladly purchase from them again and recommend Peptides Costa Rica to anyone looking for a trustworthy peptide supplier in Costa Rica.",
-                            "source": "Google",
-                            "stars": 5
-                          },
-                          {
-                            "author": "Dorcas Baah",
-                            "text": "I've had a very positive experience with buying Tirzepatide from Peptides Costa Rica. The results exceeded my expectations, particularly in helping manage appetite and support my overall wellness goals. I noticed a steady reduction in cravings, improved portion control, and consistent progress over time. What I appreciated most was how manageable the process felt compared to previous approaches I had tried. Combined with healthy eating habits and regular activity, Tirzepatide helped me stay on track and maintain better consistency. Overall, I'm very satisfied with my experience and would recommend Tirzepatide to others who are working with their healthcare provider to achieve similar health and weight-management goals.",
-                            "source": "Google",
-                            "stars": 5
-                          },
-                          {
-                            "author": "Charly Contreras",
-                            "text": "Desde el primer contacto recibí una atención profesional y rápida. El proceso de compra fue sencillo, la comunicación fue clara y el pedido llegó en perfectas condiciones. La calidad de los productos superó mis expectativas, con un empaque seguro y una presentación impecable. Además, el equipo de atención al cliente respondió todas mis consultas de manera amable y eficiente, lo que me dio mucha confianza durante todo el proceso. Sin duda recomiendo Peptides Costa Rica a cualquiera que busque productos de alta calidad, un servicio confiable y una experiencia de compra excepcional. ¡Seguiré siendo cliente y volveré a comprar con ellos!",
-                            "source": "Google",
-                            "stars": 5
-                          },
-                          {
-                            "author": "Teri Taylor",
-                            "text": "I had a great experience with Peptides Costa Rica. The team was responsive, professional, and took the time to answer all of my questions. The ordering process for Retatrutide was straightforward, communication was clear, and everything was handled efficiently. It's refreshing to work with a company that values customer service and transparency. I would definitely recommend Peptides Costa Rica to anyone looking for a reliable and knowledgeable provider.",
-                            "source": "Google",
-                            "stars": 5
-                          },
-                          {
-                            "author": "Joe Webster",
-                            "text": "Reliable Local Peptide Supplier in Costa Rica Peptides Costa Rica has quickly established itself as one of the most accessible peptide suppliers serving the Costa Rican market with Retatrutide, Tirzepatide, Semaglutide, Tesamorelin, HGH, and a whole lot more. Unlike many international vendors that require dealing with customs delays, import fees, and uncertain delivery times, the company focuses exclusively on customers within Costa Rica, creating a much smoother purchasing experience.",
+                            "author": "Karolynne Anchia",
+                            "text": "",
                             "source": "Google",
                             "stars": 5
                           }
@@ -1065,7 +642,7 @@
                     {
                       "type": "heading",
                       "content": {
-                        "level": 6,
+                        "level": 0,
                         "text_en": "Common Questions",
                         "text_es": "Preguntas frecuentes",
                         "color": "#FFFFFF",
@@ -1123,34 +700,34 @@
                       "content": {
                         "items": [
                           {
-                            "q_en": "Do you ship outside Costa Rica?",
-                            "q_es": "¿Hacen envíos fuera de Costa Rica?",
-                            "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
-                            "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al atender solo a Costa Rica, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
+                            "q_en": "What products does Peptides Costa Rica provide?",
+                            "q_es": "What products does Peptides Costa Rica provide?",
+                            "a_en": "Peptides Costa Rica provides research materials with clear product information, specifications, availability details, and ordering support for eligible purchasers in Costa Rica.",
+                            "a_es": "Peptides Costa Rica provides research materials with clear product information, specifications, availability details, and ordering support for eligible purchasers in Costa Rica."
                           },
                           {
                             "q_en": "Why don’t you offer online checkout?",
                             "q_es": "¿Por qué no ofrecen pago en línea?",
-                            "a_en": "We handle orders personally to make sure everything is accurate and that products are available before you pay.Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent.",
-                            "a_es": "We handle orders personally to make sure everything is accurate and that products are available before you pay.Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent."
+                            "a_en": "Yes, we provide available product information and documentation to help customers understand product details, specifications, and available materials before ordering.",
+                            "a_es": "Yes, we provide available product information and documentation to help customers understand product details, specifications, and available materials before ordering."
                           },
                           {
-                            "q_en": "What payment methods do you accept?",
-                            "q_es": "¿Qué métodos de pago aceptan?",
-                            "a_en": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
-                            "a_es": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
+                            "q_en": "How can I check product availability?",
+                            "q_es": "How can I check product availability?",
+                            "a_en": "Customers can contact our team directly to confirm current product availability, pricing, documentation, and delivery options within Costa Rica.",
+                            "a_es": "Customers can contact our team directly to confirm current product availability, pricing, documentation, and delivery options within Costa Rica."
                           },
                           {
-                            "q_en": "Is there a bulk discount?",
-                            "q_es": "¿Hay un descuento por volumen?",
-                            "a_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
-                            "a_es": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay."
+                            "q_en": "Do you provide delivery within Costa Rica?",
+                            "q_es": "Do you provide delivery within Costa Rica?",
+                            "a_en": "Yes, we coordinate local delivery options within Costa Rica. Customers can contact our team for current delivery details and available arrangements.",
+                            "a_es": "Yes, we coordinate local delivery options within Costa Rica. Customers can contact our team for current delivery details and available arrangements."
                           },
                           {
-                            "q_en": "How do I confirm product availability?",
-                            "q_es": "¿Cómo confirmo la disponibilidad del producto?",
-                            "a_en": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
-                            "a_es": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly."
+                            "q_en": "How can I place an order?",
+                            "q_es": "How can I place an order?",
+                            "a_en": "Customers can review available products, confirm product information, and contact our team to receive support with availability, ordering details, and delivery information.",
+                            "a_es": "Customers can review available products, confirm product information, and contact our team to receive support with availability, ordering details, and delivery information."
                           }
                         ]
                       }
@@ -1162,7 +739,7 @@
           }
         }
       ],
-      "untranslated": 7
+      "untranslated": 23
     },
     {
       "slug": "our-story",
@@ -1184,12 +761,6 @@
             "justify": "center",
             "items": "center",
             "minHeight": 400,
-            "pad": [
-              48,
-              20,
-              48,
-              20
-            ],
             "boxed": true,
             "children": [
               {
@@ -1203,9 +774,9 @@
                   "items": "center",
                   "minHeight": 320,
                   "pad": [
-                    48,
+                    0,
                     50,
-                    48,
+                    0,
                     50
                   ],
                   "boxed": false,
@@ -1226,8 +797,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Welcome to Peptides Costa Rica, where we specialize in harnessing the power of peptides to support and enhance cognitive function. Our cutting‐edge peptide solutions are carefully formulated to help relieve brain fog, sharpen focus, and promote overall mental clarity. If you have ever felt that your cognitive performance could be improved or if you are looking for a natural, research-backed way to support brain health, you are in the right place.",
-                        "text_es": "Bienvenido a Peptides Costa Rica, donde nos especializamos en aprovechar el poder de los péptidos para apoyar y mejorar la función cognitiva. Nuestras soluciones de péptidos de vanguardia están cuidadosamente formuladas para ayudar a aliviar la confusión mental, agudizar la concentración y promover la claridad mental en general. Si alguna vez has sentido que tu desempeño cognitivo podría mejorarse o si estás buscando una forma natural y respaldada por investigaciones para cuidar la salud cerebral, estás en el lugar correcto.",
+                        "text_en": "Peptides Costa Rica was founded by longtime friends and training partners Joey Webster and Sean McCully. Originally from California, both made Costa Rica their home and built lasting connections through sport and business. Their shared background and commitment to strong relationships helped shape the foundation of Peptides Costa Rica. The company was created with a focus on providing clear product information, transparent pricing, direct communication, and reliable local delivery throughout Costa Rica.",
+                        "text_es": "Peptides Costa Rica was founded by longtime friends and training partners Joey Webster and Sean McCully. Originally from California, both made Costa Rica their home and built lasting connections through sport and business. Their shared background and commitment to strong relationships helped shape the foundation of Peptides Costa Rica. The company was created with a focus on providing clear product information, transparent pricing, direct communication, and reliable local delivery throughout Costa Rica.",
                         "align": "center",
                         "color": "#000000"
                       }
@@ -1242,7 +813,7 @@
           "type": "group",
           "content": {
             "dir": "row",
-            "gap": 40,
+            "gap": 10,
             "items": "stretch",
             "pad": [
               70,
@@ -1255,13 +826,12 @@
               {
                 "type": "image",
                 "content": {
-                  "src": "/wp-content/uploads/2026/04/peptides-2-1.png",
-                  "width": 1000,
-                  "height": 1000,
-                  "alt_en": "Person demonstrating leg stretch beside supplement bottles in modern living room.",
-                  "alt_es": "Persona realizando estiramiento de piernas junto a botellas de suplementos en una sala de estar moderna.",
-                  "displayWidth": "85%",
-                  "radius": 16
+                  "src": "/wp-content/uploads/2026/09/homepage-vial-images.webp",
+                  "width": 1374,
+                  "height": 1145,
+                  "alt_en": "BPC-157 and Epitalon peptide vials from Peptides Costa Rica.",
+                  "alt_es": "BPC-157 and Epitalon peptide vials from Peptides Costa Rica.",
+                  "displayWidth": "85%"
                 }
               },
               {
@@ -1275,29 +845,29 @@
                       "type": "heading",
                       "content": {
                         "level": 2,
-                        "text_en": "From the Fight World to Peptides Costa Rica",
-                        "text_es": "Del mundo del combate a Peptides Costa Rica"
+                        "text_en": "A Shared Background",
+                        "text_es": "A Shared Background"
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Peptides Costa Rica was founded by two longtime friends and training partners with deep roots in combat sports and high-performance training.",
-                        "text_es": "Peptides Costa Rica fue fundada por dos amigos de toda la vida y compañeros de entrenamiento con una larga trayectoria en los deportes de combate y el entrenamiento de alto rendimiento."
+                        "text_en": "Combat sports brought Joey and Sean together and became an important part of their shared history. Through years of training and competition, they developed a strong connection built on discipline, commitment, and mutual respect.",
+                        "text_es": "Combat sports brought Joey and Sean together and became an important part of their shared history. Through years of training and competition, they developed a strong connection built on discipline, commitment, and mutual respect."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Our business began not in an office, but in gyms, fight camps, and recovery rooms, after years of pushing ourselves to the limit.",
-                        "text_es": "Nuestro negocio no comenzó en una oficina, sino en gimnasios, campos de entrenamiento y salas de recuperación, después de años de llevarnos al límite."
+                        "text_en": "Their experience in sports shaped the way they approach business today. They believe in consistency, attention to detail, and building meaningful relationships with the people they work with.",
+                        "text_es": "Their experience in sports shaped the way they approach business today. They believe in consistency, attention to detail, and building meaningful relationships with the people they work with."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "More than 15 years ago, Joey Webster and Sean McCully moved from California to Costa Rica. We were searching for a better lifestyle and new opportunities, but we soon found a shared mission: helping others find ways to perform better, recover, and stay healthy for the long term.That journey led us to create Peptides Costa Rica.",
-                        "text_es": "Hace más de 15 años, Joey Webster y Sean McCully se mudaron de California a Costa Rica. Buscábamos un mejor estilo de vida y nuevas oportunidades, pero pronto encontramos una misión compartida: ayudar a otros a encontrar formas de rendir mejor, recuperarse y mantenerse saludables a largo plazo. Ese viaje nos llevó a crear Peptides Costa Rica."
+                        "text_en": "The same values that guided them through their athletic backgrounds continue to influence the way they operate Peptides Costa Rica — focusing on clear communication, reliability, and providing a straightforward experience for customers throughout Costa Rica.",
+                        "text_es": "The same values that guided them through their athletic backgrounds continue to influence the way they operate Peptides Costa Rica — focusing on clear communication, reliability, and providing a straightforward experience for customers throughout Costa Rica."
                       }
                     }
                   ]
@@ -1310,7 +880,7 @@
           "type": "group",
           "content": {
             "dir": "row",
-            "gap": 40,
+            "gap": 10,
             "items": "stretch",
             "pad": [
               70,
@@ -1326,50 +896,36 @@
                   "dir": "column",
                   "width": 60,
                   "justify": "center",
-                  "items": "stretch",
+                  "items": "center",
                   "boxed": false,
                   "children": [
                     {
                       "type": "heading",
                       "content": {
                         "level": 2,
-                        "text_en": "Sean McCully: A Pioneer in Combat Sports",
-                        "text_es": "Sean McCully: un pionero en los deportes de combate"
+                        "text_en": "Sean McCully",
+                        "text_es": "Sean McCully"
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Sean McCully is well known in the fight world. He has spent decades competing, coaching, and building businesses in the field.",
-                        "text_es": "Sean McCully es muy conocido en el mundo de las artes marciales. Ha dedicado décadas a competir, entrenar y desarrollar negocios en este ámbito."
+                        "text_en": "Sean McCully is one of the founders of Peptides Costa Rica, bringing years of experience, discipline, and commitment shaped through his background in sport and business. Originally from California, Sean made Costa Rica his home and developed strong connections through his involvement in the local community, training, and professional relationships.",
+                        "text_es": "Sean McCully is one of the founders of Peptides Costa Rica, bringing years of experience, discipline, and commitment shaped through his background in sport and business. Originally from California, Sean made Costa Rica his home and developed strong connections through his involvement in the local community, training, and professional relationships."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Sean is a world champion in Muay Thai and kickboxing, and was part of the early days of mixed martial arts. He has coached fighters who later won world titles in several disciplines.",
-                        "text_es": "Sean es campeón mundial de muay thai y kickboxing, y formó parte de los inicios de las artes marciales mixtas. Ha entrenado a luchadores que posteriormente ganaron títulos mundiales en varias disciplinas."
+                        "text_en": "His journey with Joey Webster began through combat sports, where they built a friendship based on shared values, consistency, and mutual respect. Over time, that relationship grew beyond sport and became the foundation for a business built around trust, communication, and long-term relationships.",
+                        "text_es": "His journey with Joey Webster began through combat sports, where they built a friendship based on shared values, consistency, and mutual respect. Over time, that relationship grew beyond sport and became the foundation for a business built around trust, communication, and long-term relationships."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "He founded LA Boxing, a gym franchise that brought striking-based fitness training to thousands of people across the United States.",
-                        "text_es": "Fundó LA Boxing, una franquicia de gimnasios que llevó el entrenamiento físico basado en los golpes a miles de personas en todo Estados Unidos."
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "Today, Sean runs McCully’s Fight Club in Costa Rica, where he still coaches fighters and athletes at every level.",
-                        "text_es": "Hoy, Sean dirige McCully’s Fight Club en Costa Rica, donde todavía entrena a peleadores y atletas de todos los niveles."
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "With decades in competitive fighting, Sean knows firsthand about training, recovery, and injuries. That background helped shape the vision for Peptides Costa Rica.",
-                        "text_es": "Con décadas en el mundo de las peleas competitivas, Sean conoce de primera mano el entrenamiento, la recuperación y las lesiones. Esa experiencia ayudó a dar forma a la visión de Peptides Costa Rica."
+                        "text_en": "At Peptides Costa Rica, Sean focuses on creating a clear and reliable experience for customers by helping provide accurate product information, straightforward communication, and support throughout the ordering process. His approach is centered around making the purchasing experience simple, transparent, and easy to understand.",
+                        "text_es": "At Peptides Costa Rica, Sean focuses on creating a clear and reliable experience for customers by helping provide accurate product information, straightforward communication, and support throughout the ordering process. His approach is centered around making the purchasing experience simple, transparent, and easy to understand."
                       }
                     }
                   ]
@@ -1390,8 +946,7 @@
                         "height": 1800,
                         "alt_en": "Two athletes pose with boxing gloves in gym, 'ROCKS' banner visible.",
                         "alt_es": "Dos atletas posan con guantes de boxeo en un gimnasio, se ve un cartel que dice \"ROCKS\".",
-                        "displayWidth": "85%",
-                        "radius": 16
+                        "displayWidth": "85%"
                       }
                     }
                   ]
@@ -1404,7 +959,7 @@
           "type": "group",
           "content": {
             "dir": "row",
-            "gap": 40,
+            "gap": 10,
             "items": "stretch",
             "pad": [
               0,
@@ -1429,8 +984,7 @@
                         "height": 1218,
                         "alt_en": "Shirtless fighter holds championship belt at event, muscular pose on stage.",
                         "alt_es": "Luchador sin camisa sostiene un cinturón de campeonato en un evento, pose muscular en el escenario.",
-                        "displayWidth": "85%",
-                        "radius": 16
+                        "displayWidth": "85%"
                       }
                     }
                   ]
@@ -1442,50 +996,36 @@
                   "dir": "column",
                   "width": 60,
                   "justify": "center",
-                  "items": "stretch",
+                  "items": "center",
                   "boxed": false,
                   "children": [
                     {
                       "type": "heading",
                       "content": {
                         "level": 2,
-                        "text_en": "Joey Webster: From Wrestling Champion to Fighter",
-                        "text_es": "Joey Webster: De campeón de lucha libre a luchador"
+                        "text_en": "Joey Webster",
+                        "text_es": "Joey Webster"
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Joey Webster grew up wrestling in California and made it to the California State Wrestling Championships, where he set the record for the fastest pin in the tournament.",
-                        "text_es": "Joey Webster creció luchando en California y llegó a los Campeonatos Estatales de Lucha de California, donde estableció el récord del toque de espaldas más rápido del torneo."
+                        "text_en": "Joey Webster is a founder of Peptides Costa Rica and has built his journey through years of dedication, discipline, and strong relationships. Originally from California, Joey made Costa Rica his home and developed meaningful connections through sport, business, and the local community.",
+                        "text_es": "Joey Webster is a founder of Peptides Costa Rica and has built his journey through years of dedication, discipline, and strong relationships. Originally from California, Joey made Costa Rica his home and developed meaningful connections through sport, business, and the local community."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "After moving to Costa Rica, Joey met Sean and started training in boxing, Muay Thai, and MMA. What began as curiosity quickly became a serious passion for combat sports.",
-                        "text_es": "Después de mudarse a Costa Rica, Joey conoció a Sean y comenzó a entrenar boxeo, Muay Thai y MMA. Lo que empezó como curiosidad se convirtió rápidamente en una seria pasión por los deportes de combate."
+                        "text_en": "Through his background in combat sports, Joey developed values centered around consistency, commitment, and the importance of working closely with others. These experiences helped shape the way he approaches business and the relationships he builds with customers and partners.",
+                        "text_es": "Through his background in combat sports, Joey developed values centered around consistency, commitment, and the importance of working closely with others. These experiences helped shape the way he approaches business and the relationships he builds with customers and partners."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Like many athletes, Joey faced injuries along the way. At one point, he had two ankle surgeries and a knee surgery at the same time, and a doctor told him he might never kick again.",
-                        "text_es": "Al igual que muchos atletas, Joey tuvo que lidiar con lesiones a lo largo de su carrera. En un momento dado, se sometió a dos cirugías en el tobillo y una en la rodilla al mismo tiempo, y un médico le dijo que tal vez nunca volvería a patear."
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "Less than a year later, Joey returned to the ring and won his next fight with a first-round knockout.",
-                        "text_es": "Menos de un año después, Joey regresó al ring y ganó su siguiente pelea por nocaut en el primer asalto."
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "Experiences like this helped inspire the creation of Peptides Costa Rica.",
-                        "text_es": "Experiencias como esta contribuyeron a inspirar la creación de Peptides Costa Rica."
+                        "text_en": "Together with Sean McCully, Joey established Peptides Costa Rica with a focus on creating a straightforward and reliable experience for customers in Costa Rica. The company’s approach is based on clear product information, transparent communication, and dependable service.",
+                        "text_es": "Together with Sean McCully, Joey established Peptides Costa Rica with a focus on creating a straightforward and reliable experience for customers in Costa Rica. The company’s approach is based on clear product information, transparent communication, and dependable service."
                       }
                     }
                   ]
@@ -1536,121 +1076,13 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Years of training and coaching taught us that recovery matters just as much as performance. Combat sports put a lot of stress on the body. Fighters face joint strain, fatigue, and injuries that can take months to heal. As we kept training and got older, we became more interested in tools that help with recovery, resilience, and long-term performance.",
-                        "text_es": "Años de entrenamiento y asesoramiento nos enseñaron que la recuperación es tan importante como el rendimiento. Los deportes de combate someten al cuerpo a mucho estrés. Los luchadores sufren de tensión en las articulaciones, fatiga y lesiones que pueden tardar meses en curarse. A medida que seguíamos entrenando y envejecíamos, nos interesamos más en herramientas que ayuden con la recuperación, la resistencia y el rendimiento a largo plazo.",
+                        "text_en": "During our days at the gym, few of our gym buddies, who also happened to work at a certified research lab, told us about work delays since they relied on international suppliers for all types of compounds, especially peptides. What we saw was a business opportunity that would eventually help so many researchers like them. We learned more peptide specifications, purity, storage, handling, and everything else, to deliver research-grade peptides locally through Peptides Costa Rica.",
+                        "text_es": "During our days at the gym, few of our gym buddies, who also happened to work at a certified research lab, told us about work delays since they relied on international suppliers for all types of compounds, especially peptides. What we saw was a business opportunity that would eventually help so many researchers like them. We learned more peptide specifications, purity, storage, handling, and everything else, to deliver research-grade peptides locally through Peptides Costa Rica.",
                         "align": "center",
                         "color": "#FFFFFF",
                         "font": {
                           "size": "18px"
                         }
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "Peptides started coming up more often in conversations about performance, recovery, and longevity.",
-                        "text_es": "Los péptidos empezaron a aparecer con más frecuencia en las conversaciones sobre rendimiento, recuperación y longevidad.",
-                        "align": "center",
-                        "color": "#FFFFFF",
-                        "font": {
-                          "size": "18px"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "group",
-          "content": {
-            "dir": "row",
-            "gap": 40,
-            "items": "stretch",
-            "pad": [
-              70,
-              20,
-              70,
-              20
-            ],
-            "boxed": true,
-            "children": [
-              {
-                "type": "image",
-                "content": {
-                  "src": "/wp-content/uploads/2026/04/peptides-4-2.png",
-                  "width": 1000,
-                  "height": 1000,
-                  "alt_en": "Woman holding supplement in yoga pose on mat.",
-                  "alt_es": "Mujer sosteniendo un suplemento en pose de yoga sobre una esterilla.",
-                  "displayWidth": "85%",
-                  "radius": 16
-                }
-              },
-              {
-                "type": "group",
-                "content": {
-                  "dir": "column",
-                  "gap": 28,
-                  "boxed": false,
-                  "children": [
-                    {
-                      "type": "heading",
-                      "content": {
-                        "level": 2,
-                        "text_en": "Why We Started Peptides Costa Rica",
-                        "text_es": "Por qué fundamos Peptides Costa Rica"
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "When we started learning more about peptides, we ran into a problem.",
-                        "text_es": "Cuando empezamos a aprender más sobre los péptidos, nos topamos con un problema."
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "Getting peptides in Costa Rica wasn’t easy. Most people had to use international suppliers, which often meant:",
-                        "text_es": "Conseguir péptidos en Costa Rica no fue fácil. La mayoría de la gente tuvo que recurrir a proveedores internacionales, lo que a menudo significaba:"
-                      }
-                    },
-                    {
-                      "type": "list",
-                      "content": {
-                        "ordered": false,
-                        "items_en": [
-                          "Shipping delays",
-                          "Customs complications",
-                          "Unclear sourcing",
-                          "Limited communication"
-                        ],
-                        "items_es": [
-                          "Demoras en el envío",
-                          "Complicaciones aduaneras",
-                          "Fuentes poco claras",
-                          "Comunicación limitada"
-                        ]
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "We thought there should be a better option for people living and training in Costa Rica.We started Peptides Costa Rica to offer a reliable local source with clear pricing, direct communication, and an easy ordering process.",
-                        "text_es": "Pensamos que debería haber una mejor opción para las personas que viven y entrenan en Costa Rica. Iniciamos Peptides Costa Rica para ofrecer una fuente local confiable con precios claros, comunicación directa y un proceso de pedido sencillo."
-                      }
-                    },
-                    {
-                      "type": "button",
-                      "content": {
-                        "text_en": "View Products",
-                        "text_es": "Ver Productos",
-                        "href": "/all-peptide-products-costa-rica/",
-                        "bg": "#092771",
-                        "color": "#FFFFFF"
                       }
                     }
                   ]
@@ -1664,16 +1096,8 @@
           "content": {
             "dir": "row",
             "radius": 10,
-            "gap": 40,
             "justify": "center",
-            "items": "stretch",
             "minHeight": 450,
-            "pad": [
-              70,
-              20,
-              70,
-              20
-            ],
             "boxed": true,
             "children": [
               {
@@ -1681,7 +1105,6 @@
                 "content": {
                   "dir": "column",
                   "width": 60,
-                  "gap": 28,
                   "boxed": false,
                   "children": [
                     {
@@ -1708,12 +1131,25 @@
                           {
                             "type": "paragraph",
                             "content": {
-                              "text_en": "When we started learning more about peptides, we ran into a problem.Getting peptides in Costa Rica wasn’t easy. Most people had to use international suppliers, which often meant:",
-                              "text_es": "Cuando empezamos a aprender más sobre péptidos, nos encontramos con un problema. Conseguir péptidos en Costa Rica no era fácil. La mayoría de la gente tenía que usar proveedores internacionales, lo que a menudo significaba:",
-                              "font": {
-                                "size": "18px",
-                                "weight": "bold"
-                              }
+                              "text_en": "We saw an opportunity to make local ordering more straightforward for customers in Costa Rica. Peptides Costa Rica was established with the goal of creating a simpler and more transparent way for eligible customers to access product information, availability details, and ordering support.",
+                              "text_es": "We saw an opportunity to make local ordering more straightforward for customers in Costa Rica. Peptides Costa Rica was established with the goal of creating a simpler and more transparent way for eligible customers to access product information, availability details, and ordering support.",
+                              "color": "#000000"
+                            }
+                          },
+                          {
+                            "type": "paragraph",
+                            "content": {
+                              "text_en": "From the beginning, our focus has been on providing clear information, transparent pricing, direct communication, and reliable local delivery. We believe customers should have a clear understanding of what they are ordering, what information is available, and how the purchasing process works.",
+                              "text_es": "From the beginning, our focus has been on providing clear information, transparent pricing, direct communication, and reliable local delivery. We believe customers should have a clear understanding of what they are ordering, what information is available, and how the purchasing process works.",
+                              "color": "#000000"
+                            }
+                          },
+                          {
+                            "type": "paragraph",
+                            "content": {
+                              "text_en": "By focusing on service, communication, and a customer-first approach, Peptides Costa Rica continues to build a dependable experience for customers throughout Costa Rica.",
+                              "text_es": "By focusing on service, communication, and a customer-first approach, Peptides Costa Rica continues to build a dependable experience for customers throughout Costa Rica.",
+                              "color": "#000000"
                             }
                           },
                           {
@@ -1735,12 +1171,12 @@
                                     "icon": true,
                                     "inline": true,
                                     "items_en": [
-                                      "Unclear sourcing",
-                                      "Limited communication"
+                                      "Local stock, no customs",
+                                      "Batch documentation Available"
                                     ],
                                     "items_es": [
-                                      "Fuentes poco claras",
-                                      "Comunicación limitada"
+                                      "Local stock, no customs",
+                                      "Batch documentation Available"
                                     ],
                                     "hrefs": [
                                       null,
@@ -1758,12 +1194,12 @@
                                     "icon": true,
                                     "inline": true,
                                     "items_en": [
-                                      "Shipping delays",
-                                      "Customs complications"
+                                      "Transparent Pricing",
+                                      "Direct order confirmation"
                                     ],
                                     "items_es": [
-                                      "Demoras en el envío",
-                                      "Complicaciones aduaneras"
+                                      "Precios transparentes",
+                                      "Direct order confirmation"
                                     ],
                                     "hrefs": [
                                       null,
@@ -1779,22 +1215,6 @@
                             }
                           }
                         ]
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "We thought there should be a better option for people living and training in Costa Rica.",
-                        "text_es": "Pensamos que debería haber una mejor opción para las personas que viven y entrenan en Costa Rica.",
-                        "color": "#000000"
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "We started Peptides Costa Rica to offer a reliable local source with clear pricing, direct communication, and an easy ordering process.",
-                        "text_es": "Comenzamos Peptides Costa Rica para ofrecer una fuente local confiable con precios claros, comunicación directa y un proceso de pedido sencillo.",
-                        "color": "#000000"
                       }
                     },
                     {
@@ -1829,13 +1249,12 @@
                     {
                       "type": "image",
                       "content": {
-                        "src": "/wp-content/uploads/2026/04/peptides-5-1.png",
+                        "src": "/wp-content/uploads/2026/07/peptides-63-1.webp",
                         "width": 1000,
                         "height": 1000,
-                        "alt_en": "Muscular man working out beside boldly labeled supplement bottle.",
-                        "alt_es": "Hombre musculoso entrenando junto a una botella de suplementos con etiqueta llamativa.",
-                        "displayWidth": "85%",
-                        "radius": 16
+                        "alt_en": "Active man and woman walking outdoors with peptide vials displayed nearby",
+                        "alt_es": "Hombre y mujer activos caminando al aire libre con viales de péptidos exhibidos cerca",
+                        "displayWidth": "85%"
                       }
                     }
                   ]
@@ -1865,8 +1284,8 @@
               {
                 "type": "paragraph",
                 "content": {
-                  "text_en": "Peptides Costa Rica serves only customers within Costa Rica.We focus on:",
-                  "text_es": "Peptides Costa Rica atiende únicamente a clientes dentro de Costa Rica. Nos enfocamos en:",
+                  "text_en": "Peptides Costa Rica serves only customers within Costa Rica. We focus on:",
+                  "text_es": "Peptides Costa Rica serves only customers within Costa Rica. We focus on:",
                   "align": "center",
                   "color": "#000000",
                   "font": {
@@ -1923,7 +1342,7 @@
                                 {
                                   "type": "heading",
                                   "content": {
-                                    "level": 2,
+                                    "level": 0,
                                     "text_en": "Clear pricing",
                                     "text_es": "Precios claros",
                                     "align": "center",
@@ -1970,7 +1389,7 @@
                                 {
                                   "type": "heading",
                                   "content": {
-                                    "level": 2,
+                                    "level": 0,
                                     "text_en": "Direct communication",
                                     "text_es": "Comunicación directa",
                                     "align": "center",
@@ -2026,7 +1445,7 @@
                                 {
                                   "type": "heading",
                                   "content": {
-                                    "level": 2,
+                                    "level": 0,
                                     "text_en": "Local delivery coordination",
                                     "text_es": "Coordinación de entregas locales",
                                     "align": "center",
@@ -2073,7 +1492,7 @@
                                 {
                                   "type": "heading",
                                   "content": {
-                                    "level": 2,
+                                    "level": 0,
                                     "text_en": "Confirmed product availability",
                                     "text_es": "Confirmación de disponibilidad de producto",
                                     "align": "center",
@@ -2102,7 +1521,7 @@
           "type": "group",
           "content": {
             "dir": "row",
-            "gap": 40,
+            "gap": 10,
             "items": "stretch",
             "pad": [
               70,
@@ -2115,13 +1534,12 @@
               {
                 "type": "image",
                 "content": {
-                  "src": "/wp-content/uploads/2026/07/peptides-7-1-1.webp",
-                  "width": 2000,
-                  "height": 2000,
-                  "alt_en": "Man running on treadmill in modern living room.",
-                  "alt_es": "Man running on treadmill in modern living room.",
-                  "displayWidth": "85%",
-                  "radius": 16
+                  "src": "/wp-content/uploads/2026/04/peptides-15-1.webp",
+                  "width": 1000,
+                  "height": 1000,
+                  "alt_en": "Fit man at home with Fat Blaster 10mg peptide vial displayed on table",
+                  "alt_es": "Fit man at home with Fat Blaster 10mg peptide vial displayed on table",
+                  "displayWidth": "85%"
                 }
               },
               {
@@ -2136,36 +1554,29 @@
                       "type": "heading",
                       "content": {
                         "level": 2,
-                        "text_en": "The Tools We Use Ourselves",
-                        "text_es": "Las herramientas que usamos nosotros mismos"
+                        "text_en": "Our Approach",
+                        "text_es": "Our Approach"
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Everything we offer at Peptides Costa Rica comes from the world we know best: training, recovery, and performance.",
-                        "text_es": "Todo lo que ofrecemos en Péptidos Costa Rica proviene del mundo que mejor conocemos: entrenamiento, recuperación y rendimiento."
+                        "text_en": "At Peptides Costa Rica, we believe customers should have clear and accurate information before placing an order. Our goal is to make the purchasing process simple by providing product details, availability information, and support when customers have questions.",
+                        "text_es": "At Peptides Costa Rica, we believe customers should have clear and accurate information before placing an order. Our goal is to make the purchasing process simple by providing product details, availability information, and support when customers have questions."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "We know what athletes put their bodies through because we’ve experienced it ourselves.",
-                        "text_es": "Sabemos por lo que pasan los atletas porque nosotros mismos lo hemos vivido."
+                        "text_en": "Our team is available to assist with product availability, available documentation, delivery questions, and order updates. We focus on clear communication and making sure customers understand the information provided with each listing.",
+                        "text_es": "Our team is available to assist with product availability, available documentation, delivery questions, and order updates. We focus on clear communication and making sure customers understand the information provided with each listing."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "That experience shapes how we run our business. We focus on clear communication, reliable access, and products that people serious about performance and recovery are already talking about and using.",
-                        "text_es": "Esa experiencia moldea cómo dirigimos nuestro negocio. Nos enfocamos en comunicación clara, acceso confiable y productos de los que ya hablan y usan las personas serias en cuanto a rendimiento y recuperación."
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "We don’t want to overpromise. Our goal is to give people straightforward access and honest information to help them take their training, recovery, and long-term health seriously.",
-                        "text_es": "No queremos prometer demasiado. Nuestro objetivo es brindar a las personas acceso directo e información honesta para ayudarlas a tomarse en serio su entrenamiento, recuperación y salud a largo plazo."
+                        "text_en": "Each product listing is designed to explain the supplied material, available details, and relevant information about the product. We do not provide personal dosing, administration instructions, or treatment recommendations.",
+                        "text_es": "Each product listing is designed to explain the supplied material, available details, and relevant information about the product. We do not provide personal dosing, administration instructions, or treatment recommendations."
                       }
                     }
                   ]
@@ -2219,8 +1630,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "As more people in Costa Rica get interested in performance, recovery, and longevity, we’re in this fight: to stay a reliable local source built on transparency, consistency, and direct communication. Peptides Costa Rica was built on real experience, and we’re committed to keeping that approach as we grow.",
-                        "text_es": "A medida que más personas en Costa Rica se interesan en el rendimiento, la recuperación y la longevidad, nos encontramos en esta lucha: mantenernos como una fuente local confiable basada en la transparencia, la consistencia y la comunicación directa. Peptides Costa Rica se construyó sobre la experiencia real, y estamos comprometidos a mantener ese enfoque a medida que crecemos.",
+                        "text_en": "As the business grows, the focus stays where it started: accurate product information, dependable service, and responsive communication with customers in Costa Rica.",
+                        "text_es": "As the business grows, the focus stays where it started: accurate product information, dependable service, and responsive communication with customers in Costa Rica.",
                         "align": "center",
                         "color": "#000000",
                         "font": {
@@ -2235,7 +1646,7 @@
           }
         }
       ],
-      "untranslated": 0
+      "untranslated": 28
     },
     {
       "slug": "bulk-discounts",
@@ -2524,6 +1935,7 @@
                       "content": {
                         "dir": "column",
                         "width": 25,
+                        "hide": "md:max-lg:hidden",
                         "boxed": false,
                         "children": [
                           {
@@ -2545,6 +1957,7 @@
                       "content": {
                         "dir": "column",
                         "width": 25,
+                        "hide": "md:max-lg:hidden",
                         "boxed": false,
                         "children": [
                           {
@@ -2596,7 +2009,7 @@
                     {
                       "type": "heading",
                       "content": {
-                        "level": 6,
+                        "level": 0,
                         "text_en": "BULK BUYING BENEFITS",
                         "text_es": "Beneficios de comprar al por mayor",
                         "color": "#FFFFFF",
@@ -2702,56 +2115,68 @@
         {
           "type": "group",
           "content": {
-            "dir": "row",
-            "bgImage": "/wp-content/uploads/2026/04/Untitled-design-8-2.png",
-            "gap": 10,
-            "justify": "center",
-            "items": "center",
+            "dir": "column",
+            "bg": "#092771",
+            "gap": 20,
+            "items": "stretch",
+            "contentWidth": 1280,
+            "pad": [
+              32,
+              0,
+              32,
+              0
+            ],
+            "marginTop": 48,
             "boxed": true,
             "children": [
               {
                 "type": "group",
                 "content": {
                   "dir": "column",
-                  "width": 72,
-                  "gap": 15,
+                  "width": 100,
                   "justify": "center",
-                  "items": "center",
-                  "pad": [
-                    32,
-                    32,
-                    32,
-                    32
-                  ],
                   "boxed": false,
                   "children": [
                     {
-                      "type": "heading",
+                      "type": "group",
                       "content": {
-                        "level": 2,
-                        "text_en": "Tailored Solutions for Serious Buyers",
-                        "text_es": "Soluciones personalizadas para compradores serios",
-                        "align": "center",
-                        "color": "#FFFFFF"
-                      }
-                    },
-                    {
-                      "type": "paragraph",
-                      "content": {
-                        "text_en": "Whether you are purchasing for research, repeated use, resale, or long-term supply needs, our bulk program is designed to give you better value, reliable access, and direct local support in Costa Rica.",
-                        "text_es": "Ya sea que compres para investigación, uso repetido, reventa o necesidades de suministro a largo plazo, nuestro programa de compras al por mayor está diseñado para brindarte mejor valor, acceso confiable y soporte local directo en Costa Rica.",
-                        "align": "center",
-                        "color": "#FFFFFF"
-                      }
-                    },
-                    {
-                      "type": "button",
-                      "content": {
-                        "text_en": "Contact Us",
-                        "text_es": "Contáctanos",
-                        "href": "/contact-costa-rica/",
-                        "bg": "#08236B",
-                        "color": "#FFFFFF"
+                        "dir": "column",
+                        "justify": "center",
+                        "items": "center",
+                        "boxed": false,
+                        "children": [
+                          {
+                            "type": "heading",
+                            "content": {
+                              "level": 2,
+                              "text_en": "Tailored Solutions for Serious Buyers",
+                              "text_es": "Soluciones personalizadas para compradores serios",
+                              "color": "#FFFFFF"
+                            }
+                          },
+                          {
+                            "type": "paragraph",
+                            "content": {
+                              "text_en": "Whether you are purchasing for research, repeated use, resale, or long-term supply needs, our bulk program is designed to give you better value, reliable access, and direct local support in Costa Rica.",
+                              "text_es": "Ya sea que compres para investigación, uso repetido, reventa o necesidades de suministro a largo plazo, nuestro programa de compras al por mayor está diseñado para brindarte mejor valor, acceso confiable y soporte local directo en Costa Rica.",
+                              "align": "center",
+                              "color": "#FFFFFF",
+                              "font": {
+                                "size": "16px"
+                              }
+                            }
+                          },
+                          {
+                            "type": "button",
+                            "content": {
+                              "text_en": "Contact Us",
+                              "text_es": "Contáctanos",
+                              "href": "/contact-costa-rica/",
+                              "bg": "#FFFFFF",
+                              "color": "#092771"
+                            }
+                          }
+                        ]
                       }
                     }
                   ]
@@ -2885,7 +2310,7 @@
                     {
                       "type": "heading",
                       "content": {
-                        "level": 6,
+                        "level": 0,
                         "text_en": "Common Questions",
                         "text_es": "Preguntas frecuentes",
                         "color": "#FFFFFF",
@@ -2957,8 +2382,8 @@
                           {
                             "q_en": "What payment methods do you accept?",
                             "q_es": "¿Qué métodos de pago aceptan?",
-                            "a_en": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
-                            "a_es": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
+                            "a_en": "We currently accept:Shield HubCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+                            "a_es": "We currently accept:Shield HubCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
                           },
                           {
                             "q_en": "Is there a bulk discount?",
@@ -3017,8 +2442,15 @@
                 "content": {
                   "items": [
                     {
-                      "name": "5-amino-1mq 5mg",
+                      "name": "5-Amino-1MQ 5mg",
                       "href": "/product/5-amino-1mq-5mg/",
+                      "pdf": "/wp-content/uploads/2026/02/5-amino-1mq-5mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "5-amino-1mq 5mg",
+                      "href": "/product/lp-5-amino-1mq-5mg/",
                       "pdf": "/wp-content/uploads/2026/02/5-amino-1mq-5mg.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
@@ -3027,20 +2459,6 @@
                       "name": "Adamax 5mg",
                       "href": "/product/adamax-5mg/",
                       "pdf": "/wp-content/uploads/2026/02/Adamax-5mg-1.pdf",
-                      "tag_en": "PDF",
-                      "tag_es": "PDF"
-                    },
-                    {
-                      "name": "BAC Water 10ml",
-                      "href": "/product/bac-water-10ml/",
-                      "pdf": "/wp-content/uploads/2026/04/BAC-Water-10ml-1.pdf",
-                      "tag_en": "PDF",
-                      "tag_es": "PDF"
-                    },
-                    {
-                      "name": "BAC Water 3ml",
-                      "href": "/product/bac-water-3ml/",
-                      "pdf": "/wp-content/uploads/2026/04/BAC-Water-3ml-1.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
                     },
@@ -3066,16 +2484,72 @@
                       "tag_es": "PDF"
                     },
                     {
-                      "name": "Fat Blaster 10ml",
-                      "href": "/product/fat-blaster-10ml/",
-                      "pdf": "/wp-content/uploads/2026/04/Fat-Blaster-10ml.pdf",
+                      "name": "GHK-CU 50mg",
+                      "href": "/product/ghk-cu-50mg/",
+                      "pdf": "/wp-content/uploads/2026/02/GHK-CU-50mg.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
                     },
                     {
                       "name": "GHK-CU 50mg",
-                      "href": "/product/ghk-cu-50mg/",
+                      "href": "/product/lp-ghk-cu-50mg/",
                       "pdf": "/wp-content/uploads/2026/02/GHK-CU-50mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "GLP-1 10mg",
+                      "href": "/product/reta-10mg/",
+                      "pdf": "/wp-content/uploads/2026/03/Reta-10mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "GLP-1 12mg",
+                      "href": "/product/reta-12mg/",
+                      "pdf": "/wp-content/uploads/2026/02/Reta-12mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "GLP-1 20mg",
+                      "href": "/product/retatrutide-20mg/",
+                      "pdf": "/wp-content/uploads/2026/04/Retatrutide-20mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "GLP-1 24mg",
+                      "href": "/product/retatrutide-24mg/",
+                      "pdf": "/wp-content/uploads/2026/04/Reta-24mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "GLP-1 30mg",
+                      "href": "/product/reta-30mg/",
+                      "pdf": "/wp-content/uploads/2026/02/Reta-30mg-.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "GLP-1 40mg",
+                      "href": "/product/reta-40mg/",
+                      "pdf": "/wp-content/uploads/2026/02/Reta-40mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "GLP-1 50mg",
+                      "href": "/product/retatrutide-50mg/",
+                      "pdf": "/wp-content/uploads/2026/06/Retatrutide-50mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "GLP-1 60mg",
+                      "href": "/product/retatrutide-60mg/",
+                      "pdf": "/wp-content/uploads/2026/06/Peptides-Costarica.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
                     },
@@ -3087,29 +2561,22 @@
                       "tag_es": "PDF"
                     },
                     {
-                      "name": "HGH 12 IU",
-                      "href": "/product/hgh-12-iu/",
-                      "pdf": "/wp-content/uploads/2026/02/HGH-12-IU.pdf",
-                      "tag_en": "PDF",
-                      "tag_es": "PDF"
-                    },
-                    {
-                      "name": "HGH 30 IU",
-                      "href": "/product/hgh-30-iu/",
-                      "pdf": "/wp-content/uploads/2026/06/HGH-30-IU.pdf",
-                      "tag_en": "PDF",
-                      "tag_es": "PDF"
-                    },
-                    {
-                      "name": "HGH 50 IU (Pfizer Brand Genotropin)",
-                      "href": "/product/hgh-50-iu-pfizer-brand-genotropin/",
-                      "pdf": "/wp-content/uploads/2026/07/HGH-50-IU-Pfizer-Brand-Genotropin.pdf",
+                      "name": "Glutathione 1500mg",
+                      "href": "/product/lp-glutathione-1500mg/",
+                      "pdf": "/wp-content/uploads/2026/04/Glutathione-1500mg.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
                     },
                     {
                       "name": "Ipamorelin 10mg",
                       "href": "/product/ipamorelin-10mg/",
+                      "pdf": "/wp-content/uploads/2026/03/Ipamorelin-10mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "Ipamorelin 10mg",
+                      "href": "/product/lp-ipamorelin-10mg/",
                       "pdf": "/wp-content/uploads/2026/03/Ipamorelin-10mg.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
@@ -3122,9 +2589,44 @@
                       "tag_es": "PDF"
                     },
                     {
+                      "name": "KissPeptin-10 10mg",
+                      "href": "/product/lp-kisspeptin-10-10mg/",
+                      "pdf": "/wp-content/uploads/2026/04/Kisspeptin-10mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
                       "name": "KLOW 80mg",
                       "href": "/product/klow-80mg/",
                       "pdf": "/wp-content/uploads/2026/02/Klow-80mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "KLOW 80mg",
+                      "href": "/product/lp-klow-80mg/",
+                      "pdf": "/wp-content/uploads/2026/02/Klow-80mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "KPV 10mg",
+                      "href": "/product/kpv-10mg/",
+                      "pdf": "/wp-content/uploads/2026/05/KP-10mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "KPV 10mg",
+                      "href": "/product/lp-kpv-10mg/",
+                      "pdf": "/wp-content/uploads/2026/05/KP-10mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "Lipotropic Blend 10ml",
+                      "href": "/product/fat-blaster-10ml/",
+                      "pdf": "/wp-content/uploads/2026/04/Fat-Blaster-10ml.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
                     },
@@ -3138,13 +2640,20 @@
                     {
                       "name": "Mots-C 40mg",
                       "href": "/product/mots-c-40mg/",
-                      "pdf": "/wp-content/uploads/2026/04/Mots-C-40mg.pdf",
+                      "pdf": "/wp-content/uploads/2026/08/MOTS-C-40mg.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
                     },
                     {
                       "name": "NAD+ 1000mg",
                       "href": "/product/nad-1000mg/",
+                      "pdf": "/wp-content/uploads/2026/06/NAD-1000mg-1.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "NAD+ 1000mg",
+                      "href": "/product/lp-nad-1000mg/",
                       "pdf": "/wp-content/uploads/2026/06/NAD-1000mg-1.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
@@ -3157,58 +2666,9 @@
                       "tag_es": "PDF"
                     },
                     {
-                      "name": "Retatrutide 20mg",
-                      "href": "/product/retatrutide-20mg/",
-                      "pdf": "/wp-content/uploads/2026/04/Reta-20mg-2.pdf",
-                      "tag_en": "PDF",
-                      "tag_es": "PDF"
-                    },
-                    {
-                      "name": "Retatrutide 10mg",
-                      "href": "/product/reta-10mg/",
-                      "pdf": "/wp-content/uploads/2026/03/Reta-10mg-2.pdf",
-                      "tag_en": "PDF",
-                      "tag_es": "PDF"
-                    },
-                    {
-                      "name": "Retatrutide 12mg",
-                      "href": "/product/reta-12mg/",
-                      "pdf": "/wp-content/uploads/2026/02/Reta-12mg.pdf",
-                      "tag_en": "PDF",
-                      "tag_es": "PDF"
-                    },
-                    {
-                      "name": "Retatrutide 24mg",
-                      "href": "/product/retatrutide-24mg/",
-                      "pdf": "/wp-content/uploads/2026/04/Reta-24mg.pdf",
-                      "tag_en": "PDF",
-                      "tag_es": "PDF"
-                    },
-                    {
-                      "name": "Retatrutide 30mg",
-                      "href": "/product/reta-30mg/",
-                      "pdf": "/wp-content/uploads/2026/02/Reta-30mg.pdf",
-                      "tag_en": "PDF",
-                      "tag_es": "PDF"
-                    },
-                    {
-                      "name": "Retatrutide 40mg",
-                      "href": "/product/reta-40mg/",
-                      "pdf": "/wp-content/uploads/2026/02/Reta-40mg.pdf",
-                      "tag_en": "PDF",
-                      "tag_es": "PDF"
-                    },
-                    {
-                      "name": "Retatrutide 50mg",
-                      "href": "/product/retatrutide-50mg/",
-                      "pdf": "/wp-content/uploads/2026/06/Retatrutide-50mg.pdf",
-                      "tag_en": "PDF",
-                      "tag_es": "PDF"
-                    },
-                    {
-                      "name": "Retatrutide 60mg",
-                      "href": "/product/retatrutide-60mg/",
-                      "pdf": "/wp-content/uploads/2026/06/Peptides-Costarica.pdf",
+                      "name": "PT-141 10mg",
+                      "href": "/product/lp-pt-141-10mg/",
+                      "pdf": "/wp-content/uploads/2026/04/PT-141-10mg.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
                     },
@@ -3234,8 +2694,22 @@
                       "tag_es": "PDF"
                     },
                     {
+                      "name": "Sermorelin 10mg",
+                      "href": "/product/lp-sermorelin-10mg/",
+                      "pdf": "/wp-content/uploads/2026/04/Sermorelin-10mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
                       "name": "SS-31 10mg",
                       "href": "/product/ss-31-10mg/",
+                      "pdf": "/wp-content/uploads/2026/02/SS-31-10mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "SS-31 10mg",
+                      "href": "/product/lp-ss-31-10mg/",
                       "pdf": "/wp-content/uploads/2026/02/SS-31-10mg.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
@@ -3248,6 +2722,13 @@
                       "tag_es": "PDF"
                     },
                     {
+                      "name": "SUPER Human Blend 10ml",
+                      "href": "/product/lp-super-human-blend-10ml/",
+                      "pdf": "/wp-content/uploads/2026/04/SUPER-Human-Blend-10ml.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
                       "name": "TB-4 10mg",
                       "href": "/product/tb-4-10mg/",
                       "pdf": "/wp-content/uploads/2026/03/TB-4-10mg-1.pdf",
@@ -3255,9 +2736,16 @@
                       "tag_es": "PDF"
                     },
                     {
+                      "name": "TB-4 10mg",
+                      "href": "/product/lp-tb-4-10mg/",
+                      "pdf": "/wp-content/uploads/2026/03/TB-4-10mg-1.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
                       "name": "Tesamorelin 10mg",
                       "href": "/product/tesamorelin-10mg/",
-                      "pdf": "/wp-content/uploads/2026/02/Tesamorelin-10mg.pdf",
+                      "pdf": "/wp-content/uploads/2026/02/Vant2608100115.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
                     },
@@ -3269,9 +2757,23 @@
                       "tag_es": "PDF"
                     },
                     {
+                      "name": "Thymalin 10mg",
+                      "href": "/product/lp-thymalin-10mg/",
+                      "pdf": "/wp-content/uploads/2026/02/Thymalin-10mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
                       "name": "Tirzepatide 10mg",
                       "href": "/product/tirzepatide-10mg/",
                       "pdf": "/wp-content/uploads/2026/05/Tirzepatide-10mg.pdf",
+                      "tag_en": "PDF",
+                      "tag_es": "PDF"
+                    },
+                    {
+                      "name": "Tirzepatide 120mg",
+                      "href": "/product/tirzepatide-120mg/",
+                      "pdf": "/wp-content/uploads/2026/08/Tirzepatide_120mg.pdf",
                       "tag_en": "PDF",
                       "tag_es": "PDF"
                     },
@@ -3375,7 +2877,7 @@
                     {
                       "type": "heading",
                       "content": {
-                        "level": 6,
+                        "level": 0,
                         "text_en": "Common Questions",
                         "text_es": "Preguntas frecuentes",
                         "color": "#FFFFFF",
@@ -3441,8 +2943,8 @@
                           {
                             "q_en": "What payment methods do you accept?",
                             "q_es": "¿Qué métodos de pago aceptan?",
-                            "a_en": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
-                            "a_es": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
+                            "a_en": "We currently accept:SINPE MóvilZelleCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+                            "a_es": "We currently accept:SINPE MóvilZelleCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
                           },
                           {
                             "q_en": "Is there a bulk discount?",
@@ -3800,7 +3302,7 @@
                     {
                       "type": "heading",
                       "content": {
-                        "level": 6,
+                        "level": 0,
                         "text_en": "Why choose us",
                         "text_es": "¿Por qué elegirnos?",
                         "color": "#FFFFFF",
@@ -3942,7 +3444,7 @@
                     {
                       "type": "heading",
                       "content": {
-                        "level": 6,
+                        "level": 0,
                         "text_en": "Common Questions",
                         "text_es": "Preguntas frecuentes",
                         "color": "#FFFFFF",
@@ -3998,8 +3500,8 @@
                           {
                             "q_en": "What payment methods do you accept?",
                             "q_es": "¿Qué métodos de pago aceptan?",
-                            "a_en": "We currently accept:SINPE MóvilZellePayPalCashJust add your products to the cart and do an easy online checkout. We make sure the process is simple and you know the total price before you pay.",
-                            "a_es": "We currently accept:SINPE MóvilZellePayPalCashJust add your products to the cart and do an easy online checkout. We make sure the process is simple and you know the total price before you pay."
+                            "a_en": "We currently accept:SINPE MóvilZelleCashJust add your products to the cart and do an easy online checkout. We make sure the process is simple and you know the total price before you pay.",
+                            "a_es": "We currently accept:SINPE MóvilZelleCashJust add your products to the cart and do an easy online checkout. We make sure the process is simple and you know the total price before you pay."
                           },
                           {
                             "q_en": "Is there a bulk discount?",
@@ -4064,42 +3566,18 @@
               {
                 "type": "reviews",
                 "content": {
-                  "summary_en": "EXCELLENT Based on 6 reviews",
-                  "summary_es": "EXCELLENT Based on 6 reviews",
+                  "summary_en": "",
+                  "summary_es": "",
                   "reviews": [
                     {
-                      "author": "American Auto transport",
-                      "text": "Excelente experiencia con Peptides Costa Rica. El servicio fue rápido, profesional y muy atento desde el primer contacto. Los productos llegaron en perfectas condiciones y se nota el compromiso con la calidad. Además, respondieron todas mis consultas de manera clara y oportuna, brindando mucha confianza durante todo el proceso. Sin duda, una empresa seria y confiable para quienes buscan productos de alta calidad y una atención al cliente excepcional. ¡Totalmente recomendados!",
+                      "author": "LIC. JUAN ALFONSO MATA CHAVARRÍA.",
+                      "text": "Son excelentes mil estrellas",
                       "source": "Google",
                       "stars": 5
                     },
                     {
-                      "author": "moving service in USA",
-                      "text": "Ordering process was straightforward, communication was prompt, and my order arrived quickly and professionally packaged. I purchased Retatrutide, and the product met my expectations in terms of quality and presentation. The team was helpful in answering my questions and kept me informed throughout the process. Overall, I found them reliable, professional, and customer-focused. I would gladly purchase from them again and recommend Peptides Costa Rica to anyone looking for a trustworthy peptide supplier in Costa Rica.",
-                      "source": "Google",
-                      "stars": 5
-                    },
-                    {
-                      "author": "Dorcas Baah",
-                      "text": "I've had a very positive experience with buying Tirzepatide from Peptides Costa Rica. The results exceeded my expectations, particularly in helping manage appetite and support my overall wellness goals. I noticed a steady reduction in cravings, improved portion control, and consistent progress over time. What I appreciated most was how manageable the process felt compared to previous approaches I had tried. Combined with healthy eating habits and regular activity, Tirzepatide helped me stay on track and maintain better consistency. Overall, I'm very satisfied with my experience and would recommend Tirzepatide to others who are working with their healthcare provider to achieve similar health and weight-management goals.",
-                      "source": "Google",
-                      "stars": 5
-                    },
-                    {
-                      "author": "Charly Contreras",
-                      "text": "Desde el primer contacto recibí una atención profesional y rápida. El proceso de compra fue sencillo, la comunicación fue clara y el pedido llegó en perfectas condiciones. La calidad de los productos superó mis expectativas, con un empaque seguro y una presentación impecable. Además, el equipo de atención al cliente respondió todas mis consultas de manera amable y eficiente, lo que me dio mucha confianza durante todo el proceso. Sin duda recomiendo Peptides Costa Rica a cualquiera que busque productos de alta calidad, un servicio confiable y una experiencia de compra excepcional. ¡Seguiré siendo cliente y volveré a comprar con ellos!",
-                      "source": "Google",
-                      "stars": 5
-                    },
-                    {
-                      "author": "Teri Taylor",
-                      "text": "I had a great experience with Peptides Costa Rica. The team was responsive, professional, and took the time to answer all of my questions. The ordering process for Retatrutide was straightforward, communication was clear, and everything was handled efficiently. It's refreshing to work with a company that values customer service and transparency. I would definitely recommend Peptides Costa Rica to anyone looking for a reliable and knowledgeable provider.",
-                      "source": "Google",
-                      "stars": 5
-                    },
-                    {
-                      "author": "Joe Webster",
-                      "text": "Reliable Local Peptide Supplier in Costa Rica Peptides Costa Rica has quickly established itself as one of the most accessible peptide suppliers serving the Costa Rican market with Retatrutide, Tirzepatide, Semaglutide, Tesamorelin, HGH, and a whole lot more. Unlike many international vendors that require dealing with customs delays, import fees, and uncertain delivery times, the company focuses exclusively on customers within Costa Rica, creating a much smoother purchasing experience.",
+                      "author": "Karolynne Anchia",
+                      "text": "",
                       "source": "Google",
                       "stars": 5
                     }
@@ -5301,6 +4779,7 @@
               0,
               0
             ],
+            "hide": "hidden",
             "boxed": true,
             "children": [
               {
@@ -5315,7 +4794,8 @@
                         "level": 2,
                         "rule": true,
                         "text_en": "All Peptides Products",
-                        "text_es": "Todos los Productos de Péptidos"
+                        "text_es": "Todos los Productos de Péptidos",
+                        "semantic": false
                       }
                     },
                     {
@@ -5323,206 +4803,392 @@
                       "content": {
                         "products": [
                           {
-                            "name": "5-amino-1mq 5mg",
-                            "price": "₡ 27,108",
+                            "name": "5-amino-1mq 50mg",
+                            "price": "₡ 40,506",
+                            "href": "/product/lp-5-amino-1mq-50mg/",
+                            "image": "/wp-content/uploads/2026/08/5-Amino-50mg.Webp-300x300.webp"
+                          },
+                          {
+                            "name": "5-Amino-1MQ 50mg",
+                            "price": "₡ 40,827",
+                            "href": "/product/5-amino-1mq-50mg/",
+                            "image": "/wp-content/uploads/2026/08/5-Amino-50mg.Webp-300x300.webp"
+                          },
+                          {
+                            "name": "5-Amino-1MQ 5mg",
+                            "price": "₡ 27,218",
                             "href": "/product/5-amino-1mq-5mg/",
                             "image": "/wp-content/uploads/2026/02/5-Amino-1MQ-1-300x300.jpg"
                           },
                           {
+                            "name": "5-amino-1mq 5mg",
+                            "price": "₡ 27,004",
+                            "href": "/product/lp-5-amino-1mq-5mg/",
+                            "image": "/wp-content/uploads/2026/02/5-Amino-1MQ-1-300x300.jpg"
+                          },
+                          {
+                            "name": "AA Water 3ml",
+                            "price": "₡ 6,805",
+                            "href": "/product/aa-water-3ml/",
+                            "image": "/wp-content/uploads/2026/09/AA-Water-3ml.jpg-300x300.jpeg"
+                          },
+                          {
+                            "name": "Adamax 10mg",
+                            "price": "₡ 61,241",
+                            "href": "/product/adamax-10mg/",
+                            "image": "/wp-content/uploads/2026/08/Adamax-10-mg.Webp-300x300.webp"
+                          },
+                          {
                             "name": "Adamax 5mg",
-                            "price": "₡ 51,956",
+                            "price": "₡ 52,168",
                             "href": "/product/adamax-5mg/",
                             "image": "/wp-content/uploads/2026/02/Adamax-1-300x300.jpg"
                           },
                           {
+                            "name": "AHK-Cu 50mg",
+                            "price": "₡ 45,364",
+                            "href": "/product/ahk-cu-50mg/",
+                            "image": "/wp-content/uploads/2026/09/AHK-CU-50mg-300x300.webp"
+                          },
+                          {
                             "name": "AICAR 50mg",
-                            "price": "₡ 42,920",
+                            "price": "₡ 43,095",
                             "href": "/product/aicar-50mg/",
                             "image": "/wp-content/uploads/2026/05/Untitled-design-3-300x300.webp"
                           },
                           {
-                            "name": "BAC Water 10ml",
-                            "price": "₡ 9,036",
+                            "name": "AICAR 50mg",
+                            "price": "₡ 42,757",
+                            "href": "/product/lp-aicar-50mg/",
+                            "image": "/wp-content/uploads/2026/05/Untitled-design-3-300x300.webp"
+                          },
+                          {
+                            "name": "Bacteriostatic Water 10ml",
+                            "price": "₡ 9,073",
                             "href": "/product/bac-water-10ml/",
                             "image": "/wp-content/uploads/2026/04/BAC-Water-10-1-300x300.jpg"
                           },
                           {
-                            "name": "BAC Water 3ml",
-                            "price": "₡ 4,518",
+                            "name": "Bacteriostatic Water 3ml",
+                            "price": "₡ 4,536",
                             "href": "/product/bac-water-3ml/",
                             "image": "/wp-content/uploads/2026/04/BAC-Water-3-1-300x300.jpg"
                           },
                           {
                             "name": "BPC-157 + TB 500 20mg (Wolverine Stack)",
-                            "price": "",
+                            "price": "₡ 68,045",
                             "href": "/product/bpc-157-tb-500-20mg-wolverine-stack/",
                             "image": "/wp-content/uploads/2026/03/BPC-157-TB-500-1-300x300.jpg"
                           },
                           {
                             "name": "BPC-157 10mg",
-                            "price": "₡ 40,661",
+                            "price": "₡ 40,827",
                             "href": "/product/bpc-157-10mg/",
                             "image": "/wp-content/uploads/2026/02/BPC-157-2-300x300.jpg"
                           },
                           {
                             "name": "Cartalax 20mg",
-                            "price": "₡ 45,179",
+                            "price": "₡ 45,007",
+                            "href": "/product/lp-cartalax-20mg/",
+                            "image": "/wp-content/uploads/2026/06/Cartalax-20mg-1-300x300.webp"
+                          },
+                          {
+                            "name": "Cartalax 20mg",
+                            "price": "₡ 45,364",
                             "href": "/product/cartalax-20mg/",
                             "image": "/wp-content/uploads/2026/06/Cartalax-20mg-1-300x300.webp"
                           },
                           {
                             "name": "CJC with DAC 5mg",
-                            "price": "",
+                            "price": "₡ 54,436",
                             "href": "/product/cjc-with-dac-5mg/",
                             "image": "/wp-content/uploads/2026/03/CJC-with-DAC-1-300x300.jpg"
                           },
                           {
                             "name": "CJC-1295 without DAC + IPA 10mg",
-                            "price": "",
+                            "price": "₡ 54,436",
                             "href": "/product/cjc-1295-without-dac-ipa-10mg/",
                             "image": "/wp-content/uploads/2026/05/CJC-1295-without-DAC-IPA-1-1-300x300.webp"
                           },
                           {
                             "name": "DSIP 10mg",
-                            "price": "",
+                            "price": "₡ 52,168",
                             "href": "/product/dsip-10mg/",
                             "image": "/wp-content/uploads/2026/07/DSIP-10-mg.jpg-300x300.jpeg"
                           },
                           {
                             "name": "DSIP 15mg",
-                            "price": "₡ 56,474",
+                            "price": "₡ 56,704",
                             "href": "/product/dsip-15mg/",
                             "image": "/wp-content/uploads/2026/02/DSIP-1-300x300.jpg"
                           },
                           {
                             "name": "DSIP 5mg",
-                            "price": "₡ 44,908",
+                            "price": "₡ 45,364",
                             "href": "/product/dsip-5mg/",
                             "image": "/wp-content/uploads/2026/08/Untitled-design-300x300.webp"
                           },
                           {
                             "name": "Epithalon 50mg",
-                            "price": "₡ 76,805",
+                            "price": "₡ 77,118",
                             "href": "/product/epithalon-50mg/",
                             "image": "/wp-content/uploads/2026/02/Epithalon-1-300x300.jpg"
                           },
                           {
-                            "name": "Fat Blaster 10ml",
-                            "price": "₡ 49,697",
-                            "href": "/product/fat-blaster-10ml/",
-                            "image": "/wp-content/uploads/2026/04/Untitled-design-1-300x300.webp"
-                          },
-                          {
                             "name": "GHK-CU 100mg",
-                            "price": "₡ 45,179",
+                            "price": "₡ 45,364",
                             "href": "/product/ghk-cu-100mg/",
                             "image": "/wp-content/uploads/2026/05/GHK-CU-100-2-300x300.webp"
                           },
                           {
+                            "name": "GHK-CU 100mg",
+                            "price": "₡ 45,007",
+                            "href": "/product/lp-ghk-cu-100mg/",
+                            "image": "/wp-content/uploads/2026/05/GHK-CU-100-2-300x300.webp"
+                          },
+                          {
                             "name": "GHK-CU 50mg",
-                            "price": "₡ 31,626",
+                            "price": "₡ 31,754",
                             "href": "/product/ghk-cu-50mg/",
                             "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
                           },
                           {
+                            "name": "GHK-CU 50mg",
+                            "price": "₡ 31,505",
+                            "href": "/product/lp-ghk-cu-50mg/",
+                            "image": "/wp-content/uploads/2026/02/GHK-CU-1-300x300.jpg"
+                          },
+                          {
+                            "name": "GHRP-6 10mg",
+                            "price": "₡ 43,095",
+                            "href": "/product/ghrp-6-10mg/",
+                            "image": "/wp-content/uploads/2026/09/GHRP-6-10-mg.jpg-1-300x300.jpeg"
+                          },
+                          {
                             "name": "GLOW 50mg",
-                            "price": "₡ 54,215",
+                            "price": "₡ 54,008",
+                            "href": "/product/lp-glow-50mg/",
+                            "image": "/wp-content/uploads/2026/05/GLOW-50-1-300x300.webp"
+                          },
+                          {
+                            "name": "GLOW 50mg",
+                            "price": "₡ 54,436",
                             "href": "/product/glow-50mg/",
                             "image": "/wp-content/uploads/2026/05/GLOW-50-1-300x300.webp"
                           },
                           {
                             "name": "GLOW 70mg",
-                            "price": "₡ 67,769",
+                            "price": "₡ 68,045",
                             "href": "/product/glow-70mg/",
                             "image": "/wp-content/uploads/2026/03/GLOW-1-300x300.jpg"
                           },
                           {
+                            "name": "GLOW 70mg",
+                            "price": "₡ 67,511",
+                            "href": "/product/lp-glow-70mg/",
+                            "image": "/wp-content/uploads/2026/03/GLOW-1-300x300.jpg"
+                          },
+                          {
+                            "name": "GLP-1 10mg",
+                            "price": "₡ 56,704",
+                            "href": "/product/reta-10mg/",
+                            "image": "/wp-content/uploads/2026/03/GLP-1-10mg-300x300.webp"
+                          },
+                          {
+                            "name": "GLP-1 12mg",
+                            "price": "₡ 61,241",
+                            "href": "/product/reta-12mg/",
+                            "image": "/wp-content/uploads/2026/02/GLP-12MG-300x300.webp"
+                          },
+                          {
+                            "name": "GLP-1 15mg",
+                            "price": "₡ 63,509",
+                            "href": "/product/retatrutide-15mg/",
+                            "image": "/wp-content/uploads/2026/04/GLP-15MG-300x300.webp"
+                          },
+                          {
+                            "name": "GLP-1 20mg",
+                            "price": "₡ 68,045",
+                            "href": "/product/retatrutide-20mg/",
+                            "image": "/wp-content/uploads/2026/04/GLP-20MG-300x300.jpeg"
+                          },
+                          {
+                            "name": "GLP-1 24mg",
+                            "price": "₡ 74,850",
+                            "href": "/product/retatrutide-24mg/",
+                            "image": "/wp-content/uploads/2026/04/GLP-24MG-300x300.webp"
+                          },
+                          {
+                            "name": "GLP-1 30mg",
+                            "price": "₡ 81,654",
+                            "href": "/product/reta-30mg/",
+                            "image": "/wp-content/uploads/2026/02/GLP-30MG-300x300.webp"
+                          },
+                          {
+                            "name": "GLP-1 40mg",
+                            "price": "₡ 95,263",
+                            "href": "/product/reta-40mg/",
+                            "image": "/wp-content/uploads/2026/02/GLP-40MG-300x300.webp"
+                          },
+                          {
+                            "name": "GLP-1 50mg",
+                            "price": "₡ 108,872",
+                            "href": "/product/retatrutide-50mg/",
+                            "image": "/wp-content/uploads/2026/06/GLP-50MG-300x300.webp"
+                          },
+                          {
+                            "name": "GLP-1 5mg",
+                            "price": "₡ 45,364",
+                            "href": "/product/retatrutide-5mg/",
+                            "image": "/wp-content/uploads/2026/08/GLP-5MG-300x300.webp"
+                          },
+                          {
+                            "name": "GLP-1 60mg",
+                            "price": "₡ 122,481",
+                            "href": "/product/retatrutide-60mg/",
+                            "image": "/wp-content/uploads/2026/06/GLP-60MG-300x300.webp"
+                          },
+                          {
                             "name": "Glutathione 1500mg",
-                            "price": "₡ 45,179",
+                            "price": "₡ 45,007",
+                            "href": "/product/lp-glutathione-1500mg/",
+                            "image": "/wp-content/uploads/2026/04/Glutathione-1-300x300.jpg"
+                          },
+                          {
+                            "name": "Glutathione 1500mg",
+                            "price": "₡ 45,364",
                             "href": "/product/glutathione-1500mg/",
                             "image": "/wp-content/uploads/2026/04/Glutathione-1-300x300.jpg"
                           },
                           {
                             "name": "HCG 10,000 IU",
-                            "price": "₡ 72,287",
+                            "price": "₡ 72,582",
                             "href": "/product/hcg-10000-iu/",
                             "image": "/wp-content/uploads/2026/02/HCG-1-1-300x300.jpg"
                           },
                           {
                             "name": "HGH 12 IU",
-                            "price": "₡ 31,626",
+                            "price": "₡ 31,754",
                             "href": "/product/hgh-12-iu/",
                             "image": "/wp-content/uploads/2026/02/HGH-12-1-300x300.jpg"
                           },
                           {
                             "name": "HGH 24 IU",
-                            "price": "₡ 54,215",
+                            "price": "₡ 54,436",
                             "href": "/product/hgh-24-iu/",
                             "image": "/wp-content/uploads/2026/02/HGH-24-1-300x300.jpg"
                           },
                           {
                             "name": "HGH 30 IU",
-                            "price": "₡ 56,474",
+                            "price": "₡ 56,704",
                             "href": "/product/hgh-30-iu/",
                             "image": "/wp-content/uploads/2026/06/Untitled-design-10-300x300.webp"
                           },
                           {
                             "name": "HGH 50 IU (Pfizer Brand Genotropin)",
-                            "price": "",
+                            "price": "₡ 124,750",
                             "href": "/product/hgh-50-iu-pfizer-brand-genotropin/",
                             "image": "/wp-content/uploads/2026/07/WhatsApp-Image-2026-07-08-at-1.59.24-AM-300x300.jpeg"
                           },
                           {
+                            "name": "HMG 75 IU",
+                            "price": "₡ 56,704",
+                            "href": "/product/hmg-75-iu/",
+                            "image": "/wp-content/uploads/2026/09/HMG-75-IU.jpg-300x300.jpeg"
+                          },
+                          {
                             "name": "IGF-1LR3 1mg",
-                            "price": "₡ 72,287",
+                            "price": "₡ 72,011",
+                            "href": "/product/lp-igf-1lr3-1mg/",
+                            "image": "/wp-content/uploads/2026/04/IGF-1mg.jpg-300x300.jpeg"
+                          },
+                          {
+                            "name": "IGF-1LR3 1mg",
+                            "price": "₡ 72,582",
                             "href": "/product/igf-1lr3-1mg/",
                             "image": "/wp-content/uploads/2026/04/IGF-1mg.jpg-300x300.jpeg"
                           },
                           {
                             "name": "Ipamorelin 10mg",
-                            "price": "₡ 45,179",
+                            "price": "₡ 45,007",
+                            "href": "/product/lp-ipamorelin-10mg/",
+                            "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
+                          },
+                          {
+                            "name": "Ipamorelin 10mg",
+                            "price": "₡ 45,364",
                             "href": "/product/ipamorelin-10mg/",
                             "image": "/wp-content/uploads/2026/03/Ipamorelin-1-300x300.jpg"
                           },
                           {
                             "name": "KissPeptin-10 10mg",
-                            "price": "₡ 58,733",
+                            "price": "₡ 58,509",
+                            "href": "/product/lp-kisspeptin-10-10mg/",
+                            "image": "/wp-content/uploads/2026/04/Kisspeptin-10-1-300x300.jpg"
+                          },
+                          {
+                            "name": "KissPeptin-10 10mg",
+                            "price": "₡ 58,973",
                             "href": "/product/kisspeptin-10-10mg/",
                             "image": "/wp-content/uploads/2026/04/Kisspeptin-10-1-300x300.jpg"
                           },
                           {
                             "name": "KLOW 80mg",
-                            "price": "₡ 81,323",
+                            "price": "₡ 81,013",
+                            "href": "/product/lp-klow-80mg/",
+                            "image": "/wp-content/uploads/2026/02/KLOW-1-300x300.jpg"
+                          },
+                          {
+                            "name": "KLOW 80mg",
+                            "price": "₡ 81,654",
                             "href": "/product/klow-80mg/",
                             "image": "/wp-content/uploads/2026/02/KLOW-1-300x300.jpg"
                           },
                           {
                             "name": "KPV 10mg",
-                            "price": "₡ 40,661",
+                            "price": "₡ 40,827",
                             "href": "/product/kpv-10mg/",
                             "image": "/wp-content/uploads/2026/05/KPV-1-1-300x300.webp"
                           },
                           {
+                            "name": "KPV 10mg",
+                            "price": "₡ 40,506",
+                            "href": "/product/lp-kpv-10mg/",
+                            "image": "/wp-content/uploads/2026/05/KPV-1-1-300x300.webp"
+                          },
+                          {
+                            "name": "Lipotropic Blend 10ml",
+                            "price": "₡ 49,900",
+                            "href": "/product/fat-blaster-10ml/",
+                            "image": "/wp-content/uploads/2026/04/Untitled-design-1-300x300.webp"
+                          },
+                          {
                             "name": "Mots-C 10mg",
-                            "price": "₡ 40,661",
+                            "price": "₡ 40,827",
                             "href": "/product/mots-c-10mg/",
                             "image": "/wp-content/uploads/2026/02/MOTS-C-10-1-300x300.jpg"
                           },
                           {
                             "name": "Mots-C 40mg",
-                            "price": "₡ 67,769",
+                            "price": "₡ 68,045",
                             "href": "/product/mots-c-40mg/",
                             "image": "/wp-content/uploads/2026/04/MOTS-C-40-1-300x300.jpg"
                           },
                           {
                             "name": "MT-II",
-                            "price": "₡ 40,661",
+                            "price": "₡ 40,827",
                             "href": "/product/mt-ii/",
                             "image": "/wp-content/uploads/2026/05/MT-II-1-300x300.webp"
                           },
                           {
                             "name": "NAD+ 1000mg",
-                            "price": "₡ 68,784",
+                            "price": "₡ 67,511",
+                            "href": "/product/lp-nad-1000mg/",
+                            "image": "/wp-content/uploads/2026/06/NAD-1000mg-1-300x300.webp"
+                          },
+                          {
+                            "name": "NAD+ 1000mg",
+                            "price": "₡ 68,045",
                             "href": "/product/nad-1000mg/",
                             "image": "/wp-content/uploads/2026/06/NAD-1000mg-1-300x300.webp"
                           },
@@ -5533,207 +5199,270 @@
                             "image": "/wp-content/uploads/2026/02/NAD-1-300x300.jpg"
                           },
                           {
+                            "name": "Oxytocin Acetate 5mg",
+                            "price": "₡ 47,257",
+                            "href": "/product/lp-oxytocin-acetate-5mg/",
+                            "image": "/wp-content/uploads/2026/08/Oxytocin-Acetate-5-mg-300x300.webp"
+                          },
+                          {
+                            "name": "Oxytocin Acetate 5mg",
+                            "price": "₡ 47,632",
+                            "href": "/product/oxytocin-acetate-5mg/",
+                            "image": "/wp-content/uploads/2026/08/Oxytocin-Acetate-5-mg-300x300.webp"
+                          },
+                          {
                             "name": "Pinealon 20mg",
-                            "price": "₡ 54,215",
+                            "price": "₡ 54,436",
                             "href": "/product/pinealon-20mg/",
                             "image": "/wp-content/uploads/2026/05/Pinealon-20-1-300x300.webp"
                           },
                           {
+                            "name": "Pinealon 20mg",
+                            "price": "₡ 54,008",
+                            "href": "/product/lp-pinealon-20mg/",
+                            "image": "/wp-content/uploads/2026/05/Pinealon-20-1-300x300.webp"
+                          },
+                          {
                             "name": "PT-141 10mg",
-                            "price": "₡ 56,474",
+                            "price": "₡ 56,259",
+                            "href": "/product/lp-pt-141-10mg/",
+                            "image": "/wp-content/uploads/2026/04/PT-141-1-300x300.jpg"
+                          },
+                          {
+                            "name": "PT-141 10mg",
+                            "price": "₡ 56,704",
                             "href": "/product/pt-141-10mgtest/",
                             "image": "/wp-content/uploads/2026/04/PT-141-1-300x300.jpg"
                           },
                           {
-                            "name": "Retatrutide 20mg",
-                            "price": "₡ 67,769",
-                            "href": "/product/retatrutide-20mg/",
-                            "image": "/wp-content/uploads/2026/04/Retatrutide-20mg-1-300x300.jpg"
-                          },
-                          {
-                            "name": "Retatrutide 10mg",
-                            "price": "₡ 56,474",
-                            "href": "/product/reta-10mg/",
-                            "image": "/wp-content/uploads/2026/03/Retatrutide-10mg-1-300x300.jpg"
-                          },
-                          {
-                            "name": "Retatrutide 12mg",
-                            "price": "₡ 60,992",
-                            "href": "/product/reta-12mg/",
-                            "image": "/wp-content/uploads/2026/02/Retatrutide-12mg-1-300x300.jpg"
-                          },
-                          {
-                            "name": "Retatrutide 15mg",
-                            "price": "₡ 63,251",
-                            "href": "/product/retatrutide-15mg/",
-                            "image": "/wp-content/uploads/2026/04/Retatrutide-15mg-1-300x300.jpg"
-                          },
-                          {
-                            "name": "Retatrutide 24mg",
-                            "price": "₡ 74,546",
-                            "href": "/product/retatrutide-24mg/",
-                            "image": "/wp-content/uploads/2026/04/Retatrutide-24mg-1-300x300.jpg"
-                          },
-                          {
-                            "name": "Retatrutide 25mg",
-                            "price": "",
-                            "href": "/product/retatrutide-25mg/",
-                            "image": "/wp-content/uploads/2026/06/Retatrutide-25mg-1.jpg-300x300.jpeg"
-                          },
-                          {
-                            "name": "Retatrutide 30mg",
-                            "price": "₡ 81,323",
-                            "href": "/product/reta-30mg/",
-                            "image": "/wp-content/uploads/2026/02/Retatrutide-30mg-1-300x300.jpg"
-                          },
-                          {
-                            "name": "Retatrutide 40mg",
-                            "price": "₡ 94,877",
-                            "href": "/product/reta-40mg/",
-                            "image": "/wp-content/uploads/2026/02/Retatrutide-40mg-1-300x300.jpg"
-                          },
-                          {
-                            "name": "Retatrutide 50mg",
-                            "price": "₡ 108,431",
-                            "href": "/product/retatrutide-50mg/",
-                            "image": "/wp-content/uploads/2026/06/Retarutide-50mg-1-300x300.webp"
-                          },
-                          {
-                            "name": "Retatrutide 5mg",
-                            "price": "₡ 45,441",
-                            "href": "/product/retatrutide-5mg/",
-                            "image": "/wp-content/uploads/2026/08/Retatrutide-5mg-300x300.webp"
-                          },
-                          {
-                            "name": "Retatrutide 60mg",
-                            "price": "₡ 121,984",
-                            "href": "/product/retatrutide-60mg/",
-                            "image": "/wp-content/uploads/2026/06/Retatrutide-60mg-1-300x300.webp"
-                          },
-                          {
                             "name": "Selank 10mg",
-                            "price": "₡ 40,661",
+                            "price": "₡ 40,827",
                             "href": "/product/selank-10mg/",
                             "image": "/wp-content/uploads/2026/02/Selank-1-300x300.jpg"
                           },
                           {
+                            "name": "Selank 10mg",
+                            "price": "₡ 40,506",
+                            "href": "/product/lp-selank-10mg/",
+                            "image": "/wp-content/uploads/2026/02/Selank-1-300x300.jpg"
+                          },
+                          {
                             "name": "Semaglutide 10mg",
-                            "price": "₡ 99,395",
+                            "price": "₡ 99,800",
                             "href": "/product/semaglutide-10mg/",
                             "image": "/wp-content/uploads/2026/05/Semaglutide-10-1-300x300.webp"
                           },
                           {
                             "name": "Semaglutide 20mg",
-                            "price": "₡ 124,243",
+                            "price": "₡ 124,750",
                             "href": "/product/semaglutide-20mg/",
                             "image": "/wp-content/uploads/2026/05/Semaglutide-20-1-300x300.webp"
                           },
                           {
                             "name": "Semaglutide 30mg",
-                            "price": "₡ 135,538",
+                            "price": "₡ 136,091",
                             "href": "/product/semaglutide-30mg/",
                             "image": "/wp-content/uploads/2026/05/Semaglutide-30-1-300x300.webp"
                           },
                           {
                             "name": "Semax 10mg",
-                            "price": "₡ 40,661",
+                            "price": "₡ 40,827",
                             "href": "/product/semax-10mg/",
                             "image": "/wp-content/uploads/2026/05/Semax-1-300x300.webp"
                           },
                           {
                             "name": "Sermorelin 10mg",
-                            "price": "₡ 67,769",
+                            "price": "₡ 67,511",
+                            "href": "/product/lp-sermorelin-10mg/",
+                            "image": "/wp-content/uploads/2026/04/Sermorelin-1-300x300.jpg"
+                          },
+                          {
+                            "name": "Sermorelin 10mg",
+                            "price": "₡ 68,045",
                             "href": "/product/sermorelin-10mg/",
                             "image": "/wp-content/uploads/2026/04/Sermorelin-1-300x300.jpg"
                           },
                           {
                             "name": "SLU-PP-332 5mg",
-                            "price": "₡ 36,144",
+                            "price": "₡ 36,291",
                             "href": "/product/slu-pp-332-5mg/",
                             "image": "/wp-content/uploads/2026/05/Slu-pp332-1-300x300.webp"
                           },
                           {
+                            "name": "SLU-PP-332 5mg",
+                            "price": "₡ 36,006",
+                            "href": "/product/lp-slu-pp-332-5mg/",
+                            "image": "/wp-content/uploads/2026/05/Slu-pp332-1-300x300.webp"
+                          },
+                          {
+                            "name": "SNAP-8 10mg",
+                            "price": "₡ 58,973",
+                            "href": "/product/snap-8-10mg/",
+                            "image": "/wp-content/uploads/2026/09/SNAP-8-10-mg.jpg-1-300x300.jpeg"
+                          },
+                          {
                             "name": "SS-31 10mg",
-                            "price": "₡ 54,215",
+                            "price": "₡ 54,436",
                             "href": "/product/ss-31-10mg/",
                             "image": "/wp-content/uploads/2026/02/SS-31-1-300x300.jpg"
                           },
                           {
+                            "name": "SS-31 10mg",
+                            "price": "₡ 54,008",
+                            "href": "/product/lp-ss-31-10mg/",
+                            "image": "/wp-content/uploads/2026/02/SS-31-1-300x300.jpg"
+                          },
+                          {
+                            "name": "SS-31 25mg",
+                            "price": "₡ 68,045",
+                            "href": "/product/ss-31-25mg/",
+                            "image": "/wp-content/uploads/2026/09/ss-31-25mg-300x300.webp"
+                          },
+                          {
                             "name": "SUPER Human Blend 10ml",
-                            "price": "₡ 45,179",
+                            "price": "₡ 45,007",
+                            "href": "/product/lp-super-human-blend-10ml/",
+                            "image": "/wp-content/uploads/2026/04/Super-Human-Blend-10ml-300x300.webp"
+                          },
+                          {
+                            "name": "SUPER Human Blend 10ml",
+                            "price": "₡ 45,007",
                             "href": "/product/super-human-blend-10ml/",
-                            "image": "/wp-content/uploads/2026/04/SUPER-Human-Blend-1-300x300.jpg"
+                            "image": "/wp-content/uploads/2026/04/Super-Human-Blend-10ml-300x300.webp"
                           },
                           {
                             "name": "TB-4 10mg",
-                            "price": "₡ 49,697",
+                            "price": "₡ 49,900",
                             "href": "/product/tb-4-10mg/",
                             "image": "/wp-content/uploads/2026/03/TB-4-1-300x300.jpg"
                           },
                           {
+                            "name": "TB-4 10mg",
+                            "price": "₡ 49,508",
+                            "href": "/product/lp-tb-4-10mg/",
+                            "image": "/wp-content/uploads/2026/03/TB-4-1-300x300.jpg"
+                          },
+                          {
+                            "name": "TB-500 10mg",
+                            "price": "₡ 45,364",
+                            "href": "/product/tb-500-10mg/",
+                            "image": "/wp-content/uploads/2026/09/TB-500-10-mg.jpg-300x300.jpeg"
+                          },
+                          {
                             "name": "Tesamorelin 10mg",
-                            "price": "₡ 45,179",
+                            "price": "₡ 45,364",
                             "href": "/product/tesamorelin-10mg/",
                             "image": "/wp-content/uploads/2026/02/Tesamorelin-1-300x300.jpg"
                           },
                           {
                             "name": "Tesamorelin 20mg",
-                            "price": "₡ 67,769",
+                            "price": "₡ 68,045",
                             "href": "/product/tesamorelin-20mg/",
                             "image": "/wp-content/uploads/2026/07/Tesa.jpg-300x300.jpeg"
                           },
                           {
                             "name": "Thymalin 10mg",
-                            "price": "₡ 54,215",
+                            "price": "₡ 54,436",
                             "href": "/product/thymalin-10mg/",
                             "image": "/wp-content/uploads/2026/02/Thymalin-1-1-300x300.jpg"
                           },
                           {
+                            "name": "Thymalin 10mg",
+                            "price": "₡ 54,008",
+                            "href": "/product/lp-thymalin-10mg/",
+                            "image": "/wp-content/uploads/2026/02/Thymalin-1-1-300x300.jpg"
+                          },
+                          {
                             "name": "Thymosin Alpha-1 10mg",
-                            "price": "₡ 67,769",
+                            "price": "₡ 68,045",
                             "href": "/product/thymosin-alpha-1-10mg/",
                             "image": "/wp-content/uploads/2026/05/Thymosin-Alpha-1-10-1-300x300.webp"
                           },
                           {
+                            "name": "Thymosin Alpha-1 10mg",
+                            "price": "₡ 67,511",
+                            "href": "/product/lp-thymosin-alpha-1-10mg/",
+                            "image": "/wp-content/uploads/2026/05/Thymosin-Alpha-1-10-1-300x300.webp"
+                          },
+                          {
                             "name": "Tirzepatide 10mg",
-                            "price": "₡ 70,028",
+                            "price": "₡ 70,313",
                             "href": "/product/tirzepatide-10mg/",
                             "image": "/wp-content/uploads/2026/05/Tirzepatide-10-1-300x300.webp"
                           },
                           {
+                            "name": "Tirzepatide 120mg",
+                            "price": "₡ 170,113",
+                            "href": "/product/tirzepatide-120mg/",
+                            "image": "/wp-content/uploads/2026/09/tirzipatide-120mg.-2-300x300.webp"
+                          },
+                          {
                             "name": "Tirzepatide 15mg",
-                            "price": "₡ 83,582",
+                            "price": "₡ 83,922",
                             "href": "/product/tirzepatide-15mg/",
                             "image": "/wp-content/uploads/2026/05/Tirzepatide-15-2-300x300.webp"
                           },
                           {
                             "name": "Tirzepatide 20mg",
-                            "price": "₡ 90,359",
+                            "price": "₡ 90,727",
                             "href": "/product/tirzepatide-20mg/",
                             "image": "/wp-content/uploads/2026/05/Tirzepatide-20-1-300x300.webp"
                           },
                           {
                             "name": "Tirzepatide 30mg",
-                            "price": "₡ 101,654",
+                            "price": "₡ 102,068",
                             "href": "/product/tirzepatide-30mg/",
                             "image": "/wp-content/uploads/2026/05/Tirzepatide-30-1-2-300x300.webp"
                           },
                           {
                             "name": "Tirzepatide 40mg",
-                            "price": "₡ 110,689",
+                            "price": "₡ 111,141",
                             "href": "/product/tirzepatide-40mg/",
                             "image": "/wp-content/uploads/2026/06/Tirzepatide-40mg.jpg-300x300.webp"
                           },
                           {
                             "name": "Tirzepatide 60mg",
-                            "price": "",
+                            "price": "₡ 129,286",
                             "href": "/product/tirzepatide-60mg/",
                             "image": "/wp-content/uploads/2026/07/tez.jpg-300x300.jpeg"
+                          },
+                          {
+                            "name": "VIP 5 mg",
+                            "price": "₡ 56,704",
+                            "href": "/product/vip-5-mg/",
+                            "image": "/wp-content/uploads/2026/09/VIP-5-mg-300x300.jpg"
                           }
                         ]
                       }
                     }
                   ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "group",
+          "content": {
+            "dir": "row",
+            "gap": 10,
+            "items": "stretch",
+            "pad": [
+              64,
+              0,
+              0,
+              0
+            ],
+            "boxed": true,
+            "children": [
+              {
+                "type": "heading",
+                "content": {
+                  "level": 2,
+                  "rule": true,
+                  "text_en": "All Peptides Products",
+                  "text_es": "Todos los Productos de Péptidos",
+                  "semantic": false
                 }
               }
             ]
@@ -6350,7 +6079,7 @@
                     {
                       "type": "heading",
                       "content": {
-                        "level": 6,
+                        "level": 0,
                         "text_en": "Common Questions",
                         "text_es": "Preguntas frecuentes",
                         "color": "#FFFFFF",
@@ -6425,8 +6154,8 @@
                           {
                             "q_en": "What payment methods do you accept?",
                             "q_es": "¿Qué métodos de pago aceptan?",
-                            "a_en": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
-                            "a_es": "We currently accept:SINPE MóvilZellePayPalCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
+                            "a_en": "We currently accept:SINPE MóvilZelleCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
+                            "a_es": "We currently accept:SINPE MóvilZelleCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
                           },
                           {
                             "q_en": "Is there a bulk discount?",

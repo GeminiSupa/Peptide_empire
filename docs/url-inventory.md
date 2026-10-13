@@ -42,8 +42,8 @@ derived from a `localePath(path, 'es')` helper; it is per-page data.
 /about/                    → /es/acerca-de/
 /bulk-discounts/           → /es/descuentos-por-volumen/
 /lab-tests-coa-results/    → /es/resultados-de-pruebas-de-laboratorio-coa/
-/product/bpc-157-10mg/     → /es/producto-2/bpc-157-10mg/
-/product-category/…/       → /es/categoria-producto-2/…/
+/product/bpc-157-10mg/     → /es/producto/bpc-157-10mg/
+/product-category/…/       → /es/categoria-de-producto/…/
 ```
 
 Note `producto-2` and `categoria-producto-2` — the `-2` is a WordPress slug
@@ -70,8 +70,8 @@ accident during the rebuild.
 | English | Spanish slug | Problem |
 |---|---|---|
 | `/bac-water-costa-rica/` | `/es/agua-con-gas-costa-rica/` | "agua con gas" is **sparkling water**. This is bacteriostatic water. |
-| `/product/dsip-10mg/` | `/es/producto-2/risperidona-10mg/` | **Risperidone is an antipsychotic.** Wrong drug entirely. |
-| `/product/retatrutide-24mg/` | `/es/producto-2/ritagrutida-24mg/` | Invented name |
+| `/product/dsip-10mg/` | `/es/producto/risperidona-10mg/` | **Risperidone is an antipsychotic.** Wrong drug entirely. |
+| `/product/retatrutide-24mg/` | `/es/producto/ritagrutida-24mg/` | Invented name |
 | `/arenal-alajuela/` | `/es/la-fortuna-de-san-carlos/` | Different town; `/la-fortuna-alajuela/` also exists separately |
 | `/glow-costa-rica/` | `/es/brilla-costa-rica/` | Brand name translated |
 | `/klow-costa-rica/` | `/es/kloh-costa-rica/` | Misspelling |

@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-07-31T20:10:26.667Z",
+  "harvestedAt": "2026-10-12T18:41:41.543Z",
   "group": "index",
   "count": 3,
   "pages": [
@@ -19,7 +19,7 @@
           "content": {
             "level": 1,
             "text_en": "Recent Blogs:",
-            "text_es": "Recent Blogs:"
+            "text_es": "Blogs recientes:"
           }
         },
         {
@@ -62,20 +62,20 @@
     {
       "slug": "shop",
       "en": "/shop/",
-      "es": "/es/tienda/",
+      "es": "/es/shop/",
       "head": {
-        "title_en": "Shop – Peptides Costa Rica",
-        "title_es": "Tienda – Péptidos Costa Rica",
-        "description_en": "Shop Peptides Costa Rica for high-quality peptides for weight loss, muscle growth, energy, and anti-aging, with bulk discounts and free shipping on orders over $500.",
-        "description_es": "Compra en Peptides Costa Rica péptidos de alta calidad para bajar de peso, aumentar la masa muscular, aumentar la energía y combatir el envejecimiento, con descuentos por volumen y envío gratis en pedidos superiores a $500."
+        "title_en": "Shop - Peptides Costa Rica",
+        "title_es": "Tienda - Péptidos Costa Rica",
+        "description_en": "Shop Peptides Costa Rica for high-quality peptides for weight loss, muscle growth, energy, and more, with bulk discounts and free shipping on orders over $200.",
+        "description_es": "Compra en Peptides Costa Rica péptidos de alta calidad para bajar de peso, aumentar la masa muscular, tener más energía y mucho más, con descuentos por compra al por mayor y envío gratis en pedidos superiores a $200."
       },
       "sections": [
         {
           "type": "heading",
           "content": {
             "level": 1,
-            "text_en": "Shop",
-            "text_es": "Comprar"
+            "text_en": "Shop - Peptides Costa Rica",
+            "text_es": "Tienda - Péptidos Costa Rica"
           }
         },
         {

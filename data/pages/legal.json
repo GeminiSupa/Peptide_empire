@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-26T18:46:46.944Z",
+  "harvestedAt": "2026-10-12T18:35:55.204Z",
   "group": "legal",
   "count": 3,
   "pages": [
@@ -814,8 +814,8 @@
               {
                 "type": "paragraph",
                 "content": {
-                  "text_en": "This policy covers purchases made directly through peptidescostarica.net or via our personal order process (e.g., SINPE Móvil, Zelle, PayPal, or Cash). All orders are confirmed manually before payment is collected to ensure product availability and accurate order processing.",
-                  "text_es": "Esta póliza cubre compras realizadas directamente a través de peptidescostarica.net o mediante nuestro proceso de pedido personal (por ejemplo, SINPE Móvil, Zelle, PayPal o en efectivo). Todos los pedidos se confirman manualmente antes de la recolección del pago para asegurar la disponibilidad del producto y el procesamiento preciso del pedido."
+                  "text_en": "This policy covers purchases made directly through peptidescostarica.net or via our personal order process (e.g., SINPE Móvil, Zelle, or Cash). All orders are confirmed manually before payment is collected to ensure product availability and accurate order processing.",
+                  "text_es": "This policy covers purchases made directly through peptidescostarica.net or via our personal order process (e.g., SINPE Móvil, Zelle, or Cash). All orders are confirmed manually before payment is collected to ensure product availability and accurate order processing."
                 }
               },
               {
@@ -1107,13 +1107,11 @@
                   "items_en": [
                     "SINPE Móvil — refunded to the original SINPE number",
                     "Zelle — refunded to the original Zelle account",
-                    "PayPal — refunded via PayPal",
                     "Cash — refunded in cash at the time of agreement"
                   ],
                   "items_es": [
                     "SINPE Móvil — reembolsado al número SINPE original",
                     "Zelle — reembolsado a la cuenta original de Zelle",
-                    "PayPal — reembolsado vía PayPal",
                     "Efectivo: reembolsado en efectivo al momento del acuerdo"
                   ]
                 }
@@ -1327,7 +1325,7 @@
           }
         }
       ],
-      "untranslated": 1
+      "untranslated": 2
     },
     {
       "slug": "html-sitemap",

@@ -4,11 +4,11 @@
  * Kept out of content/pages/registry.js on purpose. That registry serves the
  * single-segment root namespace and keys pages by their last path segment;
  * products live under their own prefix — `/product/<slug>/` in English and
- * `/es/producto-2/<slug>/` in Spanish — so keying them the same way would let a
+ * `/es/producto/<slug>/` in Spanish — so keying them the same way would let a
  * product collide with a city or guide of the same name.
  *
- * The `-2` in `producto-2` is a permanent WordPress slug collision that is now
- * indexed SEO. It is reproduced exactly; see docs/url-inventory.md.
+ * WordPress now uses `/es/producto/` as the canonical Spanish base. The former
+ * `/es/producto-2/` paths are retained as permanent redirects in next.config.
  *
  * This project sells nothing. Product pages display price and specification and
  * send every buy action to the catalog site, which owns the cart and orders.

@@ -682,7 +682,9 @@ function group(sections) {
 export default function Sections({ sections = [], lang, demoteH1 = false, pageTitle }) {
   if (!sections.length) return null;
 
-  return group(sections).map((entry, index) => {
+  const entries = group(sections);
+
+  return entries.map((entry, index) => {
     if (entry.kind === 'cards') {
       return (
         <Container className="py-4 sm:py-5" key={`cards-${index}`}>
@@ -724,10 +726,15 @@ export default function Sections({ sections = [], lang, demoteH1 = false, pageTi
     }
 
     // Prose stays at a readable measure; grids and tables get more room.
-    const width = WIDE.has(section.type) ? 'max-w-5xl' : 'max-w-3xl';
+    // Tabs keep their own readable max-width. Let their outer wrapper fill the
+    // standard page container so the text starts on the same grid line as an
+    // adjacent harvested group/product section instead of being re-centered.
+    const width = section.type === 'tabs' ? 'max-w-none' : WIDE.has(section.type) ? 'max-w-5xl' : 'max-w-3xl';
+    const previousPad = entries[index - 1]?.section?.content?.pad;
+    const matchPreviousInset = section.type === 'tabs' && previousPad?.[3] === 20;
     return (
       <Container className={`${index === 0 ? 'pt-10 sm:pt-14' : 'py-3 sm:py-4'}`} key={`${section.type}-${index}`}>
-        <div className={`mx-auto ${width}`}>
+        <div className={`mx-auto ${width} ${matchPreviousInset ? 'pl-5 xl:pl-0' : ''}`}>
           <Component content={section.content} demote={demoteH1} lang={lang} />
         </div>
       </Container>

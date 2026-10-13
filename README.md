@@ -57,18 +57,23 @@ linking.
 
 ## Pre-launch: indexing is blocked
 
-`public/robots.txt` serves `Disallow: /` and the root layout emits `noindex`.
-Both are deliberate and must stay until launch day. See the launch checklist
-below.
+`app/robots.js` serves `Disallow: /` and both language layouts emit `noindex`
+unless `NEXT_PUBLIC_ALLOW_INDEXING=true`. This is deliberate and must stay false
+on local and preview deployments. At cutover, set the variable to `true` only in
+the production environment; robots and page metadata switch together.
 
 ## Launch-day checklist
 
 - [ ] Every old URL exists at the same path, or has a 301 redirect
 - [ ] `/es/` Spanish pages complete
-- [ ] `robots.txt` `Disallow` removed **and** `noindex` removed from the layout
+- [ ] Set production `NEXT_PUBLIC_ALLOW_INDEXING=true` at the domain cutover
 - [ ] `sitemap.xml` generated with the real domain
 - [ ] Canonical URLs point at `https://peptidescostarica.net`
 - [ ] All shop buttons point at `catalog.peptidescostarica.net`
+- [ ] Verify `/robots.txt`, `/sitemap.xml`, canonical, hreflang and schema on production
+- [ ] Submit the new sitemap in Google Search Console after cutover
+- [ ] Keep the existing Search Console property; do **not** use Change of Address
+- [ ] Run `node scripts/post-launch-check.mjs` against the production domain
 - [ ] Confirm who controls DNS for `peptidescostarica.net`; agree cutover time
 - [ ] Keep WordPress running and reachable for 2 weeks after cutover (rollback)
 - [ ] After cutover, verify `catalog.peptidescostarica.net` still works

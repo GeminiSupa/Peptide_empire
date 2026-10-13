@@ -1,5 +1,5 @@
 {
-  "harvestedAt": "2026-08-19T20:17:32.770Z",
+  "harvestedAt": "2026-10-12T18:50:58.076Z",
   "origin": "https://peptidescostarica.net",
   "announcement": {
     "text_en": "FREE Shipping On Orders Above ₡90,896",
@@ -25,12 +25,6 @@
       "kind": "whatsapp"
     },
     {
-      "label_en": "CR +506 8404-6973",
-      "label_es": "CR +506 8404-6973",
-      "href": "tel:+50684046973",
-      "kind": "phone"
-    },
-    {
       "label_en": "Email Us",
       "label_es": "Escríbenos un correo",
       "href": "mailto:info@peptidescostarica.net",
@@ -49,9 +43,24 @@
           "href": "/our-story/"
         },
         {
+          "label_en": "Explore Our App",
+          "label_es": "Explora nuestra aplicación",
+          "href": "https://app.peptidescostarica.net/"
+        },
+        {
           "label_en": "Bulk Discounts",
           "label_es": "Descuentos por volumen",
           "href": "/bulk-discounts/"
+        },
+        {
+          "label_en": "Peptide Calculator",
+          "label_es": "Calculadora de péptidos",
+          "href": "/peptide-reconstitution-calculator/"
+        },
+        {
+          "label_en": "IU Dosage Calculator",
+          "label_es": "Calculadora de dosis de UI",
+          "href": "/iu-dosage-calculator/"
         },
         {
           "label_en": "COA Database",
@@ -86,6 +95,11 @@
           "href": "/adamax-costa-rica/"
         },
         {
+          "label_en": "AA Water",
+          "label_es": "AA Water",
+          "href": "/aa-water-costa-rica/"
+        },
+        {
           "label_en": "5-amino-1mq",
           "label_es": "5-amino-1mq",
           "href": "/5-amino-1mq-costa-rica/"
@@ -99,86 +113,6 @@
           "label_en": "BPC-157",
           "label_es": "BPC-157",
           "href": "/bpc-157-costa-rica/"
-        },
-        {
-          "label_en": "Cartalax",
-          "label_es": "Cartalax",
-          "href": "/cartalax-costa-rica/"
-        },
-        {
-          "label_en": "DSIP",
-          "label_es": "DSIP",
-          "href": "/dsip-costa-rica/"
-        },
-        {
-          "label_en": "Epithalon",
-          "label_es": "Epitalon",
-          "href": "/epithalon-costa-rica/"
-        },
-        {
-          "label_en": "Fat Blaster",
-          "label_es": "Destructor de grasa",
-          "href": "/fat-blaster-costa-rica/"
-        },
-        {
-          "label_en": "Ipamorelin",
-          "label_es": "Ipamorelin",
-          "href": "/ipamorelin-costa-rica/"
-        },
-        {
-          "label_en": "IGF-1LR3",
-          "label_es": "IGF-1LR3",
-          "href": "/igf-1lr3-costa-rica/"
-        },
-        {
-          "label_en": "KLOW",
-          "label_es": "KLOW",
-          "href": "/klow-costa-rica/"
-        },
-        {
-          "label_en": "KissPeptin-10",
-          "label_es": "KissPeptina-10",
-          "href": "/kisspeptin-10-costa-rica/"
-        },
-        {
-          "label_en": "PT-141",
-          "label_es": "PT-141",
-          "href": "/pt-141-costa-rica/"
-        },
-        {
-          "label_en": "Pinealon",
-          "label_es": "Pinealón",
-          "href": "/pinealon-costa-rica/"
-        },
-        {
-          "label_en": "Retatrutide",
-          "label_es": "Retatrutida",
-          "href": "/retatrutide-costa-rica/"
-        },
-        {
-          "label_en": "SS-31",
-          "label_es": "SS-31",
-          "href": "/ss-31-costa-rica/"
-        },
-        {
-          "label_en": "Sermorelin",
-          "label_es": "Sermorelina",
-          "href": "/sermorelin-costa-rica/"
-        },
-        {
-          "label_en": "Slu-pp332",
-          "label_es": "Slu-pp332",
-          "href": "/slu-pp332-costa-rica/"
-        },
-        {
-          "label_en": "Thymalin",
-          "label_es": "Timallin",
-          "href": "/thymalin-costa-rica/"
-        },
-        {
-          "label_en": "TB-4",
-          "label_es": "TB-4",
-          "href": "/tb-4-costa-rica/"
         },
         {
           "label_en": "BAC Water",
@@ -201,6 +135,26 @@
           "href": "/cjc-1295-without-dac-ipa-costa-rica/"
         },
         {
+          "label_en": "Cartalax",
+          "label_es": "Cartalax",
+          "href": "/cartalax-costa-rica/"
+        },
+        {
+          "label_en": "DSIP",
+          "label_es": "DSIP",
+          "href": "/dsip-costa-rica/"
+        },
+        {
+          "label_en": "Epithalon",
+          "label_es": "Epitalon",
+          "href": "/epithalon-costa-rica/"
+        },
+        {
+          "label_en": "Fat Blaster",
+          "label_es": "Destructor de grasa",
+          "href": "/fat-blaster-costa-rica/"
+        },
+        {
           "label_en": "Glutathione",
           "label_es": "Glutatión",
           "href": "/glutathione-costa-rica/"
@@ -216,6 +170,11 @@
           "href": "/ghk-cu-costa-rica/"
         },
         {
+          "label_en": "GHRP-6",
+          "label_es": "GHRP-6",
+          "href": "/ghrp-6-costa-rica/"
+        },
+        {
           "label_en": "HGH",
           "label_es": "HGH",
           "href": "/hgh-costa-rica/"
@@ -224,6 +183,31 @@
           "label_en": "HCG",
           "label_es": "GONADOTROPINA CORIÓNICA HUMANA",
           "href": "/hcg-costa-rica/"
+        },
+        {
+          "label_en": "HMG 75 IU",
+          "label_es": "HMG 75 UI",
+          "href": "/hmg-75-iu-costa-rica/"
+        },
+        {
+          "label_en": "Ipamorelin",
+          "label_es": "Ipamorelin",
+          "href": "/ipamorelin-costa-rica/"
+        },
+        {
+          "label_en": "IGF-1LR3",
+          "label_es": "IGF-1LR3",
+          "href": "/igf-1lr3-costa-rica/"
+        },
+        {
+          "label_en": "KLOW",
+          "label_es": "KLOW",
+          "href": "/klow-costa-rica/"
+        },
+        {
+          "label_en": "KissPeptin-10",
+          "label_es": "KissPeptina-10",
+          "href": "/kisspeptin-10-costa-rica/"
         },
         {
           "label_en": "KPV",
@@ -246,6 +230,31 @@
           "href": "/nad-costa-rica/"
         },
         {
+          "label_en": "Oxytocin Acetate",
+          "label_es": "Acetato de oxitocina",
+          "href": "/oxytocin-acetate-costa-rica/"
+        },
+        {
+          "label_en": "PT-141",
+          "label_es": "PT-141",
+          "href": "/pt-141-costa-rica/"
+        },
+        {
+          "label_en": "Pinealon",
+          "label_es": "Pinealón",
+          "href": "/pinealon-costa-rica/"
+        },
+        {
+          "label_en": "GLP-1",
+          "label_es": "GLP-1",
+          "href": "/retatrutide-costa-rica/"
+        },
+        {
+          "label_en": "SS-31",
+          "label_es": "SS-31",
+          "href": "/ss-31-costa-rica/"
+        },
+        {
           "label_en": "Semax",
           "label_es": "Semax",
           "href": "/semax-costa-rica/"
@@ -261,9 +270,34 @@
           "href": "/semaglutide-costa-rica/"
         },
         {
+          "label_en": "SNAP-8",
+          "label_es": "SNAP-8",
+          "href": "/snap-8-costa-rica/"
+        },
+        {
           "label_en": "SUPER Human Blend",
           "label_es": "Superhumano Mezcla",
           "href": "/super-human-blend-costa-rica/"
+        },
+        {
+          "label_en": "Sermorelin",
+          "label_es": "Sermorelina",
+          "href": "/sermorelin-costa-rica/"
+        },
+        {
+          "label_en": "Slu-pp332",
+          "label_es": "Slu-pp332",
+          "href": "/slu-pp332-costa-rica/"
+        },
+        {
+          "label_en": "Thymalin",
+          "label_es": "Timallin",
+          "href": "/thymalin-costa-rica/"
+        },
+        {
+          "label_en": "TB-4",
+          "label_es": "TB-4",
+          "href": "/tb-4-costa-rica/"
         },
         {
           "label_en": "Thymosin Alpha-1",
@@ -279,13 +313,18 @@
           "label_en": "Tesamorelin",
           "label_es": "Tesamorelin",
           "href": "/tesamorelin-costa-rica/"
+        },
+        {
+          "label_en": "VIP-5",
+          "label_es": "VIP-5",
+          "href": "/vip-5-costa-rica/"
         }
       ]
     },
     {
       "label_en": "SHOP BY CATEGORY",
       "label_es": "COMPRAR POR CATEGORÍA",
-      "href": null,
+      "href": "/shop/",
       "children": [
         {
           "label_en": "Copper Peptides",
@@ -298,63 +337,63 @@
           "href": "/collagen-peptides-costa-rica/"
         },
         {
-          "label_en": "BAC Water",
-          "label_es": "Agua BAC",
+          "label_en": "Bacteriostatic Water",
+          "label_es": "Agua bacteriostática",
           "href": "/peptides-for-bac-water/"
         },
         {
-          "label_en": "Peptides For Fertility",
-          "label_es": "Péptidos para la fertilidad",
+          "label_en": "Reproductive Signalling Peptides",
+          "label_es": "Péptidos de señalización reproductiva",
           "href": "/peptides-for-fertility/"
         },
         {
-          "label_en": "HGH (Human Growth Hormone)",
-          "label_es": "HGH (Hormona de Crecimiento Humano)",
+          "label_en": "Somatropin & Related Compounds",
+          "label_es": "Somatropina y compuestos relacionados",
           "href": "/hgh-human-growth-hormone/"
         },
         {
-          "label_en": "Peptides For Healing",
-          "label_es": "Péptidos para la curación",
+          "label_en": "Tissue Repair Compounds",
+          "label_es": "Compuestos para la reparación de tejidos",
           "href": "/peptides-for-healing/"
         },
         {
-          "label_en": "Peptides For Muscle Growth",
-          "label_es": "Péptidos para el crecimiento muscular",
+          "label_en": "Growth Hormone Secretagogues",
+          "label_es": "Secretagogos de la hormona del crecimiento",
           "href": "/peptides-for-muscle-growth/"
         },
         {
-          "label_en": "Peptides For Skin",
-          "label_es": "Péptidos para la piel",
+          "label_en": "Copper & Dermatological Peptides",
+          "label_es": "Péptidos de Cobre y Dermatológicos",
           "href": "/peptides-for-skin/"
         },
         {
-          "label_en": "Peptides For Weight Loss",
-          "label_es": "Péptidos para la pérdida de peso",
+          "label_en": "Metabolic & GLP-1 Compounds",
+          "label_es": "Compuestos metabólicos y de GLP-1",
           "href": "/peptides-for-weight-loss/"
         },
         {
-          "label_en": "Peptides For Sleep",
-          "label_es": "Péptidos para dormir",
+          "label_en": "Sleep-Related Neuropeptides",
+          "label_es": "Neuropéptidos relacionados con el sueño",
           "href": "/peptides-for-sleep/"
         },
         {
-          "label_en": "Peptides for Cardiovascular",
-          "label_es": "Péptidos para Cardiovascular",
+          "label_en": "Cardiovascular Research Compounds",
+          "label_es": "Compuestos de investigación cardiovascular",
           "href": "/peptide-for-cardiovascular-costa-rica/"
         },
         {
-          "label_en": "Peptides For Anti Aging",
-          "label_es": "Péptidos Antienvejecimiento",
+          "label_en": "Bioregulator Peptides",
+          "label_es": "Péptidos biorreguladores",
           "href": "/peptides-for-anti-aging/"
         },
         {
-          "label_en": "Peptide for Cognitive Function",
-          "label_es": "Péptido para la función cognitiva",
+          "label_en": "Nootropic & Neuropeptides",
+          "label_es": "Noótropicos y Neuropéptidos",
           "href": "/peptide-for-cognitive-function/"
         },
         {
-          "label_en": "Peptides For Energy",
-          "label_es": "Péptidos para la Energía",
+          "label_en": "Mitochondrial Compounds",
+          "label_es": "Compuestos mitocondriales",
           "href": "/peptides-for-energy/"
         }
       ]
@@ -368,7 +407,7 @@
   ],
   "footer": {
     "blurb_en": "Peptides Costa Rica provides research materials and product information for eligible purchasers in Costa Rica. Contact us for availability, documentation, and order support.",
-    "blurb_es": "Peptides Costa Rica proporciona materiales de investigación e información de productos para compradores elegibles en Costa Rica. Contáctenos para consultar disponibilidad, documentación y asistencia con pedidos.",
+    "blurb_es": "Peptides Costa Rica ofrece materiales de investigación e información de productos para compradores elegibles en Costa Rica. Contáctenos para consultar disponibilidad, documentación y asistencia con pedidos.",
     "disclaimer_en": "Products offered by Peptides Costa Rica are intended strictly for laboratory research use only. They are not approved or licensed by the FDA for the prevention, diagnosis, treatment, or cure of any disease. Information on this website is for educational purposes only and should not be considered medical or legal advice. Not for human or veterinary use.",
     "disclaimer_es": "Los productos ofrecidos por Peptides Costa Rica están destinados estrictamente únicamente para uso en investigación de laboratorio. No están aprobados ni autorizados por la FDA para la prevención, diagnóstico, tratamiento o cura de ninguna enfermedad. La información en este sitio web es solo para fines educativos y no debe considerarse consejo médico o legal. No apto para uso humano o veterinario.",
     "copyright_en": "Copyright © 2026 Peptides Costa Rica, All Rights Reserved.",
@@ -385,6 +424,11 @@
         "href": "/about/"
       },
       {
+        "label_en": "Access Our App",
+        "label_es": "Acceda a nuestra aplicación",
+        "href": "https://app.peptidescostarica.net/"
+      },
+      {
         "label_en": "Bulk Discounts",
         "label_es": "Descuentos por volumen",
         "href": "/bulk-discounts/"
@@ -393,6 +437,11 @@
         "label_en": "FAQ",
         "label_es": "Preguntas frecuentes",
         "href": "/faq-costa-rica/"
+      },
+      {
+        "label_en": "Peptide Dosage Calculator",
+        "label_es": "Calculadora de dosis de péptidos",
+        "href": "/peptide-reconstitution-calculator/"
       },
       {
         "label_en": "Our Service Locations",
@@ -445,15 +494,15 @@
         "href": "/blog/"
       },
       {
-        "label_en": "How-to-Use Guides",
-        "label_es": "Guías de cómo usar",
-        "href": "/peptide-guides/"
+        "label_en": "IU Dosage Calculator",
+        "label_es": "Calculadora de dosis de UI",
+        "href": "/iu-dosage-calculator/"
       }
     ],
     "categories": [
       {
         "label_en": "Metabolic & GLP-1 Compounds",
-        "label_es": "Compuestos metabólicos y GLP-1",
+        "label_es": "Compuestos metabólicos y de GLP-1",
         "href": "/peptides-for-weight-loss/"
       },
       {
@@ -513,7 +562,7 @@
       },
       {
         "name": "Instagram",
-        "href": "https://www.instagram.com/peptides_costa_rica"
+        "href": "https://www.instagram.com/costaricapeptides/"
       },
       {
         "name": "X-twitter",
@@ -533,11 +582,11 @@
       "title_es": "Programa de Ahorros al por Mayor",
       "lines_en": [
         "Purchase five or more vials of the same product to receive 15% off.",
-        "* There are no confusing levels or hidden rules. Our bulk pricing is simple and easy to understand."
+        "There are no confusing levels or hidden rules. Our bulk pricing is simple and easy to understand."
       ],
       "lines_es": [
         "Compra cinco o más frascos del mismo producto y obtén un descuento de 15%.",
-        "* No hay niveles confusos ni reglas ocultas. Nuestros precios por volumen son simples y fáciles de entender."
+        "No hay niveles confusos ni reglas ocultas. Nuestros precios por mayoreo son simples y fáciles de entender."
       ],
       "cta_en": "Call To Order",
       "cta_es": "Se abre la sesión",
@@ -546,8 +595,8 @@
     "reviews": [
       {
         "name": "Trustpilot",
-        "score": "4.2",
-        "value": "4.2",
+        "score": "4.6",
+        "value": "4.6",
         "best": "5",
         "href": "https://www.trustpilot.com/review/peptidescostarica.net",
         "logo": "/wp-content/uploads/2026/03/Untitled-design-9.png",
@@ -557,17 +606,17 @@
       {
         "name": "Google",
         "score": "5.0",
-        "value": "5",
+        "value": "5.0",
         "best": "5",
         "href": "https://maps.app.goo.gl/jJCMHBM8aPXx67G3A",
-        "logo": "/wp-content/uploads/2026/03/4de77119-3608-45d9-b440-e34488b88e61.png",
-        "logoAlt": "Google Logo",
+        "logo": "/wp-content/uploads/2026/03/images.png",
+        "logoAlt": "",
         "href_es": "https://maps.app.goo.gl/jJCMHBM8aPXx67G3A"
       },
       {
         "name": "Facebook",
         "score": "5.0",
-        "value": "5",
+        "value": "5.0",
         "best": "5",
         "href": "https://www.facebook.com/costaricapeptides",
         "logo": "/wp-content/uploads/2026/03/8019ccfd-bd9e-4d95-ae0b-dfe6d4c60e65.png",

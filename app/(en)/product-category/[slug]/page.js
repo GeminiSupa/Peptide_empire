@@ -2,9 +2,10 @@ import { notFound } from 'next/navigation';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
-import { byEnglishSlug, englishParams } from '@/content/pages/categories';
+import { byEnglishSlug, englishParams, sectionsFor } from '@/content/pages/categories';
 import { alternates } from '@/lib/routes';
 import { metaTitle } from '@/lib/page-title';
+import { metadataForPath } from '@/lib/seo';
 
 /** English WooCommerce category archives at `/product-category/<slug>/`. */
 export const dynamicParams = false;
@@ -18,11 +19,12 @@ export async function generateMetadata({ params }) {
   const page = byEnglishSlug(slug);
   if (!page) return {};
   const alt = alternates(page.en);
-  return {
+  return metadataForPath(page.en, {
     title: metaTitle(page, 'en'),
-    description: page.head.description_en || undefined,
-    alternates: { canonical: page.en, languages: { 'en-US': alt.en, 'es-CR': alt.es } },
-  };
+    description: page.head.description_en,
+    en: alt.en,
+    es: alt.es,
+  });
 }
 
 export default async function CategoryEn({ params }) {
@@ -34,7 +36,7 @@ export default async function CategoryEn({ params }) {
     <>
       <SiteHeader lang="en" path={page.en} />
       <main className="flex-1">
-        <Sections lang="en" sections={page.sections} />
+        <Sections lang="en" sections={sectionsFor(page)} />
       </main>
       <SiteFooter lang="en" />
     </>

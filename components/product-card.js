@@ -76,7 +76,7 @@ export default function ProductCard({ product, lang }) {
           {details}
         </Link>
       ) : (
-        <div>{details}</div>
+        <div className="flex flex-1 flex-col">{details}</div>
       )}
       {product.price && <p className="mt-3 text-base font-extrabold text-accent">{product.price}</p>}
       <a

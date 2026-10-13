@@ -3,7 +3,7 @@ const nextConfig = {
   /**
    * REQUIRED — do not remove.
    *
-   * Every one of the 643 live URLs ends in a trailing slash (`/about/`, not
+   * Every live HTML URL ends in a trailing slash (`/about/`, not
    * `/about`). Next.js 16 strips trailing slashes by default and would redirect
    * `/about/` → `/about`, which changes every indexed URL on the site.
    *
@@ -40,7 +40,50 @@ const nextConfig = {
         destination: '/tirzepatide-costa-rica/',
         permanent: true,
       },
+      {
+        source: '/es/tienda',
+        destination: '/es/shop/',
+        permanent: true,
+      },
+      {
+        source: '/es/producto-2/:slug*',
+        destination: '/es/producto/:slug*/',
+        permanent: true,
+      },
+      {
+        source: '/es/categoria-producto-2/:slug*',
+        destination: '/es/categoria-de-producto/:slug*/',
+        permanent: true,
+      },
+      {
+        source: '/lp',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/es/lp',
+        destination: '/es/',
+        permanent: true,
+      },
     ];
+  },
+
+  /**
+   * Keep every sitemap URL exposed by the WordPress/Xagio installation alive.
+   * Search Console does not follow a redirect when fetching a submitted
+   * sitemap, so these are internal aliases (HTTP 200), not redirects. They can
+   * remain indefinitely while /sitemap.xml is the canonical sitemap URL.
+   */
+  async rewrites() {
+    return [
+      '/sitemap_index.xml',
+      '/sitemap-xag.xml',
+      '/sitemap-xagio-post.xml',
+      '/sitemap-xagio-page.xml',
+      '/sitemap-xagio-product.xml',
+      '/sitemap-xagio-product_cat.xml',
+      '/wp-sitemap.xml',
+    ].map((source) => ({ source, destination: '/sitemap.xml' }));
   },
 };
 

@@ -1,8 +1,1234 @@
 {
-  "harvestedAt": "2026-08-26T18:46:47.238Z",
+  "harvestedAt": "2026-10-12T18:41:42.183Z",
   "group": "guideBlocks",
-  "count": 1,
+  "count": 6,
   "pages": [
+    {
+      "slug": "lp",
+      "en": "/lp/",
+      "es": "/es/lp/",
+      "head": {
+        "title_en": "Elementor #31553 – Peptides Costa Rica",
+        "title_es": "Elementor #31553 – Peptides Costa Rica",
+        "description_en": "",
+        "description_es": ""
+      },
+      "sections": [],
+      "untranslated": 0
+    },
+    {
+      "slug": "extra",
+      "en": "/extra/",
+      "es": "/es/extra/",
+      "head": {
+        "title_en": "Extra – Peptides Costa Rica",
+        "title_es": "Extra – Péptidos Costa Rica",
+        "description_en": "",
+        "description_es": ""
+      },
+      "sections": [
+        {
+          "type": "group",
+          "content": {
+            "dir": "column",
+            "justify": "center",
+            "items": "center",
+            "boxed": false,
+            "children": [
+              {
+                "type": "heading",
+                "content": {
+                  "level": 2,
+                  "text_en": "We do things differently",
+                  "text_es": "Lo hacemos diferente",
+                  "align": "center",
+                  "color": "#092771"
+                }
+              },
+              {
+                "type": "paragraph",
+                "content": {
+                  "text_en": "At Peptides Costa Rica, we serve customers exclusively within Costa Rica. We offer clear pricing, bulk discounts, direct communication, and reliable local service.",
+                  "text_es": "En Peptides Costa Rica, atendemos exclusivamente a clientes dentro de Costa Rica. Ofrecemos precios claros, descuentos por volumen, comunicación directa y servicio local confiable.",
+                  "align": "center",
+                  "color": "#000000",
+                  "font": {
+                    "size": "18px"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "group",
+          "content": {
+            "dir": "row",
+            "gap": 20,
+            "items": "stretch",
+            "boxed": true,
+            "children": [
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "width": 50,
+                  "bgImage": "/wp-content/uploads/2026/07/Banner-02-scaled.jpg",
+                  "radius": 10,
+                  "gap": 10,
+                  "pad": [
+                    10,
+                    15,
+                    10,
+                    15
+                  ],
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "group",
+                      "content": {
+                        "dir": "column",
+                        "boxed": false,
+                        "children": [
+                          {
+                            "type": "heading",
+                            "content": {
+                              "level": 2,
+                              "text_en": "No cross-border delays",
+                              "text_es": "Sin demoras transfronterizas",
+                              "color": "#08236B",
+                              "font": {
+                                "size": "24.88px",
+                                "weight": "600",
+                                "spacing": "0px",
+                                "family": "Open Sans"
+                              }
+                            }
+                          },
+                          {
+                            "type": "paragraph",
+                            "content": {
+                              "text_en": "As a local peptide supplier in Costa Rica, we eliminate international shipping issues, ensuring faster delivery and consistent availability.",
+                              "text_es": "Como proveedor local de péptidos en Costa Rica, eliminamos los problemas de envío internacional, asegurando una entrega más rápida y disponibilidad constante.",
+                              "color": "#000000"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "width": 49.999,
+                  "bgImage": "/wp-content/uploads/2026/07/Banner-02-scaled.jpg",
+                  "radius": 10,
+                  "pad": [
+                    10,
+                    15,
+                    10,
+                    15
+                  ],
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "group",
+                      "content": {
+                        "dir": "column",
+                        "width": 100,
+                        "boxed": false,
+                        "children": [
+                          {
+                            "type": "heading",
+                            "content": {
+                              "level": 2,
+                              "text_en": "Fast, Safe & Secure Online Ordering",
+                              "text_es": "Pedido en línea rápido, seguro y confiable",
+                              "color": "#08236B",
+                              "font": {
+                                "size": "24.88px",
+                                "weight": "600",
+                                "spacing": "0px",
+                                "family": "Open Sans"
+                              }
+                            }
+                          },
+                          {
+                            "type": "paragraph",
+                            "content": {
+                              "text_en": "We now offer a fast, safe, and fully secure online checkout system for your convenience. Place your orders with confidence using our streamlined payment process designed to protect your information every step of the way.",
+                              "text_es": "Ahora ofrecemos un sistema de pago en línea rápido, seguro y totalmente confiable para tu comodidad. Realiza tus pedidos con confianza utilizando nuestro proceso de pago simplificado, diseñado para proteger tu información en cada paso.",
+                              "color": "#000000"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "group",
+          "content": {
+            "dir": "row",
+            "gap": 20,
+            "items": "stretch",
+            "pad": [
+              16,
+              0,
+              0,
+              0
+            ],
+            "boxed": true,
+            "children": [
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "width": 50,
+                  "bgImage": "/wp-content/uploads/2026/07/Banner-02-scaled.jpg",
+                  "radius": 10,
+                  "gap": 10,
+                  "pad": [
+                    10,
+                    15,
+                    10,
+                    15
+                  ],
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "group",
+                      "content": {
+                        "dir": "column",
+                        "boxed": false,
+                        "children": [
+                          {
+                            "type": "heading",
+                            "content": {
+                              "level": 2,
+                              "text_en": "No hidden import fees",
+                              "text_es": "Sin cargos de importación ocultos",
+                              "color": "#08236B",
+                              "font": {
+                                "size": "24.88px",
+                                "weight": "600",
+                                "spacing": "0px",
+                                "family": "Open Sans"
+                              }
+                            }
+                          },
+                          {
+                            "type": "paragraph",
+                            "content": {
+                              "text_en": "Avoid unexpected customs costs. Our local distribution network ensures no hidden import fees or international charges, making your peptide purchases easy and stress-free.",
+                              "text_es": "Evita costos aduaneros inesperados. Nuestra red de distribución local garantiza que no haya cargos de importación ocultos ni cobros internacionales, haciendo que tus compras de péptidos sean fáciles y sin preocupaciones.",
+                              "color": "#000000"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "width": 49.999,
+                  "bgImage": "/wp-content/uploads/2026/07/Banner-02-scaled.jpg",
+                  "radius": 10,
+                  "pad": [
+                    10,
+                    15,
+                    10,
+                    15
+                  ],
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "group",
+                      "content": {
+                        "dir": "column",
+                        "width": 100,
+                        "boxed": false,
+                        "children": [
+                          {
+                            "type": "heading",
+                            "content": {
+                              "level": 2,
+                              "text_en": "Clear access and professional service",
+                              "text_es": "Acceso claro y servicio profesional",
+                              "color": "#08236B",
+                              "font": {
+                                "size": "24.88px",
+                                "weight": "600",
+                                "spacing": "0px",
+                                "family": "Open Sans"
+                              }
+                            }
+                          },
+                          {
+                            "type": "paragraph",
+                            "content": {
+                              "text_en": "We combine premium peptide quality with professional, responsive customer service, helping you get exactly what you need, when you need it.",
+                              "text_es": "Combinamos la calidad de péptidos premium con un servicio al cliente profesional y receptivo, ayudándote a obtener exactamente lo que necesitas, cuando lo necesitas.",
+                              "color": "#000000"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "group",
+          "content": {
+            "dir": "row",
+            "gap": 10,
+            "items": "stretch",
+            "pad": [
+              96,
+              0,
+              0,
+              0
+            ],
+            "boxed": true,
+            "children": [
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "justify": "center",
+                  "pad": [
+                    0,
+                    48,
+                    0,
+                    0
+                  ],
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "content": {
+                        "level": 2,
+                        "text_en": "Who This Is For",
+                        "text_es": "¿Para quién es esto?"
+                      }
+                    },
+                    {
+                      "type": "paragraph",
+                      "content": {
+                        "text_en": "Peptides Costa Rica is for people who take their health performance seriously.",
+                        "text_es": "Peptides Costa Rica es para personas que se toman en serio la mejora de su salud."
+                      }
+                    },
+                    {
+                      "type": "card",
+                      "content": {
+                        "title_en": "Performance-Driven People",
+                        "title_es": "Personas impulsadas por el rendimiento",
+                        "text_en": "Those focused on improving strength, endurance, recovery, and overall physical capacity.",
+                        "text_es": "Aquellos enfocados en mejorar la fuerza, la resistencia, la recuperación y la capacidad física general.",
+                        "href": null
+                      }
+                    },
+                    {
+                      "type": "card",
+                      "content": {
+                        "title_en": "Wellness & Longevity Enthusiasts",
+                        "title_es": "Entusiastas del Bienestar y la Longevidad",
+                        "text_en": "People looking for new ways to boost energy, metabolism, and long-term wellness.",
+                        "text_es": "Personas en busca de nuevas formas de potenciar su energía, metabolismo y bienestar a largo plazo.",
+                        "href": null
+                      }
+                    },
+                    {
+                      "type": "card",
+                      "content": {
+                        "title_en": "Recovery-Focused Clients",
+                        "title_es": "Clientes enfocados en la recuperación",
+                        "text_en": "Anyone who wants to keep their joints strong, tissues healthy, and training on track.",
+                        "text_es": "Cualquiera que quiera mantener sus articulaciones fuertes, sus tejidos sanos y su entrenamiento al día.",
+                        "href": null
+                      }
+                    },
+                    {
+                      "type": "card",
+                      "content": {
+                        "title_en": "High-Performance Professionals",
+                        "title_es": "Profesionales de Alto Desempeño",
+                        "text_en": "Entrepreneurs, athletes, and anyone who values clear thinking, steady energy, and good routines.",
+                        "text_es": "Emprendedores, atletas y cualquier persona que valore la claridad mental, la energía constante y las buenas rutinas.",
+                        "href": null
+                      }
+                    },
+                    {
+                      "type": "button",
+                      "content": {
+                        "text_en": "View All Products",
+                        "text_es": "Ver todos los productos",
+                        "href": "/all-peptide-products-costa-rica/",
+                        "bg": "#092771",
+                        "color": "#FFFFFF"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "radius": 10,
+                  "justify": "flex-end",
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/07/3-13-1-2.webp",
+                        "width": 2400,
+                        "height": 1792,
+                        "alt_en": "Medical vials with assorted colored caps and labels on reflective surface.",
+                        "alt_es": "Frascos médicos con tapas y etiquetas de varios colores sobre superficie reflectante.",
+                        "displayWidth": "100%"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "group",
+          "content": {
+            "dir": "row",
+            "contentWidth": 1290,
+            "pad": [
+              96,
+              0,
+              0,
+              0
+            ],
+            "boxed": true,
+            "children": [
+              {
+                "type": "group",
+                "content": {
+                  "dir": "row",
+                  "width": 50,
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "group",
+                      "content": {
+                        "dir": "column",
+                        "width": 50,
+                        "boxed": false,
+                        "children": [
+                          {
+                            "type": "image",
+                            "content": {
+                              "src": "/wp-content/uploads/2026/02/BPC-157-2-1024x1024.jpg",
+                              "width": 1024,
+                              "height": 1024,
+                              "alt_en": "BPC-157 10mg bottle with blue cap and white powder.",
+                              "alt_es": "Frasco de BPC-157 de 10 mg con tapa azul y polvo blanco."
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "group",
+                      "content": {
+                        "dir": "column",
+                        "width": 50,
+                        "gap": 10,
+                        "justify": "center",
+                        "boxed": false,
+                        "children": [
+                          {
+                            "type": "heading",
+                            "content": {
+                              "level": 2,
+                              "text_en": "BPC-157 10mg",
+                              "text_es": "BPC-157 10mg",
+                              "font": {
+                                "size": "24px",
+                                "weight": "600",
+                                "spacing": "0px",
+                                "family": "Open Sans"
+                              }
+                            }
+                          },
+                          {
+                            "type": "heading",
+                            "content": {
+                              "level": 2,
+                              "text_en": "Buy 5+ viles, get 15% off",
+                              "text_es": "Compra 5 o más frascos y obtén un descuento de 15%",
+                              "font": {
+                                "size": "18px",
+                                "weight": "500",
+                                "height": "1em",
+                                "spacing": "0px",
+                                "family": "Jaldi"
+                              }
+                            }
+                          },
+                          {
+                            "type": "heading",
+                            "content": {
+                              "level": 2,
+                              "text_en": "90$",
+                              "text_es": "90$",
+                              "font": {
+                                "size": "20px",
+                                "weight": "600",
+                                "spacing": "0.1px",
+                                "family": "Open Sans"
+                              }
+                            }
+                          },
+                          {
+                            "type": "list",
+                            "content": {
+                              "icon": true,
+                              "inline": false,
+                              "items_en": [
+                                "Improved ligament repair",
+                                "Enhanced muscle recovery",
+                                "Faster wound healing (skin and soft tissue)"
+                              ],
+                              "items_es": [
+                                "Reparación mejorada de ligamentos",
+                                "Recuperación muscular mejorada",
+                                "Cicatrización de heridas más rápida (piel y tejidos blandos)"
+                              ],
+                              "hrefs": [
+                                null,
+                                null,
+                                null
+                              ],
+                              "iconColor": "#092771"
+                            }
+                          },
+                          {
+                            "type": "button",
+                            "content": {
+                              "text_en": "Call To Order",
+                              "text_es": "Se abre la sesión",
+                              "href": "tel:+50684046973",
+                              "bg": "#092771",
+                              "color": "#FFFFFF"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "group",
+                "content": {
+                  "dir": "row",
+                  "width": 50,
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "group",
+                      "content": {
+                        "dir": "column",
+                        "width": 50,
+                        "boxed": false,
+                        "children": [
+                          {
+                            "type": "image",
+                            "content": {
+                              "src": "/wp-content/uploads/2026/02/HCG-1-1-1024x1024.jpg",
+                              "width": 1024,
+                              "height": 1024,
+                              "alt_en": "HCG 10,000 IU jar with atom logo, refrigerate at 2-8°C, for subcutaneous use.",
+                              "alt_es": "Frasco de HCG 10,000 UI con logo de átomo, refrigerar a 2-8°C, para uso subcutáneo."
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "group",
+                      "content": {
+                        "dir": "column",
+                        "width": 50,
+                        "gap": 10,
+                        "justify": "center",
+                        "boxed": false,
+                        "children": [
+                          {
+                            "type": "heading",
+                            "content": {
+                              "level": 2,
+                              "text_en": "HCG 10,000 IU",
+                              "text_es": "HCG 10,000 UI",
+                              "font": {
+                                "size": "24px",
+                                "weight": "600",
+                                "spacing": "0px",
+                                "family": "Open Sans"
+                              }
+                            }
+                          },
+                          {
+                            "type": "heading",
+                            "content": {
+                              "level": 2,
+                              "text_en": "Buy 5+ viles, get 15% off",
+                              "text_es": "Compra 5 o más frascos y obtén un descuento de 15%",
+                              "font": {
+                                "size": "18px",
+                                "weight": "500",
+                                "height": "1em",
+                                "spacing": "0px",
+                                "family": "Jaldi"
+                              }
+                            }
+                          },
+                          {
+                            "type": "heading",
+                            "content": {
+                              "level": 2,
+                              "text_en": "160$",
+                              "text_es": "160$",
+                              "font": {
+                                "size": "20px",
+                                "weight": "600",
+                                "spacing": "0.1px",
+                                "family": "Open Sans"
+                              }
+                            }
+                          },
+                          {
+                            "type": "list",
+                            "content": {
+                              "icon": true,
+                              "inline": false,
+                              "items_en": [
+                                "Weight loss (HCG diet)",
+                                "Bodybuilding PCT (off-label)",
+                                "Female infertility – stimulates ovulation"
+                              ],
+                              "items_es": [
+                                "Bajar de peso (dieta HCG)",
+                                "PCT para culturismo (uso no autorizado)",
+                                "Infertilidad femenina – estimula la ovulación"
+                              ],
+                              "hrefs": [
+                                null,
+                                null,
+                                null
+                              ],
+                              "iconColor": "#092771"
+                            }
+                          },
+                          {
+                            "type": "button",
+                            "content": {
+                              "text_en": "Call To Order",
+                              "text_es": "Se abre la sesión",
+                              "href": "tel:+50684046973",
+                              "bg": "#092771",
+                              "color": "#FFFFFF"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "group",
+          "content": {
+            "dir": "row",
+            "boxed": true,
+            "children": [
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "width": 50,
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "content": {
+                        "level": 0,
+                        "text_en": "Why choose us",
+                        "text_es": "¿Por qué elegirnos?",
+                        "color": "#FFFFFF",
+                        "font": {
+                          "size": "13px",
+                          "weight": "600",
+                          "family": "Open Sans"
+                        },
+                        "box": {
+                          "bg": "#BD0A0D",
+                          "radius": 10,
+                          "pad": "7px 21px 7px 21px"
+                        }
+                      }
+                    },
+                    {
+                      "type": "heading",
+                      "content": {
+                        "level": 2,
+                        "text_en": "Trusted Quality.",
+                        "text_es": "Calidad de confianza."
+                      }
+                    },
+                    {
+                      "type": "paragraph",
+                      "content": {
+                        "text_en": "Peptides are short chains of amino acids that play an important role in biological regulation and cellular communication. Their growing popularity reflects increasing interest in targeted, research-driven approaches to performance and wellness.",
+                        "text_es": "Los péptidos son cadenas cortas de aminoácidos que desempeñan un papel importante en la regulación biológica y la comunicación celular. Su creciente popularidad refleja un interés cada vez mayor en enfoques dirigidos y basados en la investigación para el rendimiento y el bienestar."
+                      }
+                    },
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/07/Untitled-design-4.webp",
+                        "width": 1280,
+                        "height": 720,
+                        "alt_en": "Couple exercising with vials on coffee table.",
+                        "alt_es": "Pareja haciendo ejercicio con viales en la mesa de centro.",
+                        "displayWidth": "100%"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "width": 50,
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "card",
+                      "content": {
+                        "title_en": "Weight Management",
+                        "title_es": "Control de peso",
+                        "text_en": "Certain peptides can promote fat breakdown and support metabolism, making them a powerful tool in weight loss regimes.",
+                        "text_es": "Ciertos péptidos pueden promover la descomposición de la grasa y apoyar el metabolismo, convirtiéndolos en una herramienta poderosa en los regímenes de pérdida de peso.",
+                        "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-weight\" viewBox=\"0 0 512 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M448 64h-25.98C438.44 92.28 448 125.01 448 160c0 105.87-86.13 192-192 192S64 265.87 64 160c0-34.99 9.56-67.72 25.98-96H64C28.71 64 0 92.71 0 128v320c0 35.29 28.71 64 64 64h384c35.29 0 64-28.71 64-64V128c0-35.29-28.71-64-64-64zM256 320c88.37 0 160-71.63 160-160S344.37 0 256 0 96 71.63 96 160s71.63 160 160 160zm-.3-151.94l33.58-78.36c3.5-8.17 12.94-11.92 21.03-8.41 8.12 3.48 11.88 12.89 8.41 21l-33.67 78.55C291.73 188 296 197.45 296 208c0 22.09-17.91 40-40 40s-40-17.91-40-40c0-21.98 17.76-39.77 39.7-39.94z\"></path></svg>",
+                        "href": null,
+                        "box": {
+                          "bg": "#FFFFFF",
+                          "radius": 10,
+                          "pad": "2em 2em 2em 2em"
+                        }
+                      }
+                    },
+                    {
+                      "type": "card",
+                      "content": {
+                        "title_en": "Muscle Growth",
+                        "title_es": "Crecimiento muscular",
+                        "text_en": "By stimulating muscle protein synthesis, peptides help build lean muscle mass, promoting strength and endurance.",
+                        "text_es": "Al estimular la síntesis de proteínas musculares, los péptidos ayudan a desarrollar masa muscular magra, promoviendo la fuerza y la resistencia.",
+                        "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-dumbbell\" viewBox=\"0 0 640 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M104 96H56c-13.3 0-24 10.7-24 24v104H8c-4.4 0-8 3.6-8 8v48c0 4.4 3.6 8 8 8h24v104c0 13.3 10.7 24 24 24h48c13.3 0 24-10.7 24-24V120c0-13.3-10.7-24-24-24zm528 128h-24V120c0-13.3-10.7-24-24-24h-48c-13.3 0-24 10.7-24 24v272c0 13.3 10.7 24 24 24h48c13.3 0 24-10.7 24-24V288h24c4.4 0 8-3.6 8-8v-48c0-4.4-3.6-8-8-8zM456 32h-48c-13.3 0-24 10.7-24 24v168H256V56c0-13.3-10.7-24-24-24h-48c-13.3 0-24 10.7-24 24v400c0 13.3 10.7 24 24 24h48c13.3 0 24-10.7 24-24V288h128v168c0 13.3 10.7 24 24 24h48c13.3 0 24-10.7 24-24V56c0-13.3-10.7-24-24-24z\"></path></svg>",
+                        "href": null,
+                        "box": {
+                          "bg": "#FFFFFF",
+                          "radius": 10,
+                          "pad": "2em 2em 2em 2em"
+                        }
+                      }
+                    },
+                    {
+                      "type": "card",
+                      "content": {
+                        "title_en": "Energy and Vitality",
+                        "title_es": "Energía y Vitalidad",
+                        "text_en": "Enhanced energy levels and improved recovery times enable a more active and fulfilling lifestyle.",
+                        "text_es": "Los niveles de energía mejorados y los tiempos de recuperación optimizados permiten un estilo de vida más activo y pleno.",
+                        "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-burn\" viewBox=\"0 0 384 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M192 0C79.7 101.3 0 220.9 0 300.5 0 425 79 512 192 512s192-87 192-211.5c0-79.9-80.2-199.6-192-300.5zm0 448c-56.5 0-96-39-96-94.8 0-13.5 4.6-61.5 96-161.2 91.4 99.7 96 147.7 96 161.2 0 55.8-39.5 94.8-96 94.8z\"></path></svg>",
+                        "href": null,
+                        "box": {
+                          "bg": "#FFFFFF",
+                          "radius": 10,
+                          "pad": "2em 2em 2em 2em"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "untranslated": 0
+    },
+    {
+      "slug": "extra-affliate-page",
+      "en": "/extra-affliate-page/",
+      "es": "/es/pagina-de-afiliados-adicional/",
+      "head": {
+        "title_en": "Extra Affliate page – Peptides Costa Rica",
+        "title_es": "Página de Afiliados Extra – Peptides Costa Rica",
+        "description_en": "",
+        "description_es": ""
+      },
+      "sections": [
+        {
+          "type": "group",
+          "content": {
+            "dir": "column",
+            "justify": "flex-end",
+            "items": "center",
+            "minHeight": 230,
+            "boxed": true,
+            "children": [
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "width": 70,
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "content": {
+                        "level": 2,
+                        "text_en": "Apply to Become an Affiliate",
+                        "text_es": "Postúlate para ser afiliado",
+                        "align": "center",
+                        "font": {
+                          "size": "40px"
+                        }
+                      }
+                    },
+                    {
+                      "type": "paragraph",
+                      "content": {
+                        "text_en": "Complete the application below to apply for the Peptides Costa Rica Affiliate Program.",
+                        "text_es": "Complete la siguiente solicitud para postularse al Programa de Afiliados de Peptides Costa Rica.",
+                        "align": "center"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "untranslated": 0
+    },
+    {
+      "slug": "lp-glutathione",
+      "en": "/lp-glutathione/",
+      "es": "/es/glutathione-de-l-p-lipoaminoacido/",
+      "head": {
+        "title_en": "Glutathione",
+        "title_es": "Glutathione",
+        "description_en": "",
+        "description_es": ""
+      },
+      "sections": [
+        {
+          "type": "group",
+          "content": {
+            "dir": "row",
+            "bg": "#FFFFFF",
+            "gap": 20,
+            "pad": [
+              80,
+              20,
+              80,
+              20
+            ],
+            "boxed": true,
+            "children": [
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "width": 55,
+                  "justify": "center",
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "content": {
+                        "level": 1,
+                        "text_en": "Buy Glutathione in Costa Rica",
+                        "text_es": "Buy Glutathione in Costa Rica",
+                        "font": {
+                          "size": "58.92px",
+                          "weight": "700",
+                          "height": "1em",
+                          "spacing": "-2px",
+                          "family": "Open Sans"
+                        }
+                      }
+                    },
+                    {
+                      "type": "paragraph",
+                      "content": {
+                        "text_en": "Buy Glutathione, with verified product specifications, third-party laboratory testing, and an available Certificate of Analysis (COA). Browse the available Glutathione product, check pricing, and order with local delivery across Costa Rica.",
+                        "text_es": "Buy Glutathione, with verified product specifications, third-party laboratory testing, and an available Certificate of Analysis (COA). Browse the available Glutathione product, check pricing, and order with local delivery across Costa Rica.",
+                        "color": "#000000",
+                        "font": {
+                          "size": "16px",
+                          "weight": "400",
+                          "height": "var( --e-global-typography-text-line-height )",
+                          "family": "Inter"
+                        }
+                      }
+                    },
+                    {
+                      "type": "group",
+                      "content": {
+                        "dir": "row",
+                        "boxed": false,
+                        "children": [
+                          {
+                            "type": "button",
+                            "content": {
+                              "text_en": "Contact to Order",
+                              "text_es": "Contact to Order",
+                              "href": "https://wa.me/50684046973",
+                              "bg": "#BD0A0D",
+                              "color": "#FFFFFF"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "width": 45,
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/04/Glutathione-1.jpg",
+                        "width": 2048,
+                        "height": 2048,
+                        "alt_en": "Vial with Glutathione 1500mg and storage instructions.",
+                        "alt_es": "Vial con Glutathione 1500mg e instrucciones de almacenamiento."
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "group",
+          "content": {
+            "dir": "column",
+            "pad": [
+              50,
+              20,
+              70,
+              20
+            ],
+            "boxed": true,
+            "children": [
+              {
+                "type": "heading",
+                "content": {
+                  "level": 2,
+                  "text_en": "Why Choose Peptides Costa Rica’s Glutathione Peptides?",
+                  "text_es": "¿Por qué elegir los péptidos de glutatión de Peptides Costa Rica?",
+                  "align": "center",
+                  "font": {
+                    "size": "33.16px",
+                    "weight": "700",
+                    "height": "1.2em",
+                    "spacing": "-1px",
+                    "family": "Open Sans"
+                  }
+                }
+              },
+              {
+                "type": "paragraph",
+                "content": {
+                  "text_en": "Peptides Costa Rica supplies Glutathione with documented product specifications, independent laboratory testing, and convenient ordering within Costa Rica.",
+                  "text_es": "Peptides Costa Rica supplies Glutathione with documented product specifications, independent laboratory testing, and convenient ordering within Costa Rica.",
+                  "align": "center",
+                  "font": {
+                    "size": "16px",
+                    "weight": "400",
+                    "family": "Inter"
+                  }
+                }
+              },
+              {
+                "type": "cards",
+                "content": {
+                  "items": [
+                    {
+                      "title_en": "",
+                      "title_es": "",
+                      "text_en": "Third-Party Lab Tested Glutathione products are independently tested, with batch-specific Certificates of Analysis available for review.",
+                      "text_es": "Third-Party Lab Tested Glutathione products are independently tested, with batch-specific Certificates of Analysis available for review."
+                    },
+                    {
+                      "title_en": "",
+                      "title_es": "",
+                      "text_en": "FREE Shipping Over ₡92,000 Qualifying orders receive free standard shipping to eligible locations throughout Costa Rica.",
+                      "text_es": "FREE Shipping Over ₡92,000 Qualifying orders receive free standard shipping to eligible locations throughout Costa Rica."
+                    },
+                    {
+                      "title_en": "",
+                      "title_es": "",
+                      "text_en": "Research-Grade Glutathione Glutathione is supplied with documented specifications, quality information, and secure packaging.",
+                      "text_es": "Research-Grade Glutathione Glutathione is supplied with documented specifications, quality information, and secure packaging."
+                    },
+                    {
+                      "title_en": "",
+                      "title_es": "",
+                      "text_en": "Trusted Peptide Supplier Get assistance with Glutathione availability, product documentation, ordering, and delivery information.",
+                      "text_es": "Trusted Peptide Supplier Get assistance with Glutathione availability, product documentation, ordering, and delivery information."
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "group",
+          "content": {
+            "dir": "row",
+            "bg": "#FBFBFB",
+            "gap": 0,
+            "pad": [
+              80,
+              20,
+              80,
+              20
+            ],
+            "boxed": true,
+            "children": [
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "width": 60,
+                  "justify": "center",
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "content": {
+                        "level": 2,
+                        "text_en": "Ordering Glutathione in Costa Rica",
+                        "text_es": "Ordering Glutathione in Costa Rica",
+                        "font": {
+                          "size": "33.16px",
+                          "weight": "700",
+                          "height": "1.2em",
+                          "spacing": "-1px",
+                          "family": "Open Sans"
+                        }
+                      }
+                    },
+                    {
+                      "type": "paragraph",
+                      "content": {
+                        "text_en": "Order Glutathione from Peptides Costa Rica through the online store or contact the team directly. Review the available product, select your quantity, and complete checkout using an available payment method.",
+                        "text_es": "Order Glutathione from Peptides Costa Rica through the online store or contact the team directly. Review the available product, select your quantity, and complete checkout using an available payment method.",
+                        "font": {
+                          "size": "16px",
+                          "weight": "400",
+                          "family": "Inter"
+                        }
+                      }
+                    },
+                    {
+                      "type": "list",
+                      "content": {
+                        "icon": true,
+                        "inline": false,
+                        "items_en": [
+                          "Delivery : Across Costa Rica",
+                          "Estimated Delivery: 2–4 business days",
+                          "Payment Options: Card payment via Shield Hub Pay or cash",
+                          "Bulk Discount: 15% off five or more vials of the same product"
+                        ],
+                        "items_es": [
+                          "Delivery : Across Costa Rica",
+                          "Estimated Delivery: 2–4 business days",
+                          "Payment Options: Card payment via Shield Hub Pay or cash",
+                          "Bulk Discount: 15% off five or more vials of the same product"
+                        ],
+                        "hrefs": [
+                          null,
+                          null,
+                          null,
+                          null
+                        ],
+                        "fontSize": "17px"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "width": 40,
+                  "justify": "center",
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "image",
+                      "content": {
+                        "src": "/wp-content/uploads/2026/04/peptides-28-1.png",
+                        "width": 1000,
+                        "height": 1000,
+                        "alt_en": "Yoga practitioner in green activewear practicing pose Glutathione 1500 mg with water bottle on mat.",
+                        "alt_es": "Yoga practitioner in green activewear practicing pose Glutathione 1500 mg with water bottle on mat.",
+                        "displayWidth": "100%"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "group",
+          "content": {
+            "dir": "column",
+            "bg": "#FDFDF1",
+            "pad": [
+              80,
+              0,
+              80,
+              0
+            ],
+            "boxed": true,
+            "children": [
+              {
+                "type": "group",
+                "content": {
+                  "dir": "column",
+                  "gap": 10,
+                  "justify": "center",
+                  "items": "center",
+                  "boxed": false,
+                  "children": [
+                    {
+                      "type": "heading",
+                      "content": {
+                        "level": 2,
+                        "text_en": "Trusted Source for Glutathione in Costa Rica",
+                        "text_es": "Trusted Source for Glutathione in Costa Rica",
+                        "align": "center",
+                        "font": {
+                          "size": "33.16px",
+                          "weight": "700",
+                          "height": "1.2em",
+                          "spacing": "-1px",
+                          "family": "Open Sans"
+                        }
+                      }
+                    },
+                    {
+                      "type": "paragraph",
+                      "content": {
+                        "text_en": "Peptides Costa Rica focuses on transparent product information, third-party laboratory testing, and convenient domestic delivery. Customers can review Glutathione specifications, access available batch documentation, and receive support with product availability and orders.",
+                        "text_es": "Peptides Costa Rica focuses on transparent product information, third-party laboratory testing, and convenient domestic delivery. Customers can review Glutathione specifications, access available batch documentation, and receive support with product availability and orders.",
+                        "align": "center",
+                        "font": {
+                          "size": "16px",
+                          "weight": "400",
+                          "family": "Inter"
+                        }
+                      }
+                    },
+                    {
+                      "type": "button",
+                      "content": {
+                        "text_en": "Contact to Order",
+                        "text_es": "Contact to Order",
+                        "href": "https://wa.me/50684046973",
+                        "bg": "#BD0A0D",
+                        "color": "#FDFDF1"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "heading",
+          "content": {
+            "level": 3,
+            "text_en": "Peptides Costa Rica",
+            "text_es": "Péptidos Costa Rica",
+            "align": "center",
+            "font": {
+              "size": "33.16px",
+              "weight": "700",
+              "height": "1.2em",
+              "spacing": "-1px",
+              "family": "Open Sans"
+            }
+          }
+        }
+      ],
+      "untranslated": 18
+    },
+    {
+      "slug": "peptide-specification-sheets",
+      "en": "/peptide-specification-sheets/",
+      "es": "/es/hojas-de-especificaciones-de-peptidos/",
+      "head": {
+        "title_en": "Peptide Specification Sheets | Peptides Costa Rica",
+        "title_es": "Hojas de Especificación de Péptidos | Péptidos Costa Rica",
+        "description_en": "Technical specification sheets for every research peptide we supply. CAS numbers, molecular formulas, purity, solubility and storage, with PDF downloads.",
+        "description_es": "Hojas de especificaciones técnicas de cada péptido de investigación que suministramos. Números CAS, fórmulas moleculares, pureza, solubilidad y almacenamiento, con descargas en PDF."
+      },
+      "sections": [],
+      "untranslated": 0
+    },
     {
       "slug": "retatrutide-complete-guide",
       "en": "/retatrutide-complete-guide/",

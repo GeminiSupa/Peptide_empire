@@ -22,8 +22,25 @@ export const metadata = {
    * (NEXT_PUBLIC_ALLOW_INDEXING=true), not an edit here.
    */
   robots: ALLOW_INDEXING
-    ? { index: true, follow: true }
+    ? {
+        index: true,
+        follow: true,
+        googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
+      }
     : { index: false, follow: false, nocache: true, googleBot: { index: false, follow: false } },
+  verification: {
+    google: [
+      'T2X0WcuoP1WnZLEoTxvIPbQVsWxO1IH0eBpOe3PYLd4',
+      'pBiBnUTxYMA5ZEMnX4xn2x_0km2upd9Ti5uim5aet24',
+    ],
+  },
+  icons: {
+    icon: [
+      { url: '/wp-content/uploads/2026/02/cropped-Peptides-Fave-Icon-02-32x32.png', sizes: '32x32' },
+      { url: '/wp-content/uploads/2026/02/cropped-Peptides-Fave-Icon-02-192x192.png', sizes: '192x192' },
+    ],
+    apple: '/wp-content/uploads/2026/02/cropped-Peptides-Fave-Icon-02-180x180.png',
+  },
 };
 
 /**

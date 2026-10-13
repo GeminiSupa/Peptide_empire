@@ -3,6 +3,7 @@ import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
 import homeData from '@/data/pages/homeBlocks.json';
 import { alternates } from '@/lib/routes';
+import { metadataForPath } from '@/lib/seo';
 
 /**
  * English home at `/`.
@@ -22,11 +23,12 @@ const page = homeData.pages[0];
  */
 export function generateMetadata() {
   const alt = alternates('/');
-  return {
-    title: page.head.title_en || undefined,
-    description: page.head.description_en || undefined,
-    alternates: { canonical: '/', languages: { 'en-US': alt.en, 'es-CR': alt.es } },
-  };
+  return metadataForPath('/', {
+    title: page.head.title_en,
+    description: page.head.description_en,
+    en: alt.en,
+    es: alt.es,
+  });
 }
 
 export default function HomeEn() {

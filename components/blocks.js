@@ -688,7 +688,7 @@ function Tabs({ content, lang }) {
   // Rendered as stacked labelled sections rather than JS tabs: every pane is
   // real content and all of it should be readable and indexable at once.
   return (
-    <div className="mt-8 space-y-6">
+    <div className="mt-8 max-w-3xl space-y-6">
       {content.items.map((item, i) => (
         <section key={`tab-${i}`}>
           <h3 className="text-lg font-semibold text-primary">{t(item, 'label', lang)}</h3>
@@ -1006,6 +1006,9 @@ const RENDERERS = {
  */
 export const WIDE_TYPES = [
   'product_grid',
+  // Keep the readable text measure inside Tabs, but place that measure on the
+  // same left edge as the product grid instead of centering it independently.
+  'tabs',
   'category_tabs',
   'alphabet_product_grid',
   'reviews',

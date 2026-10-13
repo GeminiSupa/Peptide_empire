@@ -47,7 +47,11 @@ const SKIP_GROUPS = new Set(['excludeCandidate']);
  */
 const INTENTIONALLY_ABSENT = new Set([
   '/product/pt-141-10mgtest/',
-  '/es/producto-2/pt-141-10mgprueba/',
+]);
+
+const EXPECTED_REDIRECTS = new Map([
+  ['/lp/', '/'],
+  ['/es/lp/', '/es/'],
 ]);
 
 let routes = routeData.routes.filter((r) => !SKIP_GROUPS.has(r.group));
@@ -102,6 +106,9 @@ async function checkPage(target) {
   }
 
   if (res.status >= 300 && res.status < 400) {
+    const expected = EXPECTED_REDIRECTS.get(target.path);
+    const location = res.headers.get('location');
+    if (expected && new URL(location, BASE).pathname === expected) return;
     add(target.path, 'REDIRECT', `${res.status} → ${res.headers.get('location')}`);
     return;
   }

@@ -19,8 +19,17 @@ import Container from '@/components/ui/container';
  */
 export default function GuideArticle({ content, lang, title }) {
   // A section in the shared vocabulary: `{ type: 'article', content: {…} }`.
-  const html = content?.[`html_${lang}`] || content?.html_en;
-  if (!html) return null;
+  const sourceHtml = content?.[`html_${lang}`] || content?.html_en;
+  if (!sourceHtml) return null;
+
+  // A WordPress article accidentally shipped with three H1s. Preserve every
+  // heading and its attributes, but keep a valid document outline by demoting
+  // the second and later H1 elements to H2s at build/render time.
+  let h1Count = 0;
+  const html = sourceHtml.replace(/<h1(\b[^>]*)>([\s\S]*?)<\/h1>/gi, (match, attrs, body) => {
+    h1Count += 1;
+    return h1Count === 1 ? match : `<h2${attrs}>${body}</h2>`;
+  });
 
   /**
    * WordPress keeps a page's title out of its body and lets the theme print it

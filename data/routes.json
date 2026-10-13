@@ -1,23 +1,26 @@
 {
-  "harvestedAt": "2026-07-27T17:53:47.823Z",
+  "harvestedAt": "2026-10-12T18:21:14.104Z",
   "origin": "https://peptidescostarica.net",
   "counts": {
     "core": 15,
     "legal": 4,
     "category": 14,
-    "productLander": 40,
-    "guide": 75,
+    "productLander": 46,
+    "guide": 92,
     "city": 145,
-    "blogPost": 44,
-    "wooProduct": 69,
+    "blogPost": 59,
+    "wooProduct": 105,
     "wooCategory": 15,
     "excludeCandidate": 6,
     "mixingGuide": 15,
-    "totalEn": 442,
-    "totalEs": 441
+    "totalEn": 516,
+    "totalEs": 512
   },
   "missingEs": [
-    "/basic-template-homepage/"
+    "/blog-2/",
+    "/test-script/",
+    "/basic-template-homepage/",
+    "/return-refund-policy-2/"
   ],
   "routes": [
     {
@@ -92,7 +95,7 @@
     },
     {
       "en": "/shop/",
-      "es": "/es/tienda/",
+      "es": "/es/shop/",
       "group": "core"
     },
     {
@@ -186,48 +189,18 @@
       "group": "category"
     },
     {
-      "en": "/kpv-costa-rica/",
-      "es": "/es/kpv-costa-rica/",
+      "en": "/adamax-costa-rica/",
+      "es": "/es/adamax-costa-rica/",
       "group": "productLander"
     },
     {
-      "en": "/nad-costa-rica/",
-      "es": "/es/nad-costa-rica/",
+      "en": "/aa-water-costa-rica/",
+      "es": "/es/agua-de-bac-costa-rica/",
       "group": "productLander"
     },
     {
-      "en": "/hcg-costa-rica/",
-      "es": "/es/hcg-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/hgh-costa-rica/",
-      "es": "/es/hgh-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/dsip-costa-rica/",
-      "es": "/es/dsip-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/tb-4-costa-rica/",
-      "es": "/es/tb-4-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/glow-costa-rica/",
-      "es": "/es/brilla-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/klow-costa-rica/",
-      "es": "/es/kloh-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/semax-costa-rica/",
-      "es": "/es/semax-costa-rica/",
+      "en": "/5-amino-1mq-costa-rica/",
+      "es": "/es/5-amino-1mq-costa-rica/",
       "group": "productLander"
     },
     {
@@ -236,43 +209,28 @@
       "group": "productLander"
     },
     {
-      "en": "/mt-ii-costa-rica/",
-      "es": "/es/mt-ii-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/ss-31-costa-rica/",
-      "es": "/es/ss-31-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/pt-141-costa-rica/",
-      "es": "/es/pt-141-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/ghk-cu-costa-rica/",
-      "es": "/es/ghk-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/selank-costa-rica/",
-      "es": "/es/selank-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/adamax-costa-rica/",
-      "es": "/es/adamax-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/mots-c-costa-rica/",
-      "es": "/es/mots-c-costa-rica/",
-      "group": "productLander"
-    },
-    {
       "en": "/bpc-157-costa-rica/",
       "es": "/es/bpc-157-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/bac-water-costa-rica/",
+      "es": "/es/agua-de-bac-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/bpc-157-tb-500-wolverine-stack/",
+      "es": "/es/bpc-157-tb-500-stack-de-wolverine/",
+      "group": "productLander"
+    },
+    {
+      "en": "/cjc-with-dac-costa-rica/",
+      "es": "/es/cjc-con-dac-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/cjc-1295-without-dac-ipa-costa-rica/",
+      "es": "/es/cjc-1295-sin-dac-ipa-costa-rica/",
       "group": "productLander"
     },
     {
@@ -281,53 +239,13 @@
       "group": "productLander"
     },
     {
-      "en": "/pinealon-costa-rica/",
-      "es": "/es/pinealon-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/igf-1lr3-costa-rica/",
-      "es": "/es/igf-1lr3-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/thymalin-costa-rica/",
-      "es": "/es/timalina-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/slu-pp332-costa-rica/",
-      "es": "/es/slu-pp332-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/bac-water-costa-rica/",
-      "es": "/es/agua-con-gas-costa-rica/",
+      "en": "/dsip-costa-rica/",
+      "es": "/es/dsip-costa-rica/",
       "group": "productLander"
     },
     {
       "en": "/epithalon-costa-rica/",
       "es": "/es/epitalon-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/ipamorelin-costa-rica/",
-      "es": "/es/ipamorelin-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/sermorelin-costa-rica/",
-      "es": "/es/sermorelina-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/tirzepatide-costa-rica/",
-      "es": "/es/tirzepatida-costa-rica/",
-      "group": "productLander"
-    },
-    {
-      "en": "/semaglutide-costa-rica/",
-      "es": "/es/semaglutida-costa-rica/",
       "group": "productLander"
     },
     {
@@ -341,23 +259,48 @@
       "group": "productLander"
     },
     {
-      "en": "/5-amino-1mq-costa-rica/",
-      "es": "/es/5-amino-1mq-costa-rica/",
+      "en": "/glow-costa-rica/",
+      "es": "/es/brilla-costa-rica/",
       "group": "productLander"
     },
     {
-      "en": "/tesamorelin-costa-rica/",
-      "es": "/es/tesamorelin-costa-rica/",
+      "en": "/ghk-cu-costa-rica/",
+      "es": "/es/ghk-costa-rica/",
       "group": "productLander"
     },
     {
-      "en": "/retatrutide-costa-rica/",
-      "es": "/es/retatrutida-costa-rica/",
+      "en": "/ghrp-6-costa-rica/",
+      "es": "/es/adamax-costa-rica/",
       "group": "productLander"
     },
     {
-      "en": "/cjc-with-dac-costa-rica/",
-      "es": "/es/cjc-con-dac-costa-rica/",
+      "en": "/hgh-costa-rica/",
+      "es": "/es/hgh-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/hcg-costa-rica/",
+      "es": "/es/hcg-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/hmg-75-iu-costa-rica/",
+      "es": "/es/adamax-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/ipamorelin-costa-rica/",
+      "es": "/es/ipamorelin-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/igf-1lr3-costa-rica/",
+      "es": "/es/igf-1lr3-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/klow-costa-rica/",
+      "es": "/es/kloh-costa-rica/",
       "group": "productLander"
     },
     {
@@ -366,8 +309,68 @@
       "group": "productLander"
     },
     {
-      "en": "/thymosin-alpha-1-costa-rica/",
-      "es": "/es/timosina-alfa-1-costa-rica/",
+      "en": "/kpv-costa-rica/",
+      "es": "/es/kpv-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/mots-c-costa-rica/",
+      "es": "/es/mots-c-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/mt-ii-costa-rica/",
+      "es": "/es/mt-ii-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/nad-costa-rica/",
+      "es": "/es/nad-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/oxytocin-acetate-costa-rica/",
+      "es": "/es/5-amino-1mq-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/pt-141-costa-rica/",
+      "es": "/es/pt-141-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/pinealon-costa-rica/",
+      "es": "/es/pinealon-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/retatrutide-costa-rica/",
+      "es": "/es/retatrutida-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/ss-31-costa-rica/",
+      "es": "/es/ss-31-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/semax-costa-rica/",
+      "es": "/es/semax-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/selank-costa-rica/",
+      "es": "/es/selank-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/semaglutide-costa-rica/",
+      "es": "/es/semaglutida-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/snap-8-costa-rica/",
+      "es": "/es/adamax-costa-rica/",
       "group": "productLander"
     },
     {
@@ -376,143 +379,68 @@
       "group": "productLander"
     },
     {
-      "en": "/bpc-157-tb-500-wolverine-stack/",
-      "es": "/es/bpc-157-tb-500-stack-de-wolverine/",
+      "en": "/sermorelin-costa-rica/",
+      "es": "/es/sermorelina-costa-rica/",
       "group": "productLander"
     },
     {
-      "en": "/cjc-1295-without-dac-ipa-costa-rica/",
-      "es": "/es/cjc-1295-sin-dac-ipa-costa-rica/",
+      "en": "/slu-pp332-costa-rica/",
+      "es": "/es/slu-pp332-costa-rica/",
       "group": "productLander"
     },
     {
-      "en": "/bpc-157-vs-tb-500/",
-      "es": "/es/bpc-157-vs-tb-500/",
+      "en": "/thymalin-costa-rica/",
+      "es": "/es/timalina-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/tb-4-costa-rica/",
+      "es": "/es/tb-4-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/thymosin-alpha-1-costa-rica/",
+      "es": "/es/timosina-alfa-1-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/tirzepatide-costa-rica/",
+      "es": "/es/tirzepatida-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/tesamorelin-costa-rica/",
+      "es": "/es/tesamorelin-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/vip-5-costa-rica/",
+      "es": "/es/adamax-costa-rica/",
+      "group": "productLander"
+    },
+    {
+      "en": "/peptide-reconstitution-calculator/",
+      "es": "/es/calculadora-de-reconstitucion-de-peptidos/",
       "group": "guide"
     },
     {
-      "en": "/kpv-complete-guide/",
-      "es": "/es/guia-completa-de-kpv/",
+      "en": "/iu-dosage-calculator/",
+      "es": "/es/calculadora-de-dosis-de-ui/",
       "group": "guide"
     },
     {
-      "en": "/semax-complete-guide/",
-      "es": "/es/semax-complete-guide/",
+      "en": "/5-amino-1mq-the-complete-guide/",
+      "es": "/es/5-amino-1mq-la-guia-completa/",
       "group": "guide"
     },
     {
-      "en": "/pt-141-complete-guide/",
-      "es": "/es/pt-141-complete-guide/",
+      "en": "/adamax-complete-guide/",
+      "es": "/es/guia-completa-de-adamax/",
       "group": "guide"
     },
     {
-      "en": "/ghk-cu-complete-guide/",
-      "es": "/es/ghk-cu-guia-completa/",
-      "group": "guide"
-    },
-    {
-      "en": "/tb-500-complete-guide/",
-      "es": "/es/guia-completa-de-tb-500/",
-      "group": "guide"
-    },
-    {
-      "en": "/peptides-side-effects/",
-      "es": "/es/efectos-secundarios-de-los-peptidos/",
-      "group": "guide"
-    },
-    {
-      "en": "/selank-complete-guide/",
-      "es": "/es/guia-completa-de-selank/",
-      "group": "guide"
-    },
-    {
-      "en": "/bp-157-complete-guide/",
-      "es": "/es/guia-completa-bp-157/",
-      "group": "guide"
-    },
-    {
-      "en": "/dsip-and-sleep-quality/",
-      "es": "/es/sueno-y-calidad-del-sueno/",
-      "group": "guide"
-    },
-    {
-      "en": "/cjc-1295-complete-guide/",
-      "es": "/es/cjc-1295-complete-guide/",
-      "group": "guide"
-    },
-    {
-      "en": "/selank-semax-comparison/",
-      "es": "/es/selank-semax-comparison/",
-      "group": "guide"
-    },
-    {
-      "en": "/pt-141-research-and-use/",
-      "es": "/es/investigacion-y-uso-de-pt-141/",
-      "group": "guide"
-    },
-    {
-      "en": "/best-peptides-for-sleep/",
-      "es": "/es/los-mejores-peptidos-para-dormir/",
-      "group": "guide"
-    },
-    {
-      "en": "/nad-injections-explained/",
-      "es": "/es/inyecciones-de-nad-explicadas/",
-      "group": "guide"
-    },
-    {
-      "en": "/best-anti-aging-peptides/",
-      "es": "/es/pteptidos-antienvejecimiento-mas-efectivos/",
-      "group": "guide"
-    },
-    {
-      "en": "/ipamorelin-complete-guide/",
-      "es": "/es/ipamorelin-complete-guide/",
-      "group": "guide"
-    },
-    {
-      "en": "/sermorelin-complete-guide/",
-      "es": "/es/sermorelin-complete-guide/",
-      "group": "guide"
-    },
-    {
-      "en": "/wolverine-stack-explained/",
-      "es": "/es/explicacion-de-la-pila-de-wolverine/",
-      "group": "guide"
-    },
-    {
-      "en": "/peptide-drug-interactions/",
-      "es": "/es/interacciones-de-medicamentos-peptidicos/",
-      "group": "guide"
-    },
-    {
-      "en": "/choosing-retatrutide-dose/",
-      "es": "/es/elegir-la-dosis-de-retatrutida/",
-      "group": "guide"
-    },
-    {
-      "en": "/ghk-cu-for-skin-anti-aging/",
-      "es": "/es/ghk-cu-for-skin-anti-aging/",
-      "group": "guide"
-    },
-    {
-      "en": "/tesamorelin-complete-guide/",
-      "es": "/es/tesamorelin-guia-completa/",
-      "group": "guide"
-    },
-    {
-      "en": "/tirzepatide-complete-guide/",
-      "es": "/es/guia-completa-de-tirzepatida/",
-      "group": "guide"
-    },
-    {
-      "en": "/semaglutide-complete-guide/",
-      "es": "/es/guia-completa-de-semaglutida/",
-      "group": "guide"
-    },
-    {
-      "en": "/best-peptides-for-fat-loss/",
-      "es": "/es/los-mejores-peptidos-para-la-perdida-de-grasa/",
+      "en": "/aicar-complete-guide/",
+      "es": "/es/guia-completa-de-aicar/",
       "group": "guide"
     },
     {
@@ -521,38 +449,13 @@
       "group": "guide"
     },
     {
-      "en": "/retatrutide-complete-guide/",
-      "es": "/es/guia-completa-de-retatrutida/",
+      "en": "/best-anti-aging-peptides/",
+      "es": "/es/pteptidos-antienvejecimiento-mas-efectivos/",
       "group": "guide"
     },
     {
-      "en": "/peptides-for-immune-support/",
-      "es": "/es/peptides-for-immune-support/",
-      "group": "guide"
-    },
-    {
-      "en": "/peptides-and-hgh-difference/",
-      "es": "/es/peptides-and-hgh-difference/",
-      "group": "guide"
-    },
-    {
-      "en": "/peptides-for-anxiety-stress/",
-      "es": "/es/peptidos-para-la-ansiedad-y-el-estres/",
-      "group": "guide"
-    },
-    {
-      "en": "/choosing-your-first-peptide/",
-      "es": "/es/elegir-tu-primer-peptido/",
-      "group": "guide"
-    },
-    {
-      "en": "/dosing-and-injection-basics/",
-      "es": "/es/dosificacion-e-inyeccion-basicos/",
-      "group": "guide"
-    },
-    {
-      "en": "/nootropic-peptides-explained/",
-      "es": "/es/nootropic-peptides-explained/",
+      "en": "/best-peptides-for-fat-loss/",
+      "es": "/es/los-mejores-peptidos-para-la-perdida-de-grasa/",
       "group": "guide"
     },
     {
@@ -561,93 +464,13 @@
       "group": "guide"
     },
     {
-      "en": "/peptide-storage-and-handling/",
-      "es": "/es/almacenamiento-y-manejo-de-peptidos/",
-      "group": "guide"
-    },
-    {
-      "en": "/how-to-reconstitute-peptides/",
-      "es": "/es/como-reconstituir-peptidos/",
-      "group": "guide"
-    },
-    {
-      "en": "/what-to-expect-on-retatrutide/",
-      "es": "/es/que-esperar-con-retatrutida/",
-      "group": "guide"
-    },
-    {
-      "en": "/thymalin-immune-support-guide/",
-      "es": "/es/guia-de-apoyo-inmunologico-de-timbalina/",
-      "group": "guide"
-    },
-    {
-      "en": "/how-peptides-work-in-the-body/",
-      "es": "/es/los-peptidos-son-pequenos-fragmentos-de-proteinas-que-desempenan-diversas-funciones-en-el-cuerpo-funcionan-como-mensajeros-hormonas-neurotransmisores-y-tambien-tienen-papeles-en-la-inmunidad-e-infl/",
-      "group": "guide"
-    },
-    {
-      "en": "/ss-31-and-mitochondrial-health/",
-      "es": "/es/ss-31-y-salud-mitocondrial/",
-      "group": "guide"
-    },
-    {
-      "en": "/thymosin-alpha-1-complete-guide/",
-      "es": "/es/thymosin-alpha-1-complete-guide/",
-      "group": "guide"
-    },
-    {
-      "en": "/how-growth-hormone-peptides-work/",
-      "es": "/es/como-funcionan-los-peptidos-de-la-hormona-de-crecimiento/",
-      "group": "guide"
-    },
-    {
       "en": "/best-peptides-for-injury-recovery/",
       "es": "/es/los-mejores-peptidos-para-la-recuperacion-de-lesiones/",
       "group": "guide"
     },
     {
-      "en": "/how-to-avoid-muscle-loss-on-glp-1s/",
-      "es": "/es/how-to-avoid-muscle-loss-on-glp-1s/",
-      "group": "guide"
-    },
-    {
-      "en": "/peptides-for-post-surgery-recovery/",
-      "es": "/es/peptidos-para-la-recuperacion-postoperatoria/",
-      "group": "guide"
-    },
-    {
-      "en": "/when-consult-a-doctor-for-peptides/",
-      "es": "/es/cuando-consultar-a-un-medico-por-peptidos/",
-      "group": "guide"
-    },
-    {
-      "en": "/cjc-1295-ipamorelin-stack-explained/",
-      "es": "/es/cjc-1295-ipamorelin-stack-explained/",
-      "group": "guide"
-    },
-    {
-      "en": "/peptides-for-skin-collagen-wrinkles/",
-      "es": "/es/peptidos-para-el-colageno-de-la-piel-y-las-arrugas/",
-      "group": "guide"
-    },
-    {
-      "en": "/peptides-for-belly-fat-visceral-fat/",
-      "es": "/es/peptides-for-belly-fat-visceral-fat/",
-      "group": "guide"
-    },
-    {
-      "en": "/storing-peptides-in-tropical-climates/",
-      "es": "/es/almacenamiento-de-peptidos-en-climas-tropicales/",
-      "group": "guide"
-    },
-    {
-      "en": "/sermorelin-cjc-tesamorelin-comparison/",
-      "es": "/es/comparacion-de-sermorelina-cjc-y-tesamorelina/",
-      "group": "guide"
-    },
-    {
-      "en": "/how-glp-1-peptides-work-for-weight-loss/",
-      "es": "/es/como-funcionan-los-peptidos-glp-1-para-la-perdida-de-peso/",
+      "en": "/best-peptides-for-sleep/",
+      "es": "/es/los-mejores-peptidos-para-dormir/",
       "group": "guide"
     },
     {
@@ -656,8 +479,393 @@
       "group": "guide"
     },
     {
+      "en": "/bp-157-complete-guide/",
+      "es": "/es/guia-completa-bp-157/",
+      "group": "guide"
+    },
+    {
+      "en": "/bpc-157-vs-tb-500/",
+      "es": "/es/bpc-157-vs-tb-500/",
+      "group": "guide"
+    },
+    {
+      "en": "/choosing-retatrutide-dose/",
+      "es": "/es/elegir-la-dosis-de-retatrutida/",
+      "group": "guide"
+    },
+    {
+      "en": "/choosing-your-first-peptide/",
+      "es": "/es/elegir-tu-primer-peptido/",
+      "group": "guide"
+    },
+    {
+      "en": "/cjc-1295-ipamorelin-stack-explained/",
+      "es": "/es/explicacion-de-la-combinacion-de-cjc-1295-e-ipamorelin/",
+      "group": "guide"
+    },
+    {
+      "en": "/cjc-1295-complete-guide/",
+      "es": "/es/guia-completa-de-cjc-1295/",
+      "group": "guide"
+    },
+    {
+      "en": "/common-beginner-mistakes-to-avoid/",
+      "es": "/es/errores-comunes-de-principiantes-que-se-deben-evitar/",
+      "group": "guide"
+    },
+    {
+      "en": "/dosing-and-injection-basics/",
+      "es": "/es/dosificacion-e-inyeccion-basicos/",
+      "group": "guide"
+    },
+    {
+      "en": "/dsip-and-sleep-quality/",
+      "es": "/es/sueno-y-calidad-del-sueno/",
+      "group": "guide"
+    },
+    {
+      "en": "/dsip-the-complete-guide/",
+      "es": "/es/omite-la-guia-completa/",
+      "group": "guide"
+    },
+    {
+      "en": "/lp/",
+      "es": "/es/lp/",
+      "group": "guide"
+    },
+    {
+      "en": "/epithalon-complete-guide/",
+      "es": "/es/guia-completa-de-epitalon/",
+      "group": "guide"
+    },
+    {
+      "en": "/extra/",
+      "es": "/es/extra/",
+      "group": "guide"
+    },
+    {
+      "en": "/extra-affliate-page/",
+      "es": "/es/pagina-de-afiliados-adicional/",
+      "group": "guide"
+    },
+    {
+      "en": "/extra-home/",
+      "es": "/es/hogar-extra/",
+      "group": "guide"
+    },
+    {
+      "en": "/ghk-cu-complete-guide/",
+      "es": "/es/ghk-cu-guia-completa/",
+      "group": "guide"
+    },
+    {
+      "en": "/ghk-cu-for-skin-anti-aging/",
+      "es": "/es/ghk-cu-para-el-antienvejecimiento-de-la-piel/",
+      "group": "guide"
+    },
+    {
+      "en": "/lp-glutathione/",
+      "es": "/es/glutathione-de-l-p-lipoaminoacido/",
+      "group": "guide"
+    },
+    {
+      "en": "/hcg-complete-guide/",
+      "es": "/es/guia-completa-de-la-hcg/",
+      "group": "guide"
+    },
+    {
+      "en": "/how-glp-1-peptides-work-for-weight-loss/",
+      "es": "/es/como-funcionan-los-peptidos-glp-1-para-la-perdida-de-peso/",
+      "group": "guide"
+    },
+    {
+      "en": "/how-growth-hormone-peptides-work/",
+      "es": "/es/como-funcionan-los-peptidos-de-la-hormona-de-crecimiento/",
+      "group": "guide"
+    },
+    {
+      "en": "/how-peptides-work-in-the-body/",
+      "es": "/es/los-peptidos-son-pequenos-fragmentos-de-proteinas-que-desempenan-diversas-funciones-en-el-cuerpo-funcionan-como-mensajeros-hormonas-neurotransmisores-y-tambien-tienen-papeles-en-la-inmunidad-e-infl/",
+      "group": "guide"
+    },
+    {
+      "en": "/how-to-avoid-muscle-loss-on-glp-1s/",
+      "es": "/es/como-evitar-la-perdida-muscular-con-los-glp-1/",
+      "group": "guide"
+    },
+    {
+      "en": "/how-to-minimize-peptide-side-effects/",
+      "es": "/es/como-minimizar-los-efectos-secundarios-de-los-peptidos/",
+      "group": "guide"
+    },
+    {
+      "en": "/how-to-reconstitute-peptides/",
+      "es": "/es/como-reconstituir-peptidos/",
+      "group": "guide"
+    },
+    {
+      "en": "/how-to-track-your-peptide-progress/",
+      "es": "/es/como-hacer-un-seguimiento-de-tu-progreso-con-peptidos/",
+      "group": "guide"
+    },
+    {
+      "en": "/ipamorelin-complete-guide/",
+      "es": "/es/guia-completa-de-ipamorelin/",
+      "group": "guide"
+    },
+    {
+      "en": "/kpv-complete-guide/",
+      "es": "/es/guia-completa-de-kpv/",
+      "group": "guide"
+    },
+    {
+      "en": "/melanotan-ii-complete-guide/",
+      "es": "/es/guia-completa-de-melanotan-ii/",
+      "group": "guide"
+    },
+    {
+      "en": "/mots-c-peptide-the-complete-guide/",
+      "es": "/es/guia-completa-del-peptido-mots-c/",
+      "group": "guide"
+    },
+    {
+      "en": "/nad-injections-explained/",
+      "es": "/es/inyecciones-de-nad-explicadas/",
+      "group": "guide"
+    },
+    {
+      "en": "/natural-vs-synthetic-peptides/",
+      "es": "/es/peptidos-naturales-frente-a-sinteticos/",
+      "group": "guide"
+    },
+    {
+      "en": "/nootropic-peptides-explained/",
+      "es": "/es/explicacion-de-los-peptidos-nootropicos/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptide-drug-interactions/",
+      "es": "/es/interacciones-de-medicamentos-peptidicos/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptide-specification-sheets/",
+      "es": "/es/hojas-de-especificaciones-de-peptidos/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptide-specification-sheets/5-amino-1mq/",
+      "es": "/es/hojas-de-especificaciones-de-peptidos/5-amino-1mq/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptide-specification-sheets/aicar/",
+      "es": "/es/hojas-de-especificaciones-de-peptidos/aicar/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptide-specification-sheets/ghk-cu/",
+      "es": "/es/hojas-de-especificaciones-de-peptidos/ghk-cu/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptide-specification-sheets/retatrutide/",
+      "es": "/es/hojas-de-especificaciones-de-peptidos/retatrutida/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptide-specification-sheets/semaglutide/",
+      "es": "/es/hojas-de-especificaciones-de-peptidos/semaglutida/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptide-specification-sheets/tirzepatide/",
+      "es": "/es/hojas-de-especificaciones-de-peptidos/tirzepatida/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptide-storage-and-handling/",
+      "es": "/es/almacenamiento-y-manejo-de-peptidos/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptide-glossary/",
+      "es": "/es/glosario-de-peptidos/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptides-side-effects/",
+      "es": "/es/efectos-secundarios-de-los-peptidos/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptides-for-anxiety-stress/",
+      "es": "/es/peptidos-para-la-ansiedad-y-el-estres/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptides-for-belly-fat-visceral-fat/",
+      "es": "/es/peptidos-para-la-grasa-abdominal-y-la-grasa-visceral/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptides-for-focus-productivity/",
+      "es": "/es/peptidos-para-la-concentracion-y-la-productividad/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptides-for-immune-support/",
+      "es": "/es/peptidos-para-el-apoyo-inmunologico/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptides-for-libido-sexual-health/",
+      "es": "/es/peptidos-para-la-libido-y-la-salud-sexual/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptides-for-post-surgery-recovery/",
+      "es": "/es/peptidos-para-la-recuperacion-postoperatoria/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptides-for-skin-collagen-wrinkles/",
+      "es": "/es/peptidos-para-el-colageno-de-la-piel-y-las-arrugas/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptides-and-hgh-difference/",
+      "es": "/es/diferencia-entre-peptidos-y-hgh/",
+      "group": "guide"
+    },
+    {
+      "en": "/peptides-vs-sarms-vs-steroids/",
+      "es": "/es/peptidos-vs-sarms-vs-esteroides/",
+      "group": "guide"
+    },
+    {
+      "en": "/pt-141-complete-guide/",
+      "es": "/es/guia-completa-de-pt-141/",
+      "group": "guide"
+    },
+    {
+      "en": "/pt-141-research-and-use/",
+      "es": "/es/investigacion-y-uso-de-pt-141/",
+      "group": "guide"
+    },
+    {
+      "en": "/research-peptides-vs-pharmaceutical-peptides/",
+      "es": "/es/peptidos-de-investigacion-frente-a-peptidos-farmaceuticos/",
+      "group": "guide"
+    },
+    {
       "en": "/retatrutide-vs-semaglutide-vs-tirzepatide/",
       "es": "/es/retatrutide-vs-semaglutide-vs-tirzepatide/",
+      "group": "guide"
+    },
+    {
+      "en": "/retatrutide-complete-guide/",
+      "es": "/es/guia-completa-de-retatrutida/",
+      "group": "guide"
+    },
+    {
+      "en": "/selank-complete-guide/",
+      "es": "/es/guia-completa-de-selank/",
+      "group": "guide"
+    },
+    {
+      "en": "/selank-semax-comparison/",
+      "es": "/es/comparacion-entre-selank-y-semax/",
+      "group": "guide"
+    },
+    {
+      "en": "/semaglutide-complete-guide/",
+      "es": "/es/guia-completa-de-semaglutida/",
+      "group": "guide"
+    },
+    {
+      "en": "/semax-complete-guide/",
+      "es": "/es/guia-completa-de-semax/",
+      "group": "guide"
+    },
+    {
+      "en": "/sermorelin-complete-guide/",
+      "es": "/es/guia-completa-sobre-la-sermorelina/",
+      "group": "guide"
+    },
+    {
+      "en": "/sermorelin-cjc-tesamorelin-comparison/",
+      "es": "/es/comparacion-de-sermorelina-cjc-y-tesamorelina/",
+      "group": "guide"
+    },
+    {
+      "en": "/sermorelin-vs-ipamorelin/",
+      "es": "/es/sermorelin-vs-ipamorelin/",
+      "group": "guide"
+    },
+    {
+      "en": "/ss-31-and-mitochondrial-health/",
+      "es": "/es/ss-31-y-salud-mitocondrial/",
+      "group": "guide"
+    },
+    {
+      "en": "/storing-peptides-in-tropical-climates/",
+      "es": "/es/almacenamiento-de-peptidos-en-climas-tropicales/",
+      "group": "guide"
+    },
+    {
+      "en": "/tb-500-complete-guide/",
+      "es": "/es/guia-completa-de-tb-500/",
+      "group": "guide"
+    },
+    {
+      "en": "/tesamorelin-complete-guide/",
+      "es": "/es/tesamorelin-guia-completa/",
+      "group": "guide"
+    },
+    {
+      "en": "/complete-guide-to-peptides/",
+      "es": "/es/guia-completa-de-peptidos-2/",
+      "group": "guide"
+    },
+    {
+      "en": "/the-different-types-of-peptides/",
+      "es": "/es/los-diferentes-tipos-de-peptidos/",
+      "group": "guide"
+    },
+    {
+      "en": "/thymalin-vs-thymosin-alpha-1/",
+      "es": "/es/timalina-vs-timosina-alfa-1/",
+      "group": "guide"
+    },
+    {
+      "en": "/thymalin-immune-support-guide/",
+      "es": "/es/guia-de-apoyo-inmunologico-de-timbalina/",
+      "group": "guide"
+    },
+    {
+      "en": "/thymosin-alpha-1-complete-guide/",
+      "es": "/es/guia-completa-de-timosina-alfa-1/",
+      "group": "guide"
+    },
+    {
+      "en": "/tirzepatide-complete-guide/",
+      "es": "/es/guia-completa-de-tirzepatida/",
+      "group": "guide"
+    },
+    {
+      "en": "/understanding-peptide-purity-coas/",
+      "es": "/es/comprendiendo-los-certificados-de-analisis-de-pureza-de-peptidos/",
+      "group": "guide"
+    },
+    {
+      "en": "/what-to-expect-on-retatrutide/",
+      "es": "/es/que-esperar-con-retatrutida/",
+      "group": "guide"
+    },
+    {
+      "en": "/when-consult-a-doctor-for-peptides/",
+      "es": "/es/cuando-consultar-a-un-medico-por-peptidos/",
       "group": "guide"
     },
     {
@@ -666,13 +874,13 @@
       "group": "guide"
     },
     {
-      "en": "/limon/",
-      "es": "/es/limon/",
-      "group": "city"
+      "en": "/wolverine-stack-explained/",
+      "es": "/es/explicacion-de-la-pila-de-wolverine/",
+      "group": "guide"
     },
     {
-      "en": "/heredia/",
-      "es": "/es/heredia/",
+      "en": "/alajuela/",
+      "es": "/es/alajuela/",
       "group": "city"
     },
     {
@@ -681,13 +889,18 @@
       "group": "city"
     },
     {
-      "en": "/alajuela/",
-      "es": "/es/alajuela/",
+      "en": "/guanacaste/",
+      "es": "/es/guanacaste/",
       "group": "city"
     },
     {
-      "en": "/san-jose/",
-      "es": "/es/san-jose/",
+      "en": "/heredia/",
+      "es": "/es/heredia/",
+      "group": "city"
+    },
+    {
+      "en": "/limon/",
+      "es": "/es/limon/",
       "group": "city"
     },
     {
@@ -696,8 +909,283 @@
       "group": "city"
     },
     {
-      "en": "/guanacaste/",
-      "es": "/es/guanacaste/",
+      "en": "/san-jose/",
+      "es": "/es/san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/sarchi-alajuela/",
+      "es": "/es/sarchi-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/grecia-alajuela/",
+      "es": "/es/grecia-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/palmares-alajuela/",
+      "es": "/es/palmares-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/atenas-alajuela/",
+      "es": "/es/atenas-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/poas-alajuela/",
+      "es": "/es/poas-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/zarcero-alajuela/",
+      "es": "/es/zarcero-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/upala-alajuela/",
+      "es": "/es/upala-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/los-chiles-alajuela/",
+      "es": "/es/los-chiles-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/guatuso-alajuela/",
+      "es": "/es/guatuso-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/naranjo-alajuela/",
+      "es": "/es/naranjo-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/oreamuno-cartago/",
+      "es": "/es/oreamuno-cartago/",
+      "group": "city"
+    },
+    {
+      "en": "/cervantes-cartago/",
+      "es": "/es/cervantes-cartago/",
+      "group": "city"
+    },
+    {
+      "en": "/irazu-cartago/",
+      "es": "/es/volcan-irazu-cartago-2/",
+      "group": "city"
+    },
+    {
+      "en": "/filadelfia-guanacaste/",
+      "es": "/es/filadelfia-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/bagaces-guanacaste/",
+      "es": "/es/bagaces-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/la-cruz-guanacaste/",
+      "es": "/es/la-cruz-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/tilaran-guanacaste/",
+      "es": "/es/tilaran-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/abangares-guanacaste/",
+      "es": "/es/abangares-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/hojancha-guanacaste/",
+      "es": "/es/hojancha-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/sardinal-guanacaste/",
+      "es": "/es/sardinal-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/playa-panama-guanacaste/",
+      "es": "/es/playa-panama-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/playa-potrero-guanacaste/",
+      "es": "/es/playa-potrero-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/brasilito-guanacaste/",
+      "es": "/es/brasilito-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/playa-avellanas-guanacaste/",
+      "es": "/es/playa-avellanas-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/playa-langosta-guanacaste/",
+      "es": "/es/playa-langosta-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/playa-grande-guanacaste/",
+      "es": "/es/playa-grande-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/playa-negra-guanacaste/",
+      "es": "/es/playa-negra-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/playa-junquillal-guanacaste/",
+      "es": "/es/playa-junquillal-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/carrillo-guanacaste/",
+      "es": "/es/carrillo-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/las-catalinas-guanacaste/",
+      "es": "/es/las-catalinas-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/papagayo-peninsula-guanacaste/",
+      "es": "/es/peninsula-de-papagayo-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/el-coco-guanacaste/",
+      "es": "/es/el-coco-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/belen-heredia/",
+      "es": "/es/belen-heredia/",
+      "group": "city"
+    },
+    {
+      "en": "/barva-heredia/",
+      "es": "/es/barva-heredia/",
+      "group": "city"
+    },
+    {
+      "en": "/santo-domingo-heredia/",
+      "es": "/es/santo-domingo-heredia/",
+      "group": "city"
+    },
+    {
+      "en": "/san-isidro-heredia/",
+      "es": "/es/san-isidro-heredia/",
+      "group": "city"
+    },
+    {
+      "en": "/flores-heredia/",
+      "es": "/es/flores-heredia/",
+      "group": "city"
+    },
+    {
+      "en": "/santa-barbara-heredia/",
+      "es": "/es/santa-barbara-heredia/",
+      "group": "city"
+    },
+    {
+      "en": "/san-pablo-heredia/",
+      "es": "/es/san-pablo-heredia/",
+      "group": "city"
+    },
+    {
+      "en": "/guacimo-limon/",
+      "es": "/es/guacimo-limon/",
+      "group": "city"
+    },
+    {
+      "en": "/hone-creek-limon/",
+      "es": "/es/hone-creek-limon/",
+      "group": "city"
+    },
+    {
+      "en": "/bribri-limon/",
+      "es": "/es/bribri-limon/",
+      "group": "city"
+    },
+    {
+      "en": "/sixaola-limon/",
+      "es": "/es/sixaola-limon/",
+      "group": "city"
+    },
+    {
+      "en": "/drake-bay-puntarenas/",
+      "es": "/es/bahia-drake-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/rohrmoser-san-jose/",
+      "es": "/es/rohrmoser-san-jose-2/",
+      "group": "city"
+    },
+    {
+      "en": "/sabana-san-jose/",
+      "es": "/es/la-sabana-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/zapote-san-jose/",
+      "es": "/es/zapote-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/mata-redonda-san-jose/",
+      "es": "/es/mata-redonda-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/tibas-san-jose/",
+      "es": "/es/tibas-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/goicoechea-san-jose/",
+      "es": "/es/goicoechea-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/santa-marta-san-jose/",
+      "es": "/es/santa-marta-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/ciudad-colon-san-jose/",
+      "es": "/es/ciudad-colon-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/puriscal-san-jose/",
+      "es": "/es/puriscal-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/acosta-san-jose/",
+      "es": "/es/acosta-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/puerto-viejo-limon/",
+      "es": "/es/puerto-viejo-limon/",
       "group": "city"
     },
     {
@@ -706,8 +1194,198 @@
       "group": "city"
     },
     {
-      "en": "/cachi-cartago/",
-      "es": "/es/cachi-cartago/",
+      "en": "/manzanillo-limon/",
+      "es": "/es/manzanilla-limon/",
+      "group": "city"
+    },
+    {
+      "en": "/tortuguero-limon/",
+      "es": "/es/tortuguero-limon/",
+      "group": "city"
+    },
+    {
+      "en": "/chacarita-puntarenas/",
+      "es": "/es/chacarita-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/esparza-puntarenas/",
+      "es": "/es/esparza-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/tamarindo-guanacaste/",
+      "es": "/es/tamarindo-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/nosara-guanacaste/",
+      "es": "/es/nosara-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/playas-del-coco-guanacaste/",
+      "es": "/es/playas-del-coco-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/playa-conchal-guanacaste/",
+      "es": "/es/playa-conchal-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/playa-flamingo-guanacaste/",
+      "es": "/es/playa-flamingo-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/samara-guanacaste/",
+      "es": "/es/samara-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/puerto-carrillo-guanacaste/",
+      "es": "/es/puerto-carrillo-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/barrio-escalante-san-jose/",
+      "es": "/es/barrio-escalante-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/santa-ana-san-jose/",
+      "es": "/es/santa-ana-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/jaco-puntarenas/",
+      "es": "/es/jaco-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/manuel-antonio-puntarenas/",
+      "es": "/es/manuel-antonio-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/quepos-puntarenas/",
+      "es": "/es/quepos-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/monteverde-puntarenas/",
+      "es": "/es/monteverde-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/santa-teresa-puntarenas/",
+      "es": "/es/santa-teresa-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/uvita-puntarenas/",
+      "es": "/es/uvita-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/dominical-puntarenas/",
+      "es": "/es/dominical-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/los-suenos-puntarenas/",
+      "es": "/es/los-suenos-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/santa-elena-puntarenas/",
+      "es": "/es/santa-elena-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/montezuma-puntarenas/",
+      "es": "/es/montezuma-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/malpais-puntarenas/",
+      "es": "/es/malpais-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/tambor-puntarenas/",
+      "es": "/es/tambor-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/la-fortuna-alajuela/",
+      "es": "/es/la-fortuna-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/playa-herradura-puntarenas/",
+      "es": "/es/playa-herradura-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/playa-hermosa-puntarenas/",
+      "es": "/es/playa-hermosa-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/paquera-puntarenas/",
+      "es": "/es/paquera-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/cobano-puntarenas/",
+      "es": "/es/cobano-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/arenal-alajuela/",
+      "es": "/es/la-fortuna-de-san-carlos/",
+      "group": "city"
+    },
+    {
+      "en": "/puerto-jimenez-puntarenas/",
+      "es": "/es/puerto-jimenez-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/el-castillo-alajuela/",
+      "es": "/es/el-castillo-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/golfito-puntarenas/",
+      "es": "/es/golfito-puntarenas/",
+      "group": "city"
+    },
+    {
+      "en": "/rio-celeste-alajuela/",
+      "es": "/es/rio-celeste-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/pavones-puntarenas/",
+      "es": "/es/pavones-puntarenos/",
+      "group": "city"
+    },
+    {
+      "en": "/bijagua-alajuela/",
+      "es": "/es/bijagua-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/buenos-aires-puntarenas/",
+      "es": "/es/buenos-aires-punta-arenas/",
+      "group": "city"
+    },
+    {
+      "en": "/sarapiqui-heredia/",
+      "es": "/es/sarapiqui-heredia/",
       "group": "city"
     },
     {
@@ -716,13 +1394,68 @@
       "group": "city"
     },
     {
-      "en": "/ipis-san-jose/",
-      "es": "/es/ipis-san-jose/",
+      "en": "/cachi-cartago/",
+      "es": "/es/cachi-cartago/",
+      "group": "city"
+    },
+    {
+      "en": "/quesada-alajuela/",
+      "es": "/es/quesada-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/san-ramon-alajuela/",
+      "es": "/es/san-ramon-alajuela/",
+      "group": "city"
+    },
+    {
+      "en": "/paraiso-cartago/",
+      "es": "/es/paraiso-cartago/",
+      "group": "city"
+    },
+    {
+      "en": "/turrialba-cartago/",
+      "es": "/es/turrialba-cartago/",
       "group": "city"
     },
     {
       "en": "/tejar-cartago/",
       "es": "/es/tejar-cartago/",
+      "group": "city"
+    },
+    {
+      "en": "/san-diego-cartago/",
+      "es": "/es/san-diego-cartago/",
+      "group": "city"
+    },
+    {
+      "en": "/tres-rios-cartago/",
+      "es": "/es/tres-rios-cartago/",
+      "group": "city"
+    },
+    {
+      "en": "/liberia-guanacaste/",
+      "es": "/es/liberia-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/canas-guanacaste/",
+      "es": "/es/canas-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/nicoya-guanacaste/",
+      "es": "/es/nicoya-guanacaste/",
+      "group": "city"
+    },
+    {
+      "en": "/mercedes-heredia/",
+      "es": "/es/mercedes-heredia/",
+      "group": "city"
+    },
+    {
+      "en": "/san-rafael-heredia/",
+      "es": "/es/san-rafael-heredia/",
       "group": "city"
     },
     {
@@ -736,313 +1469,8 @@
       "group": "city"
     },
     {
-      "en": "/jaco-puntarenas/",
-      "es": "/es/jaco-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/arenal-alajuela/",
-      "es": "/es/la-fortuna-de-san-carlos/",
-      "group": "city"
-    },
-    {
-      "en": "/escazu-san-jose/",
-      "es": "/es/escazu-san-jose/",
-      "group": "city"
-    },
-    {
       "en": "/siquirres-limon/",
       "es": "/es/siquirres-limon/",
-      "group": "city"
-    },
-    {
-      "en": "/aserri-san-jose/",
-      "es": "/es/aserri-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/purral-san-jose/",
-      "es": "/es/purral-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/paraiso-cartago/",
-      "es": "/es/paraiso-cartago/",
-      "group": "city"
-    },
-    {
-      "en": "/uvita-puntarenas/",
-      "es": "/es/uvita-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/tortuguero-limon/",
-      "es": "/es/tortuguero-limon/",
-      "group": "city"
-    },
-    {
-      "en": "/bijagua-alajuela/",
-      "es": "/es/bijagua-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/manzanillo-limon/",
-      "es": "/es/manzanilla-limon/",
-      "group": "city"
-    },
-    {
-      "en": "/canas-guanacaste/",
-      "es": "/es/canas-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/patarra-san-jose/",
-      "es": "/es/patarra-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/mercedes-heredia/",
-      "es": "/es/mercedes-heredia/",
-      "group": "city"
-    },
-    {
-      "en": "/naranjo-alajuela/",
-      "es": "/es/naranjo-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/quesada-alajuela/",
-      "es": "/es/quesada-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/cobano-puntarenas/",
-      "es": "/es/cobano-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/tambor-puntarenas/",
-      "es": "/es/tambor-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/quepos-puntarenas/",
-      "es": "/es/quepos-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/sarapiqui-heredia/",
-      "es": "/es/sarapiqui-heredia/",
-      "group": "city"
-    },
-    {
-      "en": "/samara-guanacaste/",
-      "es": "/es/samara-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/nosara-guanacaste/",
-      "es": "/es/nosara-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/nicoya-guanacaste/",
-      "es": "/es/nicoya-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/san-pablo-heredia/",
-      "es": "/es/san-pablo-heredia/",
-      "group": "city"
-    },
-    {
-      "en": "/tres-rios-cartago/",
-      "es": "/es/tres-rios-cartago/",
-      "group": "city"
-    },
-    {
-      "en": "/san-juan-san-jose/",
-      "es": "/es/san-juan-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/san-diego-cartago/",
-      "es": "/es/san-diego-cartago/",
-      "group": "city"
-    },
-    {
-      "en": "/turrialba-cartago/",
-      "es": "/es/turrialba-cartago/",
-      "group": "city"
-    },
-    {
-      "en": "/esparza-puntarenas/",
-      "es": "/es/esparza-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/pavones-puntarenas/",
-      "es": "/es/pavones-puntarenos/",
-      "group": "city"
-    },
-    {
-      "en": "/golfito-puntarenas/",
-      "es": "/es/golfito-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/paquera-puntarenas/",
-      "es": "/es/paquera-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/malpais-puntarenas/",
-      "es": "/es/malpais-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/santa-ana-san-jose/",
-      "es": "/es/santa-ana-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/puerto-viejo-limon/",
-      "es": "/es/puerto-viejo-limon/",
-      "group": "city"
-    },
-    {
-      "en": "/sabanilla-san-jose/",
-      "es": "/es/sabanilla-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/san-rafael-heredia/",
-      "es": "/es/san-rafael-heredia/",
-      "group": "city"
-    },
-    {
-      "en": "/guadalupe-san-jose/",
-      "es": "/es/guadalupe-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/liberia-guanacaste/",
-      "es": "/es/liberia-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/san-pedro-san-jose/",
-      "es": "/es/san-pedro-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/san-ramon-alajuela/",
-      "es": "/es/san-ramon-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/la-fortuna-alajuela/",
-      "es": "/es/la-fortuna-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/granadilla-san-jose/",
-      "es": "/es/granadilla-de-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/alajuelita-san-jose/",
-      "es": "/es/alajuelita-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/san-felipe-san-jose/",
-      "es": "/es/san-felipe-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/san-miguel-san-jose/",
-      "es": "/es/san-miguel-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/curridabat-san-jose/",
-      "es": "/es/curridabat-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/chacarita-puntarenas/",
-      "es": "/es/chacarita-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/montezuma-puntarenas/",
-      "es": "/es/montezuma-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/dominical-puntarenas/",
-      "es": "/es/dominical-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/rio-celeste-alajuela/",
-      "es": "/es/rio-celeste-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/el-castillo-alajuela/",
-      "es": "/es/el-castillo-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/tamarindo-guanacaste/",
-      "es": "/es/tamarindo-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/san-antonio-san-jose/",
-      "es": "/es/san-antonio-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/san-vicente-san-jose/",
-      "es": "/es/san-vicente-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/los-suenos-puntarenas/",
-      "es": "/es/los-suenos-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/monteverde-puntarenas/",
-      "es": "/es/monteverde-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/san-josecito-san-jose/",
-      "es": "/es/san-josecito-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/desamparados-san-jose/",
-      "es": "/es/desamparados-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/santa-elena-puntarenas/",
-      "es": "/es/santa-elena-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/daniel-flores-san-jose/",
-      "es": "/es/daniel-flores-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/calle-blancos-san-jose/",
-      "es": "/es/calle-blancos-san-jose/",
       "group": "city"
     },
     {
@@ -1051,73 +1479,18 @@
       "group": "city"
     },
     {
-      "en": "/buenos-aires-puntarenas/",
-      "es": "/es/buenos-aires-punta-arenas/",
+      "en": "/san-isidro-de-el-general-san-jose/",
+      "es": "/es/san-isidro-de-el-general-san-jose/",
       "group": "city"
     },
     {
-      "en": "/santa-teresa-puntarenas/",
-      "es": "/es/santa-teresa-puntarenas/",
+      "en": "/curridabat-san-jose/",
+      "es": "/es/curridabat-san-jose/",
       "group": "city"
     },
     {
-      "en": "/playa-hermosa-puntarenas/",
-      "es": "/es/playa-hermosa-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/playa-conchal-guanacaste/",
-      "es": "/es/playa-conchal-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/puerto-jimenez-puntarenas/",
-      "es": "/es/puerto-jimenez-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/manuel-antonio-puntarenas/",
-      "es": "/es/manuel-antonio-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/barrio-escalante-san-jose/",
-      "es": "/es/barrio-escalante-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/playa-flamingo-guanacaste/",
-      "es": "/es/playa-flamingo-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/san-juan-de-dios-san-jose/",
-      "es": "/es/san-juan-de-dios-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/san-rafael-abajo-san-jose/",
-      "es": "/es/san-rafael-abajo-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/playa-herradura-puntarenas/",
-      "es": "/es/playa-herradura-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/puerto-carrillo-guanacaste/",
-      "es": "/es/puerto-carrillo-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/playas-del-coco-guanacaste/",
-      "es": "/es/playas-del-coco-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/san-rafael-arriba-san-jose/",
-      "es": "/es/san-rafael-arriba-san-jose/",
+      "en": "/san-vicente-san-jose/",
+      "es": "/es/san-vicente-san-jose/",
       "group": "city"
     },
     {
@@ -1126,28 +1499,133 @@
       "group": "city"
     },
     {
-      "en": "/san-isidro-de-el-general-san-jose/",
-      "es": "/es/san-isidro-de-el-general-san-jose/",
+      "en": "/purral-san-jose/",
+      "es": "/es/purral-san-jose/",
       "group": "city"
     },
     {
-      "en": "/blog/peptides-guide/",
-      "es": "/es/blog/guia-de-peptidos/",
+      "en": "/san-miguel-san-jose/",
+      "es": "/es/san-miguel-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/san-pedro-san-jose/",
+      "es": "/es/san-pedro-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/san-rafael-abajo-san-jose/",
+      "es": "/es/san-rafael-abajo-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/ipis-san-jose/",
+      "es": "/es/ipis-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/san-juan-san-jose/",
+      "es": "/es/san-juan-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/guadalupe-san-jose/",
+      "es": "/es/guadalupe-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/aserri-san-jose/",
+      "es": "/es/aserri-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/san-felipe-san-jose/",
+      "es": "/es/san-felipe-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/patarra-san-jose/",
+      "es": "/es/patarra-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/calle-blancos-san-jose/",
+      "es": "/es/calle-blancos-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/san-juan-de-dios-san-jose/",
+      "es": "/es/san-juan-de-dios-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/san-rafael-arriba-san-jose/",
+      "es": "/es/san-rafael-arriba-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/desamparados-san-jose/",
+      "es": "/es/desamparados-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/alajuelita-san-jose/",
+      "es": "/es/alajuelita-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/sabanilla-san-jose/",
+      "es": "/es/sabanilla-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/granadilla-san-jose/",
+      "es": "/es/granadilla-de-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/san-josecito-san-jose/",
+      "es": "/es/san-josecito-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/escazu-san-jose/",
+      "es": "/es/escazu-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/san-antonio-san-jose/",
+      "es": "/es/san-antonio-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/daniel-flores-san-jose/",
+      "es": "/es/daniel-flores-san-jose/",
+      "group": "city"
+    },
+    {
+      "en": "/blog/tb-4-benefits/",
+      "es": "/es/blog/4-beneficios-de-tb-4/",
       "group": "blogPost"
     },
     {
-      "en": "/blog/what-is-retatrutide/",
-      "es": "/es/blog/que-es-la-retatrutida/",
+      "en": "/blog/alajuela-volcanic-terrain-fitness-habits/",
+      "es": "/es/blog/habitos-de-acondicionamiento-fisico-en-el-terreno-volcanico-de-alajuela/",
       "group": "blogPost"
     },
     {
-      "en": "/blog/how-do-peptides-work/",
-      "es": "/es/blog/como-funcionan-los-peptidos/",
+      "en": "/blog/are-peptides-illegal-in-costa-rica/",
+      "es": "/es/blog/son-ilegales-los-peptidos-en-costa-rica/",
       "group": "blogPost"
     },
     {
-      "en": "/blog/types-of-collagen-peptides/",
-      "es": "/es/blog/tipos-de-peptidos-de-colageno/",
+      "en": "/blog/are-peptides-steroids/",
+      "es": "/es/blog/los-peptidos-son-esteroides/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/bpc-157-for-gut-health/",
+      "es": "/es/blog/puede-la-sermorelin-mejorar-el-sueno-y-ayudar-en-la-recuperacion-muscular/",
       "group": "blogPost"
     },
     {
@@ -1156,23 +1634,53 @@
       "group": "blogPost"
     },
     {
-      "en": "/blog/complete-guide-to-peptides/",
-      "es": "/es/blog/guia-completa-de-peptidos/",
+      "en": "/blog/can-glutathione-lighten-skin-hyperpigmentation/",
+      "es": "/es/blog/puede-el-glutation-aclarar-la-hiperpigmentacion-de-la-piel/",
       "group": "blogPost"
     },
     {
-      "en": "/blog/peptide-delivery-in-costa-rica/",
-      "es": "/es/blog/entrega-de-peptidos-en-costa-rica/",
+      "en": "/blog/can-sermorelin-improve-sleep-and-help-muscle-recovery/",
+      "es": "/es/blog/puede-la-sermorelin-mejorar-el-sueno-y-ayudar-en-la-recuperacion-muscular/",
       "group": "blogPost"
     },
     {
-      "en": "/blog/san-jose-fitness-wellness-guide/",
-      "es": "/es/blog/guia-de-bienestar-y-fitness-de-san-jose/",
+      "en": "/blog/cartalax-aed-peptide-research-cartilage-biology-matrix-markers-and-evidence-limits/",
+      "es": "/es/blog/cartalax-peptido-investigacion-biologia-del-cartilago-marcadores-de-matriz-y-limites-de-evidencia-2/",
       "group": "blogPost"
     },
     {
-      "en": "/blog/peptides-in-heredia-local-guide/",
-      "es": "/es/blog/peptidos-en-heredia-guia-local/",
+      "en": "/blog/puntarenas-coastal-living-joint-health/",
+      "es": "/es/blog/vida-costera-en-puntarenas-salud-articular/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/igf-1-lr3-muscle-hyperplasia/",
+      "es": "/es/blog/hiperplasia-muscular-por-igf-1-lr3/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/costa-rica-seasons-year-round-wellness-calendar/",
+      "es": "/es/blog/calendario-de-bienestar-de-todo-el-ano-segun-las-estaciones-en-costa-rica/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/genotropin-costa-rica/",
+      "es": "/es/blog/genotropin-costa-rica/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/ghk-cu-copper-peptide-benefits/",
+      "es": "/es/blog/beneficios-del-peptido-de-cobre-ghk-cu/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/how-do-peptides-work/",
+      "es": "/es/blog/como-funcionan-los-peptidos/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/how-long-do-peptides-take-to-work/",
+      "es": "/es/blog/cuanto-tiempo-tardan-en-hacer-efecto-los-peptidos/",
       "group": "blogPost"
     },
     {
@@ -1181,8 +1689,163 @@
       "group": "blogPost"
     },
     {
-      "en": "/blog/alajuela-volcanic-terrain-fitness-habits/",
-      "es": "/es/blog/alajuela-volcanic-terrain-fitness-habits/",
+      "en": "/blog/how-ozempic-can-help-reshape-your-food-habits/",
+      "es": "/es/blog/como-ozempic-puede-ayudar-a-transformar-sus-habitos-alimenticios/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/human-growth-hormone-hgh/",
+      "es": "/es/blog/hormona-de-crecimiento-humano-hgh-2/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/glutathione-for-liver-health-detoxification/",
+      "es": "/es/blog/mezcla-de-peptidos-klow-la-guia-definitiva-sobre-ghk-cu-bpc-157-tb-500-y-kpv/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/klow-peptide-blend-the-definitive-guide-to-ghk-cu-bpc-157-tb-500-and-kpv/",
+      "es": "/es/blog/mezcla-de-peptidos-klow-la-guia-definitiva-sobre-ghk-cu-bpc-157-tb-500-y-kpv/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/mounjaro-the-diabetes-drug-behind-weight-loss-headlines/",
+      "es": "/es/blog/mounjaro-el-medicamento-para-la-diabetes-detras-de-los-titulares-sobre-la-perdida-de-peso/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/multi-collagen-peptides-in-costa-rica/",
+      "es": "/es/blog/peptidos-de-colageno-multiple-en-costa-rica/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/needle-and-syringe-selection/",
+      "es": "/es/blog/seleccion-de-aguja-y-jeringa/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/peptide-delivery-in-costa-rica/",
+      "es": "/es/blog/entrega-de-peptidos-en-costa-rica/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/peptide-injection-sites/",
+      "es": "/es/blog/lugares-de-inyeccion-de-peptidos/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/peptides-after-40/",
+      "es": "/es/blog/peptidos-despues-de-los-40/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/peptides-costa-rica-faq-research-peptides-education/",
+      "es": "/es/blog/preguntas-frecuentes-sobre-peptidos-en-costa-rica-educacion-sobre-peptidos-de-investigacion/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/peptides-for-hair-growth/",
+      "es": "/es/blog/peptidos-para-el-crecimiento-del-cabello/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/peptides-for-pain/",
+      "es": "/es/blog/peptidos-para-el-dolor/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/peptides-for-stretch-marks/",
+      "es": "/es/blog/peptidos-para-las-estrias/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/peptides-for-testosterone/",
+      "es": "/es/blog/peptidos-para-la-testosterona/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/peptides-guide/",
+      "es": "/es/blog/guia-de-peptidos/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/peptides-in-heredia-local-guide/",
+      "es": "/es/blog/peptidos-en-heredia-guia-local/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/pfizer-hgh-vs-peptide-based-growth-hormone-products-the-complete-breakdown/",
+      "es": "/es/blog/pfizer-hgh-vs-peptidos-basados-en-productos-de-hormona-de-crecimiento-el-analisis-completo/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/tropical-skincare-costa-rica/",
+      "es": "/es/blog/cuidado-de-la-piel-tropical-costa-rica/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/pura-vida-productivity-remote-work-costa-rica/",
+      "es": "/es/blog/pura-vida-productividad-trabajo-remoto-costa-rica/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/nicoya-peninsula-longevity-blue-zone-habits/",
+      "es": "/es/blog/habitos-de-longevidad-de-la-zona-azul-de-la-peninsula-de-nicoya/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/semaglutide-for-weight-loss/",
+      "es": "/es/blog/semaglutida-para-la-perdida-de-peso/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/somatropin/",
+      "es": "/es/blog/somatropina/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/sports-research-collagen-peptides/",
+      "es": "/es/blog/peptidos-de-colageno-de-sports-research/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/lifestyle-and-mental-clarity-in-heredia/",
+      "es": "/es/blog/estilo-de-vida-y-claridad-mental-en-heredia/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/caribbean-food-active-lifestyle-limon/",
+      "es": "/es/blog/comida-caribena-estilo-de-vida-activo-limon/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/costa-rican-diet-weight-management/",
+      "es": "/es/blog/control-de-peso-con-la-dieta-costarricense/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/expat-fitness-muscle-retention-costa-rica/",
+      "es": "/es/blog/retencion-muscular-fitness-expatriados-costa-rica/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/costa-rica-rainy-season-wellness-guide/",
+      "es": "/es/blog/guia-de-bienestar-para-la-estacion-lluviosa-en-costa-rica/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/the-new-science-of-retatrutide-its-about-much-more-than-weight-loss/",
+      "es": "/es/blog/la-nueva-ciencia-de-la-retatrutide-trata-de-mucho-mas-que-la-perdida-de-peso/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/san-jose-fitness-wellness-guide/",
+      "es": "/es/blog/guia-de-bienestar-y-fitness-de-san-jose/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/tirzepatide-for-weight-loss/",
+      "es": "/es/blog/tirzepatida-para-la-perdida-de-peso/",
       "group": "blogPost"
     },
     {
@@ -1191,423 +1854,658 @@
       "group": "blogPost"
     },
     {
-      "en": "/product/mt-ii/",
-      "es": "/es/producto-2/mt-ii/",
+      "en": "/blog/wegovy-for-weight-loss-how-it-works/",
+      "es": "/es/blog/wegovy-para-la-perdida-de-peso-como-funciona/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/types-of-collagen-peptides/",
+      "es": "/es/blog/tipos-de-peptidos-de-colageno/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/what-is-pinealon-edr-tripeptide-research-and-evidence-limits/",
+      "es": "/es/blog/que-es-el-tripeptido-pinealon-edr-y-cuales-son-los-limites-de-la-investigacion-y-la-evidencia/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/what-is-retatrutide/",
+      "es": "/es/blog/que-es-la-retatrutida/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/what-is-sermorelin/",
+      "es": "/es/blog/que-es-la-sermorelin/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/what-is-slu-pp-332-err-agonism-mitochondria-and-the-limits-of-exercise-mimetic-research/",
+      "es": "/es/blog/que-es-el-agonismo-de-slu-pp-332-en-los-receptores-relacionados-con-los-estrogenos-mitocondrias-y-los-limites-de-la-investigacion-sobre-mimeticos-del-ejercicio/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/where-it-all-began/",
+      "es": "/es/blog/donde-todo-comenzo/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/first-30-days-costa-rica-wellness-guide/",
+      "es": "/es/blog/guia-de-bienestar-de-los-primeros-30-dias-en-costa-rica/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/blog/zepbound-and-the-second-hormone/",
+      "es": "/es/blog/zepbound-y-la-segunda-hormona/",
+      "group": "blogPost"
+    },
+    {
+      "en": "/product/lp-5-amino-1mq-50mg/",
+      "es": "/es/producto/5-amino-1mq-50mg/",
       "group": "wooProduct"
     },
     {
-      "en": "/product/kpv-10mg/",
-      "es": "/es/producto-2/kpv-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/dsip-10mg/",
-      "es": "/es/producto-2/risperidona-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/hgh-30-iu/",
-      "es": "/es/producto-2/hgh-30-ui/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/glow-50mg/",
-      "es": "/es/producto-2/brillo-50-mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/reta-10mg/",
-      "es": "/es/producto-2/reta-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/glow-70mg/",
-      "es": "/es/producto-2/brillo-70mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/tb-4-10mg/",
-      "es": "/es/producto-2/tb-4-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/hgh-24-iu/",
-      "es": "/es/producto-2/hgh-24-ui/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/hgh-12-iu/",
-      "es": "/es/producto-2/hgh-12-ui/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/dsip-15mg/",
-      "es": "/es/producto-2/disip-15mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/reta-12mg/",
-      "es": "/es/producto-2/reta-12-mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/nad-500mg/",
-      "es": "/es/producto-2/nad-500mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/klow-80mg/",
-      "es": "/es/producto-2/klow-80mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/reta-40mg/",
-      "es": "/es/producto-2/reta-40mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/reta-30mg/",
-      "es": "/es/producto-2/reta-30mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/nad-1000mg/",
-      "es": "/es/producto-2/nad-1000mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/semax-10mg/",
-      "es": "/es/producto-2/semax-10-mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/aicar-50mg/",
-      "es": "/es/producto-2/aicar-50mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/adamax-5mg/",
-      "es": "/es/producto-2/adamax-5mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/ss-31-10mg/",
-      "es": "/es/producto-2/ss-31-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/mots-c-40mg/",
-      "es": "/es/producto-2/mots-c-40mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/ghk-cu-50mg/",
-      "es": "/es/producto-2/ghk-cu-50mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/selank-10mg/",
-      "es": "/es/producto-2/selank-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/mots-c-10mg/",
-      "es": "/es/producto-2/mots-c-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/ghk-cu-100mg/",
-      "es": "/es/producto-2/ghk-cu-100mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/igf-1lr3-1mg/",
-      "es": "/es/producto-2/igf-1lr3-1mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/hcg-10000-iu/",
-      "es": "/es/producto-2/gonadotropina-corionica-humana-10000-ui/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/bpc-157-10mg/",
-      "es": "/es/producto-2/bpc-157-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/cartalax-20mg/",
-      "es": "/es/producto-2/cartalax-20mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/pinealon-20mg/",
-      "es": "/es/producto-2/pinealon-20mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/bac-water-3ml/",
-      "es": "/es/producto-2/agua-bac-3ml/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/bac-water-2ml/",
-      "es": "/es/producto-2/agua-bacto-2ml/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/thymalin-10mg/",
-      "es": "/es/producto-2/timmalina-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/slu-pp-332-5mg/",
-      "es": "/es/producto-2/slu-pp-332-5mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/bac-water-10ml/",
-      "es": "/es/producto-2/agua-bac-10ml/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/epithalon-50mg/",
-      "es": "/es/producto-2/epitalon-50mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/pt-141-10mgtest/",
-      "es": "/es/producto-2/pt-141-10mgprueba/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/sermorelin-10mg/",
-      "es": "/es/producto-2/sermorelina-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/ipamorelin-10mg/",
-      "es": "/es/producto-2/ipamorelin-10mg/",
+      "en": "/product/5-amino-1mq-50mg/",
+      "es": "/es/producto/5-amino-1mq-50mg/",
       "group": "wooProduct"
     },
     {
       "en": "/product/5-amino-1mq-5mg/",
-      "es": "/es/producto-2/5-amino-1mq-5mg/",
+      "es": "/es/producto/5-amino-1mq-5mg/",
       "group": "wooProduct"
     },
     {
-      "en": "/product/tesamorelin-20mg/",
-      "es": "/es/producto-2/tesamorelin-20mg/",
+      "en": "/product/lp-5-amino-1mq-5mg/",
+      "es": "/es/producto/5-amino-1mq-5mg/",
       "group": "wooProduct"
     },
     {
-      "en": "/product/tirzepatide-60mg/",
-      "es": "/es/producto-2/tirzepatida-60mg/",
+      "en": "/product/aa-water-3ml/",
+      "es": "/es/producto/agua-aa-3-ml/",
       "group": "wooProduct"
     },
     {
-      "en": "/product/retatrutide-25mg/",
-      "es": "/es/producto-2/retatrutida-25mg/",
+      "en": "/product/adamax-10mg/",
+      "es": "/es/producto/adamax-10mg/",
       "group": "wooProduct"
     },
     {
-      "en": "/product/tirzepatide-40mg/",
-      "es": "/es/producto-2/tirzepatida-40-mg/",
+      "en": "/product/adamax-5mg/",
+      "es": "/es/producto/adamax-5mg/",
       "group": "wooProduct"
     },
     {
-      "en": "/product/retatrutide-60mg/",
-      "es": "/es/producto-2/retatrutida-60-mg/",
+      "en": "/product/ahk-cu-50mg/",
+      "es": "/es/producto/ahk-con-50-mg/",
       "group": "wooProduct"
     },
     {
-      "en": "/product/retatrutide-50mg/",
-      "es": "/es/producto-2/retatrutida-50mg/",
+      "en": "/product/aicar-50mg/",
+      "es": "/es/producto/aicar-50mg/",
       "group": "wooProduct"
     },
     {
-      "en": "/product/semaglutide-10mg/",
-      "es": "/es/producto-2/semaglutida-10-mg/",
+      "en": "/product/lp-aicar-50mg/",
+      "es": "/es/producto/aicar-50mg/",
       "group": "wooProduct"
     },
     {
-      "en": "/product/tirzepatide-30mg/",
-      "es": "/es/producto-2/tirzepatida-30mg/",
+      "en": "/product/bac-water-10ml/",
+      "es": "/es/producto/agua-bac-10ml/",
       "group": "wooProduct"
     },
     {
-      "en": "/product/tirzepatide-20mg/",
-      "es": "/es/producto-2/tirzepatida-20-mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/tirzepatide-15mg/",
-      "es": "/es/producto-2/tirzepatida-15-mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/tirzepatide-10mg/",
-      "es": "/es/producto-2/tirzepatida-10-mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/semaglutide-30mg/",
-      "es": "/es/producto-2/semaglutida-30-mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/semaglutide-20mg/",
-      "es": "/es/producto-2/semaglutida-20-mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/fat-blaster-10ml/",
-      "es": "/es/producto-2/quemador-de-grasa-10ml/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/retatrutide-20mg/",
-      "es": "/es/producto-2/retatrutida-20mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/retatrutide-24mg/",
-      "es": "/es/producto-2/ritagrutida-24mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/retatrutide-15mg/",
-      "es": "/es/producto-2/retatrutida-15mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/cjc-with-dac-5mg/",
-      "es": "/es/producto-2/cjc-con-dac-5-mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/tesamorelin-10mg/",
-      "es": "/es/producto-2/tesamorelin-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/glutathione-1500mg/",
-      "es": "/es/producto-2/glutation-1500mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/kisspeptin-10-10mg/",
-      "es": "/es/producto-2/kisspectina-10-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/thymosin-alpha-1-10mg/",
-      "es": "/es/producto-2/timosina-alfa-1-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/super-human-blend-10ml/",
-      "es": "/es/producto-2/mezcla-super-humana-10ml/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/cjc-1295-without-dac-ipa-10mg/",
-      "es": "/es/producto-2/cjc-1295-sin-dac-ipa-10mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/hgh-50-iu-pfizer-brand-genotropin/",
-      "es": "/es/producto-2/genotropina-marca-pfizer-hgh-50-iu/",
+      "en": "/product/bac-water-3ml/",
+      "es": "/es/producto/agua-bac-3ml/",
       "group": "wooProduct"
     },
     {
       "en": "/product/bpc-157-tb-500-20mg-wolverine-stack/",
-      "es": "/es/producto-2/bpc-157-tb-500-20mg-pila-wolverine/",
+      "es": "/es/producto/bpc-157-tb-500-20mg-pila-wolverine/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/bpc-157-10mg/",
+      "es": "/es/producto/bpc-157-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-cartalax-20mg/",
+      "es": "/es/producto/cartalax-20mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/cartalax-20mg/",
+      "es": "/es/producto/cartalax-20mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/cjc-with-dac-5mg/",
+      "es": "/es/producto/cjc-con-dac-5-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/cjc-1295-without-dac-ipa-10mg/",
+      "es": "/es/producto/cjc-1295-sin-dac-ipa-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/dsip-10mg/",
+      "es": "/es/producto/risperidona-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/dsip-15mg/",
+      "es": "/es/producto/disip-15mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/dsip-5mg/",
+      "es": "/es/producto/dsip-5mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/epithalon-50mg/",
+      "es": "/es/producto/epitalon-50mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/ghk-cu-100mg/",
+      "es": "/es/producto/ghk-cu-100mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-ghk-cu-100mg/",
+      "es": "/es/producto/ghk-cu-100mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/ghk-cu-50mg/",
+      "es": "/es/producto/ghk-cu-50mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-ghk-cu-50mg/",
+      "es": "/es/producto/ghk-cu-50mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/ghrp-6-10mg/",
+      "es": "/es/producto/ghrp-6-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-glow-50mg/",
+      "es": "/es/producto/brillo-50-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/glow-50mg/",
+      "es": "/es/producto/brillo-50-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/glow-70mg/",
+      "es": "/es/producto/brillo-70mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-glow-70mg/",
+      "es": "/es/producto/brillo-70mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/reta-10mg/",
+      "es": "/es/producto/reta-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/reta-12mg/",
+      "es": "/es/producto/reta-12-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/retatrutide-15mg/",
+      "es": "/es/producto/retatrutida-15mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/retatrutide-20mg/",
+      "es": "/es/producto/retatrutida-20mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/retatrutide-24mg/",
+      "es": "/es/producto/ritagrutida-24mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/reta-30mg/",
+      "es": "/es/producto/reta-30mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/reta-40mg/",
+      "es": "/es/producto/reta-40mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/retatrutide-50mg/",
+      "es": "/es/producto/retatrutida-50mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/retatrutide-5mg/",
+      "es": "/es/producto/retatrutida-5-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/retatrutide-60mg/",
+      "es": "/es/producto/retatrutida-60-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-glutathione-1500mg/",
+      "es": "/es/producto/glutation-1500mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/glutathione-1500mg/",
+      "es": "/es/producto/glutation-1500mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/hcg-10000-iu/",
+      "es": "/es/producto/gonadotropina-corionica-humana-10000-ui/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/hgh-12-iu/",
+      "es": "/es/producto/hgh-12-ui/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/hgh-24-iu/",
+      "es": "/es/producto/hgh-24-ui/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/hgh-30-iu/",
+      "es": "/es/producto/hgh-30-ui/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/hgh-50-iu-pfizer-brand-genotropin/",
+      "es": "/es/producto/genotropina-marca-pfizer-hgh-50-iu/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/hmg-75-iu/",
+      "es": "/es/producto/hmg-75-ui/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-igf-1lr3-1mg/",
+      "es": "/es/producto/igf-1lr3-1mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/igf-1lr3-1mg/",
+      "es": "/es/producto/igf-1lr3-1mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-ipamorelin-10mg/",
+      "es": "/es/producto/ipamorelin-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/ipamorelin-10mg/",
+      "es": "/es/producto/ipamorelin-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-kisspeptin-10-10mg/",
+      "es": "/es/producto/kisspectina-10-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/kisspeptin-10-10mg/",
+      "es": "/es/producto/kisspectina-10-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-klow-80mg/",
+      "es": "/es/producto/klow-80mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/klow-80mg/",
+      "es": "/es/producto/klow-80mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/kpv-10mg/",
+      "es": "/es/producto/kpv-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-kpv-10mg/",
+      "es": "/es/producto/kpv-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/fat-blaster-10ml/",
+      "es": "/es/producto/quemador-de-grasa-10ml/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/mots-c-10mg/",
+      "es": "/es/producto/mots-c-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/mots-c-40mg/",
+      "es": "/es/producto/mots-c-40mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/mt-ii/",
+      "es": "/es/producto/mt-ii/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-nad-1000mg/",
+      "es": "/es/producto/nad-1000mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/nad-1000mg/",
+      "es": "/es/producto/nad-1000mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/nad-500mg/",
+      "es": "/es/producto/nad-500mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-oxytocin-acetate-5mg/",
+      "es": "/es/producto/acetato-de-oxitocina-5-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/oxytocin-acetate-5mg/",
+      "es": "/es/producto/acetato-de-oxitocina-5-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/pinealon-20mg/",
+      "es": "/es/producto/pinealon-20mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-pinealon-20mg/",
+      "es": "/es/producto/pinealon-20mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-pt-141-10mg/",
+      "es": "/es/producto/pt-141-10mgprueba/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/pt-141-10mgtest/",
+      "es": "/es/producto/pt-141-10mgprueba/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/selank-10mg/",
+      "es": "/es/producto/selank-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-selank-10mg/",
+      "es": "/es/producto/selank-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/semaglutide-10mg/",
+      "es": "/es/producto/semaglutida-10-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/semaglutide-20mg/",
+      "es": "/es/producto/semaglutida-20-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/semaglutide-30mg/",
+      "es": "/es/producto/semaglutida-30-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/semax-10mg/",
+      "es": "/es/producto/semax-10-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-sermorelin-10mg/",
+      "es": "/es/producto/sermorelina-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/sermorelin-10mg/",
+      "es": "/es/producto/sermorelina-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/slu-pp-332-5mg/",
+      "es": "/es/producto/slu-pp-332-5mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-slu-pp-332-5mg/",
+      "es": "/es/producto/slu-pp-332-5mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/snap-8-10mg/",
+      "es": "/es/producto/tableta-de-10-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/ss-31-10mg/",
+      "es": "/es/producto/ss-31-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-ss-31-10mg/",
+      "es": "/es/producto/ss-31-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/ss-31-25mg/",
+      "es": "/es/producto/ss-31-25mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-super-human-blend-10ml/",
+      "es": "/es/producto/mezcla-super-humana-10ml/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/super-human-blend-10ml/",
+      "es": "/es/producto/mezcla-super-humana-10ml/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/tb-4-10mg/",
+      "es": "/es/producto/tb-4-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-tb-4-10mg/",
+      "es": "/es/producto/tb-4-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/tb-500-10mg/",
+      "es": "/es/producto/tb-500-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/tesamorelin-10mg/",
+      "es": "/es/producto/tesamorelin-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/tesamorelin-20mg/",
+      "es": "/es/producto/tesamorelin-20mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/thymalin-10mg/",
+      "es": "/es/producto/timmalina-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-thymalin-10mg/",
+      "es": "/es/producto/timmalina-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/thymosin-alpha-1-10mg/",
+      "es": "/es/producto/timosina-alfa-1-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/lp-thymosin-alpha-1-10mg/",
+      "es": "/es/producto/timosina-alfa-1-10mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/tirzepatide-10mg/",
+      "es": "/es/producto/tirzepatida-10-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/tirzepatide-120mg/",
+      "es": "/es/producto/tirzepatida-120-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/tirzepatide-15mg/",
+      "es": "/es/producto/tirzepatida-15-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/tirzepatide-20mg/",
+      "es": "/es/producto/tirzepatida-20-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/tirzepatide-30mg/",
+      "es": "/es/producto/tirzepatida-30mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/tirzepatide-40mg/",
+      "es": "/es/producto/tirzepatida-40-mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/tirzepatide-60mg/",
+      "es": "/es/producto/tirzepatida-60mg/",
+      "group": "wooProduct"
+    },
+    {
+      "en": "/product/vip-5-mg/",
+      "es": "/es/producto/vip-5-mg/",
       "group": "wooProduct"
     },
     {
       "en": "/product-category/bac-water/",
-      "es": "/es/categoria-producto-2/agua-de-bac/",
-      "group": "wooCategory"
-    },
-    {
-      "en": "/product-category/copper-peptides/",
-      "es": "/es/categoria-producto-2/peptidos-de-cobre/",
-      "group": "wooCategory"
-    },
-    {
-      "en": "/product-category/collagen-peptides/",
-      "es": "/es/categoria-producto-2/peptidos-de-colageno/",
-      "group": "wooCategory"
-    },
-    {
-      "en": "/product-category/peptides-for-skin/",
-      "es": "/es/categoria-producto-2/peptidos-para-la-piel/",
-      "group": "wooCategory"
-    },
-    {
-      "en": "/product-category/peptides-for-sleep/",
-      "es": "/es/categoria-producto-2/peptidos-para-dormir/",
-      "group": "wooCategory"
-    },
-    {
-      "en": "/product-category/peptides-for-energy/",
-      "es": "/es/categoria-producto-2/peptidos-para-energia/",
-      "group": "wooCategory"
-    },
-    {
-      "en": "/product-category/peptides-for-healing/",
-      "es": "/es/categoria-producto-2/peptidos-para-curacion/",
-      "group": "wooCategory"
-    },
-    {
-      "en": "/product-category/peptide-reconstitution/",
-      "es": "/es/categoria-producto-2/reconstitucion-de-peptidos/",
-      "group": "wooCategory"
-    },
-    {
-      "en": "/product-category/peptides-for-fertility/",
-      "es": "/es/categoria-producto-2/peptidos-para-la-fertilidad/",
+      "es": "/es/categoria-de-producto/agua-de-bac/",
       "group": "wooCategory"
     },
     {
       "en": "/product-category/peptides-for-anti-aging/",
-      "es": "/es/categoria-producto-2/peptidos-antienvejecimiento/",
-      "group": "wooCategory"
-    },
-    {
-      "en": "/product-category/hgh-human-growth-hormone/",
-      "es": "/es/categoria-producto-2/hormona-de-crecimiento-humano-hgh/",
-      "group": "wooCategory"
-    },
-    {
-      "en": "/product-category/peptides-for-weight-loss/",
-      "es": "/es/categoria-producto-2/peptidos-para-la-perdida-de-peso/",
+      "es": "/es/categoria-de-producto/peptidos-antienvejecimiento/",
       "group": "wooCategory"
     },
     {
       "en": "/product-category/peptide-for-cardiovascular/",
-      "es": "/es/categoria-producto-2/peptido-para-cardiovasculares/",
+      "es": "/es/categoria-de-producto/peptido-para-cardiovasculares/",
+      "group": "wooCategory"
+    },
+    {
+      "en": "/product-category/collagen-peptides/",
+      "es": "/es/categoria-de-producto/peptidos-de-colageno/",
+      "group": "wooCategory"
+    },
+    {
+      "en": "/product-category/peptides-for-skin/",
+      "es": "/es/categoria-de-producto/peptidos-para-la-piel/",
+      "group": "wooCategory"
+    },
+    {
+      "en": "/product-category/copper-peptides/",
+      "es": "/es/categoria-de-producto/peptidos-de-cobre/",
       "group": "wooCategory"
     },
     {
       "en": "/product-category/peptides-for-muscle-growth/",
-      "es": "/es/categoria-producto-2/peptidos-para-el-crecimiento-muscular/",
+      "es": "/es/categoria-de-producto/peptidos-para-el-crecimiento-muscular/",
+      "group": "wooCategory"
+    },
+    {
+      "en": "/product-category/peptides-for-weight-loss/",
+      "es": "/es/categoria-de-producto/peptidos-para-la-perdida-de-peso/",
+      "group": "wooCategory"
+    },
+    {
+      "en": "/product-category/peptides-for-energy/",
+      "es": "/es/categoria-de-producto/peptidos-para-energia/",
       "group": "wooCategory"
     },
     {
       "en": "/product-category/peptide-for-cognitive-function/",
-      "es": "/es/categoria-producto-2/peptido-para-la-funcion-cognitiva/",
+      "es": "/es/categoria-de-producto/peptido-para-la-funcion-cognitiva/",
+      "group": "wooCategory"
+    },
+    {
+      "en": "/product-category/peptide-reconstitution/",
+      "es": "/es/categoria-de-producto/reconstitucion-de-peptidos/",
+      "group": "wooCategory"
+    },
+    {
+      "en": "/product-category/peptides-for-fertility/",
+      "es": "/es/categoria-de-producto/peptidos-para-la-fertilidad/",
+      "group": "wooCategory"
+    },
+    {
+      "en": "/product-category/peptides-for-sleep/",
+      "es": "/es/categoria-de-producto/peptidos-para-dormir/",
+      "group": "wooCategory"
+    },
+    {
+      "en": "/product-category/hgh-human-growth-hormone/",
+      "es": "/es/categoria-de-producto/hormona-de-crecimiento-humano-hgh/",
+      "group": "wooCategory"
+    },
+    {
+      "en": "/product-category/peptides-for-healing/",
+      "es": "/es/categoria-de-producto/peptidos-para-curacion/",
       "group": "wooCategory"
     },
     {
       "en": "/blog-2/",
-      "es": "/es/blog-2/",
+      "es": null,
       "group": "excludeCandidate"
     },
     {
       "en": "/test-script/",
-      "es": "/es/script-de-prueba/",
+      "es": null,
       "group": "excludeCandidate"
     },
     {
@@ -1617,7 +2515,7 @@
     },
     {
       "en": "/return-refund-policy-2/",
-      "es": "/es/return-refund-policy-2/",
+      "es": null,
       "group": "excludeCandidate"
     },
     {
@@ -1704,531 +2602,6 @@
       "en": "/blog/guide/retatrutide-10mg-mixing-dosage-guide/",
       "es": "/es/blog/guia/guia-de-dosificacion-para-la-mezcla-de-retatrutida-10-mg/",
       "group": "mixingGuide"
-    },
-    {
-      "en": "/extra/",
-      "es": "/es/extra/",
-      "group": "guide"
-    },
-    {
-      "en": "/peptide-glossary/",
-      "es": "/es/peptide-glossary/",
-      "group": "guide"
-    },
-    {
-      "en": "/adamax-complete-guide/",
-      "es": "/es/adamax-complete-guide/",
-      "group": "guide"
-    },
-    {
-      "en": "/dsip-the-complete-guide/",
-      "es": "/es/dsip-the-complete-guide/",
-      "group": "guide"
-    },
-    {
-      "en": "/melanotan-ii-complete-guide/",
-      "es": "/es/melanotan-ii-complete-guide/",
-      "group": "guide"
-    },
-    {
-      "en": "/thymalin-vs-thymosin-alpha-1/",
-      "es": "/es/thymalin-vs-thymosin-alpha-1/",
-      "group": "guide"
-    },
-    {
-      "en": "/peptides-vs-sarms-vs-steroids/",
-      "es": "/es/peptides-vs-sarms-vs-steroids/",
-      "group": "guide"
-    },
-    {
-      "en": "/natural-vs-synthetic-peptides/",
-      "es": "/es/natural-vs-synthetic-peptides/",
-      "group": "guide"
-    },
-    {
-      "en": "/5-amino-1mq-the-complete-guide/",
-      "es": "/es/5-amino-1mq-the-complete-guide/",
-      "group": "guide"
-    },
-    {
-      "en": "/the-different-types-of-peptides/",
-      "es": "/es/the-different-types-of-peptides/",
-      "group": "guide"
-    },
-    {
-      "en": "/peptides-for-focus-productivity/",
-      "es": "/es/peptides-for-focus-productivity/",
-      "group": "guide"
-    },
-    {
-      "en": "/common-beginner-mistakes-to-avoid/",
-      "es": "/es/common-beginner-mistakes-to-avoid/",
-      "group": "guide"
-    },
-    {
-      "en": "/peptide-reconstitution-calculator/",
-      "es": "/es/peptide-reconstitution-calculator/",
-      "group": "guide"
-    },
-    {
-      "en": "/mots-c-peptide-the-complete-guide/",
-      "es": "/es/mots-c-peptide-the-complete-guide/",
-      "group": "guide"
-    },
-    {
-      "en": "/understanding-peptide-purity-coas/",
-      "es": "/es/understanding-peptide-purity-coas/",
-      "group": "guide"
-    },
-    {
-      "en": "/peptides-for-libido-sexual-health/",
-      "es": "/es/peptides-for-libido-sexual-health/",
-      "group": "guide"
-    },
-    {
-      "en": "/how-to-track-your-peptide-progress/",
-      "es": "/es/how-to-track-your-peptide-progress/",
-      "group": "guide"
-    },
-    {
-      "en": "/how-to-minimize-peptide-side-effects/",
-      "es": "/es/how-to-minimize-peptide-side-effects/",
-      "group": "guide"
-    },
-    {
-      "en": "/research-peptides-vs-pharmaceutical-peptides/",
-      "es": "/es/research-peptides-vs-pharmaceutical-peptides/",
-      "group": "guide"
-    },
-    {
-      "en": "/bribri-limon/",
-      "es": "/es/bribri-limon/",
-      "group": "city"
-    },
-    {
-      "en": "/barva-heredia/",
-      "es": "/es/barva-heredia/",
-      "group": "city"
-    },
-    {
-      "en": "/belen-heredia/",
-      "es": "/es/belen-heredia/",
-      "group": "city"
-    },
-    {
-      "en": "/sixaola-limon/",
-      "es": "/es/sixaola-limon/",
-      "group": "city"
-    },
-    {
-      "en": "/guacimo-limon/",
-      "es": "/es/guacimo-limon/",
-      "group": "city"
-    },
-    {
-      "en": "/irazu-cartago/",
-      "es": "/es/irazu-cartago/",
-      "group": "city"
-    },
-    {
-      "en": "/poas-alajuela/",
-      "es": "/es/poas-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/flores-heredia/",
-      "es": "/es/flores-heredia/",
-      "group": "city"
-    },
-    {
-      "en": "/tibas-san-jose/",
-      "es": "/es/tibas-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/upala-alajuela/",
-      "es": "/es/upala-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/acosta-san-jose/",
-      "es": "/es/acosta-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/zapote-san-jose/",
-      "es": "/es/zapote-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/sabana-san-jose/",
-      "es": "/es/sabana-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/sarchi-alajuela/",
-      "es": "/es/sarchi-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/atenas-alajuela/",
-      "es": "/es/atenas-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/grecia-alajuela/",
-      "es": "/es/grecia-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/hone-creek-limon/",
-      "es": "/es/hone-creek-limon/",
-      "group": "city"
-    },
-    {
-      "en": "/oreamuno-cartago/",
-      "es": "/es/oreamuno-cartago/",
-      "group": "city"
-    },
-    {
-      "en": "/guatuso-alajuela/",
-      "es": "/es/guatuso-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/zarcero-alajuela/",
-      "es": "/es/zarcero-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/puriscal-san-jose/",
-      "es": "/es/puriscal-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/cervantes-cartago/",
-      "es": "/es/cervantes-cartago/",
-      "group": "city"
-    },
-    {
-      "en": "/palmares-alajuela/",
-      "es": "/es/palmares-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/san-isidro-heredia/",
-      "es": "/es/san-isidro-heredia/",
-      "group": "city"
-    },
-    {
-      "en": "/rohrmoser-san-jose/",
-      "es": "/es/rohrmoser-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/el-coco-guanacaste/",
-      "es": "/es/el-coco-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/tilaran-guanacaste/",
-      "es": "/es/tilaran-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/la-cruz-guanacaste/",
-      "es": "/es/la-cruz-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/bagaces-guanacaste/",
-      "es": "/es/bagaces-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/goicoechea-san-jose/",
-      "es": "/es/goicoechea-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/carrillo-guanacaste/",
-      "es": "/es/carrillo-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/sardinal-guanacaste/",
-      "es": "/es/sardinal-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/hojancha-guanacaste/",
-      "es": "/es/hojancha-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/los-chiles-alajuela/",
-      "es": "/es/los-chiles-alajuela/",
-      "group": "city"
-    },
-    {
-      "en": "/santa-marta-san-jose/",
-      "es": "/es/santa-marta-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/brasilito-guanacaste/",
-      "es": "/es/brasilito-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/abangares-guanacaste/",
-      "es": "/es/abangares-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/drake-bay-puntarenas/",
-      "es": "/es/drake-bay-puntarenas/",
-      "group": "city"
-    },
-    {
-      "en": "/santa-barbara-heredia/",
-      "es": "/es/santa-barbara-heredia/",
-      "group": "city"
-    },
-    {
-      "en": "/santo-domingo-heredia/",
-      "es": "/es/santo-domingo-heredia/",
-      "group": "city"
-    },
-    {
-      "en": "/ciudad-colon-san-jose/",
-      "es": "/es/ciudad-colon-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/mata-redonda-san-jose/",
-      "es": "/es/mata-redonda-san-jose/",
-      "group": "city"
-    },
-    {
-      "en": "/filadelfia-guanacaste/",
-      "es": "/es/filadelfia-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/playa-negra-guanacaste/",
-      "es": "/es/playa-negra-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/playa-grande-guanacaste/",
-      "es": "/es/playa-grande-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/playa-panama-guanacaste/",
-      "es": "/es/playa-panama-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/las-catalinas-guanacaste/",
-      "es": "/es/las-catalinas-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/playa-potrero-guanacaste/",
-      "es": "/es/playa-potrero-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/playa-langosta-guanacaste/",
-      "es": "/es/playa-langosta-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/playa-avellanas-guanacaste/",
-      "es": "/es/playa-avellanas-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/playa-junquillal-guanacaste/",
-      "es": "/es/playa-junquillal-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/papagayo-peninsula-guanacaste/",
-      "es": "/es/papagayo-peninsula-guanacaste/",
-      "group": "city"
-    },
-    {
-      "en": "/blog/somatropin/",
-      "es": "/es/blog/somatropina/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/peptides-for-pain/",
-      "es": "/es/blog/peptides-for-pain/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/where-it-all-began/",
-      "es": "/es/blog/where-it-all-began/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/what-is-sermorelin/",
-      "es": "/es/blog/what-is-sermorelin/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/genotropin-costa-rica/",
-      "es": "/es/blog/genotropin-costa-rica/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/are-peptides-steroids/",
-      "es": "/es/blog/are-peptides-steroids/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/peptides-for-hair-growth/",
-      "es": "/es/blog/peptides-for-hair-growth/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/human-growth-hormone-hgh/",
-      "es": "/es/blog/human-growth-hormone-hgh/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/peptides-for-stretch-marks/",
-      "es": "/es/blog/peptides-for-stretch-marks/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/tirzepatide-for-weight-loss/",
-      "es": "/es/blog/tirzepatide-for-weight-loss/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/tropical-skincare-costa-rica/",
-      "es": "/es/blog/cuidado-de-la-piel-tropical-costa-rica/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/ghk-cu-copper-peptide-benefits/",
-      "es": "/es/blog/beneficios-del-peptido-de-cobre-ghk-cu/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/zepbound-and-the-second-hormone/",
-      "es": "/es/blog/zepbound-and-the-second-hormone/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/sports-research-collagen-peptides/",
-      "es": "/es/blog/sports-research-collagen-peptides/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/costa-rican-diet-weight-management/",
-      "es": "/es/blog/costa-rican-diet-weight-management/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/are-peptides-illegal-in-costa-rica/",
-      "es": "/es/blog/are-peptides-illegal-in-costa-rica/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/wegovy-for-weight-loss-how-it-works/",
-      "es": "/es/blog/wegovy-for-weight-loss-how-it-works/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/caribbean-food-active-lifestyle-limon/",
-      "es": "/es/blog/caribbean-food-active-lifestyle-limon/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/multi-collagen-peptides-in-costa-rica/",
-      "es": "/es/blog/multi-collagen-peptides-in-costa-rica/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/puntarenas-coastal-living-joint-health/",
-      "es": "/es/blog/puntarenas-coastal-living-joint-health/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/lifestyle-and-mental-clarity-in-heredia/",
-      "es": "/es/blog/lifestyle-and-mental-clarity-in-heredia/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/expat-fitness-muscle-retention-costa-rica/",
-      "es": "/es/blog/expat-fitness-muscle-retention-costa-rica/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/nicoya-peninsula-longevity-blue-zone-habits/",
-      "es": "/es/blog/nicoya-peninsula-longevity-blue-zone-habits/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/pura-vida-productivity-remote-work-costa-rica/",
-      "es": "/es/blog/pura-vida-productivity-remote-work-costa-rica/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/how-ozempic-can-help-reshape-your-food-habits/",
-      "es": "/es/blog/how-ozempic-can-help-reshape-your-food-habits/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/can-glutathione-lighten-skin-hyperpigmentation/",
-      "es": "/es/blog/can-glutathione-lighten-skin-hyperpigmentation/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/peptides-costa-rica-faq-research-peptides-education/",
-      "es": "/es/blog/peptides-costa-rica-faq-research-peptides-education/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/mounjaro-the-diabetes-drug-behind-weight-loss-headlines/",
-      "es": "/es/blog/mounjaro-the-diabetes-drug-behind-weight-loss-headlines/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/the-new-science-of-retatrutide-its-about-much-more-than-weight-loss/",
-      "es": "/es/blog/the-new-science-of-retatrutide-its-about-much-more-than-weight-loss/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/klow-peptide-blend-the-definitive-guide-to-ghk-cu-bpc-157-tb-500-and-kpv/",
-      "es": "/es/blog/klow-peptide-blend-the-definitive-guide-to-ghk-cu-bpc-157-tb-500-and-kpv/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/pfizer-hgh-vs-peptide-based-growth-hormone-products-the-complete-breakdown/",
-      "es": "/es/blog/pfizer-hgh-vs-peptide-based-growth-hormone-products-the-complete-breakdown/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/blog/cartalax-aed-peptide-research-cartilage-biology-matrix-markers-and-evidence-limits/",
-      "es": "/es/blog/cartalax-aed-peptide-research-cartilage-biology-matrix-markers-and-evidence-limits/",
-      "group": "blogPost"
-    },
-    {
-      "en": "/product/dsip-5mg/",
-      "es": "/es/producto-2/dsip-5mg/",
-      "group": "wooProduct"
-    },
-    {
-      "en": "/product/retatrutide-5mg/",
-      "es": "/es/producto-2/retatrutide-5mg/",
-      "group": "wooProduct"
     }
   ]
 }

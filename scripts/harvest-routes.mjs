@@ -37,13 +37,13 @@ const VERIFIED_PAIRS = {
   '/our-story/': '/es/nuestra-historia/',
   '/cartago/': '/es/cartago/',
   '/limon/': '/es/limon/',
-  '/shop/': '/es/tienda/',
+  '/shop/': '/es/shop/',
   '/jaco-puntarenas/': '/es/jaco-puntarenas/',
   '/bpc-157-costa-rica/': '/es/bpc-157-costa-rica/',
   '/kpv-complete-guide/': '/es/guia-completa-de-kpv/',
   '/peptides-for-weight-loss/': '/es/peptidos-para-la-perdida-de-peso/',
-  '/product/bpc-157-10mg/': '/es/producto-2/bpc-157-10mg/',
-  '/product-category/peptides-for-skin/': '/es/categoria-producto-2/peptidos-para-la-piel/',
+  '/product/bpc-157-10mg/': '/es/producto/bpc-157-10mg/',
+  '/product-category/peptides-for-skin/': '/es/categoria-de-producto/peptidos-para-la-piel/',
   '/blog/peptides-guide/': '/es/blog/guia-de-peptidos/',
   '/all-peptide-products-costa-rica/': '/es/todos-los-productos-de-peptidos-costa-rica/',
   '/html-sitemap/': '/es/mapa-del-sitio-html/',
@@ -181,6 +181,14 @@ function locs(xml) {
 }
 
 /**
+ * Xagio started including translated `/es/` URLs in the English sitemap feeds
+ * in October 2026. The route inventory stores one English row plus its Spanish
+ * twin, so accepting those entries as English creates hundreds of duplicates
+ * and then tries to resolve nonsense paths such as `/es/es/...`.
+ */
+const englishOnly = (paths) => paths.filter((path) => !path.startsWith('/es/'));
+
+/**
  * Same-origin <a> hrefs, in document order — the order is what carries the pairing.
  *
  * Anchors only. Matching every href would also pull in the <head> <link rel>
@@ -197,33 +205,8 @@ function sitemapLinks(html) {
  * Fetch the live URL inventory: the sitemaps, plus the REST fallback for the
  * product categories whose sitemap is gone.
  */
-/**
- * Keep a newly discovered Spanish path on the scheme this site already uses.
- *
- * The live WordPress has renamed its Spanish post-type bases — /es/producto-2/
- * became /es/producto/, /es/categoria-producto-2/ became
- * /es/categoria-producto/ — so following a redirect for a NEW product returns
- * the new base while the 67 products already mapped keep the old one. Left
- * alone that mixes two schemes in one route table and points the new pages at
- * URLs this app does not serve.
- *
- * The `-2` bases are the ones documented as indexed SEO (docs/url-inventory.md)
- * and are what app/es/producto-2/ and app/es/categoria-producto-2/ render, so
- * they stay canonical here until someone decides to migrate all of them at once.
- */
-const ES_BASE_ALIASES = [
-  [/^\/es\/producto\//, '/es/producto-2/'],
-  [/^\/es\/categoria-producto\//, '/es/categoria-producto-2/'],
-  [/^\/es\/shop\/$/, '/es/tienda/'],
-];
-
-const canonicalEs = (es) => {
-  if (!es) return es;
-  for (const [pattern, base] of ES_BASE_ALIASES) {
-    if (pattern.test(es)) return es.replace(pattern, base);
-  }
-  return es;
-};
+/** Keep the live WordPress path exactly; it is the launch-time canonical. */
+const canonicalEs = (es) => es;
 
 async function fetchInventory() {
   const [pageXml, productXml, postXml] = await Promise.all([
@@ -244,10 +227,10 @@ async function fetchInventory() {
   }
 
   return {
-    pages: locs(pageXml),
-    wooProducts: locs(productXml),
-    posts: locs(postXml),
-    wooCategories,
+    pages: englishOnly(locs(pageXml)),
+    wooProducts: englishOnly(locs(productXml)),
+    posts: englishOnly(locs(postXml)),
+    wooCategories: englishOnly(wooCategories),
   };
 }
 
@@ -304,8 +287,8 @@ async function main() {
    * nothing else.
    *
    * A full run rebuilds the whole map from the live site, and the live site has
-   * since changed its Spanish slug scheme (/es/tienda/ → /es/shop/,
-   * /es/producto-2/ → /es/producto/). Adopting that is an SEO decision about
+   * since changed its Spanish slug scheme (/es/shop/ → /es/shop/,
+   * /es/producto/ → /es/producto/). Adopting that is an SEO decision about
    * ~97 indexed URLs, not a side effect anyone should get from re-running a
    * harvest to pick up 15 new pages. So this mode exists to do exactly the
    * additive part, and the spot-check guard still protects the full run.
@@ -314,13 +297,8 @@ async function main() {
    * Additive mode: add pages the live site has and routes.json does not,
    * touching nothing that is already mapped.
    *
-   * A full run rebuilds the whole map, and the live site has since changed its
-   * Spanish slug scheme (/es/tienda/ → /es/shop/, /es/producto-2/ →
-   * /es/producto/, /es/categoria-producto-2/ → /es/categoria-producto/).
-   * Adopting that is an SEO decision about ~97 indexed URLs and must be made
-   * deliberately, not picked up as a side effect of harvesting new pages — so
-   * the spot-check guard on the full run is left in place to force the
-   * decision, and this mode exists to do the purely additive part meanwhile.
+   * A full run rebuilds the whole map. Additive mode remains useful when only
+   * newly published pages should be appended without touching existing rows.
    *
    * Spanish twins here come from following each page's own /es/ redirect rather
    * than from the positional sitemap pairing, which is both authoritative and
@@ -380,9 +358,9 @@ async function main() {
     get('/sitemap-xagio-post.xml'),
   ]);
 
-  const pages = locs(pageXml);
-  const wooProducts = locs(productXml);
-  const posts = locs(postXml);
+  let pages = englishOnly(locs(pageXml));
+  let wooProducts = englishOnly(locs(productXml));
+  let posts = englishOnly(locs(postXml));
 
   /**
    * Product categories, from the REST snapshot when their sitemap is gone.
@@ -395,7 +373,7 @@ async function main() {
    */
   let wooCategories;
   try {
-    wooCategories = locs(await get('/sitemap-xagio-product_cat.xml'));
+    wooCategories = englishOnly(locs(await get('/sitemap-xagio-product_cat.xml')));
   } catch (err) {
     const cats = JSON.parse(await readFile(resolve(ROOT, 'data/wp/product_cat.json'), 'utf8'));
     wooCategories = cats.map((c) => toPath(c.link));
@@ -445,6 +423,39 @@ async function main() {
     );
   }
   console.log(`Pairing verified against ${Object.keys(VERIFIED_PAIRS).length} independent spot checks.`);
+
+  /**
+   * Xagio currently emits only the translated URLs in several XML feeds. The
+   * paired English HTML sitemap still contains the authoritative English side,
+   * so use it when an XML feed yields no English URLs. This keeps a plugin
+   * language-setting change from collapsing a 400-page inventory to zero.
+   */
+  const pairedEnglish = Object.keys(pairs);
+  if (!pages.length) {
+    pages = pairedEnglish.filter(
+      (path) =>
+        !path.startsWith('/product/') &&
+        !path.startsWith('/product-category/') &&
+        !path.startsWith('/blog/'),
+    );
+    console.log(`  page sitemap exposed no English URLs — recovered ${pages.length} from the paired HTML sitemap`);
+  }
+  if (!wooProducts.length) {
+    wooProducts = pairedEnglish.filter((path) => path.startsWith('/product/'));
+    console.log(`  product sitemap exposed no English URLs — recovered ${wooProducts.length} from the paired HTML sitemap`);
+  }
+  if (!posts.length) {
+    posts = pairedEnglish.filter(
+      (path) => path.startsWith('/blog/') && path !== '/blog/' && !path.startsWith('/blog/guide/'),
+    );
+    console.log(`  post sitemap exposed no English URLs — recovered ${posts.length} from the paired HTML sitemap`);
+  }
+  if (!wooCategories.length) {
+    wooCategories = pairedEnglish.filter((path) => path.startsWith('/product-category/'));
+    console.log(
+      `  product-category sitemap exposed no English URLs — recovered ${wooCategories.length} from the paired HTML sitemap`,
+    );
+  }
 
   const known = new Set([
     ...CORE_PAGES,

@@ -5,6 +5,7 @@ import Sections from '@/components/sections';
 import { byEnglishSlug, englishParams } from '@/content/pages/posts';
 import { alternates } from '@/lib/routes';
 import { metaTitle } from '@/lib/page-title';
+import { metadataForPath } from '@/lib/seo';
 
 /** English blog posts at `/blog/<slug>/`. */
 export const dynamicParams = false;
@@ -18,11 +19,12 @@ export async function generateMetadata({ params }) {
   const page = byEnglishSlug(slug);
   if (!page) return {};
   const alt = alternates(page.en);
-  return {
+  return metadataForPath(page.en, {
     title: metaTitle(page, 'en'),
-    description: page.head.description_en || undefined,
-    alternates: { canonical: page.en, languages: { 'en-US': alt.en, 'es-CR': alt.es } },
-  };
+    description: page.head.description_en,
+    en: alt.en,
+    es: alt.es,
+  });
 }
 
 export default async function BlogPostEn({ params }) {

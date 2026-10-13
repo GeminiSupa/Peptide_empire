@@ -84,6 +84,21 @@ const RULES = [
     '/es/tirzepatide-costa-rica/',
     '/es/tirzepatida-costa-rica/',
   ],
+  [
+    'complete peptide guide uses its live root-level URL',
+    '/blog/complete-guide-to-peptides/',
+    '/complete-guide-to-peptides/',
+  ],
+  [
+    'Spanish complete peptide guide uses its live root-level URL',
+    '/es/blog/complete-guide-to-peptides/',
+    '/es/guia-completa-de-peptidos-2/',
+  ],
+  [
+    'Spanish complete peptide guide drops the stale untranslated slug',
+    '/es/complete-guide-to-peptides/',
+    '/es/guia-completa-de-peptidos-2/',
+  ],
 ];
 
 /** Collapse whitespace inside any href="..." in an embedded HTML string. */
