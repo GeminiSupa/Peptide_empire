@@ -197,7 +197,7 @@ async function applyCustomerHistoryAttribution(supabase, order) {
     if (!match) return order;
 
     // The agent who closed them may have left since. Only a currently active
-    // profile can be credited (a selling superadmin counts), otherwise the
+    // profile can be credited (a superadmin who earns commission counts), otherwise the
     // order is left unassigned.
     const profile = (profiles || []).find((row) => agentMatchKeys(row).has(match.agent.toLowerCase()));
     if (!canOwnReturningCustomer(profile)) return order;
