@@ -3690,7 +3690,11 @@ Core Rules:
           current?.id === orderId ? { ...current, status: restored } : current
         ));
       }
-      alert('Could not reach the server, so the status was not changed. Check your connection and try again.');
+      alert(
+        err?.message
+          ? `Could not change the status: ${err.message}`
+          : 'Could not reach the server, so the status was not changed. Check your connection and try again.'
+      );
       return;
     }
 
