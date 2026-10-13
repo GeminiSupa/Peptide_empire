@@ -200,9 +200,8 @@ body {
 
 .catalog-brand-lockup {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    gap: 4px;
     margin-right: auto;
     min-width: 0;
 }
@@ -246,9 +245,12 @@ body {
 
 .catalog-brand-slogan {
     opacity: 0;
-    max-height: 0;
+    max-width: 0;
+    margin-left: 0;
     overflow: hidden;
-    transition: opacity 0.28s ease, max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+    flex: 0 0 auto;
+    transition: opacity 0.28s ease, max-width 0.32s cubic-bezier(0.4, 0, 0.2, 1),
+        margin-left 0.32s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .catalog-page-shell .catalog-brand-compact .catalog-topbar-logo .logo-emblem--full {
@@ -261,7 +263,8 @@ body {
 
 .catalog-brand-compact .catalog-brand-slogan {
     opacity: 1;
-    max-height: 22px;
+    max-width: 220px;
+    margin-left: 12px;
 }
 
 .catalog-page-shell .catalog-brand-compact .catalog-topbar-logo {
