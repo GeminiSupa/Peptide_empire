@@ -208,7 +208,21 @@ body {
 }
 
 .catalog-topbar-logo {
+    position: relative;
+    display: block;
     line-height: 0;
+    height: 36px;
+    aspect-ratio: 2000 / 1680;
+    transition: height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.catalog-page-shell .catalog-topbar .catalog-topbar-logo .logo-emblem {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    transition: opacity 0.28s ease, border-radius 0.32s ease;
 }
 
 .catalog-brand-slogan {
@@ -227,27 +241,34 @@ body {
    the sticky bar shrinks to a slogan-free mark, and the slogan moves below it
    as text — the only size at which it stays readable. */
 .catalog-page-shell .catalog-topbar .catalog-topbar-logo .logo-emblem--mark {
-    display: none;
+    opacity: 0;
 }
 
 .catalog-brand-slogan {
-    display: none;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 0.28s ease, max-height 0.32s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .catalog-page-shell .catalog-brand-compact .catalog-topbar-logo .logo-emblem--full {
-    display: none;
+    opacity: 0;
 }
 
 .catalog-page-shell .catalog-brand-compact .catalog-topbar-logo .logo-emblem--mark {
-    display: block;
+    opacity: 1;
 }
 
 .catalog-brand-compact .catalog-brand-slogan {
-    display: block;
+    opacity: 1;
+    max-height: 22px;
+}
+
+.catalog-page-shell .catalog-brand-compact .catalog-topbar-logo {
+    height: 46px;
 }
 
 .catalog-page-shell .catalog-brand-compact .catalog-topbar-logo .logo-emblem {
-    height: 46px;
     border-radius: 10px;
 }
 
@@ -256,8 +277,15 @@ body {
     letter-spacing: 0.06em;
 }
 
+@media (prefers-reduced-motion: reduce) {
+    .catalog-topbar-logo,
+    .catalog-page-shell .catalog-topbar .catalog-topbar-logo .logo-emblem,
+    .catalog-brand-slogan {
+        transition: none;
+    }
+}
+
 .catalog-topbar .logo-emblem {
-    height: 36px;
     border-radius: 8px;
 }
 
@@ -8761,9 +8789,12 @@ body:has(.product-grid.grid-view) {
     gap: 22px;
   }
 
+  .catalog-page-shell .catalog-topbar-logo {
+    height: 124px;
+  }
+
   .catalog-page-shell .catalog-topbar-logo .logo-emblem {
     display: block;
-    height: 124px;
     border-radius: 20px;
   }
 
@@ -9116,9 +9147,12 @@ body:has(.product-grid.grid-view) {
     min-width: 0;
   }
 
+  .catalog-page-shell .catalog-topbar-logo {
+    height: 88px;
+  }
+
   .catalog-page-shell .catalog-topbar-logo .logo-emblem {
     display: block;
-    height: 88px;
     border-radius: 16px;
   }
 
