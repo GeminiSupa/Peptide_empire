@@ -222,6 +222,40 @@ body {
     white-space: nowrap;
 }
 
+/* At the top of the page the header carries the full logo, its own slogan
+   included, so nothing is repeated underneath it. As soon as the page scrolls
+   the sticky bar shrinks to a slogan-free mark, and the slogan moves below it
+   as text — the only size at which it stays readable. */
+.catalog-page-shell .catalog-topbar .catalog-topbar-logo .logo-emblem--mark {
+    display: none;
+}
+
+.catalog-brand-slogan {
+    display: none;
+}
+
+.catalog-page-shell .catalog-brand-compact .catalog-topbar-logo .logo-emblem--full {
+    display: none;
+}
+
+.catalog-page-shell .catalog-brand-compact .catalog-topbar-logo .logo-emblem--mark {
+    display: block;
+}
+
+.catalog-brand-compact .catalog-brand-slogan {
+    display: block;
+}
+
+.catalog-page-shell .catalog-brand-compact .catalog-topbar-logo .logo-emblem {
+    height: 46px;
+    border-radius: 10px;
+}
+
+.catalog-brand-compact .catalog-brand-slogan {
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+}
+
 .catalog-topbar .logo-emblem {
     height: 36px;
     border-radius: 8px;

@@ -451,6 +451,16 @@ export default function CatalogPage() {
   const { rating: liveTrustpilotRating } = useTrustpilotRating();
   const router = useRouter();
   
+  // Once the page scrolls, the sticky header drops to a small mark so it does
+  // not sit on screen at full height.
+  const [brandCompact, setBrandCompact] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setBrandCompact(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   // Theme, Lang, Currency States
   const [theme, setTheme] = useState('light');
   const [lang, setLang] = useState('es');
@@ -3953,7 +3963,7 @@ export default function CatalogPage() {
     >
       <CatalogCroTicker lang={lang} />
       <CatalogPromoBanner lang={lang} settings={landingSettings} forceActive mode="ticker" />
-      <div className="catalog-sticky-stack">
+      <div className={`catalog-sticky-stack${brandCompact ? ' catalog-brand-compact' : ''}`}>
       <header className="header-top-section catalog-topbar">
         <div className="header-top container catalog-topbar-row">
           <Link
@@ -3965,11 +3975,17 @@ export default function CatalogPage() {
           </Link>
           <div className="catalog-brand-cluster">
           <div className="catalog-brand-lockup">
-          <Link href="/" className="logo logo--emblem catalog-topbar-logo">
+          <Link href="/" className="logo logo--emblem catalog-topbar-logo" aria-label="Peptides Costa Rica">
             <img
               src="/catalog-logo.webp"
               alt="Peptides Costa Rica"
-              className="logo-emblem"
+              className="logo-emblem logo-emblem--full"
+            />
+            <img
+              src="/catalog-logo-mark.webp"
+              alt=""
+              aria-hidden="true"
+              className="logo-emblem logo-emblem--mark"
             />
           </Link>
           <span className="catalog-brand-slogan">
