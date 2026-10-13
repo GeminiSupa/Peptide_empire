@@ -8728,8 +8728,8 @@ body:has(.product-grid.grid-view) {
 
   .catalog-page-shell .catalog-topbar-logo .logo-emblem {
     display: block;
-    height: 56px;
-    border-radius: 12px;
+    height: 76px;
+    border-radius: 14px;
   }
 
   .catalog-about-link {
@@ -9083,8 +9083,8 @@ body:has(.product-grid.grid-view) {
 
   .catalog-page-shell .catalog-topbar-logo .logo-emblem {
     display: block;
-    height: 44px;
-    border-radius: 10px;
+    height: 60px;
+    border-radius: 12px;
   }
 
   .catalog-about-link,
