@@ -29,10 +29,10 @@ export function isEligibleSalesAgentProfile(profile) {
  * Whether a returning customer can be handed back to this team member
  * automatically from their order history.
  *
- * Wider than isEligibleSalesAgentProfile: a superadmin who also sells (Dani)
- * keeps her customers too. Leaving her out sent a repeat customer of hers to
- * Unassigned. A superadmin only counts while they earn commission, which is
- * what tells a selling superadmin (Dani, 10%) from the owner (Webster, 0%).
+ * Wider than isEligibleSalesAgentProfile: an active superadmin who sells
+ * (Dani) keeps her customers too. Leaving her out sent a repeat customer of
+ * hers to Unassigned. Matches activeAgentName in leadOwner.js, so leads and
+ * orders agree on who owns a customer.
  */
 export function canOwnReturningCustomer(profile) {
   if (isEligibleSalesAgentProfile(profile)) return true;
@@ -40,7 +40,6 @@ export function canOwnReturningCustomer(profile) {
   return Boolean(
     profile?.is_superadmin === true
     && status === 'active'
-    && Number(profile.commission_rate) > 0
     && String(profile.name || profile.email || '').trim()
   );
 }

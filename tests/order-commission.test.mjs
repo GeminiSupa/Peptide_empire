@@ -80,8 +80,7 @@ test('sub-users and superadmins are not promoted to sales-agent affiliates', () 
 });
 
 test('a returning customer can go back to an active selling superadmin', () => {
-  assert.equal(canOwnReturningCustomer({ name: 'Dani', tier: 'staff', status: 'active', is_superadmin: true, commission_rate: 10 }), true);
-  assert.equal(canOwnReturningCustomer({ name: 'Webster', tier: 'staff', status: 'active', is_superadmin: true, commission_rate: 0 }), false);
+  assert.equal(canOwnReturningCustomer({ name: 'Dani', tier: 'staff', status: 'active', is_superadmin: true }), true);
   assert.equal(canOwnReturningCustomer({ name: 'Agent', tier: 'staff', status: 'active' }), true);
   assert.equal(canOwnReturningCustomer({ name: 'Gone', tier: 'staff', status: 'suspended', is_superadmin: true }), false);
   assert.equal(canOwnReturningCustomer({ name: 'Sub', tier: 'sub_user', status: 'active' }), false);
