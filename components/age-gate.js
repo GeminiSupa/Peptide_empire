@@ -57,7 +57,7 @@ export default function AgeGate({ lang = 'en' }) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-primary/90 p-4 backdrop-blur-md">
+    <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-slate-950/40 p-4 backdrop-blur-sm">
       <section
         aria-labelledby="age-gate-title"
         aria-modal="true"
@@ -84,7 +84,7 @@ export default function AgeGate({ lang = 'en' }) {
             {copy.disagree}
           </a>
           <button
-            className="min-h-11 cursor-pointer rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-primary/90 hover:shadow-md"
+            className="min-h-11 cursor-pointer rounded-lg bg-accent px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-accent/90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             onClick={accept}
             type="button"
           >
