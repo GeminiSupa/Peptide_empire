@@ -452,13 +452,29 @@ export default function CatalogPage() {
   const router = useRouter();
   
   // Once the page scrolls, the sticky header drops to a small mark so it does
-  // not sit on screen at full height.
+  // not sit on screen at full height. Shrinking it makes the page shorter, and
+  // the browser answers by nudging the scroll position back up — with a single
+  // cut-off that nudge lands on the other side of it and the logo flaps between
+  // its two sizes. Two cut-offs, further apart than the nudge, make each switch
+  // final. Reading inside a frame keeps a fast scroll from measuring on every
+  // one of its events.
   const [brandCompact, setBrandCompact] = useState(false);
   useEffect(() => {
-    const onScroll = () => setBrandCompact(window.scrollY > 24);
-    onScroll();
+    let frame = 0;
+    const measure = () => {
+      frame = 0;
+      const y = window.scrollY;
+      setBrandCompact((wasCompact) => (wasCompact ? y > 120 : y > 220));
+    };
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(measure);
+    };
+    measure();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   // Theme, Lang, Currency States
