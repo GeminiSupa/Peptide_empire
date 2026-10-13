@@ -9,6 +9,7 @@ import {
 } from '../src/lib/orderCommission.mjs';
 import {
   applySalesAgentReferral,
+  canOwnReturningCustomer,
   commissionSourceLabel,
   isAgentReferralSource,
   isEligibleSalesAgentProfile,
@@ -76,6 +77,14 @@ test('sub-users and superadmins are not promoted to sales-agent affiliates', () 
   assert.equal(isEligibleSalesAgentProfile({ name: 'Sub', tier: 'sub_user', status: 'active' }), false);
   assert.equal(isEligibleSalesAgentProfile({ name: 'Owner', tier: 'staff', status: 'active', is_superadmin: true }), false);
   assert.equal(isEligibleSalesAgentProfile({ name: 'Agent', tier: 'staff', status: 'active' }), true);
+});
+
+test('a returning customer can go back to an active selling superadmin', () => {
+  assert.equal(canOwnReturningCustomer({ name: 'Dani', tier: 'staff', status: 'active', is_superadmin: true }), true);
+  assert.equal(canOwnReturningCustomer({ name: 'Agent', tier: 'staff', status: 'active' }), true);
+  assert.equal(canOwnReturningCustomer({ name: 'Gone', tier: 'staff', status: 'suspended', is_superadmin: true }), false);
+  assert.equal(canOwnReturningCustomer({ name: 'Sub', tier: 'sub_user', status: 'active' }), false);
+  assert.equal(canOwnReturningCustomer(undefined), false);
 });
 
 test('linked affiliate detection supports the link column and kind marker', () => {

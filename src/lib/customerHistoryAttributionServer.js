@@ -4,7 +4,7 @@ import {
   buildAgentNameResolver,
   lookupHistoricalAgent,
 } from '@/lib/agentAttribution.mjs';
-import { isEligibleSalesAgentProfile } from '@/lib/salesAgentAffiliate.mjs';
+import { canOwnReturningCustomer } from '@/lib/salesAgentAffiliate.mjs';
 
 export async function applyCustomerHistoryAttribution(supabase, order) {
   if (String(order?.sales_agent || '').trim()) return order;
@@ -19,7 +19,7 @@ export async function applyCustomerHistoryAttribution(supabase, order) {
     if (!match) return order;
 
     const profile = (profiles || []).find((row) => agentMatchKeys(row).has(match.agent.toLowerCase()));
-    if (!isEligibleSalesAgentProfile(profile)) return order;
+    if (!canOwnReturningCustomer(profile)) return order;
 
     return {
       ...order,

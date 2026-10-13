@@ -26,6 +26,25 @@ export function isEligibleSalesAgentProfile(profile) {
 }
 
 /**
+ * Whether a returning customer can be handed back to this team member
+ * automatically from their order history.
+ *
+ * Wider than isEligibleSalesAgentProfile: an active superadmin who sells
+ * (Dani) keeps her customers too. Leaving her out sent a repeat customer of
+ * hers to Unassigned. Matches activeAgentName in leadOwner.js, so leads and
+ * orders agree on who owns a customer.
+ */
+export function canOwnReturningCustomer(profile) {
+  if (isEligibleSalesAgentProfile(profile)) return true;
+  const status = String(profile?.status || 'active').trim().toLowerCase();
+  return Boolean(
+    profile?.is_superadmin === true
+    && status === 'active'
+    && String(profile.name || profile.email || '').trim()
+  );
+}
+
+/**
  * What one sales-agent referral pays, as a whole-number percent.
  *
  * Read off the affiliate row so a rep's cut is something Joe sets in the

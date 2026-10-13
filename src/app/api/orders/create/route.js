@@ -52,6 +52,7 @@ import {
 } from '@/lib/checkoutJunkGuard.mjs';
 import {
   applySalesAgentReferral,
+  canOwnReturningCustomer,
   isEligibleSalesAgentProfile,
   isSalesAgentAffiliate,
   salesAgentReferralRate,
@@ -195,10 +196,11 @@ async function applyCustomerHistoryAttribution(supabase, order) {
     });
     if (!match) return order;
 
-    // The agent who closed them may have left since. Only a currently eligible
-    // profile can be credited, otherwise the order is left unassigned.
+    // The agent who closed them may have left since. Only a currently active
+    // profile can be credited (a selling superadmin counts), otherwise the
+    // order is left unassigned.
     const profile = (profiles || []).find((row) => agentMatchKeys(row).has(match.agent.toLowerCase()));
-    if (!isEligibleSalesAgentProfile(profile)) return order;
+    if (!canOwnReturningCustomer(profile)) return order;
 
     console.log(`[orders/create] Attributed to ${match.agent} from customer history`);
     return {
