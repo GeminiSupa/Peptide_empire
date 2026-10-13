@@ -296,7 +296,7 @@
     color: #667;
   }
 
-  .stats div {
+  .stats > div {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
@@ -601,7 +601,7 @@
     color: #667;
   }
 
-  .stats div {
+  .stats > div {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px 12px;
@@ -631,7 +631,7 @@
     margin-right: 24px;
   }
 
-  .stats div {
+  .stats > div {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
