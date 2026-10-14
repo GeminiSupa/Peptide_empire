@@ -9406,6 +9406,26 @@ body:has(.product-grid.grid-view) {
     font-size: 0.72rem;
   }
 
+  /* The sizes and the More menu share one line, each taking an equal share of
+     it. Left to wrap, a card whose sizes read 10mg/15mg pushed More onto a
+     second line while the card beside it, reading 5mg/20mg, kept all three up
+     — so two neighbours disagreed about how tall a card is. */
+  .catalog-page-shell .product-grid .product-card .dosage-chips {
+    flex-wrap: nowrap;
+  }
+
+  .catalog-page-shell .product-grid .product-card .dosage-chip,
+  .catalog-page-shell .product-grid .product-card .dosage-select {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .catalog-page-shell .product-grid .product-card .dosage-select {
+    padding-right: 16px;
+  }
+
   .catalog-page-shell .product-grid .dosage-chip.is-selected {
     background: #1a1a1a;
     border-color: #1a1a1a;
@@ -9587,4 +9607,19 @@ body:has(.catalog-page-shell) {
   background: #1a1a1a;
   border-color: #1a1a1a;
   color: #fff;
+}
+
+/* On the narrowest phones the size row still has to hold two sizes and the
+   More menu on one line, so the labels drop a notch rather than being cut. */
+@media (max-width: 360px) {
+  .catalog-page-shell .product-grid .product-card .dosage-chip,
+  .catalog-page-shell .product-grid .product-card .dosage-select {
+    font-size: 0.62rem;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  .catalog-page-shell .product-grid .product-card .dosage-select {
+    padding-right: 14px;
+  }
 }
