@@ -41,10 +41,13 @@ export default function AgeGate({ lang = 'en' }) {
 
   useEffect(() => {
     if (!open) return undefined;
-    const previous = document.body.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = previous;
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
     };
   }, [open]);
 
@@ -57,11 +60,11 @@ export default function AgeGate({ lang = 'en' }) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-slate-950/40 p-2 backdrop-blur-sm sm:p-4">
+    <div className="fixed inset-0 z-[10000] box-border flex min-w-0 max-w-full items-center justify-center overflow-x-hidden bg-slate-950/40 p-2 backdrop-blur-sm sm:p-4">
       <section
         aria-labelledby="age-gate-title"
         aria-modal="true"
-        className="max-h-[calc(100dvh-1rem)] w-full max-w-[560px] overscroll-contain overflow-y-auto rounded-2xl border border-white/20 bg-white px-4 py-4 text-center shadow-[0_28px_80px_rgba(0,0,0,0.32)] sm:max-h-[calc(100vh-2rem)] sm:rounded-3xl sm:px-10 sm:py-9"
+        className="box-border min-w-0 w-full max-w-[min(560px,calc(100vw-1rem))] max-h-[calc(100dvh-1rem)] overscroll-contain overflow-x-hidden overflow-y-auto rounded-2xl border border-white/20 bg-white px-4 py-4 text-center shadow-[0_28px_80px_rgba(0,0,0,0.32)] sm:max-h-[calc(100vh-2rem)] sm:max-w-[560px] sm:rounded-3xl sm:px-10 sm:py-9"
         role="dialog"
       >
         <img
@@ -71,35 +74,35 @@ export default function AgeGate({ lang = 'en' }) {
           src="/wp-content/uploads/2026/02/COSTA-RICA-1-e1771916272916.png"
           width="300"
         />
-        <h2 className="mt-3 text-xl leading-6 font-extrabold tracking-tight text-primary sm:mt-5 sm:text-2xl" id="age-gate-title">
+        <h2 className="mt-3 min-w-0 max-w-full break-words text-xl leading-6 font-extrabold tracking-tight text-primary sm:mt-5 sm:text-2xl" id="age-gate-title">
           {copy.title}
         </h2>
-        <p className="mx-auto mt-2 max-w-[390px] text-[13px] leading-[18px] text-black sm:mt-3 sm:text-sm sm:leading-5">{copy.intro}</p>
-        <p className="mx-auto mt-2 max-w-[420px] text-[13px] leading-[18px] text-black sm:mt-4 sm:text-sm sm:leading-5">{copy.confirm}</p>
-        <div className="mt-4 grid grid-cols-2 gap-2 sm:mt-6 sm:gap-3">
+        <p className="mx-auto mt-2 min-w-0 max-w-[390px] break-words text-[13px] leading-[18px] text-black sm:mt-3 sm:text-sm sm:leading-5">{copy.intro}</p>
+        <p className="mx-auto mt-2 min-w-0 max-w-[420px] break-words text-[13px] leading-[18px] text-black sm:mt-4 sm:text-sm sm:leading-5">{copy.confirm}</p>
+        <div className="mt-4 grid min-w-0 max-w-full grid-cols-2 gap-2 max-[279px]:grid-cols-1 sm:mt-6 sm:gap-3">
           <a
-            className="inline-flex min-h-10 items-center justify-center rounded-lg border border-slate-300 bg-white px-2 py-2 text-xs font-bold text-slate-700 transition hover:bg-slate-50 sm:min-h-11 sm:px-4 sm:py-2.5 sm:text-sm"
+            className="inline-flex min-h-10 min-w-0 max-w-full items-center justify-center rounded-lg border border-slate-300 bg-white px-2 py-2 text-center text-xs leading-4 font-bold whitespace-normal text-slate-700 transition hover:bg-slate-50 sm:min-h-11 sm:px-4 sm:py-2.5 sm:text-sm"
             href="https://www.google.com/"
           >
             {copy.disagree}
           </a>
           <button
-            className="min-h-10 cursor-pointer rounded-lg bg-accent px-2 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-accent/90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-h-11 sm:px-4 sm:py-2.5 sm:text-sm"
+            className="min-h-10 min-w-0 max-w-full cursor-pointer rounded-lg bg-accent px-2 py-2 text-center text-xs leading-4 font-bold whitespace-normal text-white shadow-sm transition hover:bg-accent/90 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-h-11 sm:px-4 sm:py-2.5 sm:text-sm"
             onClick={accept}
             type="button"
           >
             {copy.agree}
           </button>
         </div>
-        <label className="mt-3 inline-flex cursor-pointer items-center gap-1.5 text-xs text-primary sm:mt-4">
+        <label className="mt-3 inline-flex min-w-0 max-w-full cursor-pointer items-center gap-1.5 text-xs text-primary sm:mt-4">
           <input checked={remember} className="h-4 w-4 accent-primary" onChange={(event) => setRemember(event.target.checked)} type="checkbox" />
           {copy.remember}
         </label>
-        <details className="mt-3 rounded-xl bg-slate-50 text-left sm:hidden">
-          <summary className="cursor-pointer px-3 py-2.5 text-xs font-bold text-primary">
+        <details className="mt-3 min-w-0 max-w-full overflow-hidden rounded-xl bg-slate-50 text-left sm:hidden">
+          <summary className="cursor-pointer break-words px-3 py-2.5 text-xs font-bold text-primary">
             {lang === 'es' ? 'Términos de uso para investigación' : 'Research-use terms'}
           </summary>
-          <p className="border-t border-slate-200 px-3 py-2.5 text-[10px] leading-4 text-slate-600">{copy.legal}</p>
+          <p className="border-t border-slate-200 px-3 py-2.5 text-[10px] leading-4 break-words [overflow-wrap:anywhere] text-slate-600">{copy.legal}</p>
         </details>
         <p className="mt-5 hidden rounded-xl bg-slate-50 p-4 text-left text-[11px] leading-5 text-slate-600 sm:block">{copy.legal}</p>
       </section>
