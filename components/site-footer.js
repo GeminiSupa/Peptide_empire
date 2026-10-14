@@ -19,10 +19,10 @@ function BulkOffer({ lang }) {
 
   return (
     <section className="bg-primary text-white">
-      <Container className="grid gap-8 py-12 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:gap-24">
+      <Container className="grid gap-5 py-8 sm:gap-8 sm:py-12 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:gap-24">
         <div>
-          <h2 className="text-3xl font-bold !text-white sm:text-4xl">{t(bulk, 'title', lang)}</h2>
-          <p className="mt-5 max-w-xl text-xl leading-7 font-semibold text-white">{lines[0]}</p>
+          <h2 className="text-2xl font-bold !text-white sm:text-4xl">{t(bulk, 'title', lang)}</h2>
+          <p className="mt-3 max-w-xl text-lg leading-6 font-semibold text-white sm:mt-5 sm:text-xl sm:leading-7">{lines[0]}</p>
         </div>
         <div>
           <p className="max-w-lg text-sm leading-6 text-white">{String(lines[1] || '').replace(/^\*\s*/, '')}</p>
@@ -62,7 +62,7 @@ function ReviewBand({ lang }) {
 
   const border = ['border-slate-200', 'border-slate-200', 'border-slate-200'];
   return (
-    <ul className="mt-10 grid gap-3 sm:grid-cols-3">
+    <ul className="footer-review-rail mt-8 grid gap-3 sm:mt-10 sm:grid-cols-3">
       {reviews.map((review, index) => {
         const score = Number(review.value ?? review.score);
         const best = Number(review.best) || 5;
@@ -137,18 +137,18 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
     <footer className="mt-auto border-t border-slate-200 bg-slate-50 text-primary">
       <BulkOffer lang={lang} />
 
-      <Container className="py-14 sm:py-16">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.15fr_0.9fr_0.95fr_1fr]">
-          <div>
+      <Container className="py-10 sm:py-16">
+        <div className="grid grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-2 md:gap-10 lg:grid-cols-[1.15fr_0.9fr_0.95fr_1fr]">
+          <div className="col-span-2 lg:col-span-1">
             <Logo className="mb-4" imageClassName="h-auto w-[156px]" lang={lang} />
-            <p className="text-base leading-6 text-primary">{t(footer, 'blurb', lang)}</p>
+            <p className="text-sm leading-6 text-primary sm:text-base">{t(footer, 'blurb', lang)}</p>
             <h5 className="mt-5 text-lg font-bold text-primary">{headings.legal}</h5>
-            <p className="mt-2 text-sm leading-6 text-primary">{t(footer, 'disclaimer', lang)}</p>
+            <p className="mt-2 text-xs leading-5 text-primary sm:text-sm sm:leading-6">{t(footer, 'disclaimer', lang)}</p>
           </div>
 
           <div>
-            <h5 className="text-xl font-bold text-primary">{headings.quick}</h5>
-            <ul className="mt-4 space-y-2 text-base">
+            <h5 className="text-base font-bold text-primary sm:text-xl">{headings.quick}</h5>
+            <ul className="mt-3 space-y-2 text-sm sm:mt-4 sm:text-base">
               {footer.quickLinks.map((item) => (
                 <li key={`${item.href}-${item.label_en}`}>
                   <FooterLink href={item.href} lang={lang}>{label(item, lang)}</FooterLink>
@@ -158,8 +158,8 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
           </div>
 
           <div>
-            <h5 className="text-xl font-bold text-primary">{headings.categories}</h5>
-            <ul className="mt-4 space-y-2 text-base">
+            <h5 className="text-base font-bold text-primary sm:text-xl">{headings.categories}</h5>
+            <ul className="mt-3 space-y-2 text-sm sm:mt-4 sm:text-base">
               {footer.categories.map((category) => (
                 <li key={`${category.href}-${category.label_en}`}>
                   <FooterLink href={category.href} lang={lang}>{label(category, lang)}</FooterLink>
@@ -168,7 +168,7 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
             </ul>
           </div>
 
-          <div>
+          <div className="col-span-2 lg:col-span-1">
             <h5 className="text-xl font-bold text-primary">{headings.contact}</h5>
             <ul className="mt-4 space-y-3 text-base">
               {footer.contactLinks.map((contact) => {
@@ -207,7 +207,7 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
       <Container className="pb-6">
         <div className="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_10px_30px_rgba(9,39,113,0.06)]">
           <iframe
-            className="h-[300px] w-full border-0 sm:h-[340px]"
+            className="h-[220px] w-full border-0 sm:h-[340px]"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             src="https://www.google.com/maps?q=Costa%20Rica&output=embed&t=k&z=7"

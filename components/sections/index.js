@@ -433,7 +433,7 @@ const ITEMS = {
 /** Elementor's own default container gap, applied when the page declares none. */
 const DEFAULT_GAP = 20;
 
-function Group({ content, lang, demote, depth = 0, inRow = false }) {
+function Group({ content, lang, demote, depth = 0, inRow = false, homeSection }) {
   const {
     dir = 'column',
     width,
@@ -543,7 +543,11 @@ function Group({ content, lang, demote, depth = 0, inRow = false }) {
   // run the full width of the window with centred content inside them.
   if (depth === 0) {
     return (
-      <section className={hide || undefined} style={paint}>
+      <section
+        className={hide || undefined}
+        data-home-section={homeSection}
+        style={paint}
+      >
         <div
           className={`mx-auto w-full px-4 sm:px-6 lg:px-8 ${layout}`}
           // The cap applies whether or not the container is "boxed". On the live
@@ -679,7 +683,7 @@ function group(sections) {
  *   need it because WordPress stores a title outside the body and lets the
  *   theme print it — see GuideArticle, where 24 guides had no <h1> without it.
  */
-export default function Sections({ sections = [], lang, demoteH1 = false, pageTitle }) {
+export default function Sections({ sections = [], lang, demoteH1 = false, pageTitle, home = false }) {
   if (!sections.length) return null;
 
   const entries = group(sections);
@@ -717,6 +721,7 @@ export default function Sections({ sections = [], lang, demoteH1 = false, pageTi
         <Component
           content={section.content}
           demote={demoteH1}
+          homeSection={home ? index : undefined}
           index={index}
           key={`${section.type}-${index}`}
           lang={lang}

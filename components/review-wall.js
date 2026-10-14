@@ -42,7 +42,7 @@ export default function ReviewWall({ content, lang }) {
   const aggregate = content.aggregate;
 
   return (
-    <div className="mt-8 w-full">
+    <div className="review-wall mt-8 w-full">
       {summary && (
         <p className="text-center text-sm font-semibold text-white/80">{summary}</p>
       )}

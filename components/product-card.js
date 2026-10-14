@@ -52,7 +52,7 @@ export default function ProductCard({ product, lang }) {
     // eslint-disable-next-line @next/next/no-img-element -- harvested asset
     <img
       alt={product.name}
-      className="mb-4 aspect-square w-full rounded-xl bg-slate-50 p-3 object-contain"
+      className="product-card-image mb-4 aspect-square w-full rounded-xl bg-slate-50 p-3 object-contain"
       loading="lazy"
       sizes={SIZES.productCard}
       {...image}
@@ -70,7 +70,7 @@ export default function ProductCard({ product, lang }) {
   );
 
   return (
-    <article className="group/card flex h-full flex-col rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_8px_24px_rgba(9,39,113,0.06)] transition duration-200 hover:-translate-y-1 hover:border-primary/20 hover:shadow-[0_16px_34px_rgba(9,39,113,0.12)]">
+    <article className="product-card group/card flex h-full flex-col rounded-2xl border border-slate-200/80 bg-white p-4 shadow-[0_8px_24px_rgba(9,39,113,0.06)] transition duration-200 hover:-translate-y-1 hover:border-primary/20 hover:shadow-[0_16px_34px_rgba(9,39,113,0.12)]">
       {own ? (
         <Link className="flex flex-1 flex-col" href={localePath(own, lang)}>
           {details}
@@ -80,7 +80,7 @@ export default function ProductCard({ product, lang }) {
       )}
       {product.price && <p className="mt-3 text-base font-extrabold text-accent">{product.price}</p>}
       <a
-        className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="product-card-button mt-4 inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
         href={catalogUrl(lang)}
         rel="noopener noreferrer"
         target="_blank"

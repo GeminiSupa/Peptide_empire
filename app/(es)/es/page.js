@@ -30,8 +30,8 @@ export default function HomeEs() {
   return (
     <>
       <SiteHeader lang="es" path="/es/" />
-      <main className="flex-1">
-        <Sections lang="es" sections={page.sections} />
+      <main className="home-page flex-1">
+        <Sections home lang="es" sections={page.sections} />
       </main>
       <SiteFooter lang="es" />
     </>

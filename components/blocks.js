@@ -341,7 +341,7 @@ function BlockList({ content, lang, inGroup }) {
     const inline = content.inline;
     return (
       <ul
-        className={`${gap(inGroup, 'mt-6')} flex ${
+        className={`content-list ${gap(inGroup, 'mt-6')} flex ${
           inline ? 'flex-wrap items-center gap-x-6 gap-y-3' : 'flex-col gap-3'
         }`}
       >
@@ -382,7 +382,7 @@ function BlockList({ content, lang, inGroup }) {
   const Tag = content.ordered ? 'ol' : 'ul';
   return (
     <Tag
-      className={`mt-4 space-y-2 pl-5 text-base leading-relaxed text-text-main ${
+      className={`content-list mt-4 space-y-2 pl-5 text-base leading-relaxed text-text-main ${
         content.ordered ? 'list-decimal' : 'list-disc'
       }`}
     >
@@ -412,7 +412,7 @@ function BlockButton({ content, lang, inGroup }) {
     borderColor: ghost ? (content.color ?? undefined) : undefined,
   };
 
-  const className = `${gap(inGroup, 'mt-8')} inline-flex w-fit items-center justify-center px-7 py-3.5 text-sm font-bold transition hover:brightness-110 ${
+  const className = `block-button ${gap(inGroup, 'mt-8')} inline-flex w-fit items-center justify-center px-7 py-3.5 text-sm font-bold transition hover:brightness-110 ${
     ghost ? 'border' : ''
   } ${bg || ghost ? '' : 'bg-accent text-white'} ${content.radius == null ? 'rounded' : ''}`;
 
@@ -485,7 +485,7 @@ function BlockImage({ content, lang, inGroup, inRow }) {
       // eslint-disable-next-line @next/next/no-img-element -- harvested asset
       <img
         alt={t(content, 'alt', lang)}
-        className={`h-auto ${authored ? '' : 'w-full'} ${
+        className={`content-image h-auto ${authored ? '' : 'w-full'} ${
           inRow ? 'lg:min-w-0 lg:flex-1 lg:basis-0' : ''
         } ${content.align === 'center' ? 'mx-auto' : ''}`}
         height={source.height || content.height || undefined}
@@ -518,7 +518,7 @@ function BlockImage({ content, lang, inGroup, inRow }) {
     // eslint-disable-next-line @next/next/no-img-element -- harvested asset
     <img
       alt={t(content, 'alt', lang)}
-      className="mx-auto h-auto w-full rounded"
+      className="content-image mx-auto h-auto w-full rounded"
       height={source.height || content.height || undefined}
       loading="lazy"
       sizes={source.srcSet ? SIZES.prose : undefined}
@@ -727,7 +727,7 @@ function Cards({ content, lang }) {
 function ProductGrid({ content, lang }) {
   if (!content.products?.length) return null;
   return (
-    <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="product-grid mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       {content.products.map((product, i) => (
         <ProductCard key={`${product.name}-${i}`} lang={lang} product={product} />
       ))}

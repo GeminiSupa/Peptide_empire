@@ -35,8 +35,8 @@ export default function HomeEn() {
   return (
     <>
       <SiteHeader lang="en" path="/" />
-      <main className="flex-1">
-        <Sections lang="en" sections={page.sections} />
+      <main className="home-page flex-1">
+        <Sections home lang="en" sections={page.sections} />
       </main>
       <SiteFooter lang="en" />
     </>

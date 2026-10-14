@@ -223,3 +223,338 @@ h5,
 h6 {
   line-height: 1.3;
 }
+
+/*
+ * Homepage mobile layout.
+ *
+ * The harvested page stores desktop spacing and type sizes inline. These
+ * narrow-screen rules intentionally win over those values, while the desktop
+ * reproduction remains untouched. Long repeated collections become horizontal
+ * snap rails so the page is scannable without removing any indexable content.
+ */
+@media (max-width: 639px) {
+  .home-page [data-home-section] {
+    scroll-margin-top: 5rem;
+  }
+
+  .home-page [data-home-section] > div {
+    gap: 1rem !important;
+  }
+
+  .home-page [data-home-section] h2 {
+    font-size: clamp(1.7rem, 8vw, 2.15rem) !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.03em !important;
+  }
+
+  .home-page [data-home-section] h3 {
+    font-size: 1.15rem !important;
+    line-height: 1.2 !important;
+  }
+
+  /* Hero */
+  .home-page [data-home-section="0"] {
+    padding: 2.25rem 0 2.75rem !important;
+  }
+
+  .home-page [data-home-section="0"] [data-col] {
+    padding: 0 !important;
+  }
+
+  .home-page [data-home-section="0"] h1 {
+    max-width: 11ch;
+    font-size: clamp(2.5rem, 12vw, 3.15rem) !important;
+    line-height: 1.01 !important;
+    letter-spacing: -0.05em !important;
+  }
+
+  .home-page [data-home-section="0"] p {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
+  }
+
+  .home-page [data-home-section="0"] .content-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem 0.8rem;
+  }
+
+  .home-page [data-home-section="0"] .content-list li {
+    font-size: 0.86rem !important;
+    line-height: 1.25;
+  }
+
+  .home-page [data-home-section="0"] .block-button {
+    width: 100%;
+    min-height: 3rem;
+    margin-top: 0.25rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .home-page [data-home-section="0"] .content-image {
+    width: 100% !important;
+    max-width: 20rem !important;
+    max-height: 20rem;
+    margin-inline: auto;
+    object-fit: contain;
+  }
+
+  /* Editorial proof */
+  .home-page [data-home-section="1"] {
+    padding: 1.75rem 0 0.5rem !important;
+  }
+
+  .home-page [data-home-section="1"] p {
+    font-size: 0.78rem !important;
+    letter-spacing: 0.12em !important;
+  }
+
+  .home-page [data-home-section="2"] {
+    padding: 0.75rem 0 2rem !important;
+  }
+
+  .home-page [data-home-section="2"] > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem !important;
+  }
+
+  .home-page [data-home-section="2"] [data-col] {
+    width: auto !important;
+    padding: 1rem 0.75rem !important;
+    gap: 0.65rem !important;
+  }
+
+  .home-page [data-home-section="2"] h2,
+  .home-page [data-home-section="2"] h3 {
+    font-size: 0.95rem !important;
+    letter-spacing: -0.01em !important;
+  }
+
+  .home-page [data-home-section="2"] p {
+    font-size: 0.76rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .home-page [data-home-section="2"] .content-image {
+    max-width: 6.5rem !important;
+    max-height: 2.75rem;
+    margin-inline: auto;
+    object-fit: contain;
+  }
+
+  .home-page [data-home-section="2"] .block-button {
+    width: 100%;
+    margin-top: auto;
+    padding: 0.65rem 0.5rem;
+    font-size: 0.72rem;
+  }
+
+  /* Repeated product collections */
+  .home-page .product-grid {
+    display: flex;
+    margin: 1.25rem -1rem 0;
+    padding: 0.25rem 1rem 1rem;
+    gap: 0.75rem;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 1rem;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
+  }
+
+  .home-page .product-grid::-webkit-scrollbar,
+  .home-page .review-wall ul::-webkit-scrollbar,
+  .footer-review-rail::-webkit-scrollbar,
+  .home-page [data-home-section="6"] > [data-grid]::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-page .product-card {
+    flex: 0 0 min(76vw, 17.5rem);
+    padding: 0.75rem;
+    border-radius: 1rem;
+    scroll-snap-align: start;
+  }
+
+  .home-page .product-card-image {
+    margin-bottom: 0.65rem;
+    padding: 0.5rem;
+  }
+
+  .home-page .product-card h2 {
+    font-size: 0.95rem !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0 !important;
+  }
+
+  .home-page .product-card-button {
+    min-height: 2.75rem;
+    margin-top: 0.75rem;
+  }
+
+  /* Section rhythm */
+  .home-page [data-home-section="3"],
+  .home-page [data-home-section="5"],
+  .home-page [data-home-section="7"],
+  .home-page [data-home-section="8"],
+  .home-page [data-home-section="9"],
+  .home-page [data-home-section="10"],
+  .home-page [data-home-section="12"] {
+    padding-top: 2.5rem !important;
+  }
+
+  .home-page [data-home-section="3"],
+  .home-page [data-home-section="5"],
+  .home-page [data-home-section="8"],
+  .home-page [data-home-section="9"],
+  .home-page [data-home-section="10"] {
+    padding-bottom: 0.5rem !important;
+  }
+
+  /* How we operate: one swipeable story instead of six tall rows. */
+  .home-page [data-home-section="6"] {
+    padding: 0 0 0.5rem !important;
+  }
+
+  .home-page [data-home-section="6"] > [data-grid] {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    margin-inline: -1rem;
+    padding: 0.25rem 1rem 1rem;
+    gap: 0.75rem !important;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 1rem;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
+  }
+
+  .home-page [data-home-section="6"] > [data-grid] > div {
+    flex: 0 0 min(82vw, 19rem);
+    padding: 1.25rem !important;
+    border-radius: 1rem !important;
+    scroll-snap-align: start;
+  }
+
+  .home-page [data-home-section="6"] p {
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Packaging, popular products and offer bands. */
+  .home-page [data-home-section="7"] {
+    padding-bottom: 2.75rem !important;
+  }
+
+  .home-page [data-home-section="7"] [data-col],
+  .home-page [data-home-section="8"] [data-col],
+  .home-page [data-home-section="9"] [data-col] {
+    padding: 1.25rem !important;
+  }
+
+  .home-page [data-home-section="7"] .content-image,
+  .home-page [data-home-section="9"] .content-image {
+    max-height: 16rem;
+    margin-inline: auto;
+    object-fit: contain;
+  }
+
+  .home-page [data-home-section="9"] > div > [data-col]:last-child > div:first-child {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    margin-inline: -1.25rem;
+    padding: 0.25rem 1.25rem 1rem;
+    gap: 0.75rem !important;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 1.25rem;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
+  }
+
+  .home-page [data-home-section="9"] > div > [data-col]:last-child > div:first-child::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-page [data-home-section="9"] > div > [data-col]:last-child > div:first-child > [data-col] {
+    flex: 0 0 min(82vw, 19rem);
+    padding: 1.1rem !important;
+    scroll-snap-align: start;
+  }
+
+  .home-page [data-home-section="8"] [data-col]:last-child .content-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding-left: 0;
+    list-style: none;
+  }
+
+  .home-page [data-home-section="8"] [data-col]:last-child .content-list li {
+    font-size: 0.85rem !important;
+    line-height: 1.3;
+  }
+
+  /* The source intentionally hides this retired grid; do not leave its title orphaned. */
+  .home-page [data-home-section="10"] {
+    display: none;
+  }
+
+  /* Reviews */
+  .home-page [data-home-section="11"] {
+    padding: 2.75rem 0 !important;
+  }
+
+  .home-page .review-wall {
+    margin-top: 1.25rem;
+  }
+
+  .home-page .review-wall ul {
+    display: flex;
+    margin-inline: -1rem;
+    padding: 0.25rem 1rem 1rem;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-padding-inline: 1rem;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
+  }
+
+  .home-page .review-wall li {
+    flex: 0 0 min(82vw, 19rem);
+    padding: 1rem;
+    scroll-snap-align: start;
+  }
+
+  /* FAQ */
+  .home-page [data-home-section="12"] {
+    padding-bottom: 3rem !important;
+  }
+
+  .home-page [data-home-section="12"] [data-col] {
+    padding: 0 !important;
+  }
+
+  .home-page [data-home-section="12"] .content-image {
+    display: none;
+  }
+
+  /* Footer collections use the same thumb-friendly rail pattern. */
+  .footer-review-rail {
+    display: flex;
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+    overflow-x: auto;
+    scroll-padding-inline: 1rem;
+    scroll-snap-type: inline mandatory;
+    scrollbar-width: none;
+  }
+
+  .footer-review-rail > li {
+    flex: 0 0 min(78vw, 18rem);
+    scroll-snap-align: start;
+  }
+}

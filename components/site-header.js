@@ -32,14 +32,14 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
       <header className="relative z-40 border-b border-slate-200/80 bg-white/95 shadow-[0_4px_18px_rgba(9,39,113,0.06)] backdrop-blur">
       {/* Announcement bar */}
       <div className="bg-primary text-white">
-        <Container className="flex flex-col items-center justify-between gap-1 py-2 text-center text-xs sm:flex-row sm:text-left sm:text-[13px]">
-          <p className="inline-flex items-center gap-1.5 font-medium uppercase">
-            <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
+        <Container className="flex items-center justify-between gap-2 py-1.5 text-left text-[10px] sm:py-2 sm:text-[13px]">
+          <p className="inline-flex min-w-0 flex-1 items-center gap-1.5 leading-tight font-medium uppercase">
+            <MapPin aria-hidden="true" className="hidden h-3.5 w-3.5 shrink-0 sm:block" />
             {t(announcement, 'text', lang)}
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
+          <div className="flex shrink-0 items-center gap-2 sm:gap-3">
             <Link
-              className="inline-flex items-center gap-1.5 font-medium hover:underline"
+              className="hidden items-center gap-1.5 font-medium hover:underline sm:inline-flex"
               href={lp('/contact-costa-rica/')}
             >
               <Mail aria-hidden="true" className="h-3.5 w-3.5" />
@@ -50,11 +50,11 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
                 second as an outline. */}
             {headerContact.map((c, i) => (
               <a
-                className={
+                className={`${i > 0 ? 'hidden sm:inline-flex' : 'inline-flex'} items-center gap-1 rounded-[5px] px-2 py-1.5 text-[11px] font-semibold whitespace-nowrap transition sm:gap-1.5 sm:px-[15px] sm:py-2.5 sm:text-[13px] ${
                   i === 0
-                    ? 'inline-flex items-center gap-1.5 rounded-[5px] bg-[#D14900] px-[15px] py-2.5 text-[13px] font-semibold text-white transition hover:brightness-110'
-                    : 'inline-flex items-center gap-1.5 rounded-[6px] bg-white px-[15px] py-2.5 text-[13px] font-semibold text-primary transition hover:bg-white/90'
-                }
+                    ? 'bg-[#D14900] text-white hover:brightness-110'
+                    : 'bg-white text-primary hover:bg-white/90'
+                }`}
                 href={c.href}
                 key={c.href}
               >
