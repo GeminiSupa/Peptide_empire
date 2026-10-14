@@ -32,6 +32,7 @@
  */
 
 import { isBacWater } from './bacWater.mjs';
+import { dealProductNamesMatch } from './catalogFilters.mjs';
 
 export const OFFERS_PRICING_MODE = 'offers';
 export const MIX_OFFER_TYPE = 'mix';
@@ -188,14 +189,16 @@ export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge =
   }
 
   const offerResults = clean.items.filter((item) => item.enabled).map((item) => {
-    const eligibleKeys = new Set(item.product_names.map(nameKey));
+    // Exact name, or the same product under an older deal spelling after a
+    // rename ("GLP-1 30mg" still matches "GLP-1 (RT) – Agonista Triple 30mg").
+    const lineEligible = (line) => item.product_names.some((candidate) => dealProductNamesMatch(candidate, line.product));
     if (item.type === FLAT_OFFER_TYPE) {
       // Only the sale products are discounted, so the saving is measured on
       // their own lines. One vial is enough: there is no minimum to reach.
       let eligibleSubtotal = 0;
       let units = 0;
       for (const line of paidLines) {
-        if (!eligibleKeys.has(line.key)) continue;
+        if (!lineEligible(line)) continue;
         eligibleSubtotal += line.unitPrice * line.qty;
         units += line.qty;
       }
@@ -203,7 +206,7 @@ export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge =
       return { id: item.id, dealId: item.deal_id, type: item.type, config: item, qualifies: units > 0 && savings > 0, savings, units, minUnits: 0 };
     }
     if (item.type === MIX_OFFER_TYPE) {
-      const units = paidLines.reduce((sum, line) => sum + (eligibleKeys.has(line.key) ? line.qty : 0), 0);
+      const units = paidLines.reduce((sum, line) => sum + (lineEligible(line) ? line.qty : 0), 0);
       const qualifies = units >= item.min_units;
       const savings = qualifies ? item.discount_pct * (merchSubtotal + (Number(bacCharge) || 0)) : 0;
       return { id: item.id, dealId: item.deal_id, type: item.type, config: item, qualifies, savings, units, minUnits: item.min_units };
@@ -214,7 +217,7 @@ export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge =
       // another half-price vial.
       const prices = [];
       for (const line of paidLines) {
-        if (!eligibleKeys.has(line.key)) continue;
+        if (!lineEligible(line)) continue;
         for (let i = 0; i < line.qty; i += 1) prices.push(line.unitPrice);
       }
       const cheapest = prices.length >= 2 ? Math.min(...prices) : 0;
@@ -233,7 +236,7 @@ export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge =
 
     const quantities = new Map();
     for (const line of paidLines) {
-      if (!eligibleKeys.has(line.key)) continue;
+      if (!lineEligible(line)) continue;
       // One product can arrive on two lines; the vials still count together.
       const entry = quantities.get(line.key) || { product: line.product, qty: 0, unitPrice: line.unitPrice, inventoryCount: line.inventoryCount };
       entry.qty += line.qty;
@@ -503,18 +506,20 @@ export function dealOfferCartMessage(choice, deal, lang = 'en') {
     if (item.type === FLAT_OFFER_TYPE) {
       const pct = Math.round(item.discount_pct * 100);
       return isEn
-        ? `add ${item.product_names.join(' or ')} for ${pct}% off`
-        : `agrega ${item.product_names.join(' o ')} para ${pct}% de descuento`;
+        ? `add a sale item for ${pct}% off`
+        : `agrega un producto en oferta para ${pct}% de descuento`;
     }
     if (item.type === PAIR_OFFER_TYPE) {
       const pct = Math.round(item.discount_pct * 100);
       return isEn
-        ? `add a 2nd vial and the lower-priced one is ${pct}% off`
-        : `agrega un 2.º vial y el de menor precio queda con ${pct}% de descuento`;
+        ? `add a 2nd vial for ${pct}% off the cheaper one`
+        : `agrega un 2.º vial para ${pct}% en el más barato`;
     }
+    // Keep this short: the cart drawer is small, and the long "qualifying vials
+    // in any combination…" wording filled half the screen on a phone.
     return isEn
-      ? `buy ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'qualifying vials in any combination' : 'of the same qualifying vial'} to get ${item.free_qty} free of equal or lesser value${item.max_free_qty > 0 ? ` (up to ${item.max_free_qty} free per order)` : ''}`
-      : `compra ${item.buy_qty} ${item.count_mode === ANY_MIX_COUNT ? 'viales participantes en cualquier combinación' : 'del mismo vial participante'} y llévate ${item.free_qty} gratis de igual o menor valor${item.max_free_qty > 0 ? ` (máximo ${item.max_free_qty} gratis por pedido)` : ''}`;
+      ? `buy ${item.buy_qty} get ${item.free_qty} free`
+      : `compra ${item.buy_qty} y llévate ${item.free_qty} gratis`;
   });
   if (nudge && hints.length === 0) return nudge;
   const parts = nudge ? [nudge.replace(/\.$/, ''), ...hints] : hints;
@@ -632,7 +637,7 @@ export function flatOfferBadgeForProduct(offers, productName, lang = 'es') {
   let best = null;
   for (const item of normalizeDealOffers(offers).items) {
     if (item.type !== FLAT_OFFER_TYPE || !item.enabled) continue;
-    if (!item.product_names.some((candidate) => nameKey(candidate) === name)) continue;
+    if (!item.product_names.some((candidate) => dealProductNamesMatch(candidate, productName))) continue;
     const pct = Math.round((Number(item.discount_pct) || 0) * 100);
     if (pct <= 0 || pct >= 100) continue;
     if (!best || pct > best.discountPct) {

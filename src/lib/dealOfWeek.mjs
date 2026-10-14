@@ -12,6 +12,7 @@
  */
 
 import { crWallToIso, formatCrInstant, CR_UTC_OFFSET_HOURS } from './crTime.mjs';
+import { dealProductNamesMatch } from './catalogFilters.mjs';
 import { dealFieldsMatch } from './dealProductProtection.mjs';
 import { OFFERS_PRICING_MODE, dealOfferSummaries, normalizeDealOffers } from './dealOffers.mjs';
 
@@ -366,9 +367,14 @@ export function dealMaxUnits(deal) {
 }
 
 export function dealEligibleUnits(deal, items = []) {
-  const names = new Set((deal?.product_names || []).map((name) => String(name).trim().toLowerCase()));
-  return (items || []).reduce((sum, item) => names.has(String(item?.product || item?.name || '').trim().toLowerCase())
-    ? sum + Math.max(0, Math.floor(Number(item?.qty || item?.quantity || 0))) : sum, 0);
+  const names = deal?.product_names || [];
+  return (items || []).reduce((sum, item) => {
+    const product = item?.product || item?.name || '';
+    const qualifies = names.some((name) => dealProductNamesMatch(name, product));
+    return qualifies
+      ? sum + Math.max(0, Math.floor(Number(item?.qty || item?.quantity || 0)))
+      : sum;
+  }, 0);
 }
 
 export function automaticDealPromo(deal, items = []) {

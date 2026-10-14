@@ -100,6 +100,7 @@ import ExitIntentOffer from '@/components/catalog/ExitIntentOffer';
 import { mergeLandingPageSettings } from '@/lib/landingContent';
 import {
   productInDeal,
+  dealProductNamesMatch,
   readCatalogParams,
   resolveCategoryParam,
   productMatchesCatalogSearch,
@@ -566,6 +567,10 @@ export default function CatalogPage() {
   const [promoLoading, setPromoLoading] = useState(false);
   const [promoError, setPromoError] = useState('');
   const [weeklyDeal, setWeeklyDeal] = useState(null);
+  // Cart promo/BAC notices: shoppers could not close them, and on a phone the
+  // deal nudge ate half the drawer. Session-only so they can come back next visit.
+  const [hideDealCartNote, setHideDealCartNote] = useState(false);
+  const [hideBacCartNote, setHideBacCartNote] = useState(false);
   const [customerIdType, setCustomerIdType] = useState('1');
   const [customerIdNumber, setCustomerIdNumber] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('whatsapp');
@@ -596,6 +601,18 @@ export default function CatalogPage() {
     logWhatsAppSource('catalog_sticky_cta', lang);
     localStorage.setItem('whatsapp_source', 'catalog_sticky_cta');
     window.open(buildWhatsAppLink(links.whatsappNumber, null, lang), '_blank', 'noopener,noreferrer');
+  };
+
+  const openProductWhatsApp = (productName) => {
+    logWhatsAppSource('product_page_sticky', lang);
+    localStorage.setItem('whatsapp_source', 'product_page_sticky');
+    const name = String(productName || '').trim();
+    const message = name
+      ? (lang === 'en'
+        ? `Hi, I'm interested in ${name}.`
+        : `Hola, me interesa ${name}.`)
+      : null;
+    window.open(buildWhatsAppLink(links.whatsappNumber, message, lang), '_blank', 'noopener,noreferrer');
   };
 
   // Reviews States
@@ -2011,6 +2028,44 @@ export default function CatalogPage() {
     setPendingCategory(null);
   }, [pendingCategory, products]);
 
+  // Deal-of-the-week used to drop name-mismatched products into the cart as
+  // stubs with no price (₡0) and a fallback photo. Once the catalog loads,
+  // swap those lines for the live product row.
+  useEffect(() => {
+    if (!products.length || !cart.length) return;
+    const needsRepair = cart.some((item) => {
+      const priced = parseFloat(String(item?.priceUsd ?? '').replace(/[^0-9.]/g, '')) || 0;
+      if (priced > 0) return false;
+      return products.some((product) => (
+        product.product === item.product
+        || dealProductNamesMatch(item.product, product.product)
+      ));
+    });
+    if (!needsRepair) return;
+    setCart((current) => {
+      let changed = false;
+      const next = current.map((item) => {
+        const priced = parseFloat(String(item?.priceUsd ?? '').replace(/[^0-9.]/g, '')) || 0;
+        if (priced > 0) return item;
+        const match = products.find((product) => (
+          product.product === item.product
+          || dealProductNamesMatch(item.product, product.product)
+        ));
+        if (!match) return item;
+        changed = true;
+        return {
+          ...item,
+          ...match,
+          qty: item.qty,
+          product: match.product,
+          priceUsd: match.priceUsd || item.priceUsd,
+          imageUrl: match.imageUrl || item.imageUrl,
+        };
+      });
+      return changed ? next : current;
+    });
+  }, [products, cart]);
+
   // Science/peptide themed icon for each category (no pills!)
   const getCategoryIcon = (cat, size = 28) => {
     const c = (cat || '').toLowerCase();
@@ -2502,8 +2557,10 @@ export default function CatalogPage() {
 
   const getMatchedWeeklyDeal = () => {
     if (!weeklyDeal) return null;
-    const targets = new Set((weeklyDeal.product_names || []).map((name) => String(name).toLowerCase()));
-    return cart.some((item) => targets.has(String(item.product).toLowerCase())) ? weeklyDeal : null;
+    const targets = weeklyDeal.product_names || [];
+    return cart.some((item) => targets.some((name) => dealProductNamesMatch(name, item.product)))
+      ? weeklyDeal
+      : null;
   };
 
   const getAutomaticDealDiscount = () => automaticDealPromo(getMatchedWeeklyDeal(), cart);
@@ -5184,13 +5241,21 @@ export default function CatalogPage() {
 
             {/* BAC water breakdown — the free gift always shows so the customer
                 sees it even when they add no paid water; billed extras follow. */}
-            {(getBacSummary().freeUnits > 0 || getBacSummary().bacUnits > 0) && (
-              <div style={{ background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '10px', padding: '8px 12px', marginBottom: '8px', fontSize: '0.75rem', color: '#0369a1', fontWeight: '600' }}>
+            {!hideBacCartNote && (getBacSummary().freeUnits > 0 || getBacSummary().bacUnits > 0) && (
+              <div style={{ position: 'relative', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '10px', padding: '8px 28px 8px 12px', marginBottom: '8px', fontSize: '0.75rem', color: '#0369a1', fontWeight: '600' }}>
+                <button
+                  type="button"
+                  onClick={() => setHideBacCartNote(true)}
+                  aria-label={lang === 'en' ? 'Hide BAC water note' : 'Ocultar nota de agua BAC'}
+                  style={{ position: 'absolute', top: 4, right: 4, border: 0, background: 'transparent', color: '#0369a1', cursor: 'pointer', padding: 4, lineHeight: 1 }}
+                >
+                  <X size={14} />
+                </button>
                 {getBacSummary().freeUnits > 0 && (
                   <div style={bacBreakdownRowStyle}>
                     <span style={bacBreakdownLabelStyle}>🎁 {lang === 'en'
-                      ? `Standard peptide benefit — free BAC water: ${getBacSummary().freeLines.map((l) => `${l.qty} × ${l.sizeMl}ml`).join(' + ')}`
-                      : `Beneficio estándar del péptido — agua BAC gratis: ${getBacSummary().freeLines.map((l) => `${l.qty} × ${l.sizeMl}ml`).join(' + ')}`}</span>
+                      ? `Free BAC water: ${getBacSummary().freeLines.map((l) => `${l.qty} × ${l.sizeMl}ml`).join(' + ')}`
+                      : `Agua BAC gratis: ${getBacSummary().freeLines.map((l) => `${l.qty} × ${l.sizeMl}ml`).join(' + ')}`}</span>
                     <span style={{ ...bacBreakdownAmountStyle, color: '#15803d', fontWeight: 800 }}>{lang === 'en' ? 'FREE' : 'GRATIS'}</span>
                   </div>
                 )}
@@ -5224,7 +5289,7 @@ export default function CatalogPage() {
             )}
 
             {/* Promo Code UI */}
-            {getMatchedWeeklyDeal() && (() => {
+            {!hideDealCartNote && getMatchedWeeklyDeal() && (() => {
               const offerChoice = getDealOfferChoice();
               const tierNudge = offerChoice && !getWeeklyDealLimitError()
                 ? dealOfferNextTierNudge(offerChoice, lang)
@@ -5232,8 +5297,16 @@ export default function CatalogPage() {
               const loud = Boolean(tierNudge);
               return (
                 <div style={loud
-                  ? { marginBottom: '10px', padding: '12px 14px', borderRadius: '12px', background: 'linear-gradient(135deg, rgba(249,115,22,.28), rgba(234,88,12,.14))', border: '1px solid rgba(249,115,22,.65)', color: '#9a3412', fontSize: '0.95rem', fontWeight: 800, textAlign: 'center', lineHeight: 1.35 }
-                  : { marginBottom: '10px', padding: '9px 12px', borderRadius: '10px', background: 'rgba(249,115,22,.1)', color: getWeeklyDealLimitError() ? '#b91c1c' : '#c2410c', fontSize: '.78rem', fontWeight: 700 }}>
+                  ? { position: 'relative', marginBottom: '10px', padding: '10px 28px 10px 12px', borderRadius: '12px', background: 'linear-gradient(135deg, rgba(249,115,22,.28), rgba(234,88,12,.14))', border: '1px solid rgba(249,115,22,.65)', color: '#9a3412', fontSize: '0.85rem', fontWeight: 800, textAlign: 'center', lineHeight: 1.35 }
+                  : { position: 'relative', marginBottom: '10px', padding: '8px 28px 8px 12px', borderRadius: '10px', background: 'rgba(249,115,22,.1)', color: getWeeklyDealLimitError() ? '#b91c1c' : '#c2410c', fontSize: '.78rem', fontWeight: 700 }}>
+                  <button
+                    type="button"
+                    onClick={() => setHideDealCartNote(true)}
+                    aria-label={lang === 'en' ? 'Hide deal note' : 'Ocultar nota de oferta'}
+                    style={{ position: 'absolute', top: 4, right: 4, border: 0, background: 'transparent', color: 'inherit', cursor: 'pointer', padding: 4, lineHeight: 1 }}
+                  >
+                    <X size={14} />
+                  </button>
                   {loud
                     ? `🔥 ${tierNudge}`
                     : (offerChoice
@@ -6215,14 +6288,26 @@ export default function CatalogPage() {
                       <span>{en ? 'Total price' : 'Precio total'}</span>
                       <strong>{lineTotalLabel}</strong>
                     </div>
-                    <button
-                      type="button"
-                      className="product-page-sticky-add"
-                      onClick={addProduct}
-                      disabled={!inStock}
-                    >
-                      {inStock ? (en ? 'Add to cart' : 'Agregar') : translateStatus(selectedProduct.status)}
-                    </button>
+                    <div className="product-page-sticky-actions">
+                      <button
+                        type="button"
+                        className="product-page-sticky-add"
+                        onClick={addProduct}
+                        disabled={!inStock}
+                      >
+                        {inStock ? (en ? 'Add to cart' : 'Agregar') : translateStatus(selectedProduct.status)}
+                      </button>
+                      <button
+                        type="button"
+                        className="product-page-sticky-wa"
+                        onClick={() => openProductWhatsApp(selectedProduct.product)}
+                        aria-label={en ? 'Ask on WhatsApp' : 'Consultar por WhatsApp'}
+                      >
+                        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor">
+                          <path d="M20.5 3.5A11 11 0 0 0 2.1 17.2L1 23l5.9-1.6A11 11 0 1 0 20.5 3.5zm-8.5 17a9.1 9.1 0 0 1-4.6-1.3l-.3-.2-3.5.9.9-3.4-.2-.3a9.1 9.1 0 1 1 7.7 4.3zm5-6.8c-.3-.1-1.6-.8-1.9-.9s-.4-.1-.6.1-.7.9-.8 1-.3.2-.6.1a7.4 7.4 0 0 1-2.2-1.4 8.2 8.2 0 0 1-1.5-1.9c-.2-.3 0-.4.1-.6l.4-.5.1-.3a.5.5 0 0 0 0-.5l-.6-1.4c-.2-.4-.3-.4-.6-.4h-.5a1 1 0 0 0-.7.3 2.9 2.9 0 0 0-.9 2.2 5 5 0 0 0 1.1 2.7 11.5 11.5 0 0 0 4.4 3.9 15 15 0 0 0 1.5.6 3.6 3.6 0 0 0 1.6.1 2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.6-.3z" />
+                        </svg>
+                      </button>
+                    </div>
                   </aside>
                 </>
               );

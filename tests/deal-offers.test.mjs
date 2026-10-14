@@ -215,7 +215,7 @@ test('the cart message says which offer applied, or how to reach one', () => {
   const deal = { offers: OFFERS };
   assert.match(dealOfferCartMessage(chooseDealOffer(OFFERS, [line('BPC-157 10mg', 2, 100)]), deal, 'en'), /10% off your whole order is applied/);
   assert.match(dealOfferCartMessage(chooseDealOffer(OFFERS, [line('Retatrutide 12mg', 4, 150)]), deal, 'en'), /1 × Retatrutide 12mg FREE/);
-  assert.match(dealOfferCartMessage(chooseDealOffer(OFFERS, [line('BPC-157 10mg', 1, 100)]), deal, 'en'), /Add 1 more vial to unlock 10% off.*or buy 4 of the same qualifying/);
+  assert.match(dealOfferCartMessage(chooseDealOffer(OFFERS, [line('BPC-157 10mg', 1, 100)]), deal, 'en'), /Add 1 more vial to unlock 10% off.*or buy 4 get/);
   assert.match(dealOfferCartMessage(chooseDealOffer(OFFERS, [line('BPC-157 10mg', 5, 100)], { volumePct: 15 }), deal, 'es'), /descuento por volumen/);
 });
 

@@ -30,10 +30,62 @@ export function catalogNameKey(value = '') {
   return String(value ?? '').replace(/\s+/g, ' ').trim().toLowerCase();
 }
 
+const PRODUCT_DOSE_RE = /(\d+(?:\.\d+)?)\s*(mg|iu|ml|mcg|µg)\s*$/i;
+
+/** Trailing dose only ("30mg", "12iu"). Empty when the name has none. */
+export function productDoseKey(value = '') {
+  const match = catalogNameKey(value).match(PRODUCT_DOSE_RE);
+  return match ? `${match[1]}${match[2].toLowerCase().replace('µg', 'mcg')}` : '';
+}
+
+/** Name with the trailing dose stripped, dashes normalised. */
+export function productBaseKey(value = '') {
+  return catalogNameKey(value)
+    .replace(PRODUCT_DOSE_RE, '')
+    .replace(/[–—−-]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * True when a deal still lists a product under an older name after a rename
+ * (e.g. "GLP-1 30mg" vs "GLP-1 (RT) – Agonista Triple 30mg"). Same dose is
+ * required so "5mg" never matches "15mg".
+ */
+export function dealProductNamesMatch(left = '', right = '') {
+  const a = catalogNameKey(left);
+  const b = catalogNameKey(right);
+  if (!a || !b) return false;
+  if (a === b) return true;
+  const doseA = productDoseKey(left);
+  const doseB = productDoseKey(right);
+  if (!doseA || doseA !== doseB) return false;
+  const baseA = productBaseKey(left);
+  const baseB = productBaseKey(right);
+  if (!baseA || !baseB) return false;
+  if (baseA.startsWith(baseB) || baseB.startsWith(baseA)) return true;
+  const tokenA = baseA.split(' ')[0];
+  const tokenB = baseB.split(' ')[0];
+  return Boolean(tokenA) && tokenA === tokenB && tokenA.length >= 3;
+}
+
+/**
+ * Map a deal's stored product name onto the live catalog spelling. Exact match
+ * wins; otherwise a single unambiguous rename match. Null when nothing fits —
+ * never guess between two candidates.
+ */
+export function resolveDealProductName(dealName = '', catalogNames = []) {
+  const list = Array.isArray(catalogNames) ? catalogNames : [];
+  const exact = list.find((name) => catalogNameKey(name) === catalogNameKey(dealName));
+  if (exact) return exact;
+  const matches = list.filter((name) => dealProductNamesMatch(dealName, name));
+  return matches.length === 1 ? matches[0] : null;
+}
+
 /** Whether a catalog product is one of the weekly deal's products. */
 export function productInDeal(product = {}, dealProductNames = []) {
-  const wanted = new Set((dealProductNames || []).map(catalogNameKey));
-  return wanted.has(catalogNameKey(product?.product));
+  const name = product?.product;
+  return (dealProductNames || []).some((candidate) => dealProductNamesMatch(candidate, name));
 }
 
 /**

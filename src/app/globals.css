@@ -1956,6 +1956,13 @@ body {
     color: #171717;
 }
 
+.product-page-sticky-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 0 0 auto;
+}
+
 .product-page-sticky-add {
     border: 0;
     border-radius: 8px;
@@ -1972,6 +1979,30 @@ body {
 .product-page-sticky-add:disabled {
     background: #94a3b8;
     cursor: not-allowed;
+}
+
+.product-page-sticky-wa {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    border-radius: 999px;
+    background: #25d366;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(37, 211, 102, 0.35);
+    flex: 0 0 auto;
+}
+
+.product-page-sticky-wa:hover {
+    background: #1ebe57;
+}
+
+.product-page-sticky-wa:focus-visible {
+    outline: 3px solid #166534;
+    outline-offset: 2px;
 }
 
 @media (min-width: 760px) {

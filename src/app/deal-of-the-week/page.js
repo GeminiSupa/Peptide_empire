@@ -9,7 +9,7 @@ import { usePublicPageContent } from '@/hooks/usePublicPageContent';
 import { useDealPageExperiment } from '@/hooks/useDealPageExperiment';
 import { useSharedCart } from '@/hooks/useSharedCart';
 import { PRODUCT_SELECT } from '@/lib/catalogProducts';
-import { sortCatalogPopOrder } from '@/lib/catalogFilters.mjs';
+import { catalogNameKey, dealProductNamesMatch, resolveDealProductName, sortCatalogPopOrder } from '@/lib/catalogFilters.mjs';
 import { dealMaxUnits, dealMinUnits, dealPricingMode } from '@/lib/dealOfWeek.mjs';
 import { OFFERS_PRICING_MODE, chooseDealOffer, dealOfferCartMessage, dealOfferRuleSummaries, dealOfferSummaries, normalizeDealOffers } from '@/lib/dealOffers.mjs';
 import { isBacWater } from '@/lib/bacWater.mjs';
@@ -33,9 +33,7 @@ const priceNumber = (value) => {
   return Number.isFinite(number) ? number : 0;
 };
 
-// Some product names are stored with a non-breaking space ("GLP-1 10mg"),
-// so names are compared with every kind of space collapsed.
-const nameKey = (value) => String(value ?? '').replace(/\s+/g, ' ').trim().toLowerCase();
+const nameKey = catalogNameKey;
 
 const parseDbPrice = (value) => {
   const number = Number.parseFloat(String(value ?? '').replace(/[^0-9.]/g, ''));
@@ -144,13 +142,23 @@ export default function DealOfTheWeekPage() {
       .select(PRODUCT_SELECT)
       .order('priority', { ascending: true })
       .then(({ data }) => {
-        const allowed = new Set(names.map(nameKey));
-        const rows = (data || []).filter((row) => allowed.has(nameKey(row.product)));
-        const found = new Set(rows.map((row) => nameKey(row.product)));
-        const missing = names
-          .filter((name) => !found.has(nameKey(name)))
-          .map((name) => ({ product: name }));
-        setProducts(sortCatalogPopOrder([...rows, ...missing], dealProductSortPredicates));
+        const catalog = data || [];
+        const catalogNames = catalog.map((row) => row.product);
+        const rows = [];
+        const seen = new Set();
+        for (const dealName of names) {
+          // Exact name, or the live spelling after a rename. Never invent a
+          // stub with no price/photo — that put ₡0 vials in the cart.
+          const resolved = resolveDealProductName(dealName, catalogNames);
+          if (!resolved) continue;
+          const key = nameKey(resolved);
+          if (seen.has(key)) continue;
+          const row = catalog.find((item) => nameKey(item.product) === key);
+          if (!row) continue;
+          seen.add(key);
+          rows.push(row);
+        }
+        setProducts(sortCatalogPopOrder(rows, dealProductSortPredicates));
         setProductsReady(true);
       }, () => setProductsReady(true));
   }, [deal]);
@@ -252,8 +260,9 @@ export default function DealOfTheWeekPage() {
 
   // The cart is the catalog's own (see useSharedCart), so what is added here
   // is in the cart at checkout. Only deal products count toward the minimum.
-  const dealKeys = new Set((deal?.product_names || []).map(nameKey));
-  const dealUnits = cart.reduce((sum, item) => sum + (dealKeys.has(nameKey(item.product)) ? Number(item.qty) || 0 : 0), 0);
+  const dealNames = deal?.product_names || [];
+  const inThisDeal = (productName) => dealNames.some((name) => dealProductNamesMatch(name, productName));
+  const dealUnits = cart.reduce((sum, item) => sum + (inThisDeal(item.product) ? Number(item.qty) || 0 : 0), 0);
   const cartUnits = cart.reduce((sum, item) => sum + (Number(item.qty) || 0), 0);
   const unitsToGo = bulk ? Math.max(0, minUnits - dealUnits) : 0;
   const overMax = bulk && maxUnits > 0 && dealUnits > maxUnits;
@@ -530,12 +539,13 @@ export default function DealOfTheWeekPage() {
               </div>
               <ul>
                 {cart.map((item) => {
-                  const row = products.find((product) => nameKey(product.product) === nameKey(item.product));
+                  const row = products.find((product) => nameKey(product.product) === nameKey(item.product)
+                    || dealProductNamesMatch(product.product, item.product));
                   return (
                     <li key={item.product}>
                       <span className={styles.cartItemName}>
                         {item.product}
-                        {!dealKeys.has(nameKey(item.product)) && <small>{en ? 'Not in this deal' : 'No incluido en la oferta'}</small>}
+                        {!inThisDeal(item.product) && <small>{en ? 'Not in this deal' : 'No incluido en la oferta'}</small>}
                       </span>
                       {row ? (
                         <span className={styles.stepper}>
