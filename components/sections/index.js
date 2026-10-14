@@ -433,7 +433,7 @@ const ITEMS = {
 /** Elementor's own default container gap, applied when the page declares none. */
 const DEFAULT_GAP = 20;
 
-function Group({ content, lang, demote, depth = 0, inRow = false, homeSection }) {
+function Group({ content, lang, demote, depth = 0, inRow = false, homeSection, sectionIndex }) {
   const {
     dir = 'column',
     width,
@@ -546,6 +546,7 @@ function Group({ content, lang, demote, depth = 0, inRow = false, homeSection })
       <section
         className={hide || undefined}
         data-home-section={homeSection}
+        data-page-section={sectionIndex}
         style={paint}
       >
         <div
@@ -722,6 +723,7 @@ export default function Sections({ sections = [], lang, demoteH1 = false, pageTi
           content={section.content}
           demote={demoteH1}
           homeSection={home ? index : undefined}
+          sectionIndex={index}
           index={index}
           key={`${section.type}-${index}`}
           lang={lang}

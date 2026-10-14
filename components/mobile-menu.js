@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { ChevronDown, Menu, X } from 'lucide-react';
 import { nav, headerContact, CONTACT, catalogUrl } from '@/content/global';
@@ -15,7 +16,10 @@ const UI = {
 export default function MobileMenu({ lang = DEFAULT_LANG, path = '/' }) {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(null);
+  const [mounted, setMounted] = useState(false);
   const ui = UI[lang] || UI[DEFAULT_LANG];
+
+  useEffect(() => setMounted(true), []);
 
   // Lock body scroll while the drawer is open.
   useEffect(() => {
@@ -47,15 +51,15 @@ export default function MobileMenu({ lang = DEFAULT_LANG, path = '/' }) {
         <Menu className="h-6 w-6" />
       </button>
 
-      {open && (
-        <div className="fixed inset-0 z-50 lg:hidden">
+      {mounted && open && createPortal(
+        <div className="fixed inset-0 z-[9999] lg:hidden" role="presentation">
           <div
             className="absolute inset-0 bg-black/50"
             onClick={() => setOpen(false)}
             aria-hidden="true"
           />
-          <div className="absolute inset-y-0 right-0 flex w-full max-w-sm flex-col overflow-y-auto bg-white shadow-xl">
-            <div className="flex items-center justify-between border-b border-slate-200 px-4 py-4">
+          <div className="absolute inset-y-0 right-0 flex w-[min(90vw,24rem)] flex-col overflow-hidden bg-white shadow-2xl">
+            <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-5 py-4">
               <span className="text-sm font-bold tracking-wide text-primary uppercase">
                 {ui.menu}
               </span>
@@ -69,7 +73,7 @@ export default function MobileMenu({ lang = DEFAULT_LANG, path = '/' }) {
               </button>
             </div>
 
-            <nav className="flex-1 px-2 py-4">
+            <nav className="min-h-0 flex-1 overflow-y-auto px-3 py-4" aria-label={ui.menu}>
               <ul className="space-y-1">
                 {nav.map((item, i) => {
                   const text = label(item, lang);
@@ -128,7 +132,7 @@ export default function MobileMenu({ lang = DEFAULT_LANG, path = '/' }) {
               </ul>
             </nav>
 
-            <div className="border-t border-slate-200 p-4">
+            <div className="shrink-0 border-t border-slate-200 p-4">
               <a
                 href={catalogUrl(lang)}
                 className="flex w-full items-center justify-center rounded-lg bg-accent px-6 py-3 text-sm font-bold text-white shadow-sm"
@@ -154,7 +158,8 @@ export default function MobileMenu({ lang = DEFAULT_LANG, path = '/' }) {
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </>
   );

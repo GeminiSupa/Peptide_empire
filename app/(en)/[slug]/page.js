@@ -43,7 +43,7 @@ export default async function PageEn({ params }) {
   return (
     <>
       <SiteHeader lang="en" path={page.en} />
-      <main className="flex-1">
+      <main className={`page-${page.slug} flex-1`}>
         <Sections
           lang="en"
           pageTitle={pageTitle(page, 'en')}
