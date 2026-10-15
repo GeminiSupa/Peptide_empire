@@ -321,55 +321,10 @@ h6 {
     object-fit: contain;
   }
 
-  /* Editorial proof */
-  .home-page [data-home-section="1"] {
-    padding: 1.75rem 0 0.5rem !important;
-  }
-
-  .home-page [data-home-section="1"] p {
-    font-size: 0.78rem !important;
+  .home-page [data-home-section="1"] h2 {
+    font-size: 1rem !important;
+    line-height: 1.25 !important;
     letter-spacing: 0.12em !important;
-  }
-
-  .home-page [data-home-section="2"] {
-    padding: 0.75rem 0 2rem !important;
-  }
-
-  .home-page [data-home-section="2"] > div {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 1rem !important;
-  }
-
-  .home-page [data-home-section="2"] [data-col] {
-    width: auto !important;
-    padding: 1.25rem !important;
-    gap: 0.75rem !important;
-  }
-
-  .home-page [data-home-section="2"] h2,
-  .home-page [data-home-section="2"] h3 {
-    font-size: 0.95rem !important;
-    letter-spacing: -0.01em !important;
-  }
-
-  .home-page [data-home-section="2"] p {
-    font-size: 0.76rem !important;
-    line-height: 1.4 !important;
-  }
-
-  .home-page [data-home-section="2"] .content-image {
-    max-width: 6.5rem !important;
-    max-height: 2.75rem;
-    margin-inline: auto;
-    object-fit: contain;
-  }
-
-  .home-page [data-home-section="2"] .block-button {
-    width: min(100%, 16rem);
-    margin-top: auto;
-    padding: 0.65rem 0.5rem;
-    font-size: 0.72rem;
   }
 
   /* Repeated product collections */

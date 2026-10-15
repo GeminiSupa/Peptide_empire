@@ -433,6 +433,84 @@ const ITEMS = {
 /** Elementor's own default container gap, applied when the page declares none. */
 const DEFAULT_GAP = 20;
 
+/** The homepage press widgets need the same order and spacing for both outlets. */
+function HomePress({ content, lang, homeSection, sectionIndex }) {
+  if (homeSection === 1) {
+    const heading = content.children?.find((item) => item.type === 'paragraph')?.content;
+    return (
+      <section className="bg-bg-main pt-7" data-home-section={homeSection} data-page-section={sectionIndex}>
+        <div className="mx-auto flex w-full max-w-[1120px] items-center gap-4 px-4 sm:gap-6 sm:px-6 lg:px-8">
+          <span aria-hidden="true" className="h-px flex-1 bg-primary/25" />
+          <h2 className="shrink-0 text-base font-extrabold tracking-[0.12em] text-primary uppercase sm:text-xl">
+            {t(heading, 'text', lang)}
+          </h2>
+          <span aria-hidden="true" className="h-px flex-1 bg-primary/25" />
+        </div>
+      </section>
+    );
+  }
+
+  const flatten = (node) => [node, ...(node.content?.children ?? []).flatMap(flatten)];
+  const outlets = content.children?.map((column) => {
+    const blocks = flatten(column);
+    return {
+      logo: blocks.find((block) => block.type === 'image')?.content,
+      intro: blocks.find((block) => block.type === 'paragraph')?.content,
+      name: blocks.filter((block) => block.type === 'paragraph')[1]?.content,
+      link: blocks.find((block) => block.type === 'button')?.content,
+    };
+  });
+
+  if (!outlets?.length) return null;
+
+  return (
+    <section className="bg-bg-main pt-5 pb-9 sm:pt-6 sm:pb-11" data-home-section={homeSection} data-page-section={sectionIndex}>
+      <div className="mx-auto w-full max-w-[1120px] px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-4 sm:grid-cols-2 sm:gap-5">
+          {outlets.map((outlet, index) => (
+            <article
+              className="flex min-w-0 flex-col items-center rounded-xl border border-slate-200 bg-white px-5 py-6 text-center shadow-[0_8px_24px_rgba(9,39,113,0.06)] sm:px-6"
+              key={outlet.link?.href ?? index}
+            >
+              <div className="flex h-16 w-full items-center justify-center">
+                {outlet.logo?.src && (
+                  // eslint-disable-next-line @next/next/no-img-element -- mirrored site asset
+                  <img
+                    alt={t(outlet.logo, 'alt', lang)}
+                    className="max-h-14 max-w-[190px] object-contain"
+                    height={outlet.logo.height}
+                    loading="lazy"
+                    src={imageUrl(outlet.logo.src)}
+                    width={outlet.logo.width}
+                  />
+                )}
+              </div>
+              <p className="mt-3 text-sm leading-6 text-text-main sm:text-base">
+                {t(outlet.intro, 'text', lang)}
+              </p>
+              <h3 className="mt-1 text-lg font-bold text-primary">
+                {t(outlet.name, 'text', lang)}
+              </h3>
+              {outlet.link?.href && (
+                <a
+                  aria-label={`${t(outlet.link, 'text', lang)}: ${t(outlet.name, 'text', lang)}`}
+                  className="mt-5 inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-white transition hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                  href={outlet.link.href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  {t(outlet.link, 'text', lang)}
+                  <ExternalLink aria-hidden="true" className="h-4 w-4" />
+                </a>
+              )}
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Group({ content, lang, demote, depth = 0, inRow = false, homeSection, sectionIndex }) {
   const {
     dir = 'column',
@@ -456,6 +534,10 @@ function Group({ content, lang, demote, depth = 0, inRow = false, homeSection, s
     copyWidth,
     children = [],
   } = content;
+
+  if (depth === 0 && (homeSection === 1 || homeSection === 2)) {
+    return <HomePress content={content} homeSection={homeSection} lang={lang} sectionIndex={sectionIndex} />;
+  }
 
   const kids = children.map((child, i) => {
     const Component = SECTION_COMPONENTS[child.type];

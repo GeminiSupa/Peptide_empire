@@ -96,7 +96,7 @@ try {
       footerLogo: document.querySelector('footer img[alt="Peptides Costa Rica"]')?.src,
     };
   })()`);
-  for (const section of metrics.sections.filter((s) => ['0', '3', '8', '9', '10', '11'].includes(s.id))) {
+  for (const section of metrics.sections.filter((s) => ['0', '1', '2', '3', '8', '9', '10', '11'].includes(s.id))) {
     await evaluate(`(async () => {
       const section = document.querySelector('[data-home-section="${section.id}"]');
       const images = [...section.querySelectorAll('img')];
