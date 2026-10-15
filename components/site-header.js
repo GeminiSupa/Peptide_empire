@@ -47,23 +47,17 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
               {t(ui, 'contactUs', lang)}
             </Link>
 
-            {/* The live site styles the first number as a filled button and the
-                second as an outline. */}
             {headerContact.map((c, i) => (
               <a
-                className={`${i > 0 ? 'hidden sm:inline-flex' : 'inline-flex'} items-center gap-1 rounded-[5px] px-2 py-1.5 text-[11px] font-semibold whitespace-nowrap transition sm:gap-1.5 sm:px-[15px] sm:py-2.5 sm:text-[13px] ${
-                  i === 0
-                    ? 'bg-[#D14900] text-white hover:brightness-110'
-                    : 'bg-white text-primary hover:bg-white/90'
-                }`}
+                className={`contact-cta ${i > 0 ? 'hidden sm:inline-flex' : 'inline-flex'} items-center gap-1.5 rounded-[5px] px-2 py-1.5 text-[11px] font-semibold whitespace-nowrap sm:px-[15px] sm:py-2 sm:text-[13px]`}
                 href={c.href}
                 key={c.href}
                 rel={c.href.startsWith('https://wa.me/') ? 'noopener noreferrer' : undefined}
                 target={c.href.startsWith('https://wa.me/') ? '_blank' : undefined}
               >
                 {c.href.startsWith('https://wa.me/')
-                  ? <WhatsAppIcon className="h-4 w-4 text-[#25D366]" />
-                  : <Phone aria-hidden="true" className="h-3.5 w-3.5" />}
+                  ? <span className="contact-cta-icon"><WhatsAppIcon className="h-4 w-4" /></span>
+                  : <Phone aria-hidden="true" className="h-4 w-4" />}
                 {label(c, lang)}
               </a>
             ))}

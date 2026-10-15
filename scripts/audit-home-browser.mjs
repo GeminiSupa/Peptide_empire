@@ -68,6 +68,8 @@ try {
     return Boolean(button);
   })()`);
   if (ageGateAccepted) await sleep(250);
+  const topShot = await send('Page.captureScreenshot', { format: 'png' });
+  await writeFile(`${outputPrefix}-${width}-top.png`, Buffer.from(topShot.data, 'base64'));
   const metrics = await evaluate(`(() => {
     const headings = [...document.querySelectorAll('.home-page h1,.home-page h2')].map(x => x.textContent.trim());
     const sections = [...document.querySelectorAll('[data-home-section]')].map(x => ({
@@ -83,6 +85,13 @@ try {
       schemas: [...document.querySelectorAll('script[type="application/ld+json"]')].map(x => { try { return JSON.parse(x.textContent)['@type'] || 'graph'; } catch { return 'invalid'; } }),
       aboutMobileApp: [...document.querySelectorAll('a')].filter(a => /Mobile App|Aplicación Móvil/.test(a.textContent)).map(a => ({text:a.textContent.trim(),href:a.href})),
       whatsappLinks: [...document.querySelectorAll('a[href*="wa.me"]')].length,
+      contactButtons: [...document.querySelectorAll('a.contact-cta')].map(x => ({
+        text: x.textContent.trim(), href: x.href,
+        background: getComputedStyle(x).backgroundColor,
+        color: getComputedStyle(x).color,
+        visible: Boolean(x.getClientRects().length),
+        width: Math.round(x.getBoundingClientRect().width),
+      })),
       mapLinks: [...document.querySelectorAll('footer a[href*="maps.app.goo.gl"]')].map(x => x.href),
       footerLogo: document.querySelector('footer img[alt="Peptides Costa Rica"]')?.src,
     };

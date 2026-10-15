@@ -29,12 +29,12 @@ function BulkOffer({ lang }) {
           <p className="max-w-lg text-sm leading-6 text-white">{String(lines[1] || '').replace(/^\*\s*/, '')}</p>
           {bulk.cta_href && (
             <a
-              className="mt-5 inline-flex min-w-[190px] items-center justify-center gap-2 rounded bg-[#c90008] px-7 py-3 text-base font-semibold text-white transition hover:brightness-110"
+              className="contact-cta mt-5 inline-flex min-h-12 min-w-[190px] items-center justify-center gap-2 rounded px-7 py-3 text-base font-semibold"
               href={bulk.cta_href}
               rel="noopener noreferrer"
               target="_blank"
             >
-              <WhatsAppIcon className="h-5 w-5 text-[#25D366]" />
+              <span className="contact-cta-icon"><WhatsAppIcon className="h-4 w-4" /></span>
               {t(bulk, 'cta', lang)}
             </a>
           )}

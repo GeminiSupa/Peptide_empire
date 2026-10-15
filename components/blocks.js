@@ -409,20 +409,20 @@ function BlockButton({ content, lang, inGroup }) {
   const bg = !ghost && /^#[0-9a-f]{6}$/i.test(content.bg ?? '') ? content.bg : null;
 
   const style = {
-    backgroundColor: ghost ? 'transparent' : (bg ?? undefined),
-    color: content.color ?? undefined,
+    backgroundColor: whatsapp ? undefined : ghost ? 'transparent' : (bg ?? undefined),
+    color: whatsapp ? undefined : (content.color ?? undefined),
     borderRadius: content.radius != null ? `${content.radius}px` : undefined,
     borderColor: ghost ? (content.color ?? undefined) : undefined,
   };
 
-  const className = `block-button ${gap(inGroup, 'mt-8')} inline-flex w-fit items-center justify-center gap-2 px-7 py-3.5 text-sm font-bold transition hover:brightness-110 ${
-    ghost ? 'border' : ''
-  } ${bg || ghost ? '' : 'bg-accent text-white'} ${content.radius == null ? 'rounded' : ''}`;
+  const className = `block-button ${gap(inGroup, 'mt-8')} inline-flex w-fit min-h-12 items-center justify-center gap-2 px-7 py-3.5 text-sm font-bold ${
+    whatsapp ? 'contact-cta' : `transition hover:brightness-110 ${ghost ? 'border' : ''} ${bg || ghost ? '' : 'bg-accent text-white'}`
+  } ${content.radius == null ? 'rounded' : ''}`;
 
   if (external) {
     return (
       <a className={className} href={href} rel="noopener noreferrer" style={style} target="_blank">
-        {whatsapp && <WhatsAppIcon className="h-5 w-5 shrink-0 text-[#25D366]" />}
+        {whatsapp && <span className="contact-cta-icon"><WhatsAppIcon className="h-4 w-4" /></span>}
         {text}
       </a>
     );

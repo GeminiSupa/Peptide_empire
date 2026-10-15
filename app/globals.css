@@ -65,6 +65,40 @@ h6 {
   outline-offset: 3px;
 }
 
+/* Contact actions share one readable orange treatment at every viewport. */
+.contact-cta {
+  background-color: #c24b00;
+  color: #fff;
+  box-shadow: 0 2px 6px rgb(93 35 0 / 14%);
+  transition: background-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+}
+
+.contact-cta:hover {
+  background-color: #a64000;
+  box-shadow: 0 4px 10px rgb(93 35 0 / 20%);
+}
+
+.contact-cta:active {
+  transform: translateY(1px);
+}
+
+.contact-cta:focus-visible {
+  outline: 3px solid #08236b;
+  outline-offset: 3px;
+}
+
+.contact-cta-icon {
+  display: inline-flex;
+  width: 1.5rem;
+  height: 1.5rem;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: #fff;
+  color: #128c40;
+}
+
 img {
   display: block;
 }

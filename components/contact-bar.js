@@ -1,6 +1,7 @@
-import { Mail, MessageCircle, Phone } from 'lucide-react';
+import { Mail, Phone } from 'lucide-react';
 import { contactBar } from '@/content/global';
 import { label } from '@/lib/i18n';
+import WhatsAppIcon from '@/components/whatsapp-icon';
 
 /**
  * The floating contact bar.
@@ -11,14 +12,13 @@ import { label } from '@/lib/i18n';
  * instead, which is why they turned up mid-page between sections and scrolled
  * away with the content.
  *
- * Colours, radii and the bar's own tint are the live site's measured values:
- * an #E9EEF3 tray with an upward shadow, orange WhatsApp and phone buttons, a
- * navy Email Us.
+ * The tray stays above the page content; all contact actions use the shared
+ * orange treatment.
  */
 const STYLE = {
-  whatsapp: { className: 'bg-[#D35400] text-white', radius: '16px', Icon: MessageCircle },
-  phone: { className: 'bg-[#D35400] text-white', radius: '6px', Icon: Phone },
-  email: { className: 'bg-[#092771] text-white', radius: '6px', Icon: Mail },
+  whatsapp: { radius: '16px', Icon: WhatsAppIcon },
+  phone: { radius: '6px', Icon: Phone },
+  email: { radius: '6px', Icon: Mail },
 };
 
 export default function ContactBar({ lang }) {
@@ -33,17 +33,19 @@ export default function ContactBar({ lang }) {
     >
       <div className="mx-auto flex w-full max-w-[1280px] flex-wrap items-center justify-center gap-2.5 sm:gap-3">
         {contactBar.map((item) => {
-          const { className, radius, Icon } = STYLE[item.kind] ?? STYLE.phone;
+          const { radius, Icon } = STYLE[item.kind] ?? STYLE.phone;
           return (
             <a
-              className={`inline-flex items-center gap-2 px-5 py-3 text-sm font-bold transition hover:brightness-110 ${className}`}
+              className="contact-cta inline-flex min-h-12 items-center gap-2 rounded-md px-5 py-3 text-sm font-bold"
               href={item.href}
               key={item.href}
               rel={item.kind === 'whatsapp' ? 'noopener noreferrer' : undefined}
               style={{ borderRadius: radius }}
               target={item.kind === 'whatsapp' ? '_blank' : undefined}
             >
-              <Icon aria-hidden="true" className="h-4 w-4 shrink-0" />
+              {item.kind === 'whatsapp'
+                ? <span className="contact-cta-icon"><Icon className="h-4 w-4" /></span>
+                : <Icon aria-hidden="true" className="h-4 w-4 shrink-0" />}
               {label(item, lang)}
             </a>
           );
