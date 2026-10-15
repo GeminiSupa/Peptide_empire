@@ -412,10 +412,11 @@ export default function OrderDetailPanel({
   // An offer only replaces the figure already on the order when there is no
   // promo code to weigh it against: deal-versus-code is the server's call and
   // the browser has no honest number for the code.
+  // Bundles win with free vials, not a money discount — same check as New Order.
   const offerBeatsTier = !order.promo_code
     && autoDiscount.kind !== 'none'
     && autoDiscount.kind !== 'volume'
-    && autoDiscount.offerDiscount > 0;
+    && (autoDiscount.offerDiscount > 0 || autoDiscount.freeLines.length > 0);
 
   const {
     itemsSubtotal,

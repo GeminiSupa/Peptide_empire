@@ -137,3 +137,20 @@ test('editing vials down from 10+ to 8 steps the volume discount to 15%', () => 
   // Below 5: no volume discount.
   assert.equal(resolveOrderVolumePct([{ product: 'BPC-157', qty: 3, price: 60 }], 20), 0);
 });
+
+test('a recorded 0% volume stays 0 even when the cart has 5+ vials', () => {
+  // Bundle/sale orders write volume_discount_pct = 0 because free gifts beat
+  // the tier. The CRM must not reinflate 15% from the vial count.
+  const fivePlus = [
+    { product: 'GLP-1 15mg', qty: 2, price: 140 },
+    { product: 'GLP-1 20mg', qty: 3, price: 150 },
+  ];
+  assert.equal(resolveOrderVolumePct(fivePlus, 0), 0);
+
+  const totals = calculateAdminOrderTotals(fivePlus, 0, {
+    volumeDiscountPct: resolveOrderVolumePct(fivePlus, 0),
+  });
+  assert.equal(totals.discountPct, 0);
+  assert.equal(totals.discountAmount, 0);
+  assert.equal(totals.total, 2 * 140 + 3 * 150);
+});

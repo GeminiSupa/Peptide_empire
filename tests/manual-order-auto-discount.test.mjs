@@ -227,7 +227,8 @@ for (const storedPct of [0, 15, 35]) {
         currency,
         volumePctOverride: storedPct,
       });
-      const offerWon = auto.kind !== 'none' && auto.kind !== 'volume' && auto.offerDiscount > 0;
+      const offerWon = auto.kind !== 'none' && auto.kind !== 'volume'
+        && (auto.offerDiscount > 0 || auto.freeLines.length > 0);
       const preview = calculateAdminOrderTotals(items, 0, {
         promoDiscountAmount: offerWon ? auto.offerDiscount : 0,
         volumeDiscountPct: offerWon ? 0 : storedPct,

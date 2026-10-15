@@ -131,15 +131,22 @@ export function storedOrderVolumePct(order) {
  * pins the 10+ percentage — so a deal-week order that was charged 35% keeps
  * 35% while it still has 10+ vials, but dropping to 8 vials steps down to
  * 15% instead of freezing the old 20%/35% forever.
+ *
+ * Recorded 0 is also sticky: checkout writes 0 when a deal (bundle gifts,
+ * mix, flat) beat the volume tier. Re-deriving 15% from vial count here is
+ * what made the CRM show a fake volume discount on those orders.
  */
 export function resolveOrderVolumePct(items = [], storedPct = null) {
   const fromCount = getAdminVolumeDiscountPct(items);
   if (fromCount === 0) return 0;
-  if (fromCount === STANDARD_FIVE_PLUS_PCT) return STANDARD_FIVE_PLUS_PCT;
 
   const recorded = storedPct === null || storedPct === undefined || storedPct === ''
     ? null
     : Number(storedPct);
+  if (recorded === 0) return 0;
+
+  if (fromCount === STANDARD_FIVE_PLUS_PCT) return STANDARD_FIVE_PLUS_PCT;
+
   if (Number.isFinite(recorded) && recorded >= STANDARD_TEN_PLUS_PCT) {
     return recorded;
   }
