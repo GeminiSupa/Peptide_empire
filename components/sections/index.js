@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Check, ExternalLink, Phone } from 'lucide-react';
+import { BadgePercent, Check, ExternalLink, FileCheck2, Headphones, Info, PackageCheck, Phone, Truck } from 'lucide-react';
 import Section, { SectionHeading } from '@/components/ui/section';
 import Container from '@/components/ui/container';
 import Button from '@/components/ui/button';
@@ -511,6 +511,129 @@ function HomePress({ content, lang, homeSection, sectionIndex }) {
   );
 }
 
+const OPERATION_ICONS = [Info, FileCheck2, PackageCheck, Truck, BadgePercent, Headphones];
+
+function HomeOperationsIntro({ content, lang, homeSection, sectionIndex }) {
+  const title = content.children?.find((child) => child.type === 'heading')?.content;
+  const description = content.children?.find((child) => child.type === 'paragraph')?.content;
+
+  return (
+    <section className="bg-bg-main pt-10 pb-5 sm:pt-14 sm:pb-7" data-home-section={homeSection} data-page-section={sectionIndex}>
+      <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
+        <h2 className="text-[1.8rem] leading-tight font-extrabold text-primary sm:text-4xl">
+          {t(title, 'text', lang)}
+        </h2>
+        <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-text-main sm:mt-4 sm:text-base sm:leading-7">
+          {t(description, 'text', lang)}
+        </p>
+      </div>
+    </section>
+  );
+}
+
+function HomeOperationsCards({ content, lang, homeSection, sectionIndex }) {
+  const cards = content.children ?? [];
+
+  return (
+    <section className="bg-bg-main pb-10 sm:pb-14" data-home-section={homeSection} data-page-section={sectionIndex}>
+      <div className="mx-auto grid w-full max-w-[1240px] gap-3 px-4 sm:grid-cols-2 sm:gap-4 sm:px-6 lg:grid-cols-3 lg:px-8">
+        {cards.map((card, index) => {
+          const fields = card.content?.children ?? [];
+          const title = fields.find((field) => field.type === 'heading')?.content;
+          const description = fields.find((field) => field.type === 'paragraph')?.content;
+          const Icon = OPERATION_ICONS[index] ?? Info;
+          return (
+            <article
+              className="flex min-w-0 gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-[0_6px_18px_rgba(9,39,113,0.05)] sm:flex-col sm:gap-0 sm:p-5"
+              key={t(title, 'text', lang) || index}
+            >
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary sm:mb-4">
+                <Icon aria-hidden="true" className="h-5 w-5" />
+              </span>
+              <div className="min-w-0">
+                <h3 className="text-base font-bold leading-snug text-primary sm:text-lg">{t(title, 'text', lang)}</h3>
+                <p className="mt-1.5 text-sm leading-6 text-text-main sm:mt-2">
+                  {t(description, 'text', lang)}
+                </p>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
+function HomePackaging({ content, lang, homeSection, sectionIndex }) {
+  const headingFields = content.children?.[0]?.content?.children ?? [];
+  const details = content.children?.[1]?.content?.children ?? [];
+  const images = details[0]?.content?.children?.filter((child) => child.type === 'image') ?? [];
+  const featureFields = details[1]?.content?.children ?? [];
+  const features = featureFields.filter((child) => child.type === 'card');
+  const button = featureFields.find((child) => child.type === 'button')?.content;
+  const headings = headingFields.filter((child) => child.type === 'heading');
+  const description = headingFields.find((child) => child.type === 'paragraph')?.content;
+
+  return (
+    <section className="bg-primary py-10 sm:py-14" data-home-section={homeSection} data-page-section={sectionIndex}>
+      <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl text-center">
+          <p className="text-sm font-extrabold tracking-[0.1em] text-[#ff9b4a] uppercase sm:text-base">
+            {t(headings[0]?.content, 'text', lang)}
+          </p>
+          <h2 className="mt-2 text-3xl leading-tight font-extrabold sm:text-4xl lg:text-[2.75rem]" style={{ color: '#fff' }}>
+            {t(headings[1]?.content, 'text', lang)}
+          </h2>
+          <p className="mx-auto mt-3 max-w-3xl text-sm leading-6 text-white/90 sm:mt-4 sm:text-base sm:leading-7">
+            {t(description, 'text', lang)}
+          </p>
+        </div>
+
+        <div className="mt-7 grid items-start gap-5 lg:mt-9 lg:grid-cols-[minmax(0,1.7fr)_minmax(18rem,0.8fr)] lg:gap-6">
+          <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
+            {images.map((image, index) => (
+              <figure className="overflow-hidden rounded-xl bg-white/10" key={image.content?.src ?? index}>
+                {/* eslint-disable-next-line @next/next/no-img-element -- mirrored site asset */}
+                <img
+                  alt={t(image.content, 'alt', lang)}
+                  className="block aspect-[6/5] h-auto w-full object-contain"
+                  height={1000}
+                  loading="lazy"
+                  src={imageUrl(image.content.src)}
+                  width={1200}
+                />
+              </figure>
+            ))}
+          </div>
+
+          <div className="rounded-xl bg-white p-5 shadow-[0_10px_30px_rgba(0,0,0,0.12)] sm:p-6">
+            <ul className="space-y-4">
+              {features.map((feature, index) => (
+                <li className="flex items-start gap-3" key={t(feature.content, 'title', lang) || index}>
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
+                    <Check aria-hidden="true" className="h-4 w-4" />
+                  </span>
+                  <span className="text-sm leading-6 font-semibold text-primary sm:text-base">
+                    {t(feature.content, 'title', lang)}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            {button?.href && (
+              <Link
+                className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-primary px-5 py-2.5 text-sm font-bold text-white transition hover:bg-accent sm:w-auto"
+                href={localePath(button.href, lang)}
+              >
+                {t(button, 'text', lang)}
+              </Link>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Group({ content, lang, demote, depth = 0, inRow = false, homeSection, sectionIndex }) {
   const {
     dir = 'column',
@@ -537,6 +660,15 @@ function Group({ content, lang, demote, depth = 0, inRow = false, homeSection, s
 
   if (depth === 0 && (homeSection === 1 || homeSection === 2)) {
     return <HomePress content={content} homeSection={homeSection} lang={lang} sectionIndex={sectionIndex} />;
+  }
+  if (depth === 0 && homeSection === 5) {
+    return <HomeOperationsIntro content={content} homeSection={homeSection} lang={lang} sectionIndex={sectionIndex} />;
+  }
+  if (depth === 0 && homeSection === 6) {
+    return <HomeOperationsCards content={content} homeSection={homeSection} lang={lang} sectionIndex={sectionIndex} />;
+  }
+  if (depth === 0 && homeSection === 7) {
+    return <HomePackaging content={content} homeSection={homeSection} lang={lang} sectionIndex={sectionIndex} />;
   }
 
   const kids = children.map((child, i) => {
