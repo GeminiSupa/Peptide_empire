@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Check, ChevronDown, Mail, MapPin, Phone, ShoppingCart } from 'lucide-react';
 import Container from '@/components/ui/container';
 import Logo from '@/components/logo';
+import WhatsAppIcon from '@/components/whatsapp-icon';
 import MobileMenu from '@/components/mobile-menu';
 import HeaderSearch from '@/components/header-search';
 import { announcement, headerContact, nav, catalogUrl, ui } from '@/content/global';
@@ -57,8 +58,12 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
                 }`}
                 href={c.href}
                 key={c.href}
+                rel={c.href.startsWith('https://wa.me/') ? 'noopener noreferrer' : undefined}
+                target={c.href.startsWith('https://wa.me/') ? '_blank' : undefined}
               >
-                <Phone aria-hidden="true" className="h-3.5 w-3.5" />
+                {c.href.startsWith('https://wa.me/')
+                  ? <WhatsAppIcon className="h-4 w-4 text-[#25D366]" />
+                  : <Phone aria-hidden="true" className="h-3.5 w-3.5" />}
                 {label(c, lang)}
               </a>
             ))}

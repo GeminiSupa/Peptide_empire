@@ -713,6 +713,10 @@ export default function Sections({ sections = [], lang, demoteH1 = false, pageTi
     }
 
     const { section } = entry;
+    // The retired homepage category widget is marked hidden in the harvest.
+    // Skip its 32 product cards entirely instead of sending invisible HTML and
+    // images to every visitor. Keep the section index stable for the CSS rules.
+    if (home && section.content?.hide === 'hidden') return null;
     const Component = SECTION_COMPONENTS[section.type];
     if (!Component) return null;
 

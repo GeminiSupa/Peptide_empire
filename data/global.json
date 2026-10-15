@@ -9,7 +9,7 @@
     {
       "label_en": "CR: +506 8404-6973",
       "label_es": "CR: +506 8404-6973",
-      "href": "tel:+50684046973"
+      "href": "https://wa.me/50684046973"
     },
     {
       "label_en": "US: +1 (831) 471-5559",
@@ -43,8 +43,8 @@
           "href": "/our-story/"
         },
         {
-          "label_en": "Explore Our App",
-          "label_es": "Explora nuestra aplicación",
+          "label_en": "Mobile App",
+          "label_es": "Aplicación Móvil",
           "href": "https://app.peptidescostarica.net/"
         },
         {
@@ -533,9 +533,9 @@
         "href": "mailto:info@peptidescostarica.net"
       },
       {
-        "label_en": "CR +506 8404-6973",
-        "label_es": "CR +506 8404-6973",
-        "href": "tel:+50684046973"
+        "label_en": "Message on WhatsApp +506 8404-6973",
+        "label_es": "Escribir por WhatsApp +506 8404-6973",
+        "href": "https://wa.me/50684046973"
       },
       {
         "label_en": "US +1 (831) 471-5559",
@@ -588,15 +588,15 @@
         "Compra cinco o más frascos del mismo producto y obtén un descuento de 15%.",
         "No hay niveles confusos ni reglas ocultas. Nuestros precios por mayoreo son simples y fáciles de entender."
       ],
-      "cta_en": "Call To Order",
-      "cta_es": "Se abre la sesión",
-      "cta_href": "tel:+50684046973"
+      "cta_en": "Message on WhatsApp",
+      "cta_es": "Escribir por WhatsApp",
+      "cta_href": "https://wa.me/50684046973"
     },
     "reviews": [
       {
         "name": "Trustpilot",
-        "score": "4.6",
-        "value": "4.6",
+        "score": "4.5",
+        "value": "4.5",
         "best": "5",
         "href": "https://www.trustpilot.com/review/peptidescostarica.net",
         "logo": "/wp-content/uploads/2026/03/Untitled-design-9.png",
@@ -608,10 +608,10 @@
         "score": "5.0",
         "value": "5.0",
         "best": "5",
-        "href": "https://maps.app.goo.gl/jJCMHBM8aPXx67G3A",
+        "href": "https://maps.app.goo.gl/Fm2teY3ab8aPDxjr5",
         "logo": "/wp-content/uploads/2026/03/images.png",
         "logoAlt": "",
-        "href_es": "https://maps.app.goo.gl/jJCMHBM8aPXx67G3A"
+        "href_es": "https://maps.app.goo.gl/Fm2teY3ab8aPDxjr5"
       },
       {
         "name": "Facebook",

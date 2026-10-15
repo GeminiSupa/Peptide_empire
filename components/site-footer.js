@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Cloud, Mail, Music2, Phone } from 'lucide-react';
 import Container from '@/components/ui/container';
 import Logo from '@/components/logo';
+import WhatsAppIcon from '@/components/whatsapp-icon';
 import { footer } from '@/content/global';
 import { imageSource } from '@/lib/images';
 import { label, t } from '@/lib/i18n';
@@ -28,9 +29,12 @@ function BulkOffer({ lang }) {
           <p className="max-w-lg text-sm leading-6 text-white">{String(lines[1] || '').replace(/^\*\s*/, '')}</p>
           {bulk.cta_href && (
             <a
-              className="mt-5 inline-flex min-w-[190px] items-center justify-center rounded bg-[#c90008] px-7 py-3 text-base font-semibold text-white transition hover:brightness-110"
+              className="mt-5 inline-flex min-w-[190px] items-center justify-center gap-2 rounded bg-[#c90008] px-7 py-3 text-base font-semibold text-white transition hover:brightness-110"
               href={bulk.cta_href}
+              rel="noopener noreferrer"
+              target="_blank"
             >
+              <WhatsAppIcon className="h-5 w-5 text-[#25D366]" />
               {t(bulk, 'cta', lang)}
             </a>
           )}
@@ -140,7 +144,7 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
       <Container className="py-10 sm:py-16">
         <div className="grid grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-2 md:gap-10 lg:grid-cols-[1.15fr_0.9fr_0.95fr_1fr]">
           <div className="col-span-2 lg:col-span-1">
-            <Logo className="mb-4" imageClassName="h-auto w-[156px]" lang={lang} />
+            <Logo className="mb-4" imageClassName="h-auto w-[210px] max-w-full" lang={lang} loading="lazy" />
             <p className="text-sm leading-6 text-primary sm:text-base">{t(footer, 'blurb', lang)}</p>
             <h5 className="mt-5 text-lg font-bold text-primary">{headings.legal}</h5>
             <p className="mt-2 text-xs leading-5 text-primary sm:text-sm sm:leading-6">{t(footer, 'disclaimer', lang)}</p>
@@ -172,11 +176,14 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
             <h5 className="text-xl font-bold text-primary">{headings.contact}</h5>
             <ul className="mt-4 space-y-3 text-base">
               {footer.contactLinks.map((contact) => {
+                const whatsapp = contact.href.startsWith('https://wa.me/');
                 const Icon = contact.href.startsWith('mailto:') ? Mail : Phone;
                 return (
                   <li key={contact.href}>
-                    <a className="inline-flex items-start gap-2 hover:text-accent" href={contact.href}>
-                      <Icon aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-brand-red" />
+                    <a className="inline-flex items-start gap-2 hover:text-accent" href={contact.href} rel={whatsapp ? 'noopener noreferrer' : undefined} target={whatsapp ? '_blank' : undefined}>
+                      {whatsapp
+                        ? <WhatsAppIcon className="mt-0.5 h-5 w-5 shrink-0 text-[#25D366]" />
+                        : <Icon aria-hidden="true" className="mt-0.5 h-5 w-5 shrink-0 text-brand-red" />}
                       {label(contact, lang)}
                     </a>
                   </li>
@@ -210,9 +217,12 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
             className="h-[220px] w-full border-0 sm:h-[340px]"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            src="https://www.google.com/maps?q=Costa%20Rica&output=embed&t=k&z=7"
+            src="https://www.google.com/maps?q=9.6209312,-84.6046761&output=embed&z=15"
             title="Google Maps location of Peptides Costa Rica"
           />
+          <a className="block px-4 py-3 text-sm font-semibold text-primary hover:text-accent" href="https://maps.app.goo.gl/Fm2teY3ab8aPDxjr5" rel="noopener noreferrer" target="_blank">
+            {lang === 'es' ? 'Abrir en Google Maps' : 'Open in Google Maps'}
+          </a>
         </div>
       </Container>
 

@@ -3,6 +3,7 @@ import { imageUrl } from '@/lib/images';
 
 const PLATFORM_LOGOS = {
   Google: '/wp-content/uploads/2026/03/4de77119-3608-45d9-b440-e34488b88e61.png',
+  Trustpilot: '/wp-content/uploads/2026/08/icons8-trustpilot.svg',
 };
 
 const TRUSTPILOT_LOGO = '/wp-content/uploads/2026/08/icons8-trustpilot.svg';
@@ -60,13 +61,13 @@ export default function ReviewWall({ content, lang }) {
                 </span>
                 <p className="min-w-0 text-sm font-bold leading-5 text-slate-950">{review.author}</p>
               </div>
-              {review.source && PLATFORM_LOGOS[review.source] && (
-                <img
-                  alt={`${review.source} review`}
-                  className="h-6 w-6 shrink-0 object-contain"
-                  loading="lazy"
-                  src={imageUrl(PLATFORM_LOGOS[review.source])}
-                />
+              {review.source && (
+                <span className="flex shrink-0 items-center gap-1.5 text-[10px] font-bold text-slate-600">
+                  {PLATFORM_LOGOS[review.source] && (
+                    <img alt="" aria-hidden="true" className="h-5 w-5 object-contain" loading="lazy" src={imageUrl(PLATFORM_LOGOS[review.source])} />
+                  )}
+                  {review.source}
+                </span>
               )}
             </div>
 
@@ -84,6 +85,11 @@ export default function ReviewWall({ content, lang }) {
             <p className={`mt-2 text-sm leading-6 ${review.text ? 'text-slate-800' : 'font-semibold text-slate-500'}`}>
               {review.text || copy.ratingOnly}
             </p>
+            {review.href && (
+              <a className="mt-3 w-fit text-xs font-bold text-primary underline-offset-2 hover:underline" href={review.href} rel="noopener noreferrer" target="_blank">
+                {lang === 'es' ? `Ver en ${review.source}` : `Read on ${review.source}`}
+              </a>
+            )}
           </li>
         ))}
       </ul>

@@ -1,16 +1,16 @@
 import Link from 'next/link';
-import { catalogUrl, ui } from '@/content/global';
+import { catalogUrl } from '@/content/global';
 import { byEnglishSlug } from '@/content/pages/products';
-import { t } from '@/lib/i18n';
 import { imageSource, SIZES } from '@/lib/images';
+import { productCategoryLabel } from '@/lib/product-category-label';
 import { localePath } from '@/lib/routes';
 
 /**
  * One product card, as it appears in every harvested product grid.
  *
  * Shared by the flat grids and the "Shop By Category" tabs so the two cannot
- * drift apart. There is no cart here and never should be — the catalog site owns
- * checkout, so every buy action leaves for it.
+ * drift apart. The catalog site owns checkout. Cards with a local product page
+ * link there first; cards without one link to the catalog and say so.
  *
  * The image is served as a full responsive candidate set. The harvested
  * reference is WordPress's 300x300 `woocommerce_thumbnail`, which is smaller
@@ -63,7 +63,7 @@ export default function ProductCard({ product, lang }) {
     <>
       {media}
       {product.category && (
-        <p className="mb-1 text-[11px] leading-4 text-text-muted">{product.category}</p>
+        <p className="mb-1 text-[11px] leading-4 text-text-muted">{productCategoryLabel(product.category, lang)}</p>
       )}
       <h2 className="line-clamp-2 text-base font-bold leading-6 text-primary group-hover/card:text-accent">{product.name}</h2>
     </>
@@ -79,14 +79,23 @@ export default function ProductCard({ product, lang }) {
         <div className="flex flex-1 flex-col">{details}</div>
       )}
       {product.price && <p className="mt-3 text-base font-extrabold text-accent">{product.price}</p>}
-      <a
-        className="product-card-button mt-4 inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-        href={catalogUrl(lang)}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        {t(ui, 'addToCart', lang)}
-      </a>
+      {own ? (
+        <Link
+          className="product-card-button mt-4 inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          href={localePath(own, lang)}
+        >
+          {lang === 'es' ? 'Ver producto' : 'View Product'}
+        </Link>
+      ) : (
+        <a
+          className="product-card-button mt-4 inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          href={catalogUrl(lang)}
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          {lang === 'es' ? 'Ver catálogo' : 'Browse Catalog'}
+        </a>
+      )}
     </article>
   );
 }

@@ -13,12 +13,14 @@ import CategoryTabs from '@/components/category-tabs';
 import AlphabetProductGrid from '@/components/alphabet-product-grid';
 import FaqAccordion from '@/components/faq-accordion';
 import ProductCard from '@/components/product-card';
+import WhatsAppIcon from '@/components/whatsapp-icon';
 import ReviewWall from '@/components/review-wall';
 import { ui } from '@/content/global';
 import { t } from '@/lib/i18n';
 import ProductList from '@/components/product-list';
 import { productsFor } from '@/content/pages/categories';
 import { imageSource, imageUrl, SIZES } from '@/lib/images';
+import { getLiveCatalogRows, inStockHomeProducts, rankedHomeProducts } from '@/lib/home-products';
 import { localePath } from '@/lib/routes';
 
 /**
@@ -397,6 +399,7 @@ function BlockButton({ content, lang, inGroup }) {
   const text = t(content, 'text', lang);
   if (!text || !content.href) return null;
   const external = /^https?:\/\//i.test(content.href);
+  const whatsapp = /^https:\/\/(?:wa\.me|api\.whatsapp\.com)\//i.test(content.href);
   const href = external ? content.href : localePath(content.href, lang);
 
   // Paint from the harvested rule when there is one. `#BD0A0D00` — an 8-digit
@@ -412,13 +415,14 @@ function BlockButton({ content, lang, inGroup }) {
     borderColor: ghost ? (content.color ?? undefined) : undefined,
   };
 
-  const className = `block-button ${gap(inGroup, 'mt-8')} inline-flex w-fit items-center justify-center px-7 py-3.5 text-sm font-bold transition hover:brightness-110 ${
+  const className = `block-button ${gap(inGroup, 'mt-8')} inline-flex w-fit items-center justify-center gap-2 px-7 py-3.5 text-sm font-bold transition hover:brightness-110 ${
     ghost ? 'border' : ''
   } ${bg || ghost ? '' : 'bg-accent text-white'} ${content.radius == null ? 'rounded' : ''}`;
 
   if (external) {
     return (
       <a className={className} href={href} rel="noopener noreferrer" style={style} target="_blank">
+        {whatsapp && <WhatsAppIcon className="h-5 w-5 shrink-0 text-[#25D366]" />}
         {text}
       </a>
     );
@@ -489,7 +493,8 @@ function BlockImage({ content, lang, inGroup, inRow }) {
           inRow ? 'lg:min-w-0 lg:flex-1 lg:basis-0' : ''
         } ${content.align === 'center' ? 'mx-auto' : ''}`}
         height={source.height || content.height || undefined}
-        loading="lazy"
+        loading={content.priority ? 'eager' : 'lazy'}
+        fetchPriority={content.priority ? 'high' : undefined}
         sizes={source.srcSet ? SIZES.prose : undefined}
         src={source.src}
         srcSet={source.srcSet}
@@ -520,7 +525,8 @@ function BlockImage({ content, lang, inGroup, inRow }) {
       alt={t(content, 'alt', lang)}
       className="content-image mx-auto h-auto w-full rounded"
       height={source.height || content.height || undefined}
-      loading="lazy"
+      loading={content.priority ? 'eager' : 'lazy'}
+      fetchPriority={content.priority ? 'high' : undefined}
       sizes={source.srcSet ? SIZES.prose : undefined}
       src={source.src}
       srcSet={source.srcSet}
@@ -719,16 +725,21 @@ function Cards({ content, lang }) {
 /**
  * A WooCommerce product grid, display-only.
  *
- * This project has no cart: the catalog site owns checkout and orders, so every
- * buy action links there rather than adding to a basket here. Prices are a
+ * This project has no cart: the catalog site owns checkout and orders. Cards
+ * link to their product page when available, or to the catalog. Prices are a
  * harvest-time snapshot and are labelled as indicative for that reason — the
  * catalog site is the authority on what anything costs.
  */
-function ProductGrid({ content, lang }) {
-  if (!content.products?.length) return null;
+async function ProductGrid({ content, lang }) {
+  const products = content.catalogRanked
+    ? rankedHomeProducts(await getLiveCatalogRows(), content.count || 3)
+    : content.inStockOnly
+      ? inStockHomeProducts(content.products ?? [], await getLiveCatalogRows())
+      : content.products ?? [];
+  if (!products.length) return null;
   return (
-    <div className="product-grid mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      {content.products.map((product, i) => (
+    <div className={`product-grid mt-8 grid gap-5 sm:grid-cols-2 ${products.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}>
+      {products.map((product, i) => (
         <ProductCard key={`${product.name}-${i}`} lang={lang} product={product} />
       ))}
     </div>
