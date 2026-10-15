@@ -49,14 +49,14 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
 
             {headerContact.map((c, i) => (
               <a
-                className={`contact-cta ${i > 0 ? 'hidden sm:inline-flex' : 'inline-flex'} items-center gap-1.5 rounded-[5px] px-2 py-1.5 text-[11px] font-semibold whitespace-nowrap sm:px-[15px] sm:py-2 sm:text-[13px]`}
+                className={`contact-cta ${i > 0 ? 'hidden sm:inline-flex' : 'inline-flex'} items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[11px] font-semibold whitespace-nowrap sm:px-3.5 sm:py-2 sm:text-[13px]`}
                 href={c.href}
                 key={c.href}
                 rel={c.href.startsWith('https://wa.me/') ? 'noopener noreferrer' : undefined}
                 target={c.href.startsWith('https://wa.me/') ? '_blank' : undefined}
               >
                 {c.href.startsWith('https://wa.me/')
-                  ? <span className="contact-cta-icon"><WhatsAppIcon className="h-4 w-4" /></span>
+                  ? <WhatsAppIcon className="h-[18px] w-[18px] shrink-0" />
                   : <Phone aria-hidden="true" className="h-4 w-4" />}
                 {label(c, lang)}
               </a>

@@ -44,7 +44,7 @@ export default function ContactBar({ lang }) {
               target={item.kind === 'whatsapp' ? '_blank' : undefined}
             >
               {item.kind === 'whatsapp'
-                ? <span className="contact-cta-icon"><Icon className="h-4 w-4" /></span>
+                ? <Icon className="h-5 w-5 shrink-0" />
                 : <Icon aria-hidden="true" className="h-4 w-4 shrink-0" />}
               {label(item, lang)}
             </a>

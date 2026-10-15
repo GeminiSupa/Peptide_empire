@@ -417,12 +417,12 @@ function BlockButton({ content, lang, inGroup }) {
 
   const className = `block-button ${gap(inGroup, 'mt-8')} inline-flex w-fit min-h-12 items-center justify-center gap-2 px-7 py-3.5 text-sm font-bold ${
     whatsapp ? 'contact-cta' : `transition hover:brightness-110 ${ghost ? 'border' : ''} ${bg || ghost ? '' : 'bg-accent text-white'}`
-  } ${content.radius == null ? 'rounded' : ''}`;
+  } ${whatsapp ? 'rounded-lg' : content.radius == null ? 'rounded' : ''}`;
 
   if (external) {
     return (
       <a className={className} href={href} rel="noopener noreferrer" style={style} target="_blank">
-        {whatsapp && <span className="contact-cta-icon"><WhatsAppIcon className="h-4 w-4" /></span>}
+        {whatsapp && <WhatsAppIcon className="h-5 w-5 shrink-0" />}
         {text}
       </a>
     );
