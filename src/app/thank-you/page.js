@@ -165,7 +165,7 @@ function ThankYouContent() {
       justifyContent: 'center',
       padding: '24px',
       position: 'relative',
-      overflow: 'hidden'
+      overflowX: 'hidden'
     }}>
       {/* Immersive Organic Glow/Mesh Blobs */}
       <div style={{
@@ -226,6 +226,20 @@ function ThankYouContent() {
           border-color: rgba(56, 189, 248, 0.5) !important;
           background: rgba(56, 189, 248, 0.15) !important;
         }
+        .thankyou-layout {
+          position: relative;
+          z-index: 1;
+          width: 100%;
+          max-width: 560px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          align-items: stretch;
+        }
+        .thankyou-order-card {
+          width: 100%;
+          max-width: 560px;
+        }
         .thankyou-app-card {
           position: relative;
           overflow: hidden;
@@ -235,10 +249,27 @@ function ThankYouContent() {
           border: 1px solid rgba(56, 189, 248, 0.4);
           border-radius: 18px;
           padding: 20px;
-          margin-bottom: 28px;
           text-align: left;
           box-shadow: 0 18px 40px -18px rgba(14, 165, 233, 0.45), inset 0 1px 0 rgba(255,255,255,0.06);
           animation: subtleUp 1s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @media (min-width: 960px) {
+          .thankyou-layout {
+            max-width: 1040px;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 24px;
+          }
+          .thankyou-order-card {
+            flex: 1 1 0;
+            min-width: 0;
+          }
+          .thankyou-app-card {
+            flex: 1 1 0;
+            min-width: 0;
+            max-width: 440px;
+            align-self: stretch;
+          }
         }
         .thankyou-app-card::before {
           content: '';
@@ -291,15 +322,10 @@ function ThankYouContent() {
         .thankyou-app-media img {
           display: block;
           width: 100%;
-          height: 168px;
-          object-fit: cover;
-          object-position: 78% center;
-        }
-        @media (min-width: 480px) {
-          .thankyou-app-media img {
-            height: 210px;
-            object-position: center center;
-          }
+          height: auto;
+          object-fit: contain;
+          object-position: center center;
+          background: #0b1220;
         }
         .thankyou-app-cta {
           display: flex;
@@ -359,12 +385,11 @@ function ThankYouContent() {
         }
       `}} />
 
+      <div className="thankyou-layout">
       {/* Main Container Card */}
       <div 
-        className="animate-card"
+        className="animate-card thankyou-order-card"
         style={{
-          width: '100%',
-          maxWidth: '560px',
           background: 'linear-gradient(135deg, rgba(17, 24, 39, 0.75) 0%, rgba(15, 23, 42, 0.85) 100%)',
           border: '1px solid rgba(255, 255, 255, 0.08)',
           borderRadius: '24px',
@@ -373,8 +398,7 @@ function ThankYouContent() {
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
           textAlign: 'center',
-          position: 'relative',
-          zIndex: 1
+          position: 'relative'
         }}
       >
         {/* Glowing Science Header */}
@@ -489,86 +513,6 @@ function ThankYouContent() {
           };
           return null; // Value Exchange Section Removed as requested
         })()}
-
-        {/* App upsell — first growth CTA after confirmation.
-            Same destination as the launch email / QR (app.peptidescostarica.net). */}
-        <div className="thankyou-app-card">
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '6px',
-            marginBottom: '10px',
-            fontSize: '0.7rem',
-            fontWeight: '800',
-            color: '#7dd3fc',
-            textTransform: 'uppercase',
-            letterSpacing: '1.2px'
-          }}>
-            <Smartphone size={13} strokeWidth={2.4} /> {t.appEyebrow}
-          </div>
-          <h2 style={{
-            margin: '0 0 8px',
-            fontFamily: 'var(--font-montserrat), sans-serif',
-            fontSize: '1.35rem',
-            fontWeight: '900',
-            color: '#f8fafc',
-            letterSpacing: '-0.4px',
-            lineHeight: 1.2
-          }}>
-            {t.appTitle}
-          </h2>
-          <p style={{
-            margin: '0 0 16px',
-            fontSize: '0.9rem',
-            lineHeight: 1.55,
-            color: '#94a3b8'
-          }}>
-            {t.appBody}
-          </p>
-
-          <div className="thankyou-app-features" aria-hidden="true">
-            {t.appFeatures.map((label, i) => {
-              const Icon = APP_FEATURE_ICONS[i];
-              return (
-                <div key={label} className="thankyou-app-feature">
-                  <Icon size={18} strokeWidth={2.2} />
-                  <span>{label}</span>
-                </div>
-              );
-            })}
-          </div>
-
-          <a
-            href={appHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="thankyou-app-media"
-            aria-label={t.appButton}
-          >
-            <img
-              src={appImageSrc}
-              alt=""
-              loading="lazy"
-              decoding="async"
-            />
-          </a>
-
-          <a
-            href={appHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="thankyou-app-cta"
-          >
-            <Smartphone size={18} strokeWidth={2.4} />
-            <span>{t.appButton}</span>
-            <ChevronRight size={18} strokeWidth={2.6} />
-          </a>
-
-          <div className="thankyou-app-meta">
-            <span className="thankyou-app-url">{t.appUrlLabel}</span>
-            <p className="thankyou-app-hint">{t.appHint}</p>
-          </div>
-        </div>
 
         {/* Create an account: the order was just placed with a verified email
             address, so signing up with that same address pulls this order and
@@ -701,6 +645,87 @@ function ThankYouContent() {
           }}>
             ✓ {t.notice}
           </span>
+        </div>
+      </div>
+
+        {/* App upsell — sits beside Orden Recibida on desktop.
+            Same destination as the launch email / QR (app.peptidescostarica.net). */}
+        <div className="thankyou-app-card">
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            marginBottom: '10px',
+            fontSize: '0.7rem',
+            fontWeight: '800',
+            color: '#7dd3fc',
+            textTransform: 'uppercase',
+            letterSpacing: '1.2px'
+          }}>
+            <Smartphone size={13} strokeWidth={2.4} /> {t.appEyebrow}
+          </div>
+          <h2 style={{
+            margin: '0 0 8px',
+            fontFamily: 'var(--font-montserrat), sans-serif',
+            fontSize: '1.35rem',
+            fontWeight: '900',
+            color: '#f8fafc',
+            letterSpacing: '-0.4px',
+            lineHeight: 1.2
+          }}>
+            {t.appTitle}
+          </h2>
+          <p style={{
+            margin: '0 0 16px',
+            fontSize: '0.9rem',
+            lineHeight: 1.55,
+            color: '#94a3b8'
+          }}>
+            {t.appBody}
+          </p>
+
+          <div className="thankyou-app-features" aria-hidden="true">
+            {t.appFeatures.map((label, i) => {
+              const Icon = APP_FEATURE_ICONS[i];
+              return (
+                <div key={label} className="thankyou-app-feature">
+                  <Icon size={18} strokeWidth={2.2} />
+                  <span>{label}</span>
+                </div>
+              );
+            })}
+          </div>
+
+          <a
+            href={appHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="thankyou-app-media"
+            aria-label={t.appButton}
+          >
+            <img
+              src={appImageSrc}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+
+          <a
+            href={appHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="thankyou-app-cta"
+          >
+            <Smartphone size={18} strokeWidth={2.4} />
+            <span>{t.appButton}</span>
+            <ChevronRight size={18} strokeWidth={2.6} />
+          </a>
+
+          <div className="thankyou-app-meta">
+            <span className="thankyou-app-url">{t.appUrlLabel}</span>
+            <p className="thankyou-app-hint">{t.appHint}</p>
+          </div>
         </div>
       </div>
     </div>
