@@ -45,7 +45,7 @@
         {
           "label_en": "Mobile App",
           "label_es": "Aplicación Móvil",
-          "href": "https://app.peptidescostarica.net/"
+          "href": "https://app.peptidescostarica.net/?utm_source=catalog_nav&utm_medium=web&utm_campaign=app_launch&lang=en"
         },
         {
           "label_en": "Bulk Discounts",
@@ -426,7 +426,7 @@
       {
         "label_en": "Access Our App",
         "label_es": "Acceda a nuestra aplicación",
-        "href": "https://app.peptidescostarica.net/"
+        "href": "https://app.peptidescostarica.net/?utm_source=catalog_nav&utm_medium=web&utm_campaign=app_launch&lang=en"
       },
       {
         "label_en": "Bulk Discounts",
