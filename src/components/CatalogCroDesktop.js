@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BadgePercent, Check } from 'lucide-react';
 import { useBulkWholesaleCampaign } from '@/hooks/useBulkWholesaleCampaign';
@@ -92,9 +92,46 @@ export function CatalogCroTicker({ lang = 'es' }) {
   );
 }
 
+/**
+ * The deal card's picture slot rotates between the product shot and the Ziggy
+ * Myrie sponsorship announcement. The two artworks are different shapes, so the
+ * slot changes height between them; autoplay therefore only runs while the card
+ * is actually on screen, so nothing below it shifts while someone reads the grid.
+ */
+function useVisualSlider(count, ref) {
+  const [slide, setSlide] = useState(0);
+  const [running, setRunning] = useState(false);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node || typeof IntersectionObserver === 'undefined') {
+      setRunning(true);
+      return undefined;
+    }
+    const observer = new IntersectionObserver(
+      ([entry]) => setRunning(Boolean(entry?.isIntersecting)),
+      { threshold: 0.4 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [ref]);
+
+  useEffect(() => {
+    if (!running || paused || count < 2) return undefined;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) return undefined;
+    const timer = window.setInterval(() => setSlide((value) => (value + 1) % count), 6000);
+    return () => window.clearInterval(timer);
+  }, [running, paused, count]);
+
+  return { slide, setSlide, setPaused };
+}
+
 export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} }) {
   const campaign = useBulkWholesaleCampaign();
   const [now, setNow] = useState(() => Date.now());
+  const visualRef = useRef(null);
+  const { slide, setSlide, setPaused } = useVisualSlider(2, visualRef);
 
   useEffect(() => {
     if (!campaign.validUntil) return undefined;
@@ -121,6 +158,14 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
   const googleHref = links.googleReviewUrl || links.googleMapsUrl;
   const trustpilotHref = getTrustpilotReviewUrl(lang, links);
   const facebookHref = getFacebookReviewUrl(links) || FACEBOOK_REVIEW_URL;
+
+  const sponsorAlt = en
+    ? 'Proudly sponsored by Peptides Costa Rica - boxer Ziggy Myrie'
+    : 'Orgullosamente patrocinado por Peptides Costa Rica - el boxeador Ziggy Myrie';
+  const slideLabels = [
+    en ? 'Deal of the Week' : 'Oferta de la Semana',
+    en ? 'Ziggy Myrie sponsorship' : 'Patrocinio de Ziggy Myrie',
+  ];
 
   return (
     <section className={styles.hero} aria-label={en ? 'Deal of the Week' : 'Oferta de la Semana'}>
@@ -185,7 +230,14 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
             : '244 investigadores empezaron a usar nuestros productos solo la semana pasada.'}
         </p>
       </div>
-      <div className={styles.visual}>
+      <div
+        ref={visualRef}
+        className={`${styles.visual}${slide === 1 ? ` ${styles.visualSponsor}` : ''}`}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocus={() => setPaused(true)}
+        onBlur={() => setPaused(false)}
+      >
         <img src="/figma/catalog-hero-vials.png" alt="" />
         {press && (() => {
           const pressHref = press.url && !/ticotimes\.net/i.test(press.url) ? press.url : '';
@@ -198,6 +250,25 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
             </Tag>
           );
         })()}
+        <div className={styles.sponsor} aria-hidden={slide !== 1}>
+          <picture>
+            <source media="(min-width: 1100px)" srcSet="/ziggy-myrie-sponsor-wide.webp" />
+            <img src="/ziggy-myrie-sponsor-portrait.webp" alt={sponsorAlt} loading="lazy" />
+          </picture>
+        </div>
+        <div className={styles.dots} role="tablist" aria-label={en ? 'Slides' : 'Diapositivas'}>
+          {slideLabels.map((label, index) => (
+            <button
+              key={label}
+              type="button"
+              role="tab"
+              aria-selected={slide === index}
+              aria-label={label}
+              className={slide === index ? styles.dotOn : undefined}
+              onClick={() => setSlide(index)}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

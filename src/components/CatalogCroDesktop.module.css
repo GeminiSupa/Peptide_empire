@@ -524,6 +524,22 @@
     clip-path: inset(20% 0 20% 0);
   }
 
+  /* The sponsorship artwork is portrait, so the slot squares up while it shows.
+     aspect-ratio tracks the column's own width, which vh/vw units do not at
+     tablet sizes. */
+  .visualSponsor {
+    aspect-ratio: 1 / 1;
+  }
+
+  /* On a phone the press badge sits in the flow at the bottom of the slot, so
+     the dots move to the top corner to stay clear of it. The extra `.visual`
+     keeps this ahead of the shared `.dots` rule lower down the file. */
+  .visual .dots {
+    top: 8px;
+    right: 8px;
+    bottom: auto;
+  }
+
   .press {
     position: relative;
     left: auto;
@@ -647,3 +663,89 @@
   }
 }
 
+/* --- Deal card picture slider: product shot <-> Ziggy Myrie sponsorship --- */
+
+.sponsor {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #142f76;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .5s ease, visibility .5s ease;
+}
+
+.sponsor picture,
+.sponsor img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sponsor img {
+  object-fit: contain;
+  max-width: none;
+}
+
+.visualSponsor .sponsor {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* The product shot and its press badge stay in the layout so the slot keeps its
+   shape; only the sponsor artwork sits on top of them. */
+.visual > img,
+.visual > .press {
+  transition: opacity .5s ease;
+}
+
+.visualSponsor > img,
+.visualSponsor > .press {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dots {
+  position: absolute;
+  z-index: 3;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  gap: 6px;
+}
+
+.dots button {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(16, 38, 92, .3);
+  cursor: pointer;
+  transition: background .25s ease, transform .25s ease;
+}
+
+.visualSponsor .dots button {
+  background: rgba(255, 255, 255, .45);
+}
+
+.dots button.dotOn {
+  background: #10265c;
+  transform: scale(1.3);
+}
+
+.visualSponsor .dots button.dotOn {
+  background: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sponsor,
+  .visual,
+  .visual > img,
+  .visual > .press {
+    transition: none;
+  }
+}
