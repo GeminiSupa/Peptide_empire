@@ -275,8 +275,13 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
         >
           {productSlide}
           <div className={`${styles.slide} ${styles.slideSponsor}`} aria-hidden={slide !== 1}>
+            {/* Which artwork fits depends on the shape of the slot, which the
+                breakpoints decide: wide where the slot is a broad band, the
+                portrait poster where it is squarer. */}
             <picture>
               <source media="(min-width: 1100px)" srcSet="/ziggy-myrie-sponsor-wide.webp" />
+              <source media="(min-width: 900px)" srcSet="/ziggy-myrie-sponsor-portrait.webp" />
+              <source media="(min-width: 700px)" srcSet="/ziggy-myrie-sponsor-wide.webp" />
               <img src="/ziggy-myrie-sponsor-portrait.webp" alt={sponsorAlt} />
             </picture>
           </div>

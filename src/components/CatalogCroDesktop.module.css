@@ -40,7 +40,10 @@
 
   .hero {
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+    /* The picture column carries the sponsorship banner, which is very wide and
+       short, so it gets the larger share. At 1.15fr the copy still sets the
+       card's height, so the banner grew without the card growing. */
+    grid-template-columns: minmax(0, 0.85fr) minmax(280px, 1.15fr);
     gap: 20px;
     align-items: center;
     width: min(1216px, calc(100% - 48px));
@@ -201,14 +204,11 @@
 
   .visual {
     position: relative;
-    height: 280px;
+    height: 296px;
     border-radius: 18px;
     overflow: hidden;
   }
 
-  /* The product shot used to be blown up to 158% and shifted off the top,
-     which sliced the caps off the vials. It is close to the slot's shape, so
-     filling the slot shows the whole rack with only a sliver cropped. */
   .slide > img {
     position: absolute;
     inset: 0;
@@ -216,8 +216,6 @@
     width: 100%;
     height: 100%;
     max-width: none;
-    object-fit: cover;
-    object-position: center;
     transform: none;
   }
 
@@ -514,6 +512,7 @@
      for both slides, so rotating moves nothing on the page. aspect-ratio
      tracks the column's own width, which vw units do not at tablet sizes;
      the product shot and its press badge centre inside it. */
+  /* Square suits the portrait sponsorship artwork on a phone. */
   .visual {
     position: relative;
     height: auto;
@@ -527,8 +526,6 @@
     flex-direction: column;
   }
 
-  /* The product shot fills the space above the press badge rather than being
-     clipped to a thin band of half-cut vials. */
   .slide > img {
     position: relative;
     top: auto;
@@ -540,8 +537,6 @@
     height: auto;
     max-width: none;
     margin: 0;
-    object-fit: cover;
-    object-position: center;
     transform: none;
     clip-path: none;
   }
@@ -662,6 +657,13 @@
     margin-right: 24px;
   }
 
+  /* Past phone width the card is wide, so a square slot would be an 800px-tall
+     picture. A fixed height keeps it a banner. */
+  .visual {
+    aspect-ratio: auto;
+    height: 340px;
+  }
+
   .stats > div {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -694,6 +696,17 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+/* Every slide is shown whole. The slot's shape changes with the screen and the
+   two artworks are different shapes, so cropping to fill would cut the caps off
+   the vials on a phone and the logo off the banner. The spare space is painted
+   in each picture's own background colour, so it reads as part of the picture
+   rather than as a border. */
+.slide > img {
+  object-fit: contain;
+  object-position: center;
+  background: #c3e2f3;
 }
 
 .slideSponsor {
