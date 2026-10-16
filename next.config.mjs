@@ -1,3 +1,6 @@
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /**
@@ -10,6 +13,8 @@ const nextConfig = {
    * See docs/url-inventory.md.
    */
   trailingSlash: true,
+
+  turbopack: { root: dirname(fileURLToPath(import.meta.url)) },
 
   images: {
     // Content images are referenced by path and resolved through
