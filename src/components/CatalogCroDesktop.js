@@ -103,20 +103,27 @@ export function CatalogCroTicker({ lang = 'es' }) {
  * slide are the same picture.
  *
  * The slot is the same size for every slide, so sliding never moves anything
- * else on the page. An earlier version only ran the timer while the card was
- * on screen; that check could report "not visible" and leave it stuck.
+ * else on the page.
+ *
+ * Nothing stops the timer. Two earlier versions did and both left the banner
+ * stuck on one picture: first an on-screen check that could report "not
+ * visible", then pausing while the card was hovered or focused, which never
+ * un-paused after someone clicked a dot, because the click leaves the pointer
+ * on the card and the focus on the button.
  */
 function useVisualCarousel(count, intervalMs = 6000, slideMs = 600) {
   const [index, setIndex] = useState(0);
   const [animate, setAnimate] = useState(true);
-  const [paused, setPaused] = useState(false);
+  // Bumped when someone picks a slide, so the timer starts counting from that
+  // slide instead of moving on a moment later.
+  const [restart, setRestart] = useState(0);
 
   useEffect(() => {
-    if (paused || count < 2) return undefined;
+    if (count < 2) return undefined;
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) return undefined;
     const timer = window.setInterval(() => setIndex((value) => value + 1), intervalMs);
     return () => window.clearInterval(timer);
-  }, [paused, count, intervalMs]);
+  }, [count, intervalMs, restart]);
 
   // Landed on the clone: let the slide finish, then jump back without animating.
   useEffect(() => {
@@ -137,13 +144,18 @@ function useVisualCarousel(count, intervalMs = 6000, slideMs = 600) {
     return () => window.cancelAnimationFrame(frame);
   }, [animate]);
 
-  return { index, active: index % count, animate, setIndex, setPaused };
+  const goTo = (slide) => {
+    setIndex(slide);
+    setRestart((value) => value + 1);
+  };
+
+  return { index, active: index % count, animate, goTo };
 }
 
 export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} }) {
   const campaign = useBulkWholesaleCampaign();
   const [now, setNow] = useState(() => Date.now());
-  const { index: slideIndex, active: slide, animate, setIndex: setSlide, setPaused } = useVisualCarousel(2);
+  const { index: slideIndex, active: slide, animate, goTo } = useVisualCarousel(2);
 
   useEffect(() => {
     if (!campaign.validUntil) return undefined;
@@ -180,16 +192,20 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
   ];
   const pressHref = press?.url && !/ticotimes\.net/i.test(press.url) ? press.url : '';
   const PressTag = pressHref ? 'a' : 'span';
-  const productSlide = (
-    <div className={styles.slide}>
+  // Rendered twice: once as the first slide and once as the clone that follows
+  // the last one. The clone has to be identical, press badge included — a clone
+  // missing it made the badge pop in every time the track looped.
+  const productSlide = (clone) => (
+    <div className={styles.slide} aria-hidden={clone ? 'true' : undefined}>
       <img src="/figma/catalog-hero-vials-crop.webp" alt="" />
       {press && (
         <PressTag
           className={styles.press}
+          {...(clone ? { tabIndex: -1 } : {})}
           {...(pressHref ? { href: pressHref, target: '_blank', rel: 'noopener noreferrer' } : {})}
         >
           <small>{en ? 'As seen in' : 'Visto en'}</small>
-          <img src={press.logoUrl || '/tico-times-logo.png'} alt={press.outlet} />
+          <img src={press.logoUrl || '/tico-times-logo.png'} alt={clone ? '' : press.outlet} />
           {quote && <em>{quote}</em>}
         </PressTag>
       )}
@@ -259,13 +275,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
             : '244 investigadores empezaron a usar nuestros productos solo la semana pasada.'}
         </p>
       </div>
-      <div
-        className={`${styles.visual}${slide === 1 ? ` ${styles.visualSponsor}` : ''}`}
-        onMouseEnter={() => setPaused(true)}
-        onMouseLeave={() => setPaused(false)}
-        onFocus={() => setPaused(true)}
-        onBlur={() => setPaused(false)}
-      >
+      <div className={`${styles.visual}${slide === 1 ? ` ${styles.visualSponsor}` : ''}`}>
         <div
           className={styles.slides}
           style={{
@@ -273,7 +283,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
             transition: animate ? undefined : 'none',
           }}
         >
-          {productSlide}
+          {productSlide(false)}
           <div className={`${styles.slide} ${styles.slideSponsor}`} aria-hidden={slide !== 1}>
             {/* Which artwork fits depends on the shape of the slot, which the
                 breakpoints decide: wide where the slot is a broad band, the
@@ -286,9 +296,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
             </picture>
           </div>
           {/* Clone of the first slide, so the track always travels one way. */}
-          <div className={styles.slide} aria-hidden="true">
-            <img src="/figma/catalog-hero-vials-crop.webp" alt="" />
-          </div>
+          {productSlide(true)}
         </div>
         <div className={styles.dots} role="tablist" aria-label={en ? 'Slides' : 'Diapositivas'}>
           {slideLabels.map((label, dot) => (
@@ -299,7 +307,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
               aria-selected={slide === dot}
               aria-label={label}
               className={slide === dot ? styles.dotOn : undefined}
-              onClick={() => setSlide(dot)}
+              onClick={() => goTo(dot)}
             />
           ))}
         </div>
