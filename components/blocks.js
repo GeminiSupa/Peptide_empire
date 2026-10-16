@@ -22,6 +22,7 @@ import { productsFor } from '@/content/pages/categories';
 import { imageSource, imageUrl, SIZES } from '@/lib/images';
 import { getLiveCatalogRows, inStockHomeProducts, rankedHomeProducts } from '@/lib/home-products';
 import { localePath } from '@/lib/routes';
+import { dedupeProducts } from '@/lib/dedupe-products';
 
 /**
  * Renderer for the generic block vocabulary produced by the page harvesters:
@@ -731,11 +732,11 @@ function Cards({ content, lang }) {
  * catalog site is the authority on what anything costs.
  */
 async function ProductGrid({ content, lang }) {
-  const products = content.catalogRanked
+  const products = dedupeProducts(content.catalogRanked
     ? rankedHomeProducts(await getLiveCatalogRows(), content.count || 3)
     : content.inStockOnly
       ? inStockHomeProducts(content.products ?? [], await getLiveCatalogRows())
-      : content.products ?? [];
+      : content.products ?? []);
   if (!products.length) return null;
   return (
     <div className={`product-grid mt-8 grid gap-5 sm:grid-cols-2 ${products.length === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'}`}>

@@ -1,5 +1,6 @@
 import ProductCard from '@/components/product-card';
 import { label, t } from '@/lib/i18n';
+import { dedupeProducts } from '@/lib/dedupe-products';
 
 /**
  * The "Shop By Category" tab strip: one panel of products per category.
@@ -87,7 +88,7 @@ export default function CategoryTabs({ content, lang, id = 'shop-by-category' })
               </p>
             )}
             <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {(item.products ?? []).map((product, j) => (
+              {dedupeProducts(item.products).map((product, j) => (
                 <ProductCard key={`${product.name}-${j}`} lang={lang} product={product} />
               ))}
             </div>

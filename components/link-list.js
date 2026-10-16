@@ -4,6 +4,7 @@ import { featuredImage } from '@/lib/featured-image';
 import { t } from '@/lib/i18n';
 import { imageSource, SIZES } from '@/lib/images';
 import { localePath } from '@/lib/routes';
+import { dedupeProducts } from '@/lib/dedupe-products';
 import { posts } from '@/content/pages/posts';
 import { products } from '@/content/pages/products';
 import guideData from '@/data/pages/guide.json';
@@ -62,7 +63,8 @@ function titleFor(page, lang) {
 }
 
 export default function LinkList({ content, lang }) {
-  const entries = SOURCES[content.source]?.() ?? [];
+  const sourceEntries = SOURCES[content.source]?.() ?? [];
+  const entries = content.source === 'wooProduct' ? dedupeProducts(sourceEntries) : sourceEntries;
   if (!entries.length) return null;
 
   // The product archives already have a card — the one the category pages use.

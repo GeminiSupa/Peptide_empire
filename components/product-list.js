@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { t } from '@/lib/i18n';
 import { imageSource, SIZES } from '@/lib/images';
 import { localePath } from '@/lib/routes';
+import { dedupeProducts } from '@/lib/dedupe-products';
 
 /**
  * A grid of products for the category archives.
@@ -13,13 +14,14 @@ import { localePath } from '@/lib/routes';
  * Prices are a harvest snapshot; the catalog site is the authority.
  */
 export default function ProductList({ products, lang, emptyLabel }) {
-  if (!products?.length) {
+  const visibleProducts = dedupeProducts(products);
+  if (!visibleProducts.length) {
     return emptyLabel ? <p className="mt-8 text-sm text-text-muted">{emptyLabel}</p> : null;
   }
 
   return (
     <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {products.map((product) => {
+      {visibleProducts.map((product) => {
         const store = product.store;
         const name = store?.name ?? product.slug;
         // Resolved so an unservable image is skipped, not rendered broken.
