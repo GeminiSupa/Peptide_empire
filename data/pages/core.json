@@ -569,49 +569,10 @@
                       }
                     },
                     {
-                      "type": "group",
+                      "type": "trustpilot_summary",
                       "content": {
-                        "dir": "column",
-                        "width": 99.576,
-                        "pad": [
-                          30,
-                          20,
-                          0,
-                          20
-                        ],
-                        "boxed": false,
-                        "children": [
-                          {
-                            "type": "heading",
-                            "content": {
-                              "level": 4,
-                              "text_en": "Trustpilot",
-                              "text_es": "Trustpilot",
-                              "align": "center",
-                              "color": "#FFFFFF"
-                            }
-                          },
-                          {
-                            "type": "image",
-                            "content": {
-                              "src": "/wp-content/uploads/2026/08/imgi_3_stars-5-1.webp",
-                              "width": 512,
-                              "height": 96,
-                              "alt_en": "trustpilot reviews star",
-                              "alt_es": "trustpilot reviews star",
-                              "displayWidth": "14%"
-                            }
-                          },
-                          {
-                            "type": "paragraph",
-                            "content": {
-                              "text_en": "Rated 4.5 out of 5",
-                              "text_es": "Rated 4.5 out of 5",
-                              "align": "center",
-                              "color": "#FFFFFF"
-                            }
-                          }
-                        ]
+                        "score": 4.5,
+                        "href": "https://www.trustpilot.com/review/peptidescostarica.net"
                       }
                     }
                   ]

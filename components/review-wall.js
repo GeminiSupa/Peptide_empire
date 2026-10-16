@@ -13,16 +13,16 @@ const COPY = {
   es: { ratingOnly: 'Calificación de 5 estrellas', outOf: 'de 5', reviews: 'Calificación independiente' },
 };
 
-function RatingSquares({ score, best = 5 }) {
+function RatingSquares({ score, best = 5, large = false }) {
   const normalized = Math.max(0, Math.min(best, Number(score) || 0));
   return (
-    <span aria-label={`Rated ${normalized} out of ${best}`} className="flex gap-1" role="img">
+    <span aria-label={`Rated ${normalized} out of ${best}`} className={`flex ${large ? 'gap-1.5' : 'gap-1'}`} role="img">
       {Array.from({ length: best }, (_, index) => {
         const fill = Math.max(0, Math.min(1, normalized - index)) * 100;
         return (
           <span
             aria-hidden="true"
-            className="flex h-5 w-5 items-center justify-center rounded-[3px] text-[12px] leading-none text-white"
+            className={`flex items-center justify-center rounded-[3px] leading-none text-white ${large ? 'h-8 w-8 text-lg' : 'h-5 w-5 text-[12px]'}`}
             key={index}
             style={{ background: `linear-gradient(90deg, #00b67a ${fill}%, #d8dde3 ${fill}%)` }}
           >
@@ -31,6 +31,27 @@ function RatingSquares({ score, best = 5 }) {
         );
       })}
     </span>
+  );
+}
+
+export function TrustpilotSummary({ content, lang }) {
+  const score = Number(content.score) || 0;
+  return (
+    <a
+      className="trustpilot-summary mx-auto mt-6 flex w-full max-w-sm flex-col items-center gap-3 rounded-2xl border border-white/20 bg-white/10 p-5 text-center text-white transition hover:bg-white/15"
+      href={content.href}
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span className="text-lg font-bold">Trustpilot</span>
+      <RatingSquares large score={score} />
+      <span className="text-sm font-semibold">
+        {lang === 'es' ? `Calificación ${score} de 5` : `Rated ${score} out of 5`}
+      </span>
+      <span className="text-xs font-semibold underline underline-offset-2">
+        {lang === 'es' ? 'Leer reseñas' : 'Read reviews'}
+      </span>
+    </a>
   );
 }
 

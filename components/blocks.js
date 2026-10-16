@@ -14,7 +14,7 @@ import AlphabetProductGrid from '@/components/alphabet-product-grid';
 import FaqAccordion from '@/components/faq-accordion';
 import ProductCard from '@/components/product-card';
 import WhatsAppIcon from '@/components/whatsapp-icon';
-import ReviewWall from '@/components/review-wall';
+import ReviewWall, { TrustpilotSummary } from '@/components/review-wall';
 import { ui } from '@/content/global';
 import { t } from '@/lib/i18n';
 import ProductList from '@/components/product-list';
@@ -1002,6 +1002,7 @@ const RENDERERS = {
   category_tabs: CategoryTabs,
   alphabet_product_grid: AlphabetProductGrid,
   reviews: ReviewWall,
+  trustpilot_summary: TrustpilotSummary,
   coa_list: CoaList,
   faq: Faq,
   category_header: CategoryHeader,
