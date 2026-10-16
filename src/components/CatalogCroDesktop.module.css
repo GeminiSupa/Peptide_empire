@@ -202,18 +202,23 @@
   .visual {
     position: relative;
     height: 280px;
+    border-radius: 18px;
     overflow: hidden;
   }
 
-  .visual > img {
+  /* The product shot used to be blown up to 158% and shifted off the top,
+     which sliced the caps off the vials. It is close to the slot's shape, so
+     filling the slot shows the whole rack with only a sliver cropped. */
+  .slide > img {
     position: absolute;
-    top: 0;
-    right: 0;
+    inset: 0;
     display: block;
-    width: 158%;
-    height: auto;
+    width: 100%;
+    height: 100%;
     max-width: none;
-    transform: translate(0, -16%);
+    object-fit: cover;
+    object-position: center;
+    transform: none;
   }
 
   .press {
@@ -505,30 +510,40 @@
   .faces span:nth-child(2) { background-color: #3b82c4; }
   .faces span:nth-child(3) { background-color: #0f6e8a; }
 
+  /* The sponsorship artwork is portrait, so the slot is square at this width,
+     for both slides, so rotating moves nothing on the page. aspect-ratio
+     tracks the column's own width, which vw units do not at tablet sizes;
+     the product shot and its press badge centre inside it. */
   .visual {
     position: relative;
     height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
     overflow: hidden;
   }
 
-  .visual > img {
+  .slide {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* The product shot fills the space above the press badge rather than being
+     clipped to a thin band of half-cut vials. */
+  .slide > img {
     position: relative;
     top: auto;
     right: auto;
     display: block;
-    width: 145%;
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
     height: auto;
     max-width: none;
-    margin: -17% 0 -17% -40%;
+    margin: 0;
+    object-fit: cover;
+    object-position: center;
     transform: none;
-    clip-path: inset(20% 0 20% 0);
-  }
-
-  /* The sponsorship artwork is portrait, so the slot squares up while it shows.
-     aspect-ratio tracks the column's own width, which vh/vw units do not at
-     tablet sizes. */
-  .visualSponsor {
-    aspect-ratio: 1 / 1;
+    clip-path: none;
   }
 
   /* On a phone the press badge sits in the flow at the bottom of the slot, so
@@ -663,49 +678,41 @@
   }
 }
 
-/* --- Deal card picture slider: product shot <-> Ziggy Myrie sponsorship --- */
+/* --- Deal card picture carousel: product shot <-> Ziggy Myrie sponsorship --- */
 
-.sponsor {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
+.slides {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform .6s cubic-bezier(.4, 0, .2, 1);
+  will-change: transform;
+}
+
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.slideSponsor {
   display: flex;
   align-items: center;
   justify-content: center;
   background: #142f76;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity .5s ease, visibility .5s ease;
 }
 
-.sponsor picture,
-.sponsor img {
+.slideSponsor picture,
+.slideSponsor img {
   display: block;
   width: 100%;
   height: 100%;
 }
 
-.sponsor img {
+.slideSponsor img {
   object-fit: contain;
   max-width: none;
-}
-
-.visualSponsor .sponsor {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* The product shot and its press badge stay in the layout so the slot keeps its
-   shape; only the sponsor artwork sits on top of them. */
-.visual > img,
-.visual > .press {
-  transition: opacity .5s ease;
-}
-
-.visualSponsor > img,
-.visualSponsor > .press {
-  opacity: 0;
-  pointer-events: none;
 }
 
 .dots {
@@ -742,10 +749,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sponsor,
-  .visual,
-  .visual > img,
-  .visual > .press {
+  .slides {
     transition: none;
   }
 }

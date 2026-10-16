@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { BadgePercent, Check } from 'lucide-react';
 import { useBulkWholesaleCampaign } from '@/hooks/useBulkWholesaleCampaign';
@@ -93,45 +93,57 @@ export function CatalogCroTicker({ lang = 'es' }) {
 }
 
 /**
- * The deal card's picture slot rotates between the product shot and the Ziggy
- * Myrie sponsorship announcement. The two artworks are different shapes, so the
- * slot changes height between them; autoplay therefore only runs while the card
- * is actually on screen, so nothing below it shifts while someone reads the grid.
+ * The deal card's picture slot is a carousel: the slides sit side by side on a
+ * track that slides left, rather than fading in place.
+ *
+ * `index` can run one past the last slide onto a clone of the first, so the
+ * track always travels the same way instead of rewinding. On reaching the
+ * clone the transition is switched off for one frame and the track is snapped
+ * back to the start, which the eye cannot see because the clone and the first
+ * slide are the same picture.
+ *
+ * The slot is the same size for every slide, so sliding never moves anything
+ * else on the page. An earlier version only ran the timer while the card was
+ * on screen; that check could report "not visible" and leave it stuck.
  */
-function useVisualSlider(count, ref) {
-  const [slide, setSlide] = useState(0);
-  const [running, setRunning] = useState(false);
+function useVisualCarousel(count, intervalMs = 6000, slideMs = 600) {
+  const [index, setIndex] = useState(0);
+  const [animate, setAnimate] = useState(true);
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
-    const node = ref.current;
-    if (!node || typeof IntersectionObserver === 'undefined') {
-      setRunning(true);
-      return undefined;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => setRunning(Boolean(entry?.isIntersecting)),
-      { threshold: 0.4 },
-    );
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [ref]);
-
-  useEffect(() => {
-    if (!running || paused || count < 2) return undefined;
+    if (paused || count < 2) return undefined;
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) return undefined;
-    const timer = window.setInterval(() => setSlide((value) => (value + 1) % count), 6000);
+    const timer = window.setInterval(() => setIndex((value) => value + 1), intervalMs);
     return () => window.clearInterval(timer);
-  }, [running, paused, count]);
+  }, [paused, count, intervalMs]);
 
-  return { slide, setSlide, setPaused };
+  // Landed on the clone: let the slide finish, then jump back without animating.
+  useEffect(() => {
+    if (index < count) return undefined;
+    const timer = window.setTimeout(() => {
+      setAnimate(false);
+      setIndex(0);
+    }, slideMs + 50);
+    return () => window.clearTimeout(timer);
+  }, [index, count, slideMs]);
+
+  // Re-arm the transition only after the browser has painted the jump.
+  useEffect(() => {
+    if (animate) return undefined;
+    const frame = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => setAnimate(true));
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [animate]);
+
+  return { index, active: index % count, animate, setIndex, setPaused };
 }
 
 export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} }) {
   const campaign = useBulkWholesaleCampaign();
   const [now, setNow] = useState(() => Date.now());
-  const visualRef = useRef(null);
-  const { slide, setSlide, setPaused } = useVisualSlider(2, visualRef);
+  const { index: slideIndex, active: slide, animate, setIndex: setSlide, setPaused } = useVisualCarousel(2);
 
   useEffect(() => {
     if (!campaign.validUntil) return undefined;
@@ -166,6 +178,23 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
     en ? 'Deal of the Week' : 'Oferta de la Semana',
     en ? 'Ziggy Myrie sponsorship' : 'Patrocinio de Ziggy Myrie',
   ];
+  const pressHref = press?.url && !/ticotimes\.net/i.test(press.url) ? press.url : '';
+  const PressTag = pressHref ? 'a' : 'span';
+  const productSlide = (
+    <div className={styles.slide}>
+      <img src="/figma/catalog-hero-vials-crop.webp" alt="" />
+      {press && (
+        <PressTag
+          className={styles.press}
+          {...(pressHref ? { href: pressHref, target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          <small>{en ? 'As seen in' : 'Visto en'}</small>
+          <img src={press.logoUrl || '/tico-times-logo.png'} alt={press.outlet} />
+          {quote && <em>{quote}</em>}
+        </PressTag>
+      )}
+    </div>
+  );
 
   return (
     <section className={styles.hero} aria-label={en ? 'Deal of the Week' : 'Oferta de la Semana'}>
@@ -231,41 +260,41 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
         </p>
       </div>
       <div
-        ref={visualRef}
         className={`${styles.visual}${slide === 1 ? ` ${styles.visualSponsor}` : ''}`}
         onMouseEnter={() => setPaused(true)}
         onMouseLeave={() => setPaused(false)}
         onFocus={() => setPaused(true)}
         onBlur={() => setPaused(false)}
       >
-        <img src="/figma/catalog-hero-vials.png" alt="" />
-        {press && (() => {
-          const pressHref = press.url && !/ticotimes\.net/i.test(press.url) ? press.url : '';
-          const Tag = pressHref ? 'a' : 'span';
-          return (
-            <Tag className={styles.press} {...(pressHref ? { href: pressHref, target: '_blank', rel: 'noopener noreferrer' } : {})}>
-              <small>{en ? 'As seen in' : 'Visto en'}</small>
-              <img src={press.logoUrl || '/tico-times-logo.png'} alt={press.outlet} />
-              {quote && <em>{quote}</em>}
-            </Tag>
-          );
-        })()}
-        <div className={styles.sponsor} aria-hidden={slide !== 1}>
-          <picture>
-            <source media="(min-width: 1100px)" srcSet="/ziggy-myrie-sponsor-wide.webp" />
-            <img src="/ziggy-myrie-sponsor-portrait.webp" alt={sponsorAlt} loading="lazy" />
-          </picture>
+        <div
+          className={styles.slides}
+          style={{
+            transform: `translate3d(-${slideIndex * 100}%, 0, 0)`,
+            transition: animate ? undefined : 'none',
+          }}
+        >
+          {productSlide}
+          <div className={`${styles.slide} ${styles.slideSponsor}`} aria-hidden={slide !== 1}>
+            <picture>
+              <source media="(min-width: 1100px)" srcSet="/ziggy-myrie-sponsor-wide.webp" />
+              <img src="/ziggy-myrie-sponsor-portrait.webp" alt={sponsorAlt} />
+            </picture>
+          </div>
+          {/* Clone of the first slide, so the track always travels one way. */}
+          <div className={styles.slide} aria-hidden="true">
+            <img src="/figma/catalog-hero-vials-crop.webp" alt="" />
+          </div>
         </div>
         <div className={styles.dots} role="tablist" aria-label={en ? 'Slides' : 'Diapositivas'}>
-          {slideLabels.map((label, index) => (
+          {slideLabels.map((label, dot) => (
             <button
               key={label}
               type="button"
               role="tab"
-              aria-selected={slide === index}
+              aria-selected={slide === dot}
               aria-label={label}
-              className={slide === index ? styles.dotOn : undefined}
-              onClick={() => setSlide(index)}
+              className={slide === dot ? styles.dotOn : undefined}
+              onClick={() => setSlide(dot)}
             />
           ))}
         </div>
