@@ -195,8 +195,12 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
   // Rendered twice: once as the first slide and once as the clone that follows
   // the last one. The clone has to be identical, press badge included — a clone
   // missing it made the badge pop in every time the track looped.
-  const productSlide = (clone) => (
-    <div className={styles.slide} aria-hidden={clone ? 'true' : undefined}>
+  const slidePosition = (position) => ({
+    left: `${position * 100}%`,
+    zIndex: position === slideIndex ? 2 : 1,
+  });
+  const productSlide = (position, clone) => (
+    <div className={styles.slide} style={slidePosition(position)} aria-hidden={clone ? 'true' : undefined}>
       <img src="/figma/catalog-hero-vials-crop.webp" alt="" />
       {press && (
         <PressTag
@@ -283,8 +287,8 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
             transition: animate ? undefined : 'none',
           }}
         >
-          {productSlide(false)}
-          <div className={`${styles.slide} ${styles.slideSponsor}`} aria-hidden={slide !== 1}>
+          {productSlide(0, false)}
+          <div className={`${styles.slide} ${styles.slideSponsor}`} style={slidePosition(1)} aria-hidden={slide !== 1}>
             {/* Which artwork fits depends on the shape of the slot, which the
                 breakpoints decide: wide where the slot is a broad band, the
                 portrait poster where it is squarer. */}
@@ -296,7 +300,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
             </picture>
           </div>
           {/* Clone of the first slide, so the track always travels one way. */}
-          {productSlide(true)}
+          {productSlide(2, true)}
         </div>
         <div className={styles.dots} role="tablist" aria-label={en ? 'Slides' : 'Diapositivas'}>
           {slideLabels.map((label, dot) => (
