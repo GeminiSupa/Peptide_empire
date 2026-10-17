@@ -135,14 +135,24 @@ try {
   })()`);
   await sleep(200);
   metrics.alphabetA = await evaluate(`(() => [...(document.querySelector('#shop-by-product')?.querySelectorAll('.product-card h2') || [])].map(x => x.textContent.trim()))()`);
-  if (width < 600) {
+  if (width < 600 || (url.includes('/es/') && width < 1200)) {
     await evaluate(`(() => {
       document.querySelector('button[aria-label="Open menu"],button[aria-label="Abrir menú"]')?.click();
     })()`);
     await sleep(200);
-    await evaluate(`(() => { document.querySelector('nav[aria-label="Menu"] button[aria-label$=" submenu"],nav[aria-label="Menú"] button[aria-label$=" submenu"]')?.click(); })()`);
+    await evaluate(`(() => { document.querySelector('nav[aria-label="Menu"] button[aria-label$=" submenu"],nav[aria-label="Menú"] button[aria-label^="Submenú de "]')?.click(); })()`);
     await sleep(200);
     metrics.mobileAppInMenu = await evaluate(`(() => [...document.querySelectorAll('nav a')].some(x => /Mobile App|Aplicación Móvil/.test(x.textContent) && x.getClientRects().length > 0))()`);
+    const menuShot = await send('Page.captureScreenshot', { format: 'png' });
+    await writeFile(`${outputPrefix}-${width}-menu.png`, Buffer.from(menuShot.data, 'base64'));
+  }
+  if (width >= 1280) {
+    await evaluate(`document.querySelector('button[aria-controls="site-search-panel"]')?.click()`);
+    await sleep(200);
+    metrics.searchPanelVisible = await evaluate(`Boolean(document.querySelector('#site-search-panel input')?.getClientRects().length)`);
+    metrics.searchInputFocused = await evaluate(`document.activeElement?.id === 'site-search'`);
+    const searchShot = await send('Page.captureScreenshot', { format: 'png' });
+    await writeFile(`${outputPrefix}-${width}-search.png`, Buffer.from(searchShot.data, 'base64'));
   }
   console.log(JSON.stringify(metrics, null, 2));
 } finally {

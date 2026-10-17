@@ -18,6 +18,7 @@ export default function MobileMenu({ lang = DEFAULT_LANG, path = '/' }) {
   const [expanded, setExpanded] = useState(null);
   const [mounted, setMounted] = useState(false);
   const ui = UI[lang] || UI[DEFAULT_LANG];
+  const visibility = lang === 'es' ? 'min-[1200px]:hidden' : 'lg:hidden';
 
   useEffect(() => setMounted(true), []);
 
@@ -44,7 +45,7 @@ export default function MobileMenu({ lang = DEFAULT_LANG, path = '/' }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white p-2 text-primary shadow-sm transition hover:bg-slate-50 lg:hidden"
+        className={`inline-flex items-center justify-center rounded-lg border border-slate-200 bg-white p-2 text-primary shadow-sm transition hover:bg-slate-50 ${visibility}`}
         aria-label={ui.open}
         aria-expanded={open}
       >
@@ -52,7 +53,7 @@ export default function MobileMenu({ lang = DEFAULT_LANG, path = '/' }) {
       </button>
 
       {mounted && open && createPortal(
-        <div className="fixed inset-0 z-[9999] lg:hidden" role="presentation">
+        <div className={`fixed inset-0 z-[9999] ${visibility}`} role="presentation">
           <div
             className="absolute inset-0 bg-black/50"
             onClick={() => setOpen(false)}

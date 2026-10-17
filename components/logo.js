@@ -19,7 +19,7 @@ export default function Logo({ lang = DEFAULT_LANG, className = '', imageClassNa
   return (
     <Link
       aria-label="Peptides Costa Rica"
-      className={`inline-flex items-center ${className}`}
+      className={`inline-flex shrink-0 items-center ${className}`}
       href={localePath('/', lang)}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- harvested asset

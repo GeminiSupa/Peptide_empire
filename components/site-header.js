@@ -69,7 +69,7 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
       <Container className="flex items-center justify-between gap-4 py-2.5 sm:py-3">
         <Logo lang={lang} />
 
-        <nav className="hidden lg:block" aria-label="Main">
+        <nav className={lang === 'es' ? 'hidden min-[1200px]:block' : 'hidden lg:block'} aria-label="Main">
           <ul className="flex items-center gap-1">
             {nav.map((item) => {
               const text = label(item, lang);
