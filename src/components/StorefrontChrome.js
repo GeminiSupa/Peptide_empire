@@ -13,6 +13,7 @@ import { normalizeBannerCopy, replaceUsdPlaceholders, sanitizeBannerHref } from 
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { appStorefrontHref } from '@/lib/appStorefront';
 import PromoTicker from '@/components/PromoTicker';
+import ShopperApprovedSeal from '@/components/ShopperApprovedSeal';
 
 function parseBannerText(text = '') {
   return replaceUsdPlaceholders(text, (amount) => `$${amount}`);
@@ -373,10 +374,15 @@ export function StorefrontFooter({ lang, settings, categories = [] }) {
   const footerCategoryLinks = Array.isArray(settings?.footerCategoryLinks) ? settings.footerCategoryLinks : [];
   // CMS-saved quick links often predate the app launch. Strip any stale App
   // row and always append one with the current UTM + lang.
+  const baseQuickLinks = (quickLinks.length ? quickLinks : DEFAULT_QUICK_LINKS).filter(
+    (item) => !String(item?.href || '').includes('app.peptidescostarica.net'),
+  );
+  const hasReviewsLink = baseQuickLinks.some((item) => String(item?.href || '').startsWith('/reviews'));
   const footerQuickLinks = [
-    ...(quickLinks.length ? quickLinks : DEFAULT_QUICK_LINKS).filter(
-      (item) => !String(item?.href || '').includes('app.peptidescostarica.net'),
-    ),
+    ...baseQuickLinks,
+    ...(!hasReviewsLink
+      ? [{ labelEn: 'Reviews', labelEs: 'Reseñas', href: '/reviews' }]
+      : []),
     { labelEn: 'Mobile App', labelEs: 'Aplicación Móvil', href: appStorefrontHref({ source: 'footer', lang }) },
   ];
   const categoryList = categories.length
@@ -464,6 +470,7 @@ export function StorefrontFooter({ lang, settings, categories = [] }) {
               <ReviewBadgeContent review={review} />
             </span>
           ))}
+          <ShopperApprovedSeal lang={lang} className="clone-sa-seal" />
         </div>
       </div>
       <div className="clone-copyright">
@@ -496,6 +503,7 @@ const DEFAULT_QUICK_LINKS = [
   { labelEn: 'About us', labelEs: 'Nosotros', href: '/about' },
   { labelEn: 'Deal of the Week', labelEs: 'Oferta de la Semana', href: '/deal-of-the-week' },
   { labelEn: 'Bulk Discounts', labelEs: 'Descuentos por volumen', href: '/bulk-discounts' },
+  { labelEn: 'Reviews', labelEs: 'Reseñas', href: '/reviews' },
   { labelEn: 'FAQ', labelEs: 'Preguntas frecuentes', href: '/faq' },
   { labelEn: 'Blog', labelEs: 'Blog', href: '/blog' },
 ];

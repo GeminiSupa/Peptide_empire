@@ -14,7 +14,7 @@ export const GOOGLE_LOCAL_LISTING_URL = 'https://maps.app.goo.gl/b9YaeUXyuvBuj8v
 export const GOOGLE_REVIEW_URL = 'https://g.page/r/CfFdfEu7WZOHEBM/review';
 
 // Public profiles. Tracking params stripped. Footer, Facebook badges, and
-// Organization sameAs all use these. The old /reviews page is retired below.
+// Organization sameAs all use these. Store reviews live at /reviews (Shopper Approved).
 export const INSTAGRAM_PROFILE_URL = 'https://www.instagram.com/researchpeptidescr';
 // Updated by Omer on 2026-10-07. The ?mibextid= share token he sent with it is
 // stripped, same as every other profile here: it identifies the share, not the

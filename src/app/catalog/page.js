@@ -68,6 +68,7 @@ import { shouldScheduleAccessGate, CATALOG_GATE_DELAY_MS } from '@/lib/catalogGa
 import { formatPrice as formatPriceVal, roundToCents } from '@/lib/money.mjs';
 import { GCR_STORAGE_KEY, buildReviewOptInRecord } from '@/lib/googleCustomerReviews.mjs';
 import { SA_STORAGE_KEY, buildShopperApprovedRecord } from '@/lib/shopperApproved.mjs';
+import ShopperApprovedSeal from '@/components/ShopperApprovedSeal';
 import {
   identityMessage,
   normalizeCustomerName,
@@ -6514,6 +6515,8 @@ export default function CatalogPage() {
                   </span>
                 </div>
               </a>
+
+              <ShopperApprovedSeal lang={lang} className="trust-badge trust-badge--sa" />
             </div>
 
             {/* Press feature band — outlets come from the CMS (site_settings.landing_page) */}
@@ -6526,6 +6529,9 @@ export default function CatalogPage() {
             <a href="#" onClick={(e) => { e.preventDefault(); setHowToOrderOpen(true); }}>
               {lang === 'en' ? 'How to Order' : 'Cómo Ordenar'}
             </a>
+            <Link href={`/reviews?lang=${lang}`}>
+              {lang === 'en' ? 'Reviews' : 'Reseñas'}
+            </Link>
             <a href="#" onClick={(e) => { e.preventDefault(); setContactModalOpen(true); setContactFormSuccess(false); }}>
               {lang === 'en' ? 'Contact Us' : 'Contáctanos'}
             </a>

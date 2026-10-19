@@ -7564,6 +7564,21 @@ body:has(.product-grid.grid-view) {
     background: var(--bg-card);
 }
 
+/* Shopper Approved seal sits with the other trust badges; no card chrome. */
+.trust-badge.trust-badge--sa,
+a.shopper-approved-seal.trust-badge {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    max-width: 120px;
+}
+.trust-badge.trust-badge--sa:hover,
+a.shopper-approved-seal.trust-badge:hover {
+    background: transparent;
+    transform: none;
+}
+
 .header-proof-column {
     display: flex;
     flex: 1 1 420px;

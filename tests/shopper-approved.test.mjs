@@ -5,7 +5,11 @@ import { readFile } from 'node:fs/promises';
 import {
   buildShopperApprovedRecord,
   shopperApprovedConfig,
+  shopperApprovedDisplayConfig,
+  shopperApprovedReviewPageScriptUrl,
   shopperApprovedScriptUrl,
+  shopperApprovedSealImageUrl,
+  shopperApprovedSiteId,
   shopperApprovedValues,
 } from '../src/lib/shopperApproved.mjs';
 
@@ -85,4 +89,39 @@ test('the survey token is not written into the source', async () => {
   assert.doesNotMatch(survey, /process\.env/);
   assert.doesNotMatch(survey, /SHOPPER_APPROVED_API_TOKEN/);
   assert.doesNotMatch(`${layout}\n${survey}`, /90cSXD5t|29967/);
+});
+
+test('display widgets need only the site id', () => {
+  assert.equal(shopperApprovedSiteId({}), null);
+  assert.equal(shopperApprovedSiteId({ SHOPPER_APPROVED_SITE_ID: '29967' }), '29967');
+  assert.equal(shopperApprovedConfig({ SHOPPER_APPROVED_SITE_ID: '29967' }), null);
+
+  const display = shopperApprovedDisplayConfig({ SHOPPER_APPROVED_SITE_ID: '29967' });
+  assert.deepEqual(display, {
+    siteId: '29967',
+    certificateUrl: 'https://www.shopperapproved.com/reviews/peptidescostarica.net/',
+    reviewPagePreset: 'default',
+  });
+  assert.equal(
+    shopperApprovedReviewPageScriptUrl(display.siteId),
+    'https://www.shopperapproved.com/widgets/29967/merchant/review-page/default.js',
+  );
+  assert.equal(
+    shopperApprovedSealImageUrl(display.siteId),
+    'https://www.shopperapproved.com/seals/29967-m.gif',
+  );
+  assert.equal(JSON.stringify(display).includes('90cSXD5t'), false);
+  assert.equal(JSON.stringify(display).includes('this-must-never-be-used'), false);
+});
+
+test('display API and reviews page never expose the survey token', async () => {
+  const api = await readFile(new URL('../src/app/api/shopper-approved/display/route.js', import.meta.url), 'utf8');
+  const page = await readFile(new URL('../src/app/reviews/page.js', import.meta.url), 'utf8');
+  const seal = await readFile(new URL('../src/components/ShopperApprovedSeal.js', import.meta.url), 'utf8');
+  const widget = await readFile(new URL('../src/components/ShopperApprovedReviewsWidget.js', import.meta.url), 'utf8');
+  const blob = `${api}\n${page}\n${seal}\n${widget}`;
+  assert.match(api, /shopperApprovedDisplayConfig/);
+  assert.match(page, /shopperApprovedDisplayConfig/);
+  assert.doesNotMatch(blob, /SHOPPER_APPROVED_SURVEY_TOKEN|SHOPPER_APPROVED_API_TOKEN|90cSXD5t/);
+  assert.doesNotMatch(blob, /NEXT_PUBLIC_SHOPPER_APPROVED/);
 });

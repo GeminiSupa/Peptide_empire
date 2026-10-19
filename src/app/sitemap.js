@@ -32,6 +32,7 @@ export default async function sitemap() {
     '/deal-of-the-week',
     '/contact',
     '/faq',
+    '/reviews',
     '/blog',
     '/coa-database',
     '/our-service-locations',
