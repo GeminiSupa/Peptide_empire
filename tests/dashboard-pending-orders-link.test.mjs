@@ -44,21 +44,26 @@ test('one dropdown drives the whole KPI row, defaulting to today', () => {
   // Whatever the default, it has to be one of the offered windows.
   assert.match(home, /\{ id: 'today', label: 'Today', start: \(now\) => startOfDay\(now\) \}/);
   assert.match(home, /\{ id: 'week', label: 'This week', start: \(now\) => startOfWeek\(now\) \}/);
-  for (const id of ["'today'", "'30d'", "'all'"]) assert.ok(home.includes(`{ id: ${id},`), id);
+  assert.match(home, /\{ id: 'custom', label: 'Custom range', start: \(\) => null \}/);
+  for (const id of ["'today'", "'30d'", "'all'", "'custom'"]) assert.ok(home.includes(`{ id: ${id},`), id);
   // One control above the grid, not one per tile.
   assert.equal((home.match(/className="dashboard-kpi-range"/g) || []).length, 1);
   assert.match(home, /aria-label="Date range for the figures below"/);
   assert.match(css, /\.dashboard-kpi-rangebar \{/);
+  // Custom From/To sit under the dropdown so any day span can drive the row.
+  assert.match(home, /className="dashboard-kpi-custom-range"/);
+  assert.match(css, /\.dashboard-kpi-custom-range \{/);
 });
 
 test('every figure in the row reads the same window', () => {
-  // 'All time' has no start, so an absent start must mean "everything".
-  assert.match(home, /const inRange = \(date\) => !kpiRangeStart \|\| date >= kpiRangeStart;/);
+  // Presets with no start ('all') mean everything; custom also closes at end.
+  assert.match(home, /if \(kpiRangeStart && date < kpiRangeStart\) return false;/);
+  assert.match(home, /if \(kpiRangeEnd && date >= kpiRangeEnd\) return false;/);
   assert.match(home, /orderCountsAsSale\(o\) && inRange\(getRevenueDate\(o\)\)/);
   assert.match(home, /\(c\.status === 'active' \|\| !c\.status\) && inRange\(new Date\(c\.created_at\)\)/);
   // Both memos have to recompute when the window moves, or a tile goes stale.
-  assert.match(home, /\}, \[orders, abandonedCarts, leads, products, exchangeRate, kpiRangeStart\]\);/);
-  assert.match(home, /\}, \[orders, exchangeRate, kpiRangeStart\]\);/);
+  assert.match(home, /\}, \[orders, abandonedCarts, leads, products, exchangeRate, kpiRangeStart, kpiRangeEnd, customIncomplete\]\);/);
+  assert.match(home, /\}, \[orders, exchangeRate, kpiRangeStart, kpiRangeEnd, customIncomplete\]\);/);
 });
 
 test('the split Today and This Week revenue tiles are gone', () => {
@@ -87,15 +92,15 @@ test('the Trustpilot quota keeps its own month', () => {
 
 test('hovering says which days, and whose', () => {
   assert.match(home, /Costa Rica time\./);
-  assert.match(home, /const kpiRangeHint = kpiRangeTooltip\(activeKpiRange, kpiRangeStart, new Date\(\)\);/);
+  assert.match(home, /const kpiRangeHint = kpiRangeTooltip\(activeKpiRange, kpiRangeStart, kpiRangeEnd, new Date\(\)\);/);
   assert.match(home, /'Everything on record, with no date limit\.'/);
   // On the dropdown and on each tile, so it is found from either.
   assert.ok((home.match(/title=\{kpiRangeHint\}/g) || []).length >= 4);
 });
 
 test('a breakdown names the window it was opened in', () => {
-  assert.match(home, /revenue: `Revenue, \$\{activeKpiRange\.label\.toLowerCase\(\)\}`/);
-  assert.match(home, /pendingOrders: `Pending Orders, \$\{activeKpiRange\.label\.toLowerCase\(\)\}`/);
+  assert.match(home, /revenue: `Revenue, \$\{kpiRangeLabel\.toLowerCase\(\)\}`/);
+  assert.match(home, /pendingOrders: `Pending Orders, \$\{kpiRangeLabel\.toLowerCase\(\)\}`/);
 });
 
 // The card used to open the unfiltered queue, so a "5 pending orders" prompt

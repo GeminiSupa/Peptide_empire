@@ -66,6 +66,36 @@ function startOfMonth(d = new Date()) {
   return new Date(cr.getTime() + CR_OFFSET_MS);
 }
 
+/** YYYY-MM-DD for a Date in Costa Rica wall-clock (for <input type="date">). */
+function toCrYmd(d = new Date()) {
+  const cr = new Date(d.getTime() - CR_OFFSET_MS);
+  return cr.toISOString().slice(0, 10);
+}
+
+/**
+ * Midnight Costa Rica for a YYYY-MM-DD the admin typed. The date field has no
+ * timezone, so we treat the day as a business day in CR — same as the presets.
+ */
+function startOfCrYmd(ymd) {
+  const text = String(ymd || '').trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(text)) return null;
+  const utcMidnight = new Date(`${text}T00:00:00Z`);
+  if (!Number.isFinite(utcMidnight.getTime())) return null;
+  return new Date(utcMidnight.getTime() + CR_OFFSET_MS);
+}
+
+/**
+ * Custom From/To window. End day is inclusive (through CR midnight of the next
+ * day). Reversed picks are swapped so choosing the end first still works.
+ */
+function customKpiWindow(startYmd, endYmd) {
+  let from = startOfCrYmd(startYmd);
+  let toDay = startOfCrYmd(endYmd);
+  if (!from || !toDay) return null;
+  if (from > toDay) [from, toDay] = [toDay, from];
+  return { start: from, end: new Date(toDay.getTime() + 86400000) };
+}
+
 // The date revenue should be recognized on: the first moment the order was
 // marked Paid or complete. The shared helper falls back to created_at for
 // legacy reportable orders with no status event logged.
@@ -83,18 +113,27 @@ function cartValue(cart) {
 
 // One window for the whole KPI row. Every start is a Costa Rica instant,
 // because the business day belongs to Costa Rica and not to whoever is reading,
-// and the week runs Monday to Sunday.
+// and the week runs Monday to Sunday. "Custom" has no fixed start — the From/To
+// fields below the dropdown set the bounds.
 const KPI_RANGES = [
   { id: 'week', label: 'This week', start: (now) => startOfWeek(now) },
   { id: 'today', label: 'Today', start: (now) => startOfDay(now) },
   { id: '30d', label: 'Last 30 days', start: (now) => new Date(startOfDay(now).getTime() - 29 * 86400000) },
   { id: 'all', label: 'All time', start: () => null },
+  { id: 'custom', label: 'Custom range', start: () => null },
 ];
 
 const KPI_RANGE_BY_ID = new Map(KPI_RANGES.map((range) => [range.id, range]));
 
 /** Spelled out on hover, because "this week" alone does not say whose week. */
-function kpiRangeTooltip(range, start, now) {
+function kpiRangeTooltip(range, start, end, now) {
+  if (range.id === 'custom') {
+    if (!start || !end) return 'Pick a From and To date (Costa Rica days).';
+    const day = { weekday: 'short', day: 'numeric', month: 'short' };
+    // end is exclusive (start of the day after To), so show the last included day.
+    const lastDay = new Date(end.getTime() - 1);
+    return `Custom: ${formatCrDate(start, day)} to ${formatCrDate(lastDay, day)}, Costa Rica time.`;
+  }
   if (!start) return 'Everything on record, with no date limit.';
   const day = { weekday: 'short', day: 'numeric', month: 'short' };
   return `${range.label}: ${formatCrDate(start, day)} to ${formatCrDate(now, day)}, Costa Rica time.`;
@@ -120,12 +159,41 @@ export default function DashboardHome({
   // One window over the whole row, opening on today because this screen is the
   // day's work. Early in the Costa Rica morning that is legitimately zero, and
   // the row says so on hover rather than looking broken; the week is one click
-  // away in the dropdown.
+  // away in the dropdown. Custom uses the two date fields, not a fixed start.
   const [kpiRange, setKpiRange] = useState('today');
+  const [customStart, setCustomStart] = useState('');
+  const [customEnd, setCustomEnd] = useState('');
 
   const activeKpiRange = KPI_RANGE_BY_ID.get(kpiRange) || KPI_RANGES[0];
-  const kpiRangeStart = useMemo(() => activeKpiRange.start(new Date()), [activeKpiRange]);
-  const kpiRangeHint = kpiRangeTooltip(activeKpiRange, kpiRangeStart, new Date());
+  const customWindow = useMemo(
+    () => (kpiRange === 'custom' ? customKpiWindow(customStart, customEnd) : null),
+    [kpiRange, customStart, customEnd]
+  );
+  const customIncomplete = kpiRange === 'custom' && !customWindow;
+  const kpiRangeStart = useMemo(() => {
+    if (kpiRange === 'custom') return customWindow?.start ?? null;
+    return activeKpiRange.start(new Date());
+  }, [kpiRange, activeKpiRange, customWindow]);
+  // Presets run through "now" (no end). Custom closes at the end of the To day.
+  const kpiRangeEnd = kpiRange === 'custom' ? (customWindow?.end ?? null) : null;
+  const kpiRangeLabel = useMemo(() => {
+    if (kpiRange !== 'custom') return activeKpiRange.label;
+    if (!customWindow) return 'Custom range';
+    const day = { day: 'numeric', month: 'short' };
+    const lastDay = new Date(customWindow.end.getTime() - 1);
+    return `${formatCrDate(customWindow.start, day)} – ${formatCrDate(lastDay, day)}`;
+  }, [kpiRange, activeKpiRange, customWindow]);
+  const kpiRangeHint = kpiRangeTooltip(activeKpiRange, kpiRangeStart, kpiRangeEnd, new Date());
+
+  const selectKpiRange = (nextId) => {
+    setKpiRange(nextId);
+    // Opening Custom with empty fields would blank the tiles; seed this CR week.
+    if (nextId === 'custom' && (!customStart || !customEnd)) {
+      const now = new Date();
+      setCustomStart(toCrYmd(startOfWeek(now)));
+      setCustomEnd(toCrYmd(now));
+    }
+  };
 
   const expandedMetrics = useMemo(
     () => calculateExpandedSalesMetrics(orders, products, exchangeRate),
@@ -134,8 +202,14 @@ export default function DashboardHome({
 
   const stats = useMemo(() => {
     const now = new Date();
-    // 'All time' has no start, so an absent start means everything qualifies.
-    const inRange = (date) => !kpiRangeStart || date >= kpiRangeStart;
+    // Custom incomplete: neither bound yet, so nothing qualifies until both
+    // dates are set. Presets with no start ('all') mean everything qualifies.
+    const inRange = (date) => {
+      if (customIncomplete) return false;
+      if (kpiRangeStart && date < kpiRangeStart) return false;
+      if (kpiRangeEnd && date >= kpiRangeEnd) return false;
+      return true;
+    };
 
     // Every state that is waiting on money, not just the literal 'Pending'.
     const pendingOrders = orders.filter(
@@ -190,13 +264,18 @@ export default function DashboardHome({
       recentOrders,
       trustpilotUsed,
     };
-  }, [orders, abandonedCarts, leads, products, exchangeRate, kpiRangeStart]);
+  }, [orders, abandonedCarts, leads, products, exchangeRate, kpiRangeStart, kpiRangeEnd, customIncomplete]);
 
   // What actually made each tile. Deliberately wider than the tile itself: it
   // carries the orders inside the window that are NOT counting too, since the
   // point is to be able to force one in as well as hold one out.
   const breakdowns = useMemo(() => {
-    const inRange = (date) => !kpiRangeStart || date >= kpiRangeStart;
+    const inRange = (date) => {
+      if (customIncomplete) return false;
+      if (kpiRangeStart && date < kpiRangeStart) return false;
+      if (kpiRangeEnd && date >= kpiRangeEnd) return false;
+      return true;
+    };
 
     return {
       revenue: orders
@@ -232,13 +311,13 @@ export default function DashboardHome({
         }))
         .sort((a, b) => b.date - a.date),
     };
-  }, [orders, exchangeRate, kpiRangeStart]);
+  }, [orders, exchangeRate, kpiRangeStart, kpiRangeEnd, customIncomplete]);
 
   // The window is named in the heading so a breakdown opened from a tile cannot
   // be read as the whole picture.
   const TILE_TITLES = {
-    revenue: `Revenue, ${activeKpiRange.label.toLowerCase()}`,
-    pendingOrders: `Pending Orders, ${activeKpiRange.label.toLowerCase()}`,
+    revenue: `Revenue, ${kpiRangeLabel.toLowerCase()}`,
+    pendingOrders: `Pending Orders, ${kpiRangeLabel.toLowerCase()}`,
   };
   const TILE_SUBTITLES = {
     revenue: 'Orders dated by when they were first marked paid or complete, not when they were created.',
@@ -392,7 +471,8 @@ export default function DashboardHome({
       </section>
 
       {/* One window over every tile below it. Hovering the dropdown spells the
-          dates out, because "this week" alone does not say whose week. */}
+          dates out, because "this week" alone does not say whose week. Custom
+          adds From/To so any Costa Rica day span can drive the same row. */}
       <div className="dashboard-kpi-rangebar">
         <span className="dashboard-kpi-rangebar-label">Showing</span>
         <select
@@ -400,13 +480,38 @@ export default function DashboardHome({
           aria-label="Date range for the figures below"
           title={kpiRangeHint}
           value={kpiRange}
-          onChange={(event) => setKpiRange(event.target.value)}
+          onChange={(event) => selectKpiRange(event.target.value)}
         >
           {KPI_RANGES.map((range) => (
             <option key={range.id} value={range.id}>{range.label}</option>
           ))}
         </select>
       </div>
+      {kpiRange === 'custom' && (
+        <div className="dashboard-kpi-custom-range">
+          <label>
+            <span>From</span>
+            <input
+              type="date"
+              value={customStart}
+              max={customEnd || undefined}
+              onChange={(e) => setCustomStart(e.target.value)}
+            />
+          </label>
+          <label>
+            <span>To</span>
+            <input
+              type="date"
+              value={customEnd}
+              min={customStart || undefined}
+              onChange={(e) => setCustomEnd(e.target.value)}
+            />
+          </label>
+          {customIncomplete && (
+            <span className="dashboard-kpi-custom-hint">Pick both dates to load this range.</span>
+          )}
+        </div>
+      )}
 
       <div className="dashboard-kpi-grid">
         <button
