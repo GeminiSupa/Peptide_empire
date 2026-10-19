@@ -4,7 +4,7 @@ import { catalogUrl } from '@/content/global';
 import { imageSource } from '@/lib/images';
 import { localePath } from '@/lib/routes';
 import { productCategoryLabel } from '@/lib/product-category-label';
-import { allHomeProducts, getLiveCatalogRows, inStockHomeProducts, productKey, rankedHomeProducts } from '@/lib/home-products';
+import { allHomeProducts, getLiveCatalogRows, inStockHomeProducts, productKey, rankedHomeProducts, withLiveCatalogProduct } from '@/lib/home-products';
 
 const INITIAL_COUNT = 11;
 const slug = (path) => String(path || '').replace(/^\/|\/$/g, '').split('/').pop();
@@ -19,7 +19,9 @@ export default async function AlphabetProductGrid({ lang }) {
     .map((product) => [productKey(product.name), product])).values()]
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  const prepare = (product) => ({
+  const prepare = (original) => {
+    const product = withLiveCatalogProduct(original, rows);
+    return ({
     name: product.name,
     price: product.price,
     category: productCategoryLabel(product.category, lang),
@@ -27,7 +29,8 @@ export default async function AlphabetProductGrid({ lang }) {
     href: product.href && byEnglishSlug(slug(product.href))
       ? localePath(product.href, lang)
       : null,
-  });
+    });
+  };
 
   return (
     <AlphabetProductBrowser

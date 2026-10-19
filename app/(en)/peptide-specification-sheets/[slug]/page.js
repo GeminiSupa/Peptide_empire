@@ -6,6 +6,7 @@ import { byEnglishSlug } from '@/content/pages/registry';
 import { allRoutes, alternates } from '@/lib/routes';
 import { metaTitle, pageTitle } from '@/lib/page-title';
 import { metadataForPath } from '@/lib/seo';
+import { getPublishedPage } from '@/lib/site-cms';
 
 const PREFIX = '/peptide-specification-sheets/';
 
@@ -18,7 +19,7 @@ export function generateStaticParams() {
 }
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const page = byEnglishSlug(slug);
+  const page = await getPublishedPage(byEnglishSlug(slug));
   if (!page) return {};
   const alt = alternates(page.en);
   return metadataForPath(page.en, {
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }) {
 
 export default async function SpecificationSheetEn({ params }) {
   const { slug } = await params;
-  const page = byEnglishSlug(slug);
+  const page = await getPublishedPage(byEnglishSlug(slug));
   if (!page || !page.en.startsWith(PREFIX)) notFound();
 
   return (

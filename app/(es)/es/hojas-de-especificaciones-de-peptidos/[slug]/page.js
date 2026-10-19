@@ -6,6 +6,7 @@ import { bySpanishSlug } from '@/content/pages/registry';
 import { allRoutes, alternates } from '@/lib/routes';
 import { metaTitle, pageTitle } from '@/lib/page-title';
 import { metadataForPath } from '@/lib/seo';
+import { getPublishedPage } from '@/lib/site-cms';
 
 const PREFIX = '/es/hojas-de-especificaciones-de-peptidos/';
 
@@ -18,7 +19,7 @@ export function generateStaticParams() {
 }
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const page = bySpanishSlug(slug);
+  const page = await getPublishedPage(bySpanishSlug(slug));
   if (!page) return {};
   const alt = alternates(page.en);
   return metadataForPath(page.es, {
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }) {
 
 export default async function SpecificationSheetEs({ params }) {
   const { slug } = await params;
-  const page = bySpanishSlug(slug);
+  const page = await getPublishedPage(bySpanishSlug(slug));
   if (!page || !page.es?.startsWith(PREFIX)) notFound();
 
   return (

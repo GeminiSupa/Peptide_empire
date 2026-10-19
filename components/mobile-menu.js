@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { ChevronDown, Menu, X } from 'lucide-react';
-import { nav, headerContact, CONTACT, catalogUrl } from '@/content/global';
+import { CONTACT, catalogUrl } from '@/content/global';
 import { label } from '@/lib/i18n';
 import { alternatePath, localePath, DEFAULT_LANG } from '@/lib/routes';
 
@@ -13,7 +13,7 @@ const UI = {
   en: { menu: 'Menu', open: 'Open menu', close: 'Close menu', shop: 'Shop Now', switchTo: 'Español' },
 };
 
-export default function MobileMenu({ lang = DEFAULT_LANG, path = '/' }) {
+export default function MobileMenu({ lang = DEFAULT_LANG, path = '/', nav, headerContact }) {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(null);
   const [mounted, setMounted] = useState(false);

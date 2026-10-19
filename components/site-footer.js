@@ -3,7 +3,7 @@ import { Cloud, Mail, Music2, Phone } from 'lucide-react';
 import Container from '@/components/ui/container';
 import Logo from '@/components/logo';
 import WhatsAppIcon from '@/components/whatsapp-icon';
-import { footer } from '@/content/global';
+import { getPublishedGlobal } from '@/lib/site-cms';
 import { imageSource } from '@/lib/images';
 import { label, t } from '@/lib/i18n';
 import { localePath, DEFAULT_LANG } from '@/lib/routes';
@@ -13,7 +13,7 @@ const HEADINGS = {
   en: { quick: 'Quick Links', categories: 'Shop By Categories', contact: 'Contact Us', legal: 'Legal Notice:' },
 };
 
-function BulkOffer({ lang }) {
+function BulkOffer({ lang, footer }) {
   const bulk = footer.bulk;
   if (!bulk?.lines_en?.length) return null;
   const lines = (lang === 'es' ? bulk.lines_es : bulk.lines_en) ?? bulk.lines_en;
@@ -60,7 +60,7 @@ function Stars({ score, best, lang }) {
   );
 }
 
-function ReviewBand({ lang }) {
+function ReviewBand({ lang, footer }) {
   const reviews = footer.reviews ?? [];
   if (!reviews.length) return null;
 
@@ -134,12 +134,13 @@ function SocialIcon({ name }) {
   }
 }
 
-export default function SiteFooter({ lang = DEFAULT_LANG }) {
+export default async function SiteFooter({ lang = DEFAULT_LANG }) {
+  const { footer } = await getPublishedGlobal();
   const headings = HEADINGS[lang] || HEADINGS[DEFAULT_LANG];
 
   return (
     <footer className="mt-auto border-t border-slate-200 bg-slate-50 text-primary">
-      <BulkOffer lang={lang} />
+      <BulkOffer lang={lang} footer={footer} />
 
       <Container className="py-10 sm:py-16">
         <div className="grid grid-cols-2 gap-x-5 gap-y-8 md:grid-cols-2 md:gap-10 lg:grid-cols-[1.15fr_0.9fr_0.95fr_1fr]">
@@ -208,7 +209,7 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
           </div>
         </div>
 
-        <ReviewBand lang={lang} />
+        <ReviewBand lang={lang} footer={footer} />
       </Container>
 
       <Container className="pb-6">

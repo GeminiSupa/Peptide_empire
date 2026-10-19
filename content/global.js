@@ -6,9 +6,8 @@
  * earlier hand-written Spanish in lib/nav.js and lib/site.js turned out not to
  * match the live site and has been dropped.
  *
- * This module is the seam where the future CMS plugs in: today it reads a JSON
- * file, later it reads the `site_cms_settings` table. Components import from
- * here and never from data/ directly, so that swap touches one file.
+ * These values remain the fallback when the published CMS document is not yet
+ * available. The shared header, footer and contact bar read that document.
  */
 import globalData from '@/data/global.json';
 

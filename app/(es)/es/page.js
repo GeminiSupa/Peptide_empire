@@ -1,3 +1,4 @@
+import { getPublishedPage } from '@/lib/site-cms';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
@@ -13,10 +14,11 @@ import { metadataForPath } from '@/lib/seo';
  * was invented rather than reproduced, and which captured text only — none of
  * the page's 45 images and only 12 of its 63 headings.
  */
-const page = homeData.pages[0];
+const sourcePage = homeData.pages[0];
 
 /** Stated explicitly rather than inherited, so it cannot drift from the English side. */
-export function generateMetadata() {
+export async function generateMetadata() {
+  const page = await getPublishedPage(sourcePage);
   const alt = alternates('/');
   return metadataForPath('/es/', {
     title: page.head.title_es,
@@ -26,7 +28,8 @@ export function generateMetadata() {
   });
 }
 
-export default function HomeEs() {
+export default async function HomeEs() {
+  const page = await getPublishedPage(sourcePage);
   return (
     <>
       <SiteHeader lang="es" path="/es/" />

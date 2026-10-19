@@ -2,6 +2,7 @@ import { ExternalLink } from 'lucide-react';
 import { catalogUrl, ui } from '@/content/global';
 import { t } from '@/lib/i18n';
 import { imageSource, SIZES } from '@/lib/images';
+import { getLiveCatalogRows, withLiveCatalogProduct } from '@/lib/home-products';
 import { productCategoryLabel } from '@/lib/product-category-label';
 
 /**
@@ -13,15 +14,16 @@ import { productCategoryLabel } from '@/lib/product-category-label';
  * the WooCommerce add-to-cart widget for the same reason, so nothing downstream
  * can render a dead quantity control.
  *
- * The price is a harvest-time snapshot, which is why it is presented alongside
- * a link out rather than as a figure to transact on.
+ * The visible price is read from the live catalog product record.
  */
-export default function ProductSummary({ product, lang }) {
-  const store = product.store;
+export default async function ProductSummary({ product, lang }) {
+  const store = product.store
+    ? withLiveCatalogProduct({ ...product.store, image: product.store.images?.[0] }, await getLiveCatalogRows())
+    : null;
   if (!store) return null;
 
   // Resolved so an unservable image is skipped, not rendered broken.
-  const image = imageSource(store.images?.[0]);
+  const image = imageSource(store.image);
   const label = t(ui, 'buyOnCatalog', lang);
   const priceNote = t(ui, 'priceShownIn', lang);
 
@@ -51,6 +53,10 @@ export default function ProductSummary({ product, lang }) {
               </span>
             )}
           </p>
+        )}
+
+        {store.inStock === false && (
+          <p className="mt-3 text-sm font-semibold text-text-muted">{lang === 'es' ? 'Agotado en el catálogo' : 'Out of stock in the catalog'}</p>
         )}
 
         <a

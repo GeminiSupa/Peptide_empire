@@ -3,6 +3,7 @@ import { t } from '@/lib/i18n';
 import { imageSource, SIZES } from '@/lib/images';
 import { localePath } from '@/lib/routes';
 import { dedupeProducts } from '@/lib/dedupe-products';
+import { getLiveCatalogRows, withLiveCatalogProduct } from '@/lib/home-products';
 
 /**
  * A grid of products for the category archives.
@@ -11,9 +12,10 @@ import { dedupeProducts } from '@/lib/dedupe-products';
  * product page is where the buy action lives, so there is exactly one place a
  * visitor crosses over to the catalog site rather than several.
  *
- * Prices are a harvest snapshot; the catalog site is the authority.
+ * Prices are read from the live catalog; the catalog site is the authority.
  */
-export default function ProductList({ products, lang, emptyLabel }) {
+export default async function ProductList({ products, lang, emptyLabel }) {
+  const rows = await getLiveCatalogRows();
   const visibleProducts = dedupeProducts(products);
   if (!visibleProducts.length) {
     return emptyLabel ? <p className="mt-8 text-sm text-text-muted">{emptyLabel}</p> : null;
@@ -22,10 +24,12 @@ export default function ProductList({ products, lang, emptyLabel }) {
   return (
     <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {visibleProducts.map((product) => {
-        const store = product.store;
+        const store = product.store
+          ? withLiveCatalogProduct({ ...product.store, image: product.store.images?.[0] }, rows)
+          : null;
         const name = store?.name ?? product.slug;
         // Resolved so an unservable image is skipped, not rendered broken.
-        const image = imageSource(store?.images?.[0]);
+        const image = imageSource(store?.image);
         return (
           <li key={product.slug}>
             <Link

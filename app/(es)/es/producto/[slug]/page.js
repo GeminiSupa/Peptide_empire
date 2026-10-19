@@ -1,3 +1,4 @@
+import { getPublishedPage } from '@/lib/site-cms';
 import { notFound } from 'next/navigation';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
@@ -17,7 +18,7 @@ export function generateStaticParams() {
 }
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const page = bySpanishSlug(slug);
+  const page = await getPublishedPage(bySpanishSlug(slug));
   if (!page) return {};
   const alt = alternates(page.en);
   return metadataForPath(page.es, {
@@ -30,7 +31,7 @@ export async function generateMetadata({ params }) {
 
 export default async function ProductEs({ params }) {
   const { slug } = await params;
-  const page = bySpanishSlug(slug);
+  const page = await getPublishedPage(bySpanishSlug(slug));
   if (!page) notFound();
 
   return (

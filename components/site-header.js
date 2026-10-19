@@ -5,7 +5,8 @@ import Logo from '@/components/logo';
 import WhatsAppIcon from '@/components/whatsapp-icon';
 import MobileMenu from '@/components/mobile-menu';
 import HeaderSearch from '@/components/header-search';
-import { announcement, headerContact, nav, catalogUrl, ui } from '@/content/global';
+import { catalogUrl, ui } from '@/content/global';
+import { getPublishedGlobal } from '@/lib/site-cms';
 import { searchIndex } from '@/lib/search-index';
 import { label, t } from '@/lib/i18n';
 import { alternatePath, localePath, DEFAULT_LANG } from '@/lib/routes';
@@ -22,7 +23,8 @@ const UI = {
   en: { current: 'English', switchTo: 'Español' },
 };
 
-export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
+export default async function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
+  const { announcement, headerContact, nav } = await getPublishedGlobal();
   const labels = UI[lang] || UI[DEFAULT_LANG];
   const lp = (href) => localePath(href, lang);
   const index = searchIndex(lang);
@@ -155,7 +157,7 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
             <ShoppingCart aria-hidden="true" className="h-4 w-4" />
             {t(ui, 'cart', lang)}
           </a>
-          <MobileMenu lang={lang} path={path} />
+          <MobileMenu lang={lang} path={path} nav={nav} headerContact={headerContact} />
         </div>
       </Container>
       </header>

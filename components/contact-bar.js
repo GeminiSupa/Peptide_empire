@@ -1,5 +1,5 @@
 import { Mail, Phone } from 'lucide-react';
-import { contactBar } from '@/content/global';
+import { getPublishedGlobal } from '@/lib/site-cms';
 import { label } from '@/lib/i18n';
 import WhatsAppIcon from '@/components/whatsapp-icon';
 
@@ -21,7 +21,8 @@ const STYLE = {
   email: { radius: '6px', Icon: Mail },
 };
 
-export default function ContactBar({ lang }) {
+export default async function ContactBar({ lang }) {
+  const { contactBar } = await getPublishedGlobal();
   if (!contactBar?.length) return null;
 
   return (

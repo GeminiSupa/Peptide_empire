@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { catalogUrl } from '@/content/global';
 import { byEnglishSlug } from '@/content/pages/products';
 import { imageSource, SIZES } from '@/lib/images';
+import { getLiveCatalogRows, withLiveCatalogProduct } from '@/lib/home-products';
 import { productCategoryLabel } from '@/lib/product-category-label';
 import { localePath } from '@/lib/routes';
 
@@ -25,7 +26,8 @@ const segment = (path) =>
     .split('/')
     .pop();
 
-export default function ProductCard({ product, lang }) {
+export default async function ProductCard({ product, lang }) {
+  product = withLiveCatalogProduct(product, await getLiveCatalogRows());
   // Resolved, not the raw path: an image that cannot be served resolves to a
   // null src and is skipped rather than rendered as a broken image.
   const image = imageSource(product.image);
@@ -79,6 +81,7 @@ export default function ProductCard({ product, lang }) {
         <div className="flex flex-1 flex-col">{details}</div>
       )}
       {product.price && <p className="mt-3 text-base font-extrabold text-accent">{product.price}</p>}
+      {product.inStock === false && <p className="mt-3 text-sm font-semibold text-text-muted">{lang === 'es' ? 'Agotado' : 'Out of stock'}</p>}
       {own ? (
         <Link
           className="product-card-button mt-4 inline-flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-bold text-white transition hover:bg-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"

@@ -7,7 +7,8 @@ import FaqAccordion from '@/components/faq-accordion';
 import GuideArticle from '@/components/guide-article';
 import LinkList from '@/components/link-list';
 import { BLOCK_COMPONENTS, CardGrid, WIDE_TYPES } from '@/components/blocks';
-import { nav, catalogUrl, ui } from '@/content/global';
+import { catalogUrl, ui } from '@/content/global';
+import { getPublishedGlobal } from '@/lib/site-cms';
 import { t, label } from '@/lib/i18n';
 import { localePath } from '@/lib/routes';
 import { imageUrl } from '@/lib/images';
@@ -195,7 +196,8 @@ function FeatureCards({ content, lang, index }) {
 }
 
 /** Category pills. Sourced from the harvested nav so there is one list, not two. */
-function CategoryChips({ content, lang, index }) {
+async function CategoryChips({ content, lang, index }) {
+  const { nav } = await getPublishedGlobal();
   const categories = nav.find((n) => n.children.length > 5 && !n.href)?.children || [];
   return (
     <Section id="categories" className={index % 2 === 0 ? 'bg-white' : 'bg-bg-main'}>
@@ -317,11 +319,14 @@ function TextCta({ content, lang, index }) {
   );
 }
 
-function CallToOrderCards({ content, lang, index }) {
+async function CallToOrderCards({ content, lang, index }) {
+  const { getLiveCatalogRows, withLiveCatalogProduct } = await import('@/lib/home-products');
+  const rows = await getLiveCatalogRows();
   return (
     <Section className={index % 2 === 0 ? 'bg-white' : 'bg-bg-main'}>
       <div className="grid gap-6 md:grid-cols-2">
         {(content.cards || []).map((card, i) => {
+          const live = withLiveCatalogProduct({ name: card.name_en }, rows);
           const benefits = list(card, 'benefits', lang);
           const href = card.cta_href || '';
           return (
@@ -333,9 +338,7 @@ function CallToOrderCards({ content, lang, index }) {
                 {t(card, 'badge', lang)}
               </span>
               <h3 className="mt-4 text-xl font-bold">{t(card, 'name', lang)}</h3>
-              <p className="mt-2 text-3xl font-extrabold text-primary">
-                {t(card, 'price', lang)}
-              </p>
+              {live.price && <p className="mt-2 text-3xl font-extrabold text-primary">{live.price}</p>}
               <ul className="mt-5 flex-1 space-y-2.5">
                 {benefits.map((b) => (
                   <li key={b} className="flex items-start gap-2.5 text-sm text-text-muted">
