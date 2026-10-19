@@ -50,3 +50,7 @@ Images.zip
 # disk for reference, out of the repo and the deployment.
 Manual comparisons between our cloned website and the original/
 .qa-cache/
+
+# Local translation response caches; the translated page content is committed.
+.spanish-html-cache.json
+.spanish-translation-cache.json

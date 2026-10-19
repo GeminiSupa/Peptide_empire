@@ -69,7 +69,7 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
       <Container className="flex items-center justify-between gap-4 py-2.5 sm:py-3">
         <Logo lang={lang} />
 
-        <nav className={lang === 'es' ? 'hidden min-[1200px]:block' : 'hidden lg:block'} aria-label="Main">
+        <nav className={lang === 'es' ? 'hidden min-[1200px]:block' : 'hidden lg:block'} aria-label={lang === 'es' ? 'Principal' : 'Main'}>
           <ul className="flex items-center gap-1">
             {nav.map((item) => {
               const text = label(item, lang);
@@ -137,7 +137,7 @@ export default function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
               site's currency; the catalog site remains where anyone transacts. */}
           <span
             className="hidden items-center rounded border border-slate-300 px-2.5 py-1.5 text-xs font-semibold text-text-main lg:inline-flex"
-            title="Prices shown in Costa Rican colón"
+            title={lang === 'es' ? 'Precios en colones costarricenses' : 'Prices shown in Costa Rican colón'}
           >
             ₡ CRC
           </span>

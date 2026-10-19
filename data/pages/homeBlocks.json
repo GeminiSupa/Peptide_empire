@@ -159,10 +159,10 @@
                         "width": 1535,
                         "height": 1024,
                         "alt_en": "Peptides Costa Rica peptide vials GLOW, Epithalon, and BPC-157.",
-                        "alt_es": "Peptides Costa Rica peptide vials GLOW, Epithalon, and BPC-157.",
+                        "alt_es": "Viales de péptidos GLOW, Epithalon y BPC-157 de Peptides Costa Rica.",
                         "align": "center",
-                  "displayWidth": "95%",
-                  "priority": true
+                        "displayWidth": "95%",
+                        "priority": true
                       }
                     }
                   ]
@@ -225,7 +225,7 @@
                         "width": 300,
                         "height": 112,
                         "alt_en": "The Costa Rica News Logo",
-                        "alt_es": "The Costa Rica News Logo",
+                        "alt_es": "Logotipo de The Costa Rica News",
                         "displayWidth": "40%"
                       }
                     },
@@ -341,7 +341,7 @@
                         "width": 529,
                         "height": 134,
                         "alt_en": "The Tico Times Since 1956 Logo",
-                        "alt_es": "The Tico Times Since 1956 Logo",
+                        "alt_es": "Logotipo de Tico Times, desde 1956",
                         "displayWidth": "30%",
                         "order": -99999
                       }
@@ -755,7 +755,7 @@
                 "content": {
                   "level": 2,
                   "text_en": "How We Operate",
-                  "text_es": "How We Operate",
+                  "text_es": "Cómo operamos",
                   "align": "center"
                 }
               },
@@ -763,7 +763,7 @@
                 "type": "paragraph",
                 "content": {
                   "text_en": "Learn about how the catalog works, what’s on each product page, what documentation exists, how orders are handled, and who to contact.",
-                  "text_es": "Learn about how the catalog works, what’s on each product page, what documentation exists, how orders are handled, and who to contact.",
+                  "text_es": "Conozca cómo funciona el catálogo, qué hay en la página de cada producto, qué documentación existe, cómo se manejan los pedidos y a quién contactar.",
                   "align": "center",
                   "color": "#000000",
                   "font": {
@@ -831,7 +831,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Every product page lists compound name, vial size, physical form, molecular weight, purity as tested, and storage requirements. The same fields, in the same order, every time.",
-                        "text_es": "Every product page lists compound name, vial size, physical form, molecular weight, purity as tested, and storage requirements. The same fields, in the same order, every time.",
+                        "text_es": "Cada página de producto enumera el nombre del compuesto, el tamaño del vial, la forma física, el peso molecular, la pureza probada y los requisitos de almacenamiento. Los mismos campos, en el mismo orden, siempre.",
                         "align": "center",
                         "color": "#000000"
                       }
@@ -866,7 +866,7 @@
                       "content": {
                         "level": 2,
                         "text_en": "Available Documentation",
-                        "text_es": "Available Documentation",
+                        "text_es": "Documentación disponible",
                         "align": "center",
                         "color": "#08236B",
                         "font": {
@@ -881,7 +881,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Each batch has a certificate of analysis and a specification sheet published before it goes on sale. Visit the product page or share your batch number to pull both.",
-                        "text_es": "Each batch has a certificate of analysis and a specification sheet published before it goes on sale. Visit the product page or share your batch number to pull both.",
+                        "text_es": "Cada lote cuenta con un certificado de análisis y una hoja de especificaciones publicada antes de salir a la venta. Visite la página del producto o comparta su número de lote para obtener ambos.",
                         "align": "center",
                         "color": "#000000"
                       }
@@ -931,7 +931,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Products arrive lyophilised and stay at 2–8°C from arrival to dispatch. Cold storage is on site, so nothing sits waiting in a third-party warehouse.",
-                        "text_es": "Products arrive lyophilised and stay at 2–8°C from arrival to dispatch. Cold storage is on site, so nothing sits waiting in a third-party warehouse.",
+                        "text_es": "Los productos llegan liofilizados y permanecen entre 2 y 8 °C desde su llegada hasta su envío. El almacenamiento en frío está en el lugar, por lo que nada queda esperando en un almacén de terceros.",
                         "align": "center",
                         "color": "#000000"
                       }
@@ -966,7 +966,7 @@
                       "content": {
                         "level": 2,
                         "text_en": "Ordering & Delivery",
-                        "text_es": "Ordering & Delivery",
+                        "text_es": "Pedido y entrega",
                         "align": "center",
                         "color": "#08236B",
                         "font": {
@@ -981,7 +981,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Our stock levels are live on the catalog page. We confirm availability and send your full total before any payment, and deliver orders across Costa Rica within days.",
-                        "text_es": "Our stock levels are live on the catalog page. We confirm availability and send your full total before any payment, and deliver orders across Costa Rica within days.",
+                        "text_es": "Las existencias se muestran en la página del catálogo. Confirmamos la disponibilidad y comunicamos el importe total antes del pago. Entregamos pedidos en toda Costa Rica en cuestión de días.",
                         "align": "center",
                         "color": "#000000"
                       }
@@ -1016,7 +1016,7 @@
                       "content": {
                         "level": 2,
                         "text_en": "Bulk & Pricing",
-                        "text_es": "Bulk & Pricing",
+                        "text_es": "Volumen y precios",
                         "align": "center",
                         "color": "#08236B",
                         "font": {
@@ -1031,7 +1031,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "All our prices are transparent. Ordering 5 or more vials of the same product takes 15% off, applied before you pay. No tiers, no minimum spend, no membership required.",
-                        "text_es": "All our prices are transparent. Ordering 5 or more vials of the same product takes 15% off, applied before you pay. No tiers, no minimum spend, no membership required.",
+                        "text_es": "Todos nuestros precios son transparentes. Al pedir 5 o más viales del mismo producto, obtiene un 15 % de descuento antes de pagar. Sin niveles de descuento, gasto mínimo ni membresía.",
                         "align": "center",
                         "color": "#000000"
                       }
@@ -1066,7 +1066,7 @@
                       "content": {
                         "level": 2,
                         "text_en": "Customer Support",
-                        "text_es": "Customer Support",
+                        "text_es": "Atención al cliente",
                         "align": "center",
                         "color": "#08236B",
                         "font": {
@@ -1081,7 +1081,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Questions about stock, documentation, or an order in progress: we’re always available on WhatsApp or call. If a vial arrives damaged or a batch doesn’t match, we replace it.",
-                        "text_es": "Questions about stock, documentation, or an order in progress: we’re always available on WhatsApp or call. If a vial arrives damaged or a batch doesn’t match, we replace it.",
+                        "text_es": "Dudas sobre stock, documentación o pedido en curso: siempre estamos disponibles por WhatsApp o llamada. Si un vial llega dañado o un lote no coincide, lo reemplazamos.",
                         "align": "center",
                         "color": "#000000"
                       }
@@ -1122,7 +1122,7 @@
                       "content": {
                         "level": 2,
                         "text_en": "PACKAGING & DELIVERY",
-                        "text_es": "PACKAGING & DELIVERY",
+                        "text_es": "EMBALAJE Y ENTREGA",
                         "align": "center",
                         "color": "#D35400",
                         "font": {
@@ -1136,7 +1136,7 @@
                       "content": {
                         "level": 2,
                         "text_en": "Secure Packaging. Local Delivery.",
-                        "text_es": "Secure Packaging. Local Delivery.",
+                        "text_es": "Embalaje seguro. Entrega local.",
                         "align": "center",
                         "color": "#FFFFFF"
                       }
@@ -1145,7 +1145,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Any number of vials are securely packaged to ensure safe delivery of every order. Confirm current product details and stock before payment.",
-                        "text_es": "Any number of vials are securely packaged to ensure safe delivery of every order. Confirm current product details and stock before payment.",
+                        "text_es": "Empaquetamos de forma segura cualquier cantidad de viales para garantizar la entrega de cada pedido. Confirme los detalles actuales del producto y las existencias antes del pago.",
                         "align": "center",
                         "color": "#FFFFFF"
                       }
@@ -1177,7 +1177,7 @@
                               "width": null,
                               "height": null,
                               "alt_en": "BPC-157 and Epitalon peptide vials from Peptides Costa Rica.",
-                              "alt_es": "BPC-157 and Epitalon peptide vials from Peptides Costa Rica."
+                              "alt_es": "Viales de péptidos BPC-157 y Epitalon de Peptides Costa Rica."
                             }
                           },
                           {
@@ -1187,7 +1187,7 @@
                               "width": null,
                               "height": null,
                               "alt_en": "Peptides Costa Rica gift box with BPC-157, Epitalon, and NAD+ vials.",
-                              "alt_es": "Peptides Costa Rica gift box with BPC-157, Epitalon, and NAD+ vials."
+                              "alt_es": "Caja de regalo de Peptides Costa Rica con viales de BPC-157, Epitalon y NAD+."
                             }
                           }
                         ]
@@ -1213,7 +1213,7 @@
                             "type": "card",
                             "content": {
                               "title_en": "Compound names and vial sizes",
-                              "title_es": "Compound names and vial sizes",
+                              "title_es": "Nombres de compuestos y tamaños de viales",
                               "text_en": "",
                               "text_es": "",
                               "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-star\" viewBox=\"0 0 576 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z\"></path></svg>",
@@ -1224,7 +1224,7 @@
                             "type": "card",
                             "content": {
                               "title_en": "Stock confirmation before payment",
-                              "title_es": "Stock confirmation before payment",
+                              "title_es": "Confirmación de existencias antes del pago",
                               "text_en": "",
                               "text_es": "",
                               "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-star\" viewBox=\"0 0 576 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z\"></path></svg>",
@@ -1235,7 +1235,7 @@
                             "type": "card",
                             "content": {
                               "title_en": "Delivery across Costa Rica",
-                              "title_es": "Delivery across Costa Rica",
+                              "title_es": "Entrega en toda Costa Rica",
                               "text_en": "",
                               "text_es": "",
                               "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-star\" viewBox=\"0 0 576 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z\"></path></svg>",
@@ -1490,7 +1490,7 @@
                         "width": 1535,
                         "height": 1024,
                         "alt_en": "Peptides Costa Rica peptide vials GLOW, Epithalon, and BPC-157.",
-                        "alt_es": "Peptides Costa Rica peptide vials GLOW, Epithalon, and BPC-157.",
+                        "alt_es": "Viales de péptidos GLOW, Epithalon y BPC-157 de Peptides Costa Rica.",
                         "displayWidth": "90%"
                       }
                     }
@@ -1624,7 +1624,12 @@
                         "justify": "center",
                         "minHeight": 332,
                         "copyWidth": 58,
-                        "pad": [24, 24, 24, 24],
+                        "pad": [
+                          24,
+                          24,
+                          24,
+                          24
+                        ],
                         "boxed": false,
                         "children": [
                           {
@@ -1795,28 +1800,32 @@
                       "text": "The team was helpful, responsive and easy to communicate with.",
                       "source": "Trustpilot",
                       "stars": 5,
-                      "href": "https://www.trustpilot.com/review/peptidescostarica.net"
+                      "href": "https://www.trustpilot.com/review/peptidescostarica.net",
+                      "text_es": "El equipo fue servicial, respondió con rapidez y fue fácil comunicarse con ellos."
                     },
                     {
                       "author": "Taty Vibecr",
                       "text": "Quick response and transparent transactions. Reliable!",
                       "source": "Trustpilot",
                       "stars": 5,
-                      "href": "https://www.trustpilot.com/review/peptidescostarica.net"
+                      "href": "https://www.trustpilot.com/review/peptidescostarica.net",
+                      "text_es": "Respuesta rápida y transacciones transparentes. ¡Confiables!"
                     },
                     {
                       "author": "Ekaterina Putnam",
                       "text": "Great communication and fast shipping! It was nice that there was a real person to answer my questions.",
                       "source": "Shopper Approved",
                       "stars": 5,
-                      "href": "https://www.shopperapproved.com/reviews/42340?reviewid=226808706"
+                      "href": "https://www.shopperapproved.com/reviews/42340?reviewid=226808706",
+                      "text_es": "¡Excelente comunicación y envío rápido! Fue agradable que una persona real respondiera mis preguntas."
                     },
                     {
                       "author": "Jason",
                       "text": "Awesome",
                       "source": "Shopper Approved",
                       "stars": 5,
-                      "href": "https://www.shopperapproved.com/reviews/42340?reviewid=226831605"
+                      "href": "https://www.shopperapproved.com/reviews/42340?reviewid=226831605",
+                      "text_es": "Excelente"
                     }
                   ],
                   "aggregate": {
@@ -1901,7 +1910,7 @@
                         "width": 1024,
                         "height": 576,
                         "alt_en": "Peptides Costa Rica peptide vials displayed on a sandy beach.",
-                        "alt_es": "Peptides Costa Rica peptide vials displayed on a sandy beach."
+                        "alt_es": "Viales de péptidos de Peptides Costa Rica sobre una playa de arena."
                       }
                     }
                   ]
@@ -1920,9 +1929,9 @@
                         "items": [
                           {
                             "q_en": "What are research peptides intended for?",
-                            "q_es": "What are research peptides intended for?",
+                            "q_es": "¿Para qué están destinados los péptidos de investigación?",
                             "a_en": "All our products are research peptides, supplied for laboratory and research purposes only. They are not registered with Costa Rica’s Ministerio de Salud as pharmaceutical products, and we do not supply them for the diagnosis, treatment, cure or prevention of any condition. We do not provide dosing guidance, protocols or medical advice, and we can’t advise on personal use.",
-                            "a_es": "All our products are research peptides, supplied for laboratory and research purposes only. They are not registered with Costa Rica’s Ministerio de Salud as pharmaceutical products, and we do not supply them for the diagnosis, treatment, cure or prevention of any condition. We do not provide dosing guidance, protocols or medical advice, and we can’t advise on personal use."
+                            "a_es": "Todos nuestros productos son péptidos de investigación, suministrados únicamente con fines de investigación y laboratorio. No están registrados ante el Ministerio de Salud de Costa Rica como productos farmacéuticos y no los suministramos para el diagnóstico, tratamiento, cura o prevención de ninguna condición. No proporcionamos guías de dosificación, protocolos ni consejos médicos, y no podemos asesorar sobre el uso personal."
                           },
                           {
                             "q_en": "Do you ship outside Costa Rica?",
@@ -1940,25 +1949,25 @@
                             "q_en": "What payment methods do you accept?",
                             "q_es": "¿Qué métodos de pago aceptan?",
                             "a_en": "We accept SINPE Móvil, bank transfer, cash on delivery, and card payment where available. Once we confirm your order is in stock, we’ll send payment instructions and the full total before you pay.",
-                            "a_es": "We accept SINPE Móvil, bank transfer, cash on delivery, and card payment where available. Once we confirm your order is in stock, we’ll send payment instructions and the full total before you pay."
+                            "a_es": "Aceptamos SINPE Móvil, transferencia bancaria, contra reembolso y pago con tarjeta cuando esté disponible. Una vez que confirmemos que su pedido está disponible, le enviaremos las instrucciones de pago y el total antes de que pague."
                           },
                           {
                             "q_en": "Is there a bulk discount?",
                             "q_es": "¿Hay un descuento por volumen?",
                             "a_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
-                            "a_es": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay."
+                            "a_es": "Sí. Compre cinco o más viales del mismo producto y reciba un 15 % de descuento. No hay reglas de precios complicadas ni cargos ocultos. Calculamos el descuento por volumen por adelantado para que conozca el total antes de pagar."
                           },
                           {
                             "q_en": "How do I confirm product availability?",
                             "q_es": "¿Cómo confirmo la disponibilidad del producto?",
                             "a_en": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
-                            "a_es": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly."
+                            "a_es": "Comuníquese con nosotros mediante el número de teléfono o los datos de contacto de este sitio. Siempre verificamos las existencias antes del pago para que no pague por algo que no podemos entregar y podamos organizar la entrega sin problemas."
                           },
                           {
                             "q_en": "How quickly do you respond to inquiries?",
-                            "q_es": "¿A qué velocidad respondes a las consultas?",
+                            "q_es": "¿Con qué rapidez responden a las consultas?",
                             "a_en": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication.",
-                            "a_es": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication."
+                            "a_es": "Intentamos responder rápidamente a las preguntas sobre disponibilidad y pedidos. Hablar directamente con usted es parte de nuestro servicio local. Siempre buscamos una comunicación clara y eficiente."
                           },
                           {
                             "q_en": "Can I modify my order after it has been placed?",

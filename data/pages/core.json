@@ -55,7 +55,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Peptides Costa Rica was established to provide a simple and reliable way for eligible customers in Costa Rica to access research materials with clear product information and transparent service. We focus on accurate product details, available documentation, straightforward ordering, and dependable local delivery support. Our goal is to make the purchasing process easier through clear communication, responsible information, and a customer-focused approach.",
-                        "text_es": "Peptides Costa Rica was established to provide a simple and reliable way for eligible customers in Costa Rica to access research materials with clear product information and transparent service. We focus on accurate product details, available documentation, straightforward ordering, and dependable local delivery support. Our goal is to make the purchasing process easier through clear communication, responsible information, and a customer-focused approach.",
+                        "text_es": "Peptides Costa Rica se estableció para proporcionar una forma sencilla y confiable para que los clientes elegibles en Costa Rica accedan a materiales de investigación con información clara del producto y un servicio transparente. Nos centramos en detalles precisos del producto, documentación disponible, pedidos sencillos y soporte de entrega local confiable. Nuestro objetivo es facilitar el proceso de compra mediante una comunicación clara, información responsable y un enfoque centrado en el cliente.",
                         "align": "center",
                         "color": "#000000",
                         "font": {
@@ -114,7 +114,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Because we operate locally, we understand the importance of building trust through clear communication and dependable service. We work to provide accurate product information, straightforward ordering, and responsive customer support. Our approach is focused on helping customers understand available products, documentation, pricing, and delivery options while creating a simple and transparent experience throughout Costa Rica.",
-                        "text_es": "Because we operate locally, we understand the importance of building trust through clear communication and dependable service. We work to provide accurate product information, straightforward ordering, and responsive customer support. Our approach is focused on helping customers understand available products, documentation, pricing, and delivery options while creating a simple and transparent experience throughout Costa Rica."
+                        "text_es": "Debido a que operamos localmente, entendemos la importancia de generar confianza a través de una comunicación clara y un servicio confiable. Trabajamos para proporcionar información precisa sobre el producto, realizar pedidos de forma sencilla y una atención al cliente receptiva. Nuestro enfoque se centra en ayudar a los clientes a comprender los productos, la documentación, los precios y las opciones de entrega disponibles, mientras creamos una experiencia simple y transparente en todo Costa Rica."
                       }
                     },
                     {
@@ -129,11 +129,11 @@
                           "Consistent Service"
                         ],
                         "items_es": [
-                          "Clear Product Information",
+                          "Borrar información del producto",
                           "Precios transparentes",
                           "Comunicación directa",
-                          "Reliable Customer Support",
-                          "Consistent Service"
+                          "Atención al cliente confiable",
+                          "Servicio consistente"
                         ]
                       }
                     },
@@ -333,7 +333,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Quality starts with providing accurate information and maintaining transparency throughout the customer experience. We focus on clear product details, available documentation, and responsible communication so customers can better understand what they are ordering. Our team is available to answer questions about product availability, documentation, and delivery processes while maintaining a straightforward approach to service.We provide available product documentation and verified details to support informed purchasing decisions. Customers can contact our team for additional information about products, availability, and ordering support.",
-                        "text_es": "Quality starts with providing accurate information and maintaining transparency throughout the customer experience. We focus on clear product details, available documentation, and responsible communication so customers can better understand what they are ordering. Our team is available to answer questions about product availability, documentation, and delivery processes while maintaining a straightforward approach to service.We provide available product documentation and verified details to support informed purchasing decisions. Customers can contact our team for additional information about products, availability, and ordering support."
+                        "text_es": "La calidad comienza con proporcionar información precisa y mantener la transparencia durante toda la experiencia del cliente. Nos centramos en detalles claros del producto, documentación disponible y comunicación responsable para que los clientes puedan comprender mejor lo que piden. Nuestro equipo está disponible para responder preguntas sobre la disponibilidad del producto, la documentación y los procesos de entrega mientras mantiene un enfoque sencillo de servicio. Proporcionamos documentación del producto disponible y detalles verificados para respaldar decisiones de compra informadas. Los clientes pueden ponerse en contacto con nuestro equipo para obtener información adicional sobre productos, disponibilidad y asistencia para realizar pedidos."
                       }
                     },
                     {
@@ -383,7 +383,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Our mission is to provide clear product information, transparent pricing, and reliable customer support for eligible customers in Costa Rica. We are committed to making the ordering process simple by offering accurate details, available documentation, and clear communication about product availability and delivery options.",
-                        "text_es": "Our mission is to provide clear product information, transparent pricing, and reliable customer support for eligible customers in Costa Rica. We are committed to making the ordering process simple by offering accurate details, available documentation, and clear communication about product availability and delivery options.",
+                        "text_es": "Nuestra misión es brindar información clara sobre productos, precios transparentes y atención al cliente confiable para clientes elegibles en Costa Rica. Nos comprometemos a simplificar el proceso de pedido ofreciendo detalles precisos, documentación disponible y comunicación clara sobre la disponibilidad del producto y las opciones de entrega.",
                         "color": "#000000"
                       }
                     },
@@ -411,7 +411,7 @@
                       "type": "card",
                       "content": {
                         "title_en": "Clear Information",
-                        "title_es": "Clear Information",
+                        "title_es": "Información clara",
                         "text_en": "Ensuring consistent availability of peptides for customers across Costa Rica.",
                         "text_es": "Garantizar la disponibilidad constante de péptidos para los clientes en Costa Rica.",
                         "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-award\" viewBox=\"0 0 384 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M97.12 362.63c-8.69-8.69-4.16-6.24-25.12-11.85-9.51-2.55-17.87-7.45-25.43-13.32L1.2 448.7c-4.39 10.77 3.81 22.47 15.43 22.03l52.69-2.01L105.56 507c8 8.44 22.04 5.81 26.43-4.96l52.05-127.62c-10.84 6.04-22.87 9.58-35.31 9.58-19.5 0-37.82-7.59-51.61-21.37zM382.8 448.7l-45.37-111.24c-7.56 5.88-15.92 10.77-25.43 13.32-21.07 5.64-16.45 3.18-25.12 11.85-13.79 13.78-32.12 21.37-51.62 21.37-12.44 0-24.47-3.55-35.31-9.58L252 502.04c4.39 10.77 18.44 13.4 26.43 4.96l36.25-38.28 52.69 2.01c11.62.44 19.82-11.27 15.43-22.03zM263 340c15.28-15.55 17.03-14.21 38.79-20.14 13.89-3.79 24.75-14.84 28.47-28.98 7.48-28.4 5.54-24.97 25.95-45.75 10.17-10.35 14.14-25.44 10.42-39.58-7.47-28.38-7.48-24.42 0-52.83 3.72-14.14-.25-29.23-10.42-39.58-20.41-20.78-18.47-17.36-25.95-45.75-3.72-14.14-14.58-25.19-28.47-28.98-27.88-7.61-24.52-5.62-44.95-26.41-10.17-10.35-25-14.4-38.89-10.61-27.87 7.6-23.98 7.61-51.9 0-13.89-3.79-28.72.25-38.89 10.61-20.41 20.78-17.05 18.8-44.94 26.41-13.89 3.79-24.75 14.84-28.47 28.98-7.47 28.39-5.54 24.97-25.95 45.75-10.17 10.35-14.15 25.44-10.42 39.58 7.47 28.36 7.48 24.4 0 52.82-3.72 14.14.25 29.23 10.42 39.59 20.41 20.78 18.47 17.35 25.95 45.75 3.72 14.14 14.58 25.19 28.47 28.98C104.6 325.96 106.27 325 121 340c13.23 13.47 33.84 15.88 49.74 5.82a39.676 39.676 0 0 1 42.53 0c15.89 10.06 36.5 7.65 49.73-5.82zM97.66 175.96c0-53.03 42.24-96.02 94.34-96.02s94.34 42.99 94.34 96.02-42.24 96.02-94.34 96.02-94.34-42.99-94.34-96.02z\"></path></svg>",
@@ -427,7 +427,7 @@
                       "type": "card",
                       "content": {
                         "title_en": "Transparent Service",
-                        "title_es": "Transparent Service",
+                        "title_es": "Servicio transparente",
                         "text_en": "Clear and organized bulk discount options for customers ordering larger quantities.",
                         "text_es": "Opciones de descuento por volumen claras y organizadas para clientes que piden grandes cantidades.",
                         "iconClass": "icon-savings",
@@ -443,7 +443,7 @@
                       "type": "card",
                       "content": {
                         "title_en": "Reliable Support",
-                        "title_es": "Reliable Support",
+                        "title_es": "Soporte confiable",
                         "text_en": "Providing clear product documentation, including Certificates of Analysis when available.",
                         "text_es": "Proporcionar documentación clara del producto, incluyendo Certificados de Análisis cuando estén disponibles.",
                         "iconClass": "icon-Document-Search",
@@ -459,7 +459,7 @@
                       "type": "card",
                       "content": {
                         "title_en": "Local Delivery",
-                        "title_es": "Local Delivery",
+                        "title_es": "Entrega Local",
                         "text_en": "Sharing accurate product details to help customers make informed decisions.",
                         "text_es": "Compartir detalles precisos del producto para ayudar a los clientes a tomar decisiones informadas.",
                         "iconClass": "icon-information",
@@ -662,33 +662,33 @@
                         "items": [
                           {
                             "q_en": "What products does Peptides Costa Rica provide?",
-                            "q_es": "What products does Peptides Costa Rica provide?",
+                            "q_es": "¿Qué productos ofrece Peptides Costa Rica?",
                             "a_en": "Peptides Costa Rica provides research materials with clear product information, specifications, availability details, and ordering support for eligible purchasers in Costa Rica.",
-                            "a_es": "Peptides Costa Rica provides research materials with clear product information, specifications, availability details, and ordering support for eligible purchasers in Costa Rica."
+                            "a_es": "Peptides Costa Rica proporciona materiales de investigación con información clara del producto, especificaciones, detalles de disponibilidad y soporte para realizar pedidos para compradores elegibles en Costa Rica."
                           },
                           {
                             "q_en": "Why don’t you offer online checkout?",
                             "q_es": "¿Por qué no ofrecen pago en línea?",
                             "a_en": "Yes, we provide available product information and documentation to help customers understand product details, specifications, and available materials before ordering.",
-                            "a_es": "Yes, we provide available product information and documentation to help customers understand product details, specifications, and available materials before ordering."
+                            "a_es": "Sí, proporcionamos información y documentación del producto disponible para ayudar a los clientes a comprender los detalles, las especificaciones y los materiales disponibles del producto antes de realizar el pedido."
                           },
                           {
                             "q_en": "How can I check product availability?",
-                            "q_es": "How can I check product availability?",
+                            "q_es": "¿Cómo puedo comprobar la disponibilidad del producto?",
                             "a_en": "Customers can contact our team directly to confirm current product availability, pricing, documentation, and delivery options within Costa Rica.",
-                            "a_es": "Customers can contact our team directly to confirm current product availability, pricing, documentation, and delivery options within Costa Rica."
+                            "a_es": "Los clientes pueden comunicarse con nuestro equipo directamente para confirmar la disponibilidad actual del producto, los precios, la documentación y las opciones de entrega dentro de Costa Rica."
                           },
                           {
                             "q_en": "Do you provide delivery within Costa Rica?",
-                            "q_es": "Do you provide delivery within Costa Rica?",
+                            "q_es": "¿Hacen entrega dentro de Costa Rica?",
                             "a_en": "Yes, we coordinate local delivery options within Costa Rica. Customers can contact our team for current delivery details and available arrangements.",
-                            "a_es": "Yes, we coordinate local delivery options within Costa Rica. Customers can contact our team for current delivery details and available arrangements."
+                            "a_es": "Sí, coordinamos opciones de entrega local dentro de Costa Rica. Los clientes pueden comunicarse con nuestro equipo para obtener detalles de entrega actuales y arreglos disponibles."
                           },
                           {
                             "q_en": "How can I place an order?",
-                            "q_es": "How can I place an order?",
+                            "q_es": "¿Cómo puedo realizar un pedido?",
                             "a_en": "Customers can review available products, confirm product information, and contact our team to receive support with availability, ordering details, and delivery information.",
-                            "a_es": "Customers can review available products, confirm product information, and contact our team to receive support with availability, ordering details, and delivery information."
+                            "a_es": "Los clientes pueden revisar los productos disponibles, confirmar la información del producto y comunicarse con nuestro equipo para recibir asistencia con disponibilidad, detalles de pedido e información de entrega."
                           }
                         ]
                       }
@@ -759,7 +759,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Peptides Costa Rica was founded by longtime friends and training partners Joey Webster and Sean McCully. Originally from California, both made Costa Rica their home and built lasting connections through sport and business. Their shared background and commitment to strong relationships helped shape the foundation of Peptides Costa Rica. The company was created with a focus on providing clear product information, transparent pricing, direct communication, and reliable local delivery throughout Costa Rica.",
-                        "text_es": "Peptides Costa Rica was founded by longtime friends and training partners Joey Webster and Sean McCully. Originally from California, both made Costa Rica their home and built lasting connections through sport and business. Their shared background and commitment to strong relationships helped shape the foundation of Peptides Costa Rica. The company was created with a focus on providing clear product information, transparent pricing, direct communication, and reliable local delivery throughout Costa Rica.",
+                        "text_es": "Peptides Costa Rica fue fundada por viejos amigos y compañeros de entrenamiento Joey Webster y Sean McCully. Originarios de California, ambos hicieron de Costa Rica su hogar y construyeron conexiones duraderas a través del deporte y los negocios. Su experiencia compartida y su compromiso con relaciones sólidas ayudaron a dar forma a la base de Peptides Costa Rica. La empresa se creó con el objetivo de brindar información clara sobre los productos, precios transparentes, comunicación directa y entrega local confiable en todo Costa Rica.",
                         "align": "center",
                         "color": "#000000"
                       }
@@ -791,7 +791,7 @@
                   "width": 1374,
                   "height": 1145,
                   "alt_en": "BPC-157 and Epitalon peptide vials from Peptides Costa Rica.",
-                  "alt_es": "BPC-157 and Epitalon peptide vials from Peptides Costa Rica.",
+                  "alt_es": "Viales de péptidos BPC-157 y Epitalon de Peptides Costa Rica.",
                   "displayWidth": "85%"
                 }
               },
@@ -807,28 +807,28 @@
                       "content": {
                         "level": 2,
                         "text_en": "A Shared Background",
-                        "text_es": "A Shared Background"
+                        "text_es": "Un trasfondo compartido"
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
                         "text_en": "Combat sports brought Joey and Sean together and became an important part of their shared history. Through years of training and competition, they developed a strong connection built on discipline, commitment, and mutual respect.",
-                        "text_es": "Combat sports brought Joey and Sean together and became an important part of their shared history. Through years of training and competition, they developed a strong connection built on discipline, commitment, and mutual respect."
+                        "text_es": "Los deportes de combate unieron a Joey y Sean y se convirtieron en una parte importante de su historia compartida. A través de años de entrenamiento y competencia, desarrollaron una fuerte conexión basada en la disciplina, el compromiso y el respeto mutuo."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
                         "text_en": "Their experience in sports shaped the way they approach business today. They believe in consistency, attention to detail, and building meaningful relationships with the people they work with.",
-                        "text_es": "Their experience in sports shaped the way they approach business today. They believe in consistency, attention to detail, and building meaningful relationships with the people they work with."
+                        "text_es": "Su experiencia en el deporte moldeó la forma en que abordan los negocios hoy en día. Creen en la coherencia, la atención al detalle y en la construcción de relaciones significativas con las personas con las que trabajan."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
                         "text_en": "The same values that guided them through their athletic backgrounds continue to influence the way they operate Peptides Costa Rica — focusing on clear communication, reliability, and providing a straightforward experience for customers throughout Costa Rica.",
-                        "text_es": "The same values that guided them through their athletic backgrounds continue to influence the way they operate Peptides Costa Rica — focusing on clear communication, reliability, and providing a straightforward experience for customers throughout Costa Rica."
+                        "text_es": "Los mismos valores que los guiaron a través de su experiencia atlética continúan influyendo en la forma en que operan Peptides Costa Rica: enfocándose en una comunicación clara, confiabilidad y brindando una experiencia sencilla para los clientes en toda Costa Rica."
                       }
                     }
                   ]
@@ -872,21 +872,21 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Sean McCully is one of the founders of Peptides Costa Rica, bringing years of experience, discipline, and commitment shaped through his background in sport and business. Originally from California, Sean made Costa Rica his home and developed strong connections through his involvement in the local community, training, and professional relationships.",
-                        "text_es": "Sean McCully is one of the founders of Peptides Costa Rica, bringing years of experience, discipline, and commitment shaped through his background in sport and business. Originally from California, Sean made Costa Rica his home and developed strong connections through his involvement in the local community, training, and professional relationships."
+                        "text_es": "Sean McCully es uno de los fundadores de Peptides Costa Rica y aporta años de experiencia, disciplina y compromiso moldeados a través de su experiencia en el deporte y los negocios. Originario de California, Sean hizo de Costa Rica su hogar y desarrolló fuertes conexiones a través de su participación en la comunidad local, capacitación y relaciones profesionales."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
                         "text_en": "His journey with Joey Webster began through combat sports, where they built a friendship based on shared values, consistency, and mutual respect. Over time, that relationship grew beyond sport and became the foundation for a business built around trust, communication, and long-term relationships.",
-                        "text_es": "His journey with Joey Webster began through combat sports, where they built a friendship based on shared values, consistency, and mutual respect. Over time, that relationship grew beyond sport and became the foundation for a business built around trust, communication, and long-term relationships."
+                        "text_es": "Su viaje con Joey Webster comenzó a través de los deportes de combate, donde construyeron una amistad basada en valores compartidos, coherencia y respeto mutuo. Con el tiempo, esa relación creció más allá del deporte y se convirtió en la base de un negocio construido en torno a la confianza, la comunicación y las relaciones a largo plazo."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
                         "text_en": "At Peptides Costa Rica, Sean focuses on creating a clear and reliable experience for customers by helping provide accurate product information, straightforward communication, and support throughout the ordering process. His approach is centered around making the purchasing experience simple, transparent, and easy to understand.",
-                        "text_es": "At Peptides Costa Rica, Sean focuses on creating a clear and reliable experience for customers by helping provide accurate product information, straightforward communication, and support throughout the ordering process. His approach is centered around making the purchasing experience simple, transparent, and easy to understand."
+                        "text_es": "En Peptides Costa Rica, Sean se enfoca en crear una experiencia clara y confiable para los clientes al ayudarlos a brindar información precisa sobre el producto, comunicación directa y soporte durante todo el proceso de pedido. Su enfoque se centra en hacer que la experiencia de compra sea sencilla, transparente y fácil de entender."
                       }
                     }
                   ]
@@ -972,21 +972,21 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "Joey Webster is a founder of Peptides Costa Rica and has built his journey through years of dedication, discipline, and strong relationships. Originally from California, Joey made Costa Rica his home and developed meaningful connections through sport, business, and the local community.",
-                        "text_es": "Joey Webster is a founder of Peptides Costa Rica and has built his journey through years of dedication, discipline, and strong relationships. Originally from California, Joey made Costa Rica his home and developed meaningful connections through sport, business, and the local community."
+                        "text_es": "Joey Webster es uno de los fundadores de Peptides Costa Rica y ha construido su trayectoria a través de años de dedicación, disciplina y relaciones sólidas. Originario de California, Joey hizo de Costa Rica su hogar y desarrolló conexiones significativas a través del deporte, los negocios y la comunidad local."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
                         "text_en": "Through his background in combat sports, Joey developed values centered around consistency, commitment, and the importance of working closely with others. These experiences helped shape the way he approaches business and the relationships he builds with customers and partners.",
-                        "text_es": "Through his background in combat sports, Joey developed values centered around consistency, commitment, and the importance of working closely with others. These experiences helped shape the way he approaches business and the relationships he builds with customers and partners."
+                        "text_es": "A través de su experiencia en deportes de combate, Joey desarrolló valores centrados en la coherencia, el compromiso y la importancia de trabajar estrechamente con los demás. Estas experiencias ayudaron a dar forma a la forma en que aborda los negocios y las relaciones que construye con clientes y socios."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
                         "text_en": "Together with Sean McCully, Joey established Peptides Costa Rica with a focus on creating a straightforward and reliable experience for customers in Costa Rica. The company’s approach is based on clear product information, transparent communication, and dependable service.",
-                        "text_es": "Together with Sean McCully, Joey established Peptides Costa Rica with a focus on creating a straightforward and reliable experience for customers in Costa Rica. The company’s approach is based on clear product information, transparent communication, and dependable service."
+                        "text_es": "Junto con Sean McCully, Joey estableció Peptides Costa Rica con el objetivo de crear una experiencia sencilla y confiable para los clientes en Costa Rica. El enfoque de la empresa se basa en información clara sobre el producto, comunicación transparente y servicio confiable."
                       }
                     }
                   ]
@@ -1038,7 +1038,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "During our days at the gym, few of our gym buddies, who also happened to work at a certified research lab, told us about work delays since they relied on international suppliers for all types of compounds, especially peptides. What we saw was a business opportunity that would eventually help so many researchers like them. We learned more peptide specifications, purity, storage, handling, and everything else, to deliver research-grade peptides locally through Peptides Costa Rica.",
-                        "text_es": "During our days at the gym, few of our gym buddies, who also happened to work at a certified research lab, told us about work delays since they relied on international suppliers for all types of compounds, especially peptides. What we saw was a business opportunity that would eventually help so many researchers like them. We learned more peptide specifications, purity, storage, handling, and everything else, to deliver research-grade peptides locally through Peptides Costa Rica.",
+                        "text_es": "Durante nuestros días en el gimnasio, algunos de nuestros compañeros de gimnasio, que también trabajaban en un laboratorio de investigación certificado, nos contaron sobre retrasos en el trabajo ya que dependían de proveedores internacionales para todo tipo de compuestos, especialmente péptidos. Lo que vimos fue una oportunidad de negocio que eventualmente ayudaría a tantos investigadores como ellos. Aprendimos más especificaciones de péptidos, pureza, almacenamiento, manipulación y todo lo demás para entregar péptidos de grado de investigación localmente a través de Peptides Costa Rica.",
                         "align": "center",
                         "color": "#FFFFFF",
                         "font": {
@@ -1093,7 +1093,7 @@
                             "type": "paragraph",
                             "content": {
                               "text_en": "We saw an opportunity to make local ordering more straightforward for customers in Costa Rica. Peptides Costa Rica was established with the goal of creating a simpler and more transparent way for eligible customers to access product information, availability details, and ordering support.",
-                              "text_es": "We saw an opportunity to make local ordering more straightforward for customers in Costa Rica. Peptides Costa Rica was established with the goal of creating a simpler and more transparent way for eligible customers to access product information, availability details, and ordering support.",
+                              "text_es": "Vimos una oportunidad para hacer que los pedidos locales fueran más sencillos para los clientes en Costa Rica. Peptides Costa Rica se creó con el objetivo de crear una forma más sencilla y transparente para que los clientes elegibles accedan a información del producto, detalles de disponibilidad y asistencia para realizar pedidos.",
                               "color": "#000000"
                             }
                           },
@@ -1101,7 +1101,7 @@
                             "type": "paragraph",
                             "content": {
                               "text_en": "From the beginning, our focus has been on providing clear information, transparent pricing, direct communication, and reliable local delivery. We believe customers should have a clear understanding of what they are ordering, what information is available, and how the purchasing process works.",
-                              "text_es": "From the beginning, our focus has been on providing clear information, transparent pricing, direct communication, and reliable local delivery. We believe customers should have a clear understanding of what they are ordering, what information is available, and how the purchasing process works.",
+                              "text_es": "Desde el principio, nuestro enfoque ha sido brindar información clara, precios transparentes, comunicación directa y entrega local confiable. Creemos que los clientes deben tener una comprensión clara de lo que están pidiendo, qué información está disponible y cómo funciona el proceso de compra.",
                               "color": "#000000"
                             }
                           },
@@ -1109,7 +1109,7 @@
                             "type": "paragraph",
                             "content": {
                               "text_en": "By focusing on service, communication, and a customer-first approach, Peptides Costa Rica continues to build a dependable experience for customers throughout Costa Rica.",
-                              "text_es": "By focusing on service, communication, and a customer-first approach, Peptides Costa Rica continues to build a dependable experience for customers throughout Costa Rica.",
+                              "text_es": "Al centrarse en el servicio, la comunicación y un enfoque centrado en el cliente, Peptides Costa Rica continúa construyendo una experiencia confiable para los clientes en toda Costa Rica.",
                               "color": "#000000"
                             }
                           },
@@ -1136,8 +1136,8 @@
                                       "Batch documentation Available"
                                     ],
                                     "items_es": [
-                                      "Local stock, no customs",
-                                      "Batch documentation Available"
+                                      "Stock local, sin aduanas",
+                                      "Documentación por lotes disponible"
                                     ],
                                     "hrefs": [
                                       null,
@@ -1160,7 +1160,7 @@
                                     ],
                                     "items_es": [
                                       "Precios transparentes",
-                                      "Direct order confirmation"
+                                      "Confirmación directa del pedido"
                                     ],
                                     "hrefs": [
                                       null,
@@ -1246,7 +1246,7 @@
                 "type": "paragraph",
                 "content": {
                   "text_en": "Peptides Costa Rica serves only customers within Costa Rica. We focus on:",
-                  "text_es": "Peptides Costa Rica serves only customers within Costa Rica. We focus on:",
+                  "text_es": "Peptides Costa Rica atiende únicamente a clientes dentro de Costa Rica. Nos centramos en:",
                   "align": "center",
                   "color": "#000000",
                   "font": {
@@ -1499,7 +1499,7 @@
                   "width": 1000,
                   "height": 1000,
                   "alt_en": "Fit man at home with Fat Blaster 10mg peptide vial displayed on table",
-                  "alt_es": "Fit man at home with Fat Blaster 10mg peptide vial displayed on table",
+                  "alt_es": "Hombre en forma en casa con el vial de péptido Fat Blaster 10mg mostrado en la mesa",
                   "displayWidth": "85%"
                 }
               },
@@ -1516,28 +1516,28 @@
                       "content": {
                         "level": 2,
                         "text_en": "Our Approach",
-                        "text_es": "Our Approach"
+                        "text_es": "Nuestro enfoque"
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
                         "text_en": "At Peptides Costa Rica, we believe customers should have clear and accurate information before placing an order. Our goal is to make the purchasing process simple by providing product details, availability information, and support when customers have questions.",
-                        "text_es": "At Peptides Costa Rica, we believe customers should have clear and accurate information before placing an order. Our goal is to make the purchasing process simple by providing product details, availability information, and support when customers have questions."
+                        "text_es": "En Peptides Costa Rica, creemos que los clientes deben tener información clara y precisa antes de realizar un pedido. Nuestro objetivo es simplificar el proceso de compra proporcionando detalles del producto, información sobre disponibilidad y asistencia cuando los clientes tienen preguntas."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
                         "text_en": "Our team is available to assist with product availability, available documentation, delivery questions, and order updates. We focus on clear communication and making sure customers understand the information provided with each listing.",
-                        "text_es": "Our team is available to assist with product availability, available documentation, delivery questions, and order updates. We focus on clear communication and making sure customers understand the information provided with each listing."
+                        "text_es": "Nuestro equipo está disponible para ayudar con la disponibilidad del producto, la documentación disponible, preguntas sobre entrega y actualizaciones de pedidos. Nos centramos en una comunicación clara y en asegurarnos de que los clientes comprendan la información proporcionada en cada anuncio."
                       }
                     },
                     {
                       "type": "paragraph",
                       "content": {
                         "text_en": "Each product listing is designed to explain the supplied material, available details, and relevant information about the product. We do not provide personal dosing, administration instructions, or treatment recommendations.",
-                        "text_es": "Each product listing is designed to explain the supplied material, available details, and relevant information about the product. We do not provide personal dosing, administration instructions, or treatment recommendations."
+                        "text_es": "Cada listado de productos está diseñado para explicar el material suministrado, los detalles disponibles y la información relevante sobre el producto. No proporcionamos dosis personales, instrucciones de administración ni recomendaciones de tratamiento."
                       }
                     }
                   ]
@@ -1592,7 +1592,7 @@
                       "type": "paragraph",
                       "content": {
                         "text_en": "As the business grows, the focus stays where it started: accurate product information, dependable service, and responsive communication with customers in Costa Rica.",
-                        "text_es": "As the business grows, the focus stays where it started: accurate product information, dependable service, and responsive communication with customers in Costa Rica.",
+                        "text_es": "A medida que el negocio crece, el enfoque permanece donde comenzó: información precisa del producto, servicio confiable y comunicación receptiva con los clientes en Costa Rica.",
                         "align": "center",
                         "color": "#000000",
                         "font": {
@@ -2338,25 +2338,25 @@
                             "q_en": "Why don’t you offer online checkout?",
                             "q_es": "¿Por qué no ofrecen pago en línea?",
                             "a_en": "We handle orders personally to make sure everything is accurate and that products are available before you pay.Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent.",
-                            "a_es": "We handle orders personally to make sure everything is accurate and that products are available before you pay.Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent."
+                            "a_es": "Manejamos los pedidos personalmente para asegurarnos de que todo sea correcto y que los productos estén disponibles antes de que usted pague. Los pagos automatizados a veces pueden causar problemas de pago o errores de inventario. Al verificar el stock antes de pagar, hacemos que el proceso sea más fluido y transparente."
                           },
                           {
                             "q_en": "What payment methods do you accept?",
                             "q_es": "¿Qué métodos de pago aceptan?",
                             "a_en": "We currently accept:Shield HubCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
-                            "a_es": "We currently accept:Shield HubCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
+                            "a_es": "Actualmente aceptamos: Shield HubCash Una vez que confirmemos que su pedido está en stock, le enviaremos instrucciones de pago. Nos aseguramos de que el proceso sea sencillo y de que conozca el precio total antes de pagar."
                           },
                           {
                             "q_en": "Is there a bulk discount?",
                             "q_es": "¿Hay un descuento por volumen?",
                             "a_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
-                            "a_es": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay."
+                            "a_es": "Sí. Compre cinco o más viales del mismo producto y reciba un 15 % de descuento. No existen reglas de precios complicadas ni tarifas ocultas. Calculamos cualquier descuento por volumen por adelantado, para que siempre sepas qué esperar antes de pagar."
                           },
                           {
                             "q_en": "How do I confirm product availability?",
                             "q_es": "¿Cómo confirmo la disponibilidad del producto?",
                             "a_en": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
-                            "a_es": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly."
+                            "a_es": "Simplemente comuníquese con nosotros utilizando el número de teléfono o los datos de contacto en nuestro sitio web. Siempre verificamos que sus artículos estén en stock antes de pagar. De esta manera, nunca pagará por algo que no podemos entregar y podremos organizar la entrega sin problemas."
                           }
                         ]
                       }
@@ -2392,7 +2392,7 @@
                 "content": {
                   "level": 1,
                   "text_en": "Peptide Product Lab Tests & COA Results",
-                  "text_es": "Peptide Product Lab Tests & COA Results",
+                  "text_es": "Pruebas de laboratorio de productos peptídicos y resultados de COA",
                   "font": {
                     "size": "36px"
                   }
@@ -2905,73 +2905,73 @@
                             "q_en": "What payment methods do you accept?",
                             "q_es": "¿Qué métodos de pago aceptan?",
                             "a_en": "We currently accept:SINPE MóvilZelleCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
-                            "a_es": "We currently accept:SINPE MóvilZelleCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
+                            "a_es": "Actualmente aceptamos:SINPE MóvilZelleCashUna vez que confirmemos que tu pedido está en stock, te enviaremos instrucciones de pago. Nos aseguramos de que el proceso sea sencillo y de que conozca el precio total antes de pagar."
                           },
                           {
                             "q_en": "Is there a bulk discount?",
                             "q_es": "¿Hay un descuento por volumen?",
                             "a_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
-                            "a_es": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay."
+                            "a_es": "Sí. Compre cinco o más viales del mismo producto y reciba un 15 % de descuento. No existen reglas de precios complicadas ni tarifas ocultas. Calculamos cualquier descuento por volumen por adelantado, para que siempre sepas qué esperar antes de pagar."
                           },
                           {
                             "q_en": "How do I confirm product availability?",
                             "q_es": "¿Cómo confirmo la disponibilidad del producto?",
                             "a_en": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
-                            "a_es": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly."
+                            "a_es": "Simplemente comuníquese con nosotros utilizando el número de teléfono o los datos de contacto en nuestro sitio web. Siempre verificamos que sus artículos estén en stock antes de pagar. De esta manera, nunca pagará por algo que no podemos entregar y podremos organizar la entrega sin problemas."
                           },
                           {
                             "q_en": "Are Certificates of Analysis available?",
                             "q_es": "¿Se encuentran disponibles los Certificados de Análisis?",
                             "a_en": "Yes. We offer Certificates of Analysis (COAs) for our products to give you clear documentation and peace of mind.If you want a COA for a certain product, just ask when you check availability. We believe in being clear and providing proper documentation.",
-                            "a_es": "Yes. We offer Certificates of Analysis (COAs) for our products to give you clear documentation and peace of mind.If you want a COA for a certain product, just ask when you check availability. We believe in being clear and providing proper documentation."
+                            "a_es": "Sí. Ofrecemos Certificados de Análisis (COA) para nuestros productos para brindarle documentación clara y tranquilidad. Si desea un COA para un determinado producto, solo pregunte cuando verifique la disponibilidad. Creemos en ser claros y proporcionar la documentación adecuada."
                           },
                           {
                             "q_en": "How is delivery handled?",
                             "q_es": "¿Cómo se gestiona la entrega?",
                             "a_en": "We arrange delivery within Costa Rica once your payment is confirmed.Delivery time depends on where you are and what you order. We’ll go over all the details with you during the order process to keep things clear.",
-                            "a_es": "We arrange delivery within Costa Rica once your payment is confirmed.Delivery time depends on where you are and what you order. We’ll go over all the details with you during the order process to keep things clear."
+                            "a_es": "Organizamos la entrega dentro de Costa Rica una vez confirmado el pago. El tiempo de entrega depende de dónde se encuentre y de lo que solicite. Repasaremos todos los detalles con usted durante el proceso de pedido para mantener las cosas claras."
                           },
                           {
                             "q_en": "Do you provide medical advice?",
                             "q_es": "¿Proporcionan asesoramiento médico?",
                             "a_en": "No.Peptides Costa Rica only shares general product information for educational purposes. We don’t give medical advice, diagnoses, or treatment recommendations.You should always talk to a qualified healthcare professional about your health and whether a product is right for you.",
-                            "a_es": "No.Peptides Costa Rica only shares general product information for educational purposes. We don’t give medical advice, diagnoses, or treatment recommendations.You should always talk to a qualified healthcare professional about your health and whether a product is right for you."
+                            "a_es": "No.Peptides Costa Rica solo comparte información general del producto con fines educativos. No brindamos consejos médicos, diagnósticos ni recomendaciones de tratamiento. Siempre debe hablar con un profesional de la salud calificado sobre su salud y si un producto es adecuado para usted."
                           },
                           {
                             "q_en": "Are your products intended for resale outside Costa Rica?",
                             "q_es": "¿Sus productos están destinados a la reventa fuera de Costa Rica?",
                             "a_en": "No.We are set up to serve customers in Costa Rica only. We don’t ship or distribute internationally.",
-                            "a_es": "No.We are set up to serve customers in Costa Rica only. We don’t ship or distribute internationally."
+                            "a_es": "No. Estamos configurados para atender a clientes en Costa Rica únicamente. No enviamos ni distribuimos internacionalmente."
                           },
                           {
                             "q_en": "Why choose a local supplier instead of ordering internationally?",
                             "q_es": "¿Por qué elegir un proveedor local en lugar de hacer un pedido internacional?",
                             "a_en": "Ordering from abroad can bring problems like shipping delays, customs issues, payment restrictions, and surprise import fees.By operating locally, we provide:Confirmed availability before paymentDirect communicationTransparent pricingSimplified delivery coordinationWe focus on being clear and reliable.",
-                            "a_es": "Ordering from abroad can bring problems like shipping delays, customs issues, payment restrictions, and surprise import fees.By operating locally, we provide:Confirmed availability before paymentDirect communicationTransparent pricingSimplified delivery coordinationWe focus on being clear and reliable."
+                            "a_es": "Realizar pedidos desde el extranjero puede traer problemas como retrasos en el envío, problemas aduaneros, restricciones de pago y tarifas de importación sorpresa. Al operar localmente, brindamos: Disponibilidad confirmada antes del pago Comunicación directa Precios transparentes Coordinación de entrega simplificada Nos enfocamos en ser claros y confiables."
                           },
                           {
                             "q_en": "Is pricing final?",
                             "q_es": "¿El precio es final?",
                             "a_en": "Prices are listed per vial.Bulk discounts are available when you buy enough. We always confirm your total cost before you pay, so there are no surprises.",
-                            "a_es": "Prices are listed per vial.Bulk discounts are available when you buy enough. We always confirm your total cost before you pay, so there are no surprises."
+                            "a_es": "Los precios se indican por vial. Hay descuentos por volumen disponibles cuando compra lo suficiente. Siempre confirmamos el coste total antes de pagar, para que no haya sorpresas."
                           },
                           {
                             "q_en": "Can I request products not currently listed?",
                             "q_es": "¿Puedo solicitar productos que no se encuentran listados actualmente?",
                             "a_en": "We regularly look at what customers want and add new products when we can.If you’re looking for something we don’t list, just contact us to ask if we can get it.",
-                            "a_es": "We regularly look at what customers want and add new products when we can.If you’re looking for something we don’t list, just contact us to ask if we can get it."
+                            "a_es": "Regularmente analizamos lo que los clientes quieren y agregamos nuevos productos cuando podemos. Si está buscando algo que no incluimos en la lista, contáctenos para preguntarnos si podemos conseguirlo."
                           },
                           {
                             "q_en": "How quickly do you respond to inquiries?",
                             "q_es": "¿A qué velocidad respondes a las consultas?",
                             "a_en": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication.",
-                            "a_es": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication."
+                            "a_es": "Intentamos responder rápidamente a las preguntas sobre disponibilidad y pedidos. Hablar directamente con usted es parte de nuestro servicio local. Siempre buscamos una comunicación clara y eficiente."
                           },
                           {
                             "q_en": "Is there a minimum order requirement?",
                             "q_es": "¿Hay un requisito de pedido mínimo?",
                             "a_en": "There is no mandatory minimum order.But if you buy five or more vials of the same product, you’ll get a 15% bulk discount.",
-                            "a_es": "There is no mandatory minimum order.But if you buy five or more vials of the same product, you’ll get a 15% bulk discount."
+                            "a_es": "No existe un pedido mínimo obligatorio, pero si compra cinco o más viales del mismo producto, obtendrá un 15 % de descuento por volumen."
                           }
                         ]
                       }
@@ -3191,7 +3191,7 @@
                                                 "title_en": "Address",
                                                 "title_es": "Dirección",
                                                 "text_en": "Jaco, Costa Rica",
-                                                "text_es": "Jaco, Costa Rica",
+                                                "text_es": "Jacó, Costa Rica",
                                                 "iconClass": "icon-map-marker1",
                                                 "href": "https://maps.app.goo.gl/AgpzEd8NNRKYNbJj9"
                                               }
@@ -3313,7 +3313,7 @@
                               "width": 1024,
                               "height": 576,
                               "alt_en": "Woman doing yoga at home with NAD+ 500mg and MOTS-C 10mg peptide vials nearby",
-                              "alt_es": "Woman doing yoga at home with NAD+ 500mg and MOTS-C 10mg peptide vials nearby"
+                              "alt_es": "Mujer haciendo yoga en casa con viales de péptidos NAD+ 500mg y MOTS-C 10mg cerca"
                             }
                           }
                         ]
@@ -3462,19 +3462,19 @@
                             "q_en": "What payment methods do you accept?",
                             "q_es": "¿Qué métodos de pago aceptan?",
                             "a_en": "We currently accept:SINPE MóvilZelleCashJust add your products to the cart and do an easy online checkout. We make sure the process is simple and you know the total price before you pay.",
-                            "a_es": "We currently accept:SINPE MóvilZelleCashJust add your products to the cart and do an easy online checkout. We make sure the process is simple and you know the total price before you pay."
+                            "a_es": "Actualmente aceptamos:SINPE MóvilZelleCashSolo agrega tus productos al carrito y realiza un pago en línea fácil. Nos aseguramos de que el proceso sea sencillo y de que conozca el precio total antes de pagar."
                           },
                           {
                             "q_en": "Is there a bulk discount?",
                             "q_es": "¿Hay un descuento por volumen?",
                             "a_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
-                            "a_es": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay."
+                            "a_es": "Sí. Compre cinco o más viales del mismo producto y reciba un 15 % de descuento. No existen reglas de precios complicadas ni tarifas ocultas. Calculamos cualquier descuento por volumen por adelantado, para que siempre sepas qué esperar antes de pagar."
                           },
                           {
                             "q_en": "How do I confirm product availability?",
                             "q_es": "¿Cómo confirmo la disponibilidad del producto?",
                             "a_en": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly.",
-                            "a_es": "Just reach out to us using the phone number or contact details on our website.We always check that your items are in stock before you pay. This way, you never pay for something we can’t deliver, and we can arrange delivery smoothly."
+                            "a_es": "Simplemente comuníquese con nosotros utilizando el número de teléfono o los datos de contacto en nuestro sitio web. Siempre verificamos que sus artículos estén en stock antes de pagar. De esta manera, nunca pagará por algo que no podemos entregar y podremos organizar la entrega sin problemas."
                           }
                         ]
                       }
@@ -3578,7 +3578,7 @@
                   "width": 512,
                   "height": 96,
                   "alt_en": "trustpilot reviews star",
-                  "alt_es": "trustpilot reviews star",
+                  "alt_es": "trustpilot reseñas estrella",
                   "displayWidth": "14%"
                 }
               },
@@ -3586,7 +3586,7 @@
                 "type": "paragraph",
                 "content": {
                   "text_en": "Rated 4.5 out of 5",
-                  "text_es": "Rated 4.5 out of 5",
+                  "text_es": "Calificación 4.5 sobre 5",
                   "align": "center",
                   "color": "#000000"
                 }
@@ -3768,44 +3768,44 @@
                   ],
                   "rows_es": [
                     [
-                      "Sabanilla",
+                      "sabana",
                       "Maracuyá",
-                      "San Josecito",
+                      "san josecito",
                       "Escazú",
                       "San Antonio"
                     ],
                     [
                       "Daniel Flores",
-                      "San Vicente de Moravia",
+                      "san vicente de moravia",
                       "San Vicente",
                       "Curridabat",
-                      "San Isidro de El General"
+                      "San Isidro del General"
                     ],
                     [
-                      "San Francisco",
+                      "san francisco",
                       "Purral",
-                      "San Miguel",
-                      "San Pedro",
+                      "sanmiguel",
+                      "san pedro",
                       "San Rafael Abajo"
                     ],
                     [
                       "Ipis",
-                      "San Juan",
-                      "Guadalupe",
+                      "san juan",
+                      "guadalupe",
                       "Aserrí",
                       "San Felipe"
                     ],
                     [
                       "Pata",
                       "Calle Blancos",
-                      "San Juan de Dios",
+                      "san juan de dios",
                       "San Rafael Arriba",
                       "Desamparados"
                     ],
                     [
-                      "Alajuelita",
+                      "alajuela",
                       "Barrio Escalante",
-                      "Santa Ana",
+                      "santa ana",
                       "Rohrmoser",
                       "Sabana"
                     ],
@@ -3814,12 +3814,12 @@
                       "Mata Redonda",
                       "Tibás",
                       "Goicoechea",
-                      "Santa Marta"
+                      "santa marta"
                     ],
                     [
                       "Ciudad Colón",
                       "Puriscal",
-                      "Acosta",
+                      "acosta",
                       "",
                       ""
                     ]
@@ -3945,7 +3945,7 @@
                     [
                       "Esparza",
                       "Chacarita",
-                      "Buenos Aires",
+                      "buenos aires",
                       "Moctezuma",
                       "Malpaís"
                     ],
@@ -3957,22 +3957,22 @@
                       "Chaqueta"
                     ],
                     [
-                      "Manuel Antonio",
+                      "manuel antonio",
                       "Quepos",
-                      "Monteverde",
-                      "Santa Teresa",
-                      "Uvita"
+                      "monteverde",
+                      "santa teresa",
+                      "uvita"
                     ],
                     [
-                      "Dominical",
+                      "dominical",
                       "Los Sueños",
-                      "Santa Elena",
-                      "Cobano",
+                      "santa elena",
+                      "Cóbano",
                       "Puerto Jiménez"
                     ],
                     [
-                      "Golfito",
-                      "Pavones",
+                      "golfito",
+                      "pavones",
                       "Bahía Drake",
                       "",
                       ""
@@ -4055,17 +4055,17 @@
                   ],
                   "rows_es": [
                     [
-                      "Guapiles",
+                      "Guápiles",
                       "Siquirres",
-                      "Puerto Viejo",
-                      "Cahuita",
-                      "Manzanillo"
+                      "puertoviejo",
+                      "cahuita",
+                      "Manzanilla"
                     ],
                     [
                       "Tortuguero",
                       "Guácimo",
-                      "Hone Creek",
-                      "Bribri",
+                      "arroyo de miel",
+                      "Bribrí",
                       "Sixaola"
                     ]
                   ],
@@ -4132,17 +4132,17 @@
                   ],
                   "rows_es": [
                     [
-                      "Mercedes",
-                      "San Rafael",
+                      "mercedes",
+                      "san rafael",
                       "San Pablo",
                       "Colima",
                       "Sarapiquí"
                     ],
                     [
-                      "Belén",
-                      "Barva",
-                      "Santo Domingo",
-                      "San Isidro",
+                      "belen",
+                      "barva",
+                      "santo domingo",
+                      "san isidro",
                       "Flores"
                     ],
                     [
@@ -4245,43 +4245,43 @@
                   "rows_es": [
                     [
                       "Liberia",
-                      "Canas",
+                      "Cañas",
                       "Nicoya",
                       "Tamarindo",
                       "Nosara"
                     ],
                     [
                       "Playas del Coco",
-                      "Playa Conchal",
-                      "Playa Flamingo",
-                      "Samara",
+                      "Playa Concha",
+                      "Playa Flamenco",
+                      "Sámara",
                       "Puerto Carrillo"
                     ],
                     [
                       "Filadelfia",
                       "Bagaces",
-                      "La Cruz",
+                      "lacruz",
                       "Tilarán",
                       "Abangares"
                     ],
                     [
                       "Hojancha",
-                      "Sardinal",
+                      "sardina",
                       "Playa Panamá",
                       "Playa Potrero",
-                      "Brasilito"
+                      "brasilito"
                     ],
                     [
-                      "Playa Avellanas",
+                      "Playa Avellana",
                       "Playa Langosta",
                       "Playa Grande",
                       "Playa Negra",
                       "Playa Junquillal"
                     ],
                     [
-                      "Carrillo",
+                      "carrillo",
                       "Las Catalinas",
-                      "Papagayo Peninsula",
+                      "Península de Papagayo",
                       "El Coco",
                       ""
                     ]
@@ -4373,12 +4373,12 @@
                       "Paraíso",
                       "Turrialba",
                       "Tejar",
-                      "San Diego",
+                      "san diego",
                       "Tres Ríos"
                     ],
                     [
                       "Orosi",
-                      "Cachi",
+                      "cachi",
                       "Oreamuno",
                       "Cervantes",
                       "Irazú"
@@ -4458,7 +4458,7 @@
                       "Naranja",
                       "San Ramón",
                       "La Fortuna",
-                      "Arenal"
+                      "arenal"
                     ],
                     [
                       "El Castillo",
@@ -4471,12 +4471,12 @@
                       "Atenas",
                       "Poás",
                       "Sarchí",
-                      "Zarcero",
+                      "zarcero",
                       "Upala"
                     ],
                     [
                       "Los Chiles",
-                      "Guatuso",
+                      "guatuso",
                       "",
                       "",
                       ""
@@ -5547,7 +5547,7 @@
                             "type": "paragraph",
                             "content": {
                               "text_en": "Retatrutide, MOTS-c, 5-Amino-1MQ, Tesamorelin",
-                              "text_es": "Retatrutide, MOTS-c, 5-Amino-1MQ, Tesamorelin",
+                              "text_es": "Retatrutida, MOTS-c, 5-Amino-1MQ, Tesamorelina",
                               "align": "center",
                               "color": "#000000"
                             }
@@ -5615,7 +5615,7 @@
                             "type": "paragraph",
                             "content": {
                               "text_en": "BPC-157, KLOW, Thymalin",
-                              "text_es": "BPC-157, KLOW, Thymalin",
+                              "text_es": "BPC-157, KLOW, timalina",
                               "align": "center",
                               "color": "#000000"
                             }
@@ -5954,7 +5954,7 @@
                         "width": 1024,
                         "height": 576,
                         "alt_en": "Bottles arranged on sandy beach in blue water.",
-                        "alt_es": "Bottles arranged on sandy beach in blue water."
+                        "alt_es": "Botellas colocadas en una playa de arena en aguas azules."
                       }
                     }
                   ]
@@ -6083,7 +6083,7 @@
                         "width": 1024,
                         "height": 576,
                         "alt_en": "TB-4 mg supplement bottle title mistake.",
-                        "alt_es": "TB-4 mg supplement bottle title mistake."
+                        "alt_es": "TB-4 mg error en el título de la botella de suplemento."
                       }
                     }
                   ]
@@ -6110,25 +6110,25 @@
                             "q_en": "Why don’t you offer online checkout?",
                             "q_es": "¿Por qué no ofrecen pago en línea?",
                             "a_en": "We handle orders personally to make sure everything is accurate and that products are available before you pay.Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent.",
-                            "a_es": "We handle orders personally to make sure everything is accurate and that products are available before you pay.Automated checkouts can sometimes cause payment issues or inventory mistakes. By checking stock before you pay, we make the process smoother and more transparent."
+                            "a_es": "Manejamos los pedidos personalmente para asegurarnos de que todo sea correcto y que los productos estén disponibles antes de que usted pague. Los pagos automatizados a veces pueden causar problemas de pago o errores de inventario. Al verificar el stock antes de pagar, hacemos que el proceso sea más fluido y transparente."
                           },
                           {
                             "q_en": "What payment methods do you accept?",
                             "q_es": "¿Qué métodos de pago aceptan?",
                             "a_en": "We currently accept:SINPE MóvilZelleCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay.",
-                            "a_es": "We currently accept:SINPE MóvilZelleCashOnce we confirm your order is in stock, we’ll send you payment instructions. We make sure the process is simple and you know the total price before you pay."
+                            "a_es": "Actualmente aceptamos:SINPE MóvilZelleCashUna vez que confirmemos que tu pedido está en stock, te enviaremos instrucciones de pago. Nos aseguramos de que el proceso sea sencillo y de que conozca el precio total antes de pagar."
                           },
                           {
                             "q_en": "Is there a bulk discount?",
                             "q_es": "¿Hay un descuento por volumen?",
                             "a_en": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay.",
-                            "a_es": "Yes.Purchase five or more vials of the same product and receive 15% off.There are no complicated pricing rules or hidden fees. We calculate any bulk discounts up front, so you always know what to expect before you pay."
+                            "a_es": "Sí. Compre cinco o más viales del mismo producto y reciba un 15 % de descuento. No existen reglas de precios complicadas ni tarifas ocultas. Calculamos cualquier descuento por volumen por adelantado, para que siempre sepas qué esperar antes de pagar."
                           },
                           {
                             "q_en": "How quickly do you respond to inquiries?",
                             "q_es": "¿A qué velocidad respondes a las consultas?",
                             "a_en": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication.",
-                            "a_es": "We try to reply quickly to questions about availability and orders.Talking directly with you is part of our local service. We always aim for clear and efficient communication."
+                            "a_es": "Intentamos responder rápidamente a las preguntas sobre disponibilidad y pedidos. Hablar directamente con usted es parte de nuestro servicio local. Siempre buscamos una comunicación clara y eficiente."
                           }
                         ]
                       }

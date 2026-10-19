@@ -2,6 +2,7 @@ import { ExternalLink } from 'lucide-react';
 import { catalogUrl, ui } from '@/content/global';
 import { t } from '@/lib/i18n';
 import { imageSource, SIZES } from '@/lib/images';
+import { productCategoryLabel } from '@/lib/product-category-label';
 
 /**
  * The commerce summary at the top of a product page: image, name, price, and
@@ -64,7 +65,7 @@ export default function ProductSummary({ product, lang }) {
 
         {store.categories?.length > 0 && (
           <p className="mt-5 text-xs text-text-muted">
-            {store.categories.map((c) => c.name).join(' · ')}
+            {store.categories.map((c) => productCategoryLabel(c.name, lang)).join(' · ')}
           </p>
         )}
       </div>

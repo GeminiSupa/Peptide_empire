@@ -42,7 +42,14 @@ const PAGES = productData.pages
   }));
 
 const BY_EN = new Map(PAGES.map((p) => [segment(p.en), p]));
-const BY_ES = new Map(PAGES.filter((p) => p.es).map((p) => [segment(p.es), p]));
+const BY_ES = new Map();
+for (const page of PAGES.filter((p) => p.es)) {
+  const slug = segment(page.es);
+  const current = BY_ES.get(slug);
+  if (!current || (current.en.startsWith('/product/lp-') && !page.en.startsWith('/product/lp-'))) {
+    BY_ES.set(slug, page);
+  }
+}
 
 export const products = PAGES;
 

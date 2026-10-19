@@ -13,10 +13,10 @@ const COPY = {
   es: { ratingOnly: 'Calificación de 5 estrellas', outOf: 'de 5', reviews: 'Calificación independiente' },
 };
 
-function RatingSquares({ score, best = 5, large = false }) {
+function RatingSquares({ score, best = 5, large = false, lang = 'en' }) {
   const normalized = Math.max(0, Math.min(best, Number(score) || 0));
   return (
-    <span aria-label={`Rated ${normalized} out of ${best}`} className={`flex ${large ? 'gap-1.5' : 'gap-1'}`} role="img">
+    <span aria-label={lang === 'es' ? `Calificación: ${normalized} de ${best}` : `Rated ${normalized} out of ${best}`} className={`flex ${large ? 'gap-1.5' : 'gap-1'}`} role="img">
       {Array.from({ length: best }, (_, index) => {
         const fill = Math.max(0, Math.min(1, normalized - index)) * 100;
         return (
@@ -44,7 +44,7 @@ export function TrustpilotSummary({ content, lang }) {
       target="_blank"
     >
       <span className="text-lg font-bold">Trustpilot</span>
-      <RatingSquares large score={score} />
+      <RatingSquares lang={lang} large score={score} />
       <span className="text-sm font-semibold">
         {lang === 'es' ? `Calificación ${score} de 5` : `Rated ${score} out of 5`}
       </span>
@@ -94,7 +94,7 @@ export default function ReviewWall({ content, lang }) {
 
             {review.stars > 0 && (
               <p
-                aria-label={`Rated ${review.stars} out of 5`}
+                aria-label={lang === 'es' ? `Calificación: ${review.stars} de 5` : `Rated ${review.stars} out of 5`}
                 className="mt-4 text-base tracking-[0.08em] text-amber-400"
                 role="img"
               >
@@ -104,7 +104,7 @@ export default function ReviewWall({ content, lang }) {
             )}
 
             <p className={`mt-2 text-sm leading-6 ${review.text ? 'text-slate-800' : 'font-semibold text-slate-500'}`}>
-              {review.text || copy.ratingOnly}
+              {(lang === 'es' ? review.text_es || review.text : review.text) || copy.ratingOnly}
             </p>
             {review.href && (
               <a className="mt-3 w-fit text-xs font-bold text-primary underline-offset-2 hover:underline" href={review.href} rel="noopener noreferrer" target="_blank">
@@ -127,7 +127,7 @@ export default function ReviewWall({ content, lang }) {
             <span className="block text-[11px] font-bold tracking-[0.12em] text-white/65 uppercase">{copy.reviews}</span>
             <span className="block text-sm font-extrabold">{aggregate.source}</span>
           </span>
-          <RatingSquares best={aggregate.best || 5} score={aggregate.score} />
+          <RatingSquares best={aggregate.best || 5} lang={lang} score={aggregate.score} />
           <span className="text-sm font-bold">{aggregate.score} {copy.outOf}</span>
         </a>
       )}

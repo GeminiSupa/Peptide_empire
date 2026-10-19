@@ -44,10 +44,10 @@ function BulkOffer({ lang }) {
   );
 }
 
-function Stars({ score, best }) {
+function Stars({ score, best, lang }) {
   const filled = Math.max(0, Math.min(1, (score || 0) / best)) * 100;
   return (
-    <span aria-label={`Rated ${score} out of ${best}`} className="relative inline-block" role="img">
+    <span aria-label={lang === 'es' ? `Calificación: ${score} de ${best}` : `Rated ${score} out of ${best}`} className="relative inline-block" role="img">
       <span className="text-sm text-slate-300">{'★'.repeat(5)}</span>
       <span
         aria-hidden="true"
@@ -87,7 +87,7 @@ function ReviewBand({ lang }) {
                 <span className="block text-sm font-bold text-primary">{review.name}</span>
                 <span className="mt-0.5 flex items-center gap-1.5">
                   <span className="text-lg font-extrabold text-primary">{review.score}</span>
-                  <Stars best={best} score={score} />
+                  <Stars best={best} lang={lang} score={score} />
                 </span>
               </span>
             </a>
@@ -218,7 +218,7 @@ export default function SiteFooter({ lang = DEFAULT_LANG }) {
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
             src="https://www.google.com/maps?q=9.6209312,-84.6046761&output=embed&z=15"
-            title="Google Maps location of Peptides Costa Rica"
+            title={lang === 'es' ? 'Ubicación de Peptides Costa Rica en Google Maps' : 'Google Maps location of Peptides Costa Rica'}
           />
           <a className="block px-4 py-3 text-sm font-semibold text-primary hover:text-accent" href="https://maps.app.goo.gl/Fm2teY3ab8aPDxjr5" rel="noopener noreferrer" target="_blank">
             {lang === 'es' ? 'Abrir en Google Maps' : 'Open in Google Maps'}

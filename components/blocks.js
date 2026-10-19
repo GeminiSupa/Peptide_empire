@@ -217,7 +217,7 @@ function Heading({ content, lang, demote, inGroup }) {
     const RuleTag = content.semantic === false ? 'p' : Tag;
     return (
       <div className={`${gap(inGroup, 'mt-12')} flex items-center gap-4`}>
-        <RuleTag className={`shrink-0 ${size.replace(/mt-\d+/, '')} ${common}`} style={style}>
+        <RuleTag className={`min-w-0 ${size.replace(/mt-\d+/, '')} ${common}`} style={style}>
           {body}
         </RuleTag>
         <span aria-hidden="true" className="h-px flex-1 bg-primary/25" />

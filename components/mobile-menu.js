@@ -102,7 +102,7 @@ export default function MobileMenu({ lang = DEFAULT_LANG, path = '/' }) {
                             type="button"
                             onClick={() => setExpanded(isOpen ? null : i)}
                             className="rounded-md p-2 text-primary"
-                            aria-label={`${text} submenu`}
+                            aria-label={lang === 'es' ? `Submenú de ${text}` : `${text} submenu`}
                             aria-expanded={isOpen}
                           >
                             <ChevronDown
