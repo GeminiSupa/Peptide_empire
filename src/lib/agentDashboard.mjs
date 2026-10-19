@@ -1,3 +1,5 @@
+import { REPORTABLE_STATUS_CHANGE_RE } from './agentAttribution.mjs';
+
 const CR_OFFSET_MS = 6 * 60 * 60 * 1000;
 
 export const AGENT_ANALYTICS_MAX_WEEK_OFFSET = 52;
@@ -67,17 +69,17 @@ export function orderCompletedAtMs(order) {
 /**
  * First moment an order entered a status that counts in financial reporting.
  *
- * Paid and completion are separate operational events, but both now count as
- * revenue and commission. Using the first one prevents a later fulfilment
- * update from moving the same sale into a second reporting period. Legacy rows
- * without an audit event retain the existing created-at fallback.
+ * Paid, Processing and completion are separate operational events, but all
+ * count as revenue and commission. Using the first one prevents a later
+ * fulfilment update from moving the same sale into a second reporting period.
+ * Legacy rows without an audit event retain the existing created-at fallback.
  */
 export function orderReportableAtMs(order) {
   const createdAt = finiteDate(order?.created_at)?.getTime() ?? Number.NaN;
   const reportingTimes = (Array.isArray(order?.activity_log) ? order.activity_log : [])
     .filter((entry) => (
       entry?.type === 'status_change'
-      && /\b(paid|completed|order complete|partly refunded)\b/i.test(String(entry?.message || ''))
+      && REPORTABLE_STATUS_CHANGE_RE.test(String(entry?.message || ''))
     ))
     .map((entry) => finiteDate(entry?.at)?.getTime())
     .filter(Number.isFinite);

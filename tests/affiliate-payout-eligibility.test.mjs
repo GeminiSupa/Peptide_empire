@@ -44,7 +44,8 @@ test('affiliates and sales agents agree on what counts as paid', () => {
 test('an unpaid status is not in the eligible set', () => {
   const eligible = COMMISSION_ELIGIBLE_ORDER_STATUSES.map((s) => s.toLowerCase());
   assert.ok(eligible.includes('paid'), 'Paid must earn commission');
-  for (const unpaid of ['Pending', 'Pending - Card', 'Declined', 'Error', 'Cancelled']) {
+  assert.ok(eligible.includes('processing'), 'Processing (money in) must earn commission');
+  for (const unpaid of ['Pending', 'Pending - Card', 'Processing - Card', 'Declined', 'Error', 'Cancelled']) {
     assert.ok(
       !eligible.includes(unpaid.toLowerCase()),
       `${unpaid} must not earn commission`,

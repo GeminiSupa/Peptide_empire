@@ -54,9 +54,7 @@ export function groupScans(scans = []) {
 }
 
 // Handed to the shared rule so a rep's numbers and the sales figures cannot
-// disagree. The list this replaces left out "Partly Refunded", so a part
-// refund removed the whole order from the rep's totals instead of reducing it,
-// and counted "Processing" that the sales figures do not.
+// disagree (including Processing = money in).
 const orderIsPaid = (order) => orderCountsAsSale(order);
 
 /** Order value in USD with money given back taken off. */

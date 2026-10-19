@@ -77,10 +77,15 @@ test('an over-refund reads as nothing left, never as a negative sale', () => {
 });
 
 test('orders that never became money are worth nothing', () => {
-  for (const status of ['Pending', 'Payment Pending', 'Declined', 'Cancelled', 'Error', 'Processing']) {
+  for (const status of ['Pending', 'Payment Pending', 'Declined', 'Cancelled', 'Error', 'Processing - Card']) {
     assert.deepEqual(orderNetRevenue(order({ status })), { usd: 0, crc: 0 }, status);
     assert.equal(orderCountsAsSale(order({ status })), false, status);
   }
+});
+
+test('Processing counts as a sale — money is in, parcel may still be open', () => {
+  assert.equal(orderCountsAsSale(order({ status: 'Processing' })), true);
+  assert.deepEqual(orderNetRevenue(order({ status: 'Processing' })), { usd: 100, crc: 50000 });
 });
 
 test('an order from before refunds existed still counts in full', () => {

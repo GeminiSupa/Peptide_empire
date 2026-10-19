@@ -33,12 +33,30 @@
  * 'Refunded' is deliberately absent: nothing was kept, so there is no sale to
  * report and a zero-value line would only clutter the statement.
  *
- * 'Paid' belongs here because a cleared payment is reportable revenue even
- * before fulfilment changes the order to Completed. This list is shared by
- * revenue, agent commissions and affiliate payouts so all three reports count
- * the same order statuses.
+ * 'Paid' and 'Processing' both belong here: money has cleared. Processing is
+ * fulfilment in progress (parcel not closed yet), not an unpaid state — so the
+ * agent earns as soon as the customer pays, not when the parcel is marked
+ * complete. 'Processing - Card' is a different status and stays out.
+ * This list is shared by revenue, agent commissions and affiliate payouts so
+ * all three reports count the same order statuses.
  */
-export const COMMISSION_ELIGIBLE_ORDER_STATUSES = ['Paid', 'Completed', 'Order Complete', 'Partly Refunded'];
+export const COMMISSION_ELIGIBLE_ORDER_STATUSES = [
+  'Paid',
+  'Processing',
+  'Completed',
+  'Order Complete',
+  'Partly Refunded',
+];
+
+/**
+ * Activity-log messages that mean money arrived (or was partly kept).
+ *
+ * 'processing' is included so a Paid → Processing → Complete chain dates from
+ * the first payment, not from later fulfilment. Negative lookahead keeps
+ * 'Processing - Card' out — that is still an unpaid card attempt.
+ */
+export const REPORTABLE_STATUS_CHANGE_RE =
+  /\b(paid|completed|order complete|partly refunded|processing(?!\s*-\s*card))\b/i;
 
 const ELIGIBLE_STATUSES = new Set(
   COMMISSION_ELIGIBLE_ORDER_STATUSES.map((status) => status.toLowerCase()),

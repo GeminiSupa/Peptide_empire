@@ -84,6 +84,28 @@ test('reporting starts at the first paid or completed transition', () => {
   assert.equal(orderReportableInRange(order, '2026-08-15T00:00:00.000Z', '2026-08-16T00:00:00.000Z'), false);
 });
 
+test('a Processing-only chain dates from Processing, not a later complete', () => {
+  const order = {
+    created_at: '2026-10-05T10:00:00.000Z',
+    activity_log: [
+      { type: 'status_change', message: 'Status changed to Processing', at: '2026-10-08T18:00:00.000Z' },
+      { type: 'status_change', message: 'Status changed to Order Complete', at: '2026-10-13T10:00:00.000Z' },
+    ],
+  };
+  assert.equal(orderReportableAtMs(order), Date.parse('2026-10-08T18:00:00.000Z'));
+});
+
+test('Processing - Card does not start the reporting clock', () => {
+  const order = {
+    created_at: '2026-10-05T10:00:00.000Z',
+    activity_log: [
+      { type: 'status_change', message: 'Status changed to Processing - Card', at: '2026-10-08T12:00:00.000Z' },
+      { type: 'status_change', message: 'Status changed to Paid', at: '2026-10-08T18:00:00.000Z' },
+    ],
+  };
+  assert.equal(orderReportableAtMs(order), Date.parse('2026-10-08T18:00:00.000Z'));
+});
+
 test('completion falls back to creation and excludes the upper boundary', () => {
   const order = { created_at: '2026-08-10T06:00:00.000Z', activity_log: [] };
   assert.equal(orderCompletedInRange(order, '2026-08-10T06:00:00.000Z', '2026-08-17T06:00:00.000Z'), true);
