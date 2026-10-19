@@ -7564,19 +7564,16 @@ body:has(.product-grid.grid-view) {
     background: var(--bg-card);
 }
 
-/* Shopper Approved seal sits with the other trust badges; no card chrome. */
-.trust-badge.trust-badge--sa,
-a.shopper-approved-seal.trust-badge {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    padding: 0;
-    max-width: 120px;
+/* Own row under Google/Trustpilot/Facebook so the seal never covers them. */
+.catalog-sa-seal-row {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
 }
-.trust-badge.trust-badge--sa:hover,
-a.shopper-approved-seal.trust-badge:hover {
-    background: transparent;
-    transform: none;
+.catalog-sa-seal-row .shopper-approved-seal {
+    display: inline-flex;
+    line-height: 0;
 }
 
 .header-proof-column {

@@ -6515,8 +6515,12 @@ export default function CatalogPage() {
                   </span>
                 </div>
               </a>
+            </div>
 
-              <ShopperApprovedSeal lang={lang} className="trust-badge trust-badge--sa" />
+            {/* Own row — their seal must not share the Google/Trustpilot/Facebook flex
+                line; certificate.js also used to float over those badges. */}
+            <div className="catalog-sa-seal-row">
+              <ShopperApprovedSeal lang={lang} />
             </div>
 
             {/* Press feature band — outlets come from the CMS (site_settings.landing_page) */}

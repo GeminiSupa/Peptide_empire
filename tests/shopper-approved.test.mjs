@@ -124,4 +124,7 @@ test('display API and reviews page never expose the survey token', async () => {
   assert.match(page, /shopperApprovedDisplayConfig/);
   assert.doesNotMatch(blob, /SHOPPER_APPROVED_SURVEY_TOKEN|SHOPPER_APPROVED_API_TOKEN|90cSXD5t/);
   assert.doesNotMatch(blob, /NEXT_PUBLIC_SHOPPER_APPROVED/);
+  // Their overlay script must not be loaded; seal is a static link to /reviews.
+  assert.doesNotMatch(seal, /shopperApprovedCertificateScriptUrl|className=\{`shopperlink/);
+  assert.match(seal, /\/reviews/);
 });

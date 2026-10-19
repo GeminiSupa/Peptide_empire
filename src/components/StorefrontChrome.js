@@ -470,7 +470,9 @@ export function StorefrontFooter({ lang, settings, categories = [] }) {
               <ReviewBadgeContent review={review} />
             </span>
           ))}
-          <ShopperApprovedSeal lang={lang} className="clone-sa-seal" />
+        </div>
+        <div className="clone-sa-seal-row">
+          <ShopperApprovedSeal lang={lang} />
         </div>
       </div>
       <div className="clone-copyright">
