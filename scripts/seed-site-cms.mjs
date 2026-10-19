@@ -5,6 +5,7 @@
  * Existing draft and published rows are never overwritten.
  */
 import { readFile } from 'node:fs/promises';
+import { scrubUsdForPage, withoutHarvestedCommerce, withoutHarvestedGlobal } from '../lib/harvest-commerce.mjs';
 
 const sources = [
   ['homeBlocks', 'blocks'], ['city', 'blocks'], ['productLander', 'blocks'],
@@ -15,15 +16,7 @@ const sources = [
 ];
 
 const pages = new Map();
-function withoutHarvestedCommerce(node) {
-  if (Array.isArray(node)) return node.map(withoutHarvestedCommerce).filter((item) => item !== null);
-  if (!node || typeof node !== 'object') return node;
-  if (node.type === 'heading' && /^₡\s*[\d,.]+$/.test(node.content?.text_en || '')) return null;
-  if (/^(?:FREE Shipping Over|Envío GRATIS a partir de)\s*₡/i.test(node.text_en || node.text_es || '')) return null;
-  return Object.fromEntries(Object.entries(node).map(([key, value]) => [key, withoutHarvestedCommerce(value)]));
-}
 function completeRegistryPage(entry) {
-  if (entry.group === 'wooProduct') entry.sections = withoutHarvestedCommerce(entry.sections);
   if (entry.en === '/peptide-specification-sheets/' && !entry.sections?.length) {
     entry.sections = [
       { type: 'heading', content: { level: 1, text_en: 'Peptide Specification Sheets', text_es: 'Hojas de Especificación de Péptidos' } },
@@ -54,15 +47,15 @@ for (const [source, kind] of sources) {
   const data = JSON.parse(await readFile(new URL(`../data/pages/${source}.json`, import.meta.url), 'utf8'));
   for (const page of data.pages || []) {
     if (!page.en || pages.has(page.en) || page.slug === 'pt-141-10mgtest') continue;
-    pages.set(page.en, completeRegistryPage({
+    pages.set(page.en, withoutHarvestedCommerce(completeRegistryPage({
       ...page,
       kind,
       group: source === 'guideBlocks' ? 'guide' : source,
-    }));
+    }), { scrubUsd: scrubUsdForPage(source, page.en) }));
   }
 }
 
-pages.set('/site-global/', JSON.parse(await readFile(new URL('../data/global.json', import.meta.url), 'utf8')));
+pages.set('/site-global/', withoutHarvestedGlobal(JSON.parse(await readFile(new URL('../data/global.json', import.meta.url), 'utf8'))));
 
 console.log(`Prepared ${pages.size - 1} English pages and the global header/footer document.`);
 if (!process.argv.includes('--write')) {

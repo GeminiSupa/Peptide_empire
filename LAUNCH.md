@@ -7,15 +7,20 @@ The marketing clone is on `clone-website`. The catalog admin editor is on
 
 ## Required setup
 
+The Supabase migration and import were completed on 2026-10-19. Verification
+found 510 published documents and 510 private drafts. Steps 1–2 below are
+retained for a new environment or recovery; steps 3–5 are still needed for the
+production cutover.
+
 1. In the existing Supabase project's SQL Editor, run
    `add-marketing-site-cms.sql` from `codex/website-admin`. It creates only
    `site_cms_documents` and the `site-content` image bucket. It does not change
    the catalog's `site_settings` table.
-2. Use a current Supabase service role/secret key from that project to seed
-   content. From this branch's checkout, run
+2. Use the existing `C:\Projects\peptidecosta\.env.local` to seed content.
+   Its Supabase secret works when loaded by Node. From this branch's checkout, run
    `node scripts/seed-site-cms.mjs` to preview the count, then
    `node --env-file="C:\Projects\peptidecosta\.env.local" scripts/seed-site-cms.mjs --write`
-   after updating the local key. The importer creates draft and published
+   after the SQL is applied. The importer creates draft and published
    copies without overwriting edits if rerun. Never commit the key.
 3. Deploy `codex/website-admin` to the catalog project. Merge it into the
    catalog's deployment branch using the normal review path; do not merge

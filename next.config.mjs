@@ -16,6 +16,10 @@ const nextConfig = {
 
   turbopack: { root: dirname(fileURLToPath(import.meta.url)) },
 
+  // The harvested site has over a thousand routes. Keep concurrent CMS reads
+  // bounded during prerendering so Supabase and the build worker stay responsive.
+  experimental: { staticGenerationMaxConcurrency: 2 },
+
   images: {
     // Content images are referenced by path and resolved through
     // lib/images.js. During the rebuild that base points at the live
