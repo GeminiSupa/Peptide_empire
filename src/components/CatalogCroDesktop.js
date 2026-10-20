@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BadgePercent, Check } from 'lucide-react';
 import { useBulkWholesaleCampaign } from '@/hooks/useBulkWholesaleCampaign';
@@ -117,11 +117,17 @@ function useVisualCarousel(count, intervalMs = 6000, slideMs = 600) {
   // Bumped when someone picks a slide, so the timer starts counting from that
   // slide instead of moving on a moment later.
   const [restart, setRestart] = useState(0);
+  // When true the auto-advance timer keeps ticking but does not move — used so
+  // the product reel can finish before the carousel leaves it.
+  const holdRef = useRef(false);
 
   useEffect(() => {
     if (count < 2) return undefined;
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) return undefined;
-    const timer = window.setInterval(() => setIndex((value) => value + 1), intervalMs);
+    const timer = window.setInterval(() => {
+      if (holdRef.current) return;
+      setIndex((value) => value + 1);
+    }, intervalMs);
     return () => window.clearInterval(timer);
   }, [count, intervalMs, restart]);
 
@@ -144,19 +150,23 @@ function useVisualCarousel(count, intervalMs = 6000, slideMs = 600) {
     return () => window.cancelAnimationFrame(frame);
   }, [animate]);
 
-  const goTo = (slide) => {
-    setIndex(slide);
+  const goTo = useCallback((next) => {
+    setIndex(next);
     setRestart((value) => value + 1);
-  };
+  }, []);
 
-  return { index, active: index % count, animate, goTo };
+  return { index, active: index % count, animate, goTo, holdRef };
 }
+
+const REEL_SLIDE = 0;
+const PRODUCT_SLIDE = 1;
+const SPONSOR_SLIDE = 2;
 
 export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} }) {
   const campaign = useBulkWholesaleCampaign();
   const [now, setNow] = useState(() => Date.now());
-  // Product vials → brand reel → Ziggy. Longer beat so the video can breathe.
-  const { index: slideIndex, active: slide, animate, goTo } = useVisualCarousel(3, 9000);
+  // Reel first so it is on screen immediately; vials → Ziggy after it finishes.
+  const { index: slideIndex, active: slide, animate, goTo, holdRef } = useVisualCarousel(3, 7000);
   const reelRef = useRef(null);
 
   useEffect(() => {
@@ -165,18 +175,35 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
     return () => window.clearInterval(timer);
   }, [campaign.validUntil]);
 
-  // Play only while the reel slide is on screen; mute keeps autoplay allowed.
+  // Hold the carousel on the reel until the clip ends (no loop), then step on.
+  // Mute + playsInline + autoPlay so mobile browsers allow it without a tap.
   useEffect(() => {
     const video = reelRef.current;
-    if (!video) return;
-    if (slide === 1) {
-      video.currentTime = 0;
+    holdRef.current = slide === REEL_SLIDE;
+    if (!video) return undefined;
+
+    if (slide !== REEL_SLIDE) {
+      video.pause();
+      return undefined;
+    }
+
+    const tryPlay = () => {
+      video.muted = true;
       const play = video.play();
       if (play?.catch) play.catch(() => {});
-    } else {
-      video.pause();
-    }
-  }, [slide]);
+    };
+
+    if (Math.abs(video.currentTime) > 0.05) video.currentTime = 0;
+    if (video.readyState >= 2) tryPlay();
+    else video.addEventListener('loadeddata', tryPlay, { once: true });
+
+    const onEnded = () => goTo(PRODUCT_SLIDE);
+    video.addEventListener('ended', onEnded);
+    return () => {
+      video.removeEventListener('ended', onEnded);
+      video.removeEventListener('loadeddata', tryPlay);
+    };
+  }, [slide, goTo, holdRef]);
 
   const en = lang === 'en';
   const countdown = campaign.active ? dealCountdownParts(campaign.validUntil, now) : null;
@@ -205,8 +232,8 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
     ? 'Peptides Costa Rica product reel'
     : 'Video de productos Peptides Costa Rica';
   const slideLabels = [
-    en ? 'Deal of the Week' : 'Oferta de la Semana',
     en ? 'Product reel' : 'Video de producto',
+    en ? 'Deal of the Week' : 'Oferta de la Semana',
     en ? 'Ziggy Myrie sponsorship' : 'Patrocinio de Ziggy Myrie',
   ];
   const pressHref = press?.url && !/ticotimes\.net/i.test(press.url) ? press.url : '';
@@ -232,6 +259,25 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
           {quote && <em>{quote}</em>}
         </PressTag>
       )}
+    </div>
+  );
+  // Clone of the reel for the infinite-track seam. Paused — only the live
+  // reelRef instance plays.
+  const reelSlide = (position, { live = false, clone = false } = {}) => (
+    <div
+      className={`${styles.slide} ${styles.slideReel}`}
+      style={slidePosition(position)}
+      aria-hidden={clone || slide !== REEL_SLIDE ? 'true' : undefined}
+    >
+      <video
+        ref={live ? reelRef : undefined}
+        src="/catalog-hero-reel.mp4"
+        muted
+        playsInline
+        autoPlay={live}
+        preload={live ? 'auto' : 'metadata'}
+        aria-label={clone ? '' : reelAlt}
+      />
     </div>
   );
 
@@ -298,7 +344,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
             : '244 investigadores empezaron a usar nuestros productos solo la semana pasada.'}
         </p>
       </div>
-      <div className={`${styles.visual}${slide === 2 ? ` ${styles.visualSponsor}` : ''}${slide === 1 ? ` ${styles.visualReel}` : ''}`}>
+      <div className={`${styles.visual}${slide === SPONSOR_SLIDE ? ` ${styles.visualSponsor}` : ''}${slide === REEL_SLIDE ? ` ${styles.visualReel}` : ''}`}>
         <div
           className={styles.slides}
           style={{
@@ -306,19 +352,9 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
             transition: animate ? undefined : 'none',
           }}
         >
-          {productSlide(0, false)}
-          <div className={`${styles.slide} ${styles.slideReel}`} style={slidePosition(1)} aria-hidden={slide !== 1}>
-            <video
-              ref={reelRef}
-              src="/catalog-hero-reel.mp4"
-              muted
-              playsInline
-              loop
-              preload="metadata"
-              aria-label={reelAlt}
-            />
-          </div>
-          <div className={`${styles.slide} ${styles.slideSponsor}`} style={slidePosition(2)} aria-hidden={slide !== 2}>
+          {reelSlide(REEL_SLIDE, { live: true })}
+          {productSlide(PRODUCT_SLIDE, false)}
+          <div className={`${styles.slide} ${styles.slideSponsor}`} style={slidePosition(SPONSOR_SLIDE)} aria-hidden={slide !== SPONSOR_SLIDE}>
             {/* Which artwork fits depends on the shape of the slot, which the
                 breakpoints decide: wide where the slot is a broad band, the
                 portrait poster where it is squarer. */}
@@ -330,7 +366,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
             </picture>
           </div>
           {/* Clone of the first slide, so the track always travels one way. */}
-          {productSlide(3, true)}
+          {reelSlide(3, { clone: true })}
         </div>
         <div className={styles.dots} role="tablist" aria-label={en ? 'Slides' : 'Diapositivas'}>
           {slideLabels.map((label, dot) => (
