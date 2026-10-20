@@ -1,7 +1,30 @@
+import { AD_LANDING_SOURCES } from './adLandingLeads.mjs';
+import { writeDroppingMissingColumns } from './optionalColumns.mjs';
+import { hasLandingQualification, landingQualificationNotes } from './landingLead.mjs';
+import { leadBelongsInChatwoot, leadChatwootPhone } from './chatwootLeadEligibility.mjs';
+
 const TIMEOUT_MS = 8000;
 export const CHATWOOT_LEAD_SETTING_ID = 'google_ads_chatwoot';
 
+export { leadBelongsInChatwoot, leadChatwootPhone };
+
 const clean = (value) => String(value ?? '').trim();
+
+const CHATWOOT_LEAD_COLUMNS = [
+  'chatwoot_status',
+  'chatwoot_error',
+  'chatwoot_conversation_id',
+  'chatwoot_contact_id',
+  'chatwoot_conversation_status',
+  'chatwoot_assignee_email',
+  'chatwoot_conversation_url',
+  'chatwoot_synced_at',
+];
+
+function isPaidAdChatwootSource(source) {
+  const key = clean(source).toLowerCase();
+  return AD_LANDING_SOURCES.has(key) || key === 'tiktok_form';
+}
 
 export async function loadChatwootLeadEnabled(supabase) {
   try {
@@ -91,9 +114,14 @@ export function buildChatwootLeadMessage({
 }) {
   // No owner line: the chat itself is assigned to the agent, and a name typed
   // into the message goes stale the moment someone reassigns it.
-  const title = source === 'tiktok_form'
-    ? 'New TikTok form lead'
-    : (source === 'glp1_lp' ? 'New Google Ads lead — /glp-1' : (source === 'adwords_lp' ? 'New Google Ads lead — /lp' : 'New lead'));
+  const key = clean(source).toLowerCase();
+  let title = 'New lead';
+  if (key === 'tiktok_form') title = 'New TikTok form lead';
+  else if (key === 'glp1_lp') title = 'New Google Ads lead — /glp-1';
+  else if (key === 'adwords_lp') title = 'New Google Ads lead — /lp';
+  else if (key === 'catalog_gate' || key === 'catalog_reprompt' || key === 'catalog_whatsapp') {
+    title = 'New WhatsApp catalog lead';
+  }
   return [
     title,
     `Name: ${clean(name) || 'Not provided'}`,
@@ -156,7 +184,7 @@ export function chatwootLeadColumns(result, { enabled = true, at = new Date().to
 }
 
 /**
- * Opens a Chatwoot conversation for one accepted Google Ads form submission.
+ * Opens a Chatwoot conversation for one CRM lead (ad form or WhatsApp opt-in).
  * The API token stays server-side; a Chatwoot outage never changes whether the
  * CRM lead itself was accepted.
  */
@@ -185,9 +213,14 @@ export async function sendAdLeadToChatwoot({
     const inboxIdentifier = clean(inbox?.inbox_identifier);
     if (!inboxIdentifier) throw new Error('The Chatwoot inbox has no API identifier');
 
-    const identifier = `google-ads-lead-${leadId}`;
+    // Keep the old prefix for ad/TikTok contacts already in Chatwoot so a retry
+    // finds the same person instead of opening a second contact.
+    const identifier = isPaidAdChatwootSource(source)
+      ? `google-ads-lead-${leadId}`
+      : `crm-lead-${leadId}`;
     const contactsUrl = `${config.baseUrl}/public/api/v1/inboxes/${inboxIdentifier}/contacts`;
-    const contactName = clean(name) || `Google Ads lead ${leadId}`;
+    const contactName = clean(name)
+      || (isPaidAdChatwootSource(source) ? `Google Ads lead ${leadId}` : `Catalog lead ${leadId}`);
     const phoneNumber = chatwootPhone(phone);
     const createContact = (body) => chatwootRequest(contactsUrl, { fetchImpl, method: 'POST', body });
     let contact;
@@ -242,4 +275,82 @@ export async function sendAdLeadToChatwoot({
   } catch (error) {
     return { configured: true, sent: false, error: clean(error?.message) || 'Chatwoot delivery failed' };
   }
+}
+
+/**
+ * Chatwoot login email for the CRM owner name on the lead, or '' when unknown.
+ */
+export async function chatwootAssigneeEmailForLead(supabase, lead) {
+  const wanted = clean(lead?.sales_agent).toLowerCase();
+  if (!wanted) return '';
+  try {
+    const { data, error } = await supabase
+      .from('admin_profiles')
+      .select('name, email');
+    if (error) throw error;
+    const match = (data || []).find((row) => {
+      const name = clean(row?.name).toLowerCase();
+      const email = clean(row?.email).toLowerCase();
+      return name === wanted || email === wanted;
+    });
+    return clean(match?.email);
+  } catch (error) {
+    console.warn('[Chatwoot] Could not resolve assignee email:', error.message);
+    return '';
+  }
+}
+
+/**
+ * One CRM lead → Chatwoot: eligibility, admin switch, send, write status columns.
+ * Used on capture/opt-in and by the 15-minute retry cron.
+ */
+export async function handoverLeadToChatwoot(supabase, lead, {
+  assigneeEmail,
+  env = process.env,
+  fetchImpl = fetch,
+} = {}) {
+  if (!lead?.id || !leadBelongsInChatwoot(lead)) {
+    return { skipped: true, sent: false };
+  }
+
+  const enabled = await loadChatwootLeadEnabled(supabase);
+  const source = clean(lead.lead_source)
+    || clean(lead.consent_source)
+    || (lead.whatsapp_consent === true ? 'catalog_whatsapp' : '');
+  const phone = leadChatwootPhone(lead);
+  // Ad chats stay unassigned so Chatwoot can pick; WhatsApp catalog leads go to
+  // the CRM owner when we know who that is.
+  let email = assigneeEmail;
+  if (email === undefined) {
+    email = isPaidAdChatwootSource(source) ? '' : await chatwootAssigneeEmailForLead(supabase, lead);
+  }
+
+  const qualification = lead.qualification_data || {};
+  const result = enabled
+    ? await sendAdLeadToChatwoot({
+      leadId: lead.id,
+      name: clean(lead.name) || clean(lead.contact_value) || phone,
+      email: lead.email,
+      phone,
+      source,
+      qualificationLines: hasLandingQualification(qualification)
+        ? landingQualificationNotes(qualification)
+        : [],
+      campaign: [lead.utm_source, lead.utm_medium, lead.utm_campaign].filter(Boolean).join(' / '),
+      assigneeEmail: email || '',
+      dueAt: lead.response_due_at,
+      env,
+      fetchImpl,
+    })
+    : { configured: true, sent: false };
+
+  await writeDroppingMissingColumns(
+    chatwootLeadColumns(result, { enabled }),
+    CHATWOOT_LEAD_COLUMNS,
+    (row) => (Object.keys(row).length
+      ? supabase.from('catalog_leads').update(row).eq('id', lead.id)
+      : Promise.resolve({ error: null })),
+  );
+
+  return { ...result, enabled, skipped: false };
 }

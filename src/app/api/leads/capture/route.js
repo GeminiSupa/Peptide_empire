@@ -4,6 +4,7 @@ import { sendCatalogWelcomeCampaign } from '@/lib/campaignDelivery';
 import { cleanPhoneNumber } from '@/lib/whatsapp';
 import { insertWhatsAppMessage } from '@/lib/whatsappMessageLog';
 import { resolveLeadOwner, contactKeysFor } from '@/lib/leadOwner';
+import { handoverLeadToChatwoot } from '@/lib/chatwootLead.mjs';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -51,7 +52,7 @@ export async function POST(request) {
 
       if (existingLead) {
         if (whatsapp_consent) {
-          const { error: updateErr } = await supabase
+          const { data: updatedLead, error: updateErr } = await supabase
             .from('catalog_leads')
             .update({
               whatsapp_consent: contact_method === 'whatsapp',
@@ -68,10 +69,26 @@ export async function POST(request) {
               utm_campaign,
               referrer
             })
-            .eq('id', existingLead.id);
+            .eq('id', existingLead.id)
+            .select('id, name, email, phone, contact_value, contact_method, lead_source, consent_source, whatsapp_consent, sales_agent, chatwoot_conversation_id, utm_source, utm_medium, utm_campaign')
+            .maybeSingle();
 
           if (updateErr) {
             console.error('[Leads Capture] Error updating existing lead consent:', updateErr);
+          } else if (
+            updatedLead
+            && !updatedLead.chatwoot_conversation_id
+            && contact_method === 'whatsapp'
+            && updatedLead.whatsapp_consent === true
+          ) {
+            try {
+              const chatwoot = await handoverLeadToChatwoot(supabase, updatedLead);
+              if (!chatwoot.sent && !chatwoot.skipped) {
+                console.error('[Leads Capture] Chatwoot handover failed for existing lead:', chatwoot.error);
+              }
+            } catch (chatwootErr) {
+              console.error('[Leads Capture] Chatwoot handover failed for existing lead:', chatwootErr);
+            }
           }
         }
         if (contact_method === 'email' && whatsapp_consent) {
@@ -105,7 +122,7 @@ export async function POST(request) {
         label: 'leads/capture',
       });
 
-      const { error: leadErr } = await supabase.from('catalog_leads').insert([{
+      const { data: savedLead, error: leadErr } = await supabase.from('catalog_leads').insert([{
         contact_method,
         contact_value: cleanContact,
         sales_agent: salesAgent || null,
@@ -122,9 +139,20 @@ export async function POST(request) {
         utm_medium,
         utm_campaign,
         referrer
-      }]);
+      }]).select('id, name, email, phone, contact_value, contact_method, lead_source, consent_source, whatsapp_consent, sales_agent, utm_source, utm_medium, utm_campaign').maybeSingle();
 
-      if (leadErr) console.error('[Leads Capture] Error saving lead:', leadErr);
+      if (leadErr) {
+        console.error('[Leads Capture] Error saving lead:', leadErr);
+      } else if (savedLead && savedLead.whatsapp_consent === true && contact_method === 'whatsapp') {
+        try {
+          const chatwoot = await handoverLeadToChatwoot(supabase, savedLead);
+          if (!chatwoot.sent && !chatwoot.skipped) {
+            console.error('[Leads Capture] Chatwoot handover failed:', chatwoot.error);
+          }
+        } catch (chatwootErr) {
+          console.error('[Leads Capture] Chatwoot handover failed:', chatwootErr);
+        }
+      }
     }
 
     // Send the saved Marketing Studio welcome campaign to opted-in email leads.

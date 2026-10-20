@@ -19,6 +19,7 @@ import {
 } from '@/lib/leadNotificationStatus.mjs';
 import { formatCrDate } from '@/lib/crTime.mjs';
 import { isAdLandingLead } from '@/lib/adLandingLeads.mjs';
+import { leadBelongsInChatwoot } from '@/lib/chatwootLeadEligibility.mjs';
 import AiSummary from './AiSummary';
 
 /**
@@ -459,11 +460,10 @@ export default function LeadsManager({
 
   const renderChatwootActivity = (lead) => {
     if (!lead.chatwoot_conversation_id && !lead.chatwoot_conversation_url) {
-      // A Google Ads lead that is not in Chatwoot is not being worked by
-      // anybody, because Chatwoot is where these are answered. A dash said
-      // nothing, so the one case worth noticing looked like the quiet one.
-      // The 15-minute job retries it; this says so until it lands.
-      if (isGoogleAdsLead(lead)) {
+      // Ad leads and WhatsApp opt-ins belong in Chatwoot. A dash said nothing,
+      // so the one case worth noticing looked like the quiet one. The 15-minute
+      // job retries it; this says so until it lands.
+      if (leadBelongsInChatwoot(lead) || isGoogleAdsLead(lead)) {
         return (
           <div className="lead-alert-control">
             <span className="lead-alert-status warning" title={lead.chatwoot_error || 'The handover did not complete. It is retried every 15 minutes.'}>

@@ -180,18 +180,17 @@ test('the job retries a lead that never reached Chatwoot', async () => {
   const job = await readFile(new URL('../src/app/api/cron/chatwoot-owner-sync/route.js', import.meta.url), 'utf8');
 
   assert.match(job, /\.is\('chatwoot_conversation_id', null\)/, 'it has to look for leads with no chat');
-  assert.match(job, /sendAdLeadToChatwoot\(/, 'and actually send them');
-  assert.match(job, /isAdLandingSource\(row\.lead_source\)/, 'only the paid ad leads');
-  assert.match(job, /assigneeEmail: ''/, 'a retry must not start assigning owners again');
-  assert.match(job, /chatwootLeadColumns\(result\)/, 'the outcome has to be written back, or it resends forever');
+  assert.match(job, /handoverLeadToChatwoot\(/, 'and actually send them');
+  assert.match(job, /leadBelongsInChatwoot/, 'ad leads and WhatsApp opt-ins both belong');
+  assert.match(job, /whatsapp_consent/, 'the query has to fetch consent so opt-ins are visible');
   assert.match(job, /STILL not in Chatwoot/, 'a retry that fails again has to be loud');
 });
 
-test('the Leads screen shows a Google Ads lead that is missing from Chatwoot', async () => {
+test('the Leads screen shows a Chatwoot-bound lead that is missing from Chatwoot', async () => {
   const { readFile } = await import('node:fs/promises');
   const screen = await readFile(new URL('../src/components/admin/LeadsManager.js', import.meta.url), 'utf8');
 
   assert.match(screen, /not in Chatwoot/, 'a dash made the one case worth noticing look like the quiet one');
-  assert.match(screen, /isGoogleAdsLead\(lead\)/, 'only ad leads belong in Chatwoot, so only they can be missing from it');
+  assert.match(screen, /leadBelongsInChatwoot\(lead\)/, 'WhatsApp opt-ins belong in Chatwoot too');
   assert.match(screen, /retrying every 15 min/, 'say it is being retried, so nobody re-enters it by hand');
 });

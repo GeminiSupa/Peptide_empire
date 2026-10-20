@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { cleanPhoneNumber } from '@/lib/whatsapp';
 import { resolveLeadOwner } from '@/lib/leadOwner';
+import { handoverLeadToChatwoot } from '@/lib/chatwootLead.mjs';
 
 // Records a WhatsApp marketing opt-in captured AFTER the initial signup (the
 // "second-chance" re-prompt on the catalog). Sets whatsapp_consent=true for the
@@ -32,12 +33,13 @@ export async function POST(request) {
     // Update an existing lead if we already have this number; otherwise insert.
     const { data: existing } = await supabase
       .from('catalog_leads')
-      .select('id')
+      .select('id, chatwoot_conversation_id')
       .eq('contact_value', clean)
       .maybeSingle();
 
+    let leadRow = null;
     if (existing) {
-      await supabase
+      const { data: updated } = await supabase
         .from('catalog_leads')
         .update({
           whatsapp_consent: true,
@@ -45,7 +47,10 @@ export async function POST(request) {
           consent_at: now,
           consent_source: 'catalog_reprompt',
         })
-        .eq('id', existing.id);
+        .eq('id', existing.id)
+        .select('id, name, email, phone, contact_value, contact_method, lead_source, consent_source, whatsapp_consent, sales_agent, chatwoot_conversation_id, utm_source, utm_medium, utm_campaign')
+        .maybeSingle();
+      leadRow = updated;
     } else {
       // Only on the insert branch: the update above touches a lead that already
       // exists, and re-deriving its owner could overwrite an agent's own claim.
@@ -54,7 +59,7 @@ export async function POST(request) {
         label: 'leads/optin',
       });
 
-      await supabase.from('catalog_leads').insert([{
+      const { data: inserted } = await supabase.from('catalog_leads').insert([{
         contact_method: 'whatsapp',
         contact_value: clean,
         sales_agent: salesAgent || null,
@@ -63,7 +68,19 @@ export async function POST(request) {
         consent_at: now,
         consent_source: 'catalog_reprompt',
         language,
-      }]);
+      }]).select('id, name, email, phone, contact_value, contact_method, lead_source, consent_source, whatsapp_consent, sales_agent, chatwoot_conversation_id, utm_source, utm_medium, utm_campaign').maybeSingle();
+      leadRow = inserted;
+    }
+
+    if (leadRow && !leadRow.chatwoot_conversation_id) {
+      try {
+        const chatwoot = await handoverLeadToChatwoot(supabase, leadRow);
+        if (!chatwoot.sent && !chatwoot.skipped) {
+          console.error('[Leads Opt-in] Chatwoot handover failed:', chatwoot.error);
+        }
+      } catch (chatwootErr) {
+        console.error('[Leads Opt-in] Chatwoot handover failed:', chatwootErr);
+      }
     }
 
     return NextResponse.json({ success: true });

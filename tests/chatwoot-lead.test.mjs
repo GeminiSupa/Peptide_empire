@@ -32,6 +32,25 @@ test('Google Ads lead message identifies both landing-page variant and CRM recor
   assert.doesNotMatch(content, /CRM owner/);
 });
 
+test('WhatsApp catalog opt-in message is labelled as a catalog lead', () => {
+  const content = buildChatwootLeadMessage({
+    leadId: 'lead-9', name: '', email: '', phone: '50688887777',
+    source: 'catalog_reprompt',
+  });
+  assert.match(content, /WhatsApp catalog lead/);
+  assert.match(content, /50688887777/);
+});
+
+test('catalog capture and opt-in hand WhatsApp leads to Chatwoot', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const [capture, optin] = await Promise.all([
+    readFile(new URL('../src/app/api/leads/capture/route.js', import.meta.url), 'utf8'),
+    readFile(new URL('../src/app/api/leads/optin/route.js', import.meta.url), 'utf8'),
+  ]);
+  assert.match(capture, /handoverLeadToChatwoot\(/);
+  assert.match(optin, /handoverLeadToChatwoot\(/);
+});
+
 test('missing Chatwoot environment skips delivery without making a network call', async () => {
   let called = false;
   const result = await sendAdLeadToChatwoot({

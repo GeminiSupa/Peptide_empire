@@ -161,7 +161,7 @@ function NotificationSettings({
           icon={<MessageCircle size={15} />}
           title="Send lead alerts to Chatwoot"
           hint={chatwootConfigured
-            ? 'Controls automatic Chatwoot conversations for /lp, /glp-1 and TikTok form leads. Email and WhatsApp copies are controlled separately below.'
+            ? 'Controls automatic Chatwoot conversations for /lp, /glp-1, TikTok forms, and catalog leads that opted into WhatsApp. Email and WhatsApp copies are controlled separately below.'
             : 'Chatwoot credentials are missing in Vercel. Add them before enabling this integration.'}
           checked={chatwootEnabled}
           disabled={!canEdit || chatwootSaving}
