@@ -29,6 +29,15 @@ test('mirrored WordPress media use this deployment', () => {
   assert.equal(clean.html_en, '<img src="/wp-content/uploads/test.webp">');
 });
 
+test('legacy product ordering instructions point to the catalog instead of this site', () => {
+  const en = 'We arrange delivery within Costa Rica. Now get easy online checkout with all the given payment options. Simply add your preferred product in cart and place your order. We also handle orders directly to make sure your items are available before you pay.';
+  const es = 'Realizamos entregas dentro de Costa Rica. Ahora disfrute de un proceso de pago en línea fácil con todas las opciones de pago disponibles. Simplemente agregue su producto preferido al carrito y haga su pedido. También gestionamos los pedidos directamente para asegurarnos de que sus artículos estén disponibles antes de que pague.';
+  const clean = withoutHarvestedCommerce({ text_en: en, text_es: es });
+  assert.match(clean.text_en, /visit our catalog/);
+  assert.match(clean.text_es, /visite nuestro catálogo/);
+  assert.doesNotMatch(JSON.stringify(clean), /add your preferred product in cart|agregue su producto preferido al carrito/);
+});
+
 test('imported pages are free of old catalog prices and shipping thresholds', async () => {
   const root = new URL('../data/pages/', import.meta.url);
   const files = (await readdir(root)).filter((name) => name.endsWith('.json'));
@@ -37,6 +46,7 @@ test('imported pages are free of old catalog prices and shipping thresholds', as
     const scrubUsd = scrubUsdForPage(file.slice(0, -5), '/');
     const clean = withoutHarvestedCommerce(data, { scrubUsd });
     assert.equal(JSON.stringify(clean).includes('₡'), false, `${file} still has a harvested amount`);
+    assert.equal(/add your preferred product in cart|agregue su producto preferido al carrito/.test(JSON.stringify(clean)), false, `${file} still describes the old cart flow`);
     if (scrubUsd) assert.equal(/\$\s*\d/.test(JSON.stringify(clean)), false, `${file} still has an old dollar amount`);
     assert.equal(/https?:\/\/(?:www\.)?peptidescostarica\.net\/wp-content/i.test(JSON.stringify(clean)), false, `${file} still loads WordPress media`);
     assert.equal(clean.pages?.length, data.pages?.length, `${file} lost a page`);
