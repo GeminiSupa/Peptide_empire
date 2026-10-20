@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { BadgePercent, Check } from 'lucide-react';
 import { useBulkWholesaleCampaign } from '@/hooks/useBulkWholesaleCampaign';
@@ -155,13 +155,28 @@ function useVisualCarousel(count, intervalMs = 6000, slideMs = 600) {
 export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} }) {
   const campaign = useBulkWholesaleCampaign();
   const [now, setNow] = useState(() => Date.now());
-  const { index: slideIndex, active: slide, animate, goTo } = useVisualCarousel(2);
+  // Product vials → brand reel → Ziggy. Longer beat so the video can breathe.
+  const { index: slideIndex, active: slide, animate, goTo } = useVisualCarousel(3, 9000);
+  const reelRef = useRef(null);
 
   useEffect(() => {
     if (!campaign.validUntil) return undefined;
     const timer = window.setInterval(() => setNow(Date.now()), 1000);
     return () => window.clearInterval(timer);
   }, [campaign.validUntil]);
+
+  // Play only while the reel slide is on screen; mute keeps autoplay allowed.
+  useEffect(() => {
+    const video = reelRef.current;
+    if (!video) return;
+    if (slide === 1) {
+      video.currentTime = 0;
+      const play = video.play();
+      if (play?.catch) play.catch(() => {});
+    } else {
+      video.pause();
+    }
+  }, [slide]);
 
   const en = lang === 'en';
   const countdown = campaign.active ? dealCountdownParts(campaign.validUntil, now) : null;
@@ -186,8 +201,12 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
   const sponsorAlt = en
     ? 'Proudly sponsored by Peptides Costa Rica - boxer Ziggy Myrie'
     : 'Orgullosamente patrocinado por Peptides Costa Rica - el boxeador Ziggy Myrie';
+  const reelAlt = en
+    ? 'Peptides Costa Rica product reel'
+    : 'Video de productos Peptides Costa Rica';
   const slideLabels = [
     en ? 'Deal of the Week' : 'Oferta de la Semana',
+    en ? 'Product reel' : 'Video de producto',
     en ? 'Ziggy Myrie sponsorship' : 'Patrocinio de Ziggy Myrie',
   ];
   const pressHref = press?.url && !/ticotimes\.net/i.test(press.url) ? press.url : '';
@@ -279,7 +298,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
             : '244 investigadores empezaron a usar nuestros productos solo la semana pasada.'}
         </p>
       </div>
-      <div className={`${styles.visual}${slide === 1 ? ` ${styles.visualSponsor}` : ''}`}>
+      <div className={`${styles.visual}${slide === 2 ? ` ${styles.visualSponsor}` : ''}${slide === 1 ? ` ${styles.visualReel}` : ''}`}>
         <div
           className={styles.slides}
           style={{
@@ -288,7 +307,18 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
           }}
         >
           {productSlide(0, false)}
-          <div className={`${styles.slide} ${styles.slideSponsor}`} style={slidePosition(1)} aria-hidden={slide !== 1}>
+          <div className={`${styles.slide} ${styles.slideReel}`} style={slidePosition(1)} aria-hidden={slide !== 1}>
+            <video
+              ref={reelRef}
+              src="/catalog-hero-reel.mp4"
+              muted
+              playsInline
+              loop
+              preload="metadata"
+              aria-label={reelAlt}
+            />
+          </div>
+          <div className={`${styles.slide} ${styles.slideSponsor}`} style={slidePosition(2)} aria-hidden={slide !== 2}>
             {/* Which artwork fits depends on the shape of the slot, which the
                 breakpoints decide: wide where the slot is a broad band, the
                 portrait poster where it is squarer. */}
@@ -300,7 +330,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
             </picture>
           </div>
           {/* Clone of the first slide, so the track always travels one way. */}
-          {productSlide(2, true)}
+          {productSlide(3, true)}
         </div>
         <div className={styles.dots} role="tablist" aria-label={en ? 'Slides' : 'Diapositivas'}>
           {slideLabels.map((label, dot) => (

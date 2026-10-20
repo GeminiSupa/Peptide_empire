@@ -1,686 +1,213 @@
-.ticker,
-.hero,
-.trust,
-.stats {
-  display: none;
-}
+/* Mobile first: base styles are the phone layout. Wider screens layer on
+   with min-width. The deal card (copy + picture carousel) shows on every size. */
 
 @keyframes croTicker {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-50%, 0, 0); }
 }
 
-@media (min-width: 1100px) {
-  .ticker {
-    display: block;
-    overflow: hidden;
-    background: #f4efe6;
-    color: #1c1c1c;
-  }
-
-  .track {
-    display: flex;
-    width: max-content;
-    animation: croTicker 22s linear infinite;
-  }
-
-  .ticker:hover .track,
-  .ticker:focus-within .track {
-    animation-play-state: paused;
-  }
-
-  .ticker p {
-    margin: 0;
-    padding: 9px 32px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    white-space: nowrap;
-  }
-
-  .hero {
-    display: grid;
-    /* The picture column carries the sponsorship banner, which is very wide and
-       short, so it gets the larger share. At 1.15fr the copy still sets the
-       card's height, so the banner grew without the card growing. */
-    grid-template-columns: minmax(0, 0.85fr) minmax(280px, 1.15fr);
-    gap: 20px;
-    align-items: center;
-    width: min(1216px, calc(100% - 48px));
-    margin: 16px auto 0;
-    padding: 26px 32px 22px;
-    border-radius: 28px;
-    background: #e7f3fb;
-    color: #111;
-  }
-
-  .copy h2 {
-    margin: 6px 0 10px;
-    font-size: 1.65rem;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-  }
-
-  .scores {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 14px;
-    align-items: center;
-    margin: 0 0 12px;
-    font-weight: 600;
-    font-size: 0.72rem;
-    white-space: nowrap;
-    color: #3d3d3d;
-  }
-
-  .scores a {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .scores svg {
-    width: 14px;
-    height: 14px;
-    flex: 0 0 auto;
-  }
-
-  .copy ul {
-    margin: 0 0 14px;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    gap: 4px;
-  }
-
-  .copy li {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
-
-  .copy li svg {
-    width: 15px;
-    height: 15px;
-    flex: 0 0 auto;
-  }
-
-  .note {
-    font-size: 0.75rem !important;
-    font-weight: 500 !important;
-    color: #5c6570;
-  }
-
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .claim {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 0;
-    border-radius: 999px;
-    background: #e87722;
-    color: #fff;
-    font: inherit;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    text-decoration: none;
-    padding: 12px 22px;
-    cursor: pointer;
-  }
-
-  .claim:hover {
-    background: #d16512;
-  }
-
-  .clock {
-    display: flex;
-    gap: 8px;
-  }
-
-  .clock span {
-    display: grid;
-    place-items: center;
-    min-width: 52px;
-    padding: 6px 8px;
-    border-radius: 10px;
-    background: #fff;
-    line-height: 1;
-  }
-
-  .clock b {
-    font-size: 1rem;
-  }
-
-  .clock small {
-    margin-top: 3px;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #667;
-  }
-
-  .proof {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 14px 0 0;
-    max-width: 420px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    line-height: 1.35;
-  }
-
-  .faces {
-    display: flex;
-    flex: 0 0 auto;
-  }
-
-  .faces span {
-    width: 28px;
-    height: 28px;
-    margin-left: -8px;
-    border: 2px solid #e7f3fb;
-    border-radius: 50%;
-    background: #1d4e89 center / 16px 16px no-repeat;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 20c1.5-3.5 4.2-5 8-5s6.5 1.5 8 5'/%3E%3C/svg%3E");
-  }
-
-  .faces span:first-child { margin-left: 0; background-color: #1d4e89; }
-  .faces span:nth-child(2) { background-color: #3b82c4; }
-  .faces span:nth-child(3) { background-color: #0f6e8a; }
-
-  .visual {
-    position: relative;
-    height: 296px;
-    border-radius: 18px;
-    overflow: hidden;
-  }
-
-  .slide > img {
-    position: absolute;
-    inset: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    transform: none;
-  }
-
-  .press {
-    position: absolute;
-    left: 12px;
-    bottom: 12px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    max-width: calc(100% - 24px);
-    margin: 0;
-    padding: 8px 12px;
-    border-radius: 12px;
-    background: #fff;
-    color: #222;
-    text-decoration: none;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-  }
-
-  .press small {
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    color: #8b9098;
-  }
-
-  .press img {
-    height: 28px;
-    width: auto;
-    object-fit: contain;
-  }
-
-  .press em {
-    font-style: normal;
-    font-size: 0.82rem;
-    font-weight: 600;
-  }
-
-  .trust {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px 28px;
-    width: min(1216px, calc(100% - 48px));
-    margin: 14px auto 6px;
-    padding: 0;
-    list-style: none;
-    color: #1c1c1c;
-    font-weight: 700;
-    font-size: 0.92rem;
-  }
-
-  .trust li {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .trust svg {
-    color: #e87722;
-  }
-
-  .stats {
-    display: block;
-    grid-column: 1 / -1;
-    width: min(1216px, calc(100% - 48px));
-    margin: 28px auto 8px;
-    padding: 28px 12px 8px;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
-    text-align: center;
-  }
-
-  .stats p {
-    margin: 0 0 16px;
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #667;
-  }
-
-  .stats > div {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 12px;
-  }
-
-  .stats strong {
-    display: block;
-    font-size: 2rem;
-    letter-spacing: -0.03em;
-  }
-
-  .stats span {
-    display: block;
-    margin-top: 4px;
-    color: #667;
-    font-size: 0.92rem;
-  }
+.ticker {
+  display: block;
+  overflow: hidden;
+  background: #f4efe6;
+  color: #1c1c1c;
 }
 
-/* Phone and tablet. Same deal block as the wide screen, stacked. The top
-   offer stays one running line, the same way it does on a laptop. */
-@media (max-width: 1099px) {
-  .ticker {
-    display: block;
-    overflow: hidden;
-    background: #f4efe6;
-    color: #1c1c1c;
-  }
-
-  .track {
-    display: flex;
-    width: max-content;
-    animation: croTicker 22s linear infinite;
-  }
-
-  .ticker:hover .track,
-  .ticker:focus-within .track {
-    animation-play-state: paused;
-  }
-
-  .ticker p {
-    margin: 0;
-    padding: 9px 32px;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.01em;
-    line-height: 1.2;
-    white-space: nowrap;
-  }
-
-  .hero {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    width: auto;
-    margin: 12px 16px 0;
-    padding: 18px 16px 16px;
-    border-radius: 22px;
-    background: #e7f3fb;
-    color: #111;
-  }
-
-  .copy h2 {
-    margin: 4px 0 8px;
-    font-size: 1.2rem;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    text-transform: uppercase;
-  }
-
-  .scores {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 10px;
-    align-items: center;
-    margin: 0 0 10px;
-    font-weight: 600;
-    font-size: 0.68rem;
-    white-space: nowrap;
-    color: #3d3d3d;
-  }
-
-  .scores a {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .scores svg {
-    width: 13px;
-    height: 13px;
-    flex: 0 0 auto;
-  }
-
-  .copy ul {
-    margin: 0 0 12px;
-    padding: 0;
-    list-style: none;
-    display: grid;
-    gap: 4px;
-  }
-
-  .copy li {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 0.82rem;
-    font-weight: 600;
-  }
-
-  .copy li svg {
-    width: 14px;
-    height: 14px;
-    flex: 0 0 auto;
-    margin-top: 2px;
-  }
-
-  .note {
-    font-size: 0.72rem !important;
-    font-weight: 500 !important;
-    color: #5c6570;
-  }
-
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .claim {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 0;
-    border-radius: 999px;
-    background: #e87722;
-    color: #fff;
-    font-family: inherit;
-    font-size: 0.9rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    text-decoration: none;
-    min-height: 44px;
-    padding: 12px 22px;
-    cursor: pointer;
-  }
-
-  .clock {
-    display: flex;
-    gap: 8px;
-  }
-
-  .clock span {
-    display: grid;
-    place-items: center;
-    min-width: 52px;
-    padding: 6px 8px;
-    border-radius: 10px;
-    background: #fff;
-    line-height: 1;
-  }
-
-  .clock b {
-    font-size: 1.05rem;
-  }
-
-  .clock small {
-    margin-top: 3px;
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: #667;
-  }
-
-  .proof {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin: 12px 0 0;
-    font-size: 0.78rem;
-    font-weight: 600;
-    line-height: 1.35;
-  }
-
-  .faces {
-    display: flex;
-    flex: 0 0 auto;
-  }
-
-  .faces span {
-    width: 26px;
-    height: 26px;
-    margin-left: -8px;
-    border: 2px solid #e7f3fb;
-    border-radius: 50%;
-    background: #1d4e89 center / 14px 14px no-repeat;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 20c1.5-3.5 4.2-5 8-5s6.5 1.5 8 5'/%3E%3C/svg%3E");
-  }
-
-  .faces span:first-child { margin-left: 0; background-color: #1d4e89; }
-  .faces span:nth-child(2) { background-color: #3b82c4; }
-  .faces span:nth-child(3) { background-color: #0f6e8a; }
-
-  /* The sponsorship artwork is portrait, so the slot is square at this width,
-     for both slides, so rotating moves nothing on the page. aspect-ratio
-     tracks the column's own width, which vw units do not at tablet sizes;
-     the product shot and its press badge centre inside it. */
-  /* Square suits the portrait sponsorship artwork on a phone. */
-  .visual {
-    position: relative;
-    height: auto;
-    aspect-ratio: 1 / 1;
-    border-radius: 14px;
-    overflow: hidden;
-  }
-
-  .slide {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .slide > img {
-    position: relative;
-    top: auto;
-    right: auto;
-    display: block;
-    flex: 1 1 auto;
-    min-height: 0;
-    width: 100%;
-    height: auto;
-    max-width: none;
-    margin: 0;
-    transform: none;
-    clip-path: none;
-  }
-
-  /* On a phone the press badge sits in the flow at the bottom of the slot, so
-     the dots move to the top corner to stay clear of it. The extra `.visual`
-     keeps this ahead of the shared `.dots` rule lower down the file. */
-  .visual .dots {
-    top: 8px;
-    right: 8px;
-    bottom: auto;
-  }
-
-  .press {
-    position: relative;
-    left: auto;
-    bottom: auto;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-    max-width: 100%;
-    margin: 8px 0 0;
-    padding: 8px 12px;
-    border-radius: 12px;
-    background: #fff;
-    color: #222;
-    text-decoration: none;
-  }
-
-  .press small {
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.04em;
-    color: #8b9098;
-  }
-
-  .press img {
-    height: 22px;
-    width: auto;
-  }
-
-  .press em {
-    font-style: normal;
-    font-size: 0.78rem;
-    font-weight: 600;
-  }
-
-  .trust {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px 14px;
-    width: auto;
-    margin: 14px 16px 4px;
-    padding: 0;
-    list-style: none;
-    color: #1c1c1c;
-    font-weight: 700;
-    font-size: 0.8rem;
-  }
-
-  .trust li {
-    display: flex;
-    align-items: flex-start;
-    gap: 6px;
-  }
-
-  .trust svg {
-    flex: 0 0 auto;
-    margin-top: 2px;
-    color: #e87722;
-  }
-
-  .stats {
-    display: block;
-    margin: 8px 16px 28px;
-    padding: 22px 4px 8px;
-    border-top: 1px solid rgba(0, 0, 0, 0.06);
-    text-align: center;
-  }
-
-  .stats p {
-    margin: 0 0 14px;
-    font-size: 0.72rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: #667;
-  }
-
-  .stats > div {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px 12px;
-  }
-
-  .stats strong {
-    display: block;
-    font-size: 1.35rem;
-    letter-spacing: -0.03em;
-  }
-
-  .stats span {
-    display: block;
-    margin-top: 4px;
-    color: #667;
-    font-size: 0.78rem;
-  }
+.track {
+  display: flex;
+  width: max-content;
+  animation: croTicker 22s linear infinite;
 }
 
-/* Tablet. The phone blocks stay stacked. A wider screen puts the offer beside
-   the photo, and the four facts on one line. */
-@media (min-width: 700px) and (max-width: 1099px) {
-  .hero,
-  .trust,
-  .stats {
-    margin-left: 24px;
-    margin-right: 24px;
-  }
-
-  /* Past phone width the card is wide, so a square slot would be an 800px-tall
-     picture. A fixed height keeps it a banner. */
-  .visual {
-    aspect-ratio: auto;
-    height: 340px;
-  }
-
-  .stats > div {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+.ticker:hover .track,
+.ticker:focus-within .track {
+  animation-play-state: paused;
 }
 
-@media (min-width: 900px) and (max-width: 1099px) {
-  .hero {
-    grid-template-columns: minmax(0, 1.05fr) minmax(220px, 0.9fr);
-    align-items: center;
-  }
-
-  .trust {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
+.ticker p {
+  margin: 0;
+  padding: 9px 32px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  white-space: nowrap;
 }
 
-/* --- Deal card picture carousel: product shot <-> Ziggy Myrie sponsorship --- */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  width: auto;
+  margin: 12px 16px 0;
+  padding: 18px 16px 16px;
+  border-radius: 22px;
+  background: #e7f3fb;
+  color: #111;
+}
+
+.copy h2 {
+  margin: 4px 0 8px;
+  font-size: 1.2rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.scores {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 10px;
+  font-weight: 600;
+  font-size: 0.68rem;
+  white-space: nowrap;
+  color: #3d3d3d;
+}
+
+.scores a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.scores svg {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 auto;
+}
+
+.copy ul {
+  margin: 0 0 12px;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.copy li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.copy li svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.note {
+  font-size: 0.72rem !important;
+  font-weight: 500 !important;
+  color: #5c6570;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.claim {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: #e87722;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  min-height: 44px;
+  padding: 12px 22px;
+  cursor: pointer;
+}
+
+.claim:hover {
+  background: #d16512;
+}
+
+.clock {
+  display: flex;
+  gap: 8px;
+}
+
+.clock span {
+  display: grid;
+  place-items: center;
+  min-width: 52px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: #fff;
+  line-height: 1;
+}
+
+.clock b {
+  font-size: 1.05rem;
+}
+
+.clock small {
+  margin-top: 3px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #667;
+}
+
+.proof {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 0;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.faces {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.faces span {
+  width: 26px;
+  height: 26px;
+  margin-left: -8px;
+  border: 2px solid #e7f3fb;
+  border-radius: 50%;
+  background: #1d4e89 center / 14px 14px no-repeat;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 20c1.5-3.5 4.2-5 8-5s6.5 1.5 8 5'/%3E%3C/svg%3E");
+}
+
+.faces span:first-child { margin-left: 0; background-color: #1d4e89; }
+.faces span:nth-child(2) { background-color: #3b82c4; }
+.faces span:nth-child(3) { background-color: #0f6e8a; }
+
+/* Square suits the portrait sponsorship artwork on a phone. aspect-ratio
+   tracks the column's own width; the product shot and press badge centre
+   inside it. */
+.visual {
+  position: relative;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+/* --- Deal card picture carousel: product -> reel -> Ziggy sponsorship --- */
 
 .slides {
   position: absolute;
@@ -700,17 +227,51 @@
   bottom: 0;
   width: calc(100% + 1px);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Every slide is shown whole. The slot's shape changes with the screen and the
-   two artworks are different shapes, so cropping to fill would cut the caps off
+   artworks are different shapes, so cropping to fill would cut the caps off
    the vials on a phone and the logo off the banner. The spare space is painted
    in each picture's own background colour, so it reads as part of the picture
    rather than as a border. */
-.slide > img {
+.slide > img,
+.slide > video {
   object-fit: contain;
   object-position: center;
   background: #c3e2f3;
+}
+
+.slide > img {
+  position: relative;
+  top: auto;
+  right: auto;
+  display: block;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  margin: 0;
+  transform: none;
+  clip-path: none;
+}
+
+.slideReel {
+  background: #0b1220;
+}
+
+.slideReel > video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  flex: none;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  background: #0b1220;
 }
 
 .slideSponsor {
@@ -732,11 +293,14 @@
   max-width: none;
 }
 
+/* On a phone the press badge sits in the flow at the bottom of the slot, so
+   the dots move to the top corner to stay clear of it. */
 .dots {
   position: absolute;
   z-index: 3;
-  right: 10px;
-  bottom: 10px;
+  top: 8px;
+  right: 8px;
+  bottom: auto;
   display: flex;
   gap: 6px;
 }
@@ -752,7 +316,8 @@
   transition: background .25s ease, transform .25s ease;
 }
 
-.visualSponsor .dots button {
+.visualSponsor .dots button,
+.visualReel .dots button {
   background: rgba(255, 255, 255, .45);
 }
 
@@ -761,8 +326,309 @@
   transform: scale(1.3);
 }
 
-.visualSponsor .dots button.dotOn {
+.visualSponsor .dots button.dotOn,
+.visualReel .dots button.dotOn {
   background: #fff;
+}
+
+.press {
+  position: relative;
+  left: auto;
+  bottom: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  margin: 8px 0 0;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: #fff;
+  color: #222;
+  text-decoration: none;
+}
+
+.press small {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #8b9098;
+}
+
+.press img {
+  height: 22px;
+  width: auto;
+  object-fit: contain;
+}
+
+.press em {
+  font-style: normal;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.trust {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 14px;
+  width: auto;
+  margin: 14px 16px 4px;
+  padding: 0;
+  list-style: none;
+  color: #1c1c1c;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.trust li {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.trust svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: #e87722;
+}
+
+.stats {
+  display: block;
+  margin: 8px 16px 28px;
+  padding: 22px 4px 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+.stats p {
+  margin: 0 0 14px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #667;
+}
+
+.stats > div {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 12px;
+}
+
+.stats strong {
+  display: block;
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+}
+
+.stats span {
+  display: block;
+  margin-top: 4px;
+  color: #667;
+  font-size: 0.78rem;
+}
+
+/* Tablet: wider margins, banner-height picture (a square would be huge),
+   four stats on one line. */
+@media (min-width: 700px) {
+  .hero,
+  .trust,
+  .stats {
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+
+  .visual {
+    aspect-ratio: auto;
+    height: 340px;
+  }
+
+  .stats > div {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Wide tablet: offer beside the photo, trust on one row. */
+@media (min-width: 900px) {
+  .hero {
+    grid-template-columns: minmax(0, 1.05fr) minmax(220px, 0.9fr);
+    align-items: center;
+  }
+
+  .trust {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Desktop: side-by-side deal card, absolute-fill slides, press badge overlaid. */
+@media (min-width: 1100px) {
+  .ticker p {
+    line-height: normal;
+  }
+
+  .hero {
+    /* The picture column carries the sponsorship banner, which is very wide and
+       short, so it gets the larger share. At 1.15fr the copy still sets the
+       card's height, so the banner grew without the card growing. */
+    grid-template-columns: minmax(0, 0.85fr) minmax(280px, 1.15fr);
+    gap: 20px;
+    align-items: center;
+    width: min(1216px, calc(100% - 48px));
+    margin: 16px auto 0;
+    padding: 26px 32px 22px;
+    border-radius: 28px;
+  }
+
+  .copy h2 {
+    margin: 6px 0 10px;
+    font-size: 1.65rem;
+    line-height: 1.05;
+  }
+
+  .scores {
+    gap: 14px;
+    margin: 0 0 12px;
+    font-size: 0.72rem;
+  }
+
+  .scores svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .copy ul {
+    margin: 0 0 14px;
+  }
+
+  .copy li {
+    align-items: center;
+    font-size: 0.9rem;
+  }
+
+  .copy li svg {
+    width: 15px;
+    height: 15px;
+    margin-top: 0;
+  }
+
+  .note {
+    font-size: 0.75rem !important;
+  }
+
+  .claim {
+    font: inherit;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    min-height: 0;
+  }
+
+  .clock b {
+    font-size: 1rem;
+  }
+
+  .proof {
+    margin: 14px 0 0;
+    max-width: 420px;
+    font-size: 0.8rem;
+  }
+
+  .faces span {
+    width: 28px;
+    height: 28px;
+    background-size: 16px 16px;
+  }
+
+  .visual {
+    height: 296px;
+    aspect-ratio: auto;
+    border-radius: 18px;
+  }
+
+  .slide {
+    display: block;
+  }
+
+  .slide > img,
+  .slide > video {
+    position: absolute;
+    inset: 0;
+    display: block;
+    flex: none;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    transform: none;
+  }
+
+  .dots {
+    top: auto;
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .press {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    gap: 10px;
+    max-width: calc(100% - 24px);
+    margin: 0;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  }
+
+  .press img {
+    height: 28px;
+  }
+
+  .press em {
+    font-size: 0.82rem;
+  }
+
+  .trust {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 28px;
+    width: min(1216px, calc(100% - 48px));
+    margin: 14px auto 6px;
+    font-size: 0.92rem;
+  }
+
+  .trust li {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .trust svg {
+    margin-top: 0;
+  }
+
+  .stats {
+    grid-column: 1 / -1;
+    width: min(1216px, calc(100% - 48px));
+    margin: 28px auto 8px;
+    padding: 28px 12px 8px;
+  }
+
+  .stats p {
+    margin: 0 0 16px;
+    letter-spacing: 0.14em;
+  }
+
+  .stats > div {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .stats strong {
+    font-size: 2rem;
+  }
+
+  .stats span {
+    font-size: 0.92rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
