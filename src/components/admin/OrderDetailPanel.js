@@ -1444,7 +1444,7 @@ export default function OrderDetailPanel({
                 type="checkbox"
                 checked={!replaceVolumeDiscount}
                 onChange={(e) => setApplyVolumeDiscount(e.target.checked)}
-                disabled={isSettledOrder}
+                disabled={isSettledOrder || (manualDiscountType !== 'none' && Number(manualDiscountValue) > 0)}
               />
               Apply volume discount
             </label>
@@ -1490,7 +1490,7 @@ export default function OrderDetailPanel({
               />
             </div>
             <p style={{ margin: '8px 0 0', fontSize: '0.75rem', color: '#94a3b8', lineHeight: 1.4 }}>
-              Applied after volume and promo discounts, before shipping.
+              A custom order discount replaces the volume discount; they do not combine.
             </p>
             {isSettledOrder && hasManualDiscountChanged && (
               <p style={{ margin: '8px 0 0', fontSize: '0.75rem', color: '#fbbf24', lineHeight: 1.4 }}>

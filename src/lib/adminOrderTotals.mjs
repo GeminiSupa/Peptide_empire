@@ -106,9 +106,10 @@ export function manualDiscountReplacesVolume(source, type, value) {
     && finiteNonNegative(value) > 0;
 }
 
-// Existing orders retain the operator's saved stacking choice. Older orders
-// without the flag use the original source-based default.
+// A custom discount replaces volume, even on orders previously saved with
+// stacking enabled. The toggle controls volume only without a custom discount.
 export function orderDiscountReplacesVolume(order, type, value) {
+  if (normalizeManualDiscountType(type) && finiteNonNegative(value) > 0) return true;
   return order?.apply_volume_discount === null || order?.apply_volume_discount === undefined
     ? manualDiscountReplacesVolume(order?.source, type, value)
     : order.apply_volume_discount === false;
