@@ -134,6 +134,19 @@ export function recordedAdminOrderTotals(order) {
   };
 }
 
+export function singleDiscountOrderTotals(order) {
+  const recorded = recordedAdminOrderTotals(order);
+  if (!normalizeManualDiscountType(order.manual_discount_type)
+    || finiteNonNegative(order.manual_discount_value) === 0) return recorded;
+  const suffix = normalizeAdminOrderCurrency(order.currency) === 'USD' ? 'usd' : 'crc';
+  return calculateAdminOrderTotals(order.items, order[`shipping_cost_${suffix}`], {
+    replaceVolumeDiscount: true,
+    promoDiscountAmount: recorded.promoDiscountAmount,
+    manualDiscountType: order.manual_discount_type,
+    manualDiscountValue: order.manual_discount_value,
+  });
+}
+
 /**
  * The volume rate recorded on an order when it was priced, or null.
  *

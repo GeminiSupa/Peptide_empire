@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { calculateAdminOrderTotals, orderDiscountReplacesVolume, recordedAdminOrderTotals } from '../src/lib/adminOrderTotals.mjs';
+import { calculateAdminOrderTotals, orderDiscountReplacesVolume, recordedAdminOrderTotals, singleDiscountOrderTotals } from '../src/lib/adminOrderTotals.mjs';
 
 test('paid legacy order displays the receipt amounts despite the new no-stacking rule', () => {
   const order = {
@@ -15,6 +15,11 @@ test('paid legacy order displays the receipt amounts despite the new no-stacking
   assert.equal(totals.discountAmount, 69664);
   assert.equal(totals.discountPct, 15);
   assert.equal(orderDiscountReplacesVolume(order, 'percentage', 30), true);
+  const corrected = singleDiscountOrderTotals(order);
+  assert.equal(Math.round(corrected.total), 325099);
+  assert.equal(corrected.discountAmount, 0);
+  assert.equal(Math.round(corrected.manualDiscountAmount), 139328);
+  assert.equal(order.total_crc, 276334);
 });
 
 test('recorded USD amounts include shipping and promo without repricing', () => {

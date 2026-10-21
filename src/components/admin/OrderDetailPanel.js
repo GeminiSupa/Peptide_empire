@@ -28,6 +28,7 @@ import {
   ADMIN_FALLBACK_EXCHANGE_RATE,
   calculateAdminOrderTotals,
   recordedAdminOrderTotals,
+  singleDiscountOrderTotals,
   getAdminCurrencyPair,
   getAdminOrderSubtotal,
   getAdminShippingCosts,
@@ -430,7 +431,7 @@ export default function OrderDetailPanel({
     promoDiscountAmount,
     manualDiscountAmount,
     total: orderTotal,
-  } = isSettledOrder ? recordedAdminOrderTotals(order) : calculateAdminOrderTotals(editItems, shipping, {
+  } = isSettledOrder ? singleDiscountOrderTotals(order) : calculateAdminOrderTotals(editItems, shipping, {
     promoDiscountAmount: offerBeatsTier ? autoDiscount.offerDiscount : promoDiscount,
     manualDiscountType,
     manualDiscountValue,
@@ -1440,7 +1441,7 @@ export default function OrderDetailPanel({
             <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', color: '#e2e8f0' }}>
               <input
                 type="checkbox"
-                checked={isSettledOrder ? discountAmount > 0 : !replaceVolumeDiscount}
+                checked={!replaceVolumeDiscount}
                 onChange={(e) => setApplyVolumeDiscount(e.target.checked)}
                 disabled={isSettledOrder || manualDiscountType !== 'none'}
               />
@@ -1501,7 +1502,7 @@ export default function OrderDetailPanel({
             </div>}
             <p style={{ margin: '8px 0 0', fontSize: '0.75rem', color: '#94a3b8', lineHeight: 1.4 }}>
               {isSettledOrder
-                ? 'Showing the discounts recorded when this order was paid.'
+                ? 'Special discounts replace volume discounts. The original payment remains recorded separately.'
                 : manualDiscountType !== 'none'
                 ? 'Volume discount is automatically off while a special discount is selected. Only the special discount applies.'
                 : 'Select special discount to enter a percentage or fixed amount. The volume discount switches off automatically.'}
@@ -1547,13 +1548,21 @@ export default function OrderDetailPanel({
               </span>
             </div>
             <div className="order-detail-total-line">
-              <span>{isSettledOrder ? 'Total (recorded)' : 'Total (preview)'}</span>
+              <span>{isSettledOrder ? 'Order total' : 'Total (preview)'}</span>
               <span>
                 {orderCurrency === 'USD'
                   ? `$${totalCosts.usd.toFixed(2)} (≈ ₡${totalCosts.crc.toLocaleString()})`
                   : `₡${totalCosts.crc.toLocaleString()} (≈ $${totalCosts.usd.toFixed(2)})`}
               </span>
             </div>
+            {isSettledOrder && Math.abs(recordedAdminOrderTotals(order).total - orderTotal) > 0.5 && (
+              <div style={{ color: '#fbbf24' }}>
+                <span>Original payment (before discount correction)</span>
+                <span>{orderCurrency === 'USD'
+                  ? `$${recordedAdminOrderTotals(order).total.toFixed(2)}`
+                  : `₡${Math.round(recordedAdminOrderTotals(order).total).toLocaleString()}`}</span>
+              </div>
+            )}
           </div>
 
           <div className="order-detail-shipping-edit" style={{ marginTop: '12px' }}>

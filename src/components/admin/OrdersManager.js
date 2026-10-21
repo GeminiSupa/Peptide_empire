@@ -1,6 +1,6 @@
 import React, { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { Database, Download, MessageCircle, Plus, RefreshCw, Trash2 } from 'lucide-react';
-import { getAdminVolumeDiscountPct, manualDiscountReplacesVolume, storedOrderVolumePct } from '@/lib/adminOrderTotals.mjs';
+import { getAdminVolumeDiscountPct, manualDiscountReplacesVolume, storedOrderVolumePct, singleDiscountOrderTotals } from '@/lib/adminOrderTotals.mjs';
 import { CUSTOMER_HISTORY_SOURCE } from '@/lib/agentAttribution.mjs';
 import { commissionSourceLabel } from '@/lib/salesAgentAffiliate.mjs';
 import { formatCrDate, formatCrInstant } from '@/lib/crTime.mjs';
@@ -127,10 +127,19 @@ function getOrderDateLabel(order) {
 }
 
 function getOrderDisplayTotal(order) {
-  const stored = order.currency === 'USD' ? Number(order.total_usd || 0) : Number(order.total_crc || 0);
+  const stored = singleDiscountOrderTotals(order).total;
   return order.currency === 'USD'
     ? `$${stored.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`
     : `₡${Math.round(stored).toLocaleString('en-US')}`;
+}
+
+function OriginalPayment({ order }) {
+  const status = String(order.status || '').toLowerCase();
+  if (!status.includes('paid') && !status.includes('complete')) return null;
+  const stored = Number(order.currency === 'USD' ? order.total_usd : order.total_crc) || 0;
+  if (Math.abs(stored - singleDiscountOrderTotals(order).total) <= 0.5) return null;
+  const amount = order.currency === 'USD' ? `$${stored.toFixed(2)}` : `₡${Math.round(stored).toLocaleString('en-US')}`;
+  return <span style={{ display: 'block', fontSize: '0.7rem', color: '#fbbf24' }}>Original payment: {amount}</span>;
 }
 
 function getStatusSelectStyle(status) {
@@ -613,7 +622,7 @@ export default function OrdersManager({
                       </div>
                       <div className="order-mobile-date">{getOrderDateLabel(order)}</div>
                     </div>
-                    <span className="order-mobile-total">{getOrderDisplayTotal(order)}</span>
+                    <span className="order-mobile-total">{getOrderDisplayTotal(order)}<OriginalPayment order={order} /></span>
                   </div>
                   <div className="order-mobile-customer">{order.customer_name || 'Customer'}</div>
                   <div className="order-mobile-meta">
@@ -841,6 +850,7 @@ export default function OrdersManager({
                       </td>
                       <td data-label="Total Amount" style={{ padding: '10px 12px', fontWeight: 'bold', color: '#38bdf8', fontSize: '0.9rem' }}>
                         {getOrderDisplayTotal(order)}
+                        <OriginalPayment order={order} />
                         {_discountPct > 0 && (
                           <span style={{ display: 'block', fontSize: '0.65rem', color: '#4ade80', fontWeight: '700', marginTop: '2px' }}>
                             -{_discountPct}% vol. discount
