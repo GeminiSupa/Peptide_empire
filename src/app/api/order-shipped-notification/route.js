@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { singleDiscountOrderTotals, singleDiscountOrderCurrencyPair } from '@/lib/adminOrderTotals.mjs';
 import nodemailer from 'nodemailer';
 import { getBusinessLinks } from '@/lib/settings';
 import { verifyAdminSession } from '@/lib/adminAuth';
@@ -207,6 +208,18 @@ const buildCustomerShippedHtml = (order, totalPrimary, totalUsd, totalCrc, lang,
           </thead>
           <tbody>
             ${buildItemsRows(order.items, order.currency)}
+            ${[
+              [lang === 'en' ? 'Volume discount' : 'Descuento por Volumen', order.emailTotals?.discountAmount],
+              [lang === 'en' ? 'Promo discount' : 'Descuento Promocional', order.emailTotals?.promoDiscountAmount],
+              [lang === 'en' ? 'Special discount' : 'Descuento Especial', order.emailTotals?.manualDiscountAmount],
+            ].filter(([, amount]) => amount > 0).map(([label, amount]) => `
+              <tr><td colspan="2" style="padding:8px 16px;text-align:right;">${label}</td>
+              <td style="padding:8px 16px;text-align:right;color:#15803d;">-${formatMoney(amount, order.currency)}</td></tr>
+            `).join('')}
+            ${order.emailShipping > 0 ? `
+              <tr><td colspan="2" style="padding:8px 16px;text-align:right;">${lang === 'en' ? 'Shipping' : 'Envío'}</td>
+              <td style="padding:8px 16px;text-align:right;">${formatMoney(order.emailShipping, order.currency)}</td></tr>
+            ` : ''}
             <tr style="border-top:1px solid #cbd5e1;">
               <td colspan="2" style="padding:12px 16px 0;font-size:14px;font-weight:800;color:#0f172a;text-align:right;">${strings.totalPrice}:</td>
               <td style="padding:12px 16px 0;text-align:right;font-size:15px;font-weight:900;color:#059669;">
@@ -290,9 +303,11 @@ export async function POST(request) {
     const { smtp, from: notificationFrom } = getMailSettings();
 
     const orderLang = order.lang || (order.currency === 'CRC' ? 'es' : 'en');
-    const totalPrimary = formatMoney(order.total_crc || order.total_usd, order.currency);
-    const totalUsd = order.total_usd ? formatMoney(order.total_usd, 'USD') : null;
-    const totalCrc = order.total_crc ? formatMoney(order.total_crc, 'CRC') : null;
+    const emailTotals = singleDiscountOrderTotals(order);
+    const emailPair = singleDiscountOrderCurrencyPair(order);
+    const totalPrimary = formatMoney(emailTotals.total, order.currency);
+    const totalUsd = emailPair.usd ? formatMoney(emailPair.usd, 'USD') : null;
+    const totalCrc = emailPair.crc ? formatMoney(emailPair.crc, 'CRC') : null;
 
     const transporter = smtp.configured ? nodemailer.createTransport({
       host: smtp.host,
@@ -323,6 +338,8 @@ export async function POST(request) {
       orderNumber: order.order_number || order.id?.substring(0,8),
       shippingAddress: order.shipping_address,
       items: emailItems,
+      emailTotals,
+      emailShipping: Number(order.currency === 'USD' ? order.shipping_cost_usd : order.shipping_cost_crc) || 0,
       currency: order.currency,
       tracking_number: order.tracking_number
     };
@@ -441,7 +458,7 @@ export async function POST(request) {
       '',
       `${orderLang === 'en' ? 'Order Summary' : 'Resumen de su Orden'}:`,
       `• ${orderLang === 'en' ? 'Reference' : 'Referencia'}: ${normalizedOrder.orderNumber}`,
-      `• ${orderLang === 'en' ? 'Total Paid' : 'Total Pagado'}: ${totalPrimary}`,
+      `• ${orderLang === 'en' ? 'Order Total' : 'Total del Pedido'}: ${totalPrimary}`,
       '',
       `${orderLang === 'en' ? 'Delivery Details' : 'Detalles de Envío'}:`,
       normalizedOrder.shippingAddress || 'N/A',

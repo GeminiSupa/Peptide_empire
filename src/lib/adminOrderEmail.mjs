@@ -7,6 +7,7 @@
  */
 
 import { internalJsonHeaders } from './internalRequestAuth.mjs';
+import { singleDiscountOrderTotals, singleDiscountOrderCurrencyPair } from './adminOrderTotals.mjs';
 
 /**
  * How long we wait for /api/order-notification to finish sending.
@@ -53,13 +54,8 @@ export function buildOrderNotificationPayload(order, orderNumber, {
   const promoDiscount = currency === 'CRC'
     ? Number(order.discount_amount_crc || 0)
     : Number(order.discount_amount_usd || 0);
-  const manualDiscount = currency === 'CRC'
-    ? Number(order.manual_discount_amount_crc || 0)
-    : Number(order.manual_discount_amount_usd || 0);
-  const total = currency === 'CRC'
-    ? Number(order.total_crc || 0)
-    : Number(order.total_usd || 0);
-  const volumeDiscount = Math.max(0, itemsAmount - promoDiscount - manualDiscount + shipping - total);
+  const { manualDiscountAmount: manualDiscount, total, discountAmount: volumeDiscount } = singleDiscountOrderTotals(order);
+  const pair = singleDiscountOrderCurrencyPair(order);
 
   return {
     orderNumber,
@@ -71,8 +67,8 @@ export function buildOrderNotificationPayload(order, orderNumber, {
     customerIdNumber: order.customer_id_number,
     items,
     total,
-    totalUsd: order.total_usd,
-    totalCrc: order.total_crc,
+    totalUsd: pair.usd,
+    totalCrc: pair.crc,
     subtotal: itemsAmount,
     volumeDiscount,
     promoDiscount,

@@ -8,6 +8,20 @@ import {
 
 process.env.INTERNAL_API_SECRET = 'test-internal-request-secret';
 
+test('legacy stacked order emails use only the special discount and matching currency totals', () => {
+  const payload = buildOrderNotificationPayload({
+    currency: 'CRC', items: [{ product: 'GLP-1', qty: 1, price: 464427 }],
+    manual_discount_type: 'percentage', manual_discount_value: 30,
+    manual_discount_amount_crc: 118429, apply_volume_discount: true,
+    total_crc: 276334, total_usd: 606.90,
+  }, 'TEST-LEGACY');
+  assert.equal(Math.round(payload.total), 325099);
+  assert.equal(Math.round(payload.totalCrc), 325099);
+  assert.equal(payload.volumeDiscount, 0);
+  assert.equal(Math.round(payload.manualDiscount), 139328);
+  assert.ok(payload.totalUsd > 606.90);
+});
+
 const ORDER = {
   order_number: 'TEST-1',
   customer_name: 'Omer',

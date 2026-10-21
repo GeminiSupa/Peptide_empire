@@ -23,6 +23,8 @@ import { notifyLowInventory, prepareInventoryReservation } from '@/lib/orderInve
 import { internalJsonHeaders } from '@/lib/internalRequestAuth.mjs';
 import {
   calculateAdminOrderTotals,
+  singleDiscountOrderTotals,
+  singleDiscountOrderCurrencyPair,
   getAdminCurrencyPair,
   orderDiscountReplacesVolume,
   normalizeAdminOrderCurrency,
@@ -561,11 +563,8 @@ export async function PATCH(request) {
           const itemsAmount = (data.items || []).reduce((sum, item) => sum + ((Number(item.price) || 0) * (Number(item.qty) || 0)), 0);
           const shippingCost = dataCurrency === 'CRC' ? Number(data.shipping_cost_crc || 0) : Number(data.shipping_cost_usd || 0);
           const promoDiscount = dataCurrency === 'CRC' ? Number(data.discount_amount_crc || 0) : Number(data.discount_amount_usd || 0);
-          const manualDiscount = dataCurrency === 'CRC' ? Number(data.manual_discount_amount_crc || 0) : Number(data.manual_discount_amount_usd || 0);
-          const total = dataCurrency === 'CRC' ? Number(data.total_crc || 0) : Number(data.total_usd || 0);
-          
-          let volumeDiscount = itemsAmount - promoDiscount - manualDiscount + shippingCost - total;
-          if (volumeDiscount < 0.01) volumeDiscount = 0; // handle floating point errors
+          const { manualDiscountAmount: manualDiscount, total, discountAmount: volumeDiscount } = singleDiscountOrderTotals(data);
+          const emailPair = singleDiscountOrderCurrencyPair(data);
 
           const baseUrl = new URL(request.url).origin;
           const notificationBody = JSON.stringify({
@@ -578,8 +577,8 @@ export async function PATCH(request) {
              customerIdNumber: data.customer_id_number,
              items: data.items || [],
              total: total,
-             totalUsd: data.total_usd,
-             totalCrc: data.total_crc,
+             totalUsd: emailPair.usd,
+             totalCrc: emailPair.crc,
              subtotal: itemsAmount,
              volumeDiscount: volumeDiscount,
              promoDiscount: promoDiscount,

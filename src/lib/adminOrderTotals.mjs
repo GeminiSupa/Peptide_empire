@@ -147,6 +147,17 @@ export function singleDiscountOrderTotals(order) {
   });
 }
 
+export function singleDiscountOrderCurrencyPair(order) {
+  const totals = singleDiscountOrderTotals(order);
+  const recorded = recordedAdminOrderTotals(order);
+  if (Math.abs(totals.total - recorded.total) < 0.001) {
+    return { usd: Number(order.total_usd) || 0, crc: Number(order.total_crc) || 0 };
+  }
+  const rate = Number(order.total_usd) > 0 && Number(order.total_crc) > 0
+    ? Number(order.total_crc) / Number(order.total_usd) : ADMIN_FALLBACK_EXCHANGE_RATE;
+  return getAdminCurrencyPair(totals.total, order.currency, rate);
+}
+
 /**
  * The volume rate recorded on an order when it was priced, or null.
  *
