@@ -3810,6 +3810,31 @@ body {
     box-shadow: none;
 }
 
+/* A wallet before it goes live: deliberately unavailable, not broken. The 0.45
+   opacity above reads as "something went wrong", so this variant stays fully
+   legible — flat grey, muted logo — and makes room for the longer
+   "Coming soon" / "Próximamente" label in the same two-column row. Both wallets
+   share one look so the pair reads as one not-yet, rather than two faults. */
+.apple-pay-btn--soon,
+.apple-pay-btn--soon:disabled,
+.google-pay-btn--soon,
+.google-pay-btn--soon:disabled {
+    opacity: 1;
+    background: #f1f3f4;
+    color: #5f6368;
+    border-color: #dadce0;
+    box-shadow: none;
+    cursor: not-allowed;
+    font-size: 0.78rem;
+    letter-spacing: 0;
+    gap: 5px;
+}
+
+.apple-pay-btn--soon svg,
+.google-pay-btn--soon svg {
+    opacity: 0.55;
+}
+
 .card-payment-caption {
     text-align: center;
     font-size: 0.72rem;

@@ -130,6 +130,14 @@ const CARD_CHECKOUT_AVAILABLE = CARD_CHECKOUT_ENABLED && !CARD_PAYMENTS_PAUSED;
 // 'live' hides the sandbox/test labels. Keep unset (sandbox) until the LIVE
 // Chargex key is in place, then set NEXT_PUBLIC_CARD_CHECKOUT_MODE=live.
 const CARD_CHECKOUT_LIVE = process.env.NEXT_PUBLIC_CARD_CHECKOUT_MODE === 'live';
+// Neither wallet is taking payments yet, so both buttons stay on the checkout
+// as greyed-out "Coming soon" instead of sending the customer to a page that
+// cannot offer them. Flip one to true when that wallet is genuinely live, and
+// its button, its mention in the Card option's subtitle and its mention in the
+// caption under the pay button all come back together — every surface reads
+// these flags, so neither can be switched on by half.
+const APPLE_PAY_LIVE = false;
+const GOOGLE_PAY_LIVE = false;
 const GATE_BYPASS_VALUES = new Set(['1', 'true', 'yes', 'skip', 'bypass']);
 const USER_SELECTED_LANG_KEY = 'lang_user_selected';
 const percentLabel = (value) => {
@@ -687,6 +695,11 @@ export default function CatalogPage() {
     const google = typeof window.PaymentRequest !== 'undefined';
     setWalletSupport({ apple, google });
   }, []);
+  // "This device can show the button" is not the same as "this wallet can take
+  // a payment". The buttons still render where they did, as Coming soon, but
+  // nothing may *advertise* a wallet as a way to pay until it is live.
+  const applePayOffered = APPLE_PAY_LIVE && walletSupport.apple;
+  const googlePayOffered = GOOGLE_PAY_LIVE && walletSupport.google;
 
   // Contact Modal States
   const [contactModalOpen, setContactModalOpen] = useState(false);
@@ -5764,8 +5777,8 @@ export default function CatalogPage() {
                       ? (lang === 'en' ? 'Under maintenance' : 'En mantenimiento')
                       : (CARD_CHECKOUT_LIVE
                         ? (lang === 'en'
-                          ? `Credit/Debit${walletSupport.apple ? ' • Apple\u00A0Pay' : ''}${walletSupport.google ? ' • Google\u00A0Pay' : ''}`
-                          : `Crédito/Débito${walletSupport.apple ? ' • Apple\u00A0Pay' : ''}${walletSupport.google ? ' • Google\u00A0Pay' : ''}`)
+                          ? `Credit/Debit${applePayOffered ? ' • Apple\u00A0Pay' : ''}${googlePayOffered ? ' • Google\u00A0Pay' : ''}`
+                          : `Crédito/Débito${applePayOffered ? ' • Apple\u00A0Pay' : ''}${googlePayOffered ? ' • Google\u00A0Pay' : ''}`)
                         : (lang === 'en' ? 'Sandbox test mode' : 'Modo de prueba sandbox')),
                     badge: !CARD_CHECKOUT_AVAILABLE
                       ? (lang === 'en' ? 'Maintenance' : 'Mantenimiento')
@@ -5881,24 +5894,36 @@ export default function CatalogPage() {
                       {walletSupport.apple && (
                       <button
                         type="button"
-                        className="apple-pay-btn"
-                        aria-label="Apple Pay"
-                        disabled={cardSubmitting || cart.length === 0 || checkBacOnlyMinimum(cart).blocked || Boolean(getWeeklyDealLimitError())}
-                        onClick={startCardCheckout}
+                        className={`apple-pay-btn${APPLE_PAY_LIVE ? '' : ' apple-pay-btn--soon'}`}
+                        aria-label={APPLE_PAY_LIVE
+                          ? 'Apple Pay'
+                          : (lang === 'en' ? 'Apple Pay — coming soon' : 'Apple Pay — próximamente')}
+                        title={APPLE_PAY_LIVE
+                          ? undefined
+                          : (lang === 'en' ? 'Apple Pay is coming soon' : 'Apple Pay llega pronto')}
+                        disabled={!APPLE_PAY_LIVE || cardSubmitting || cart.length === 0 || checkBacOnlyMinimum(cart).blocked || Boolean(getWeeklyDealLimitError())}
+                        onClick={APPLE_PAY_LIVE ? startCardCheckout : undefined}
                       >
                         <svg viewBox="0 0 14 17" width="15" height="18" aria-hidden="true">
                           <path fill="currentColor" d="M13.3 5.7c-.1.1-1.6.9-1.6 2.8 0 2.2 1.9 3 2 3-.1.1-.3 1.1-1.1 2.1-.7.9-1.4 1.8-2.5 1.8-1.1 0-1.4-.6-2.6-.6s-1.6.6-2.6.6c-1 0-1.9-.9-2.6-1.9C1.1 12 0 9.3 0 6.8 0 4.4 1.5 3.1 3 3.1c1.1 0 2 .7 2.6.7.6 0 1.7-.8 2.9-.7.5 0 1.9.2 2.8 1.5zM9.6 2.1c.5-.6.9-1.5.8-2.3-.8 0-1.7.5-2.2 1.2-.5.6-.9 1.5-.8 2.3.9.1 1.7-.4 2.2-1.2z" />
                         </svg>
-                        <span>Pay</span>
+                        <span>{APPLE_PAY_LIVE
+                          ? 'Pay'
+                          : (lang === 'en' ? 'Coming soon' : 'Próximamente')}</span>
                       </button>
                       )}
                       {walletSupport.google && (
                       <button
                         type="button"
-                        className="google-pay-btn"
-                        aria-label="Google Pay"
-                        disabled={cardSubmitting || cart.length === 0 || checkBacOnlyMinimum(cart).blocked || Boolean(getWeeklyDealLimitError())}
-                        onClick={startCardCheckout}
+                        className={`google-pay-btn${GOOGLE_PAY_LIVE ? '' : ' google-pay-btn--soon'}`}
+                        aria-label={GOOGLE_PAY_LIVE
+                          ? 'Google Pay'
+                          : (lang === 'en' ? 'Google Pay — coming soon' : 'Google Pay — próximamente')}
+                        title={GOOGLE_PAY_LIVE
+                          ? undefined
+                          : (lang === 'en' ? 'Google Pay is coming soon' : 'Google Pay llega pronto')}
+                        disabled={!GOOGLE_PAY_LIVE || cardSubmitting || cart.length === 0 || checkBacOnlyMinimum(cart).blocked || Boolean(getWeeklyDealLimitError())}
+                        onClick={GOOGLE_PAY_LIVE ? startCardCheckout : undefined}
                       >
                         <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
                           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -5906,7 +5931,9 @@ export default function CatalogPage() {
                           <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A11 11 0 0 0 1 12c0 1.78.43 3.45 1.18 4.93l3.66-2.84z" />
                           <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                         </svg>
-                        <span>Pay</span>
+                        <span>{GOOGLE_PAY_LIVE
+                          ? 'Pay'
+                          : (lang === 'en' ? 'Coming soon' : 'Próximamente')}</span>
                       </button>
                       )}
                     </div>
@@ -5937,10 +5964,10 @@ export default function CatalogPage() {
                   <p className="card-payment-caption">
                     {CARD_CHECKOUT_LIVE
                       // Names only the wallets this device is being offered.
-                      ? ((walletSupport.apple || walletSupport.google)
+                      ? ((applePayOffered || googlePayOffered)
                         ? `${[
-                          ...(walletSupport.apple ? ['Apple Pay'] : []),
-                          ...(walletSupport.google ? ['Google Pay'] : []),
+                          ...(applePayOffered ? ['Apple Pay'] : []),
+                          ...(googlePayOffered ? ['Google Pay'] : []),
                         ].join(', ')}${lang === 'en' ? ', or card. Same page.' : ' o tarjeta. La misma página.'}`
                         : (lang === 'en' ? 'Secure card checkout.' : 'Pago seguro con tarjeta.'))
                       : (lang === 'en'
