@@ -115,6 +115,25 @@ export function orderDiscountReplacesVolume(order, type, value) {
     : order.apply_volume_discount === false;
 }
 
+// Settled orders display the same recorded amounts as their receipt. Never
+// reprice a completed charge using today's discount policy or live offers.
+export function recordedAdminOrderTotals(order) {
+  const suffix = normalizeAdminOrderCurrency(order.currency) === 'USD' ? 'usd' : 'crc';
+  const itemsSubtotal = getAdminOrderSubtotal(order.items);
+  const promoDiscountAmount = finiteNonNegative(order[`discount_amount_${suffix}`]);
+  const manualDiscountAmount = finiteNonNegative(order[`manual_discount_amount_${suffix}`]);
+  const shipping = finiteNonNegative(order[`shipping_cost_${suffix}`]);
+  const total = finiteNonNegative(order[`total_${suffix}`]);
+  const discountAmount = Math.max(0, itemsSubtotal - promoDiscountAmount - manualDiscountAmount + shipping - total);
+  const eligibleSubtotal = (order.items || []).reduce((sum, item) => (
+    isBacWater(item.product ?? item.name) ? sum : sum + (Number(item.price) || 0) * (Number(item.qty) || 1)
+  ), 0);
+  return {
+    itemsSubtotal, promoDiscountAmount, manualDiscountAmount, discountAmount, total,
+    discountPct: eligibleSubtotal > 0 ? Math.round(discountAmount / eligibleSubtotal * 1000) / 10 : 0,
+  };
+}
+
 /**
  * The volume rate recorded on an order when it was priced, or null.
  *

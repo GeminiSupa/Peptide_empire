@@ -27,6 +27,7 @@ import {
 import {
   ADMIN_FALLBACK_EXCHANGE_RATE,
   calculateAdminOrderTotals,
+  recordedAdminOrderTotals,
   getAdminCurrencyPair,
   getAdminOrderSubtotal,
   getAdminShippingCosts,
@@ -388,6 +389,7 @@ export default function OrderDetailPanel({
                             !statusLower.includes('complete') && 
                             !statusLower.includes('cancel');
   const shipping = Number(shippingAmount) || 0;
+  const isSettledOrder = statusLower.includes('paid') || statusLower.includes('complete');
   const shippingCosts = getAdminShippingCosts(shipping, orderCurrency, exchangeRate);
   const promoDiscount = orderCurrency === 'USD'
     ? Number(order.discount_amount_usd || 0)
@@ -416,7 +418,7 @@ export default function OrderDetailPanel({
   // promo code to weigh it against: deal-versus-code is the server's call and
   // the browser has no honest number for the code.
   // Bundles win with free vials, not a money discount — same check as New Order.
-  const offerBeatsTier = !order.promo_code
+  const offerBeatsTier = !isSettledOrder && !order.promo_code
     && autoDiscount.kind !== 'none'
     && autoDiscount.kind !== 'volume'
     && (autoDiscount.offerDiscount > 0 || autoDiscount.freeLines.length > 0);
@@ -428,7 +430,7 @@ export default function OrderDetailPanel({
     promoDiscountAmount,
     manualDiscountAmount,
     total: orderTotal,
-  } = calculateAdminOrderTotals(editItems, shipping, {
+  } = isSettledOrder ? recordedAdminOrderTotals(order) : calculateAdminOrderTotals(editItems, shipping, {
     promoDiscountAmount: offerBeatsTier ? autoDiscount.offerDiscount : promoDiscount,
     manualDiscountType,
     manualDiscountValue,
@@ -444,10 +446,6 @@ export default function OrderDetailPanel({
   // packed with them. Derived rather than stored so the archive is covered too.
   const giftShortfall = bacGiftShortfall(editItems);
 
-  const isSettledOrder = (() => {
-    const normalized = String(order.status || '').toLowerCase();
-    return normalized.includes('paid') || normalized.includes('complete');
-  })();
 
   const hasManualDiscountChanged =
     (order.manual_discount_type || 'none') !== manualDiscountType ||
@@ -1442,7 +1440,7 @@ export default function OrderDetailPanel({
             <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', color: '#e2e8f0' }}>
               <input
                 type="checkbox"
-                checked={!replaceVolumeDiscount}
+                checked={isSettledOrder ? discountAmount > 0 : !replaceVolumeDiscount}
                 onChange={(e) => setApplyVolumeDiscount(e.target.checked)}
                 disabled={isSettledOrder || manualDiscountType !== 'none'}
               />
@@ -1502,7 +1500,9 @@ export default function OrderDetailPanel({
               />
             </div>}
             <p style={{ margin: '8px 0 0', fontSize: '0.75rem', color: '#94a3b8', lineHeight: 1.4 }}>
-              {manualDiscountType !== 'none'
+              {isSettledOrder
+                ? 'Showing the discounts recorded when this order was paid.'
+                : manualDiscountType !== 'none'
                 ? 'Volume discount is automatically off while a special discount is selected. Only the special discount applies.'
                 : 'Select special discount to enter a percentage or fixed amount. The volume discount switches off automatically.'}
             </p>
@@ -1547,7 +1547,7 @@ export default function OrderDetailPanel({
               </span>
             </div>
             <div className="order-detail-total-line">
-              <span>Total (preview)</span>
+              <span>{isSettledOrder ? 'Total (recorded)' : 'Total (preview)'}</span>
               <span>
                 {orderCurrency === 'USD'
                   ? `$${totalCosts.usd.toFixed(2)} (≈ ₡${totalCosts.crc.toLocaleString()})`

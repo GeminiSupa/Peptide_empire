@@ -1,6 +1,32 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { calculateAdminOrderTotals, orderDiscountReplacesVolume } from '../src/lib/adminOrderTotals.mjs';
+import { calculateAdminOrderTotals, orderDiscountReplacesVolume, recordedAdminOrderTotals } from '../src/lib/adminOrderTotals.mjs';
+
+test('paid legacy order displays the receipt amounts despite the new no-stacking rule', () => {
+  const order = {
+    currency: 'CRC', source: 'admin_manual', apply_volume_discount: true,
+    items: [{ product: 'BPC-157', qty: 1, price: 464427 }],
+    manual_discount_type: 'percentage', manual_discount_value: 30,
+    manual_discount_amount_crc: 118429, total_crc: 276334,
+  };
+  const totals = recordedAdminOrderTotals(order);
+  assert.equal(totals.total, 276334);
+  assert.equal(totals.manualDiscountAmount, 118429);
+  assert.equal(totals.discountAmount, 69664);
+  assert.equal(totals.discountPct, 15);
+  assert.equal(orderDiscountReplacesVolume(order, 'percentage', 30), true);
+});
+
+test('recorded USD amounts include shipping and promo without repricing', () => {
+  const totals = recordedAdminOrderTotals({
+    currency: 'USD', items: [{ product: 'BPC-157', qty: 5, price: 100 }],
+    discount_amount_usd: 50, manual_discount_amount_usd: 0,
+    shipping_cost_usd: 10, total_usd: 460,
+  });
+  assert.equal(totals.total, 460);
+  assert.equal(totals.promoDiscountAmount, 50);
+  assert.equal(totals.discountAmount, 0);
+});
 
 test('volume toggle still works without a special discount', () => {
   const items = [{ product: 'BPC-157', qty: 5, price: 100 }];
