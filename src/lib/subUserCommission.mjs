@@ -15,6 +15,7 @@
  * Kept free of '@/lib' imports so tests/ can load it under `node --test`.
  */
 
+import { commissionPricingOrder } from './commissionSalesAmounts.mjs';
 import {
   DEFAULT_OVERRIDE_RATE,
   DEFAULT_SUB_USER_RATE,
@@ -151,7 +152,7 @@ export function priceStampedOverrideOrders(orders, getAmounts) {
       missingRateOrderIds.push(order?.id || null);
       continue;
     }
-    const amounts = resolve(order) || {};
+    const amounts = resolve(commissionPricingOrder(order)) || {};
     const usd = num(amounts.usd);
     const crc = num(amounts.crc);
     salesUsd += usd;
@@ -276,7 +277,7 @@ export function buildOverrideBreakdown(orders = [], getAmounts) {
     if (!stamp) continue;
     const name = stamp.name || String(order?.sales_agent || '').trim() || 'Sub-user';
     const key = `${stamp.kind || ''}::${name}::${stamp.rate}`;
-    const amounts = resolve(order) || {};
+    const amounts = resolve(commissionPricingOrder(order)) || {};
     const usd = num(amounts.usd);
     const crc = num(amounts.crc);
     const share = computeOverrideAmounts({

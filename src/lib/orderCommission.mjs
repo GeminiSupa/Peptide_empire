@@ -1,3 +1,5 @@
+import { commissionPricingOrder } from './commissionSalesAmounts.mjs';
+
 const num = (value) => {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : 0;
@@ -19,7 +21,7 @@ export function computeOrderCommissionAmounts(order, defaultRate = 0, getAmounts
   const resolve = typeof getAmounts === 'function'
     ? getAmounts
     : (row) => ({ usd: num(row?.total_usd), crc: num(row?.total_crc) });
-  const amounts = resolve(order) || {};
+  const amounts = resolve(commissionPricingOrder(order)) || {};
   const rate = orderCommissionRate(order, defaultRate);
 
   return {
@@ -73,7 +75,7 @@ export function commissionRateLabel(rates = [], fallbackRate = 0) {
 export function decorateCommissionOrder(order, defaultRate = 0, getAmounts, sourceLabel = (value) => value || 'Standard sale') {
   const commission = computeOrderCommissionAmounts(order, defaultRate, getAmounts);
   return {
-    ...order,
+    ...commissionPricingOrder(order),
     commission_rate_applied: commission.rate,
     commission_source_label: sourceLabel(commission.source),
     commission_earned_usd: commission.usdCommission,

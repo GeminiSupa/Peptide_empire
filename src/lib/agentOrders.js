@@ -45,38 +45,7 @@ export function filterOrdersForAgent(orders, profile) {
   return (orders || []).filter((o) => orderBelongsToAgent(o, profile));
 }
 
-import { FALLBACK_EXCHANGE_RATE } from '@/lib/pricing';
-
-export function getOrderSalesAmounts(order, exchangeRate = FALLBACK_EXCHANGE_RATE) {
-  let usd = Number(order.total_usd || 0);
-  let crc = Number(order.total_crc || 0);
-  if (!usd && !crc && order.total != null) {
-    const total = Number(order.total || 0);
-    if (order.currency === 'USD') usd = total;
-    else crc = total;
-  }
-
-  // Ensure both currencies are populated symmetrically
-  if (usd > 0 && crc === 0) {
-    crc = usd * exchangeRate;
-  } else if (crc > 0 && usd === 0) {
-    usd = crc / exchangeRate;
-  }
-
-  // Money given back was never a sale. Netted here rather than at each call
-  // site because this is the one function every commission figure is built
-  // from — the weekly scan, the approval re-price, and the agent's own
-  // earnings screen — and a refund has to reach all three or they disagree
-  // about what the same order was worth.
-  const refundedUsd = Number(order.refunded_amount_usd || 0);
-  const refundedCrc = Number(order.refunded_amount_crc || 0);
-  if (refundedUsd > 0 || refundedCrc > 0) {
-    usd = Math.max(0, usd - refundedUsd);
-    crc = Math.max(0, crc - refundedCrc);
-  }
-
-  return { usd, crc };
-}
+export { getOrderSalesAmounts } from './commissionSalesAmounts.mjs';
 
 export function orderVisibleToAgent() {
   return true;

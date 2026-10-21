@@ -23,7 +23,7 @@ import { agentAnalyticsRange, orderReportableInRange } from '@/lib/agentDashboar
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
 
-const ORDER_FIELDS_BASE = 'id, order_number, customer_name, status, sales_agent, total_usd, total_crc, currency, created_at, activity_log, agent_commission_rate_override, agent_commission_source';
+const ORDER_FIELDS_BASE = 'id, order_number, customer_name, status, sales_agent, total_usd, total_crc, currency, created_at, activity_log, agent_commission_rate_override, agent_commission_source, items, manual_discount_type, manual_discount_value, shipping_cost_usd, shipping_cost_crc, discount_amount_usd, discount_amount_crc, refunded_amount_usd, refunded_amount_crc';
 // stats_override arrives with add-order-stats-override.sql. Migrations are
 // pasted in by hand, so this deploy can land first; naming a column that does
 // not exist yet fails the whole query, so it is dropped on the first such
