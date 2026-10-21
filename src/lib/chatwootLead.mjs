@@ -1,10 +1,18 @@
-import { AD_LANDING_SOURCES } from './adLandingLeads.mjs';
 import { writeDroppingMissingColumns } from './optionalColumns.mjs';
 import { hasLandingQualification, landingQualificationNotes } from './landingLead.mjs';
 import { leadBelongsInChatwoot, leadChatwootPhone } from './chatwootLeadEligibility.mjs';
+import {
+  CHATWOOT_INBOX_SETTING_ID,
+  inboxIdForLeadSource,
+  isPaidAdChatwootSource,
+  loadCatalogInboxId,
+} from './chatwootInboxes.mjs';
 
 const TIMEOUT_MS = 8000;
-export const CHATWOOT_LEAD_SETTING_ID = 'google_ads_chatwoot';
+// One name per row: the id itself lives in chatwootInboxes.mjs, which both the
+// switch and the catalog inbox read. Re-exported here because callers already
+// import it from this module.
+export { CHATWOOT_INBOX_SETTING_ID as CHATWOOT_LEAD_SETTING_ID };
 
 export { leadBelongsInChatwoot, leadChatwootPhone };
 
@@ -21,17 +29,12 @@ const CHATWOOT_LEAD_COLUMNS = [
   'chatwoot_synced_at',
 ];
 
-function isPaidAdChatwootSource(source) {
-  const key = clean(source).toLowerCase();
-  return AD_LANDING_SOURCES.has(key) || key === 'tiktok_form';
-}
-
 export async function loadChatwootLeadEnabled(supabase) {
   try {
     const { data, error } = await supabase
       .from('site_settings')
       .select('value')
-      .eq('id', CHATWOOT_LEAD_SETTING_ID)
+      .eq('id', CHATWOOT_INBOX_SETTING_ID)
       .maybeSingle();
     if (error) throw error;
     return data?.value?.enabled !== false;
@@ -43,10 +46,13 @@ export async function loadChatwootLeadEnabled(supabase) {
   }
 }
 
-function readConfig(env) {
+// `inboxIdOverride` is the inbox THIS lead belongs in. An empty string is
+// meaningful: it says we have no inbox for this lead, so the config reads as
+// unconfigured instead of quietly falling back to the ad inbox.
+function readConfig(env, inboxIdOverride) {
   const baseUrl = clean(env.CHATWOOT_BASE_URL).replace(/\/+$/, '');
   const accountId = clean(env.CHATWOOT_ACCOUNT_ID);
-  const inboxId = clean(env.CHATWOOT_INBOX_ID);
+  const inboxId = clean(inboxIdOverride === undefined ? env.CHATWOOT_INBOX_ID : inboxIdOverride);
   const accessToken = clean(env.CHATWOOT_API_ACCESS_TOKEN);
   return {
     baseUrl,
@@ -198,11 +204,25 @@ export async function sendAdLeadToChatwoot({
   campaign,
   assigneeEmail,
   dueAt,
+  inboxId,
   env = process.env,
   fetchImpl = fetch,
 }) {
-  const config = readConfig(env);
-  if (!config.configured) return { configured: false, sent: false };
+  const config = readConfig(env, inboxId);
+  if (!config.configured) {
+    // Say WHICH piece is missing. A blank catalog inbox is the one an admin can
+    // fix themselves, and "not_configured" with no reason reads as a Chatwoot
+    // outage instead of a field someone still has to fill in.
+    const onlyInboxMissing = !config.inboxId
+      && Boolean(config.baseUrl && config.accountId && config.accessToken);
+    return {
+      configured: false,
+      sent: false,
+      ...(onlyInboxMissing
+        ? { error: 'No Chatwoot inbox is set for this kind of lead. Add the catalog WhatsApp inbox ID under Team → Notification settings.' }
+        : {}),
+    };
+  }
   if (!leadId) return { configured: true, sent: false, error: 'A CRM lead ID is required' };
 
   try {
@@ -325,6 +345,20 @@ export async function handoverLeadToChatwoot(supabase, lead, {
     email = isPaidAdChatwootSource(source) ? '' : await chatwootAssigneeEmailForLead(supabase, lead);
   }
 
+  // Which inbox this chat opens in. Ad and TikTok leads keep the original
+  // WhatsApp number; catalog leads use the catalog number, so the two streams
+  // can be told apart. No catalog inbox saved yet means no inbox for this lead:
+  // the config reads as unconfigured, the lead keeps a null
+  // chatwoot_conversation_id, and the 15-minute retry delivers it as soon as
+  // the inbox is filled in. It never falls back to the ad inbox.
+  const catalogInboxId = isPaidAdChatwootSource(source)
+    ? ''
+    : await loadCatalogInboxId(supabase);
+  const inboxId = inboxIdForLeadSource(source, {
+    adInboxId: env.CHATWOOT_INBOX_ID,
+    catalogInboxId,
+  });
+
   const qualification = lead.qualification_data || {};
   const result = enabled
     ? await sendAdLeadToChatwoot({
@@ -339,6 +373,7 @@ export async function handoverLeadToChatwoot(supabase, lead, {
       campaign: [lead.utm_source, lead.utm_medium, lead.utm_campaign].filter(Boolean).join(' / '),
       assigneeEmail: email || '',
       dueAt: lead.response_due_at,
+      inboxId,
       env,
       fetchImpl,
     })

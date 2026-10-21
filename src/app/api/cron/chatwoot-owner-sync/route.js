@@ -5,6 +5,7 @@ import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 import { chatwootOwnerColumns, planChatwootOwnerUpdates } from '@/lib/chatwootOwnerSync.mjs';
 import { handoverLeadToChatwoot, loadChatwootLeadEnabled } from '@/lib/chatwootLead.mjs';
 import { leadBelongsInChatwoot } from '@/lib/chatwootLeadEligibility.mjs';
+import { chatwootLeadInboxIds, loadCatalogInboxId } from '@/lib/chatwootInboxes.mjs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -34,22 +35,27 @@ function readConfig(env) {
   return { baseUrl, accountId, inboxId, accessToken, configured: Boolean(baseUrl && accountId && inboxId && accessToken) };
 }
 
-async function readChatwootAssignees(config, fetchImpl = fetch) {
+// Reads every inbox our leads live in. Ad/TikTok chats and catalog chats sit in
+// two different inboxes now, and Chatwoot's conversations endpoint filters by
+// one inbox at a time, so it is one pass per inbox.
+async function readChatwootAssignees(config, inboxIds, fetchImpl = fetch) {
   const assignees = {};
-  for (let page = 1; page <= PAGE_LIMIT; page += 1) {
-    const url = `${config.baseUrl}/api/v1/accounts/${config.accountId}/conversations`
-      + `?status=all&inbox_id=${encodeURIComponent(config.inboxId)}&page=${page}&sort_by=last_activity_at`;
-    const response = await fetchImpl(url, { headers: { api_access_token: config.accessToken } });
-    if (!response.ok) throw new Error(`Chatwoot answered ${response.status}`);
-    const rows = (await response.json())?.data?.payload || [];
-    for (const row of rows) {
-      const assignee = row?.meta?.assignee;
-      assignees[String(row.id)] = {
-        name: assignee?.available_name || assignee?.name || '',
-        email: assignee?.email || '',
-      };
+  for (const inboxId of inboxIds) {
+    for (let page = 1; page <= PAGE_LIMIT; page += 1) {
+      const url = `${config.baseUrl}/api/v1/accounts/${config.accountId}/conversations`
+        + `?status=all&inbox_id=${encodeURIComponent(inboxId)}&page=${page}&sort_by=last_activity_at`;
+      const response = await fetchImpl(url, { headers: { api_access_token: config.accessToken } });
+      if (!response.ok) throw new Error(`Chatwoot answered ${response.status}`);
+      const rows = (await response.json())?.data?.payload || [];
+      for (const row of rows) {
+        const assignee = row?.meta?.assignee;
+        assignees[String(row.id)] = {
+          name: assignee?.available_name || assignee?.name || '',
+          email: assignee?.email || '',
+        };
+      }
+      if (rows.length < 25) break;
     }
-    if (rows.length < 25) break;
   }
   return assignees;
 }
@@ -107,7 +113,11 @@ export async function GET(request) {
       .select('name, email, status, permissions, tier');
     if (profileError) throw profileError;
 
-    const assignees = await readChatwootAssignees(config);
+    // Both inboxes, or a catalog chat's owner would never be synced back.
+    const assignees = await readChatwootAssignees(config, chatwootLeadInboxIds({
+      adInboxId: config.inboxId,
+      catalogInboxId: await loadCatalogInboxId(supabase),
+    }));
     const { updates, skipped } = planChatwootOwnerUpdates({ leads: leads || [], assignees, profiles: profiles || [] });
 
     const at = new Date().toISOString();

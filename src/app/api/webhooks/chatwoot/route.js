@@ -8,6 +8,7 @@ import {
   normalizeChatwootEvent,
   verifyChatwootSignature,
 } from '@/lib/chatwootWebhook.mjs';
+import { chatwootLeadInboxIds, loadCatalogInboxId } from '@/lib/chatwootInboxes.mjs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -88,11 +89,11 @@ export async function POST(request) {
   }
 
   const configuredAccount = clean(process.env.CHATWOOT_ACCOUNT_ID);
-  const configuredInbox = clean(process.env.CHATWOOT_INBOX_ID);
-  if ((configuredAccount && clean(event.accountId) !== configuredAccount)
-      || (configuredInbox && clean(event.inboxId) !== configuredInbox)) {
-    return NextResponse.json({ success: true, ignored: true, reason: 'different_account_or_inbox' });
+  if (configuredAccount && clean(event.accountId) !== configuredAccount) {
+    return NextResponse.json({ success: true, ignored: true, reason: 'different_account' });
   }
+  // The inbox half of this check moved below, where the catalog inbox id saved
+  // in the admin can be read.
 
   const eventKey = chatwootEventKey({
     deliveryId: request.headers.get('x-chatwoot-delivery'),
@@ -101,6 +102,18 @@ export async function POST(request) {
 
   try {
     const supabase = getSupabaseAdmin();
+    // Leads now live in two inboxes: ad and TikTok chats in CHATWOOT_INBOX_ID,
+    // catalog chats in the catalog inbox saved in the admin. Filtering on the
+    // env one alone would throw away every catalog chat's events — the status,
+    // the assignee and the reply times all come in through here.
+    const leadInboxIds = chatwootLeadInboxIds({
+      adInboxId: process.env.CHATWOOT_INBOX_ID,
+      catalogInboxId: await loadCatalogInboxId(supabase),
+    });
+    if (leadInboxIds.length && !leadInboxIds.includes(clean(event.inboxId))) {
+      return NextResponse.json({ success: true, ignored: true, reason: 'different_inbox' });
+    }
+
     const { data: duplicate, error: duplicateError } = await supabase
       .from('chatwoot_events').select('id').eq('event_key', eventKey).maybeSingle();
     if (duplicateError) throw duplicateError;

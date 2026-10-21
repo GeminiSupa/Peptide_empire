@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { chatwootLeadInboxIds, loadCatalogInboxId } from '@/lib/chatwootInboxes.mjs';
 
 export const runtime = 'nodejs';
 
@@ -39,24 +41,33 @@ export async function GET(request) {
 
   const assignees = {};
   try {
-    for (let page = 1; page <= PAGE_LIMIT; page += 1) {
-      const url = `${config.baseUrl}/api/v1/accounts/${config.accountId}/conversations`
-        + `?status=all&inbox_id=${encodeURIComponent(config.inboxId)}&page=${page}&sort_by=last_activity_at`;
-      const response = await fetch(url, { headers: { api_access_token: config.accessToken } });
-      if (!response.ok) throw new Error(`Chatwoot answered ${response.status}`);
-      const body = await response.json();
-      const rows = body?.data?.payload || [];
-      for (const row of rows) {
-        const assignee = row?.meta?.assignee;
-        assignees[String(row.id)] = {
-          // No assignee is the normal, healthy state for a chat we have just
-          // handed over, so it is reported as a value rather than left out.
-          name: assignee?.available_name || assignee?.name || '',
-          email: assignee?.email || '',
-          status: row?.status || '',
-        };
+    // Every inbox our leads live in. Ad/TikTok chats are in CHATWOOT_INBOX_ID
+    // and catalog chats in the catalog inbox, so reading one of them would
+    // leave this column blank for every catalog lead.
+    const inboxIds = chatwootLeadInboxIds({
+      adInboxId: config.inboxId,
+      catalogInboxId: await loadCatalogInboxId(getSupabaseAdmin()),
+    });
+    for (const inboxId of inboxIds) {
+      for (let page = 1; page <= PAGE_LIMIT; page += 1) {
+        const url = `${config.baseUrl}/api/v1/accounts/${config.accountId}/conversations`
+          + `?status=all&inbox_id=${encodeURIComponent(inboxId)}&page=${page}&sort_by=last_activity_at`;
+        const response = await fetch(url, { headers: { api_access_token: config.accessToken } });
+        if (!response.ok) throw new Error(`Chatwoot answered ${response.status}`);
+        const body = await response.json();
+        const rows = body?.data?.payload || [];
+        for (const row of rows) {
+          const assignee = row?.meta?.assignee;
+          assignees[String(row.id)] = {
+            // No assignee is the normal, healthy state for a chat we have just
+            // handed over, so it is reported as a value rather than left out.
+            name: assignee?.available_name || assignee?.name || '',
+            email: assignee?.email || '',
+            status: row?.status || '',
+          };
+        }
+        if (rows.length < 25) break;
       }
-      if (rows.length < 25) break;
     }
   } catch (error) {
     // A Chatwoot outage must not take the Leads screen down with it; the screen

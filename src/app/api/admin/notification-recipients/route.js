@@ -9,6 +9,7 @@ import {
   normalizeDestination,
 } from '@/lib/notificationRecipients.mjs';
 import { CHATWOOT_LEAD_SETTING_ID } from '@/lib/chatwootLead.mjs';
+import { normalizeInboxId, saveChatwootLeadSetting } from '@/lib/chatwootInboxes.mjs';
 import { LANDING_LEAD_SETTINGS_ID, normalizeLandingLeadSettings } from '@/lib/landingLeadSettings.mjs';
 import { eligibleRotationAgents } from '@/lib/leadRotation.mjs';
 import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
@@ -102,6 +103,7 @@ export async function GET(request) {
   }
 
   let chatwootEnabled = true;
+  let chatwootCatalogInboxId = '';
   try {
     const { data: setting, error: settingError } = await supabase
       .from('site_settings')
@@ -110,6 +112,7 @@ export async function GET(request) {
       .maybeSingle();
     if (settingError) throw settingError;
     chatwootEnabled = setting?.value?.enabled !== false;
+    chatwootCatalogInboxId = String(setting?.value?.catalogInboxId || '').trim();
   } catch (settingError) {
     console.warn('[notification-recipients] Chatwoot switch fallback:', settingError.message);
   }
@@ -130,7 +133,13 @@ export async function GET(request) {
   return NextResponse.json({
     recipients: data || [],
     tableReady: true,
-    chatwoot: { enabled: chatwootEnabled, configured: chatwootConfigured },
+    chatwoot: {
+      enabled: chatwootEnabled,
+      configured: chatwootConfigured,
+      // Empty means catalog leads are waiting: nothing is sent for them until
+      // someone fills this in, and they never go to the Google Ads inbox.
+      catalogInboxId: chatwootCatalogInboxId,
+    },
     leadRotation,
   });
 }
@@ -238,15 +247,28 @@ export async function PATCH(request) {
     if (body?.chatwootEnabled !== undefined) {
       const supabase = getSupabaseAdmin();
       const enabled = body.chatwootEnabled === true;
-      const { error } = await supabase.from('site_settings').upsert({
-        id: CHATWOOT_LEAD_SETTING_ID,
-        value: { enabled },
-      });
+      // Merged, not replaced: a plain upsert of { enabled } wiped the catalog
+      // inbox id, which lives in the same settings row.
+      const { error } = await saveChatwootLeadSetting(supabase, { enabled });
       if (error) {
         console.error('[notification-recipients] Chatwoot switch failed:', error);
         return NextResponse.json({ error: error.message }, { status: 500 });
       }
       return NextResponse.json({ chatwoot: { enabled } });
+    }
+    // The inbox catalog leads open their chats in — their own WhatsApp number,
+    // kept apart from the Google Ads one so the two streams can be tracked
+    // separately. Blank it to stop sending catalog leads to Chatwoot.
+    if (body?.chatwootCatalogInboxId !== undefined) {
+      const supabase = getSupabaseAdmin();
+      const { ok, inboxId, error: invalid } = normalizeInboxId(body.chatwootCatalogInboxId);
+      if (!ok) return NextResponse.json({ error: invalid }, { status: 400 });
+      const { error } = await saveChatwootLeadSetting(supabase, { catalogInboxId: inboxId });
+      if (error) {
+        console.error('[notification-recipients] Catalog inbox save failed:', error);
+        return NextResponse.json({ error: error.message }, { status: 500 });
+      }
+      return NextResponse.json({ chatwoot: { catalogInboxId: inboxId } });
     }
     if (body?.leadRotation && typeof body.leadRotation === 'object') {
       const supabase = getSupabaseAdmin();

@@ -68,12 +68,67 @@ function displayDestination(recipient) {
 }
 
 /**
+ * The Chatwoot inbox catalog leads open their chats in.
+ *
+ * Catalog leads used to land in the Google Ads inbox, which made paid-ad and
+ * catalog traffic impossible to tell apart. This is the catalog WhatsApp
+ * number's own inbox; ad and TikTok leads keep the original one.
+ *
+ * It keeps its own draft so typing is not undone by the parent re-rendering,
+ * and only Save writes.
+ */
+function CatalogInboxField({ value, saving, canEdit, onSave }) {
+  const [draft, setDraft] = useState(value || '');
+  useEffect(() => { setDraft(value || ''); }, [value]);
+  const current = (value || '').trim();
+  const dirty = (draft || '').trim() !== current;
+  const busy = !canEdit || saving;
+  return (
+    <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', marginTop: '14px', paddingTop: '14px' }}>
+      <div style={{ fontSize: '0.84rem', color: '#f8fafc', fontWeight: 700, marginBottom: '4px' }}>
+        Catalog WhatsApp inbox
+      </div>
+      <p style={{ fontSize: '0.78rem', color: '#94a3b8', margin: '0 0 10px 0', lineHeight: 1.5 }}>
+        Catalog leads open their chat in this inbox instead of the Google Ads one, so the two can be
+        tracked separately. Paste the inbox ID: the number at the end of the inbox&apos;s URL in Chatwoot.
+        {current ? '' : ' While it is empty, catalog leads wait in Leads and are sent the moment it is filled in.'}
+      </p>
+      <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <input
+          type="text"
+          inputMode="numeric"
+          value={draft}
+          placeholder="e.g. 7"
+          disabled={busy}
+          onChange={(e) => setDraft(e.target.value)}
+          style={{ width: '110px', padding: '8px 10px', borderRadius: '8px', background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.12)', color: '#e2e8f0', fontSize: '0.85rem' }}
+        />
+        <button
+          className="admin-btn"
+          onClick={() => onSave(draft)}
+          disabled={busy || !dirty}
+          style={{ padding: '8px 14px', fontSize: '0.78rem', opacity: (busy || !dirty) ? 0.5 : 1 }}
+        >
+          {saving ? 'Saving...' : 'Save inbox'}
+        </button>
+        {current ? (
+          <span style={{ fontSize: '0.75rem', color: '#22c55e' }}>Catalog chats go to inbox {current}</span>
+        ) : (
+          <span style={{ fontSize: '0.75rem', color: '#fbbf24' }}>Not set yet - catalog leads are waiting</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/**
  * Who gets told about a new order — every phone number and address on one
  * screen, whether or not it belongs to a team member with a login.
  */
 function NotificationSettings({
   recipients, tableReady, hint, loading, error, savingId, canEdit,
   chatwootEnabled, chatwootConfigured, chatwootSaving, onChatwootChange,
+  chatwootCatalogInbox, chatwootInboxSaving, onChatwootCatalogInboxSave,
   leadRotation, leadRotationSaving, onLeadRotationChange,
   newLabel, setNewLabel, newChannel, setNewChannel, newDestination, setNewDestination,
   adding, onAdd, onUpdate, onRemove,
@@ -167,6 +222,12 @@ function NotificationSettings({
           disabled={!canEdit || chatwootSaving}
           onChange={onChatwootChange}
           activeColor="#22c55e"
+        />
+        <CatalogInboxField
+          value={chatwootCatalogInbox}
+          saving={chatwootInboxSaving}
+          canEdit={canEdit}
+          onSave={onChatwootCatalogInboxSave}
         />
       </div>
 
@@ -348,6 +409,8 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
   const [chatwootEnabled, setChatwootEnabled] = useState(true);
   const [chatwootConfigured, setChatwootConfigured] = useState(false);
   const [chatwootSaving, setChatwootSaving] = useState(false);
+  const [chatwootCatalogInbox, setChatwootCatalogInbox] = useState('');
+  const [chatwootInboxSaving, setChatwootInboxSaving] = useState(false);
   const [leadRotation, setLeadRotation] = useState(null);
   const [leadRotationSaving, setLeadRotationSaving] = useState(false);
   const [recipientSavingId, setRecipientSavingId] = useState(null);
@@ -440,6 +503,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
       setRecipientsHint(data.hint || '');
       setChatwootEnabled(data.chatwoot?.enabled !== false);
       setChatwootConfigured(data.chatwoot?.configured === true);
+      setChatwootCatalogInbox(data.chatwoot?.catalogInboxId || '');
       setLeadRotation(data.leadRotation || null);
     } catch (err) {
       setRecipientsError(err.message);
@@ -464,6 +528,28 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
       await fetchRecipients();
     }
     setChatwootSaving(false);
+  };
+
+  // The inbox catalog chats open in. Saved on its own so the switch above and
+  // this field cannot overwrite one another; the server merges them into the
+  // same settings row.
+  const updateChatwootCatalogInbox = async (value) => {
+    setChatwootInboxSaving(true);
+    setRecipientsError('');
+    try {
+      const res = await adminFetch('/api/admin/notification-recipients', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chatwootCatalogInboxId: String(value || '').trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Could not save the catalog inbox');
+      setChatwootCatalogInbox(data.chatwoot?.catalogInboxId || '');
+    } catch (err) {
+      setRecipientsError(err.message);
+      await fetchRecipients();
+    }
+    setChatwootInboxSaving(false);
   };
 
   const updateLeadRotation = async (change) => {
@@ -1310,6 +1396,9 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
           chatwootConfigured={chatwootConfigured}
           chatwootSaving={chatwootSaving}
           onChatwootChange={updateChatwootEnabled}
+          chatwootCatalogInbox={chatwootCatalogInbox}
+          chatwootInboxSaving={chatwootInboxSaving}
+          onChatwootCatalogInboxSave={updateChatwootCatalogInbox}
           leadRotation={leadRotation}
           leadRotationSaving={leadRotationSaving}
           onLeadRotationChange={updateLeadRotation}
