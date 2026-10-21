@@ -185,6 +185,7 @@ export default function OrderDetailPanel({
   const [addProduct, setAddProduct] = useState('');
   const [orderError, setOrderError] = useState('');
   const [manualDiscountType, setManualDiscountType] = useState(order.manual_discount_type || 'none');
+  const [applyVolumeDiscount, setApplyVolumeDiscount] = useState(order.apply_volume_discount ?? null);
   const [manualDiscountValue, setManualDiscountValue] = useState(order.manual_discount_value || '');
   const [manualDiscountReason, setManualDiscountReason] = useState(order.manual_discount_reason || '');
   const [discountError, setDiscountError] = useState('');
@@ -272,6 +273,7 @@ export default function OrderDetailPanel({
     sync(setShippingAddress, was.shipping_address || '', order.shipping_address || '');
     sync(setEditItems, prev ? itemsOf(prev) : [], itemsOf(order), sameItems);
     sync(setManualDiscountType, was.manual_discount_type || 'none', order.manual_discount_type || 'none');
+    sync(setApplyVolumeDiscount, was.apply_volume_discount ?? null, order.apply_volume_discount ?? null);
     sync(setManualDiscountValue, was.manual_discount_value || '', order.manual_discount_value || '', (a, b) => Number(a || 0) === Number(b || 0));
     sync(setManualDiscountReason, was.manual_discount_reason || '', order.manual_discount_reason || '');
     sync(setCreditedAgent, was.sales_agent || '', order.sales_agent || '');
@@ -392,11 +394,13 @@ export default function OrderDetailPanel({
     : Number(order.discount_amount_crc || 0);
   // Honor the saved stacking choice, using the same rule as the save route.
   const replaceVolumeDiscount = orderDiscountReplacesVolume(
-    order, manualDiscountType, manualDiscountValue,
+    { ...order, apply_volume_discount: applyVolumeDiscount }, manualDiscountType, manualDiscountValue,
   );
+  const volumeDiscountChanged = applyVolumeDiscount !== (order.apply_volume_discount ?? null);
   // Vial count picks the tier; the recorded rate only pins the 10+ % when the
   // cart still qualifies (deal-week orders keep their elevated rate).
-  const storedVolumePct = resolveOrderVolumePct(editItems, storedOrderVolumePct(order));
+  const storedVolumePct = resolveOrderVolumePct(editItems,
+    volumeDiscountChanged && applyVolumeDiscount ? null : storedOrderVolumePct(order));
 
   // What the running promotion is worth on the items as they stand now. The
   // save re-prices against the same offers, so adding a vial during a sale no
@@ -524,7 +528,7 @@ export default function OrderDetailPanel({
     shippingAddress !== (order.shipping_address || '');
   const itemsChanged = normalizeItemsForCompare(editItems) !== normalizeItemsForCompare(order.items);
   const shippingChanged = Math.abs((Number(shippingAmount) || 0) - savedShipping) > 0.004;
-  const pricingChanged = itemsChanged || shippingChanged || hasManualDiscountChanged;
+  const pricingChanged = itemsChanged || shippingChanged || hasManualDiscountChanged || volumeDiscountChanged;
   const notesChanged = notes !== (order.internal_notes || '');
   const trackingChanged = trackingNumber !== (order.tracking_number || '');
   const attributionChanged = isSuperadmin && (
@@ -615,6 +619,10 @@ export default function OrderDetailPanel({
       if (itemsChanged) changedParts.push('items');
       if (shippingChanged) changedParts.push('shipping');
       if (hasManualDiscountChanged) changedParts.push('discount');
+      if (volumeDiscountChanged) {
+        updates.apply_volume_discount = applyVolumeDiscount;
+        changedParts.push('volume discount');
+      }
     }
     if (notesChanged) {
       updates.internal_notes = notes;
@@ -1431,6 +1439,20 @@ export default function OrderDetailPanel({
             <div style={{ display: 'flex', alignItems: 'center', gap: '7px', marginBottom: '10px', color: '#e2e8f0', fontWeight: 800, fontSize: '0.85rem' }}>
               <BadgePercent size={16} /> Order discount
             </div>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', color: '#e2e8f0' }}>
+              <input
+                type="checkbox"
+                checked={!replaceVolumeDiscount}
+                onChange={(e) => setApplyVolumeDiscount(e.target.checked)}
+                disabled={isSettledOrder}
+              />
+              Apply volume discount
+            </label>
+            {isSettledOrder && (
+              <p style={{ margin: '0 0 12px', fontSize: '0.75rem', color: '#94a3b8' }}>
+                Discounts are locked after payment.
+              </p>
+            )}
             <div style={{ display: 'grid', gridTemplateColumns: 'minmax(120px, 0.8fr) minmax(100px, 0.7fr) minmax(180px, 1.5fr)', gap: '8px' }}>
               <select
                 className="admin-select"

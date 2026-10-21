@@ -28,3 +28,19 @@ test('saved opt-out and legacy source defaults are retained', () => {
   }
   assert.equal(orderDiscountReplacesVolume({ source: 'admin_manual', apply_volume_discount: true }, 'fixed', 100), false);
 });
+
+test('volume toggle removes and restores stacking while retaining the manual discount', () => {
+  const items = [{ product: 'BPC-157', qty: 5, price: 100 }];
+  const savedOrder = { source: 'admin_manual', apply_volume_discount: true };
+  for (const [enabled, expected] of [[false, 350], [true, 297.5]]) {
+    const totals = calculateAdminOrderTotals(items, 0, {
+      manualDiscountType: 'percentage',
+      manualDiscountValue: 30,
+      replaceVolumeDiscount: orderDiscountReplacesVolume(
+        { ...savedOrder, apply_volume_discount: enabled }, 'percentage', 30,
+      ),
+    });
+    assert.equal(totals.total, expected);
+    assert.equal(totals.discountPct, enabled ? 15 : 0);
+  }
+});

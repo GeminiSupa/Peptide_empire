@@ -75,6 +75,7 @@ export async function PATCH(request) {
       'payment_descriptor', 'payment_provider_response',
       'affiliate_id', 'agent_commission_rate_override', 'agent_commission_source',
       'manual_discount_type', 'manual_discount_value', 'manual_discount_reason',
+      'apply_volume_discount',
       'ready_to_prepare_at', 'ready_to_prepare_by',
     ];
     const patch = {};
@@ -111,6 +112,9 @@ export async function PATCH(request) {
       }, { status: 400 });
     }
 
+    if ('apply_volume_discount' in patch && typeof patch.apply_volume_discount !== 'boolean') {
+      return NextResponse.json({ error: 'Apply volume discount must be true or false' }, { status: 400 });
+    }
     const manualDiscountRequested = MANUAL_DISCOUNT_FIELDS.some((field) => field in patch);
     if (manualDiscountRequested) {
       const manualType = normalizeManualDiscountType(patch.manual_discount_type);
@@ -143,6 +147,7 @@ export async function PATCH(request) {
       'shipping_cost_crc',
       'shipping_cost_usd',
       ...MANUAL_DISCOUNT_FIELDS,
+      'apply_volume_discount',
     ].some((field) => field in patch);
 
     if (pricingChanged && isSettledStatus(currentOrder.status)) {
@@ -223,14 +228,16 @@ export async function PATCH(request) {
       // add-order-volume-discount-flag.sql was run — does the default rule
       // decide, so reopening an order cannot silently reprice it.
       const replaceVolumeDiscount = orderDiscountReplacesVolume(
-        currentOrder, nextManualType, nextManualValue,
+        { ...currentOrder, ...patch }, nextManualType, nextManualValue,
       );
 
       // Vial count picks the tier; the recorded rate only pins the 10+ % so a
       // deal-week order keeps its elevated rate while it still qualifies.
       const resolvedVolumePct = replaceVolumeDiscount
         ? 0
-        : resolveOrderVolumePct(items, storedOrderVolumePct(currentOrder));
+        : resolveOrderVolumePct(items,
+          patch.apply_volume_discount === true && currentOrder.apply_volume_discount !== true
+            ? null : storedOrderVolumePct(currentOrder));
 
       // Editing the items re-prices the order, and until now that was done
       // with no knowledge of the running promotion: adding a vial to an order
