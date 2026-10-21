@@ -393,7 +393,7 @@ export default function OrderDetailPanel({
     ? Number(order.discount_amount_usd || 0)
     : Number(order.discount_amount_crc || 0);
   // Honor the saved stacking choice, using the same rule as the save route.
-  const replaceVolumeDiscount = orderDiscountReplacesVolume(
+  const replaceVolumeDiscount = manualDiscountType !== 'none' || orderDiscountReplacesVolume(
     { ...order, apply_volume_discount: applyVolumeDiscount }, manualDiscountType, manualDiscountValue,
   );
   const volumeDiscountChanged = applyVolumeDiscount !== (order.apply_volume_discount ?? null);
@@ -1444,25 +1444,37 @@ export default function OrderDetailPanel({
                 type="checkbox"
                 checked={!replaceVolumeDiscount}
                 onChange={(e) => setApplyVolumeDiscount(e.target.checked)}
-                disabled={isSettledOrder || (manualDiscountType !== 'none' && Number(manualDiscountValue) > 0)}
+                disabled={isSettledOrder || manualDiscountType !== 'none'}
               />
               Apply volume discount
+            </label>
+            <label style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', color: '#e2e8f0' }}>
+              <input
+                type="checkbox"
+                checked={manualDiscountType !== 'none'}
+                disabled={isSettledOrder}
+                onChange={(e) => {
+                  setManualDiscountType(e.target.checked ? 'percentage' : 'none');
+                  setDiscountError('');
+                }}
+              />
+              Apply special discount
             </label>
             {isSettledOrder && (
               <p style={{ margin: '0 0 12px', fontSize: '0.75rem', color: '#94a3b8' }}>
                 Discounts are locked after payment.
               </p>
             )}
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(120px, 0.8fr) minmax(100px, 0.7fr) minmax(180px, 1.5fr)', gap: '8px' }}>
+            {manualDiscountType !== 'none' && <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px' }}>
               <select
                 className="admin-select"
                 value={manualDiscountType}
+                disabled={isSettledOrder}
                 onChange={(e) => {
                   setManualDiscountType(e.target.value);
                   setDiscountError('');
                 }}
               >
-                <option value="none">No manual discount</option>
                 <option value="percentage">Percentage</option>
                 <option value="fixed">Fixed amount</option>
               </select>
@@ -1477,7 +1489,7 @@ export default function OrderDetailPanel({
                   setManualDiscountValue(e.target.value);
                   setDiscountError('');
                 }}
-                disabled={manualDiscountType === 'none'}
+                disabled={isSettledOrder}
                 placeholder={manualDiscountType === 'percentage' ? 'Percent' : `Amount ${orderCurrency}`}
               />
               <input
@@ -1485,12 +1497,14 @@ export default function OrderDetailPanel({
                 value={manualDiscountReason}
                 maxLength={200}
                 onChange={(e) => setManualDiscountReason(e.target.value)}
-                disabled={manualDiscountType === 'none'}
+                disabled={isSettledOrder}
                 placeholder="Reason shown on receipt (optional)"
               />
-            </div>
+            </div>}
             <p style={{ margin: '8px 0 0', fontSize: '0.75rem', color: '#94a3b8', lineHeight: 1.4 }}>
-              A custom order discount replaces the volume discount; they do not combine.
+              {manualDiscountType !== 'none'
+                ? 'Volume discount is automatically off while a special discount is selected. Only the special discount applies.'
+                : 'Select special discount to enter a percentage or fixed amount. The volume discount switches off automatically.'}
             </p>
             {isSettledOrder && hasManualDiscountChanged && (
               <p style={{ margin: '8px 0 0', fontSize: '0.75rem', color: '#fbbf24', lineHeight: 1.4 }}>
