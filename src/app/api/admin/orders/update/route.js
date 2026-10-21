@@ -24,7 +24,7 @@ import { internalJsonHeaders } from '@/lib/internalRequestAuth.mjs';
 import {
   calculateAdminOrderTotals,
   getAdminCurrencyPair,
-  manualDiscountReplacesVolume,
+  orderDiscountReplacesVolume,
   normalizeAdminOrderCurrency,
   normalizeManualDiscountType,
   resolveOrderVolumePct,
@@ -222,10 +222,9 @@ export async function PATCH(request) {
       // when it was never recorded — a website order, or one saved before
       // add-order-volume-discount-flag.sql was run — does the default rule
       // decide, so reopening an order cannot silently reprice it.
-      const replaceVolumeDiscount = currentOrder.apply_volume_discount === null
-        || currentOrder.apply_volume_discount === undefined
-        ? manualDiscountReplacesVolume(currentOrder.source, nextManualType, nextManualValue)
-        : currentOrder.apply_volume_discount === false;
+      const replaceVolumeDiscount = orderDiscountReplacesVolume(
+        currentOrder, nextManualType, nextManualValue,
+      );
 
       // Vial count picks the tier; the recorded rate only pins the 10+ % so a
       // deal-week order keeps its elevated rate while it still qualifies.

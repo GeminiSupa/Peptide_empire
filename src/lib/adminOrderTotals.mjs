@@ -106,6 +106,14 @@ export function manualDiscountReplacesVolume(source, type, value) {
     && finiteNonNegative(value) > 0;
 }
 
+// Existing orders retain the operator's saved stacking choice. Older orders
+// without the flag use the original source-based default.
+export function orderDiscountReplacesVolume(order, type, value) {
+  return order?.apply_volume_discount === null || order?.apply_volume_discount === undefined
+    ? manualDiscountReplacesVolume(order?.source, type, value)
+    : order.apply_volume_discount === false;
+}
+
 /**
  * The volume rate recorded on an order when it was priced, or null.
  *

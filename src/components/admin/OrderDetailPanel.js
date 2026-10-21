@@ -30,7 +30,7 @@ import {
   getAdminCurrencyPair,
   getAdminOrderSubtotal,
   getAdminShippingCosts,
-  manualDiscountReplacesVolume,
+  orderDiscountReplacesVolume,
   normalizeAdminOrderCurrency,
   resolveOrderVolumePct,
   storedOrderVolumePct,
@@ -390,10 +390,9 @@ export default function OrderDetailPanel({
   const promoDiscount = orderCurrency === 'USD'
     ? Number(order.discount_amount_usd || 0)
     : Number(order.discount_amount_crc || 0);
-  // Manual orders only. A website order's volume discount is the offer the
-  // customer accepted at checkout and is not staff's to overwrite.
-  const replaceVolumeDiscount = manualDiscountReplacesVolume(
-    order.source, manualDiscountType, manualDiscountValue,
+  // Honor the saved stacking choice, using the same rule as the save route.
+  const replaceVolumeDiscount = orderDiscountReplacesVolume(
+    order, manualDiscountType, manualDiscountValue,
   );
   // Vial count picks the tier; the recorded rate only pins the 10+ % when the
   // cart still qualifies (deal-week orders keep their elevated rate).
