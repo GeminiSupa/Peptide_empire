@@ -35,6 +35,7 @@ test('admin API path rules map sensitive routes to dashboard modules', () => {
   // Changing how an order gets paid sits behind the same module as the order.
   assert.deepEqual(adminPermissionsForPath('/api/admin/orders/payment-method'), ['orders']);
   assert.deepEqual(adminPermissionsForPath('/api/admin/recycle-bin'), ['recycle_bin']);
+  assert.deepEqual(adminPermissionsForPath('/api/admin/offsite-inventory'), ['offsite_inventory']);
   assert.deepEqual(adminPermissionsForPath('/api/admin/users/avatar'), []);
 });
 

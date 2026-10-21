@@ -30,6 +30,9 @@ export const ADMIN_MODULES = [
   { id: 'prospects', label: 'Prospector', title: 'Prospector', group: 'Sales & Marketing' },
   { id: 'carts', label: 'Carts', title: 'Carts', group: 'Sales & Marketing' },
   { id: 'spreadsheet', label: 'Products', title: 'Products', group: 'Core Operations', superadminOnly: true },
+  // Second pile: vials sitting with the off-site packer. Total owned still
+  // lives on Products; this tab only moves the off-site count up/down.
+  { id: 'offsite_inventory', label: 'Off-site stock', title: 'Off-site stock', group: 'Core Operations' },
   { id: 'customers', label: 'Customers', title: 'Customers', group: 'Core Operations' },
   { id: 'reorder_tracking', label: 'Reorder Tracking', title: 'Reorder Tracking', group: 'Core Operations' },
   { id: 'inquiries', label: 'Inquiries', title: 'Inquiries', group: 'Core Operations' },

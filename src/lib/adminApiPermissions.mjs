@@ -27,6 +27,7 @@ const rules = [
   { pattern: /^\/api\/admin\/orders(?:\/|$)/, permissions: ['orders'] },
   { pattern: /^\/api\/order-shipped-notification$/, permissions: ['orders'] },
   { pattern: /^\/api\/admin\/products(?:\/|$)/, permissions: ['spreadsheet'] },
+  { pattern: /^\/api\/admin\/offsite-inventory(?:\/|$)/, permissions: ['offsite_inventory'] },
   { pattern: /^\/api\/admin\/promo(?:\/|$)/, permissions: ['affiliates', 'broadcasts', 'deals'] },
   { pattern: /^\/api\/admin\/referral-stats$/, permissions: ['affiliates'] },
   { pattern: /^\/api\/admin\/sub-users(?:\/|$)/, permissions: ['my_team'] },

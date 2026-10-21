@@ -136,6 +136,7 @@ const isValidOptionalUrl = (value) => {
 const OrdersManager = dynamicTab(() => import('@/components/admin/OrdersManager'), 'Loading orders…');
 const FulfillmentManager = dynamicTab(() => import('@/components/admin/FulfillmentManager'), 'Loading fulfillment…');
 const ProductsManager = dynamicTab(() => import('@/components/admin/ProductsManager'), 'Loading products…');
+const OffsiteInventoryManager = dynamicTab(() => import('@/components/admin/OffsiteInventoryManager'), 'Loading off-site stock…');
 const EmailMarketingStudio = dynamicTab(() => import('@/components/admin/marketing/EmailMarketingStudio'), 'Loading marketing studio…');
 const WhatsAppSession = dynamicTab(() => import('@/components/admin/marketing/WhatsAppSession'), 'Loading WhatsApp session…');
 const CartsManager = dynamicTab(() => import('@/components/admin/CartsManager'), 'Loading carts…');
@@ -206,6 +207,8 @@ function getAdminPageSubtitle(tabId, { orders, abandonedCarts, leads, reviews, i
         : 'No active abandoned carts';
     case 'fulfillment':
       return 'Orders handed off by sales, waiting to be packed';
+    case 'offsite_inventory':
+      return 'What the off-site packer is holding · give him more when low';
     case 'leads':
       return newLeads
         ? `${newLeads} new lead${newLeads !== 1 ? 's' : ''} · ${leads.length} total`
@@ -1766,6 +1769,10 @@ Core Rules:
       label: 'Products',
       icon: <Table size={iconSize} />,
     },
+    offsite_inventory: {
+      label: 'Off-site stock',
+      icon: <Package size={iconSize} />,
+    },
     orders: {
       label: 'Orders',
       icon: <ClipboardList size={iconSize} />,
@@ -1927,7 +1934,7 @@ Core Rules:
   const desktopSecondaryGroups = [
     { title: 'Sales & Customers', tabs: ['customers', 'inquiries', 'prospects'] },
     { title: 'Growth', tabs: ['share', 'reviews', 'marketing', 'affiliates', 'deals', 'broadcasts', 'twilio', 'my_qr', 'my_team'] },
-    { title: 'Operations', tabs: ['spreadsheet', 'analytics', 'cms', 'wa_session', 'team', 'requests', 'recycle_bin', 'team_chat', 'payment_test', 'activity_log'] },
+    { title: 'Operations', tabs: ['spreadsheet', 'offsite_inventory', 'analytics', 'cms', 'wa_session', 'team', 'requests', 'recycle_bin', 'team_chat', 'payment_test', 'activity_log'] },
   ].map((group) => ({
     ...group,
     tabs: group.tabs.filter((tabId) => hasAccess(tabId) && !desktopPrimaryTabIds.includes(tabId)),
@@ -5736,6 +5743,14 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
               onExchangeRateChanged={handleExchangeRateChanged}
             />
           )
+        )}
+
+        {activeTab === 'offsite_inventory' && (
+          <div className="admin-orders-tab admin-tab-panel">
+            <ErrorBoundary>
+              <OffsiteInventoryManager />
+            </ErrorBoundary>
+          </div>
         )}
 
         {activeTab === 'spreadsheet' && (

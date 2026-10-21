@@ -8,6 +8,7 @@ import {
   STALE_ORDER_HOURS,
 } from './inventoryRestore.mjs';
 import { writeDroppingMissingColumns } from './optionalColumns.mjs';
+import { nextOffsiteAfterStockChange, offsiteOf } from './offsiteInventory.mjs';
 
 // The database half of the inventory restore. Kept apart from the rules in
 // inventoryRestore.mjs so those stay testable without a Supabase client.
@@ -19,23 +20,29 @@ async function addBackStock(supabase, lines) {
   for (const line of lines) {
     const { data: product, error } = await supabase
       .from('products')
-      .select('inventory_count')
+      .select('inventory_count, offsite_inventory_count')
       .eq('product', line.product)
       .maybeSingle();
 
     if (error || !product || product.inventory_count === null) continue;
 
-    const next = Number(product.inventory_count) + line.qty;
-    const { error: updateError } = await supabase
-      .from('products')
-      .update({ inventory_count: next })
-      .eq('product', line.product);
+    const before = Number(product.inventory_count);
+    const next = before + line.qty;
+    const offsiteBefore = offsiteOf(product);
+    const { after: nextOffsite } = nextOffsiteAfterStockChange(before, next, offsiteBefore);
+    // Never let off-site read higher than total owned after a restore.
+    const cappedOffsite = Math.min(next, nextOffsite);
+    const { error: updateError } = await writeDroppingMissingColumns(
+      { inventory_count: next, offsite_inventory_count: cappedOffsite },
+      ['offsite_inventory_count'],
+      (row) => supabase.from('products').update(row).eq('product', line.product),
+    );
 
     if (updateError) {
       console.error(`[inventory] Failed to restore ${line.qty} × ${line.product}:`, updateError.message);
       continue;
     }
-    restored.push({ product: line.product, qty: line.qty, from: product.inventory_count, to: next });
+    restored.push({ product: line.product, qty: line.qty, from: before, to: next });
   }
 
   return restored;

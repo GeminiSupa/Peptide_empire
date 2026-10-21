@@ -1,5 +1,9 @@
 import { stripGiftSuffix } from './bacWater.mjs';
 import { productNameResolver } from './authoritativeCheckout.mjs';
+import { nextOffsiteAfterStockChange, offsiteOf } from './offsiteInventory.mjs';
+import { writeDroppingMissingColumns } from './optionalColumns.mjs';
+
+const OFFSITE_OPTIONAL = ['offsite_inventory_count'];
 
 // Lines are keyed by the catalog's current spelling when one is known, so an
 // order saved before a product rename releases its stock from the same row it
@@ -36,10 +40,15 @@ export function inventoryReservationPlan(currentLines = [], desiredItems = [], p
       return { ok: false, error: `${product}: only ${availableForOrder} available` };
     }
     const nextInventory = availableForOrder - desiredQty;
+    const offsiteBefore = offsiteOf(row);
+    const offsitePlan = nextOffsiteAfterStockChange(stockNow, nextInventory, offsiteBefore);
     changes.push({
       product,
       before: stockNow,
       after: nextInventory,
+      offsiteBefore,
+      offsiteAfter: offsitePlan.after,
+      offsiteShortfall: offsitePlan.shortfall,
       threshold: row.low_stock_threshold === null || row.low_stock_threshold === undefined
         ? 5
         : Number(row.low_stock_threshold),
@@ -54,10 +63,16 @@ async function applyInventoryChanges(supabase, changes, direction = 'forward') {
   const applied = [];
   for (const change of changes) {
     const value = direction === 'forward' ? change.after : change.before;
-    const { error } = await supabase
-      .from('products')
-      .update({ inventory_count: value })
-      .eq('product', change.product);
+    const offsiteValue = direction === 'forward' ? change.offsiteAfter : change.offsiteBefore;
+    const payload = { inventory_count: value };
+    if (offsiteValue !== undefined && offsiteValue !== null) {
+      payload.offsite_inventory_count = offsiteValue;
+    }
+    const { error } = await writeDroppingMissingColumns(
+      payload,
+      OFFSITE_OPTIONAL,
+      (row) => supabase.from('products').update(row).eq('product', change.product),
+    );
     if (error) {
       if (direction === 'forward' && applied.length > 0) {
         await applyInventoryChanges(supabase, applied.reverse(), 'rollback');
@@ -78,7 +93,7 @@ export async function prepareInventoryReservation(supabase, currentLines, desire
   // way it was named before a rename, which an exact-name filter would miss.
   const { data, error } = await supabase
     .from('products')
-    .select('product,inventory_count,low_stock_threshold');
+    .select('product,inventory_count,offsite_inventory_count,low_stock_threshold');
   if (error) throw error;
 
   const plan = inventoryReservationPlan(currentLines, desiredItems, data || []);
@@ -99,13 +114,24 @@ export async function notifyLowInventory(supabase, changes = []) {
   for (const change of changes) {
     const crossed = change.before > change.threshold && change.after <= change.threshold;
     const hitZero = change.before > 0 && change.after === 0;
-    if (!crossed && !hitZero) continue;
-    await supabase.from('admin_notifications').insert({
-      type: 'low_inventory',
-      title: hitZero ? `Out of Stock: ${change.product}` : `Low Stock Alert: ${change.product}`,
-      body: `Inventory has dropped to ${change.after} unit(s).`,
-      link_tab: 'spreadsheet',
-    });
+    if (crossed || hitZero) {
+      await supabase.from('admin_notifications').insert({
+        type: 'low_inventory',
+        title: hitZero ? `Out of Stock: ${change.product}` : `Low Stock Alert: ${change.product}`,
+        body: `Inventory has dropped to ${change.after} unit(s).`,
+        link_tab: 'spreadsheet',
+      });
+    }
+    // He packed more than we had logged with him — total still fell; off-site
+    // needs a top-up so the tab matches what is really left out there.
+    if (Number(change.offsiteShortfall || 0) > 0) {
+      await supabase.from('admin_notifications').insert({
+        type: 'offsite_inventory_short',
+        title: `Off-site short: ${change.product}`,
+        body: `An order used ${change.offsiteShortfall} more vial(s) than were logged off site. Give him more stock in Off-site stock.`,
+        link_tab: 'offsite_inventory',
+      });
+    }
   }
 }
 
