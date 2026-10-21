@@ -159,6 +159,9 @@ function useVisualCarousel(count, intervalMs = 6000, slideMs = 600) {
 }
 
 const REEL_SLIDE = 0;
+// How long the carousel will wait for the reel before moving on regardless.
+// The clip is 16s; the slack covers a slow start on a weak connection.
+const REEL_MAX_MS = 22000;
 const PRODUCT_SLIDE = 1;
 const SPONSOR_SLIDE = 2;
 
@@ -193,15 +196,31 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
       if (play?.catch) play.catch(() => {});
     };
 
+    // Rewinding and then waiting for 'loadeddata' parked the reel on its own
+    // last frame every second time round. That event fires once per load and
+    // never after a seek, while the seek itself can drop readyState below 2 for
+    // long enough to take that branch - so the play was never asked for, the
+    // clip never ended, and the hold below kept the carousel there for good.
+    // Ask to play outright (the browser starts once it has data) and keep
+    // 'canplay' beside 'loadeddata' so a cold start is still covered.
     if (Math.abs(video.currentTime) > 0.05) video.currentTime = 0;
-    if (video.readyState >= 2) tryPlay();
-    else video.addEventListener('loadeddata', tryPlay, { once: true });
+    tryPlay();
+    video.addEventListener('loadeddata', tryPlay, { once: true });
+    video.addEventListener('canplay', tryPlay, { once: true });
 
     const onEnded = () => goTo(PRODUCT_SLIDE);
     video.addEventListener('ended', onEnded);
+
+    // The hold stops the auto-advance timer, so anything that keeps the clip
+    // from ending - autoplay refused, a stalled download - would strand the
+    // carousel on this slide. Move on by the clock if that happens.
+    const release = window.setTimeout(() => goTo(PRODUCT_SLIDE), REEL_MAX_MS);
+
     return () => {
+      window.clearTimeout(release);
       video.removeEventListener('ended', onEnded);
       video.removeEventListener('loadeddata', tryPlay);
+      video.removeEventListener('canplay', tryPlay);
     };
   }, [slide, goTo, holdRef]);
 
