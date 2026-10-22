@@ -341,21 +341,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
+  width: 26px;
+  height: 26px;
   padding: 0;
-  margin-top: -17px;
+  margin-top: -13px;
   border: 0;
   border-radius: 50%;
   color: #10265c;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  background: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.14);
   cursor: pointer;
   transition: background 0.2s ease;
 }
 
 .arrow:hover {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .arrowPrev {
@@ -631,9 +631,9 @@
   }
 
   .arrow {
-    width: 36px;
-    height: 36px;
-    margin-top: -18px;
+    width: 28px;
+    height: 28px;
+    margin-top: -14px;
   }
 
   .arrowPrev {

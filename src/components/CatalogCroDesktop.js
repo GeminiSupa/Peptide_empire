@@ -454,7 +454,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
           onClick={goPrev}
           aria-label={en ? 'Previous slide' : 'Diapositiva anterior'}
         >
-          <ChevronLeft size={18} aria-hidden="true" />
+          <ChevronLeft size={15} aria-hidden="true" />
         </button>
         <button
           type="button"
@@ -462,7 +462,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
           onClick={goNext}
           aria-label={en ? 'Next slide' : 'Siguiente diapositiva'}
         >
-          <ChevronRight size={18} aria-hidden="true" />
+          <ChevronRight size={15} aria-hidden="true" />
         </button>
         {slide === REEL_SLIDE && (
           <button
