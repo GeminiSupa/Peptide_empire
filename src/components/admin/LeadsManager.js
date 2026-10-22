@@ -460,9 +460,10 @@ export default function LeadsManager({
 
   const renderChatwootActivity = (lead) => {
     if (!lead.chatwoot_conversation_id && !lead.chatwoot_conversation_url) {
-      // Ad leads and WhatsApp opt-ins belong in Chatwoot. A dash said nothing,
-      // so the one case worth noticing looked like the quiet one. The 15-minute
-      // job retries it; this says so until it lands.
+      // Ad and TikTok leads are the ones the CRM opens a chat for. A dash said
+      // nothing, so the one case worth noticing looked like the quiet one. The
+      // 15-minute job retries it; this says so until it lands. Catalog leads
+      // are not listed here: their chat comes from the conversation layer.
       if (leadBelongsInChatwoot(lead) || isGoogleAdsLead(lead)) {
         return (
           <div className="lead-alert-control">

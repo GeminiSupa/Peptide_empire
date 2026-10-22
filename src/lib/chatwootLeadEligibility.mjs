@@ -1,8 +1,16 @@
 /**
- * Who gets a Chatwoot conversation from the CRM.
+ * Who gets a Chatwoot conversation opened BY US, from the CRM.
  *
- * Paid ad pages and TikTok forms already do. Catalog leads that opted into
- * WhatsApp do too — that is the number they typed for us to reach them on.
+ * Paid ad pages and TikTok forms do: those visitors have no WhatsApp chat of
+ * their own, so the chat we open is the only one.
+ *
+ * Catalog leads used to as well, and it caused duplicates. The catalog form
+ * opens a brand-new conversation on every submission, so a customer who was
+ * already chatting on WhatsApp ended up with several conversations, each one
+ * landing with a different agent. Catalog leads now come in through the
+ * conversation layer instead, which matches the number to the contact that
+ * already exists and keeps everything in one chat.
+ *
  * Pure helpers so the Leads tab and the server share one rule.
  */
 
@@ -25,15 +33,16 @@ export function leadChatwootPhone(lead) {
 }
 
 /**
- * True when this lead should open (or already have) a Chatwoot conversation.
+ * True when this lead should open (or already have) a Chatwoot conversation
+ * that the CRM created.
  *
- * WhatsApp opt-in alone is not enough — we need a phone to put on the contact.
+ * Ad and TikTok leads only. A WhatsApp opt-in on a catalog lead is NOT enough:
+ * that number is handled by the conversation layer, and opening a chat here
+ * would be the second conversation for the same person.
  */
 export function leadBelongsInChatwoot(lead) {
   if (!lead) return false;
   const source = clean(lead.lead_source).toLowerCase();
   if (AD_LANDING_SOURCES.has(source) || source === 'tiktok_form') return true;
-  if (isAdLandingLead(lead)) return true;
-  if (lead.whatsapp_consent !== true) return false;
-  return Boolean(leadChatwootPhone(lead));
+  return isAdLandingLead(lead);
 }

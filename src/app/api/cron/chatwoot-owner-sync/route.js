@@ -88,8 +88,9 @@ export async function GET(request) {
         .limit(40);
 
       for (const lead of (missing || []).filter(leadBelongsInChatwoot)) {
-        // Ad leads stay unassigned (Chatwoot picks). WhatsApp catalog leads get
-        // the CRM owner when handoverLeadToChatwoot can resolve their email.
+        // Ad and TikTok leads only, and they stay unassigned for Chatwoot to
+        // hand out. leadBelongsInChatwoot keeps catalog leads out: those chats
+        // are opened by the conversation layer, not from here.
         const result = await handoverLeadToChatwoot(supabase, lead);
         if (result.sent) {
           resent += 1;

@@ -124,52 +124,42 @@ test('the chosen inbox wins over the environment inbox', async () => {
   assert.equal(JSON.parse(calls[1].options.body).identifier, 'crm-lead-lead-2');
 });
 
-test('a WhatsApp catalog lead is handed to the catalog inbox, an ad lead to the ad inbox', async () => {
+test('an ad lead is handed to the ad inbox', async () => {
   const seen = [];
-  const replies = () => [
+  const queue = [
     response({ inbox_identifier: 'key' }),
     response({ id: 1, source_id: 'src' }),
     response({ id: 2 }),
     response({ id: 3 }),
   ];
-
-  let queue = replies();
-  await handoverLeadToChatwoot(fakeSupabase(), {
-    id: 'lead-5', phone: '50688887777', whatsapp_consent: true, consent_source: 'catalog_gate',
-  }, {
-    env: ENV,
-    fetchImpl: async (url) => { seen.push(url); return queue.shift(); },
-  });
-  assert.match(seen[0], /\/inboxes\/99$/, 'catalog lead uses the catalog inbox');
-
-  seen.length = 0;
-  queue = replies();
   await handoverLeadToChatwoot(fakeSupabase(), {
     id: 'lead-6', phone: '50688887777', lead_source: 'adwords_lp',
   }, {
     env: ENV,
     fetchImpl: async (url) => { seen.push(url); return queue.shift(); },
   });
-  assert.match(seen[0], /\/inboxes\/34$/, 'ad lead still uses the Google Ads inbox');
+  assert.match(seen[0], /\/inboxes\/34$/, 'ad lead uses the Google Ads inbox');
 });
 
-test('with no catalog inbox saved, a catalog lead waits instead of going to the ad inbox', async () => {
-  const supabase = fakeSupabase({ enabled: true });
+/* The catalog form opened a fresh conversation per submission, so a customer
+   already chatting on WhatsApp collected several, each with a different agent.
+   The conversation layer brings catalog leads in now; nothing is opened here,
+   and no chatwoot_* column is written, so the Leads tab does not claim a
+   failed handover and the 15-minute retry leaves these alone. */
+test('a WhatsApp catalog lead is not handed over from the CRM at all', async () => {
+  const supabase = fakeSupabase({ enabled: true, catalogInboxId: '99' });
   let called = false;
   const result = await handoverLeadToChatwoot(supabase, {
-    id: 'lead-7', phone: '50688887777', whatsapp_consent: true, consent_source: 'catalog_gate',
+    id: 'lead-5', phone: '50688887777', whatsapp_consent: true, consent_source: 'catalog_gate',
   }, {
     env: ENV,
     fetchImpl: async () => { called = true; },
   });
 
   assert.equal(called, false, 'nothing is sent to Chatwoot');
+  assert.equal(result.skipped, true);
   assert.equal(result.sent, false);
-  // No conversation id, so the 15-minute retry picks this lead up again once
-  // the inbox is filled in.
-  assert.equal(supabase.updates[0].chatwoot_conversation_id, null);
-  assert.equal(supabase.updates[0].chatwoot_status, 'not_configured');
-  assert.match(supabase.updates[0].chatwoot_error, /catalog WhatsApp inbox ID/);
+  assert.equal(supabase.updates.length, 0, 'and no lead row is touched');
 });
 
 test('every surface that reads Chatwoot back asks for both inboxes', async () => {
