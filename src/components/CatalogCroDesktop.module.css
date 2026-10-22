@@ -331,6 +331,68 @@
   background: #fff;
 }
 
+/* The track moves on its own, but someone who wants a slide back should not
+   have to wait a full lap for it. Clear of the dots in the top corner on a
+   phone and of the dots and press badge along the bottom on desktop. */
+.arrow {
+  position: absolute;
+  z-index: 4;
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  margin-top: -17px;
+  border: 0;
+  border-radius: 50%;
+  color: #10265c;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.arrow:hover {
+  background: #fff;
+}
+
+.arrowPrev {
+  left: 8px;
+}
+
+.arrowNext {
+  right: 8px;
+}
+
+/* Only ever rendered over the reel. The clip starts muted because that is the
+   only state a browser will autoplay in, so this is how the sound is reached. */
+.sound {
+  position: absolute;
+  z-index: 4;
+  left: 8px;
+  bottom: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px 5px 8px;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  background: rgba(8, 14, 32, 0.62);
+  cursor: pointer;
+}
+
+.sound svg {
+  width: 15px;
+  height: 15px;
+}
+
 .press {
   position: relative;
   left: auto;
@@ -566,6 +628,25 @@
     top: auto;
     right: 10px;
     bottom: 10px;
+  }
+
+  .arrow {
+    width: 36px;
+    height: 36px;
+    margin-top: -18px;
+  }
+
+  .arrowPrev {
+    left: 10px;
+  }
+
+  .arrowNext {
+    right: 10px;
+  }
+
+  .sound {
+    left: 12px;
+    bottom: 12px;
   }
 
   .press {

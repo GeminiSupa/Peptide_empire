@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { BadgePercent, Check } from 'lucide-react';
+import { BadgePercent, Check, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useBulkWholesaleCampaign } from '@/hooks/useBulkWholesaleCampaign';
 import { dealCountdownParts } from '@/lib/bulkWholesaleCampaign.mjs';
 import { STANDARD_FIVE_PLUS_PCT, tenPlusDiscountPct } from '@/lib/bulkDeal.mjs';
@@ -35,6 +35,29 @@ function FacebookMark() {
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <circle cx="12" cy="12" r="12" fill="#1877F2" />
       <path fill="#fff" d="M13.4 19.5v-6.1h2.1l.3-2.4h-2.4V9.4c0-.7.2-1.2 1.2-1.2h1.3V6.1c-.2 0-1-.1-1.9-.1-1.9 0-3.1 1.1-3.1 3.2V11H8.8v2.4h2.1v6.1h2.5z" />
+    </svg>
+  );
+}
+
+/* The reel carries audio, which no browser will start without a tap, so the
+   slot needs a control. Drawn here rather than pulled from the icon set, like
+   the review marks above. */
+function SoundOnMark() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M11 5 6 9H2v6h4l5 4z" />
+      <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+      <path d="M18.5 5.5a9 9 0 0 1 0 13" />
+    </svg>
+  );
+}
+
+function SoundOffMark() {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M11 5 6 9H2v6h4l5 4z" />
+      <path d="m17 9 5 6" />
+      <path d="m22 9-5 6" />
     </svg>
   );
 }
@@ -160,8 +183,8 @@ function useVisualCarousel(count, intervalMs = 6000, slideMs = 600) {
 
 const REEL_SLIDE = 0;
 // How long the carousel will wait for the reel before moving on regardless.
-// The clip is 16s; the slack covers a slow start on a weak connection.
-const REEL_MAX_MS = 22000;
+// The clip is 17s; the slack covers a slow start on a weak connection.
+const REEL_MAX_MS = 24000;
 const PRODUCT_SLIDE = 1;
 const SPONSOR_SLIDE = 2;
 
@@ -171,6 +194,11 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
   // Reel first so it is on screen immediately; vials → Ziggy after it finishes.
   const { index: slideIndex, active: slide, animate, goTo, holdRef } = useVisualCarousel(3, 7000);
   const reelRef = useRef(null);
+  // Sound is off until someone asks for it, because that is the only state a
+  // browser will autoplay in. Mirrored into a ref so the play effect below can
+  // read the current choice without re-running and restarting the clip.
+  const [soundOn, setSoundOn] = useState(false);
+  const soundRef = useRef(false);
 
   useEffect(() => {
     if (!campaign.validUntil) return undefined;
@@ -191,9 +219,19 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
     }
 
     const tryPlay = () => {
-      video.muted = true;
+      video.muted = !soundRef.current;
       const play = video.play();
-      if (play?.catch) play.catch(() => {});
+      // A browser refuses sound without a gesture. Left there the clip would
+      // never start, never end, and the hold below would park the carousel on
+      // this slide for good - so drop back to muted and play anyway.
+      if (play?.catch) play.catch(() => {
+        if (video.muted) return;
+        video.muted = true;
+        soundRef.current = false;
+        setSoundOn(false);
+        const retry = video.play();
+        if (retry?.catch) retry.catch(() => {});
+      });
     };
 
     // Rewinding and then waiting for 'loadeddata' parked the reel on its own
@@ -223,6 +261,29 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
       video.removeEventListener('canplay', tryPlay);
     };
   }, [slide, goTo, holdRef]);
+
+  // The track only ever travels forward on its own. Stepping back from the
+  // first slide goes straight to the last one rather than through the clone,
+  // which would need a silent jump first.
+  const goPrev = useCallback(() => goTo(slide === REEL_SLIDE ? SPONSOR_SLIDE : slide - 1), [goTo, slide]);
+  // One past the last slide is the clone, so forward from the sponsor keeps
+  // sliding the same way instead of rewinding.
+  const goNext = useCallback(() => goTo(slide + 1), [goTo, slide]);
+
+  const toggleSound = useCallback(() => {
+    const video = reelRef.current;
+    const next = !soundRef.current;
+    soundRef.current = next;
+    setSoundOn(next);
+    if (!video) return;
+    video.muted = !next;
+    // The click is the gesture the browser was waiting for, so this is the one
+    // moment sound is allowed to start.
+    if (next) {
+      const play = video.play();
+      if (play?.catch) play.catch(() => {});
+    }
+  }, []);
 
   const en = lang === 'en';
   const countdown = campaign.active ? dealCountdownParts(campaign.validUntil, now) : null;
@@ -291,7 +352,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
       <video
         ref={live ? reelRef : undefined}
         src="/catalog-hero-reel.mp4"
-        muted
+        muted={live ? !soundOn : true}
         playsInline
         autoPlay={live}
         preload={live ? 'auto' : 'metadata'}
@@ -387,6 +448,36 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
           {/* Clone of the first slide, so the track always travels one way. */}
           {reelSlide(3, { clone: true })}
         </div>
+        <button
+          type="button"
+          className={`${styles.arrow} ${styles.arrowPrev}`}
+          onClick={goPrev}
+          aria-label={en ? 'Previous slide' : 'Diapositiva anterior'}
+        >
+          <ChevronLeft size={18} aria-hidden="true" />
+        </button>
+        <button
+          type="button"
+          className={`${styles.arrow} ${styles.arrowNext}`}
+          onClick={goNext}
+          aria-label={en ? 'Next slide' : 'Siguiente diapositiva'}
+        >
+          <ChevronRight size={18} aria-hidden="true" />
+        </button>
+        {slide === REEL_SLIDE && (
+          <button
+            type="button"
+            className={styles.sound}
+            onClick={toggleSound}
+            aria-pressed={soundOn}
+            aria-label={soundOn
+              ? (en ? 'Mute the video' : 'Silenciar el video')
+              : (en ? 'Turn the video sound on' : 'Activar el sonido del video')}
+          >
+            {soundOn ? <SoundOnMark /> : <SoundOffMark />}
+            <span>{soundOn ? (en ? 'Sound on' : 'Con sonido') : (en ? 'Sound off' : 'Sin sonido')}</span>
+          </button>
+        )}
         <div className={styles.dots} role="tablist" aria-label={en ? 'Slides' : 'Diapositivas'}>
           {slideLabels.map((label, dot) => (
             <button
