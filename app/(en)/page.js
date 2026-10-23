@@ -1,27 +1,24 @@
 import { getPublishedPage } from '@/lib/site-cms';
-import SiteHeader from '@/components/site-header';
-import SiteFooter from '@/components/site-footer';
-import Sections from '@/components/sections';
+import Storefront from '@/components/storefront/storefront';
+import { getStorefrontCatalog } from '@/lib/storefront/feed';
 import homeData from '@/data/pages/homeBlocks.json';
 import { alternates } from '@/lib/routes';
 import { metadataForPath } from '@/lib/seo';
 
 /**
- * English home at `/`.
+ * English home at `/` — the shop.
  *
- * Renders through the same block pipeline as the other 316 pages. It previously
- * used a bespoke harvest into 11 hand-authored section components whose layout
- * was invented rather than reproduced, and which captured text only — none of
- * the page's 45 images and only 12 of its 63 headings.
+ * This URL used to render the harvested WordPress marketing home through the
+ * block pipeline. It is now the storefront: the owner's decision (23 Oct 2026)
+ * is that this site becomes the catalog. The marketing home's content is
+ * untouched in the CMS and still in git history; it is simply no longer what
+ * `/` renders.
+ *
+ * The title and description still come from the CMS, so the owner's admin keeps
+ * control of the metadata on the site's most important indexed URL.
  */
 const sourcePage = homeData.pages[0];
 
-/**
- * Without this the page inherited the root layout's `title.default`, which is
- * the SPANISH title — so the English home page, the site's most important URL,
- * announced itself in Spanish in the tab, the search result and every share
- * card. The correct English title was in the harvested data the whole time.
- */
 export async function generateMetadata() {
   const page = await getPublishedPage(sourcePage);
   const alt = alternates('/');
@@ -33,15 +30,21 @@ export async function generateMetadata() {
   });
 }
 
-export default async function HomeEn() {
-  const page = await getPublishedPage(sourcePage);
+export default async function HomeEn({ searchParams }) {
+  const [{ compounds, exchangeRate, ok }, params] = await Promise.all([
+    getStorefrontCatalog(),
+    searchParams,
+  ]);
+
   return (
-    <>
-      <SiteHeader lang="en" path="/" />
-      <main className="home-page flex-1">
-        <Sections home lang="en" sections={page.sections} />
-      </main>
-      <SiteFooter lang="en" />
-    </>
+    <Storefront
+      compounds={compounds}
+      exchangeRate={exchangeRate}
+      feedOk={ok}
+      lang="en"
+      initialSlug={typeof params?.p === 'string' ? params.p : ''}
+      homeHref="/"
+      altHref="/es/"
+    />
   );
 }
