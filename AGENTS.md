@@ -63,12 +63,14 @@ decision and a separate step: the WordPress site is still live there, on
 - Preserve the existing URL paths, trailing slashes, and Spanish `/es/`
   routes. The site has ~516 English and ~512 Spanish routes that are live and
   indexed today; a redesign of the shop must not 404 any of them.
-- The storefront design system lives in `app/globals.css` under
-  `Storefront design system`. The older tokens above it clone the live
+- The storefront design system is `app/storefront.css`, every rule scoped
+  under `.storefront`. The older tokens in `app/globals.css` clone the live
   WordPress site and still style the blog, guides, spec sheets and legacy
   pages, which this phase deliberately leaves alone. Do not "unify" the two
-  without being asked — the mixture is a known, staged state.
-- Treat changes on `main` and `clone-website` as independent. Do not merge
+  without being asked — the mixture is a known, staged state. Note that
+  `globals.css` sets bare `h1`–`h6` and `body` rules that reach inside the
+  scope; `storefront.css` ends with the handful of overrides that corrects.
+- Treat changes on `main` and `website` as independent. Do not merge
   either branch into the other unless the owner explicitly requests it.
 - Before committing in this repository, use Git author
   `GeminiSupa <pgemini6780@gmail.com>` and retain the
