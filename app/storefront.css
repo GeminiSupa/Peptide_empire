@@ -514,9 +514,23 @@
    design gives the <img> marks beside it. */
 .storefront .rate svg{height:16px;width:16px;flex:none;display:block}
 
-/* A publication with no logo file, set to match the height and shape of the
-   logo chips beside it. */
-.storefront .press-name{display:inline-flex;align-items:center;height:30px;padding:0 10px;background:#fff;border-radius:10px;color:var(--ink);font-size:12.5px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+/* A publication with no logo file, set to match the logo chips beside it.
+   The box has to be built the same way they are: `.press img` is 30px tall
+   with 5px of vertical padding on `content-box`, so it occupies 40px. This
+   chip was 30px with no vertical padding, which is why La Nacion sat 10px
+   shorter than the two logos next to it. */
+.storefront .press-name{display:inline-flex;align-items:center;height:30px;padding:5px 10px;box-sizing:content-box;background:#fff;border-radius:10px;color:var(--ink);font-size:12.5px;font-weight:700;letter-spacing:-.01em;white-space:nowrap}
+
+/* On a phone the three chips plus the "As featured in" label cannot share a
+   line, so the label took the first row and left one lone chip stranded on
+   the second. The label gets its own row and the chips shrink enough to sit
+   together beneath it. */
+@media(max-width:699px){
+.storefront .press{gap:8px 10px}
+.storefront .press>span:first-child{flex-basis:100%;margin-bottom:-2px}
+.storefront .press img{height:22px;max-width:88px;padding:4px 8px}
+.storefront .press-name{height:22px;padding:4px 8px;font-size:11.5px}
+}
 
 /* On a phone the grid is two columns and a card is ~166px wide, which cannot
    hold two strength chips plus the "More" menu — five compounds wrapped to a
@@ -526,4 +540,11 @@
    (see product-card.js), so nothing selectable disappears. */
 @media(max-width:719px){
 .storefront .grid .sizes:has(select) button.sz:nth-of-type(2){display:none}
+}
+
+/* At >=1000px the design shrinks the press logos to 24px and puts the strip
+   on one nowrap line (see the .chero .press rules above). The wordmark chip
+   has to follow, or it stands 6px taller than the logos either side of it. */
+@media(min-width:1000px){
+.storefront .chero .press-name{height:24px;font-size:11.5px}
 }
