@@ -39,8 +39,8 @@ function FacebookMark() {
   );
 }
 
-/* The reel carries audio, which no browser will start without a tap, so the
-   slot needs a control. Drawn here rather than pulled from the icon set, like
+/* Browsers may require a tap to play audio, so the slot needs a control.
+   Drawn here rather than pulled from the icon set, like
    the review marks above. */
 function SoundOnMark() {
   return (
@@ -194,11 +194,10 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
   // Reel first so it is on screen immediately; vials → Ziggy after it finishes.
   const { index: slideIndex, active: slide, animate, goTo, holdRef } = useVisualCarousel(3, 7000);
   const reelRef = useRef(null);
-  // Sound is off until someone asks for it, because that is the only state a
-  // browser will autoplay in. Mirrored into a ref so the play effect below can
-  // read the current choice without re-running and restarting the clip.
-  const [soundOn, setSoundOn] = useState(false);
-  const soundRef = useRef(false);
+  // Try sound by default; fall back to muted playback if autoplay is blocked.
+  // Mirror the choice into a ref so toggling it does not restart the clip.
+  const [soundOn, setSoundOn] = useState(true);
+  const soundRef = useRef(true);
 
   useEffect(() => {
     if (!campaign.validUntil) return undefined;
@@ -207,7 +206,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
   }, [campaign.validUntil]);
 
   // Hold the carousel on the reel until the clip ends (no loop), then step on.
-  // Mute + playsInline + autoPlay so mobile browsers allow it without a tap.
+  // Keep inline playback and retry muted when the browser requires a tap.
   useEffect(() => {
     const video = reelRef.current;
     holdRef.current = slide === REEL_SLIDE;
@@ -221,7 +220,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
     const tryPlay = () => {
       video.muted = !soundRef.current;
       const play = video.play();
-      // A browser refuses sound without a gesture. Left there the clip would
+      // A browser may refuse sound without a gesture. Left there the clip would
       // never start, never end, and the hold below would park the carousel on
       // this slide for good - so drop back to muted and play anyway.
       if (play?.catch) play.catch(() => {
@@ -277,8 +276,7 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
     setSoundOn(next);
     if (!video) return;
     video.muted = !next;
-    // The click is the gesture the browser was waiting for, so this is the one
-    // moment sound is allowed to start.
+    // The click allows sound even when the browser blocked audible autoplay.
     if (next) {
       const play = video.play();
       if (play?.catch) play.catch(() => {});
