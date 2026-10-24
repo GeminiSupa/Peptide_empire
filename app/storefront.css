@@ -548,3 +548,42 @@
 @media(min-width:1000px){
 .storefront .chero .press-name{height:24px;font-size:11.5px}
 }
+
+/* The three announcements are ~620px on one centred, clipped line, so on a
+   phone both ends were cut off mid-word ("…r with every order … Free de").
+   Below 700px they take turns in the same spot instead, 4s each. All three
+   stay in the DOM, so a screen reader still reads every one. */
+@media(max-width:699px){
+.storefront .announce .wrap{position:relative;display:block;height:36px}
+.storefront .announce .wrap>span{position:absolute;inset:0;justify-content:center;opacity:0;animation:pcr-announce 12s infinite both}
+.storefront .announce .wrap>span:nth-child(2){animation-delay:4s}
+.storefront .announce .wrap>span:nth-child(3){animation-delay:8s}
+}
+@keyframes pcr-announce{
+0%{opacity:0;transform:translateY(6px)}
+4%,30%{opacity:1;transform:none}
+34%,100%{opacity:0;transform:translateY(-6px)}
+}
+@keyframes pcr-announce-fade{0%{opacity:0}4%,30%{opacity:1}34%,100%{opacity:0}}
+@media(max-width:699px) and (prefers-reduced-motion:reduce){
+.storefront .announce .wrap>span{animation-name:pcr-announce-fade}
+}
+
+/* The order total already includes delivery, which the design's "+ delivery"
+   label did not say; the note sits under any saving, in the muted ink so it
+   does not read as a second discount. */
+.storefront .sumnote{display:grid;gap:2px}
+.storefront .sum .dl{font-size:12.5px;font-weight:600;color:var(--soft)}
+
+/* The research-use box moved into the sheet footer, above the button it
+   unlocks, so it is tighter there than the design's in-body version. */
+.storefront .sh-f .ack{margin-top:0;padding:10px 12px;font-size:12.5px;line-height:1.4}
+.storefront .sh-f .ack input{width:18px;height:18px}
+
+/* A 166px card cannot fit "1 in order" (or "1 en el pedido") between the two
+   42px buttons on one line, so below the 3-column breakpoint the stepper
+   shows just the number. */
+@media(max-width:719px){
+.storefront .grid .qctl .qw{display:none}
+}
+.storefront .qctl b{white-space:nowrap}

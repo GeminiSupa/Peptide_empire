@@ -345,7 +345,9 @@ export default function CartSheet({
                                 <ProductImage src={variant.image || compound.image} alt="" />
                               </a>
                               <b>{compound.name}</b>
-                              <small>{`${variant.size} · ${money(variant.priceCrc, variant.priceUsd)}`}</small>
+                              <small>
+                                {[variant.size, money(variant.priceCrc, variant.priceUsd)].filter(Boolean).join(' · ')}
+                              </small>
                               <button type="button" onClick={() => onAdd(compound, variant, 1)}>
                                 <Ms name="add" />
                                 {t('Add')}
@@ -356,15 +358,6 @@ export default function CartSheet({
                       </div>
                     </div>
                   ) : null}
-
-                  <label className="ack">
-                    <input type="checkbox" checked={ack} onChange={(event) => setAck(event.target.checked)} />
-                    <span>
-                      {t('I confirm these products are for')}{' '}
-                      <b>{t('laboratory research use only')}</b>
-                      {t(', not for human or animal consumption.')}
-                    </span>
-                  </label>
                 </>
               ) : null}
 
@@ -628,11 +621,32 @@ export default function CartSheet({
 
         {cart.length ? (
           <div className="sh-f">
+            {/* Sits beside the button it unlocks. Below the upsells it was
+                off-screen on a phone, under a button that just looked greyed out. */}
+            {step === 'cart' ? (
+              <label className="ack">
+                <input type="checkbox" checked={ack} onChange={(event) => setAck(event.target.checked)} />
+                <span>
+                  {t('I confirm these products are for')}{' '}
+                  <b>{t('laboratory research use only')}</b>
+                  {t(', not for human or animal consumption.')}
+                </span>
+              </label>
+            ) : null}
+
             <div className="sum">
-              <span className="sv">
-                {totals.discountAmount > 0
-                  ? t(`You save ${money(totals.discountAmount, totals.discountAmount)}`)
-                  : ''}
+              {/* `totals.total` already includes delivery, so say so. */}
+              <span className="sumnote">
+                {totals.discountAmount > 0 ? (
+                  <span className="sv">
+                    {t(`You save ${money(totals.discountAmount, totals.discountAmount)}`)}
+                  </span>
+                ) : null}
+                <span className="dl">
+                  {totals.shipping > 0
+                    ? t(`Incl. ${money(totals.shipping, totals.shipping)} delivery`)
+                    : t('Free delivery')}
+                </span>
               </span>
               <span>
                 <b className="num">{money(totals.total, totals.total)}</b>

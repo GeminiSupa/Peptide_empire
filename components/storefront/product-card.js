@@ -86,11 +86,11 @@ export default function ProductCard({
                 </select>
               ) : null}
             </>
-          ) : (
+          ) : variant.size ? (
             <button className="sz" type="button" aria-pressed tabIndex={-1}>
-              {variant.size || compound.name}
+              {variant.size}
             </button>
-          )}
+          ) : null}
         </div>
 
         <div className="pr">
@@ -117,7 +117,12 @@ export default function ProductCard({
               <button type="button" aria-label={t('One less')} onClick={() => onChangeQty(variant.product, inCartQty - 1)}>
                 <Ms name="remove" />
               </button>
-              <b className="num">{t(`${inCartQty} in order`)}</b>
+              {/* The words are dropped on a phone (storefront.css), where the
+                  control is too narrow for "1 en el pedido" on one line. */}
+              <b className="num">
+                {inCartQty}
+                <span className="qw">{` ${t('in order')}`}</span>
+              </b>
               <button type="button" aria-label={t('One more')} onClick={() => onChangeQty(variant.product, inCartQty + 1)}>
                 <Ms name="add" />
               </button>

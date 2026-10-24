@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Ms from '@/components/storefront/icon';
 import ProductCard from '@/components/storefront/product-card';
 import { applyFilters, shelfChips } from '@/lib/storefront/filter.mjs';
@@ -32,6 +32,18 @@ export default function Catalog({
 
   const qtyOf = (product) => cart.find((line) => line.product === product)?.qty || 0;
 
+  // Beside the sort menu on a phone the search box is ~130px, and the full
+  // placeholder needs ~245px, so it read "Search compou". A placeholder
+  // cannot be set from CSS, hence the media query here.
+  const [narrow, setNarrow] = useState(false);
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 559px)');
+    const sync = () => setNarrow(query.matches);
+    sync();
+    query.addEventListener('change', sync);
+    return () => query.removeEventListener('change', sync);
+  }, []);
+
   return (
     <>
       <div className="rail">
@@ -44,7 +56,7 @@ export default function Catalog({
                 type="search"
                 autoComplete="off"
                 aria-label={t('Search compounds')}
-                placeholder={t('Search compounds or strengths')}
+                placeholder={narrow ? t('Search') : t('Search compounds or strengths')}
                 value={filters.query}
                 onChange={(event) => onFilters({ ...filters, query: event.target.value })}
               />
