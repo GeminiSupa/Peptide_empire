@@ -504,11 +504,11 @@
    so the width is stated instead of inherited from the options. */
 .storefront .sizes select.sz{width:74px;flex:none;text-overflow:ellipsis}
 
-/* The site's logo is a two-line wordmark (416×205), not the compact mark the
-   design was drawn around: at the design's 40px it rendered 81px wide and the
-   words were barely legible. The radius is dropped too — it is a wordmark on
-   white, not a photo, so the rounded corners only clipped it. */
-.storefront header.top .logo{height:46px;border-radius:0}
+/* The header uses the catalog's square badge (714×600, navy tile), the kind
+   of compact mark the design was drawn around. A touch taller than the
+   design's 40px so "COSTA RICA" stays legible; the design's rounded corners
+   suit the tile, so they stay. */
+.storefront header.top .logo{height:46px}
 
 /* Facebook's mark is drawn inline (no logo file), so it needs the sizing the
    design gives the <img> marks beside it. */

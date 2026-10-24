@@ -20,7 +20,9 @@ import {
 import { WHATSAPP_NUMBER } from '@/lib/storefront/content.mjs';
 import '@/app/storefront.css';
 
-const LOGO_SRC = '/wp-content/uploads/2026/02/COSTA-RICA-1-e1771916272916.png';
+// The catalog's own badge (catalog.peptidescostarica.net/logo.webp), copied
+// into public/: the compact square mark the design was drawn around.
+const LOGO_SRC = '/catalog-logo.webp';
 
 /**
  * The shop.
