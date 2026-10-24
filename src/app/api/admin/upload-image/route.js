@@ -32,17 +32,24 @@ const IMAGE_CACHE_SECONDS = '31536000';
 
 // Must match the bucket's own file_size_limit. Checked here as well so an
 // oversized file is refused with its actual size named, rather than with the
-// bucket's own message, which nobody can act on.
-const MAX_MB = 5;
+// bucket's own message, which nobody can act on. Raised from 5 MB on request
+// (Oct 2026) - the bucket's own limit has to be raised to match or Supabase
+// refuses the file before this number means anything.
+const MAX_MB = 25;
 const MAX_BYTES = MAX_MB * 1024 * 1024;
 
-const ALLOWED_TYPES = new Set([
-  'image/jpeg',
-  'image/png',
-  'image/webp',
-  'image/gif',
-  'image/avif',
-]);
+/**
+ * Shape, pixel-size and empty-space rules for product photos, off on request
+ * (Oct 2026; turned back on once, then off again on 24 Oct) because they were
+ * refusing images the owner wanted to try on the catalog and see how they
+ * look. Flip this back to true to re-enable them; the rules
+ * themselves are untouched in src/lib/productImageRules.mjs.
+ *
+ * While this is false a square or small photo will upload, and will render
+ * shrunken next to its neighbours on the catalog - that is the trade being
+ * made here, not an oversight.
+ */
+const ENFORCE_PRODUCT_IMAGE_RULES = false;
 
 const PREFIXES = { product: '', blog: 'blog-' };
 
@@ -60,9 +67,12 @@ export async function POST(request) {
       return NextResponse.json({ error: 'No file was received.' }, { status: 400 });
     }
 
-    if (file.type && !ALLOWED_TYPES.has(file.type)) {
+    // Any image format is accepted now. This used to be a fixed list of five
+    // types, which refused files the browser labelled with something else
+    // (HEIC off a phone, image/jpg instead of image/jpeg).
+    if (file.type && !file.type.startsWith('image/')) {
       return NextResponse.json(
-        { error: `${file.type} is not an image we can use. Use JPG, PNG, WEBP, GIF or AVIF.` },
+        { error: `${file.type} is not an image. Pick an image file.` },
         { status: 400 },
       );
     }
@@ -86,7 +96,7 @@ export async function POST(request) {
     //
     // Blog covers go through this same route and are supposed to be wide, so
     // they are deliberately not measured.
-    if (kind === 'product') {
+    if (ENFORCE_PRODUCT_IMAGE_RULES && kind === 'product') {
       let measured = null;
       try {
         measured = await measureProductImage(bytes);
