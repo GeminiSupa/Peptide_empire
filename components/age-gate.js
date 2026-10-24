@@ -73,10 +73,10 @@ export default function AgeGate({ lang = 'en' }) {
         <div className="min-h-0 overflow-x-hidden overflow-y-auto overscroll-contain px-4 py-4 [scrollbar-width:thin] sm:px-10 sm:py-9">
           <img
             alt="Peptides Costa Rica"
-            className="mx-auto h-auto w-[128px] max-w-[55%] sm:w-[190px] sm:max-w-[65%]"
-            height="148"
-            src="/wp-content/uploads/2026/02/COSTA-RICA-1-e1771916272916.png"
-            width="300"
+            className="mx-auto h-auto w-[76px] max-w-[55%] rounded-[10px] sm:w-[112px] sm:max-w-[65%] sm:rounded-xl"
+            height="600"
+            src="/catalog-logo.webp"
+            width="714"
           />
           <h2 className="mt-3 min-w-0 max-w-full break-words text-xl leading-6 font-extrabold tracking-tight text-primary sm:mt-5 sm:text-2xl" id="age-gate-title">
             {copy.title}

@@ -12,8 +12,13 @@ import { imageUrl } from '@/lib/images';
  *
  * Served from public/ like every other content image, so it resolves through
  * NEXT_PUBLIC_IMAGE_BASE and carries no dependency on the WordPress origin.
+ *
+ * Since 24 Oct 2026 this is the catalog's square badge (the same file as
+ * catalog.peptidescostarica.net/logo.webp), matching the storefront header.
+ * It is near-square where the old wordmark was 2:1, so callers size it by
+ * height; the rounded corners match the storefront's.
  */
-const LOGO_SRC = '/wp-content/uploads/2026/02/COSTA-RICA-1-e1771916272916.png';
+const LOGO_SRC = '/catalog-logo.webp';
 
 export default function Logo({ lang = DEFAULT_LANG, className = '', imageClassName = 'h-11 w-auto sm:h-12', loading = 'eager' }) {
   return (
@@ -26,12 +31,12 @@ export default function Logo({ lang = DEFAULT_LANG, className = '', imageClassNa
           served from public/, at the live site's own dimensions. */}
       <img
         alt="Peptides Costa Rica"
-        className={imageClassName}
+        className={`rounded-[7px] ${imageClassName}`}
         decoding="async"
-        height={148}
+        height={600}
         loading={loading}
         src={imageUrl(LOGO_SRC)}
-        width={300}
+        width={714}
       />
     </Link>
   );
