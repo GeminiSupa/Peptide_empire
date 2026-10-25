@@ -6,11 +6,17 @@ export const SALES_AGENT_REFERRAL_RATE = 20;
 export const SALES_AGENT_AFFILIATE_KIND = 'sales_agent';
 export const SALES_AGENT_REFERRAL_SOURCE = 'agent_referral';
 
+/**
+ * Is this affiliate paid on the sales-agent report instead of the affiliate run?
+ *
+ * Only when it is linked to a login. The agent report pays a person through
+ * their admin profile, so an affiliate labelled 'sales_agent' with no login
+ * cannot be paid there — and the label alone used to keep it off the affiliate
+ * run too, so it earned nothing anywhere. PeptidePrices sat in exactly that
+ * state: its code took 10% off for customers and paid it $0.
+ */
 export function isSalesAgentAffiliate(affiliate) {
-  return Boolean(
-    affiliate?.admin_profile_user_id
-    || affiliate?.affiliate_kind === SALES_AGENT_AFFILIATE_KIND
-  );
+  return Boolean(affiliate?.admin_profile_user_id);
 }
 
 export function isEligibleSalesAgentProfile(profile) {

@@ -8,6 +8,7 @@ import { getBadgeStyleOptions, resolvePromoBadgeText } from '@/lib/promoBadge.mj
 import { crWallToIso, isoToCrWall, formatCrWall, formatCrInstant, formatCrDate } from '@/lib/crTime.mjs';
 import ReferralAnalytics from '@/components/admin/ReferralAnalytics';
 import { isSalesAgentAffiliate } from '@/lib/salesAgentAffiliate.mjs';
+import { affiliateScanMessage } from '@/lib/affiliateScanSummary.mjs';
 import PayoutSettlementDialog from './PayoutSettlementDialog';
 import AffiliateAccessPanel from '@/components/admin/AffiliateAccessPanel';
 import { isInternalStaff } from '@/lib/subUserTier.mjs';
@@ -272,7 +273,15 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
       if (targetAffiliate && targetAffiliate !== 'all') url += `&affiliateId=${targetAffiliate}`;
       const res = await adminFetch(url);
       const data = await res.json();
-      if (data.success) { alert('Affiliate commissions synced!'); fetchPayouts(); }
+      if (data.success) {
+        alert(affiliateScanMessage({
+          period: data.period,
+          periodKey: scanPeriod,
+          payoutReport: data.payoutReport,
+          summary: data.scanSummary,
+        }));
+        fetchPayouts();
+      }
       else alert(`Failed: ${data.error}`);
     } catch (err) { alert('Error syncing.'); }
     setSyncingCommissions(false);
@@ -962,7 +971,11 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
               }}
             >
               <option value="all">All Affiliates</option>
-              {affiliates.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
+              {affiliates.map(a => (
+                <option key={a.id} value={a.id}>
+                  {a.name}{isSalesAgentAffiliate(a) ? ' — sales agent, paid in Team' : ''}
+                </option>
+              ))}
             </select>
 
             <select

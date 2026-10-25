@@ -87,10 +87,14 @@ test('a returning customer can go back to an active selling superadmin', () => {
   assert.equal(canOwnReturningCustomer(undefined), false);
 });
 
-test('linked affiliate detection supports the link column and kind marker', () => {
+test('linked affiliate detection follows the login link, not the kind label', () => {
   assert.equal(isSalesAgentAffiliate({ admin_profile_user_id: 'agent-1' }), true);
-  assert.equal(isSalesAgentAffiliate({ affiliate_kind: 'sales_agent' }), true);
+  assert.equal(isSalesAgentAffiliate({ admin_profile_user_id: 'agent-1', affiliate_kind: 'sales_agent' }), true);
   assert.equal(isSalesAgentAffiliate({ affiliate_kind: 'external' }), false);
+  // Labelled sales_agent with no login (PeptidePrices). The agent report has no
+  // profile to pay it through, so it must stay on the affiliate run or it earns
+  // nothing at all.
+  assert.equal(isSalesAgentAffiliate({ affiliate_kind: 'sales_agent', admin_profile_user_id: null }), false);
 });
 
 test('decorated report orders identify the referral rate and earnings', () => {

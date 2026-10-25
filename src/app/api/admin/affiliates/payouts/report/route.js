@@ -9,6 +9,7 @@ import { getOrderSalesAmounts } from '@/lib/agentOrders';
 import { getOrderMailSettings } from '@/lib/transactionalSmtp';
 import { stripOwnerAddress } from '@/lib/orderEmailAddressing.mjs';
 import { PAYOUT_RESERVED_STATUSES } from '@/lib/payoutSettlement.mjs';
+import { summarizeAffiliateScan } from '@/lib/affiliateScanSummary.mjs';
 
 // Email Configuration from Environment variables
 // The owner is BCC'd on this mail, so they are stripped from the visible
@@ -143,6 +144,15 @@ export async function GET(request) {
         }
       }
     }
+
+    // Why anything in the period was left off an invoice, so an empty scan
+    // can say "these were sales agents" instead of nothing at all.
+    const scanSummary = summarizeAffiliateScan({
+      orders,
+      affiliates: affiliates || [],
+      paidOrderIds,
+      targetAffiliateId,
+    });
 
     const reportResults = [];
     const transporter = (SMTP_HOST && SMTP_USER && SMTP_PASS) ? nodemailer.createTransport({
@@ -394,6 +404,7 @@ export async function GET(request) {
       success: true,
       period: { start: startDateStr, end: endDateStr },
       payoutReport: reportResults,
+      scanSummary,
       adminNotification: { emailSent: adminEmailSent, error: adminEmailError }
     });
 
