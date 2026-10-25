@@ -104,3 +104,32 @@ test('the limits still sit outside the band the good photos occupy', () => {
   assert.ok(PRODUCT_IMAGE_RULES.minFill < 0.866, 'would refuse an existing photo');
   assert.ok(PRODUCT_IMAGE_RULES.minWidth <= 335 && PRODUCT_IMAGE_RULES.minHeight <= 745);
 });
+
+test('a vial in the middle of a big blank square is cropped to the vial', async () => {
+  const { trimProductImage } = await import('../src/lib/productImageRules.mjs');
+  // The designer's new photos: 500x500, vial covering about a third of the width.
+  const square = await makeImage(500, 500, 0.34);
+  const out = await trimProductImage(square);
+  assert.equal(out.trimmed, true);
+  const meta = await sharp(out.buffer).metadata();
+  assert.equal(meta.format, 'png');
+  assert.ok(meta.width < 200 && meta.height < 200, `${meta.width} x ${meta.height}`);
+  const measured = await measureProductImage(out.buffer);
+  assert.ok(measured.fillWidth > 0.95 && measured.fillHeight > 0.95);
+});
+
+test('a photo already cropped like the catalog ones is stored byte for byte', async () => {
+  const { trimProductImage } = await import('../src/lib/productImageRules.mjs');
+  const tight = await makeImage(335, 746, 0.86);
+  const out = await trimProductImage(tight);
+  assert.equal(out.trimmed, false);
+  assert.ok(out.buffer.equals(tight));
+});
+
+test('a file that is not an image is passed through, never thrown on', async () => {
+  const { trimProductImage } = await import('../src/lib/productImageRules.mjs');
+  const junk = Buffer.from('not an image');
+  const out = await trimProductImage(junk);
+  assert.equal(out.trimmed, false);
+  assert.ok(out.buffer.equals(junk));
+});

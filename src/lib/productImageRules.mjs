@@ -80,6 +80,53 @@ export async function measureProductImage(buffer) {
   return { width, height, ratio: width / height, fillWidth, fillHeight };
 }
 
+/** Formats trimmed and written back as themselves. Anything else is stored as uploaded. */
+const TRIMMABLE_FORMATS = new Set(['png', 'jpeg', 'webp', 'avif']);
+
+/**
+ * Crops the blank border off a product photo, so the vial fills the frame the
+ * way every other catalog photo does. The designer's newer photos are a vial
+ * in the middle of a big transparent square - the vial is the right shape, it
+ * just covers a third of the width, so the catalog drew it at a third of the
+ * size. Cropped, it comes out the same tall shape as the rest.
+ *
+ * Returns the original bytes untouched when there is nothing worth cropping,
+ * the format is one we would not write back the same way (HEIC, GIF, SVG), or
+ * anything about the image cannot be read. Never makes an upload fail.
+ */
+export async function trimProductImage(buffer) {
+  try {
+    const sharp = (await import('sharp')).default;
+    const meta = await sharp(buffer).metadata();
+    if (!TRIMMABLE_FORMATS.has(meta.format) || (meta.pages || 1) > 1) return { buffer, trimmed: false };
+
+    const width = Number(meta.width) || 0;
+    const height = Number(meta.height) || 0;
+    if (!width || !height) return { buffer, trimmed: false };
+
+    // rotate() with no angle applies a phone photo's orientation tag before
+    // cropping, so the crop lands on the picture as it is seen.
+    const result = await sharp(buffer)
+      .rotate()
+      .trim({ threshold: 10 })
+      .toFormat(meta.format, { quality: 92 })
+      .toBuffer({ resolveWithObject: true });
+
+    // Already as tight as the photos that look right on the catalog (they keep
+    // 86%+ of each side): leave it exactly as uploaded rather than change how
+    // an existing-style photo looks.
+    const keptWidth = result.info.width / width;
+    const keptHeight = result.info.height / height;
+    if (keptWidth >= PRODUCT_IMAGE_RULES.minFill && keptHeight >= PRODUCT_IMAGE_RULES.minFill) {
+      return { buffer, trimmed: false };
+    }
+
+    return { buffer: result.data, trimmed: true, width: result.info.width, height: result.info.height };
+  } catch {
+    return { buffer, trimmed: false };
+  }
+}
+
 /**
  * What is wrong with the picture, one short line each. Empty list means it
  * passes. Every line names the number measured and the number required, so

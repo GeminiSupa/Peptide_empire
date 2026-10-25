@@ -6,6 +6,7 @@ import {
   checkProductImage,
   measureProductImage,
   productImageRequirements,
+  trimProductImage,
 } from '@/lib/productImageRules';
 
 export const runtime = 'nodejs';
@@ -85,7 +86,14 @@ export async function POST(request) {
       );
     }
 
-    const bytes = Buffer.from(await file.arrayBuffer());
+    let bytes = Buffer.from(await file.arrayBuffer());
+
+    // A vial sitting in the middle of a big blank square renders at a fraction
+    // of its neighbours' size, so the blank border is cropped off before the
+    // photo is stored. Blog covers are left as uploaded.
+    if (kind === 'product') {
+      bytes = (await trimProductImage(bytes)).buffer;
+    }
 
     // Product photos are measured before they are stored. The catalog scales
     // the whole file into a fixed tall box, so a square photo, or one with
