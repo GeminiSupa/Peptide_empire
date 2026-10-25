@@ -6190,7 +6190,6 @@ export default function CatalogPage() {
                           <strong>{priceLabel}</strong>
                           {(hasRealMarkdown || promoPct > 0) && <s>{hasRealMarkdown ? getOriginalPriceLabel(selectedProduct, currency) : getPriceLabel(selectedProduct, currency)}</s>}
                         </p>
-                        {description && <p className="product-page-copy">{description}</p>}
                         {sizeOptions.some((item) => catalogCompoundAndSize(item).size) && (
                           <div className="product-page-field">
                             <span>{en ? 'Select strength' : 'Seleccionar potencia'}</span>
@@ -6278,6 +6277,16 @@ export default function CatalogPage() {
                     <section className="product-page-info">
                       <h3>{en ? 'Product information' : 'Información del producto'}</h3>
                       <div className="product-page-card">
+                        {/* The description used to sit between the price and the strength
+                            picker, which pushed the strength, quantity and Add to cart off
+                            the bottom of a phone screen. It reads as reference material, so
+                            it sits with the rest of the reference material. */}
+                        {description && (
+                          <>
+                            <h4>{en ? 'Description' : 'Descripción'}</h4>
+                            <p>{description}</p>
+                          </>
+                        )}
                         <h4>{en ? 'Product specifications' : 'Especificaciones'}</h4>
                         <dl className="product-page-specs">
                           <div><dt>{en ? 'Compound' : 'Compuesto'}</dt><dd>{catalogFacingCompound(catalogCompoundAndSize(selectedProduct).compound, lang)}</dd></div>
