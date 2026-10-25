@@ -71,7 +71,9 @@ export async function GET(request) {
       const { data, error } = await supabase
         .from('orders')
         .select('id, order_number, customer_name, customer_phone, status, created_at, packed_at, packed_by, packed_items')
-        .contains('packed_items', [{ batch_code: recallCode }])
+        // As a JSON string: given an array, supabase-js writes a Postgres
+        // array literal, which a jsonb column refuses outright.
+        .contains('packed_items', JSON.stringify([{ batch_code: recallCode }]))
         .order('packed_at', { ascending: false });
       if (error) {
         if (missingMigration(error)) return migrationResponse();
