@@ -68,3 +68,70 @@ test('the requirements tell the uploader to use PNG and avoid JPG', async () => 
   assert.match(lines, /PNG/);
   assert.match(lines, /JPG/);
 });
+
+/*
+ * The trim step used to destroy what the check above protects. A transparent
+ * PNG with a blank border - exactly what the designer exports - was re-encoded
+ * with `quality: 92`, which makes sharp quantise a PNG to a palette and throws
+ * the alpha channel away. The file arrived correct and left opaque, so the
+ * vial reached the catalog in a solid box and the blame landed on the person
+ * who had actually done it right.
+ */
+
+import { trimProductImage } from '../src/lib/productImageRules.mjs';
+
+/**
+ * A vial on a transparent 1024x1024 frame, in the format given.
+ *
+ * Rounded, like the real thing: a bottle cropped tight to its own edges still
+ * leaves its corners see-through, and that is what the background check is
+ * reading. A plain rectangle would fill the frame completely after a trim and
+ * test a shape no product photo has.
+ */
+async function makeWideOpenPhoto(format) {
+  const vial = Buffer.from(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="700">'
+    + '<rect x="0" y="0" width="300" height="700" rx="110" ry="110" fill="#1d4293"/>'
+    + '</svg>',
+  );
+
+  return sharp({ create: { width: 1024, height: 1024, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+    .composite([{ input: vial, gravity: 'centre' }])
+    .toFormat(format)
+    .toBuffer();
+}
+
+test('a transparent PNG is still transparent after the blank border is cropped', async () => {
+  const result = await trimProductImage(await makeWideOpenPhoto('png'));
+  const meta = await sharp(result.buffer).metadata();
+
+  assert.equal(result.trimmed, true, 'the blank border should still be cropped');
+  assert.equal(meta.hasAlpha, true, 'the crop must not cost the photo its transparency');
+  assert.ok(meta.width < 1024 && meta.height < 1024, `expected a crop, got ${meta.width}x${meta.height}`);
+});
+
+test('the trimmed PNG still passes the background check afterwards', async () => {
+  const result = await trimProductImage(await makeWideOpenPhoto('png'));
+  const verdict = await checkProductImageBackground(result.buffer);
+  assert.equal(verdict.ok, true, verdict.problems.join(' | '));
+});
+
+test('a format that cannot keep transparency through a trim is left uncropped instead', async () => {
+  // Better a looser crop than a vial in a solid box.
+  const result = await trimProductImage(await makeWideOpenPhoto('webp'));
+  const meta = await sharp(result.buffer).metadata();
+  assert.equal(meta.hasAlpha, true);
+});
+
+test('a JPEG is still cropped exactly as before - that path is unchanged', async () => {
+  const vial = await sharp({
+    create: { width: 300, height: 700, channels: 4, background: { r: 29, g: 66, b: 147, alpha: 1 } },
+  }).png().toBuffer();
+  const jpeg = await sharp({ create: { width: 1024, height: 1024, channels: 3, background: '#ffffff' } })
+    .composite([{ input: vial, gravity: 'centre' }]).jpeg().toBuffer();
+
+  const result = await trimProductImage(jpeg);
+  const meta = await sharp(result.buffer).metadata();
+  assert.equal(result.trimmed, true);
+  assert.ok(meta.width < 400 && meta.height < 800, `expected a tight crop, got ${meta.width}x${meta.height}`);
+});

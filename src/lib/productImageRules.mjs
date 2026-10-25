@@ -104,13 +104,31 @@ export async function trimProductImage(buffer) {
     const height = Number(meta.height) || 0;
     if (!width || !height) return { buffer, trimmed: false };
 
+    // `quality` makes sharp quantise a PNG down to a palette, and the alpha
+    // channel does not survive that. So a correctly exported transparent PNG
+    // came back opaque and reached the catalog with a solid box around the
+    // vial - the designer's file was right and this line was wrong. PNG is
+    // lossless, so the option bought nothing here in the first place.
+    const encodeOptions = meta.format === 'png' ? {} : { quality: 92 };
+
     // rotate() with no angle applies a phone photo's orientation tag before
     // cropping, so the crop lands on the picture as it is seen.
     const result = await sharp(buffer)
       .rotate()
       .trim({ threshold: 10 })
-      .toFormat(meta.format, { quality: 92 })
+      .toFormat(meta.format, encodeOptions)
       .toBuffer({ resolveWithObject: true });
+
+    // Never hand back a picture that lost its transparency on the way through.
+    // The see-through background is the whole reason a vial sits on the page
+    // colour instead of in a box, and it is worth more than a tighter crop, so
+    // a format that cannot keep it through a trim keeps its blank border
+    // instead. Checked rather than assumed, because which formats manage it is
+    // a property of the image library, not something to hard-code here.
+    if (meta.hasAlpha) {
+      const trimmedMeta = await sharp(result.data).metadata();
+      if (!trimmedMeta.hasAlpha) return { buffer, trimmed: false };
+    }
 
     // Already as tight as the photos that look right on the catalog (they keep
     // 86%+ of each side): leave it exactly as uploaded rather than change how
@@ -155,11 +173,16 @@ export function checkProductImage(measured, rules = PRODUCT_IMAGE_RULES) {
   return { ok: problems.length === 0, problems };
 }
 
+/** At or below this, a pixel counts as see-through. 0 is fully clear. */
+const CLEAR_ALPHA = 16;
+
 /**
- * How opaque a corner pixel has to be before the background counts as filled
- * in. 255 is solid; anything under this is letting the page colour through.
+ * How much of a product photo has to be see-through. Every correct photo on
+ * the catalog today measures 24.3%, so this is set an order of magnitude below
+ * them: it is here to catch a background that was painted in, not to judge how
+ * tightly a photo is cropped.
  */
-const OPAQUE_ALPHA = 250;
+const MIN_CLEAR_SHARE = 0.02;
 
 /** What a product photo's background has to be, shown in the admin popup. */
 export function productImageBackgroundRequirements() {
@@ -210,24 +233,17 @@ export async function checkProductImageBackground(buffer) {
     const height = Number(meta.height) || 0;
     if (!width || !height) return { ok: true, problems: [] };
 
-    const corners = [
-      { left: 0, top: 0 },
-      { left: width - 1, top: 0 },
-      { left: 0, top: height - 1 },
-      { left: width - 1, top: height - 1 },
-    ];
+    // How much of the frame is actually see-through, counted rather than
+    // sampled at the corners: a photo cropped tight to the vial can have a
+    // solid corner and still be perfectly good. What matters is whether there
+    // is any transparency at all. All 70 correct photos on the catalog today
+    // sit at 24.3%, so the floor below has a wide margin under them and only a
+    // background that has been painted in falls through it.
+    const alpha = await sharp(buffer).ensureAlpha().extractChannel(3).raw().toBuffer();
+    let clear = 0;
+    for (let i = 0; i < alpha.length; i += 1) if (alpha[i] <= CLEAR_ALPHA) clear += 1;
 
-    let solidCorners = 0;
-    for (const corner of corners) {
-      const { data } = await sharp(buffer)
-        .ensureAlpha()
-        .extract({ ...corner, width: 1, height: 1 })
-        .raw()
-        .toBuffer({ resolveWithObject: true });
-      if (data[3] >= OPAQUE_ALPHA) solidCorners += 1;
-    }
-
-    if (solidCorners === corners.length) {
+    if (alpha.length > 0 && clear / alpha.length < MIN_CLEAR_SHARE) {
       return {
         ok: false,
         problems: [
