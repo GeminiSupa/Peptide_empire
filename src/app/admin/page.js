@@ -137,6 +137,7 @@ const OrdersManager = dynamicTab(() => import('@/components/admin/OrdersManager'
 const FulfillmentManager = dynamicTab(() => import('@/components/admin/FulfillmentManager'), 'Loading fulfillment…');
 const ProductsManager = dynamicTab(() => import('@/components/admin/ProductsManager'), 'Loading products…');
 const OffsiteInventoryManager = dynamicTab(() => import('@/components/admin/OffsiteInventoryManager'), 'Loading off-site stock…');
+const LabBatchesManager = dynamicTab(() => import('@/components/admin/LabBatchesManager'), 'Loading lab batches…');
 const EmailMarketingStudio = dynamicTab(() => import('@/components/admin/marketing/EmailMarketingStudio'), 'Loading marketing studio…');
 const WhatsAppSession = dynamicTab(() => import('@/components/admin/marketing/WhatsAppSession'), 'Loading WhatsApp session…');
 const CartsManager = dynamicTab(() => import('@/components/admin/CartsManager'), 'Loading carts…');
@@ -209,6 +210,8 @@ function getAdminPageSubtitle(tabId, { orders, abandonedCarts, leads, reviews, i
       return 'Orders handed off by sales, waiting to be packed';
     case 'offsite_inventory':
       return 'What the off-site packer is holding · give him more when low';
+    case 'lab_batches':
+      return 'Enter a batch, print its QR stickers · packers scan them in Fulfillment';
     case 'leads':
       return newLeads
         ? `${newLeads} new lead${newLeads !== 1 ? 's' : ''} · ${leads.length} total`
@@ -1773,6 +1776,10 @@ Core Rules:
       label: 'Off-site stock',
       icon: <Package size={iconSize} />,
     },
+    lab_batches: {
+      label: 'Lab batches',
+      icon: <TestTubes size={iconSize} />,
+    },
     orders: {
       label: 'Orders',
       icon: <ClipboardList size={iconSize} />,
@@ -1934,7 +1941,7 @@ Core Rules:
   const desktopSecondaryGroups = [
     { title: 'Sales & Customers', tabs: ['customers', 'inquiries', 'prospects'] },
     { title: 'Growth', tabs: ['share', 'reviews', 'marketing', 'affiliates', 'deals', 'broadcasts', 'twilio', 'my_qr', 'my_team'] },
-    { title: 'Operations', tabs: ['spreadsheet', 'offsite_inventory', 'analytics', 'cms', 'wa_session', 'team', 'requests', 'recycle_bin', 'team_chat', 'payment_test', 'activity_log'] },
+    { title: 'Operations', tabs: ['spreadsheet', 'offsite_inventory', 'lab_batches', 'analytics', 'cms', 'wa_session', 'team', 'requests', 'recycle_bin', 'team_chat', 'payment_test', 'activity_log'] },
   ].map((group) => ({
     ...group,
     tabs: group.tabs.filter((tabId) => hasAccess(tabId) && !desktopPrimaryTabIds.includes(tabId)),
@@ -5749,6 +5756,14 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
           <div className="admin-orders-tab admin-tab-panel">
             <ErrorBoundary>
               <OffsiteInventoryManager />
+            </ErrorBoundary>
+          </div>
+        )}
+
+        {activeTab === 'lab_batches' && (
+          <div className="admin-orders-tab admin-tab-panel">
+            <ErrorBoundary>
+              <LabBatchesManager />
             </ErrorBoundary>
           </div>
         )}

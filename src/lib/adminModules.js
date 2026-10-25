@@ -33,6 +33,9 @@ export const ADMIN_MODULES = [
   // Second pile: vials sitting with the off-site packer. Total owned still
   // lives on Products; this tab only moves the off-site count up/down.
   { id: 'offsite_inventory', label: 'Off-site stock', title: 'Off-site stock', group: 'Core Operations' },
+  // Batches made in the lab (or bought in), each with a QR sticker code the
+  // packers scan. Assignable so lab staff can have it without the Products tab.
+  { id: 'lab_batches', label: 'Lab batches', title: 'Lab batches & stickers', group: 'Core Operations' },
   { id: 'customers', label: 'Customers', title: 'Customers', group: 'Core Operations' },
   { id: 'reorder_tracking', label: 'Reorder Tracking', title: 'Reorder Tracking', group: 'Core Operations' },
   { id: 'inquiries', label: 'Inquiries', title: 'Inquiries', group: 'Core Operations' },

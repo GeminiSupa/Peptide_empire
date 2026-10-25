@@ -28,6 +28,8 @@ const rules = [
   { pattern: /^\/api\/order-shipped-notification$/, permissions: ['orders'] },
   { pattern: /^\/api\/admin\/products(?:\/|$)/, permissions: ['spreadsheet'] },
   { pattern: /^\/api\/admin\/offsite-inventory(?:\/|$)/, permissions: ['offsite_inventory'] },
+  { pattern: /^\/api\/admin\/lab-batches(?:\/|$)/, permissions: ['lab_batches'] },
+  { pattern: /^\/api\/admin\/packing(?:\/|$)/, permissions: ['fulfillment'] },
   { pattern: /^\/api\/admin\/promo(?:\/|$)/, permissions: ['affiliates', 'broadcasts', 'deals'] },
   { pattern: /^\/api\/admin\/referral-stats$/, permissions: ['affiliates'] },
   { pattern: /^\/api\/admin\/sub-users(?:\/|$)/, permissions: ['my_team'] },

@@ -139,16 +139,22 @@ const nextConfig = {
       // The admin login is linked from the footer, so Google can find the URL.
       // noindex tells it not to list the page. Both paths: the login itself and
       // anything under it, such as the automations screen.
+      // The camera is allowed here and nowhere else: packers scan vial stickers
+      // with it in Fulfillment (Scan & pack). This later rule overrides the
+      // site-wide camera=() above for admin pages only; microphone and
+      // geolocation stay exactly as the site-wide rule sets them.
       {
         source: '/admin',
         headers: [
           { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
+          { key: 'Permissions-Policy', value: 'camera=(self), microphone=(), geolocation=()' },
         ],
       },
       {
         source: '/admin/:path*',
         headers: [
           { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
+          { key: 'Permissions-Policy', value: 'camera=(self), microphone=(), geolocation=()' },
         ],
       },
       // Same reasoning for the GLP-1 variant's confirmation page.

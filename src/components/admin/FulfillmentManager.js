@@ -1,8 +1,9 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Package, Clock, MapPin, User, RefreshCw, ChevronRight, Info } from 'lucide-react';
+import { Package, Clock, MapPin, User, RefreshCw, ChevronRight, Info, ScanLine, CheckCircle2 } from 'lucide-react';
 import { formatCrDate } from '@/lib/crTime.mjs';
+import PackingScanPanel from '@/components/admin/PackingScanPanel';
 
 // How often the queue re-reads itself while the tab is open.
 //
@@ -81,6 +82,9 @@ export default function FulfillmentManager({
   const [manualRefreshing, setManualRefreshing] = useState(false);
   // Collapsed by default: it is for the first week on the tab, not every day.
   const [showHelp, setShowHelp] = useState(false);
+  // The order open in Scan & pack. Held as a snapshot, so the 30-second
+  // re-read cannot swap the order out from under someone mid-scan.
+  const [scanOrder, setScanOrder] = useState(null);
   // Held in a ref so the interval below never has to be torn down and rebuilt
   // when the parent hands us a new function identity on every render — which it
   // does, because refreshOrders is redefined each time the admin page renders.
@@ -108,7 +112,7 @@ export default function FulfillmentManager({
   // Read through a ref for the same reason as the callback: the timer is set up
   // once, and must see the current value of `paused` without being rebuilt.
   const pausedRef = useRef(paused);
-  pausedRef.current = paused;
+  pausedRef.current = paused || Boolean(scanOrder);
 
   useEffect(() => {
     if (!onRefreshOrders) return undefined;
@@ -228,6 +232,12 @@ export default function FulfillmentManager({
               of its row. It is a button, not a status — you will not find it in the status dropdown.
             </li>
             <li>
+              <strong style={{ color: '#e2e8f0' }}>Scan & pack.</strong> Click{' '}
+              <strong style={{ color: '#e2e8f0' }}>Scan & pack</strong> and scan the QR sticker on every vial
+              (USB scanner or the camera). Green means it belongs; red means stop and take it out. When every
+              line is green it saves which batch went into this order. It does not ship anything or change stock.
+            </li>
+            <li>
               <strong style={{ color: '#e2e8f0' }}>Packing it.</strong> Click{' '}
               <strong style={{ color: '#e2e8f0' }}>Open order</strong> here. That opens the order — it does not
               ship anything by itself. Inside, add the <strong style={{ color: '#e2e8f0' }}>tracking number</strong>{' '}
@@ -300,6 +310,16 @@ export default function FulfillmentManager({
                   </div>
                 )}
                 <div style={{ color: '#e2e8f0', fontSize: '.85rem', marginTop: 6 }}>{orderItemsSummary(order)}</div>
+                {order.packed_at ? (
+                  <div style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginTop: 8, color: '#4ade80', fontSize: '.75rem', fontWeight: 700 }}>
+                    <CheckCircle2 size={13} /> Scan-checked
+                    <span style={{ color: '#64748b', fontWeight: 500 }}>
+                      {order.packed_by ? ` · ${order.packed_by}` : ''} · {formatCrDate(order.packed_at, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false })}
+                    </span>
+                  </div>
+                ) : (
+                  <div style={{ marginTop: 8, color: '#64748b', fontSize: '.75rem' }}>Not scanned yet</div>
+                )}
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8, minWidth: 160 }}>
@@ -314,6 +334,15 @@ export default function FulfillmentManager({
                     button that claims to have done them is how an order gets
                     packed, closed, and never actually completed. It says what
                     it does; the tooltip says what comes next. */}
+                <button
+                  type="button"
+                  className="admin-btn"
+                  onClick={() => setScanOrder(order)}
+                  style={{ fontSize: '.8rem', padding: '8px 14px', display: 'inline-flex', alignItems: 'center', gap: 6, borderColor: 'rgba(74,222,128,0.45)', color: '#bbf7d0' }}
+                  title="Scan every vial's sticker to check the box before it closes"
+                >
+                  <ScanLine size={14} /> {order.packed_at ? 'View scan' : 'Scan & pack'}
+                </button>
                 <button
                   type="button"
                   className="admin-btn admin-btn-primary"
@@ -342,6 +371,20 @@ export default function FulfillmentManager({
             </article>
           ))}
         </div>
+      )}
+
+      {scanOrder && (
+        <PackingScanPanel
+          order={scanOrder}
+          onClose={() => setScanOrder(null)}
+          // Re-read so the card shows "Scan-checked" without a reload.
+          onSaved={() => { refreshRef.current?.(); }}
+          // The freshest copy of the row, not the snapshot taken when scanning began.
+          onOpenOrder={(order) => {
+            setScanOrder(null);
+            setSelectedOrderDetails?.((orders || []).find((row) => row.id === order.id) || order);
+          }}
+        />
       )}
     </div>
   );
