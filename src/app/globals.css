@@ -1506,10 +1506,15 @@ body {
     margin: 0;
 }
 
+/* Flex, not grid, and the reason matters: as a grid item the photo's
+   percentage max-height resolved against a height this box only gets from
+   aspect-ratio, so the browser ignored it. The photo then drew taller than the
+   box and `overflow: hidden` sliced the bottom off every vial on a phone. */
 .product-page-photo {
     position: relative;
-    display: grid;
-    place-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     aspect-ratio: 1;
     width: 100%;
     padding: 13px;
@@ -1520,11 +1525,14 @@ body {
     overflow: hidden;
 }
 
+/* Fills the box rather than 70% / 85% of it. The old figures left a tall vial
+   small and adrift in a square box; the 13px padding above is what keeps it
+   off the edge. The desktop block further down still caps this in pixels. */
 .product-page-photo img {
     width: auto;
     height: auto;
-    max-width: 70%;
-    max-height: 85%;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
 }
 
