@@ -4,7 +4,9 @@ import { verifyAdminSession } from '@/lib/adminAuth';
 import {
   PRODUCT_IMAGE_RULES,
   checkProductImage,
+  checkProductImageBackground,
   measureProductImage,
+  productImageBackgroundRequirements,
   productImageRequirements,
   trimProductImage,
 } from '@/lib/productImageRules';
@@ -52,6 +54,19 @@ const MAX_BYTES = MAX_MB * 1024 * 1024;
  */
 const ENFORCE_PRODUCT_IMAGE_RULES = false;
 
+/**
+ * The background rule, which is separate from the shape and size rules above
+ * and is ON. It refuses only one thing: a product photo whose background is
+ * not see-through. That is not a matter of taste like the shape limits were -
+ * a filled background draws a solid box around the vial on the cream product
+ * page, and once a photo is saved as a JPEG the transparency is gone for good.
+ * Caught at upload, the person still has the original and can export it again.
+ *
+ * Flip this to false to turn it off; the check itself lives in
+ * src/lib/productImageRules.mjs and is untouched by the flag.
+ */
+const ENFORCE_PRODUCT_IMAGE_BACKGROUND = true;
+
 const PREFIXES = { product: '', blog: 'blog-' };
 
 export async function POST(request) {
@@ -87,6 +102,25 @@ export async function POST(request) {
     }
 
     let bytes = Buffer.from(await file.arrayBuffer());
+
+    // Checked on the file as it arrived, before anything is cropped, so the
+    // message names what the person actually picked. Blog covers are meant to
+    // be ordinary photographs, so they are never asked for transparency.
+    if (ENFORCE_PRODUCT_IMAGE_BACKGROUND && kind === 'product') {
+      const background = await checkProductImageBackground(bytes);
+      if (!background.ok) {
+        return NextResponse.json(
+          {
+            error: background.problems[0],
+            imageCheck: {
+              problems: background.problems,
+              requirements: productImageBackgroundRequirements(),
+            },
+          },
+          { status: 422 },
+        );
+      }
+    }
 
     // A vial sitting in the middle of a big blank square renders at a fraction
     // of its neighbours' size, so the blank border is cropped off before the

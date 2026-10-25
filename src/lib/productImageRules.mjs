@@ -154,3 +154,92 @@ export function checkProductImage(measured, rules = PRODUCT_IMAGE_RULES) {
 
   return { ok: problems.length === 0, problems };
 }
+
+/**
+ * How opaque a corner pixel has to be before the background counts as filled
+ * in. 255 is solid; anything under this is letting the page colour through.
+ */
+const OPAQUE_ALPHA = 250;
+
+/** What a product photo's background has to be, shown in the admin popup. */
+export function productImageBackgroundRequirements() {
+  return [
+    'PNG with a see-through (transparent) background',
+    'Not JPG — a JPG always fills the background in, usually with white',
+    'Export with the background layer hidden, so only the vial is visible',
+  ];
+}
+
+/**
+ * Does the photo have a see-through background?
+ *
+ * Every vial on the catalog is a PNG whose background is transparent, so the
+ * page colour shows through behind it. A JPEG cannot carry transparency at
+ * all - whatever sat behind the vial is baked into the pixels, and on the
+ * cream product page that arrives as a white box around the vial. All ten
+ * GLP-1 (RT) sizes and BPC-157 10mg reached the live catalog that way in
+ * Oct 2026, and the files cannot be repaired afterwards: erasing the white
+ * would take the vial's glass and the white text on the label with it.
+ *
+ * An alpha channel on its own is not proof, since a PNG can be saved with its
+ * background painted in, so the four corners are sampled. All four have to be
+ * solid before the photo is refused - one corner clipped by the vial is not
+ * enough to call the background filled.
+ *
+ * Returns { ok, problems }. Never throws: a file that cannot be measured is
+ * allowed through, the same choice measureProductImage makes, so a missing
+ * image library cannot block every upload.
+ */
+export async function checkProductImageBackground(buffer) {
+  try {
+    const sharp = (await import('sharp')).default;
+    const meta = await sharp(buffer).metadata();
+
+    if (!meta.hasAlpha) {
+      const format = String(meta.format || 'this file').toUpperCase();
+      return {
+        ok: false,
+        problems: [
+          `${format} cannot have a see-through background, so the vial arrives in a solid box `
+          + 'that shows up against the cream product page. Save it as a PNG instead.',
+        ],
+      };
+    }
+
+    const width = Number(meta.width) || 0;
+    const height = Number(meta.height) || 0;
+    if (!width || !height) return { ok: true, problems: [] };
+
+    const corners = [
+      { left: 0, top: 0 },
+      { left: width - 1, top: 0 },
+      { left: 0, top: height - 1 },
+      { left: width - 1, top: height - 1 },
+    ];
+
+    let solidCorners = 0;
+    for (const corner of corners) {
+      const { data } = await sharp(buffer)
+        .ensureAlpha()
+        .extract({ ...corner, width: 1, height: 1 })
+        .raw()
+        .toBuffer({ resolveWithObject: true });
+      if (data[3] >= OPAQUE_ALPHA) solidCorners += 1;
+    }
+
+    if (solidCorners === corners.length) {
+      return {
+        ok: false,
+        problems: [
+          'The background is painted in rather than see-through, so the vial arrives in a solid '
+          + 'box that shows up against the cream product page. Export it again with the '
+          + 'background layer hidden.',
+        ],
+      };
+    }
+
+    return { ok: true, problems: [] };
+  } catch {
+    return { ok: true, problems: [] };
+  }
+}
