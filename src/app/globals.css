@@ -9628,6 +9628,14 @@ body:has(.catalog-page-shell) {
   color: #171717;
 }
 
+/* The photo box kept the cool grey it carried on the old near-white page
+   (#f4f4f6 on #fbfbfc), which reads blue against the cream. Same step down
+   in tone, on the warm side of the page colour. */
+.catalog-page-shell .product-page-photo {
+  background: #f4f1ed;
+  border-color: #f5f2ee;
+}
+
 .catalog-page-shell .product-page-left {
   color: #c2410c;
 }
