@@ -120,6 +120,9 @@ export function previewAutomaticDiscount({
   deal = null,
   products = [],
   currency = 'CRC',
+  // Colones per dollar, so a Spend & Save minimum (set in dollars) can be
+  // measured against a colón order. The server uses its own live rate.
+  exchangeRate = null,
   // An order being edited keeps the tier it was priced at, so a deal-week
   // order does not drop to the standing rate just because it was reopened.
   // The offers are weighed against that same rate, exactly as the server
@@ -160,7 +163,7 @@ export function previewAutomaticDiscount({
     };
   }
 
-  const choice = chooseDealOffer(offers, lines, { volumePct, bacCharge });
+  const choice = chooseDealOffer(offers, lines, { volumePct, bacCharge, currency, exchangeRate });
   const offer = choice.offer;
 
   let label = '';
@@ -170,6 +173,10 @@ export function previewAutomaticDiscount({
     // "% off your entire order" - the paid water included, as on the website.
     offerDiscount = roundCurrency((discountableSubtotal + bacCharge) * (Number(offer?.discount_pct) || 0), currency);
     label = `Mix & Match \u2014 ${pct(offer?.discount_pct)}% off the whole order`;
+  } else if (choice.kind === 'spend') {
+    // Same whole-order base as Mix & Match, unlocked by an amount, not a count.
+    offerDiscount = roundCurrency((discountableSubtotal + bacCharge) * (Number(offer?.discount_pct) || 0), currency);
+    label = `Spend $${Number(offer?.min_total_usd) || 0}+ \u2014 ${pct(offer?.discount_pct)}% off the whole order`;
   } else if (choice.kind === 'flat') {
     offerDiscount = roundCurrency(choice.savings, currency);
     const what = (offer?.product_names || []).join(', ');

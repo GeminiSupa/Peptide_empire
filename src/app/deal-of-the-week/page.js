@@ -211,6 +211,18 @@ export default function DealOfTheWeekPage() {
         condition: en ? 'The cheaper vial, once per order' : 'El más barato, una vez por pedido',
       };
     }
+    if (offer.type === 'spend') {
+      // A dollar minimum, not a vial count: "Buy undefined+ vials" otherwise.
+      // Stated in dollars in both languages, as the sale itself is advertised.
+      const minimum = `$${Number(offer.min_total_usd).toLocaleString('en-US', { maximumFractionDigits: 2 })}`;
+      return {
+        id: offer.id,
+        value: en
+          ? `${Math.round(offer.discount_pct * 100)}% off your order`
+          : `${Math.round(offer.discount_pct * 100)}% de descuento`,
+        condition: en ? `Orders ${minimum}+` : `Pedidos de ${minimum}+`,
+      };
+    }
     return {
       id: offer.id,
       value: en
@@ -301,9 +313,11 @@ export default function DealOfTheWeekPage() {
       };
     }), {
       volumePct: getVolumeDiscountPct(cart.reduce((sum, item) => sum + (isBacWater(item.product) ? 0 : Number(item.qty) || 0), 0)),
+      // The lines above are priced from price_usd, so they are dollars.
+      currency: 'USD',
     })
     : null;
-  const offerEarned = offerChoice && (offerChoice.kind === 'mix' || offerChoice.kind === 'bundle' || offerChoice.kind === 'pair');
+  const offerEarned = offerChoice && (offerChoice.kind === 'mix' || offerChoice.kind === 'bundle' || offerChoice.kind === 'pair' || offerChoice.kind === 'spend');
 
   const progressText = offersDeal
     ? dealOfferCartMessage(offerChoice, pricingDeal || deal, lang)

@@ -48,6 +48,18 @@ const pooled = {
   offers: { items: [...weeklyMix.offers.items, ...flashSale.offers.items] },
 };
 
+const halloween = {
+  id: 'deal-halloween',
+  pricing_mode: 'offers',
+  product_names: [GHK, TIRZ],
+  offers: { items: [
+    { id: 's150', type: 'spend', enabled: true, product_names: [GHK, TIRZ], min_total_usd: 150, discount_pct: 0.10 },
+    { id: 's250', type: 'spend', enabled: true, product_names: [GHK, TIRZ], min_total_usd: 250, discount_pct: 0.15 },
+    { id: 's350', type: 'spend', enabled: true, product_names: [GHK, TIRZ], min_total_usd: 350, discount_pct: 0.20 },
+    { id: 's500', type: 'spend', enabled: true, product_names: [GHK, TIRZ], min_total_usd: 500, discount_pct: 0.25 },
+  ] },
+};
+
 const unitPrice = (product, currency) => {
   const row = products.find((p) => p.product === product);
   return currency === 'USD'
@@ -70,7 +82,7 @@ const carts = [
   [{ product: TIRZ, qty: 2 }],
 ];
 
-for (const deal of [flashSale, weeklyMix, pooled, null]) {
+for (const deal of [flashSale, weeklyMix, pooled, halloween, null]) {
   for (const currency of ['USD', 'CRC']) {
     for (const cart of carts) {
       const label = `${deal ? deal.offers.items.map((o) => o.type).join('+') : 'no deal'} · ${currency} · ${cart.map((i) => `${i.qty}x ${i.product}`).join(' + ')}`;
@@ -86,7 +98,7 @@ for (const deal of [flashSale, weeklyMix, pooled, null]) {
         });
         assert.equal(server.ok, true);
 
-        const auto = previewAutomaticDiscount({ items, deal, products: adminProducts, currency });
+        const auto = previewAutomaticDiscount({ items, deal, products: adminProducts, currency, exchangeRate: EXCHANGE_RATE });
         const preview = calculateAdminOrderTotals(items, 0, {
           volumeDiscountPct: 0,
           replaceVolumeDiscount: true,

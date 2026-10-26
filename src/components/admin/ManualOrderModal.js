@@ -180,6 +180,7 @@ export default function ManualOrderModal({
     deal: liveDeal,
     products,
     currency: form.currency,
+    exchangeRate: liveExchangeRate,
   });
   const autoApplies = discountMode === DISCOUNT_MODE_AUTO
     && (autoDiscount.offerDiscount > 0 || autoDiscount.freeLines.length > 0);

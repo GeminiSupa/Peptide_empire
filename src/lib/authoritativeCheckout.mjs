@@ -216,15 +216,16 @@ export function authoritativeCheckout({
   const priceWith = ({ useDeal, usePromo }) => {
     let tierPct = volumeDiscountPct;
     const offer = useDeal && dealOffers
-      ? chooseDealOffer(dealOffers, requested, { volumePct: tierPct, bacCharge })
+      ? chooseDealOffer(dealOffers, requested, { volumePct: tierPct, bacCharge, currency, exchangeRate })
       : null;
     if (offer && offer.kind !== 'volume' && offer.kind !== 'none') tierPct = 0;
 
     const lineTotals = computeOrderTotals(requested, currency, exchangeRate, { volumeDiscountPct: tierPct });
     let discount;
-    if (offer?.kind === 'mix') {
+    if (offer?.kind === 'mix' || offer?.kind === 'spend') {
       // "10% off your entire order": totals.subtotal is the merchandise plus
-      // the paid BAC water, so the water is discounted too.
+      // the paid BAC water, so the water is discounted too. A Spend & Save
+      // step takes its percentage off the same whole order.
       discount = roundCurrency(lineTotals.subtotal * (Number(offer.offer?.discount_pct ?? offer.mix.discountPct) || 0), currency);
     } else if (offer?.kind === 'flat' || offer?.kind === 'pair') {
       // A flash sale marks down only its own products. A "2nd vial" offer

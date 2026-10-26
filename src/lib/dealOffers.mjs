@@ -21,6 +21,12 @@
  *   three or four still discounts only that one vial. The rest of the cart,
  *   and BAC water, stay full price.
  *
+ *   Spend & Save — spending a dollar amount or more on the chosen products
+ *   takes a percentage off the WHOLE order, BAC water included, exactly as
+ *   Mix & Match does for a vial count. BAC water never counts toward the
+ *   amount. Several of them make tiers ($150+ 10%, $250+ 15% …); the highest
+ *   one reached saves the most, so it is the one that wins.
+ *
  * The offers never stack with each other, with promo codes, or with the
  * automatic volume tiers: the order gets whichever ONE saves the most, the
  * volume tier included, so a deal week can never leave a customer paying more
@@ -42,6 +48,7 @@ export const BUNDLE_OFFER_TYPE = 'bundle';
 export const SAME_PRODUCT_COUNT = 'same_product';
 export const ANY_MIX_COUNT = 'any_mix';
 export const PAIR_OFFER_TYPE = 'pair';
+export const SPEND_OFFER_TYPE = 'spend';
 
 const nameKey = (value) => String(value ?? '').replace(/\s+/g, ' ').trim().toLowerCase();
 
@@ -73,6 +80,7 @@ function offerType(raw) {
   if (raw?.type === BUNDLE_OFFER_TYPE) return BUNDLE_OFFER_TYPE;
   if (raw?.type === FLAT_OFFER_TYPE) return FLAT_OFFER_TYPE;
   if (raw?.type === PAIR_OFFER_TYPE) return PAIR_OFFER_TYPE;
+  if (raw?.type === SPEND_OFFER_TYPE) return SPEND_OFFER_TYPE;
   return MIX_OFFER_TYPE;
 }
 
@@ -107,6 +115,10 @@ function normalizeOffer(raw, index) {
   if (type === FLAT_OFFER_TYPE || type === PAIR_OFFER_TYPE) {
     return { ...base, discount_pct: Number(raw?.discount_pct) || 0 };
   }
+  if (type === SPEND_OFFER_TYPE) {
+    // The minimum is always in dollars, whatever currency the cart is in.
+    return { ...base, min_total_usd: Math.max(0, Number(raw?.min_total_usd) || 0), discount_pct: Number(raw?.discount_pct) || 0 };
+  }
   return { ...base, min_units: Math.max(1, toInt(raw?.min_units, 2)), discount_pct: Number(raw?.discount_pct) || 0 };
 }
 
@@ -139,10 +151,13 @@ export function dealOffersError(offers) {
     const item = items[index] || {};
     if (item.enabled !== true) continue;
     const label = `Offer #${index + 1}`;
-    if (![MIX_OFFER_TYPE, BUNDLE_OFFER_TYPE, FLAT_OFFER_TYPE, PAIR_OFFER_TYPE].includes(item.type)) return `${label}: choose a supported offer type.`;
+    if (![MIX_OFFER_TYPE, BUNDLE_OFFER_TYPE, FLAT_OFFER_TYPE, PAIR_OFFER_TYPE, SPEND_OFFER_TYPE].includes(item.type)) return `${label}: choose a supported offer type.`;
     if (names(item.product_names).length === 0) return `${label}: choose which products qualify.`;
     if (names(item.product_names).some(isBacWater)) return `${label}: BAC Water cannot be an offer product.`;
     if (item.type === FLAT_OFFER_TYPE || item.type === PAIR_OFFER_TYPE) {
+      if (!(Number(item.discount_pct) > 0 && Number(item.discount_pct) < 1)) return `${label}: the discount must be between 1% and 99%.`;
+    } else if (item.type === SPEND_OFFER_TYPE) {
+      if (!(Number(item.min_total_usd) > 0)) return `${label}: the minimum spend must be more than $0.`;
       if (!(Number(item.discount_pct) > 0 && Number(item.discount_pct) < 1)) return `${label}: the discount must be between 1% and 99%.`;
     } else if (item.type === MIX_OFFER_TYPE) {
       if (!Number.isInteger(Number(item.min_units)) || Number(item.min_units) < 1) return `${label}: the vial minimum must be a whole number of 1 or more.`;
@@ -168,16 +183,24 @@ export function dealOffersError(offers) {
  *                undefined means the product is not quantity-tracked.
  * @param opts.volumePct  the volume tier this cart would get with no deal
  * @param opts.bacCharge  the paid BAC water total, which Mix & Match discounts
+ * @param opts.currency   'USD' or 'CRC', the currency the line prices are in
+ * @param opts.exchangeRate  colones per dollar, for a CRC cart. A Spend & Save
+ *                minimum is in dollars; without a currency (or, in colones,
+ *                without a rate) it cannot be judged and does not apply.
  * @returns {{
- *   kind: 'mix'|'bundle'|'flat'|'pair'|'volume'|'none',
+ *   kind: 'mix'|'bundle'|'flat'|'pair'|'spend'|'volume'|'none',
  *   savings: number,
  *   mix: { enabled: boolean, units: number, minUnits: number, qualifies: boolean, discountPct: number, savings: number },
  *   bundle: { enabled: boolean, qualifies: boolean, freeLines: Array<{product: string, qty: number, unitPrice: number}>, savings: number, shortByStock: string[] },
  *   volumeSavings: number,
  * }}
  */
-export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge = 0 } = {}) {
+export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge = 0, currency = null, exchangeRate = null } = {}) {
   const clean = normalizeDealOffers(offers);
+  // Line-currency units per dollar, for comparing a cart with a dollar minimum.
+  const spendRate = currency === 'USD'
+    ? 1
+    : (currency === 'CRC' && Number(exchangeRate) > 0 ? Number(exchangeRate) : 0);
   let merchSubtotal = 0;
   const paidLines = [];
   for (const line of lines || []) {
@@ -210,6 +233,25 @@ export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge =
       const qualifies = units >= item.min_units;
       const savings = qualifies ? item.discount_pct * (merchSubtotal + (Number(bacCharge) || 0)) : 0;
       return { id: item.id, dealId: item.deal_id, type: item.type, config: item, qualifies, savings, units, minUnits: item.min_units };
+    }
+    if (item.type === SPEND_OFFER_TYPE) {
+      // Only the offer's own products count toward the amount, so BAC water
+      // never does. Once it is reached the whole order is discounted, BAC
+      // water included, the same base Mix & Match uses.
+      let spent = 0;
+      let units = 0;
+      for (const line of paidLines) {
+        if (!lineEligible(line)) continue;
+        spent += line.unitPrice * line.qty;
+        units += line.qty;
+      }
+      const minSpend = spendRate > 0 ? item.min_total_usd * spendRate : 0;
+      // A colón price is the dollar price rounded per vial, so a cart worth
+      // exactly the minimum in dollars can come up half a colón a vial short.
+      const slack = spendRate > 1 ? units * 0.5 : 0;
+      const qualifies = minSpend > 0 && spent + slack >= minSpend;
+      const savings = qualifies ? item.discount_pct * (merchSubtotal + (Number(bacCharge) || 0)) : 0;
+      return { id: item.id, dealId: item.deal_id, type: item.type, config: item, qualifies, savings, units, spent, minSpend };
     }
     if (item.type === PAIR_OFFER_TYPE) {
       // One discount per order: the single cheapest qualifying vial, and only
@@ -335,6 +377,9 @@ export function chooseDealOffer(offers, lines = [], { volumePct = 0, bacCharge =
     dealId: winner?.dealId || null,
     offer: winner?.config || null,
     offers: offerResults,
+    // The currency the lines were priced in, so a "spend $X more" nudge can
+    // say the amount in the money the customer is looking at.
+    currency: spendRate > 0 ? currency : null,
     mix: {
       enabled: Boolean(firstMix),
       units: firstMix?.units || 0,
@@ -368,11 +413,27 @@ function offerDisplayName(item, lang) {
   return String(isEn ? item?.name_en : item?.name_es).trim();
 }
 
+/** "$150" or "$149.50": a Spend & Save minimum, always stated in dollars. */
+function dollars(amount) {
+  const value = Math.round((Number(amount) || 0) * 100) / 100;
+  return `$${value.toLocaleString('en-US', { minimumFractionDigits: Number.isInteger(value) ? 0 : 2, maximumFractionDigits: 2 })}`;
+}
+
+/** An amount still to spend, in the cart's own currency, rounded up. */
+function cartMoney(amount, currency) {
+  if (currency === 'CRC') return `₡${Math.ceil(Number(amount) || 0).toLocaleString('en-US')}`;
+  return dollars(Math.ceil((Number(amount) || 0) * 100) / 100);
+}
+
 function offerSummary(item, lang = 'en') {
   const isEn = String(lang).toLowerCase().startsWith('en');
   const customName = offerDisplayName(item, lang);
   const pct = Math.round(item.discount_pct * 100);
-  const terms = item.type === FLAT_OFFER_TYPE
+  const terms = item.type === SPEND_OFFER_TYPE
+    ? (isEn
+      ? `Spend ${dollars(item.min_total_usd)}+, get ${pct}% off your whole order`
+      : `Gasta ${dollars(item.min_total_usd)}+ y obtén ${pct}% de descuento en todo tu pedido`)
+    : item.type === FLAT_OFFER_TYPE
     ? (isEn
       ? `${pct}% off ${item.product_names.join(', ')}`
       : `${pct}% de descuento en ${item.product_names.join(', ')}`)
@@ -441,7 +502,31 @@ export function dealOfferNextTierNudge(choice, lang = 'en') {
     const next = nextUnreachedMix(choice);
     if (next) return mixTierNudgeText(next, lang);
   }
+  const spend = spendTierNudge(choice, lang);
+  if (spend) return spend;
   return pairShortNudge(choice, lang);
+}
+
+/**
+ * "Add $70 more to unlock 15% off": the next Spend & Save step above what the
+ * cart already gets. Only while a Spend & Save step (or nothing) is what the
+ * cart gets, for the same reason as the Mix & Match nudge.
+ */
+function spendTierNudge(choice, lang) {
+  if (!choice || (choice.kind !== SPEND_OFFER_TYPE && choice.kind !== 'none')) return '';
+  const reachedPct = choice.kind === SPEND_OFFER_TYPE ? Number(choice.offer?.discount_pct) || 0 : 0;
+  const next = (choice.offers || [])
+    .filter((item) => item.type === SPEND_OFFER_TYPE && item.config && !item.qualifies && item.minSpend > 0)
+    .map((item) => ({ toGo: item.minSpend - item.spent, pct: Number(item.config.discount_pct) || 0 }))
+    .filter((item) => item.toGo > 0 && item.pct > reachedPct)
+    .sort((a, b) => a.toGo - b.toGo || b.pct - a.pct)[0];
+  if (!next) return '';
+  const amount = cartMoney(next.toGo, choice.currency);
+  const pct = Math.round(next.pct * 100);
+  const isEn = String(lang).toLowerCase().startsWith('en');
+  return isEn
+    ? `Add ${amount} more to unlock ${pct}% off your whole order.`
+    : `Agrega ${amount} más para desbloquear ${pct}% de descuento en todo tu pedido.`;
 }
 
 function pairShortNudge(choice, lang) {
@@ -473,6 +558,14 @@ export function dealOfferCartMessage(choice, deal, lang = 'en') {
       ? `Deal of the Week — ${offerDisplayName(winning, lang) || 'Mix & Match'}: ${pct}% off your whole order is applied. Offers do not stack.`
       : `Oferta de la Semana — ${offerDisplayName(winning, lang) || 'Combina'}: ${pct}% de descuento en todo tu pedido aplicado. Las ofertas no se acumulan.`;
   }
+  if (choice.kind === SPEND_OFFER_TYPE && winning) {
+    const nudge = dealOfferNextTierNudge(choice, lang);
+    if (nudge) return nudge;
+    const pct = Math.round(winning.discount_pct * 100);
+    return isEn
+      ? `Deal of the Week — ${offerDisplayName(winning, lang) || 'Spend & Save'}: ${pct}% off your whole order is applied. Offers do not stack.`
+      : `Oferta de la Semana — ${offerDisplayName(winning, lang) || 'Gasta y ahorra'}: ${pct}% de descuento en todo tu pedido aplicado. Las ofertas no se acumulan.`;
+  }
   if (choice.kind === BUNDLE_OFFER_TYPE && winning) {
     const free = (winningResult?.freeLines || []).map((line) => `${line.qty} × ${line.product}`).join(', ');
     const short = winningResult?.shortByStock?.length
@@ -502,7 +595,9 @@ export function dealOfferCartMessage(choice, deal, lang = 'en') {
   }
 
   const nudge = dealOfferNextTierNudge(choice, lang);
-  const hints = clean.items.filter((item) => item.enabled && item.type !== MIX_OFFER_TYPE).map((item) => {
+  // Mix & Match and Spend & Save steps are described by the nudge above, not
+  // as hints; the fallthrough below would call them "buy undefined get …".
+  const hints = clean.items.filter((item) => item.enabled && item.type !== MIX_OFFER_TYPE && item.type !== SPEND_OFFER_TYPE).map((item) => {
     if (item.type === FLAT_OFFER_TYPE) {
       const pct = Math.round(item.discount_pct * 100);
       return isEn
@@ -523,6 +618,7 @@ export function dealOfferCartMessage(choice, deal, lang = 'en') {
   });
   if (nudge && hints.length === 0) return nudge;
   const parts = nudge ? [nudge.replace(/\.$/, ''), ...hints] : hints;
+  if (parts.length === 0) return '';
   const joined = parts.join(isEn ? ', or ' : ', o ');
   return isEn
     ? `Deal of the Week: ${joined}.`
@@ -551,6 +647,8 @@ export function dealOfferRuleSummaries(offers, lang = 'en') {
     const customName = offerDisplayName(item, lang);
     const prefix = customName || (item.type === MIX_OFFER_TYPE
       ? (isEn ? 'Mix & Match' : 'Combina')
+      : item.type === SPEND_OFFER_TYPE
+        ? (isEn ? 'Spend & Save' : 'Gasta y ahorra')
       : item.type === FLAT_OFFER_TYPE
         ? (isEn ? 'Flash sale' : 'Oferta relámpago')
         : item.type === PAIR_OFFER_TYPE
@@ -567,6 +665,11 @@ export function dealOfferRuleSummaries(offers, lang = 'en') {
       rules.push(isEn
         ? `${prefix}: once the order has 2 or more qualifying vials, the single cheapest one is ${pct}% off. Buying 3 or 4 still discounts only that one vial. The rest of the order stays full price.`
         : `${prefix}: con 2 o más viales participantes, solo el más barato queda con ${pct}% de descuento. Si compras 3 o 4, el descuento sigue siendo un solo vial. El resto del pedido se paga completo.`);
+    } else if (item.type === SPEND_OFFER_TYPE) {
+      const pct = Math.round(item.discount_pct * 100);
+      rules.push(isEn
+        ? `${prefix}: spend ${dollars(item.min_total_usd)} or more on qualifying products (before shipping) and get ${pct}% off your entire order.`
+        : `${prefix}: gasta ${dollars(item.min_total_usd)} o más en productos participantes (antes del envío) y obtén ${pct}% de descuento en todo tu pedido.`);
     } else if (item.type === MIX_OFFER_TYPE) {
       const pct = Math.round(item.discount_pct * 100);
       rules.push(isEn
@@ -596,6 +699,7 @@ export function dealOfferRuleSummaries(offers, lang = 'en') {
   const hasMix = clean.items.some((item) => item.enabled && item.type === MIX_OFFER_TYPE);
   const hasBundle = clean.items.some((item) => item.enabled && item.type === BUNDLE_OFFER_TYPE);
   const hasPair = clean.items.some((item) => item.enabled && item.type === PAIR_OFFER_TYPE);
+  const hasSpend = clean.items.some((item) => item.enabled && item.type === SPEND_OFFER_TYPE);
   if (hasMix && hasBundle) {
     rules.push(isEn
       ? 'BAC Water does not count toward the Mix & Match minimum and cannot earn a free vial. Once Mix & Match is unlocked, its whole-order discount still includes BAC Water.'
@@ -604,6 +708,10 @@ export function dealOfferRuleSummaries(offers, lang = 'en') {
     rules.push(isEn
       ? 'BAC Water does not count toward the Mix & Match minimum. Once the offer is unlocked, its whole-order discount still includes BAC Water.'
       : 'El agua bacteriostática no cuenta para el mínimo de Combina. Cuando se activa la oferta, su descuento para todo el pedido sí incluye el agua bacteriostática.');
+  } else if (hasSpend && !hasBundle) {
+    rules.push(isEn
+      ? 'BAC Water does not count toward the spend minimum. Once the offer is unlocked, its whole-order discount still includes BAC Water.'
+      : 'El agua bacteriostática no cuenta para el monto mínimo. Cuando se activa la oferta, su descuento para todo el pedido sí incluye el agua bacteriostática.');
   } else if (hasPair && !hasBundle) {
     rules.push(isEn
       ? 'BAC Water does not qualify and is not discounted.'

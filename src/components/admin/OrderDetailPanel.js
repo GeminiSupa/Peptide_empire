@@ -413,6 +413,7 @@ export default function OrderDetailPanel({
     deal: replaceVolumeDiscount ? null : liveDeal,
     products,
     currency: orderCurrency,
+    exchangeRate,
     volumePctOverride: storedVolumePct,
   });
   // An offer only replaces the figure already on the order when there is no

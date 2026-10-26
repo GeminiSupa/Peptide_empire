@@ -368,3 +368,93 @@ test('checkout charges 50% off the 2nd vial and not the rest of the order', () =
   assert.equal(result.promoDiscount, 50);
   assert.equal(result.total, 150 + result.shipping);
 });
+
+// --- Spend & Save: a dollar minimum unlocks a percentage off the whole order.
+
+const SPEND_NAMES = ['Retatrutide 12mg', 'BPC-157 10mg'];
+const SPEND_TIERS = { items: [
+  { id: 's150', type: 'spend', enabled: true, product_names: SPEND_NAMES, min_total_usd: 150, discount_pct: 0.10 },
+  { id: 's250', type: 'spend', enabled: true, product_names: SPEND_NAMES, min_total_usd: 250, discount_pct: 0.15 },
+  { id: 's350', type: 'spend', enabled: true, product_names: SPEND_NAMES, min_total_usd: 350, discount_pct: 0.20 },
+  { id: 's500', type: 'spend', enabled: true, product_names: SPEND_NAMES, min_total_usd: 500, discount_pct: 0.25 },
+] };
+const spendDeal = { pricing_mode: 'offers', offers: SPEND_TIERS };
+
+test('spend tiers: the highest tier reached wins, and only one applies', () => {
+  const choice = chooseDealOffer(SPEND_TIERS, [{ product: 'Retatrutide 12mg', qty: 2, unitPrice: 130 }], { currency: 'USD' });
+  assert.equal(choice.kind, 'spend');
+  assert.equal(choice.offerId, 's250');
+  assert.equal(choice.savings, 260 * 0.15);
+});
+
+test('spend tiers: BAC water does not count toward the amount but is discounted', () => {
+  const lines = [{ product: 'Retatrutide 12mg', qty: 1, unitPrice: 145 }, { product: 'Bacteriostatic Water 10ml', qty: 2, unitPrice: 10 }];
+  const short = chooseDealOffer(SPEND_TIERS, lines, { currency: 'USD', bacCharge: 20 });
+  assert.equal(short.kind, 'none', '$145 of peptides plus water is still under $150');
+  const reached = chooseDealOffer(SPEND_TIERS, [{ product: 'Retatrutide 12mg', qty: 1, unitPrice: 150 }, lines[1]], { currency: 'USD', bacCharge: 20 });
+  assert.equal(reached.offerId, 's150');
+  assert.equal(Math.round(reached.savings * 100) / 100, 17, '10% of $150 + $20 water');
+});
+
+test('spend tiers: a colón cart is measured against the dollar minimum at the rate', () => {
+  // $150 at ₡503.37 is ₡75,505.5; two $75 vials are ₡37,753 each (₡75,506).
+  const ok = chooseDealOffer(SPEND_TIERS, [{ product: 'BPC-157 10mg', qty: 2, unitPrice: 37753 }], { currency: 'CRC', exchangeRate: 503.37 });
+  assert.equal(ok.offerId, 's150');
+  // At ₡503.31 a $75 vial rounds down to ₡37,748, so exactly $150 of them is
+  // ₡75,496 against a ₡75,496.5 minimum. It is still $150, so it qualifies.
+  const rounded = chooseDealOffer(SPEND_TIERS, [{ product: 'BPC-157 10mg', qty: 2, unitPrice: 37748 }], { currency: 'CRC', exchangeRate: 503.31 });
+  assert.equal(rounded.offerId, 's150');
+  const under = chooseDealOffer(SPEND_TIERS, [{ product: 'BPC-157 10mg', qty: 2, unitPrice: 37000 }], { currency: 'CRC', exchangeRate: 503.37 });
+  assert.equal(under.kind, 'none');
+});
+
+test('spend tiers: without a currency the dollar minimum cannot be judged, so nothing applies', () => {
+  const lines = [{ product: 'Retatrutide 12mg', qty: 5, unitPrice: 200000 }];
+  assert.equal(chooseDealOffer(SPEND_TIERS, lines, {}).kind, 'none');
+  assert.equal(chooseDealOffer(SPEND_TIERS, lines, { currency: 'CRC' }).kind, 'none');
+});
+
+test('spend tiers: the volume tier still wins when it saves more', () => {
+  const choice = chooseDealOffer(SPEND_TIERS, [{ product: 'BPC-157 10mg', qty: 5, unitPrice: 40 }], { currency: 'USD', volumePct: 15 });
+  assert.equal(choice.kind, 'volume');
+});
+
+test('spend tiers: the cart nudges toward the next tier in its own currency', () => {
+  const none = chooseDealOffer(SPEND_TIERS, [{ product: 'BPC-157 10mg', qty: 2, unitPrice: 40 }], { currency: 'USD' });
+  assert.equal(dealOfferNextTierNudge(none, 'en'), 'Add $70 more to unlock 10% off your whole order.');
+  const mid = chooseDealOffer(SPEND_TIERS, [{ product: 'Retatrutide 12mg', qty: 1, unitPrice: 180 }], { currency: 'USD' });
+  assert.equal(dealOfferNextTierNudge(mid, 'en'), 'Add $70 more to unlock 15% off your whole order.');
+  const crc = chooseDealOffer(SPEND_TIERS, [{ product: 'BPC-157 10mg', qty: 2, unitPrice: 20000 }], { currency: 'CRC', exchangeRate: 500 });
+  assert.equal(dealOfferNextTierNudge(crc, 'es'), 'Agrega ₡35,000 más para desbloquear 10% de descuento en todo tu pedido.');
+  const top = chooseDealOffer(SPEND_TIERS, [{ product: 'Retatrutide 12mg', qty: 3, unitPrice: 200 }], { currency: 'USD' });
+  assert.equal(dealOfferNextTierNudge(top, 'en'), '');
+  assert.match(dealOfferCartMessage(top, spendDeal, 'en'), /25% off your whole order is applied/);
+});
+
+test('spend tiers: customer copy never says undefined', () => {
+  const none = chooseDealOffer(SPEND_TIERS, [{ product: 'BPC-157 10mg', qty: 1, unitPrice: 40 }], { currency: 'USD' });
+  for (const lang of ['en', 'es']) {
+    const text = [
+      dealOfferCartMessage(none, spendDeal, lang),
+      ...dealOfferSummaries(SPEND_TIERS, lang),
+      ...dealOfferRuleSummaries(SPEND_TIERS, lang),
+    ].join('\n');
+    assert.doesNotMatch(text, /undefined|NaN/);
+  }
+  assert.equal(dealOfferSummaries(SPEND_TIERS, 'en')[0], 'Spend $150+, get 10% off your whole order');
+  assert.ok(dealOfferRuleSummaries(SPEND_TIERS, 'en').some((rule) => /BAC Water does not count toward the spend minimum/.test(rule)));
+});
+
+test('spend tiers: a launch is refused without a minimum or a discount', () => {
+  assert.equal(dealOffersError(SPEND_TIERS), '');
+  assert.match(dealOffersError({ items: [{ ...SPEND_TIERS.items[0], min_total_usd: 0 }] }), /minimum spend/);
+  assert.match(dealOffersError({ items: [{ ...SPEND_TIERS.items[0], discount_pct: 0 }] }), /between 1% and 99%/);
+  assert.equal(normalizeDealOffers(SPEND_TIERS).items[3].min_total_usd, 500);
+});
+
+test('spend tiers: the invoice breakdown shows the winning tier', () => {
+  const choice = chooseDealOffer(SPEND_TIERS, [{ product: 'Retatrutide 12mg', qty: 2, unitPrice: 200 }], { currency: 'USD' });
+  const breakdown = buildCheckoutBreakdown({ lines: [{ product: 'Retatrutide 12mg', qty: 2, unitPrice: 200 }], dealChoice: choice });
+  assert.equal(breakdown.discountPct, 0.20);
+  assert.equal(breakdown.discountAmount, 80);
+});

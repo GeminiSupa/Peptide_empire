@@ -112,6 +112,9 @@ function newOffer(type = 'mix', id = `${type}-${Date.now()}`) {
   if (type === 'pair') {
     return { id, type, enabled: true, scope: OFFER_SCOPE_AVAILABLE, selected: [], name_en: '', name_es: '', discount_pct: 50 };
   }
+  if (type === 'spend') {
+    return { id, type, enabled: true, scope: OFFER_SCOPE_AVAILABLE, selected: [], name_en: '', name_es: '', min_total_usd: 150, discount_pct: 10 };
+  }
   return { id, type: 'mix', enabled: true, scope: OFFER_SCOPE_AVAILABLE, selected: [], name_en: '', name_es: '', min_units: 2, discount_pct: 10 };
 }
 
@@ -315,7 +318,9 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
         ? { ...shared, buy_qty: Number(offer.buy_qty), free_qty: Number(offer.free_qty), max_free_qty: Number(offer.max_free_qty) || 0, count_mode: offer.count_mode === 'any_mix' ? 'any_mix' : 'same_product' }
         : offer.type === 'pair'
           ? { ...shared, discount_pct: Number(offer.discount_pct) / 100 }
-          : { ...shared, min_units: Number(offer.min_units), discount_pct: Number(offer.discount_pct) / 100 };
+          : offer.type === 'spend'
+            ? { ...shared, min_total_usd: Number(offer.min_total_usd), discount_pct: Number(offer.discount_pct) / 100 }
+            : { ...shared, min_units: Number(offer.min_units), discount_pct: Number(offer.discount_pct) / 100 };
     });
   }, [offerDrafts, availableProducts]);
   const offersPayload = useMemo(() => ({ items: resolvedOffers }), [resolvedOffers]);
@@ -425,7 +430,7 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
           ...newOffer(offer.type, offer.id),
           ...offer,
           selected: offer.product_names,
-          discount_pct: offer.type === 'mix' || offer.type === 'pair' ? Math.round(offer.discount_pct * 100) : undefined,
+          discount_pct: offer.type === 'mix' || offer.type === 'pair' || offer.type === 'spend' ? Math.round(offer.discount_pct * 100) : undefined,
           scope: index === 0
             ? (saved.mixScope === OFFER_SCOPE_AVAILABLE ? OFFER_SCOPE_AVAILABLE : OFFER_SCOPE_CUSTOM)
             : (saved.bundleScope === 'same_as_mix' ? OFFER_SCOPE_PREVIOUS : (saved.bundleScope || OFFER_SCOPE_CUSTOM)),
@@ -1127,7 +1132,7 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
             </div>
             {isOffers && (
               <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '6px' }}>
-                Add as many percentage, 2nd-vial, or Buy/Get-Free offers as you need. They never stack: checkout compares every
+                Add as many percentage, spend-amount, 2nd-vial, or Buy/Get-Free offers as you need. They never stack: checkout compares every
                 qualifying offer and the normal volume discount, then automatically gives the customer the greatest savings.
                 BAC Water never counts toward an offer.
               </div>
@@ -1138,13 +1143,15 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
             <>
               <div className="weekly-deal-offer-builder">
                 {offerDrafts.map((offer, index) => {
-                  const accent = offer.type === 'bundle' ? '#34d399' : offer.type === 'pair' ? '#38bdf8' : '#fbbf24';
+                  const accent = offer.type === 'bundle' ? '#34d399' : offer.type === 'pair' ? '#38bdf8' : offer.type === 'spend' ? '#f97316' : '#fbbf24';
                   const resolved = resolvedOffers[index];
                   const defaultName = offer.type === 'bundle'
                     ? 'Buy & Get Free'
                     : offer.type === 'pair'
                       ? '2nd vial half off'
-                      : 'Mix & Match Savings';
+                      : offer.type === 'spend'
+                        ? 'Spend & Save'
+                        : 'Mix & Match Savings';
                   return (
                     <section
                       key={offer.id}
@@ -1188,6 +1195,7 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
                             }}
                           >
                             <option value="mix">Minimum quantity → percentage off</option>
+                            <option value="spend">Minimum spend ($) → percentage off</option>
                             <option value="pair">Buy 1 → 2nd vial a percentage off</option>
                             <option value="bundle">Buy a quantity → get free vials</option>
                           </select>
@@ -1199,7 +1207,7 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
                           </div>
                           <div>
                             <label style={labelStyle}>Customer name — Spanish (optional)</label>
-                            <input className="admin-input" value={offer.name_es} onChange={(event) => updateOffer(offer.id, { name_es: event.target.value })} placeholder={offer.type === 'bundle' ? 'Compra y recibe gratis' : offer.type === 'pair' ? '2.º vial a mitad de precio' : 'Ahorros combinados'} />
+                            <input className="admin-input" value={offer.name_es} onChange={(event) => updateOffer(offer.id, { name_es: event.target.value })} placeholder={offer.type === 'bundle' ? 'Compra y recibe gratis' : offer.type === 'pair' ? '2.º vial a mitad de precio' : offer.type === 'spend' ? 'Gasta y ahorra' : 'Ahorros combinados'} />
                           </div>
                         </div>
                       </div>
@@ -1241,6 +1249,24 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
                               : (offer.count_mode === 'any_mix'
                                 ? ' With no limit set, a big order keeps earning free vials as it grows.'
                                 : ' With no limit set, a cart holding several qualifying products earns a free vial for each of them.')}
+                          </p>
+                        </>
+                      ) : offer.type === 'spend' ? (
+                        <>
+                          <div className="weekly-deal-offer-terms">
+                            <div>
+                              <label style={labelStyle}>Spend at least (USD $)</label>
+                              <input className="admin-input" type="number" min="1" step="0.01" value={offer.min_total_usd} onChange={(event) => updateOffer(offer.id, { min_total_usd: event.target.value })} disabled={!offer.enabled} />
+                            </div>
+                            <div>
+                              <label style={labelStyle}>Discount on whole order (%)</label>
+                              <input className="admin-input" type="number" min="1" max="99" value={offer.discount_pct} onChange={(event) => updateOffer(offer.id, { discount_pct: event.target.value })} disabled={!offer.enabled} />
+                            </div>
+                          </div>
+                          <p className="weekly-deal-offer-explanation">
+                            Spending ${offer.min_total_usd || '?'}+ on qualifying products unlocks {offer.discount_pct || '?'}% off the entire order.
+                            Colón carts are measured at the live rate. BAC Water and shipping never count toward the amount.
+                            Add one of these per tier ($150, $250, …) — the highest tier reached wins.
                           </p>
                         </>
                       ) : offer.type === 'pair' ? (
@@ -1293,6 +1319,7 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
               </div>
               <div className="weekly-deal-add-offer-row">
                 <button type="button" className="admin-btn" onClick={() => addOffer('mix')}>+ Add percentage offer</button>
+                <button type="button" className="admin-btn" onClick={() => addOffer('spend')}>+ Add spend-amount offer</button>
                 <button type="button" className="admin-btn" onClick={() => addOffer('pair')}>+ Add 2nd-vial offer</button>
                 <button type="button" className="admin-btn" onClick={() => addOffer('bundle')}>+ Add Buy/Get-Free offer</button>
                 <span>{offerDrafts.length} offer{offerDrafts.length === 1 ? '' : 's'} in this deal</span>

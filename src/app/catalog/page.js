@@ -2593,6 +2593,8 @@ export default function CatalogPage() {
     })), {
       volumePct: getVolumeDiscountPct(getCartVialCount()),
       bacCharge: getBacSummary().charge,
+      currency,
+      exchangeRate,
     });
   };
   const getCheckoutBreakdown = () => buildCheckoutBreakdown({
@@ -2745,9 +2747,9 @@ export default function CatalogPage() {
         const flat = Math.max(0, Number(offer.savings) || 0);
         return currency === 'USD' ? Math.round(flat * 100) / 100 : Math.round(flat);
       }
-      if (offer.kind !== 'mix') return 0;
+      if (offer.kind !== 'mix' && offer.kind !== 'spend') return 0;
       // "10% off your entire order": paid BAC water included. Rounded exactly
-      // as authoritativeCheckout rounds it.
+      // as authoritativeCheckout rounds it. Spend & Save uses the same base.
       const winningPct = Number(offer.offer?.discount_pct ?? offer.mix.discountPct) || 0;
       const base = (getDiscountableSubtotal() + getBacSummary().charge) * winningPct;
       return currency === 'USD' ? Math.round(base * 100) / 100 : Math.round(base);
@@ -3819,9 +3821,10 @@ export default function CatalogPage() {
     // missing money went.
     const isFlashSale = dealChoice?.kind === 'flat';
     const isSecondVial = dealChoice?.kind === 'pair';
-    const hasWeeklyDealDiscount = Boolean(automaticDeal) || dealChoice?.kind === 'mix' || isFlashSale || isSecondVial;
+    const isSpendTier = dealChoice?.kind === 'spend';
+    const hasWeeklyDealDiscount = Boolean(automaticDeal) || dealChoice?.kind === 'mix' || isFlashSale || isSecondVial || isSpendTier;
     const hasWeeklyBundle = dealChoice?.kind === 'bundle' && breakdown.weeklyGiftLines.length > 0;
-    const weeklyPct = dealChoice?.kind === 'mix' || isFlashSale || isSecondVial
+    const weeklyPct = dealChoice?.kind === 'mix' || isFlashSale || isSecondVial || isSpendTier
       ? breakdown.discountPct
       : Number(automaticDeal?.discount_pct) || 0;
     const hasAmountDiscount = hasVolumeDiscount || hasPromoDiscount || hasWeeklyDealDiscount;
@@ -6046,6 +6049,8 @@ export default function CatalogPage() {
                 ? chooseDealOffer(weeklyDeal.offers, previewLines, {
                   volumePct: getVolumeDiscountPct(afterAdd),
                   bacCharge: getBacSummary().charge,
+                  currency,
+                  exchangeRate,
                 })
                 : null;
               const dealGap = dealOfferNextTierGap(previewChoice);

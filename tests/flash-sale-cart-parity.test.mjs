@@ -24,7 +24,7 @@ const browserPromoDiscount = (offer, currency, discountableSubtotal, bacCharge =
     const flat = Math.max(0, Number(offer.savings) || 0);
     return currency === 'USD' ? Math.round(flat * 100) / 100 : Math.round(flat);
   }
-  if (offer.kind !== 'mix') return 0;
+  if (offer.kind !== 'mix' && offer.kind !== 'spend') return 0;
   const winningPct = Number(offer.offer?.discount_pct ?? offer.mix.discountPct) || 0;
   const base = (discountableSubtotal + bacCharge) * winningPct;
   return currency === 'USD' ? Math.round(base * 100) / 100 : Math.round(base);
@@ -244,6 +244,66 @@ for (const currency of ['USD', 'CRC']) {
         'the free vials the cart promises must be the ones the server adds',
       );
       assert.ok(browserFree.reduce((n, l) => n + l.qty, 0) <= 2, 'the cap must hold under mix counting too');
+    });
+  }
+}
+
+// Spend & Save tiers, as the Halloween sale was written: $150+ 10%, $250+ 15%,
+// $350+ 20%, $500+ 25%. The minimum is in dollars whatever the cart's currency,
+// and the result must never be a spend tier AND the volume tier together.
+const halloweenProducts = [
+  ...products,
+  { id: '4', product: 'BPC-157 10mg', price_usd: '$40', price_crc: '17947', status: 'In Stock', inventory_count: 100 },
+];
+const HALLOWEEN_NAMES = [GHK, TIRZ, 'BPC-157 10mg'];
+const halloweenOffers = { items: [
+  { id: 's150', type: 'spend', enabled: true, product_names: HALLOWEEN_NAMES, min_total_usd: 150, discount_pct: 0.10 },
+  { id: 's250', type: 'spend', enabled: true, product_names: HALLOWEEN_NAMES, min_total_usd: 250, discount_pct: 0.15 },
+  { id: 's350', type: 'spend', enabled: true, product_names: HALLOWEEN_NAMES, min_total_usd: 350, discount_pct: 0.20 },
+  { id: 's500', type: 'spend', enabled: true, product_names: HALLOWEEN_NAMES, min_total_usd: 500, discount_pct: 0.25 },
+] };
+const halloweenCarts = [
+  // [cart, the winner in dollars]
+  [[{ product: GHK, qty: 1 }], 'none'], // $70
+  [[{ product: GHK, qty: 1 }, { product: 'BPC-157 10mg', qty: 2 }], 's150'], // exactly $150
+  [[{ product: TIRZ, qty: 1 }, { product: 'BPC-157 10mg', qty: 1 }], 's150'], // $240
+  [[{ product: TIRZ, qty: 1 }, { product: GHK, qty: 1 }], 's250'], // $270
+  [[{ product: TIRZ, qty: 2 }], 's350'], // $400
+  [[{ product: TIRZ, qty: 2 }, { product: GHK, qty: 1 }, { product: 'BPC-157 10mg', qty: 1 }], 's500'], // $510
+  // Five vials: the 15% volume tier beats the 10% spend tier, and replaces it.
+  [[{ product: 'BPC-157 10mg', qty: 5 }], 'volume'], // $200
+  // Five vials but $680: 25% beats the 15% tier, and the tier is switched off.
+  [[{ product: TIRZ, qty: 3 }, { product: 'BPC-157 10mg', qty: 2 }], 's500'],
+];
+
+for (const currency of ['USD', 'CRC']) {
+  for (const [items, expected] of halloweenCarts) {
+    const label = `${currency}: ${items.map((i) => `${i.qty}x ${i.product}`).join(' + ')}`;
+    test(`browser and server agree on the spend tier — ${label}`, () => {
+      const server = authoritativeCheckout({
+        postedOrder: { currency, items, lang: 'en' },
+        products: halloweenProducts, exchangeRate: 448.67, dealOffers: halloweenOffers,
+      });
+      assert.equal(server.ok, true);
+
+      const lines = items.map((item) => {
+        const row = halloweenProducts.find((p) => p.product === item.product);
+        const unitPrice = currency === 'USD'
+          ? Number(String(row.price_usd).replace(/[^0-9.]/g, ''))
+          : Number(String(row.price_crc).replace(/[^0-9.]/g, ''));
+        return { product: item.product, qty: item.qty, unitPrice, inventoryCount: row.inventory_count };
+      });
+      const vials = items.reduce((sum, item) => sum + item.qty, 0);
+      const tierPct = getVolumeDiscountPct(vials);
+      const offer = chooseDealOffer(halloweenOffers, lines, { volumePct: tierPct, bacCharge: 0, currency, exchangeRate: 448.67 });
+      assert.equal(offer.kind === 'spend' ? offer.offerId : offer.kind, expected);
+
+      const discountableSubtotal = lines.reduce((sum, line) => sum + line.unitPrice * line.qty, 0);
+      assert.equal(browserPromoDiscount(offer, currency, discountableSubtotal), server.promoDiscount, 'discount must match');
+      assert.equal(browserVolumePct(offer, tierPct), server.volumeDiscountPct, 'volume tier must match');
+      assert.ok(!(server.promoDiscount > 0 && server.volumeDiscountPct > 0), 'a spend tier and the volume tier must never both apply');
+      const shown = server.subtotal - server.volumeDiscountAmount - server.promoDiscount + server.shipping;
+      assert.equal(Math.round(shown * 100) / 100, server.total);
     });
   }
 }
