@@ -115,6 +115,7 @@ import { areCardPaymentsPausedForClient } from '@/lib/cardPaymentsPaused.mjs';
 // by the API is still a number from off this machine.
 import { FALLBACK_EXCHANGE_RATE, isPlausibleRate } from '@/lib/pricing';
 import { tooManyAttemptsMessage, tooManyAttemptsTitle } from '@/lib/checkoutRateLimits.mjs';
+import { coaLinkLabel, coaLinks } from '@/lib/coaLinks.mjs';
 
 // const WHATSAPP_NUMBER = '50684046973'; // Replaced with useBusinessLinks()
 const FREE_SHIPPING_USD_THRESHOLD = 200;
@@ -6124,7 +6125,7 @@ export default function CatalogPage() {
                 },
                 {
                   q: en ? 'Available documentation' : 'Documentación disponible',
-                  a: selectedProduct.coa && selectedProduct.coa !== '—' && selectedProduct.coa !== ''
+                  a: coaLinks(selectedProduct.coa).length
                     ? (en ? 'A certificate of analysis is available for download below.' : 'Hay un certificado de análisis disponible para descargar abajo.')
                     : (en ? 'A certificate of analysis is listed here when a lot is on file.' : 'El certificado de análisis aparece aquí cuando hay un lote archivado.'),
                 },
@@ -6304,10 +6305,14 @@ export default function CatalogPage() {
                         <h4>{en ? 'Ingredients' : 'Ingredientes'}</h4>
                         <p>{composition || (en ? 'Single research compound. See the certificate of analysis for the lot.' : 'Un solo compuesto de investigación. El certificado de análisis muestra el lote.')}</p>
                         <h4>{en ? 'Available documentation' : 'Documentación disponible'}</h4>
-                        {selectedProduct.coa && selectedProduct.coa !== '—' && selectedProduct.coa !== '' ? (
-                          <a className="product-page-coa" href={selectedProduct.coa.startsWith('http') ? selectedProduct.coa : '#'} target="_blank" rel="noreferrer">
-                            <FileText size={16} /> {en ? 'Download certificate of analysis' : 'Descargar certificado de análisis'}
-                          </a>
+                        {coaLinks(selectedProduct.coa).length ? (
+                          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 18px' }}>
+                            {coaLinks(selectedProduct.coa).map((link, index, links) => (
+                              <a key={`${link}-${index}`} className="product-page-coa" href={link} target="_blank" rel="noreferrer">
+                                <FileText size={16} /> {coaLinkLabel(link, links, lang)}
+                              </a>
+                            ))}
+                          </div>
                         ) : (
                           <p>{en ? 'Certificate of analysis is listed here when a lot is on file.' : 'El certificado de análisis aparece aquí cuando hay un lote archivado.'}</p>
                         )}

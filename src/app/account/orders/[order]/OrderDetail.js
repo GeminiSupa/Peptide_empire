@@ -20,6 +20,7 @@ import ProductFace from '../../ProductFace';
 import OrderTimeline from '../../OrderTimeline';
 import { isGiftLine } from '@/lib/bacWater.mjs';
 import { stashReorder } from '@/lib/reorderHandoff';
+import { coaLinks } from '@/lib/coaLinks.mjs';
 
 export default function OrderDetail({ orderNumber }) {
   const router = useRouter();
@@ -112,10 +113,7 @@ export default function OrderDetail({ orderNumber }) {
             </p>
             <ul className="shop-lines">
               {items.map((item, index) => {
-                const coaUrl = item?.coa || productCoas[String(item?.product || '').toLowerCase().trim()];
-                const validCoaUrl = coaUrl && coaUrl !== '—' && String(coaUrl).trim() !== ''
-                  ? (String(coaUrl).startsWith('http') ? coaUrl : `https://${coaUrl}`)
-                  : null;
+                const coaUrls = coaLinks(item?.coa || productCoas[String(item?.product || '').toLowerCase().trim()]);
                 const label = String(item?.product || '').trim();
 
                 return (
@@ -128,17 +126,19 @@ export default function OrderDetail({ orderNumber }) {
                         {' · '}
                         {isGiftLine(item) ? (isEn ? 'Free' : 'Gratis') : formatItemPrice(item?.price, order.currency)}
                       </span>
-                      {validCoaUrl ? (
+                      {coaUrls.map((coaUrl, coaIndex) => (
                         <a
-                          href={validCoaUrl}
+                          key={`${coaUrl}-${coaIndex}`}
+                          href={coaUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="account-btn-link"
-                          style={{ fontSize: '0.78rem' }}
+                          style={{ fontSize: '0.78rem', marginLeft: coaIndex ? 10 : 0 }}
                         >
                           {isEn ? 'Lab paper (COA)' : 'Papel de laboratorio (COA)'}
+                          {coaUrls.length > 1 ? ` ${coaIndex + 1}` : ''}
                         </a>
-                      ) : null}
+                      ))}
                     </span>
                   </li>
                 );
