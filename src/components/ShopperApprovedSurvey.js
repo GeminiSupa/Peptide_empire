@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { safeSessionStorage } from '@/lib/storage';
 import {
   SA_STORAGE_KEY,
+  shopperApprovedProducts,
   shopperApprovedScriptUrl,
   shopperApprovedValues,
 } from '@/lib/shopperApproved.mjs';
@@ -41,6 +42,10 @@ export default function ShopperApprovedSurvey({ siteId, token }) {
     const src = shopperApprovedScriptUrl(values?.site);
     if (!values || !src) return;
 
+    // Their product bolt-on: which products to ask about. Read by the same
+    // script, so it is set before that script is added.
+    const products = shopperApprovedProducts(recordRef.current);
+    if (products) window.sa_products = products;
     window.sa_values = values;
     const script = document.createElement('script');
     script.src = src;

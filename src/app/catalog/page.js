@@ -752,6 +752,7 @@ export default function CatalogPage() {
         orderId: orderNumber,
         email: customerEmail,
         name: customerName,
+        products: cart.map((item) => item.product),
       })));
     } catch {
       // A missing review prompt is not a reason to interrupt a paid order.

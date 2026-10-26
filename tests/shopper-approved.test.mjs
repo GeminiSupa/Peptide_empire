@@ -6,6 +6,10 @@ import {
   buildShopperApprovedRecord,
   shopperApprovedConfig,
   shopperApprovedDisplayConfig,
+  shopperApprovedFeedCsv,
+  shopperApprovedFeedRows,
+  shopperApprovedProductId,
+  shopperApprovedProducts,
   shopperApprovedReviewPageScriptUrl,
   shopperApprovedScriptUrl,
   shopperApprovedSealImageUrl,
@@ -127,4 +131,54 @@ test('display API and reviews page never expose the survey token', async () => {
   // Their overlay script must not be loaded; seal is a static link to /reviews.
   assert.doesNotMatch(seal, /shopperApprovedCertificateScriptUrl|className=\{`shopperlink/);
   assert.match(seal, /\/reviews/);
+});
+
+test('the thank-you page names what was bought, by the ids the feed uses', () => {
+  const record = buildShopperApprovedRecord({
+    orderId: 'PCR-1',
+    email: 'a@b.com',
+    products: ['GHK-Cu 50mg', 'GLP-1 12mg', ' GHK-Cu 50mg ', '', null],
+  });
+  assert.deepEqual(record.products, ['GHK-Cu 50mg', 'GLP-1 12mg']);
+  assert.deepEqual(shopperApprovedProducts(record), {
+    'ghk-cu-50mg': 'GHK-Cu 50mg',
+    'glp-1-12mg': 'GLP-1 – Triple Agonist 12mg',
+  });
+
+  // No products, no bolt-on — and the record keeps its old shape.
+  assert.equal(shopperApprovedProducts(buildShopperApprovedRecord({ orderId: 'PCR-1', email: 'a@b.com' })), null);
+  assert.equal(shopperApprovedProducts({}), null);
+});
+
+test('feed ids match the thank-you ids, and every field is safe CSV', () => {
+  const rows = shopperApprovedFeedRows([
+    { product: 'GHK-Cu 50mg', imageUrl: '/ghk.png' },
+    { product: 'GHK-Cu 100mg', imageUrl: 'https://cdn.example.com/ghk100.png' },
+    { product: 'HGH 50 IU (Pfizer, Genotropin)' },
+    { product: 'GHK-CU 50MG' },
+  ], 'https://catalog.peptidescostarica.net/');
+
+  assert.deepEqual(rows.map((r) => r.id), ['ghk-cu-50mg', 'ghk-cu-100mg', 'hgh-50-iu-pfizer-genotropin']);
+  assert.equal(rows[0].id, shopperApprovedProductId('GHK-Cu 50mg'));
+  assert.equal(rows[0].mpn, rows[0].id);
+  assert.equal(rows[0].item_group_id, rows[1].item_group_id);
+  assert.equal(rows[0].link, 'https://catalog.peptidescostarica.net/catalog/ghk-cu-50mg');
+  assert.equal(rows[0].image_link, 'https://catalog.peptidescostarica.net/ghk.png');
+  assert.equal(rows[1].image_link, 'https://cdn.example.com/ghk100.png');
+
+  const csv = shopperApprovedFeedCsv(rows);
+  const lines = csv.trim().split('\r\n');
+  assert.equal(lines[0], 'id,title,link,image_link,brand,mpn,gtin,item_group_id');
+  assert.equal(lines.length, 4);
+  assert.match(lines[3], /"HGH 50 IU \(Pfizer, Genotropin\)"/);
+});
+
+test('both checkout paths hand the products to the thank-you page', async () => {
+  const catalog = await readFile(new URL('../src/app/catalog/page.js', import.meta.url), 'utf8');
+  const payCard = await readFile(new URL('../src/app/pay-card/page.js', import.meta.url), 'utf8');
+  const survey = await readFile(new URL('../src/components/ShopperApprovedSurvey.js', import.meta.url), 'utf8');
+  assert.match(catalog, /products: cart\.map\(\(item\) => item\.product\)/);
+  assert.match(payCard, /products: \(order\.items \|\| \[\]\)/);
+  // Set before their script is added, which is what their guide requires.
+  assert.ok(survey.indexOf('window.sa_products') < survey.indexOf('document.head.appendChild(script)'));
 });

@@ -194,6 +194,11 @@ function CardPaymentContent() {
                     orderId: order.orderNumber,
                     email: order.customerEmail || form.email,
                     name: order.customerName,
+                    // Paid lines only: the free BAC water and free vials are
+                    // saved at a price of 0 and are not products to review.
+                    products: (order.items || [])
+                      .filter((item) => Number(item.price) > 0)
+                      .map((item) => item.product),
                   })));
                 } catch {
                   // A missing survey is not a reason to block the confirmation page.
