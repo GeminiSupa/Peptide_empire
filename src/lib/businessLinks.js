@@ -21,6 +21,8 @@ export const INSTAGRAM_PROFILE_URL = 'https://www.instagram.com/researchpeptides
 // page, and it does not belong in a link we hand to every visitor.
 export const FACEBOOK_PROFILE_URL = 'https://www.facebook.com/share/1829iRmTLy/';
 export const LINKEDIN_PROFILE_URL = 'https://www.linkedin.com/company/peptides-costa-rica/';
+// Added by Omer on 2026-10-27.
+export const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@PeptidesCostaRica-g9k';
 
 export const FACEBOOK_REVIEW_URL = FACEBOOK_PROFILE_URL;
 
@@ -28,6 +30,7 @@ export const ORGANIZATION_PROFILES = [
   { label: 'Instagram', url: INSTAGRAM_PROFILE_URL },
   { label: 'Facebook', url: FACEBOOK_PROFILE_URL },
   { label: 'LinkedIn', url: LINKEDIN_PROFILE_URL },
+  { label: 'YouTube', url: YOUTUBE_CHANNEL_URL },
 ];
 
 export const ORGANIZATION_SAME_AS = ORGANIZATION_PROFILES.map((profile) => profile.url);
