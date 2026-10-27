@@ -165,6 +165,10 @@ export function shopperApprovedProducts(record = {}) {
  * says to use the product id as the MPN in that case. The parent id groups the
  * sizes of one compound, so a review of the 50mg also counts for the 100mg.
  *
+ * `google_id` is the id a product has in a Google Shopping feed, which they use
+ * to send stars to Google. Their rule: a product not in that feed carries its
+ * MPN there. This site sends Google no product feed, so every row is the MPN.
+ *
  * @param {Array<{ product: string, vialSize?: string, imageUrl?: string }>} products
  * @param {string} siteUrl live origin, no trailing slash
  */
@@ -196,12 +200,13 @@ export function shopperApprovedFeedRows(products = [], siteUrl = '') {
       mpn: id,
       gtin: '',
       item_group_id: shopperApprovedProductId(compound) || id,
+      google_id: id,
     });
   }
   return rows;
 }
 
-const FEED_COLUMNS = ['id', 'title', 'link', 'image_link', 'brand', 'mpn', 'gtin', 'item_group_id'];
+const FEED_COLUMNS = ['id', 'title', 'link', 'image_link', 'brand', 'mpn', 'gtin', 'item_group_id', 'google_id'];
 
 /** The feed as CSV, every field quoted so a comma in a name cannot shift a column. */
 export function shopperApprovedFeedCsv(rows = []) {

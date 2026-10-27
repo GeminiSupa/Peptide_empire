@@ -161,6 +161,8 @@ test('feed ids match the thank-you ids, and every field is safe CSV', () => {
   assert.deepEqual(rows.map((r) => r.id), ['ghk-cu-50mg', 'ghk-cu-100mg', 'hgh-50-iu-pfizer-genotropin']);
   assert.equal(rows[0].id, shopperApprovedProductId('GHK-Cu 50mg'));
   assert.equal(rows[0].mpn, rows[0].id);
+  // Not in a Google Shopping feed, so the Google ID is the MPN.
+  assert.equal(rows[0].google_id, rows[0].mpn);
   assert.equal(rows[0].item_group_id, rows[1].item_group_id);
   assert.equal(rows[0].link, 'https://catalog.peptidescostarica.net/catalog/ghk-cu-50mg');
   assert.equal(rows[0].image_link, 'https://catalog.peptidescostarica.net/ghk.png');
@@ -168,7 +170,7 @@ test('feed ids match the thank-you ids, and every field is safe CSV', () => {
 
   const csv = shopperApprovedFeedCsv(rows);
   const lines = csv.trim().split('\r\n');
-  assert.equal(lines[0], 'id,title,link,image_link,brand,mpn,gtin,item_group_id');
+  assert.equal(lines[0], 'id,title,link,image_link,brand,mpn,gtin,item_group_id,google_id');
   assert.equal(lines.length, 4);
   assert.match(lines[3], /"HGH 50 IU \(Pfizer, Genotropin\)"/);
 });
