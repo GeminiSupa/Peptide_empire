@@ -433,14 +433,11 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
           {reelSlide(REEL_SLIDE, { live: true })}
           {productSlide(PRODUCT_SLIDE, false)}
           <div className={`${styles.slide} ${styles.slideSponsor}`} style={slidePosition(SPONSOR_SLIDE)} aria-hidden={slide !== SPONSOR_SLIDE}>
-            {/* Which artwork fits depends on the shape of the slot, which the
-                breakpoints decide: wide where the slot is a broad band, the
-                portrait poster where it is squarer. */}
+            {/* One banner at every size; where the slot is a different shape the
+                spare space is filled with the banner's own blue. Kept inside
+                <picture> so the generic `.slide > img` rules do not apply. */}
             <picture>
-              <source media="(min-width: 1100px)" srcSet="/ziggy-myrie-sponsor-wide.webp" />
-              <source media="(min-width: 900px)" srcSet="/ziggy-myrie-sponsor-portrait.webp" />
-              <source media="(min-width: 700px)" srcSet="/ziggy-myrie-sponsor-wide.webp" />
-              <img src="/ziggy-myrie-sponsor-portrait.webp" alt={sponsorAlt} />
+              <img src="/ziggy-myrie-sponsor.webp" alt={sponsorAlt} />
             </picture>
           </div>
           {/* Clone of the first slide, so the track always travels one way. */}
