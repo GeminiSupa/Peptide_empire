@@ -100,6 +100,8 @@ export function authoritativeCheckout({
   // "(Free Gift)" peptide line from a deal) is kept as it is. The public
   // checkout never sets this, so a posted free line cannot be smuggled in.
   keepPostedGifts = false,
+  // Server-resolved approved business terms. Never read from postedOrder.
+  businessDiscountPct = 0,
 }) {
   const currency = postedOrder?.currency === 'USD' ? 'USD' : 'CRC';
   const findProduct = productNameResolver(products);
@@ -248,7 +250,17 @@ export function authoritativeCheckout({
   // The code's own price only matters when one was actually entered.
   const withPromo = promo ? priceWith({ useDeal: false, usePromo: true }) : null;
   // Ties stay with the deal: it needs no code and is already on the shelf.
-  const chosen = withPromo && withPromo.total < withDeal.total ? withPromo : withDeal;
+  let chosen = withPromo && withPromo.total < withDeal.total ? withPromo : withDeal;
+  const businessPct = Number(businessDiscountPct);
+  if (Number.isFinite(businessPct) && businessPct > 0 && businessPct <= 100) {
+    const businessTotals = computeOrderTotals(requested, currency, exchangeRate, { volumeDiscountPct: businessPct });
+    const businessPrice = {
+      businessApplied: true,
+      dealOffer: null, volumeDiscountPct: businessPct, totals: businessTotals,
+      promoDiscount: 0, total: roundCurrency(businessTotals.discountedTotal + businessTotals.shipping, currency),
+    };
+    if (businessPrice.total <= chosen.total) chosen = businessPrice;
+  }
   const promoBeatDeal = chosen === withPromo;
 
   const dealOffer = chosen.dealOffer;
@@ -294,6 +306,7 @@ export function authoritativeCheckout({
     // True when the entered code beat every running offer, so callers can say
     // which one was honoured instead of guessing.
     promoApplied: Boolean(promo) && promoBeatDeal,
+    businessApplied: Boolean(chosen.businessApplied),
     // Which deal's offer won, when the weekly deal and a flash sale were both
     // in the running. Null when the winner came from a single unpooled deal.
     dealOfferDealId: dealOffer?.dealId || null,

@@ -3,9 +3,10 @@ import assert from 'node:assert/strict';
 
 import { isAccountsLive, resolveAccountAccess } from '../src/lib/accountPreview.mjs';
 
-test('accounts stay on coming soon while the screens are unfinished', () => {
-  assert.equal(isAccountsLive('true'), false);
-  assert.equal(isAccountsLive(' TRUE '), false);
+test('accounts launch only with an explicit enabled flag', () => {
+  assert.equal(isAccountsLive('true'), true);
+  assert.equal(isAccountsLive(' TRUE '), true);
+  assert.equal(isAccountsLive('false'), false);
   assert.equal(isAccountsLive(''), false);
   assert.equal(isAccountsLive(undefined), false);
 });

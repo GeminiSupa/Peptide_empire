@@ -4,6 +4,7 @@ import { markActiveAbandonedCartsConvertedForOrder } from '@/lib/abandonedCartRe
 import { countPromoEligibleUnits, checkUnitLimits, unitLimitsMessage } from '@/lib/promoEligibility.mjs';
 import { isGiftLine } from '@/lib/bacWater.mjs';
 import { authoritativeCheckout, activeDealForOrder } from '@/lib/authoritativeCheckout.mjs';
+import { findBusinessAccount, businessDiscountPct } from '@/lib/businessAccounts.mjs';
 import { getDatabaseBackedUsdToCrcRate } from '@/lib/exchangeRate';
 import { mergeOrderWhatsAppDestinations, selectWithOptionalPreferences } from '@/lib/notificationPreferences.mjs';
 import { sanitizeOrderAttribution } from '@/lib/orderAttribution.mjs';
@@ -535,6 +536,7 @@ export async function POST(request) {
     Object.assign(order, researchAckRecord());
 
     let resolvedPromo = null;
+    let business = null;
 
     try {
       const customer = await resolveCustomerOrderOwner(
@@ -542,6 +544,12 @@ export async function POST(request) {
         request.headers.get('authorization'),
       );
       order = applyCustomerOrderOwnership(order, customer?.id);
+      if (customer?.email) {
+        const token = request.headers.get('authorization').replace(/^Bearer\s+/i, '');
+        const { data: verified, error: verificationError } = await supabase.auth.getUser(token);
+        if (verificationError) throw new CustomerSessionError();
+        if (verified?.user?.email_confirmed_at) business = await findBusinessAccount(supabase, customer.email);
+      }
     } catch (error) {
       if (error instanceof CustomerSessionError) {
         return NextResponse.json({ error: error.message }, { status: error.status });
@@ -669,6 +677,7 @@ export async function POST(request) {
       exchangeRate: rateResult.rate,
       suppressVolumeDiscount: Boolean(matchedDeal && dealPricingMode(matchedDeal) === 'shelf'),
       dealOffers,
+      businessDiscountPct: businessDiscountPct(business),
     });
     if (!authoritative.ok) {
       return NextResponse.json({ error: authoritative.error, errorCode: 'cart_invalid' }, { status: 409 });

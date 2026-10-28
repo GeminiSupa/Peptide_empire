@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 import AccountShell from '../AccountShell';
 import AccountQuestions from '../AccountQuestions';
@@ -49,6 +50,7 @@ export default function AccountProfilePage() {
 
   return (
     <AccountShell title={{ en: 'You', es: 'Tú' }}>
+      <div className="account-card"><h2>{isEn ? 'Login & security' : 'Acceso y seguridad'}</h2><Link className="account-btn-secondary" href="/account/security">{isEn ? 'Set or change password' : 'Crear o cambiar contraseña'}</Link></div>
       {columnsMissing ? (
         <div className="account-notice is-error">
           {isEn

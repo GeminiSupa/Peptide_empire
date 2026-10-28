@@ -28,6 +28,8 @@ function LoginForm() {
 
   const [step, setStep] = useState('email');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginMethod, setLoginMethod] = useState(searchParams.get('mode') === 'password' ? 'password' : 'code');
   const [code, setCode] = useState('');
   const [verifyType, setVerifyType] = useState('magiclink');
   const [error, setError] = useState('');
@@ -42,11 +44,28 @@ function LoginForm() {
   // redirect.
   const rawNext = searchParams.get('next') || '/account';
   const next = rawNext.startsWith('/') && !rawNext.startsWith('//') ? rawNext : '/account';
+  const reauthenticate = searchParams.get('reauth') === '1';
 
   useEffect(() => {
     if (checking || !allowed) return;
-    if (!sessionLoading && session) router.replace(next);
-  }, [checking, allowed, session, sessionLoading, next, router]);
+    if (!sessionLoading && session && !reauthenticate) router.replace(next);
+  }, [checking, allowed, session, sessionLoading, next, router, reauthenticate]);
+
+  const signInWithPassword = async (event) => {
+    event.preventDefault(); setBusy(true); setError('');
+    try {
+      const client = getCustomerSupabase();
+      if (!client) throw new Error();
+      const result = await client.auth.signInWithPassword({ email: email.trim().toLowerCase(), password, options: { captchaToken: turnstileToken || undefined } });
+      if (result.error || !result.data?.session || !result.data?.user?.email_confirmed_at) {
+        setError(isEn ? 'Unable to sign in. Check your email and password, or use an email code.' : 'No se pudo iniciar sesión. Revise su correo y contraseña o use un código de correo.');
+        return;
+      }
+      setPassword('');
+      router.replace(next);
+    } catch { setError(isEn ? 'Unable to sign in. Please try again.' : 'No se pudo iniciar sesión. Inténtelo de nuevo.'); }
+    finally { setBusy(false); }
+  };
 
   useEffect(() => {
     if (cooldown <= 0) return undefined;
@@ -230,16 +249,20 @@ function LoginForm() {
         </div>
 
         <h1>{isEn ? 'My Account' : 'Mi Cuenta'}</h1>
+        {step === 'email' && <div className="account-auth-actions">
+          <button type="button" className="account-btn-secondary" aria-pressed={loginMethod === 'code'} disabled={busy} onClick={() => { setLoginMethod('code'); setError(''); }}>{isEn ? 'Email code' : 'Código de correo'}</button>
+          <button type="button" className="account-btn-secondary" aria-pressed={loginMethod === 'password'} disabled={busy} onClick={() => { setLoginMethod('password'); setError(''); }}>{isEn ? 'Password' : 'Contraseña'}</button>
+        </div>}
 
         {step === 'email' ? (
           <>
               <p className="account-auth-lead">
-                {isEn
+                {loginMethod === 'password' ? (isEn ? 'Sign in with your email and password.' : 'Ingrese con su correo y contraseña.') : isEn
                   ? 'Enter your email and we will send you a sign-in code. No password needed.'
                   : 'Ingrese su correo y le enviaremos un código para entrar. No necesita contraseña.'}
               </p>
 
-            <form onSubmit={requestCode}>
+            <form onSubmit={loginMethod === 'password' ? signInWithPassword : requestCode}>
               <label htmlFor="account-email">
                 {isEn ? 'Email address' : 'Correo electrónico'}
               </label>
@@ -253,6 +276,8 @@ function LoginForm() {
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder={isEn ? 'you@example.com' : 'usted@ejemplo.com'}
               />
+
+              {loginMethod === 'password' && <><label htmlFor="account-password">{isEn ? 'Password' : 'Contraseña'}</label><input id="account-password" type="password" autoComplete="current-password" required maxLength={128} value={password} onChange={event => setPassword(event.target.value)} /><p><Link href="/account/login?mode=code&reauth=1&next=%2Faccount%2Fsecurity" onClick={() => { setLoginMethod('code'); setError(''); }}>{isEn ? 'Forgot password? Verify your email to reset it.' : '¿Olvidó su contraseña? Verifique su correo para restablecerla.'}</Link></p></>}
 
               {error ? <p className="account-auth-error">{error}</p> : null}
 
@@ -268,8 +293,8 @@ function LoginForm() {
 
               <button type="submit" className="account-btn-primary" disabled={busy || !email || (showTurnstile && !turnstileToken)}>
                 {busy
-                  ? (isEn ? 'Sending…' : 'Enviando…')
-                  : (isEn ? 'Send me a code' : 'Enviarme un código')}
+                  ? (isEn ? 'Please wait…' : 'Espere…')
+                  : loginMethod === 'password' ? (isEn ? 'Sign in' : 'Entrar') : (isEn ? 'Send me a code' : 'Enviarme un código')}
               </button>
             </form>
           </>

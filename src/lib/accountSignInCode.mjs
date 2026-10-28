@@ -26,7 +26,7 @@ export function verifyTypeFromLink(link) {
 
 const ACCOUNT_URL = 'https://catalog.peptidescostarica.net/account';
 
-function emailShell({ lang, title, subtitle, body }) {
+export function emailShell({ lang, title, subtitle, body }) {
   const isEn = lang === 'en';
   return `<!DOCTYPE html>
 <html lang="${isEn ? 'en' : 'es'}">

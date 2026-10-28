@@ -1,8 +1,7 @@
 // Launch gate for the customer account area.
 //
 // The whole feature ships, but customers see "coming soon" until the screens
-// are finished. The launch flag is ignored for now. A preview link still
-// opens the real pages.
+// are finished. A preview link opens the real pages before launch.
 //
 // This gate decides what to RENDER. It is not a security boundary and must
 // never be treated as one — what a signed-in customer can actually read is
@@ -19,12 +18,11 @@ export const PREVIEW_PARAM = 'account_preview';
 /**
  * Has the feature been launched for everyone?
  *
- * Held closed while the account screens are unfinished. Customers see coming
- * soon even if NEXT_PUBLIC_ACCOUNTS_LIVE is set. A preview link still opens
- * the real pages. Restore the flag check when the account is ready to open.
+ * Closed by default. An explicit launch flag opens the customer experience;
+ * preview access remains available before launch.
  */
-export function isAccountsLive() {
-  return false;
+export function isAccountsLive(value) {
+  return String(value ?? '').trim().toLowerCase() === 'true';
 }
 
 /**

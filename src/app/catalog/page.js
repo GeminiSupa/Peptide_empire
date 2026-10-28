@@ -86,6 +86,8 @@ import {
 } from 'lucide-react';
 import { getCustomerSupabase } from '@/lib/customerSupabase';
 import { useCustomerSession } from '@/hooks/useCustomerSession';
+import { authoritativeCheckout } from '@/lib/authoritativeCheckout.mjs';
+import { businessDiscountPct } from '@/lib/businessAccounts.mjs';
 import { buildReorderLines, mergeReorderIntoCart, reorderNoticeMessage } from '@/lib/reorderCart.mjs';
 import { takeReorder } from '@/lib/reorderHandoff';
 import { parseBuyAgainParam } from '@/lib/refillReminder.mjs';
@@ -543,6 +545,17 @@ export default function CatalogPage() {
   // Customer accounts: the session drives checkout prefill and stamps new
   // orders with an owner; the notice reports anything a reorder could not carry.
   const { session: customerSession, accessToken: customerAccessToken } = useCustomerSession();
+  const [businessAccount, setBusinessAccount] = useState(null);
+  useEffect(() => {
+    setBusinessAccount(null);
+    if (!customerAccessToken) return;
+    let active = true;
+    fetch('/api/account/business', { headers: { Authorization: `Bearer ${customerAccessToken}` } })
+      .then(res => res.ok ? res.json() : null)
+      .then(data => { if (active) setBusinessAccount(data?.business || null); })
+      .catch(() => {});
+    return () => { active = false; };
+  }, [customerAccessToken]);
   const [reorderNotice, setReorderNotice] = useState('');
   const [addedProductId, setAddedProductId] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -2585,6 +2598,8 @@ export default function CatalogPage() {
   // chooseDealOffer is the same function the server charges with, fed the
   // same lines, so the total shown here is the total that is charged.
   const getDealOfferChoice = () => {
+    const quote = getBusinessQuote();
+    if (quote && !quote.dealOffer) return null;
     const deal = getMatchedWeeklyDeal();
     if (!deal || dealPricingMode(deal) !== OFFERS_PRICING_MODE) return null;
     return chooseDealOffer(deal.offers, cart.map((item) => ({
@@ -2612,6 +2627,26 @@ export default function CatalogPage() {
   // is valid; getPromoDiscountAmount decides whether it or the running offer
   // saves more, matching the server.
   const getAppliedPromoData = () => (promoData?.valid ? promoData : null);
+  // Use the server's pricing engine for signed-in business buyers so checkout,
+  // shipping, gift lines and payment amounts share the same offer decision.
+  function getBusinessQuote() {
+    const pct = businessDiscountPct(businessAccount);
+    if (!pct || !cart.length) return null;
+    const deal = getMatchedWeeklyDeal();
+    const quote = authoritativeCheckout({
+      postedOrder: { items: cart, currency, lang },
+      products: products.map(item => ({
+        product: item.product, price_usd: item.priceUsd, price_crc: item.priceCrc,
+        status: item.status, inventory_count: item.inventoryCount ?? null,
+      })),
+      exchangeRate,
+      promo: getAppliedPromoData() || automaticDealPromo(deal, cart),
+      suppressVolumeDiscount: Boolean(deal && dealPricingMode(deal) === 'shelf'),
+      dealOffers: deal && dealPricingMode(deal) === OFFERS_PRICING_MODE ? deal.offers : null,
+      businessDiscountPct: pct,
+    });
+    return quote.ok ? quote : null;
+  }
   const getAppliedPromoCommissionRate = () => {
     const rate = Number(getAppliedPromoData()?.commission_rate);
     return Number.isFinite(rate) ? rate : 0;
@@ -2637,6 +2672,8 @@ export default function CatalogPage() {
   // Order lines as the customer, the database and the packing list should see
   // them — a BAC cart line resolved into its billed and gifted parts.
   const buildOrderItems = (cartItems, cur = currency, rate = exchangeRate) => {
+    const businessQuote = getBusinessQuote();
+    if (businessQuote) return businessQuote.items;
     const items = buildBacAwareOrderItems(cartItems || cart, {
       currency: cur,
       exchangeRate: rate,
@@ -2657,6 +2694,8 @@ export default function CatalogPage() {
   // percentage the customer actually gets. Single source of truth - every
   // checkout path reads this rather than getVolumeDiscountPct directly.
   const getEffectiveVolumePct = () => {
+    const businessQuote = getBusinessQuote();
+    if (businessQuote) return businessQuote.volumeDiscountPct;
     // A two-offer deal replaces the volume tier only when the offer it picked
     // saves more; otherwise the ordinary tier stands.
     const offer = getDealOfferChoice();
@@ -2671,18 +2710,23 @@ export default function CatalogPage() {
       : effectiveVolumeDiscountPct(getAppliedPromoData() || getAutomaticDealDiscount(), getVolumeDiscountPct(getCartVialCount()));
 
   // True when an applied code has taken the volume tiers off the table.
-  const volumeTierHintSuppressed = Boolean(getMatchedWeeklyDeal() || (getAppliedPromoData() && replacesVolumeDiscount(getAppliedPromoData())));
+  const volumeTierHintSuppressed = Boolean(businessDiscountPct(businessAccount) || getMatchedWeeklyDeal() || (getAppliedPromoData() && replacesVolumeDiscount(getAppliedPromoData())));
 
   // The discount lands on the non-BAC subtotal only; the BAC charge is added
   // back afterwards at face value.
-  const getDiscountedTotal = () =>
-    applyBacAwareDiscount(
+  const getDiscountedTotal = () => {
+    const quote = getBusinessQuote();
+    if (quote) return quote.total - quote.shipping + quote.promoDiscount;
+    return applyBacAwareDiscount(
       getDiscountableSubtotal(),
       getBacSummary().charge,
       getEffectiveVolumePct(),
     ).itemsTotal;
+  };
 
   const getShippingFee = () => {
+    const businessQuote = getBusinessQuote();
+    if (businessQuote) return businessQuote.shipping;
     if (cart.length === 0) return 0;
     const itemsTotal = getDiscountedTotal();
     const itemsTotalUsd = currency === 'USD' ? itemsTotal : (itemsTotal / exchangeRate);
@@ -2735,6 +2779,8 @@ export default function CatalogPage() {
   };
 
   const getPromoDiscountAmount = () => {
+    const businessQuote = getBusinessQuote();
+    if (businessQuote) return businessQuote.promoDiscount;
     // A live weekly deal is the only promotion on an order containing one of
     // its selected products. Prefer it even if a stale code was validated just
     // before the deal became live; the server enforces the same rule again.
@@ -2787,6 +2833,8 @@ export default function CatalogPage() {
   }, []);
 
   const getFinalTotal = () => {
+    const businessQuote = getBusinessQuote();
+    if (businessQuote) return businessQuote.total;
     const items = getDiscountedTotal();
     const promo = getPromoDiscountAmount();
     const total = (items - promo) + getShippingFee();
@@ -3811,8 +3859,9 @@ export default function CatalogPage() {
     const shipFee = getShippingFee();
     const isFreeShip = qualifiesForFreeShipping();
     const volumePct = getEffectiveVolumePct();
-    const appliedPromo = getAppliedPromoData();
-    const automaticDeal = getAutomaticDealDiscount();
+    const businessQuote = getBusinessQuote();
+    const appliedPromo = businessQuote && !businessQuote.promoApplied ? null : getAppliedPromoData();
+    const automaticDeal = businessQuote && (businessQuote.businessApplied || businessQuote.promoApplied) ? null : getAutomaticDealDiscount();
     const dealChoice = getDealOfferChoice();
     const breakdown = getCheckoutBreakdown();
     const hasVolumeDiscount = volumePct > 0;
@@ -3921,7 +3970,9 @@ export default function CatalogPage() {
         {hasVolumeDiscount && (
           <div className="cart-total-row" style={{ marginBottom: compact ? '6px' : '8px' }}>
             <span className="cart-total-label" style={{ color: '#15803d' }}>
-              {lang === 'en' ? `VOLUME DISCOUNT (${percentLabel(volumePct)}%)` : `DESC. VOLUMEN (${percentLabel(volumePct)}%)`}
+              {getBusinessQuote()?.businessApplied
+                ? (lang === 'en' ? `BUSINESS DISCOUNT (${percentLabel(volumePct)}%)` : `DESC. EMPRESARIAL (${percentLabel(volumePct)}%)`)
+                : (lang === 'en' ? `VOLUME DISCOUNT (${percentLabel(volumePct)}%)` : `DESC. VOLUMEN (${percentLabel(volumePct)}%)`)}
             </span>
             <span className="cart-total-val" style={{ color: '#15803d', fontSize: compact ? '1rem' : undefined }}>
               -{formatPriceVal(getCartTotal() - getDiscountedTotal(), currency)}
@@ -5223,9 +5274,9 @@ export default function CatalogPage() {
                   <span style={{ fontSize: '1.1rem' }}>🏷️</span>
                   <div>
                     <div style={{ color: '#15803d', fontWeight: '700', fontSize: '0.8rem' }}>
-                      {lang === 'en'
-                        ? `Volume Discount: ${getEffectiveVolumePct()}% OFF`
-                        : `Desc. por Volumen: ${getEffectiveVolumePct()}% DESC.`}
+                      {getBusinessQuote()?.businessApplied
+                        ? (lang === 'en' ? `Business Discount: ${getEffectiveVolumePct()}% OFF` : `Desc. empresarial: ${getEffectiveVolumePct()}% DESC.`)
+                        : (lang === 'en' ? `Volume Discount: ${getEffectiveVolumePct()}% OFF` : `Desc. por Volumen: ${getEffectiveVolumePct()}% DESC.`)}
                     </div>
                     <div style={{ color: '#166534', fontSize: '0.7rem', marginTop: '2px' }}>
                       {lang === 'en'

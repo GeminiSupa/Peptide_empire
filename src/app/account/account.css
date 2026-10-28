@@ -726,3 +726,15 @@
   .account-nav { gap: 4px; }
   .account-nav a { padding: 7px 11px; font-size: 0.84rem; }
 }
+.business-hero { background: linear-gradient(135deg, #063e35, #126958); color: #fff; padding: 30px; }
+.business-hero h2 { color: #fff; margin-top: 14px; }
+.business-eyebrow { font-size: 11px; letter-spacing: 1.8px; font-weight: 700; }
+.business-badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+.business-badges span { padding: 7px 12px; border: 1px solid #ffffff50; border-radius: 30px; font-size: 12px; }
+.business-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.business-rate { display: block; font-size: 48px; letter-spacing: -2px; color: var(--cta); }
+.business-details div { padding: 14px 0; border-bottom: 1px solid var(--border); }
+.business-details dt { font-size: 12px; color: var(--text-muted); }
+.business-grid .account-btn-primary { text-decoration: none; text-align: center; margin-top: 12px; }
+.business-details dd { margin: 5px 0 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+@media (max-width: 600px) { .business-grid { grid-template-columns: 1fr; } }
