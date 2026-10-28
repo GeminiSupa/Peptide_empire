@@ -9,7 +9,8 @@ import { StorefrontFooter, StorefrontHeader } from '@/components/StorefrontChrom
 import MobileActionBar from '@/components/MobileActionBar';
 import { supabase } from '@/lib/supabase';
 import { catalogFacingName, productCatalogPath } from '@/lib/catalogCategories.mjs';
-import { coaLinkLabel, coaLinks } from '@/lib/coaLinks.mjs';
+import { coaLinkLabel } from '@/lib/coaLinks.mjs';
+import { mergeCoaRows } from '@/lib/productCoas.mjs';
 import '../landing.css';
 
 /**
@@ -18,10 +19,10 @@ import '../landing.css';
  * list to keep in step.
  */
 function useProductCoas() {
-  const [rows, setRows] = useState(null);
+  const [rows, setRows] = useState(() => mergeCoaRows());
   useEffect(() => {
     if (!supabase) {
-      setRows([]);
+      setRows(mergeCoaRows());
       return;
     }
     supabase
@@ -30,9 +31,7 @@ function useProductCoas() {
       .not('coa', 'is', null)
       .order('product', { ascending: true })
       .then(({ data }) => {
-        setRows((data || [])
-          .map((row) => ({ ...row, links: coaLinks(row.coa) }))
-          .filter((row) => row.links.length));
+        setRows(mergeCoaRows(data || []));
       });
   }, []);
   return rows;

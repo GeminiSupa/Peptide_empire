@@ -27,7 +27,7 @@ export function coaLinks(value) {
 
 /** The Janoshik task number in a verify link ("241360"), or '' for any other link. */
 export function janoshikTaskNumber(link) {
-  const match = String(link || '').match(/janoshik\.com\/tests\/(\d+)-/i);
+  const match = String(link || '').match(/janoshik\.com\/tests\/(\d+)[_-]/i);
   return match ? match[1] : '';
 }
 
@@ -38,6 +38,8 @@ export function janoshikTaskNumber(link) {
  */
 export function coaLinkLabel(link, links = [link], lang = 'es') {
   const en = String(lang).toLowerCase().startsWith('en');
+  const localReport = String(link).match(/catalog\.peptidescostarica\.net\/coa\/(\d+)$/);
+  if (localReport) return en ? `View lab report #${localReport[1]}` : `Ver informe de laboratorio #${localReport[1]}`;
   const task = janoshikTaskNumber(link);
   if (task) return en ? `Verify Janoshik lab report #${task}` : `Verificar informe Janoshik #${task}`;
   const downloads = links.filter((other) => !janoshikTaskNumber(other));
