@@ -8,6 +8,8 @@ import { rateLimit } from '@/lib/rateLimit.mjs';
 import { buildBusinessAccountEmail } from '@/lib/businessAccountEmail.mjs';
 import { getOrderEmailLogoAttachment } from '@/lib/orderEmailBranding.mjs';
 import { sendBusinessSignupNotifications } from '@/lib/businessSignupNotifications.mjs';
+import { validateBusinessTerms } from '@/lib/businessSuite.mjs';
+import { validatedBusinessRep, queueBusinessEmail } from '@/lib/businessSuiteServer';
 
 export async function GET(request) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true });
@@ -48,7 +50,8 @@ export async function POST(request) {
   const email = String(body.email || '').toLowerCase().trim();
   const pct = Number(body.discount_pct);
   try {
-    details = businessDetails(body);
+    details = { ...businessDetails(body), ...validateBusinessTerms(body) };
+    if(details.rep_user_id) await validatedBusinessRep(admin,details.rep_user_id);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw new Error('A valid login email is required.');
     if (!['pending', 'approved', 'suspended'].includes(body.status)) throw new Error('Choose a valid status.');
     if (!Number.isFinite(pct) || pct < 0 || pct > 100) throw new Error('Discount must be between 0 and 100.');
@@ -57,6 +60,8 @@ export async function POST(request) {
   if (blockError) return Response.json({ error: 'Could not verify account eligibility.' }, { status: 503 });
   if (blocked) return Response.json({ error: 'Use a dedicated customer email. This address is excluded from customer accounts.' }, { status: 400 });
   const row = { ...details, email, status: body.status, discount_pct: pct };
+  const previous=body.id ? await admin.from('business_accounts').select('*').eq('id',body.id).eq('email',email).maybeSingle() : {data:null};
+  if(previous.error) return Response.json({error:'Unable to read current business terms.'},{status:503});
   // Updates cannot retarget a business to another mailbox accidentally.
   const query = body.id
     ? admin.from('business_accounts').update(row).eq('id', body.id).eq('email', email)
@@ -64,5 +69,12 @@ export async function POST(request) {
   const { data, error } = await query.select('*').single();
   if (error) return Response.json({ error: error.code === '23505' ? 'This email or corporation number is already registered.' : 'Could not save business account. Check the migration and try again.' }, { status: 409 });
   const notifications = body.id ? null : await sendBusinessSignupNotifications(data);
-  return Response.json({ business: data, notifications });
+  let customerNotification=null;
+  const changed=!previous.data || ['status','discount_pct','minimum_units','minimum_order_usd'].some(key=>String(previous.data[key] ?? 0)!==String(data[key] ?? 0));
+  if(changed) {
+    try {
+      customerNotification=await queueBusinessEmail(admin,data,{key:`terms:${data.id}:${data.updated_at}`,subject:'Cuenta empresarial actualizada / Business account updated',body:`${data.legal_name}\nEstado / Status: ${data.status}\nDescuento / Discount: ${data.discount_pct}%\nMínimo de unidades / Minimum merchandise units: ${data.minimum_units || 0}\nCompra mínima / Minimum products total after discounts: US$${Number(data.minimum_order_usd || 0).toFixed(2)}\nInicie sesión para consultar las condiciones actuales. / Sign in to review your current terms.`});
+    } catch(error) { console.error('[business/terms-email]',error.message); customerNotification={sent:false}; }
+  }
+  return Response.json({ business: data, notifications, customerNotification });
 }

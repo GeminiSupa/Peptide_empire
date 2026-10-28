@@ -21,5 +21,12 @@ export async function findBusinessAccount(admin, verifiedEmail) {
   // An ordinary storefront remains usable before the additive migration lands.
   if (error && ['42P01', 'PGRST205'].includes(error.code)) return null;
   if (error) throw new Error('Business pricing is temporarily unavailable. Please try again.');
-  return data;
+  if (data) return { ...data, member_role: 'owner' };
+  const membership = await admin.from('business_members').select('business_id,role').eq('email', verifiedEmail.toLowerCase().trim()).eq('active',true).maybeSingle();
+  if (membership.error && ['42P01','PGRST205'].includes(membership.error.code)) return null;
+  if (membership.error) throw new Error('Business membership is temporarily unavailable.');
+  if (!membership.data) return null;
+  const company = await admin.from('business_accounts').select('*').eq('id',membership.data.business_id).maybeSingle();
+  if (company.error) throw new Error('Business account is temporarily unavailable.');
+  return company.data ? { ...company.data, member_role: membership.data.role } : null;
 }

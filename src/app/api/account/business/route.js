@@ -7,6 +7,7 @@ import { getPublicSiteUrl } from '@/lib/publicUrl';
 import { buildBusinessAccountEmail } from '@/lib/businessAccountEmail.mjs';
 import { getOrderEmailLogoAttachment } from '@/lib/orderEmailBranding.mjs';
 import { sendBusinessSignupNotifications } from '@/lib/businessSignupNotifications.mjs';
+import { businessProductPrices, publicBusiness, referralBusinessPatch } from '@/lib/businessSuiteServer';
 
 async function context(request) {
   const admin = getSupabaseAdmin();
@@ -22,7 +23,8 @@ export async function GET(request) {
   const ctx = await context(request);
   if (!ctx) return Response.json({ error: 'Verified sign-in required.' }, { status: 401 });
   try {
-    return Response.json({ business: await findBusinessAccount(ctx.admin, ctx.email) }, { headers: { 'Cache-Control': 'private, no-store' } });
+    const business = await findBusinessAccount(ctx.admin, ctx.email);
+    return Response.json({ business: publicBusiness(business, await businessProductPrices(ctx.admin,business)) }, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch {
     return Response.json({ error: 'Unable to load your business account. Please try again.' }, { status: 503 });
   }
@@ -32,7 +34,7 @@ export async function POST(request) {
   const ctx = await context(request);
   if (!ctx) return Response.json({ error: 'Verified sign-in required.' }, { status: 401 });
   let details;
-  try { details = businessDetails(await request.json()); }
+  try { const body=await request.json(); details = { ...businessDetails(body), ...await referralBusinessPatch(ctx.admin,body.referral_code) }; }
   catch (error) { return Response.json({ error: error.message }, { status: 400 }); }
   // No upsert: repeat submissions cannot reset approved terms or overwrite a
   // company created by staff. Identity changes need staff review.

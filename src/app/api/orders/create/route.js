@@ -5,6 +5,8 @@ import { countPromoEligibleUnits, checkUnitLimits, unitLimitsMessage } from '@/l
 import { isGiftLine } from '@/lib/bacWater.mjs';
 import { authoritativeCheckout, activeDealForOrder } from '@/lib/authoritativeCheckout.mjs';
 import { findBusinessAccount, businessDiscountPct } from '@/lib/businessAccounts.mjs';
+import { businessProductPrices, resolveBusinessQuote, applyBusinessOrderAttribution } from '@/lib/businessSuiteServer';
+import { businessMinimumError,mergeBusinessProductPrices } from '@/lib/businessSuite.mjs';
 import { getDatabaseBackedUsdToCrcRate } from '@/lib/exchangeRate';
 import { mergeOrderWhatsAppDestinations, selectWithOptionalPreferences } from '@/lib/notificationPreferences.mjs';
 import { sanitizeOrderAttribution } from '@/lib/orderAttribution.mjs';
@@ -537,6 +539,10 @@ export async function POST(request) {
 
     let resolvedPromo = null;
     let business = null;
+    const requestedBusinessQuoteId=order.business_quote_id || null;
+    delete order.business_account_id;
+    delete order.business_snapshot;
+    delete order.business_quote_id;
 
     try {
       const customer = await resolveCustomerOrderOwner(
@@ -670,6 +676,8 @@ export async function POST(request) {
     const dealOffers = matchedDeal && dealPricingMode(matchedDeal) === OFFERS_PRICING_MODE
       ? matchedDeal.offers
       : null;
+    const businessQuote=await resolveBusinessQuote(supabase,business,requestedBusinessQuoteId,order.items);
+    const contractPrices=mergeBusinessProductPrices(await businessProductPrices(supabase,business),businessQuote?.prices || []);
     const authoritative = authoritativeCheckout({
       postedOrder: order,
       products: currentProducts || [],
@@ -678,10 +686,13 @@ export async function POST(request) {
       suppressVolumeDiscount: Boolean(matchedDeal && dealPricingMode(matchedDeal) === 'shelf'),
       dealOffers,
       businessDiscountPct: businessDiscountPct(business),
+      businessProductPrices: contractPrices,
     });
     if (!authoritative.ok) {
       return NextResponse.json({ error: authoritative.error, errorCode: 'cart_invalid' }, { status: 409 });
     }
+    const minimumError=businessMinimumError(business,authoritative,order.items,rateResult.rate);
+    if(minimumError) return NextResponse.json({error:minimumError,errorCode:'business_minimum'},{status:409});
     if (authoritative.changed) {
       // The rate travels with the refusal, and it is the field that makes this
       // recoverable. Colón totals are compared exactly, and the browser fetches
@@ -738,7 +749,8 @@ export async function POST(request) {
     // team keeps its clients now that the WhatsApp history is gone. This only
     // fills a gap: an order that already has an agent (a referral link) is left
     // exactly as it is, so nobody is paid twice for the same sale.
-    const orderRow = await applyCustomerHistoryAttribution(supabase, referredOrder);
+    const attributedOrder = await applyCustomerHistoryAttribution(supabase, referredOrder);
+    const orderRow = await applyBusinessOrderAttribution(supabase,attributedOrder,business,businessQuote?.quote,authoritative,contractPrices);
     // A public request may create an unpaid order, but it may not mutate stock.
     // The empty reservation is explicit so authenticated settlement/card approval
     // can distinguish this order from legacy rows whose stock was already taken.
@@ -800,6 +812,7 @@ export async function POST(request) {
     }
 
     if (error) {
+      if(error.code==='23505'&&businessQuote)return NextResponse.json({error:'This quote already has an order. Open the existing company order to continue.',errorCode:'quote_already_ordered'},{status:409});
       console.error('[orders/create] Insert failed:', error.message, { order_number: order.order_number });
       try {
         await supabase.from('admin_notifications').insert({
@@ -977,6 +990,7 @@ export async function POST(request) {
     if (err instanceof RequestBodyError) {
       return NextResponse.json({ error: err.message }, { status: err.status });
     }
+    if([400,401,403,404,409].includes(err.status)) return NextResponse.json({error:err.message},{status:err.status});
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

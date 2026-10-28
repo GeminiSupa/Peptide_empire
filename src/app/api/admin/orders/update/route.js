@@ -271,6 +271,8 @@ export async function PATCH(request) {
         exchangeRate: rateResult.rate,
         suppressVolumeDiscount: replaceVolumeDiscount,
         volumeDiscountPctOverride: resolvedVolumePct,
+        businessDiscountPct: replaceVolumeDiscount ? 0 : Number(currentOrder.business_snapshot?.discount_pct || 0),
+        businessProductPrices: replaceVolumeDiscount ? [] : (currentOrder.business_snapshot?.product_prices || []),
         dealOffers: liveDealOffers,
         // A free vial a deal gave this order stays on it through an edit.
         keepPostedGifts: true,

@@ -738,3 +738,13 @@
 .business-grid .account-btn-primary { text-decoration: none; text-align: center; margin-top: 12px; }
 .business-details dd { margin: 5px 0 0; overflow-wrap: anywhere; white-space: pre-wrap; }
 @media (max-width: 600px) { .business-grid { grid-template-columns: 1fr; } }
+.business-tool-tabs { display:flex;gap:8px;overflow-x:auto;margin:18px 0;padding-bottom:8px; }
+.business-tool-tabs button { width:auto;flex:none;white-space:nowrap; }
+.business-product-list { max-height:420px;overflow-y:auto; }
+.business-product-row { display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--border); }
+.business-product-row span { flex:1;min-width:0;font-size:14px; }
+.business-product-row small { display:block;color:var(--text-muted);margin-top:4px; }
+.business-product-row input { width:72px;padding:10px;border:1px solid var(--border);border-radius:8px;background:var(--bg-main);color:var(--text-main); }
+.business-list-item { padding:18px 0;border-bottom:1px solid var(--border);overflow-wrap:anywhere; }
+.business-list-item button { margin-top:6px; }
+.account-field textarea,.account-field select { width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--bg-main);color:var(--text-main); }

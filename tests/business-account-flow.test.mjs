@@ -16,6 +16,7 @@ function fixture() {
       return { data: { user: { email: `${token}@example.invalid`, email_confirmed_at: token === 'unverified' ? null : '2026-10-28T00:00:00Z' } } };
     } },
     from(table) {
+      if(table==='business_members')return {select(){return this;},eq(){return this;},async maybeSingle(){return {data:null};}};
       assert.equal(table, 'business_accounts');
       let input;
       let email;
@@ -42,6 +43,9 @@ function fixture() {
     buildBusinessAccountEmail: business => ({ subject: 'Application received', text: business.legal_name }),
     getOrderEmailLogoAttachment: () => ({}),
     sendBusinessSignupNotifications: async business => { notifications.push(business); return [{ sent: true }, { sent: true }]; },
+    businessProductPrices:async()=>[],
+    publicBusiness:business=>business,
+    referralBusinessPatch:async()=>({}),
   };
   const source = readFileSync(new URL('../src/app/api/account/business/route.js', import.meta.url), 'utf8')
     .replace(/^import .*;\r?\n/gm, '').replace(/export async function /g, 'async function ');

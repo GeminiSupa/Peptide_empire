@@ -88,6 +88,8 @@ import { getCustomerSupabase } from '@/lib/customerSupabase';
 import { useCustomerSession } from '@/hooks/useCustomerSession';
 import { authoritativeCheckout } from '@/lib/authoritativeCheckout.mjs';
 import { businessDiscountPct } from '@/lib/businessAccounts.mjs';
+import { BUSINESS_QUOTE_STORAGE_KEY,readBusinessQuote } from '@/lib/businessHandoff.mjs';
+import { businessMinimumError,validatedQuotePrices,mergeBusinessProductPrices } from '@/lib/businessSuite.mjs';
 import { buildReorderLines, mergeReorderIntoCart, reorderNoticeMessage } from '@/lib/reorderCart.mjs';
 import { takeReorder } from '@/lib/reorderHandoff';
 import { parseBuyAgainParam } from '@/lib/refillReminder.mjs';
@@ -546,6 +548,9 @@ export default function CatalogPage() {
   // orders with an owner; the notice reports anything a reorder could not carry.
   const { session: customerSession, accessToken: customerAccessToken } = useCustomerSession();
   const [businessAccount, setBusinessAccount] = useState(null);
+  const [businessCheckoutQuote,setBusinessCheckoutQuote]=useState(null);
+  const [businessQuoteError,setBusinessQuoteError]=useState('');
+  const [businessQuoteLoading,setBusinessQuoteLoading]=useState(false);
   useEffect(() => {
     setBusinessAccount(null);
     if (!customerAccessToken) return;
@@ -556,6 +561,21 @@ export default function CatalogPage() {
       .catch(() => {});
     return () => { active = false; };
   }, [customerAccessToken]);
+  useEffect(()=>{
+    setBusinessCheckoutQuote(null);setBusinessQuoteError('');setBusinessQuoteLoading(false);
+    if(!businessAccount || !customerAccessToken)return;
+    let active=true;
+    let raw;
+    try{raw=JSON.parse(localStorage.getItem(BUSINESS_QUOTE_STORAGE_KEY)||'null');}catch{return;}
+    if(!raw?.id)return;
+    setBusinessQuoteLoading(true);
+    fetch(`/api/account/business/quote?id=${encodeURIComponent(raw.id)}`,{headers:{Authorization:`Bearer ${customerAccessToken}`}})
+      .then(async res=>{const result=await res.json();if(!res.ok)throw new Error(result.error);return result;})
+      .then(result=>{if(active)setBusinessCheckoutQuote(readBusinessQuote(result.quote,businessAccount.id));})
+      .catch(error=>{if(active)setBusinessQuoteError(error.message);})
+      .finally(()=>{if(active)setBusinessQuoteLoading(false);});
+    return()=>{active=false;};
+  },[businessAccount,customerAccessToken]);
   const [reorderNotice, setReorderNotice] = useState('');
   const [addedProductId, setAddedProductId] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -1664,7 +1684,7 @@ export default function CatalogPage() {
     const { lines, unavailable, missing } = buildReorderLines(pending.items, products);
     if (lines.length > 0) {
       setCart((current) => {
-        const merged = mergeReorderIntoCart(current, lines);
+        const merged = mergeReorderIntoCart(pending.replaceCart?[]:current, lines);
         try {
           localStorage.setItem('cart', JSON.stringify(merged));
         } catch {
@@ -2631,7 +2651,7 @@ export default function CatalogPage() {
   // shipping, gift lines and payment amounts share the same offer decision.
   function getBusinessQuote() {
     const pct = businessDiscountPct(businessAccount);
-    if (!pct || !cart.length) return null;
+    if (businessAccount?.status!=='approved' || !cart.length) return null;
     const deal = getMatchedWeeklyDeal();
     const quote = authoritativeCheckout({
       postedOrder: { items: cart, currency, lang },
@@ -2644,8 +2664,16 @@ export default function CatalogPage() {
       suppressVolumeDiscount: Boolean(deal && dealPricingMode(deal) === 'shelf'),
       dealOffers: deal && dealPricingMode(deal) === OFFERS_PRICING_MODE ? deal.offers : null,
       businessDiscountPct: pct,
+      businessProductPrices: mergeBusinessProductPrices(businessAccount.product_prices || [],businessCheckoutQuote?.items || []),
     });
     return quote.ok ? quote : null;
+  }
+  function getBusinessCheckoutError(){
+    if(businessQuoteLoading)return lang==='en'?'Checking your approved quote…':'Verificando su cotización aprobada…';
+    if(businessQuoteError)return businessQuoteError;
+    if(businessCheckoutQuote){try{validatedQuotePrices(businessCheckoutQuote,businessAccount?.id,cart);}catch(error){return error.message;}}
+    const pricing=getBusinessQuote();
+    return pricing?businessMinimumError(businessAccount,pricing,cart,exchangeRate):null;
   }
   const getAppliedPromoCommissionRate = () => {
     const rate = Number(getAppliedPromoData()?.commission_rate);
@@ -3061,6 +3089,7 @@ export default function CatalogPage() {
       // agreed to.
       const orderPayload = {
         ...applyStoredAttribution(orderRow),
+        ...(businessCheckoutQuote?{business_quote_id:businessCheckoutQuote.id}:{}),
         research_ack: { accepted: true, version: RESEARCH_ACK_VERSION },
         // Attached here, with the acknowledgement, for the same reason: both
         // checkout paths come through this function, so neither can quietly
@@ -3291,6 +3320,8 @@ export default function CatalogPage() {
   };
 
   const validateForm = () => {
+    const businessIssue=getBusinessCheckoutError();
+    if(businessIssue){failCheckout(lang==='en'?'Review your business order':'Revise su pedido empresarial',businessIssue);return false;}
     const errors = {};
     // Presence alone let real junk through — a single letter, a held-down key,
     // a phone number in the name box — and every one of those becomes a sales
@@ -3883,6 +3914,9 @@ export default function CatalogPage() {
 
     return (
       <div className={`cart-order-summary${compact ? ' cart-order-summary--compact' : ''}`}>
+        {(businessCheckoutQuote||businessQuoteError)&&<div className="account-notice" role="status">{businessQuoteError || (lang==='en'?'Approved business quote applied. Keep the quoted products and quantities.':'Cotización empresarial aplicada. Mantenga productos y cantidades cotizados.')} <button type="button" className="account-btn-link" onClick={()=>{setBusinessCheckoutQuote(null);setBusinessQuoteError('');localStorage.removeItem(BUSINESS_QUOTE_STORAGE_KEY);}}>{lang==='en'?'Use normal account pricing':'Usar precios normales de cuenta'}</button></div>}
+        {getBusinessCheckoutError()&&<p className="account-notice is-error" role="alert">{getBusinessCheckoutError()}</p>}
+        {businessQuote?.contractApplied&&<p className="account-notice">{lang==='en'?'Your company product prices are included in this total.':'Los precios de su empresa están incluidos en este total.'} {lang==='en'?'Savings':'Ahorro'}: {formatPriceVal(businessQuote.businessSavings,currency)}</p>}
         {showHeading && (
           <h4 className="cart-order-summary-title">
             {lang === 'en' ? 'Order Summary' : 'Resumen del Pedido'}

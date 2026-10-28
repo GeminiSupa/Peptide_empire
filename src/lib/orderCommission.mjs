@@ -9,6 +9,7 @@ const round2 = (value) => Math.round(num(value) * 100) / 100;
 
 export function orderCommissionRate(order, defaultRate = 0) {
   const override = num(order?.agent_commission_rate_override);
+  if (order?.agent_commission_source === 'business_account' && override === 0) return 0;
   if (override > 0) return override;
   return num(defaultRate);
 }

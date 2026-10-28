@@ -102,6 +102,7 @@ export function authoritativeCheckout({
   keepPostedGifts = false,
   // Server-resolved approved business terms. Never read from postedOrder.
   businessDiscountPct = 0,
+  businessProductPrices = [],
 }) {
   const currency = postedOrder?.currency === 'USD' ? 'USD' : 'CRC';
   const findProduct = productNameResolver(products);
@@ -261,6 +262,18 @@ export function authoritativeCheckout({
     };
     if (businessPrice.total <= chosen.total) chosen = businessPrice;
   }
+  if (Array.isArray(businessProductPrices) && businessProductPrices.length) {
+    const contracts=new Map(businessProductPrices.map(row=>[normalize(row.product),Number(row.unit_price_usd)]));
+    const contractLines=requested.map(item=>{
+      const usd=contracts.get(normalize(item.product));
+      const catalogBusinessPrice=isBacWater(item.product)?item.unitPrice:item.unitPrice*(1-Math.max(0,Math.min(100,Number(businessPct)||0))/100);
+      const contractPrice=Number.isFinite(usd) && usd>=0 && !isBacWater(item.product)?(currency==='USD'?round2(usd):Math.round(usd*exchangeRate)):catalogBusinessPrice;
+      return {...item,unitPrice:roundCurrency(Math.min(catalogBusinessPrice,contractPrice),currency)};
+    });
+    const contractTotals=computeOrderTotals(contractLines,currency,exchangeRate,{volumeDiscountPct:0});
+    const contractPrice={businessApplied:true,contractApplied:true,contractLines,dealOffer:null,volumeDiscountPct:0,totals:contractTotals,promoDiscount:0,total:roundCurrency(contractTotals.discountedTotal+contractTotals.shipping,currency)};
+    if(contractPrice.total<=chosen.total) chosen=contractPrice;
+  }
   const promoBeatDeal = chosen === withPromo;
 
   const dealOffer = chosen.dealOffer;
@@ -270,7 +283,7 @@ export function authoritativeCheckout({
   const finalTotal = chosen.total;
 
   const orderLang = postedOrder?.lang || 'es';
-  const canonicalItems = buildBacAwareOrderItems(requested, {
+  const canonicalItems = buildBacAwareOrderItems(chosen.contractLines || requested, {
     currency,
     exchangeRate,
     priceOf: (item) => item.unitPrice,
@@ -307,6 +320,8 @@ export function authoritativeCheckout({
     // which one was honoured instead of guessing.
     promoApplied: Boolean(promo) && promoBeatDeal,
     businessApplied: Boolean(chosen.businessApplied),
+    contractApplied: Boolean(chosen.contractApplied),
+    businessSavings: chosen.contractApplied ? roundCurrency(computeOrderTotals(requested,currency,exchangeRate,{volumeDiscountPct:0}).subtotal-totals.subtotal,currency) : 0,
     // Which deal's offer won, when the weekly deal and a flash sale were both
     // in the running. Null when the winner came from a single unpooled deal.
     dealOfferDealId: dealOffer?.dealId || null,

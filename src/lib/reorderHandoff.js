@@ -23,6 +23,7 @@ export function stashReorder(order) {
       // stale figure cannot survive the handoff even by accident.
       items: items.map((item) => ({ product: item?.product, qty: item?.qty, price: item?.price })),
       stashedAt: Date.now(),
+      ...(order?.replaceCart ? { replaceCart:true } : {}),
     }));
     return true;
   } catch {
