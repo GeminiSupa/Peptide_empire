@@ -39,6 +39,12 @@ export function janoshikTaskNumber(link) {
 export function coaLinkLabel(link, links = [link], lang = 'es') {
   const en = String(lang).toLowerCase().startsWith('en');
   const localReport = String(link).match(/catalog\.peptidescostarica\.net\/coa\/(\d+)$/);
+  const relatedLabels = {
+    '164620': en ? 'Related report: Epithalon 10mg (catalog 50mg)' : 'Informe relacionado: Epithalon 10mg (catálogo 50mg)',
+    '164626': en ? 'Related report: Thymosin Alpha-1 5mg (catalog 10mg)' : 'Informe relacionado: Thymosin Alpha-1 5mg (catálogo 10mg)',
+    '241369': en ? 'Related TB4 10mg report: endotoxins only; TB-500 match unconfirmed' : 'Informe TB4 10mg relacionado: solo endotoxinas; correspondencia con TB-500 sin confirmar',
+  };
+  if (localReport && relatedLabels[localReport[1]]) return relatedLabels[localReport[1]];
   if (localReport) return en ? `View lab report #${localReport[1]}` : `Ver informe de laboratorio #${localReport[1]}`;
   const task = janoshikTaskNumber(link);
   if (task) return en ? `Verify Janoshik lab report #${task}` : `Verificar informe Janoshik #${task}`;

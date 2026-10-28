@@ -1,8 +1,7 @@
 import { catalogCompoundAndSize, splitCompoundAndSize } from './catalogCategories.mjs';
 import { coaLinks } from './coaLinks.mjs';
 
-// Only exact compound + nominal strength matches approved for publication.
-// ET10, TA5 and TB4 are deliberately pending and are not included here.
+// Supplier reports approved for publication. Related reports carry explicit disclosures.
 export const COA_REPORTS = Object.freeze([
   {
     "id": "125064",
@@ -64,6 +63,51 @@ export const COA_REPORTS = Object.freeze([
     "product": "Tirzepatide 120mg",
     "batch": "Not provided / No indicado"
   }
+, {
+  "id": "164620",
+  "compound": "Epithalon",
+  "strength": "10mg",
+  "product": "Epithalon 10mg (ET10)",
+  "catalogProduct": "Epithalon 50mg",
+  "catalogCompound": "Epithalon",
+  "catalogStrength": "50mg",
+  "testDate": "2026-05-27",
+  "verifyUrl": "https://verify.janoshik.com/tests/164620_PJB92BNKVSD5",
+  "batch": "Not provided / No indicado",
+  "noticeEn": "Related supplier report: ET10 / Epithalon 10mg. The catalog vial is 50mg. This report does not verify the content or batch of the 50mg vial.",
+  "noticeEs": "Informe relacionado del proveedor: ET10 / Epithalon 10mg. El vial del catálogo es de 50mg. Este informe no verifica el contenido ni el lote del vial de 50mg.",
+  "image": "/coa/reports/164620.jpeg"
+},
+{
+  "id": "164626",
+  "compound": "Thymosin Alpha-1",
+  "strength": "5mg",
+  "product": "Thymosin Alpha-1 5mg (TA5)",
+  "catalogProduct": "Thymosin Alpha-1 10mg",
+  "catalogCompound": "Thymosin Alpha-1",
+  "catalogStrength": "10mg",
+  "testDate": "2026-05-27",
+  "verifyUrl": "https://verify.janoshik.com/tests/164626_1EEQFWD1BRTG",
+  "batch": "Not provided / No indicado",
+  "noticeEn": "Related supplier report: TA5 / Thymosin Alpha-1 5mg. The catalog vial is 10mg. This report does not verify the content or batch of the 10mg vial.",
+  "noticeEs": "Informe relacionado del proveedor: TA5 / Thymosin Alpha-1 5mg. El vial del catálogo es de 10mg. Este informe no verifica el contenido ni el lote del vial de 10mg.",
+  "image": "/coa/reports/164626.jpeg"
+},
+{
+  "id": "241369",
+  "compound": "TB4",
+  "strength": "10mg",
+  "product": "TB4 10mg — endotoxin analysis",
+  "catalogProduct": "TB-500 10mg",
+  "catalogCompound": "TB-500",
+  "catalogStrength": "10mg",
+  "testDate": "2026-10-13",
+  "verifyUrl": "https://verify.janoshik.com/tests/241369_PIKRA6VQXQFD",
+  "batch": "967293-00003",
+  "noticeEn": "Related supplier report: TB4 10mg, batch 967293-00003; endotoxin result 1.569 EU/vial. The catalog product is named TB-500 10mg; product and batch correspondence is unconfirmed. This is an endotoxin-only test, not a purity, content or sterility certificate.",
+  "noticeEs": "Informe relacionado del proveedor: TB4 10mg, lote 967293-00003; resultado de endotoxinas 1.569 EU/vial. El producto del catálogo se llama TB-500 10mg; la correspondencia de producto y lote no está confirmada. Solo analiza endotoxinas; no certifica pureza, contenido ni esterilidad.",
+  "image": "/coa/reports/241369.jpeg"
+}
 ]);
 export const coaReportUrl = (report) => `https://catalog.peptidescostarica.net/coa/${report.id}`;
 const normalize = (value) => String(value).toLowerCase().replace(/[^a-z0-9.]/g, '');
@@ -72,7 +116,7 @@ export function matchingCoaReports(product) {
   const named = splitCompoundAndSize(product?.product);
   // Conflicting name/size fields must not attach a report to the wrong strength.
   if (named.size && normalize(named.size) !== normalize(size)) return [];
-  return COA_REPORTS.filter((r) => normalize(r.compound) === normalize(compound) && normalize(r.strength) === normalize(size));
+  return COA_REPORTS.filter((r) => normalize(r.catalogCompound || r.compound) === normalize(compound) && normalize(r.catalogStrength || r.strength) === normalize(size));
 }
 export function productCoaLinks(product) {
   return [...new Set([...coaLinks(product?.coa), ...matchingCoaReports(product).map(coaReportUrl)])];
@@ -81,7 +125,7 @@ export function mergeCoaRows(rows = []) {
   const merged = rows.map((r) => ({...r, links: productCoaLinks(r)}));
   for (const report of COA_REPORTS) {
     if (!merged.some((r) => matchingCoaReports(r).some((match) => match.id === report.id))) {
-      merged.push({ product: report.product, vial_size: report.strength, links: [coaReportUrl(report)] });
+      merged.push({ product: report.catalogProduct || report.product, vial_size: report.catalogStrength || report.strength, links: [coaReportUrl(report)] });
     }
   }
   return merged.filter((r) => r.links.length).sort((a,b) => a.product.localeCompare(b.product));
