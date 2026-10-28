@@ -123,7 +123,7 @@ import { areCardPaymentsPausedForClient } from '@/lib/cardPaymentsPaused.mjs';
 import { FALLBACK_EXCHANGE_RATE, isPlausibleRate } from '@/lib/pricing';
 import { tooManyAttemptsMessage, tooManyAttemptsTitle } from '@/lib/checkoutRateLimits.mjs';
 import { coaLinkLabel } from '@/lib/coaLinks.mjs';
-import { productCoaLinks } from '@/lib/productCoas.mjs';
+import { productCoaLinks, matchingCoaReports } from '@/lib/productCoas.mjs';
 
 // const WHATSAPP_NUMBER = '50684046973'; // Replaced with useBusinessLinks()
 const FREE_SHIPPING_USD_THRESHOLD = 200;
@@ -6215,7 +6215,7 @@ export default function CatalogPage() {
                 {
                   q: en ? 'Available documentation' : 'Documentación disponible',
                   a: productCoaLinks(selectedProduct).length
-                    ? (en ? 'A certificate of analysis is available for download below.' : 'Hay un certificado de análisis disponible para descargar abajo.')
+                    ? (en ? 'Supplier lab documentation is linked below. Check the tested sample, strength, batch and test scope.' : 'La documentación de laboratorio del proveedor está enlazada abajo. Revise la muestra, concentración, lote y alcance del análisis.')
                     : (en ? 'A certificate of analysis is listed here when a lot is on file.' : 'El certificado de análisis aparece aquí cuando hay un lote archivado.'),
                 },
                 {
@@ -6396,6 +6396,9 @@ export default function CatalogPage() {
                         <h4>{en ? 'Available documentation' : 'Documentación disponible'}</h4>
                         {productCoaLinks(selectedProduct).length ? (
                           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 18px' }}>
+                            {matchingCoaReports(selectedProduct).filter((report) => report.noticeEn).map((report) => (
+                              <p key={report.id} style={{ width: '100%', padding: 12, border: '1px solid #c4871d', borderRadius: 8, lineHeight: 1.6 }}>{en ? report.noticeEn : report.noticeEs}</p>
+                            ))}
                             {productCoaLinks(selectedProduct).map((link, index, links) => (
                               <a key={`${link}-${index}`} className="product-page-coa" href={link} target="_blank" rel="noreferrer">
                                 <FileText size={16} /> {coaLinkLabel(link, links, lang)}
