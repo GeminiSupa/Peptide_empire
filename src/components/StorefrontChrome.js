@@ -379,7 +379,9 @@ export function StorefrontFooter({ lang, settings, categories = [] }) {
   );
   const hasReviewsLink = baseQuickLinks.some((item) => String(item?.href || '').startsWith('/reviews'));
   const footerQuickLinks = [
-    ...baseQuickLinks,
+    ...baseQuickLinks.filter((item) => !['/account/login', '/account/business'].includes(String(item?.href || '').split('?')[0])),
+    { labelEn: 'Customer account login', labelEs: 'Acceso de clientes', href: '/account/login' },
+    { labelEn: 'Business account login', labelEs: 'Acceso de empresas', href: '/account/login?next=%2Faccount%2Fbusiness' },
     ...(!hasReviewsLink
       ? [{ labelEn: 'Reviews', labelEs: 'Reseñas', href: '/reviews' }]
       : []),

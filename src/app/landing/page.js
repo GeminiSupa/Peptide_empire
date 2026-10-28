@@ -638,7 +638,7 @@ export default function LeadGenerationLandingPage() {
       <footer className="lead-footer">
         <div className="lead-container lead-footer-grid">
           <div><Link href="/" className="lead-footer-brand" aria-label="Peptides Costa Rica home"><Image src="/logo.webp" alt="Peptides Costa Rica" width={190} height={85} /></Link><p>{c.footerBlurb}</p></div>
-          <div><strong>{lang === 'en' ? 'Explore' : 'Explorar'}</strong><Link href={`/catalog?lang=${lang}`}>{lang === 'en' ? 'Catalog' : 'Catálogo'}</Link><Link href={`/about?lang=${lang}`}>{lang === 'en' ? 'About us' : 'Nosotros'}</Link><Link href={`/faq?lang=${lang}`}>FAQ</Link></div>
+          <div><strong>{lang === 'en' ? 'Explore' : 'Explorar'}</strong><Link href={`/catalog?lang=${lang}`}>{lang === 'en' ? 'Catalog' : 'Catálogo'}</Link><Link href={`/about?lang=${lang}`}>{lang === 'en' ? 'About us' : 'Nosotros'}</Link><Link href={`/faq?lang=${lang}`}>FAQ</Link><Link href={`/account/login?lang=${lang}`}>{lang === 'en' ? 'Customer account login' : 'Acceso de clientes'}</Link><Link href={`/account/login?next=%2Faccount%2Fbusiness&lang=${lang}`}>{lang === 'en' ? 'Business account login' : 'Acceso de empresas'}</Link></div>
           <div><strong>{lang === 'en' ? 'Policies' : 'Políticas'}</strong><Link href="/privacy-policy">{lang === 'en' ? 'Privacy' : 'Privacidad'}</Link><Link href="/shipping-policy">{lang === 'en' ? 'Shipping' : 'Envíos'}</Link><Link href="/return-refund-policy">{lang === 'en' ? 'Returns' : 'Devoluciones'}</Link></div>
           <div><strong>{lang === 'en' ? 'Contact' : 'Contacto'}</strong><a href="mailto:info@peptidescostarica.net">info@peptidescostarica.net</a><button type="button" onClick={() => cta('footer')}>{c.footerRequest}</button></div>
         </div>

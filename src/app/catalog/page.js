@@ -6662,6 +6662,12 @@ export default function CatalogPage() {
       </section>
           <p>&copy; 2026 Peptides Costa Rica. {lang === 'en' ? 'High-quality research peptides.' : 'Péptidos de investigación de alta calidad.'}</p>
           <div className="footer-links">
+            <Link href={`/account/login?lang=${lang}`}>
+              {lang === 'en' ? 'Customer account login' : 'Acceso de clientes'}
+            </Link>
+            <Link href={`/account/login?next=%2Faccount%2Fbusiness&lang=${lang}`}>
+              {lang === 'en' ? 'Business account login' : 'Acceso de empresas'}
+            </Link>
             <a href="#" onClick={(e) => { e.preventDefault(); setHowToOrderOpen(true); }}>
               {lang === 'en' ? 'How to Order' : 'Cómo Ordenar'}
             </a>
