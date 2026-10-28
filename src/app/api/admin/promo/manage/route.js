@@ -36,7 +36,10 @@ export async function POST(request) {
         return NextResponse.json({ error: 'discount_pct must be a fraction between 0 and 1' }, { status: 400 });
       }
 
-      const hidden = !!body.hidden;
+      // A 100% code exists to place test orders. It must never be advertised
+      // or reused, so it is always private and once per customer.
+      const testCode = discountPct >= 1;
+      const hidden = testCode || !!body.hidden;
       const minUnits = parseUnitLimit(body.min_units);
       const maxUnits = parseUnitLimit(body.max_units);
       const targetProduct = String(body.target_product || '').trim().slice(0, 500) || null;
@@ -63,7 +66,7 @@ export async function POST(request) {
           is_active: true,
           affiliate_id: body.affiliate_id || null,
           valid_until: body.valid_until || null,
-          once_per_customer: !!body.once_per_customer,
+          once_per_customer: testCode || !!body.once_per_customer,
           hidden,
           min_units: minUnits,
           max_units: maxUnits,

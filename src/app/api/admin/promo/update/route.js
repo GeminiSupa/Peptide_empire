@@ -59,7 +59,10 @@ export async function POST(request) {
         show_sale_badge: !!body.show_sale_badge,
         badge_style: ['code', 'save', 'limited', 'custom'].includes(body.badge_style) ? body.badge_style : 'code',
         badge_text: String(body.badge_text || '').trim() || null,
-        badge_text_es: String(body.badge_text_es || '').trim() || null
+        badge_text_es: String(body.badge_text_es || '').trim() || null,
+        // Raised to 100% means a test code: private, once per customer and
+        // never ribboned, exactly as /api/admin/promo/manage creates one.
+        ...(Number(discount_pct) >= 1 ? { hidden: true, once_per_customer: true, show_sale_badge: false } : {})
       })
       .eq('id', id)
       .select('*')

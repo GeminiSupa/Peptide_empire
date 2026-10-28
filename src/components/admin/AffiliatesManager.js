@@ -663,7 +663,20 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                     <option value="" style={optionStyle}>General Code (no affiliate)</option>
                     {affiliates.map(a => <option key={a.id} value={a.id} style={optionStyle}>{a.name}</option>)}
                   </select>
-                  <select value={newPromo.discount_pct} onChange={e => setNewPromo({...newPromo, discount_pct: parseFloat(e.target.value)})} style={inputStyle}>
+                  <select
+                    value={newPromo.discount_pct}
+                    onChange={e => {
+                      const pct = parseFloat(e.target.value);
+                      // A 100% code is for test orders: the server always saves it
+                      // hidden and once per customer, so the form shows that too.
+                      setNewPromo({
+                        ...newPromo,
+                        discount_pct: pct,
+                        ...(pct >= 1 ? { hidden: true, once_per_customer: true, show_sale_badge: false } : {}),
+                      });
+                    }}
+                    style={inputStyle}
+                  >
                     <option value={0.05}>5% Customer Discount</option>
                     <option value={0.10}>10% Customer Discount</option>
                     <option value={0.15}>15% Customer Discount</option>
@@ -672,6 +685,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                     <option value={0.30}>30% Customer Discount</option>
                     <option value={0.40}>40% Customer Discount</option>
                     <option value={0.50}>50% Customer Discount</option>
+                    <option value={1}>100% — test orders only</option>
                   </select>
                   <input
                     type="number"
@@ -766,10 +780,18 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                     {unitRangeError(newPromo)}
                   </div>
                 )}
+                {Number(newPromo.discount_pct) >= 1 && (
+                  <div style={{ padding: '10px 14px', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.3)', borderRadius: '10px', fontSize: '0.82rem', color: '#fde68a' }}>
+                    Test code: the products are free, but delivery is still charged on orders under $200.
+                    It is always hidden and one use per customer. Pay by card to test the Google purchase event,
+                    then mark the order &quot;exclude from stats&quot;.
+                  </div>
+                )}
                 <label style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.85rem', color: '#e2e8f0', cursor: 'pointer' }}>
                   <input
                     type="checkbox"
                     checked={!!newPromo.once_per_customer}
+                    disabled={Number(newPromo.discount_pct) >= 1}
                     onChange={e => setNewPromo({ ...newPromo, once_per_customer: e.target.checked })}
                     style={{ width: '16px', height: '16px', cursor: 'pointer' }}
                   />
@@ -779,6 +801,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                   <input
                     type="checkbox"
                     checked={!!newPromo.hidden}
+                    disabled={Number(newPromo.discount_pct) >= 1}
                     onChange={e => setNewPromo({ ...newPromo, hidden: e.target.checked })}
                     style={{ width: '16px', height: '16px', cursor: 'pointer' }}
                   />
@@ -1206,7 +1229,13 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                   <option value={0.30}>30% Off</option>
                   <option value={0.40}>40% Off</option>
                   <option value={0.50}>50% Off</option>
+                  <option value={1}>100% Off — test orders only</option>
                 </select>
+                {Number(editingPromo.discount_pct) >= 1 && (
+                  <p style={{ margin: '6px 0 0', fontSize: '0.75rem', color: '#fde68a' }}>
+                    Saving at 100% makes this code hidden and one use per customer.
+                  </p>
+                )}
               </div>
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
