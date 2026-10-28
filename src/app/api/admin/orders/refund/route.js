@@ -14,6 +14,8 @@ import { restoreInventoryForOrder, restoreSelectedQuantities } from '@/lib/inven
 import { planPartialRestock } from '@/lib/inventoryRestore.mjs';
 import { commissionClawback, planRefund } from '@/lib/orderRefund.mjs';
 import { affiliateCommissionPatch } from '@/lib/affiliateCommission.mjs';
+import {additionalCommissionClawbacks} from '@/lib/additionalCommission.mjs';
+import {PAYOUT_RESERVED_STATUSES} from '@/lib/payoutSettlement.mjs';
 import {
   buildAccountantRefundEmail,
   buildCustomerRefundEmail,
@@ -147,6 +149,9 @@ export async function POST(request) {
       rate: Number(paidPayout?.commission_rate || 0),
       alreadyPaid: Boolean(paidPayout),
     });
+    const extraPayouts=order.additional_commission_user_id?await supabase.from('commission_payouts').select('agent_email,agent_name,override_orders_data').in('status',PAYOUT_RESERVED_STATUSES).contains('override_orders_data',[{id:order.id}]):{data:[],error:null};
+    if(extraPayouts.error)return NextResponse.json({error:'Could not verify extra commission adjustments. The refund has not been recorded.'},{status:503});
+    const extraClawbacks=additionalCommissionClawbacks(extraPayouts.data,order,plan).filter(row=>row.agent_email?.toLowerCase()!==paidPayout?.agent_email?.toLowerCase());
 
     // --- write the refund ---------------------------------------------------
     const events = Array.isArray(order.refund_events) ? order.refund_events : [];
@@ -229,6 +234,16 @@ export async function POST(request) {
       } else {
         adjustment = { recorded: true, ...clawback, id: saved?.id };
       }
+    }
+
+    const extraAdjustments=[];
+    for(const cut of extraClawbacks){
+      if(!(cut.owedUsd>0||cut.owedCrc>0))continue;
+      const existing=await supabase.from('commission_adjustments').select('id,amount_usd,amount_crc').eq('agent_email',cut.agent_email).eq('order_number',order.order_number).maybeSingle();
+      if(existing.error){extraAdjustments.push({agent_email:cut.agent_email,recorded:false,error:existing.error.message});continue;}
+      const row={agent_email:cut.agent_email,agent_name:cut.agent_name||null,order_number:order.order_number,amount_usd:Number(existing.data?.amount_usd||0)+cut.owedUsd,amount_crc:Number(existing.data?.amount_crc||0)+cut.owedCrc,reason:`Refund on one-time additional commission for order ${order.order_number}${plan.reason?` — ${plan.reason}`:''}`,created_by:actor};
+      const saved=existing.data?await supabase.from('commission_adjustments').update(row).eq('id',existing.data.id):await supabase.from('commission_adjustments').insert(row);
+      extraAdjustments.push({agent_email:cut.agent_email,recorded:!saved.error,...(saved.error?{error:saved.error.message}:{owedUsd:cut.owedUsd,owedCrc:cut.owedCrc})});
     }
 
     // --- stock --------------------------------------------------------------
@@ -385,6 +400,7 @@ export async function POST(request) {
       totalRefundedCrc: plan.totalRefundedCrc,
       fullyRefunded: plan.fullyRefunded,
       adjustment,
+      extraAdjustments,
       affiliateCommission,
       stock,
       emails,

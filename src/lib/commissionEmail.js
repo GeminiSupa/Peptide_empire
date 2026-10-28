@@ -56,7 +56,7 @@ export function buildAgentCommissionEmail({
     : `${Number(commissionRate || 0)}%`;
   const overrideRows = overrideList.map((row, index) => `
       <tr bgcolor="${index % 2 === 0 ? '#ffffff' : '#f8fafc'}">
-        <td style="padding:12px 10px;border-top:1px solid #e2e8f0;font:600 12px Arial,sans-serif;color:#0f172a;">${escapeHtml(row.name || 'Partner')}${row.kind === 'affiliate_handler' ? '<br><span style="font:10px Arial,sans-serif;color:#64748b;text-transform:uppercase;">Affiliate handling</span>' : ''}</td>
+        <td style="padding:12px 10px;border-top:1px solid #e2e8f0;font:600 12px Arial,sans-serif;color:#0f172a;">${escapeHtml(row.name || 'Partner')}${row.kind === 'affiliate_handler' ? '<br><span style="font:10px Arial,sans-serif;color:#64748b;text-transform:uppercase;">Affiliate handling</span>' : row.kind==='additional_commission'?'<br><span style="font:10px Arial,sans-serif;color:#64748b;text-transform:uppercase;">Additional team commission</span>':''}</td>
         <td align="center" style="padding:12px 10px;border-top:1px solid #e2e8f0;font:12px Arial,sans-serif;color:#475569;">${Number(row.ordersCount || 0)}</td>
         <td align="right" style="padding:12px 10px;border-top:1px solid #e2e8f0;font:12px Arial,sans-serif;color:#475569;white-space:nowrap;">${Number(row.salesUsd) > 0 ? formatMoney(row.salesUsd, 'USD') : formatMoney(row.salesCrc, 'CRC')}</td>
         <td align="right" style="padding:12px 10px;border-top:1px solid #e2e8f0;font:700 12px Arial,sans-serif;color:#0f172a;white-space:nowrap;">${Number(row.overrideRate || 0)}% · ${Number(row.overrideUsd) > 0 ? formatMoney(row.overrideUsd, 'USD') : formatMoney(row.overrideCrc, 'CRC')}</td>
@@ -193,7 +193,7 @@ export function buildAgentCommissionEmail({
       ? [
         '',
         `Team and affiliate handling: ${formatMoney(overrideUsd, 'USD')} OR ${formatMoney(overrideCrc, 'CRC')}`,
-        ...overrideList.map((row) => `${row.name} · ${row.ordersCount} order${row.ordersCount === 1 ? '' : 's'} · ${Number(row.overrideRate || 0)}% ${row.kind === 'affiliate_handler' ? 'affiliate handling' : 'remainder'} · you earned ${Number(row.overrideUsd) > 0 ? formatMoney(row.overrideUsd, 'USD') : formatMoney(row.overrideCrc, 'CRC')}`),
+        ...overrideList.map((row) => `${row.name} · ${row.ordersCount} order${row.ordersCount === 1 ? '' : 's'} · ${Number(row.overrideRate || 0)}% ${row.kind === 'affiliate_handler' ? 'affiliate handling' : row.kind === 'additional_commission' ? 'one-time extra commission' : 'remainder'} · you earned ${Number(row.overrideUsd) > 0 ? formatMoney(row.overrideUsd, 'USD') : formatMoney(row.overrideCrc, 'CRC')}`),
       ]
       : []),
   ].join('\n');

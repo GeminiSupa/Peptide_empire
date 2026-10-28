@@ -538,6 +538,10 @@ export async function POST(request) {
     Object.assign(order, researchAckRecord());
 
     let resolvedPromo = null;
+    delete order.additional_commission_user_id;
+    delete order.additional_commission_pct;
+    delete order.additional_commission_reason;
+    delete order.additional_commission_assigned_at;
     let business = null;
     const requestedBusinessQuoteId=order.business_quote_id || null;
     delete order.business_account_id;

@@ -29,6 +29,8 @@ import { applyCommissionAdjustments } from '@/lib/orderRefund.mjs';
 import { getOrderMailSettings } from '@/lib/transactionalSmtp';
 import { stripOwnerAddress } from '@/lib/orderEmailAddressing.mjs';
 import { buildCommissionAdminRecipients } from '@/lib/commissionReportRecipients.mjs';
+import {additionalCommissionSnapshotMatches} from '@/lib/additionalCommission.mjs';
+import {canOwnReturningCustomer} from '@/lib/salesAgentAffiliate.mjs';
 
 // The owner is BCC'd on this mail, so they are stripped from the visible
 // recipients rather than named twice on the same envelope.
@@ -152,12 +154,20 @@ export async function POST(request) {
         .order('created_at', { ascending: false });
 
       if (overrideOrdersError) {
+        if(savedOverrideOrders.some(order=>order.commission_additional_user_id))return NextResponse.json({error:'Could not refresh one-time extra commissions. Nothing was approved; please retry.'},{status:503});
         console.error('[Commission Approval] Could not refresh sub-user order statuses:', overrideOrdersError);
       } else {
         eligibleOverrideOrders = withoutExcludedOrders(currentOverrideOrders || []);
       }
     }
 
+    if(!additionalCommissionSnapshotMatches(eligibleOverrideOrders,savedOverrideOrders))return NextResponse.json({error:'An extra commission recipient or rate changed after this report was generated. Run the weekly report again before approval.'},{status:409});
+    const extraRecipientIds=[...new Set(savedOverrideOrders.filter(saved=>eligibleOverrideOrders.some(live=>live.id===saved.id)).map(order=>order.commission_additional_user_id).filter(Boolean))];
+    if(extraRecipientIds.length){
+      const recipients=await supabaseAdmin.from('admin_profiles').select('user_id,name,email,status,tier,is_superadmin').in('user_id',extraRecipientIds);
+      if(recipients.error)return NextResponse.json({error:'Could not verify extra commission recipients.'},{status:503});
+      if(extraRecipientIds.some(id=>!(recipients.data||[]).some(profile=>profile.user_id===id&&canOwnReturningCustomer(profile)&&String(profile.email||'').toLowerCase()===String(payout.agent_email||'').toLowerCase())))return NextResponse.json({error:'An extra commission recipient changed or is no longer active. Review the allocation and rerun the weekly report.'},{status:409});
+    }
     eligibleOverrideOrders = reattachOverrideStamps(eligibleOverrideOrders, savedOverrideOrders);
     const amountFor = (order) => getOrderSalesAmounts(order, currentExchangeRate);
     const pricedOverride = priceStampedOverrideOrders(eligibleOverrideOrders, amountFor);

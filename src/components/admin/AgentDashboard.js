@@ -378,7 +378,7 @@ export default function AgentDashboard({
                 ? `From payout report · ${wp.status === 'Approved' ? 'Paid' : 'Pending'}`
                 : isSubUser
                   ? `${stats.commissionRate}% of your orders`
-                  : `${stats.currentWeekCommissionRateLabel || `${stats.commissionRate}%`} commission${stats.currentWeekOverrideCount > 0 ? ' + team override' : ''} + salary`}
+                  : `${stats.currentWeekCommissionRateLabel || `${stats.commissionRate}%`} commission${stats.currentWeekOverrideCount > 0 ? ' + team / extra commission' : ''} + salary`}
             </div>
           </div>
         </div>
@@ -444,9 +444,9 @@ export default function AgentDashboard({
               <div className="dashboard-mini-row" style={{ cursor: 'default' }}>
                 <Target size={16} style={{ color: '#fbbf24' }} />
                 <div style={{ flex: 1 }}>
-                  <div className="dashboard-mini-title">Team override earned · {weekWord}</div>
+                  <div className="dashboard-mini-title">Team / extra commission · {weekWord}</div>
                   <div className="dashboard-mini-sub">
-                    {stats.currentWeekOverrideRate}% on {stats.currentWeekOverrideCount} sub-user order{stats.currentWeekOverrideCount === 1 ? '' : 's'}
+                    {stats.currentWeekOverrideCount} order{stats.currentWeekOverrideCount === 1 ? '' : 's'} · includes any one-time extra commission
                   </div>
                 </div>
                 <div className="dashboard-mini-val">{preferredMoney(weekOverrideUsd, weekOverrideCrc)}</div>

@@ -24,6 +24,7 @@ export function formatActivityType(type) {
     payment_method_change: 'Payment method changed',
     receipt_resent: 'Receipt resent to customer',
     agent_assignment: 'Owner changed',
+    additional_commission_updated: 'One-time extra commission updated',
     owner_change_requested: 'Owner change requested',
     owner_change_rejected: 'Owner change rejected',
     email: 'Email',

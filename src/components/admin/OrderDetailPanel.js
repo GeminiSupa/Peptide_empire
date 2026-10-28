@@ -15,6 +15,7 @@ import { areCardPaymentsPausedForClient } from '@/lib/cardPaymentsPaused.mjs';
 const CARD_PAYMENTS_PAUSED = areCardPaymentsPausedForClient();
 import { isAgentReferralSource, isSalesAgentAffiliate } from '@/lib/salesAgentAffiliate.mjs';
 import { OWNER_REASON_MAX, OWNER_REASON_MIN, sameOwner } from '@/lib/orderOwnership.mjs';
+import {planAdditionalCommission} from '@/lib/additionalCommission.mjs';
 import OrderOwnerDialog from './OrderOwnerDialog';
 import { bacGiftShortfall } from '@/lib/bacWater.mjs';
 import { previewAutomaticDiscount } from '@/lib/manualOrderDiscount.mjs';
@@ -203,6 +204,17 @@ export default function OrderDetailPanel({
   const [commissionMode, setCommissionMode] = useState(order.agent_commission_rate_override ? 'custom' : 'default');
   const [commissionOverridePct, setCommissionOverridePct] = useState(order.agent_commission_rate_override || 20);
   const [ownerReason, setOwnerReason] = useState('');
+  const [extraUserId,setExtraUserId]=useState(order.additional_commission_user_id||'');
+  const [extraPct,setExtraPct]=useState(order.additional_commission_pct||10);
+  const [extraReason,setExtraReason]=useState(order.additional_commission_reason||'');
+  const [extraTeam,setExtraTeam]=useState([]);
+  const [extraTeamError,setExtraTeamError]=useState('');
+  useEffect(()=>{
+    if(!isSuperadmin)return;
+    let active=true;
+    adminFetch('/api/admin/orders/extra-commission').then(async response=>{const result=await response.json();if(!response.ok)throw new Error(result.error);return result;}).then(result=>{if(active)setExtraTeam(result.team||[]);}).catch(error=>{if(active)setExtraTeamError(error.message);});
+    return()=>{active=false;};
+  },[isSuperadmin]);
   const [ownerRequestOpen, setOwnerRequestOpen] = useState(false);
   const [attributionError, setAttributionError] = useState('');
   const [resendingReceipt, setResendingReceipt] = useState(false);
@@ -282,6 +294,9 @@ export default function OrderDetailPanel({
     sync(setAttributionAffiliateId, was.affiliate_id || '', order.affiliate_id || '');
     sync(setCommissionMode, prev ? modeOf(prev) : 'default', modeOf(order));
     sync(setCommissionOverridePct, was.agent_commission_rate_override || 20, order.agent_commission_rate_override || 20, (a, b) => Number(a || 0) === Number(b || 0));
+    sync(setExtraUserId,was.additional_commission_user_id||'',order.additional_commission_user_id||'');
+    sync(setExtraPct,was.additional_commission_pct||10,order.additional_commission_pct||10,(a,b)=>Number(a)===Number(b));
+    sync(setExtraReason,was.additional_commission_reason||'',order.additional_commission_reason||'');
 
     if (!keepEdits) {
       setSaveError('');
@@ -502,8 +517,9 @@ export default function OrderDetailPanel({
 
   // Replacing someone who already owns the order needs a reason on the record;
   // filling an empty owner does not.
+  const effectiveOwner=selectedAffiliateIsAgent?(extraTeam.find(profile=>profile.user_id===selectedAffiliate.admin_profile_user_id)?.name||creditedAgent):creditedAgent;
   const replacingOwner = Boolean(String(order.sales_agent || '').trim())
-    && !sameOwner(order.sales_agent, creditedAgent);
+    && !sameOwner(order.sales_agent, effectiveOwner);
 
   // What differs from the saved order, group by group. The one Save button
   // sends only these. Sending everything used to break the common case: the
@@ -538,7 +554,8 @@ export default function OrderDetailPanel({
     (commissionMode !== 'default' &&
       Number(commissionOverridePct || 0) !== Number(order.agent_commission_rate_override || 20))
   );
-  const hasUnsavedChanges = contactChanged || pricingChanged || notesChanged || trackingChanged || attributionChanged;
+  const extraChanged=isSuperadmin&&(extraUserId!==(order.additional_commission_user_id||'')||(Boolean(extraUserId)&&(Number(extraPct)!==Number(order.additional_commission_pct||10)||extraReason!==(order.additional_commission_reason||''))));
+  const hasUnsavedChanges = contactChanged || pricingChanged || notesChanged || trackingChanged || attributionChanged || extraChanged;
 
   // Reloading or closing the browser tab would drop the edits without a word.
   // The browser shows its own "Leave site?" box; the text is not ours to set.
@@ -594,6 +611,10 @@ export default function OrderDetailPanel({
       }
     }
     if (pricingChanged && !confirmPaidOrderDiscount()) return;
+    if(extraChanged){
+      const plan=planAdditionalCommission({...order,sales_agent:effectiveOwner},{additional_commission_user_id:extraUserId,additional_commission_pct:extraPct,additional_commission_reason:extraReason},extraTeam);
+      if(!plan.ok){setSaveError(plan.error);return;}
+    }
 
     const updates = {};
     const changedParts = [];
@@ -640,6 +661,12 @@ export default function OrderDetailPanel({
         `attribution (${creditedAgent.trim() || 'unassigned'} / ${selectedAffiliate?.name || 'no affiliate'} / ${overrideRate ? `${overrideRate}%` : 'profile rate'})`
       );
     }
+    if(extraChanged){
+      updates.additional_commission_user_id=extraUserId||null;
+      updates.additional_commission_pct=extraUserId?Number(extraPct):null;
+      updates.additional_commission_reason=extraReason.trim();
+      changedParts.push('additional team commission');
+    }
     const tracking = trackingNumber.trim();
     if (trackingChanged) {
       updates.tracking_number = tracking || null;
@@ -661,7 +688,7 @@ export default function OrderDetailPanel({
         },
         {
           acknowledgePaidOrderDiscount: isSettledOrder && hasManualDiscountChanged,
-          ...(attributionChanged && replacingOwner ? { ownerChangeReason: ownerReason.trim() } : {}),
+          ...(ownerReason.trim() ? { ownerChangeReason: ownerReason.trim() } : {}),
         }
       );
       setOwnerReason('');
@@ -1228,7 +1255,7 @@ export default function OrderDetailPanel({
                       <option key={agent} value={agent}>{agent}</option>
                     ))}
                   </select>
-                  {replacingOwner && (
+                  {(replacingOwner || selectedAffiliateIsAgent) && (
                     <input
                       className="admin-input"
                       aria-label="Reason for changing the owner"
@@ -1349,11 +1376,21 @@ export default function OrderDetailPanel({
           {selectedAffiliate && (
             <p style={{ fontSize: '0.78rem', color: '#94a3b8', margin: '10px 0 0' }}>
               {selectedAffiliateIsAgent
-                ? 'Sales-agent affiliate: one combined 20% payout appears in the agent report. No separate affiliate commission is added.'
+                ? 'A sales-agent affiliate changes the credited agent and pays one combined commission. To keep the agent on file and pay another teammate as well, use Additional team commission below.'
                 : `Affiliate payout preview uses ${selectedAffiliateRate.toFixed(0)}% and will send their WhatsApp alert when this affiliate is newly assigned.`}
             </p>
           )}
           {attributionError && <p style={{ color: '#f87171', fontSize: '0.85rem', marginTop: '8px' }}>{attributionError}</p>}
+          {isSuperadmin&&<div style={{marginTop:18,padding:14,border:'1px solid #334155',borderRadius:10}}>
+            <h4 style={{margin:'0 0 8px'}}>One-time additional team commission</h4>
+            <p style={{fontSize:12,color:'#94a3b8'}}>Pay a second team member on this order only. It does not carry over to repeat purchases. {order.sales_agent||'The credited agent'} stays on file and keeps their normal commission. This adds to the total commission cost.</p>
+            {extraTeamError&&<p role="alert" style={{color:'#f87171'}}>{extraTeamError}</p>}
+            <label htmlFor="extra-commission-person">Extra commission recipient</label>
+            <select id="extra-commission-person" className="admin-select" value={extraUserId} onChange={event=>setExtraUserId(event.target.value)} style={{width:'100%',margin:'4px 0 10px'}}><option value="">No additional commission</option>{extraUserId&&!extraTeam.some(profile=>profile.user_id===extraUserId)&&<option value={extraUserId}>Previously assigned team member</option>}{extraTeam.filter(profile=>!sameOwner(effectiveOwner,profile.name)&&!sameOwner(effectiveOwner,profile.email)).map(profile=><option key={profile.user_id} value={profile.user_id}>{profile.name||profile.email}</option>)}</select>
+            {extraUserId&&<><label htmlFor="extra-commission-rate">Additional commission %</label><input id="extra-commission-rate" className="admin-input" type="number" min="0.01" max="100" step="0.01" value={extraPct} onChange={event=>setExtraPct(event.target.value)}/></>}
+            {(extraUserId||order.additional_commission_user_id)&&<><label htmlFor="extra-commission-note" style={{display:'block',marginTop:10}}>Commission note (required when changing or removing the extra commission)</label><textarea id="extra-commission-note" className="admin-input" value={extraReason} minLength={5} maxLength={500} onChange={event=>setExtraReason(event.target.value)} placeholder="Example: Melissa earned this sale; add 10% while Korinne remains the agent on file." style={{width:'100%',minHeight:76,marginTop:4}}/></>}
+            {extraUserId&&<p style={{fontSize:12}}>Additional payout: {extraPct}% of this order’s net sales, using the same paid/refund rules as other commissions. It appears separately in the recipient’s commission report.</p>}
+          </div>}
         </div>
 
         <div className="order-detail-section">

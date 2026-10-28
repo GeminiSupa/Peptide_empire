@@ -120,7 +120,9 @@ export default function RefundDialog({ order, onClose, onRefunded }) {
       // Built in the shared lib so "nobody to email" cannot be reported as a
       // failure — the customer having no address is a phone call to make, not a
       // fault to chase.
-      onRefunded?.(data, refundEmailMessage(data.emails));
+      const extraFailures=(data.extraAdjustments||[]).filter(row=>!row.recorded);
+      const extraWarning=extraFailures.length?` Extra commission adjustments need accounting attention for ${extraFailures.map(row=>row.agent_email).join(', ')}. The refund itself is recorded.`:'';
+      onRefunded?.(data, refundEmailMessage(data.emails)+extraWarning);
       onClose?.();
     } catch (err) {
       setError(err.message);

@@ -123,7 +123,8 @@ export function reattachOverrideStamps(freshOrders, savedOrders) {
   return (freshOrders || []).map((order) => {
     const stamp = readOverrideStamp(savedById.get(order?.id));
     if (!stamp) return order;
-    return stampOverrideOrder(order, stamp);
+    const saved=savedById.get(order?.id);
+    return {...stampOverrideOrder(order, stamp),...(saved?.commission_additional_user_id?{commission_additional_user_id:saved.commission_additional_user_id,commission_additional_rate:saved.commission_additional_rate,commission_additional_base_rate:saved.commission_additional_base_rate}: {})};
   });
 }
 

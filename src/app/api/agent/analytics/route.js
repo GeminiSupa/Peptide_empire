@@ -18,7 +18,9 @@ import { commissionSourceLabel, isAgentReferralSource } from '@/lib/salesAgentAf
 import { getDatabaseBackedUsdToCrcRate } from '@/lib/exchangeRate';
 import { computeOverrideAmounts, overrideRateFor, payableChildrenOf } from '@/lib/subUserCommission.mjs';
 import { isSubUser } from '@/lib/subUserTier.mjs';
-import { agentAnalyticsRange, orderReportableInRange } from '@/lib/agentDashboard.mjs';
+import { agentAnalyticsRange, orderReportableInRange,orderReportableAtMs } from '@/lib/agentDashboard.mjs';
+import {additionalCommissionOrders} from '@/lib/additionalCommission.mjs';
+import {priceStampedOverrideOrders} from '@/lib/subUserCommission.mjs';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
@@ -28,7 +30,7 @@ const ORDER_FIELDS_BASE = 'id, order_number, customer_name, status, sales_agent,
 // pasted in by hand, so this deploy can land first; naming a column that does
 // not exist yet fails the whole query, so it is dropped on the first such
 // error and the narrow field list is kept for the paging that follows.
-const ORDER_FIELDS = `${ORDER_FIELDS_BASE}, stats_override`;
+const ORDER_FIELDS = `${ORDER_FIELDS_BASE}, stats_override, additional_commission_user_id, additional_commission_pct, additional_commission_assigned_at`;
 let orderFieldsInUse = ORDER_FIELDS;
 const PAYOUT_FIELDS = 'id, start_date, end_date, usd_sales, crc_sales, usd_commission, crc_commission, weekly_salary_paid, salary_currency, total_payout_usd, total_payout_crc, status';
 const PAGE_SIZE = 1000;
@@ -47,6 +49,11 @@ async function fetchAllOrders(supabase, configure) {
     if (error && missingColumnFrom(error) === 'stats_override') {
       orderFieldsInUse = ORDER_FIELDS_BASE;
       ({ data, error } = await run(orderFieldsInUse));
+    }
+    while(error&&['additional_commission_user_id','additional_commission_pct','additional_commission_assigned_at'].includes(missingColumnFrom(error))){
+      const missing=missingColumnFrom(error);
+      orderFieldsInUse=orderFieldsInUse.split(',').map(field=>field.trim()).filter(field=>field!==missing).join(', ');
+      ({data,error}=await run(orderFieldsInUse));
     }
     if (error) throw error;
     rows.push(...(data || []));
@@ -138,6 +145,7 @@ export async function GET(request) {
     let currentWeekOverrideUSD = 0;
     let currentWeekOverrideCRC = 0;
     let currentWeekOverrideCount = 0;
+    const overrideOrderIds=new Set();
     const currentWeekOverrideRate = overrideRateFor(profile);
     if (!isSubUser(profile) && currentWeekOverrideRate > 0) {
       const { data: profiles, error: profilesError } = await supabaseAdmin.from('admin_profiles').select('*');
@@ -159,8 +167,14 @@ export async function GET(request) {
       currentWeekOverrideUSD = override.overrideUsd;
       currentWeekOverrideCRC = override.overrideCrc;
       currentWeekOverrideCount = childWeekOrders.length;
+      childWeekOrders.forEach(order=>overrideOrderIds.add(order.id));
     }
 
+    const extraWeekOrders=additionalCommissionOrders(eligibleRows,profile,{startMs:Date.parse(weekStartUtc),endMs:Date.parse(weekEndUtc)-1,reportableAt:orderReportableAtMs});
+    const extraAmounts=priceStampedOverrideOrders(extraWeekOrders,getAmounts);
+    currentWeekOverrideUSD+=extraAmounts.overrideUsd;
+    currentWeekOverrideCRC+=extraAmounts.overrideCrc;
+    currentWeekOverrideCount+=extraWeekOrders.filter(order=>!overrideOrderIds.has(order.id)).length;
     const rate = Number(profile.commission_rate || 0);
     const weekCommissionSummary = summarizeOrderCommissions(
       weekOrders,
@@ -263,6 +277,7 @@ export async function GET(request) {
         currentWeekOverrideCRC,
         currentWeekOverrideCount,
         currentWeekOverrideRate,
+        additionalCommissionOrders:extraWeekOrders.map(order=>({id:order.id,order_number:order.order_number,rate:order.commission_additional_rate,sales_agent:order.sales_agent})),
         todayOrdersCount: todaySales.count,
         todaySalesUSD: todaySales.usd,
         todaySalesCRC: todaySales.crc,

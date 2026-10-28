@@ -37,6 +37,7 @@ import { sendTaxRecordsPayoutCopy } from '@/lib/taxRecordsEmail.mjs';
 import { resolveTaxRecordsMailer } from '@/lib/taxRecordsSmtp.mjs';
 import { hasPositivePayout, summarizeCommissionScan } from '@/lib/commissionScan.mjs';
 import { PAYOUT_RESERVED_STATUSES } from '@/lib/payoutSettlement.mjs';
+import {additionalCommissionOrders,mergeAdditionalCommissionOrders} from '@/lib/additionalCommission.mjs';
 import { orderReportableAtMs } from '@/lib/agentDashboard.mjs';
 import { buildCommissionAdminRecipients } from '@/lib/commissionReportRecipients.mjs';
 import {
@@ -166,7 +167,19 @@ export async function GET(request) {
       .from('orders')
       .select('*')
       .in('status', COMMISSION_ELIGIBLE_ORDER_STATUSES)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false }).order('id',{ascending:false});
+
+    // An extra commission can be assigned to an older sale. Page the complete
+    // eligible ledger so a recent allocation is not lost past PostgREST's cap.
+    if(!ordersError&&rawOrders?.length===1000){
+      for(let page=1;page<50;page++){
+        const more=await supabaseAdmin.from('orders').select('*').in('status',COMMISSION_ELIGIBLE_ORDER_STATUSES).order('created_at',{ascending:false}).order('id',{ascending:false}).range(page*1000,page*1000+999);
+        if(more.error)return NextResponse.json({error:'Could not load the complete commission history. No report was generated.'},{status:503});
+        rawOrders.push(...(more.data||[]));
+        if((more.data||[]).length<1000)break;
+        if(page===49)return NextResponse.json({error:'Commission history exceeds the safe reporting limit. No report was generated.'},{status:503});
+      }
+    }
 
     const orders = withoutExcludedOrders(rawOrders || []).filter(order => {
       const reportableAt = orderReportableAtMs(order);
@@ -317,7 +330,7 @@ export async function GET(request) {
       // Each order keeps the rate it was scored at. Approval re-reads the live
       // order later (a refund must drop off) and prices from this stamp.
       // Without it, every line was paid at her whole budget, normally 10%.
-      const overrideOrders = [];
+      let overrideOrders = [];
 
       for (const child of children) {
         const childOrders = (orders || []).filter((order) => {
@@ -353,6 +366,7 @@ export async function GET(request) {
         }
       }
 
+      overrideOrders=mergeAdditionalCommissionOrders(overrideOrders,additionalCommissionOrders(withoutExcludedOrders(rawOrders || []),agent,{startMs:startDate.getTime(),endMs:endDate.getTime(),reportableAt:orderReportableAtMs,isPaid:order=>hasBeenPaid(paidIndex,agent.email,order.id)}));
       overrideOrders.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
       const amountFor = (order) => getOrderSalesAmounts(order, currentExchangeRate);
       const pricedOverride = priceStampedOverrideOrders(overrideOrders, amountFor);

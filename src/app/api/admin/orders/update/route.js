@@ -38,6 +38,9 @@ import {
   isEligibleSalesAgentProfile,
   isSalesAgentAffiliate,
 } from '@/lib/salesAgentAffiliate.mjs';
+import {ADDITIONAL_COMMISSION_FIELDS,planAdditionalCommission} from '@/lib/additionalCommission.mjs';
+import {PAYOUT_RESERVED_STATUSES} from '@/lib/payoutSettlement.mjs';
+import {buildPaidOrderIndex,hasBeenPaid} from '@/lib/subUserCommission.mjs';
 
 export const runtime = 'nodejs';
 
@@ -76,6 +79,7 @@ export async function PATCH(request) {
       'payment_transaction_id', 'payment_provider_status', 'payment_authorization',
       'payment_descriptor', 'payment_provider_response',
       'affiliate_id', 'agent_commission_rate_override', 'agent_commission_source',
+      ...ADDITIONAL_COMMISSION_FIELDS,
       'manual_discount_type', 'manual_discount_value', 'manual_discount_reason',
       'apply_volume_discount',
       'ready_to_prepare_at', 'ready_to_prepare_by',
@@ -330,12 +334,38 @@ export async function PATCH(request) {
     }
 
     const superadminOnlyFields = [
+      ...ADDITIONAL_COMMISSION_FIELDS,
       'affiliate_id',
       'agent_commission_rate_override',
       'agent_commission_source',
     ];
     if (!auth.profile.is_superadmin && superadminOnlyFields.some((field) => field in patch)) {
       return NextResponse.json({ error: 'Forbidden: only superadmins can edit payout attribution' }, { status: 403 });
+    }
+    let additionalPlan=null;
+    if(ADDITIONAL_COMMISSION_FIELDS.some(field=>field in patch)){
+      const profilesResult=await supabase.from('admin_profiles').select('user_id,name,email,status,tier,is_superadmin');
+      if(profilesResult.error)return NextResponse.json({error:'Could not verify the extra commission recipient.'},{status:503});
+      additionalPlan=planAdditionalCommission(currentOrder,patch,profilesResult.data);
+      if(!additionalPlan.ok)return NextResponse.json({error:additionalPlan.error},{status:400});
+      if(additionalPlan.changed&&additionalPlan.rateChanged){
+        const ids=new Set([currentOrder.additional_commission_user_id,additionalPlan.patch.additional_commission_user_id].filter(Boolean));
+        const emails=(profilesResult.data||[]).filter(profile=>ids.has(profile.user_id)).map(profile=>profile.email).filter(Boolean);
+        if(emails.length){
+          const payouts=[];
+          for(let start=0;start<20000;start+=1000){
+            const result=await supabase.from('commission_payouts').select('agent_email,orders_data,override_orders_data').in('agent_email',emails).in('status',PAYOUT_RESERVED_STATUSES).range(start,start+999);
+            if(result.error)return NextResponse.json({error:'Could not verify whether this commission was already approved.'},{status:503});
+            payouts.push(...(result.data||[]));
+            if((result.data||[]).length<1000)break;
+            if(start===19000)return NextResponse.json({error:'Too many payout records to safely change this allocation. Review it with accounting.'},{status:409});
+          }
+          const paid=buildPaidOrderIndex(payouts);
+          if(emails.some(email=>hasBeenPaid(paid,email,currentOrder.id)))return NextResponse.json({error:'This recipient already has an approved payout for this order. Use a separate accounting adjustment instead of changing the extra commission.'},{status:409});
+        }
+      }
+      for(const field of ADDITIONAL_COMMISSION_FIELDS)delete patch[field];
+      Object.assign(patch,additionalPlan.patch);
     }
 
     if ('agent_commission_rate_override' in patch) {
@@ -421,6 +451,12 @@ export async function PATCH(request) {
     // the owner too.
     let ownerChangeReason = '';
     if ('sales_agent' in patch && !sameOwner(currentOrder.sales_agent, patch.sales_agent)) {
+      const extraId=Object.hasOwn(patch,'additional_commission_user_id')?patch.additional_commission_user_id:currentOrder.additional_commission_user_id;
+      if(extraId){
+        const recipient=await supabase.from('admin_profiles').select('name,email').eq('user_id',extraId).maybeSingle();
+        if(recipient.error)return NextResponse.json({error:'Could not verify the existing extra commission.'},{status:503});
+        if(recipient.data&&(sameOwner(patch.sales_agent,recipient.data.name)||sameOwner(patch.sales_agent,recipient.data.email)))return NextResponse.json({error:'Remove the extra commission before making its recipient the credited agent. The same person cannot receive both commissions on this order.'},{status:409});
+      }
       if (!auth.profile.is_superadmin) {
         return NextResponse.json({
           error: 'Order owners can only be changed with "Claim" or "Request owner change". This order has not been changed.',
@@ -447,6 +483,9 @@ export async function PATCH(request) {
             : 'Order discount removed',
         }
       : activity;
+    if(additionalPlan?.changed){
+      authoritativeActivity={type:'additional_commission_updated',message:[authoritativeActivity?.message,additionalPlan.message].filter(Boolean).join(' · ')};
+    }
 
     if (ownerChangeReason) {
       const ownerLine = `Owner changed from ${String(currentOrder.sales_agent || '').trim() || 'Unassigned'} `
@@ -496,6 +535,7 @@ export async function PATCH(request) {
       if (inventoryReservation) await inventoryReservation.rollback().catch(() => {});
       console.error('[admin/orders/update]', error.message);
       const missingColumn = missingColumnFrom(error);
+      if(missingColumn?.startsWith('additional_commission_'))return NextResponse.json({error:'One-time extra commissions are not enabled in the database yet. Run add-order-additional-commission.sql first. No allocation was saved.'},{status:503});
       if (manualDiscountRequested && missingColumn?.startsWith('manual_discount_')) {
         return NextResponse.json({
           error: 'Order discounts are not enabled in the database yet. Run add-manual-order-discounts.sql first.',
