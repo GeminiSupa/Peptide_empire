@@ -17,7 +17,7 @@ test('all money is numeric USD, including CRC-only item rows', () => {
 });
 test('canonical order values exclude shipping and preserve list price and per-unit discount', () => {
   const order={order_number:'WPCR-TEST01',total_usd:578.14,shipping_cost_usd:5,currency:'USD'};
-  const snapshot=orderEcommerceSnapshot(order,{products:[item],items:[{product:item.product,qty:5,price:134.86}],promoApplied:true},502);
+  const snapshot=orderEcommerceSnapshot(order,{products:[item],items:[{product:item.product,qty:5,price:134.86}],promoApplied:true,volumeDiscountPct:15},502);
   assert.equal(snapshot.value,573.14); assert.equal(snapshot.shipping,5); assert.equal(snapshot.transaction_id,'WPCR-TEST01'); assert.equal(snapshot.items[0].price,134.86); assert.equal(snapshot.items[0].discount,20.23);
 });
 test('clears ecommerce before every ecommerce event and deduplicates only receipt conversions', () => {
@@ -63,4 +63,9 @@ test('receipt endpoint binds both signed identity fields and waits for card sett
 test('confirmed payment time survives fulfillment but never overrides cancellation or unpaid status',()=>{
   const base={order_number:'WPCR-TEST07',items:[{product:'BPC-157 10mg',price:50,qty:1}],currency:'USD',total_usd:50,payment_method:'card',ads_paid_at:new Date().toISOString()};
   assert.equal(receiptEvent({...base,status:'Processing'}).event,'purchase');assert.equal(receiptEvent({...base,status:'Pending'}),null);assert.equal(receiptEvent({...base,status:'Refunded'}),null);
+});
+
+test('bulk discount excludes BAC water and contract unit reductions stay visible',()=>{
+  const snapshot=orderEcommerceSnapshot({currency:'USD',total_usd:50,shipping_cost_usd:0},{volumeDiscountPct:15,products:[{product:'BPC-157 10mg',priceUsd:50},{product:'BAC Water 10ml',priceUsd:10}],items:[{product:'BPC-157 10mg',qty:1,price:40},{product:'BAC Water 10ml',qty:1,price:10}]},502);
+  assert.equal(snapshot.items[0].price,50);assert.equal(snapshot.items[0].discount,16);assert.equal(snapshot.items[1].discount,0);assert.equal(snapshot.value,50);
 });

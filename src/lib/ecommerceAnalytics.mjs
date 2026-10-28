@@ -1,3 +1,4 @@
+import { isBacWater } from './bacWater.mjs';
 import { conversionEmail, conversionPhone } from './conversionIdentity.mjs';
 import { catalogCompoundAndSize } from './catalogCategories.mjs';
 export const money = value => Math.round((Number(value) + Number.EPSILON) * 100) / 100;
@@ -10,20 +11,25 @@ export function analyticsItem(product, { rate = 502, currency = 'USD' } = {}) {
   const usd = product.priceUsd ?? product.price_usd;
   const crc = product.priceCrc ?? product.price_crc;
   const price = usd != null ? numericPrice(usd) : crc != null ? numericPrice(crc) / rate : numericPrice(product.price) / (currency === 'CRC' ? rate : 1);
-  return { item_id: slug(`${displayName}-${String(size).replace(/\s/g, '')}`), item_name: displayName, item_variant: String(size).replace(/(\d)\s*(mg|ml|mcg|iu)\b/gi, '$1 $2'), item_category: product.category || product.item_category || '', price: money(price), quantity: Math.max(1, Number(product.qty || product.quantity) || 1), discount: 0 };
+  return { item_id: slug(`${displayName}-${String(size).replace(/\s/g, '')}`), item_name: displayName, item_variant: String(size).replace(/(\d)\s*(mg|ml|mcg|iu)\b/gi, '$1 $2'), item_category: product.category || product.item_category || '', price: money(price), quantity: Math.max(1, Number(product.qty || product.quantity) || 1), discount: money(product.analytics_discount || 0) };
 }
-export function ecommerceData(products, { rate = 502, currency = 'USD', value, shipping = 0, discountPct = 0 } = {}) {
+export function ecommerceData(products, { rate = 502, currency = 'USD', value, shipping = 0, discountPct } = {}) {
   const items = (products || []).map(product => analyticsItem(product, { rate, currency }));
-  for (const item of items) item.discount = money(item.price * Math.min(100, Math.max(0, discountPct)) / 100);
+  if (discountPct != null) for (const item of items) item.discount = isBacWater(item.item_name) ? 0 : money(item.price * Math.min(100, Math.max(0, discountPct)) / 100);
   const listTotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const net = value == null ? listTotal * (1 - Math.min(100, Math.max(0, discountPct)) / 100) : Math.max(0, Number(value));
-  if (value != null && listTotal > 0) for (const item of items) item.discount = money(item.price * Math.max(0, 1 - net / listTotal));
+  const net = value == null ? items.reduce((sum, item) => sum + (item.price - (discountPct != null && !isBacWater(item.item_name) ? item.price * Math.min(100, Math.max(0, discountPct)) / 100 : item.discount)) * item.quantity, 0) : Math.max(0, Number(value));
+  if (value != null && discountPct == null && !products.some(product => product.analytics_discount != null) && listTotal > 0) for (const item of items) item.discount = money(item.price * Math.max(0, 1 - net / listTotal));
   return { currency: 'USD', value: money(net), ...(shipping ? { shipping: money(shipping) } : {}), items };
 }
 export function orderEcommerceSnapshot(order, pricing, rate) {
   const rows = (pricing.items || order.items || []).map(line => {
     const product = (pricing.products || []).find(row => row.product === line.product);
-    return { ...product, ...line, ...(Number(line.price) === 0 ? { priceUsd: 0 } : {}), category: product?.category || line.category || '' };
+    const row = { ...product, ...line, ...(Number(line.price) === 0 ? { priceUsd: 0 } : {}), category: product?.category || line.category || '' };
+    const list = analyticsItem(row, { rate, currency: order.currency }).price;
+    const chargedUnit = numericPrice(line.price) / (order.currency === 'CRC' ? rate : 1);
+    const pct = isBacWater(line.product) ? 0 : Number(pricing.volumeDiscountPct ?? order.volume_discount_pct ?? 0);
+    row.analytics_discount = Math.max(0, list - chargedUnit * (1 - pct / 100));
+    return row;
   });
   const shipping = Number(order.shipping_cost_usd || 0);
   return { ...ecommerceData(rows, { rate, currency: order.currency, value: Math.max(0, Number(order.total_usd) - shipping), shipping }), shipping: money(shipping), transaction_id: order.order_number, coupon: pricing.promoApplied ? String(order.promo_code || '') : '' };

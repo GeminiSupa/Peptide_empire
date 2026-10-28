@@ -1,7 +1,7 @@
 "use client";
 
 import { safeLocalStorage as localStorage, safeSessionStorage } from '@/lib/storage';
-import { ecommerceData, analyticsItem } from '@/lib/ecommerceAnalytics.mjs';
+import { ecommerceData, analyticsItem, orderEcommerceSnapshot } from '@/lib/ecommerceAnalytics.mjs';
 import { pushEvent, stashReceipt, trackLead } from '@/lib/dataLayer.mjs';
 import { readAdClick } from '@/lib/adClickAttribution.mjs';
 import costaricaData from '@/lib/costarica.json';
@@ -2380,10 +2380,31 @@ export default function CatalogPage() {
   };
 
   const analyticsStage = useRef('none');
-  const trackCartEvent = (event, lines = cart, extras = {}) => {
+  const trackCartEvent = (event, lines = cart, extras = {}, pricingCart = lines) => {
+    try {
     const wholeCart = lines === cart;
-    const value = wholeCart ? Math.max(0, getFinalTotal() - getShippingFee()) / (currency === 'CRC' ? exchangeRate : 1) : undefined;
-    pushEvent({ event, ecommerce: { ...ecommerceData(lines, { rate: exchangeRate, value }), ...extras } });
+    const deal = weeklyDeal && pricingCart.some(line => (weeklyDeal.product_names || []).some(name => dealProductNamesMatch(name, line.product))) ? weeklyDeal : null;
+    const quote = authoritativeCheckout({
+      postedOrder: { items: pricingCart, currency, lang },
+      products: products.map(item => ({ product: item.product, category: item.category, price_usd: item.priceUsd, price_crc: item.priceCrc, status: item.status, inventory_count: item.inventoryCount ?? null })),
+      exchangeRate, promo: getAppliedPromoData() || automaticDealPromo(deal, pricingCart),
+      suppressVolumeDiscount: Boolean(deal && dealPricingMode(deal) === 'shelf'),
+      dealOffers: deal && dealPricingMode(deal) === OFFERS_PRICING_MODE ? deal.offers : null,
+      businessDiscountPct: businessDiscountPct(businessAccount),
+      businessProductPrices: businessAccount?.status === 'approved' ? mergeBusinessProductPrices(businessAccount.product_prices || [], businessCheckoutQuote?.items || []) : [],
+    });
+    let data = ecommerceData(lines, { rate: exchangeRate });
+    if (quote.ok) {
+      const snapshot = orderEcommerceSnapshot({ currency, total_usd: quote.totalUsd, shipping_cost_usd: quote.shipping / (currency === 'CRC' ? exchangeRate : 1) }, quote, exchangeRate);
+      const items = wholeCart ? snapshot.items : lines.map(line => {
+        const base = analyticsItem(line, { rate: exchangeRate });
+        return { ...(snapshot.items.find(item => item.item_id === base.item_id) || base), quantity: base.quantity };
+      });
+      data = { currency: 'USD', value: Math.round(items.reduce((sum, item) => sum + (item.price - item.discount) * item.quantity, 0) * 100) / 100, items };
+    }
+    if (wholeCart) data.value = Math.round(Math.max(0, getFinalTotal() - getShippingFee()) / (currency === 'CRC' ? exchangeRate : 1) * 100) / 100;
+    pushEvent({ event, ecommerce: { ...data, ...extras } });
+    } catch { /* Tracking must never prevent a cart action. */ }
   };
   useEffect(() => {
     if (selectedProduct) pushEvent({ event: 'view_item', ecommerce: ecommerceData([{ ...selectedProduct, qty: 1 }], { rate: exchangeRate }) });
@@ -2420,7 +2441,7 @@ export default function CatalogPage() {
       return;
     }
 
-    trackCartEvent('add_to_cart', [{ ...productObj, qty: addQty }]);
+    trackCartEvent('add_to_cart', [{ ...productObj, qty: addQty }], {}, existing ? cart.map(item => item.product === productObj.product ? { ...item, qty: newQty } : item) : [...cart, { ...productObj, qty: addQty }]);
     if (existing) {
       setCart(cart.map(item => 
         item.product === productObj.product 
@@ -2584,7 +2605,7 @@ export default function CatalogPage() {
       return item;
     }).filter(Boolean);
 
-    if (change > 0 && hitLimit === null) { const item = cart.find(line => line.product === productName); if (item) trackCartEvent('add_to_cart', [{ ...item, qty: change }]); }
+    if (change > 0 && hitLimit === null) { const item = cart.find(line => line.product === productName); if (item) trackCartEvent('add_to_cart', [{ ...item, qty: change }], {}, next); }
     setCart(next);
 
     if (hitLimit !== null) {

@@ -5,7 +5,7 @@ export function sanitizeAdAttribution(value, now = Date.now()) {
   const at = Number(value.clicked_at);
   if (!Number.isFinite(at) || at > now + 60000 || now - at > CLICK_TTL) return null;
   const result = { clicked_at: at };
-  for (const key of ['gclid', 'gbraid', 'wbraid']) if (/^[A-Za-z0-9_.~-]{1,250}$/.test(String(value[key] || ''))) result[key] = String(value[key]);
+  for (const key of ['gclid', 'gbraid', 'wbraid']) if (/^[A-Za-z0-9_.~+=/-]{1,512}$/.test(String(value[key] || ''))) result[key] = String(value[key]);
   return Object.keys(result).length > 1 ? result : null;
 }
 export function captureAdClick(location, document, now = Date.now()) {
