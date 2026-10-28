@@ -2380,6 +2380,7 @@ export default function CatalogPage() {
   };
 
   const analyticsStage = useRef('none');
+  const analyticsPaymentChoice = useRef(null);
   const trackCartEvent = (event, lines = cart, extras = {}, pricingCart = lines) => {
     try {
     const wholeCart = lines === cart;
@@ -2416,6 +2417,7 @@ export default function CatalogPage() {
     if (next !== analyticsStage.current) {
       if (next !== 'none' && analyticsStage.current === 'none') trackCartEvent('view_cart');
       if (next === 'checkout') trackCartEvent('begin_checkout');
+      if (next === 'none') analyticsPaymentChoice.current = null;
       analyticsStage.current = next;
     }
   // Cart contents changing while open is not another cart-open or checkout event.
@@ -3622,6 +3624,11 @@ export default function CatalogPage() {
       // nothing marked.
       revealField('bacMinimum');
       return;
+    }
+
+    if (analyticsPaymentChoice.current !== paymentMethod) {
+      trackCartEvent('add_payment_info', cart, { payment_type: paymentMethod });
+      analyticsPaymentChoice.current = paymentMethod;
     }
 
     setOrderSubmitting(true);
@@ -5879,7 +5886,7 @@ export default function CatalogPage() {
                     aria-disabled={method.disabled || undefined}
                     disabled={method.disabled}
                     className={`payment-method-card ${paymentMethod === method.value ? 'active' : ''} ${method.disabled ? 'disabled' : ''}`}
-                    onClick={() => { if (!method.disabled) { setPaymentMethod(method.value); trackCartEvent('add_payment_info', cart, { payment_type: method.value }); } }}
+                    onClick={() => { if (!method.disabled) { setPaymentMethod(method.value); trackCartEvent('add_payment_info', cart, { payment_type: method.value }); analyticsPaymentChoice.current = method.value; } }}
                   >
                     <span className="payment-method-icon">{method.icon}</span>
                     <span className="payment-method-copy">
