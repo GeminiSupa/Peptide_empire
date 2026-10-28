@@ -1,4 +1,4 @@
-import { isBacWater } from './bacWater.mjs';
+import { isBacWater, bacUnitPrice } from './bacWater.mjs';
 import { conversionEmail, conversionPhone } from './conversionIdentity.mjs';
 import { catalogCompoundAndSize } from './catalogCategories.mjs';
 export const money = value => Math.round((Number(value) + Number.EPSILON) * 100) / 100;
@@ -10,7 +10,7 @@ export function analyticsItem(product, { rate = 502, currency = 'USD' } = {}) {
   const displayName = compound;
   const usd = product.priceUsd ?? product.price_usd;
   const crc = product.priceCrc ?? product.price_crc;
-  const price = usd != null ? numericPrice(usd) : crc != null ? numericPrice(crc) / rate : numericPrice(product.price) / (currency === 'CRC' ? rate : 1);
+  const price = product.analytics_gift ? 0 : isBacWater(name) && usd != null ? bacUnitPrice('USD', rate, numericPrice(usd), name) : usd != null ? numericPrice(usd) : crc != null ? numericPrice(crc) / rate : numericPrice(product.price) / (currency === 'CRC' ? rate : 1);
   return { item_id: slug(`${displayName}-${String(size).replace(/\s/g, '')}`), item_name: displayName, item_variant: String(size).replace(/(\d)\s*(mg|ml|mcg|iu)\b/gi, '$1 $2'), item_category: product.category || product.item_category || '', price: money(price), quantity: Math.max(1, Number(product.qty || product.quantity) || 1), discount: money(product.analytics_discount || 0) };
 }
 export function ecommerceData(products, { rate = 502, currency = 'USD', value, shipping = 0, discountPct } = {}) {
@@ -24,7 +24,7 @@ export function ecommerceData(products, { rate = 502, currency = 'USD', value, s
 export function orderEcommerceSnapshot(order, pricing, rate) {
   const rows = (pricing.items || order.items || []).map(line => {
     const product = (pricing.products || []).find(row => row.product === line.product);
-    const row = { ...product, ...line, ...(Number(line.price) === 0 ? { priceUsd: 0 } : {}), category: product?.category || line.category || '' };
+    const row = { ...product, ...line, ...(Number(line.price) === 0 ? { priceUsd: 0, analytics_gift: true } : {}), category: product?.category || line.category || '' };
     const list = analyticsItem(row, { rate, currency: order.currency }).price;
     const chargedUnit = numericPrice(line.price) / (order.currency === 'CRC' ? rate : 1);
     const pct = isBacWater(line.product) ? 0 : Number(pricing.volumeDiscountPct ?? order.volume_discount_pct ?? 0);

@@ -69,3 +69,8 @@ test('bulk discount excludes BAC water and contract unit reductions stay visible
   const snapshot=orderEcommerceSnapshot({currency:'USD',total_usd:50,shipping_cost_usd:0},{volumeDiscountPct:15,products:[{product:'BPC-157 10mg',priceUsd:50},{product:'BAC Water 10ml',priceUsd:10}],items:[{product:'BPC-157 10mg',qty:1,price:40},{product:'BAC Water 10ml',qty:1,price:10}]},502);
   assert.equal(snapshot.items[0].price,50);assert.equal(snapshot.items[0].discount,16);assert.equal(snapshot.items[1].discount,0);assert.equal(snapshot.value,50);
 });
+
+test('BAC fallback prices match the storefront without assigning a price to free gifts',()=>{
+  assert.equal(analyticsItem({product:'BAC Water 10ml',priceUsd:0}).price,20);
+  const snapshot=orderEcommerceSnapshot({currency:'USD',total_usd:0,shipping_cost_usd:0},{items:[{product:'BAC Water 10ml',price:0,qty:1}]},502);assert.equal(snapshot.items[0].price,0);
+});
