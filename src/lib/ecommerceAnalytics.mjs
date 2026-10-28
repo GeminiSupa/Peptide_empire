@@ -1,4 +1,4 @@
-import { isBacWater, bacUnitPrice } from './bacWater.mjs';
+import { isBacWater, bacUnitPrice, getBacWaterSizeMl } from './bacWater.mjs';
 import { conversionEmail, conversionPhone } from './conversionIdentity.mjs';
 import { catalogCompoundAndSize } from './catalogCategories.mjs';
 export const money = value => Math.round((Number(value) + Number.EPSILON) * 100) / 100;
@@ -6,8 +6,10 @@ export function numericPrice(value) { const n = Number(String(value ?? '').repla
 const slug = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 export function analyticsItem(product, { rate = 502, currency = 'USD' } = {}) {
   const name = String(product.product || product.name || '');
-  const { compound, size } = catalogCompoundAndSize({ ...product, product: name.replace(/\s*\((?:free|gratis|gift|regalo).*$/i, '') });
-  const displayName = compound;
+  const { compound, size: parsedSize } = catalogCompoundAndSize({ ...product, product: name.replace(/\s*\((?:free|gratis|gift|regalo).*$/i, '') });
+  const waterSize = isBacWater(name) ? getBacWaterSizeMl(name) : null;
+  const size = waterSize ? `${waterSize}ml` : parsedSize;
+  const displayName = isBacWater(name) ? 'BAC Water' : compound;
   const usd = product.priceUsd ?? product.price_usd;
   const crc = product.priceCrc ?? product.price_crc;
   const price = product.analytics_gift ? 0 : isBacWater(name) && usd != null ? bacUnitPrice('USD', rate, numericPrice(usd), name) : usd != null ? numericPrice(usd) : crc != null ? numericPrice(crc) / rate : numericPrice(product.price) / (currency === 'CRC' ? rate : 1);

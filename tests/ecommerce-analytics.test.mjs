@@ -74,3 +74,7 @@ test('BAC fallback prices match the storefront without assigning a price to free
   assert.equal(analyticsItem({product:'BAC Water 10ml',priceUsd:0}).price,20);
   const snapshot=orderEcommerceSnapshot({currency:'USD',total_usd:0,shipping_cost_usd:0},{items:[{product:'BAC Water 10ml',price:0,qty:1}]},502);assert.equal(snapshot.items[0].price,0);
 });
+
+test('Spanish and English free-water labels resolve to the same item identity',()=>{
+  const en=analyticsItem({product:'Bacteriostatic Water 3ml (Free Gift)',priceUsd:0,analytics_gift:true});const es=analyticsItem({product:'Agua Bacteriostática 3ml (Regalo)',priceUsd:0,analytics_gift:true});assert.equal(en.item_id,es.item_id);assert.equal(en.item_name,es.item_name);assert.equal(es.item_variant,'3 ml');assert.equal(es.price,0);
+});
