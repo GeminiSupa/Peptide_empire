@@ -1,3 +1,4 @@
+import { salaryFrequency } from '@/lib/teamSalary.mjs';
 import React, { useState, useEffect, useMemo } from 'react';
 import { confirmDelete } from '@/lib/confirmDelete.mjs';
 import { supabase } from '@/lib/supabase';
@@ -449,6 +450,14 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
   const [formIsSuperadmin, setFormIsSuperadmin] = useState(false);
   const [formCommissionRate, setFormCommissionRate] = useState(0);
   const [formWeeklySalary, setFormWeeklySalary] = useState(0);
+  const [formSalaryFrequency, setFormSalaryFrequency] = useState('weekly');
+  const [monthlyPayUser, setMonthlyPayUser] = useState('');
+  const [monthlyPayMonth, setMonthlyPayMonth] = useState(() => {
+    const parts = new Intl.DateTimeFormat('en', { timeZone: 'America/Costa_Rica', year: 'numeric', month: '2-digit' }).formatToParts(new Date());
+    return parts.find(p => p.type === 'year').value + '-' + parts.find(p => p.type === 'month').value;
+  });
+  const [monthlyPayBusy, setMonthlyPayBusy] = useState(false);
+  const [monthlyPayMessage, setMonthlyPayMessage] = useState('');
   const [formSalaryCurrency, setFormSalaryCurrency] = useState('USD');
   const [formCommissionStructure, setFormCommissionStructure] = useState('');
   const [formAvatarUrl, setFormAvatarUrl] = useState('');
@@ -919,7 +928,8 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
       setFormPermissions((user.permissions || []).filter(permission => ASSIGNABLE_ADMIN_MODULE_IDS.has(permission)));
       setFormIsSuperadmin(user.is_superadmin || false);
       setFormCommissionRate(user.commission_rate || 0);
-      setFormWeeklySalary(user.weekly_salary || 0);
+      setFormWeeklySalary(salaryFrequency(user) === 'monthly' ? user.monthly_salary || 0 : user.weekly_salary || 0);
+      setFormSalaryFrequency(salaryFrequency(user));
       setFormSalaryCurrency(user.salary_currency || 'USD');
       setFormCommissionStructure(user.commission_structure || '');
       setFormAvatarUrl(user.avatar_url || '');
@@ -937,6 +947,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
       setFormIsSuperadmin(false);
       setFormCommissionRate(0);
       setFormWeeklySalary(0);
+      setFormSalaryFrequency('weekly');
       setFormSalaryCurrency('USD');
       setFormCommissionStructure('');
       setFormAvatarUrl('');
@@ -995,7 +1006,9 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
             permissions: formPermissions,
             is_superadmin: formIsSuperadmin,
             commission_rate: formCommissionRate,
-            weekly_salary: formWeeklySalary,
+            salary_frequency: formSalaryFrequency,
+            weekly_salary: formSalaryFrequency === 'weekly' ? formWeeklySalary : 0,
+            monthly_salary: formSalaryFrequency === 'monthly' ? formWeeklySalary : 0,
             salary_currency: formSalaryCurrency,
             commission_structure: formCommissionStructure,
             avatar_url: formAvatarUrl || null,
@@ -1020,7 +1033,9 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
             permissions: formPermissions,
             is_superadmin: formIsSuperadmin,
             commission_rate: formCommissionRate,
-            weekly_salary: formWeeklySalary,
+            salary_frequency: formSalaryFrequency,
+            weekly_salary: formSalaryFrequency === 'weekly' ? formWeeklySalary : 0,
+            monthly_salary: formSalaryFrequency === 'monthly' ? formWeeklySalary : 0,
             salary_currency: formSalaryCurrency,
             commission_structure: formCommissionStructure,
             avatar_url: formAvatarUrl || undefined,
@@ -1311,7 +1326,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                         )}
                       </td>
                       <td data-label="Base Salary" style={{ padding: '16px', fontWeight: 'bold' }}>
-                        {formatMoneyUI(u.weekly_salary, u.salary_currency)} / wk
+                        {formatMoneyUI(salaryFrequency(u) === 'monthly' ? u.monthly_salary : u.weekly_salary, u.salary_currency)} / {salaryFrequency(u) === 'monthly' ? 'month' : 'wk'}
                       </td>
                       <td data-label="Commission" style={{ padding: '16px', fontWeight: 'bold', color: '#38bdf8' }}>
                         {u.commission_rate !== undefined ? `${u.commission_rate}%` : '0%'}
@@ -1354,7 +1369,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                   <div className="admin-team-member-card__details">
                     <div>
                       <span>Salary</span>
-                      <strong>{formatMoneyUI(u.weekly_salary, u.salary_currency)} / wk</strong>
+                      <strong>{formatMoneyUI(salaryFrequency(u) === 'monthly' ? u.monthly_salary : u.weekly_salary, u.salary_currency)} / {salaryFrequency(u) === 'monthly' ? 'month' : 'wk'}</strong>
                     </div>
                     <div>
                       <span>Commission</span>
@@ -1415,6 +1430,25 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
         />
       ) : (
         <>
+          <section style={{ padding: 16, marginBottom: 20, border: '1px solid #334155', borderRadius: 12 }} aria-label="Fixed monthly pay">
+            <h3 style={{ marginTop: 0 }}>Fixed monthly pay</h3>
+            <p style={{ color: '#94a3b8', lineHeight: 1.5 }}>Generate one pending payout per person and calendar month. Approve it below, then Record payment when it has actually been paid. This does not send money or email. Commissions remain separate.</p>
+            <form style={{ display: 'flex', flexWrap: 'wrap', gap: 12, alignItems: 'end' }} onSubmit={async event => {
+              event.preventDefault(); setMonthlyPayBusy(true); setMonthlyPayMessage('');
+              try {
+                const res = await adminFetch('/api/admin/commissions/monthly-pay', { method: 'POST', body: JSON.stringify({ userId: monthlyPayUser, month: monthlyPayMonth }) });
+                const data = await res.json(); if (!res.ok) throw new Error(data.error || 'Could not generate monthly pay.');
+                setMonthlyPayMessage(data.existing ? 'This month already has a payout. No duplicate was created. Edit it below if needed.' : 'Monthly payout created. Review and approve it below.');
+                setPayoutFilterAgent(users.find(user => user.user_id === monthlyPayUser)?.email || 'all');
+                setPayoutFilterStatus('all'); setPayoutFilterPeriod(null); await fetchPayouts();
+              } catch (error) { setMonthlyPayMessage(error.message); } finally { setMonthlyPayBusy(false); }
+            }}>
+              <label style={{ flex: '1 1 200px', minWidth: 0 }}>Team member<select aria-label="Monthly pay team member" required disabled={monthlyPayBusy} className="admin-input" style={{ display: 'block', width: '100%', minHeight: 44, fontSize: 16 }} value={monthlyPayUser} onChange={e => setMonthlyPayUser(e.target.value)}><option value="">Choose team member</option>{users.filter(user => salaryFrequency(user) === 'monthly' && Number(user.monthly_salary) > 0 && (user.status || 'active') === 'active').map(user => <option key={user.user_id} value={user.user_id}>{user.name || user.email}</option>)}</select></label>
+              <label style={{ flex: '1 1 160px', minWidth: 0 }}>Payment month<input aria-label="Payment month" required type="month" className="admin-input" style={{ display: 'block', width: '100%', minHeight: 44, fontSize: 16 }} value={monthlyPayMonth} onChange={e => setMonthlyPayMonth(e.target.value)} /></label>
+              <button className="admin-btn admin-btn-primary" style={{ minHeight: 44 }} disabled={monthlyPayBusy}>{monthlyPayBusy ? 'Generating…' : 'Generate monthly pay'}</button>
+            </form>
+            {monthlyPayMessage && <p role="status">{monthlyPayMessage}</p>}
+          </section>
           {pendingDuplicateAgents.length > 0 && (
             <div style={{ background: 'rgba(234, 179, 8, 0.1)', border: '1px solid rgba(234, 179, 8, 0.25)', borderRadius: '10px', padding: '12px 16px', marginBottom: '16px', fontSize: '0.85rem', color: '#fde68a' }}>
               <strong>Duplicate pending payouts detected.</strong>{' '}
@@ -1551,7 +1585,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                     };
                 const displayedUsdSales = p.status === 'Pending' ? currentAmounts.usd : p.usd_sales;
                 const displayedCrcSales = p.status === 'Pending' ? currentAmounts.crc : p.crc_sales;
-                const periodText = p.period_label || formatPayoutPeriod(p.start_date, p.end_date);
+                const periodText = (p.salary_frequency === 'monthly' ? 'Monthly fixed pay · ' : '') + (p.period_label || formatPayoutPeriod(p.start_date, p.end_date));
                 const isExpanded = expandedPayoutId === p.id;
 
                 return (
@@ -1793,7 +1827,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                   <input type="number" min="0" max="100" step="0.1" value={payoutForm.commission_rate} onChange={(e) => setPayoutForm({ ...payoutForm, commission_rate: parseFloat(e.target.value) || 0 })} className="admin-input" style={{ width: '100%' }} />
                 </div>
                 <div>
-                  <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.75rem', color: '#94a3b8', fontWeight: 'bold' }}>Weekly salary</label>
+                  <label style={{ display: 'block', marginBottom: '6px', fontSize: '0.75rem', color: '#94a3b8', fontWeight: 'bold' }}>{editingPayout?.salary_frequency === 'monthly' ? 'Monthly base pay' : 'Weekly salary'}</label>
                   <div style={{ display: 'flex', gap: '6px' }}>
                     <select value={payoutForm.salary_currency} onChange={(e) => setPayoutForm({ ...payoutForm, salary_currency: e.target.value })} className="admin-input" style={{ width: '72px' }}>
                       <option value="USD">USD</option>
@@ -1922,14 +1956,17 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
 
                 <div className="admin-form-grid-2" style={{ marginBottom: '24px' }}>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.8rem', fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Base Weekly Salary</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.8rem', fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Pay frequency</label>
+                    <select aria-label="Pay frequency" value={formSalaryFrequency} onChange={e => { setFormSalaryFrequency(e.target.value); setFormWeeklySalary(0); }} className="admin-input" style={{ width: '100%', minHeight: 44, fontSize: 16, marginBottom: 12 }}><option value="weekly">Weekly</option><option value="monthly">Monthly — fixed amount</option></select>
+                    <label style={{ display: 'block', marginBottom: 8, color: '#94a3b8' }}>{formSalaryFrequency === 'monthly' ? 'Fixed monthly amount' : 'Base weekly salary'}</label>
                     <div style={{ display: 'flex', gap: '8px' }}>
-                      <select value={formSalaryCurrency} onChange={e => setFormSalaryCurrency(e.target.value)} className="admin-input" style={{ width: '90px', background: '#0e1626', border: '1px solid rgba(255,255,255,0.1)', color: '#f8fafc' }}>
+                      <select aria-label="Base pay currency" value={formSalaryCurrency} onChange={e => setFormSalaryCurrency(e.target.value)} className="admin-input" style={{ width: '90px', minHeight: 44, fontSize: 16, background: '#0e1626', border: '1px solid rgba(255,255,255,0.1)', color: '#f8fafc' }}>
                         <option value="USD">USD</option>
                         <option value="CRC">CRC</option>
                       </select>
-                      <input type="number" min="0" step="0.01" value={formWeeklySalary} onChange={e => setFormWeeklySalary(parseFloat(e.target.value) || 0)} className="admin-input" style={{ width: '100%', background: '#0e1626', border: '1px solid rgba(255,255,255,0.1)', color: '#f8fafc' }} placeholder="e.g. 500.00" />
+                      <input type="number" min="0" step="0.01" aria-label="Base pay amount" max="1000000" required value={formWeeklySalary} onChange={e => setFormWeeklySalary(parseFloat(e.target.value) || 0)} className="admin-input" style={{ width: '100%', minWidth: 0, minHeight: 44, fontSize: 16, background: '#0e1626', border: '1px solid rgba(255,255,255,0.1)', color: '#f8fafc' }} placeholder="e.g. 500.00" />
                     </div>
+                    {formSalaryFrequency === 'monthly' && <p style={{ color: '#94a3b8', fontSize: '.8rem', lineHeight: 1.5 }}>One fixed amount per calendar month, generated in Payouts. Set Commission rate to 0% for fixed pay only. Changing frequency resets the amount so a weekly amount is not reused as monthly pay.</p>}
                   </div>
                   <div>
                     <label style={{ display: 'block', marginBottom: '8px', fontSize: '0.8rem', fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Commission Structure Notes</label>

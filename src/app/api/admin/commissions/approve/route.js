@@ -1,3 +1,4 @@
+import { isActiveProfile, isAffiliateTier, isSubUser } from '@/lib/subUserTier.mjs';
 import { NextResponse } from 'next/server';
 import { withoutExcludedOrders } from '@/lib/orderRevenue.mjs';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
@@ -84,6 +85,15 @@ export async function POST(request) {
       }
 
       return NextResponse.json({ success: true, status: 'Rejected' });
+    }
+
+    if (payout.salary_frequency === 'monthly') {
+      const recipient = await supabaseAdmin.from('admin_profiles').select('*').eq('user_id', payout.agent_id).maybeSingle();
+      if (recipient.error) return NextResponse.json({ error: 'Could not verify the monthly pay recipient.' }, { status: 503 });
+      if (!recipient.data || !isActiveProfile(recipient.data) || isAffiliateTier(recipient.data) || isSubUser(recipient.data)
+        || String(recipient.data.email).toLowerCase() !== String(payout.agent_email).toLowerCase()) {
+        return NextResponse.json({ error: 'Monthly pay recipient is no longer an active team account. Review before approval.' }, { status: 409 });
+      }
     }
 
     // Refresh the saved order snapshots before approval. This prevents orders
@@ -195,6 +205,7 @@ export async function POST(request) {
     const periodDisplay = formatPayoutPeriod(payout.start_date, payout.end_date);
     const { html: refreshedEmailHtml, text: refreshedEmailText } = buildAgentCommissionEmail({
       agentName: payout.agent_name || payout.agent_email,
+      salaryFrequency: payout.salary_frequency,
       periodDisplay,
       commissionRate: commissionRateLabel(commissionSummary.rates, payout.commission_rate),
       weeklySalary: payout.weekly_salary_paid,
@@ -298,7 +309,7 @@ export async function POST(request) {
     const adjusted = applyCommissionAdjustments(
       recalculated.total_payout_usd,
       recalculated.total_payout_crc,
-      openDebts || [],
+      payout.salary_frequency === 'monthly' ? [] : openDebts || [],
     );
 
     // 4. Update payout status to Approved.

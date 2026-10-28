@@ -1,3 +1,4 @@
+import { validateSalarySettings } from '@/lib/teamSalary.mjs';
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { verifyAdminSession } from '@/lib/adminAuth';
@@ -20,7 +21,14 @@ export async function PUT(request) {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
     }
 
+    let paySettings;
+    try { if (body.salary_frequency !== undefined) paySettings = validateSalarySettings(body); }
+    catch (error) { return NextResponse.json({ error: error.message }, { status: 400 }); }
     const supabaseAdmin = getSupabaseAdmin();
+    if (paySettings?.salary_frequency === 'monthly') {
+      const schema = await supabaseAdmin.from('admin_profiles').select('salary_frequency,monthly_salary', { head: true }).limit(1);
+      if (schema.error) return NextResponse.json({ error: 'Monthly pay is not installed yet. Run add-team-monthly-pay.sql in Supabase first.' }, { status: 503 });
+    }
 
     // 1. Update Auth User if password is provided
     if (password) {
@@ -50,13 +58,15 @@ export async function PUT(request) {
     if (order_whatsapp_notifications !== undefined) updateData.order_whatsapp_notifications = Boolean(order_whatsapp_notifications);
     if (whatsapp_number !== undefined) updateData.whatsapp_number = whatsapp_number ? String(whatsapp_number).trim() : null;
 
+    if (paySettings) Object.assign(updateData, paySettings);
+
     if (Object.keys(updateData).length > 0) {
       // Read first, so the log can say what a setting was before it moved.
       const { data: before } = await supabaseAdmin
         .from('admin_profiles').select('*').eq('user_id', userId).maybeSingle();
       const { data: profileData, error: profileError, droppedColumns } = await writeDroppingMissingColumns(
         updateData,
-        ADMIN_PROFILE_OPTIONAL_COLUMNS,
+        paySettings?.salary_frequency === 'monthly' ? ADMIN_PROFILE_OPTIONAL_COLUMNS.filter(key => !['weekly_salary','salary_currency'].includes(key)) : [...ADMIN_PROFILE_OPTIONAL_COLUMNS, 'salary_frequency', 'monthly_salary'],
         (row) => supabaseAdmin.from('admin_profiles').update(row).eq('user_id', userId).select().single()
       );
 
@@ -91,7 +101,7 @@ export async function PUT(request) {
           } : {}),
           ...(summariseChanges(before, updateData, [
             'name', 'is_superadmin', 'status', 'tier', 'commission_rate', 'weekly_salary',
-            'salary_currency', 'notifications_enabled', 'order_email_notifications',
+            'salary_frequency', 'monthly_salary', 'salary_currency', 'notifications_enabled', 'order_email_notifications',
             'lead_email_notifications', 'order_whatsapp_notifications', 'whatsapp_number',
           ]) || {}),
           // Named so the redaction rule does not blank it: that a password was

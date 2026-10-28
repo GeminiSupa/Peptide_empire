@@ -46,6 +46,9 @@ export async function PATCH(request) {
         ? Number(body.weekly_salary_paid)
         : Number(payout.weekly_salary_paid || 0);
     const salaryCurrency = body.salary_currency || payout.salary_currency || 'USD';
+    if (payout.salary_frequency === 'monthly' && (!Number.isFinite(weeklySalary) || weeklySalary <= 0 || weeklySalary > 1000000 || !['USD', 'CRC'].includes(salaryCurrency) || usdSales !== 0 || crcSales !== 0 || commissionRate !== 0)) {
+      return NextResponse.json({ error: 'Monthly payouts require positive fixed pay in USD or CRC, with zero sales and commission. Commissions are paid separately.' }, { status: 400 });
+    }
     const adminNotes =
       body.admin_notes !== undefined ? String(body.admin_notes) : payout.admin_notes;
 

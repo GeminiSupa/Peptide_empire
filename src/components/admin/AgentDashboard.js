@@ -404,10 +404,10 @@ export default function AgentDashboard({
               <div className="dashboard-mini-row" style={{ cursor: 'default' }}>
                 <Briefcase size={16} style={{ color: '#38bdf8' }} />
                 <div style={{ flex: 1 }}>
-                  <div className="dashboard-mini-title">Base weekly salary</div>
-                  <div className="dashboard-mini-sub">Guaranteed Mon–Sun</div>
+                  <div className="dashboard-mini-title">{stats.salaryFrequency === 'monthly' ? 'Fixed monthly pay' : 'Base weekly salary'}</div>
+                  <div className="dashboard-mini-sub">{stats.salaryFrequency === 'monthly' ? 'One payout per calendar month' : 'Guaranteed Mon–Sun'}</div>
                 </div>
-                <div className="dashboard-mini-val">{formatMoney(stats.weeklySalary, salaryCurr)}</div>
+                <div className="dashboard-mini-val">{formatMoney(stats.salaryFrequency === 'monthly' ? stats.monthlySalary : stats.weeklySalary, salaryCurr)}</div>
               </div>
             )}
             <div className="dashboard-mini-row" style={{ cursor: 'default' }}>

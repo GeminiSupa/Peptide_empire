@@ -24,6 +24,7 @@ const formatCrDate = (value) => new Intl.DateTimeFormat('en-US', {
 
 export function buildAgentCommissionEmail({
   agentName,
+  salaryFrequency = 'weekly',
   periodDisplay,
   commissionRate,
   weeklySalary,
@@ -108,7 +109,7 @@ export function buildAgentCommissionEmail({
             <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top:16px;">
               <tr>
                 <td width="49%" align="center" valign="top" bgcolor="#f8fafc" style="padding:16px 8px;border:1px solid #dbe3ee;background-color:#f8fafc;">
-                  <div style="font:700 10px Arial,sans-serif;color:#64748b;letter-spacing:.8px;text-transform:uppercase;">Base salary</div>
+                  <div style="font:700 10px Arial,sans-serif;color:#64748b;letter-spacing:.8px;text-transform:uppercase;">${salaryFrequency === 'monthly' ? 'Fixed monthly pay' : 'Base salary'}</div>
                   <div style="font:700 18px Arial,sans-serif;color:#0f172a;margin-top:8px;">${formatMoney(weeklySalary, salaryCurrency)}</div>
                 </td>
                 <td width="2%">&nbsp;</td>
@@ -168,7 +169,7 @@ export function buildAgentCommissionEmail({
               ${orderRows || '<tr><td colspan="7" align="center" style="padding:20px;font:13px Arial,sans-serif;color:#64748b;border-top:1px solid #e2e8f0;">No completed orders in this period.</td></tr>'}
             </table>
           </td></tr>
-          <tr><td align="center" bgcolor="#f8fafc" style="padding:16px;border-top:1px solid #dbe3ee;font:11px Arial,sans-serif;color:#64748b;">Automated weekly report · Peptides Costa Rica</td></tr>
+          <tr><td align="center" bgcolor="#f8fafc" style="padding:16px;border-top:1px solid #dbe3ee;font:11px Arial,sans-serif;color:#64748b;">${salaryFrequency === 'monthly' ? 'Monthly pay report' : 'Automated weekly report'} · Peptides Costa Rica</td></tr>
         </table>
       </td></tr>
     </table>

@@ -1,3 +1,4 @@
+import { validateSalarySettings } from '@/lib/teamSalary.mjs';
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { verifyAdminSession } from '@/lib/adminAuth';
@@ -20,7 +21,14 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Email, password, and name are required' }, { status: 400 });
     }
 
+    let paySettings;
+    try { if (body.salary_frequency !== undefined) paySettings = validateSalarySettings(body); }
+    catch (error) { return NextResponse.json({ error: error.message }, { status: 400 }); }
     const supabaseAdmin = getSupabaseAdmin();
+    if (paySettings?.salary_frequency === 'monthly') {
+      const schema = await supabaseAdmin.from('admin_profiles').select('salary_frequency,monthly_salary', { head: true }).limit(1);
+      if (schema.error) return NextResponse.json({ error: 'Monthly pay is not installed yet. Run add-team-monthly-pay.sql in Supabase first.' }, { status: 503 });
+    }
 
     // 1. Create user in Supabase Auth
     const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
@@ -56,11 +64,12 @@ export async function POST(request) {
       order_whatsapp_notifications: order_whatsapp_notifications === true,
       whatsapp_number: whatsapp_number ? String(whatsapp_number).trim() : null,
     };
+    if (paySettings) Object.assign(profileRow, paySettings);
     if (avatar_url) profileRow.avatar_url = avatar_url;
 
     const { data: profileData, error: profileError, droppedColumns } = await writeDroppingMissingColumns(
       profileRow,
-      ADMIN_PROFILE_OPTIONAL_COLUMNS,
+      paySettings?.salary_frequency === 'monthly' ? ADMIN_PROFILE_OPTIONAL_COLUMNS.filter(key => !['weekly_salary','salary_currency'].includes(key)) : [...ADMIN_PROFILE_OPTIONAL_COLUMNS, 'salary_frequency', 'monthly_salary'],
       (row) => supabaseAdmin.from('admin_profiles').insert([row]).select().single()
     );
 

@@ -1,3 +1,4 @@
+import { weeklyBasePay } from '@/lib/teamSalary.mjs';
 import { NextResponse } from 'next/server';
 import { withoutExcludedOrders } from '@/lib/orderRevenue.mjs';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
@@ -285,7 +286,7 @@ export async function GET(request) {
         continue;
       }
       const rate = Number(agent.commission_rate || 0);
-      const weeklySalary = Number(agent.weekly_salary || 0);
+      const weeklySalary = weeklyBasePay(agent);
       const salaryCurrency = agent.salary_currency || 'USD';
       const handledAffiliates = (affiliates || []).filter(
         (affiliate) => affiliate?.handling_agent_id === agent.user_id
@@ -428,14 +429,13 @@ export async function GET(request) {
       // a rerun appeared to contain only Brian and Sean. Remove stale Pending
       // zero rows for this exact period and keep them out of reports and email.
       if (!hasPositivePayout({ totalPayoutUsd, totalPayoutCrc })) {
-        const { data: rejectedRows, error: rejectError } = await supabaseAdmin
-          .from('commission_payouts')
-          .update({ status: 'Rejected', approved_at: new Date().toISOString() })
-          .eq('agent_email', agent.email)
-          .eq('start_date', startDateStr)
-          .eq('end_date', endDateStr)
-          .eq('status', 'Pending')
-          .select('id');
+        const stale = await supabaseAdmin.from('commission_payouts').select('*')
+          .eq('agent_email', agent.email).eq('start_date', startDateStr).eq('end_date', endDateStr).eq('status', 'Pending');
+        if (stale.error) throw new Error('Could not verify stale payouts.');
+        const staleIds = (stale.data || []).filter(row => row.salary_frequency !== 'monthly').map(row => row.id);
+        const { data: rejectedRows, error: rejectError } = staleIds.length
+          ? await supabaseAdmin.from('commission_payouts').update({ status: 'Rejected', approved_at: new Date().toISOString() }).in('id', staleIds).eq('status', 'Pending').select('id')
+          : { data: [], error: null };
 
         skippedNoPay.push({
           name: agent.name || agent.email,
@@ -472,14 +472,14 @@ export async function GET(request) {
       // Pending row beside the settled one and the week looked owed twice.
       const { data: existingPayouts } = await supabaseAdmin
         .from('commission_payouts')
-        .select('id, status')
+        .select('*')
         .eq('agent_email', agent.email)
         .eq('start_date', startDateStr)
         .eq('end_date', endDateStr)
         .order('created_at', { ascending: false });
 
-      const settledPayout = (existingPayouts || []).find((p) => PAYOUT_RESERVED_STATUSES.includes(p.status)) || null;
-      const pendingPayouts = (existingPayouts || []).filter((p) => p.status === 'Pending');
+      const settledPayout = (existingPayouts || []).filter(p => p.salary_frequency !== 'monthly').find((p) => PAYOUT_RESERVED_STATUSES.includes(p.status)) || null;
+      const pendingPayouts = (existingPayouts || []).filter((p) => p.status === 'Pending' && p.salary_frequency !== 'monthly');
       const primaryPayout = pendingPayouts[0] || null;
       const duplicateIds = pendingPayouts.slice(1).map((p) => p.id);
 

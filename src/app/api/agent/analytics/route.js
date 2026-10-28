@@ -1,3 +1,4 @@
+import { weeklyBasePay, salaryFrequency } from '@/lib/teamSalary.mjs';
 import { NextResponse } from 'next/server';
 import { missingColumnFrom } from '@/lib/optionalColumns.mjs';
 import { withoutExcludedOrders } from '@/lib/orderRevenue.mjs';
@@ -257,7 +258,9 @@ export async function GET(request) {
         weekPendingCount: weekPendingSales.count,
         weekPendingSalesUSD: weekPendingSales.usd,
         weekPendingSalesCRC: weekPendingSales.crc,
-        weeklySalary: profile.weekly_salary || 0,
+        weeklySalary: weeklyBasePay(profile),
+        salaryFrequency: salaryFrequency(profile),
+        monthlySalary: Number(profile.monthly_salary || 0),
         salaryCurrency: profile.salary_currency || 'USD',
         commissionRate: rate,
         currentWeekCommissionRateLabel: commissionRateLabel(weekCommissionSummary.rates, rate),
