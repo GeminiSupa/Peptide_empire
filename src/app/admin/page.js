@@ -38,6 +38,7 @@ import {
 } from 'lucide-react';
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
 import CustomersCRM from '@/components/admin/CustomersCRM';
+import BusinessAccountsPanel from '@/components/admin/BusinessAccountsPanel';
 import ReorderTrackingPanel from '@/components/admin/ReorderTrackingPanel';
 import ExportModal from '@/components/admin/ExportModal';
 import TeamManagement from '@/components/admin/TeamManagement';
@@ -1792,6 +1793,7 @@ Core Rules:
       badge: fulfillmentQueueCount,
       badgeTone: 'warning',
     },
+    business_accounts: { label: 'Business Accounts', icon: <Users size={iconSize} /> },
     customers: {
       label: 'Customers',
       icon: <Users size={iconSize} />,
@@ -1939,7 +1941,7 @@ Core Rules:
       : ['home', 'orders', 'fulfillment', 'whatsapp_ai', 'chatwoot', 'twilio', 'leads', 'customers', 'carts']
   ).filter((tabId) => hasAccess(tabId));
   const desktopSecondaryGroups = [
-    { title: 'Sales & Customers', tabs: ['customers', 'inquiries', 'prospects'] },
+    { title: 'Sales & Customers', tabs: ['customers', 'business_accounts', 'inquiries', 'prospects'] },
     { title: 'Growth', tabs: ['share', 'reviews', 'marketing', 'affiliates', 'deals', 'broadcasts', 'twilio', 'my_qr', 'my_team'] },
     { title: 'Operations', tabs: ['spreadsheet', 'offsite_inventory', 'lab_batches', 'analytics', 'cms', 'wa_session', 'team', 'requests', 'recycle_bin', 'team_chat', 'payment_test', 'activity_log'] },
   ].map((group) => ({
@@ -7308,6 +7310,12 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
               </ErrorBoundary>
             )}
 
+          </div>
+        )}
+
+        {activeTab === 'business_accounts' && adminProfile?.is_superadmin && (
+          <div className="admin-orders-tab admin-tab-panel">
+            <ErrorBoundary><BusinessAccountsPanel /></ErrorBoundary>
           </div>
         )}
 

@@ -5,7 +5,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { adminFetch } from '@/lib/adminApi';
 import { accountKindLabel } from '@/lib/accountHome.mjs';
 import { formatCrDate } from '@/lib/crTime.mjs';
-import BusinessAccountsPanel from './BusinessAccountsPanel';
 
 export default function CustomerAccountsPanel() {
   const [accounts, setAccounts] = useState([]);
@@ -56,7 +55,6 @@ export default function CustomerAccountsPanel() {
 
   return (
     <div style={{ margin: '0 0 18px', padding: 16, border: '1px solid #1e293b', borderRadius: 12, background: '#0f172a' }}>
-      <BusinessAccountsPanel />
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, alignItems: 'baseline', marginBottom: 8 }}>
         <h3 style={{ margin: 0, fontSize: '1rem' }}>Customer accounts ({accounts.length})</h3>
         <button type="button" onClick={load} style={{ background: 'none', border: 0, color: '#38bdf8', cursor: 'pointer' }}>

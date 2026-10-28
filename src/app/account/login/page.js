@@ -44,6 +44,7 @@ function LoginForm() {
   // redirect.
   const rawNext = searchParams.get('next') || '/account';
   const next = rawNext.startsWith('/') && !rawNext.startsWith('//') ? rawNext : '/account';
+  const isBusinessLogin = next.split('?')[0] === '/account/business' || next.startsWith('/account/business/');
   const reauthenticate = searchParams.get('reauth') === '1';
 
   useEffect(() => {
@@ -248,7 +249,12 @@ function LoginForm() {
           </button>
         </div>
 
-        <h1>{isEn ? 'My Account' : 'Mi Cuenta'}</h1>
+        <h1>{isBusinessLogin ? (isEn ? 'Business account' : 'Cuenta empresarial') : (isEn ? 'My Account' : 'Mi Cuenta')}</h1>
+        {isBusinessLogin && <div className="account-notice">
+          <strong>{isEn ? 'Sign in or activate your business account' : 'Inicie sesión o active su cuenta empresarial'}</strong>
+          <p>{isEn ? 'Use the email assigned to your company or shown in your invitation. For your first login, choose Email code and verify your email. You can set a password later under Security.' : 'Use el correo asignado a su empresa o indicado en su invitación. Para ingresar por primera vez, elija Código de correo y verifique su correo. Luego puede crear una contraseña en Seguridad.'}</p>
+          <p>{isEn ? 'New business? Verify your email to apply. Your agreed discount becomes available once your company is approved.' : '¿Nueva empresa? Verifique su correo para solicitar una cuenta. Su descuento estará disponible cuando se apruebe su empresa.'}</p>
+        </div>}
         {step === 'email' && <div className="account-auth-actions">
           <button type="button" className="account-btn-secondary" aria-pressed={loginMethod === 'code'} disabled={busy} onClick={() => { setLoginMethod('code'); setError(''); }}>{isEn ? 'Email code' : 'Código de correo'}</button>
           <button type="button" className="account-btn-secondary" aria-pressed={loginMethod === 'password'} disabled={busy} onClick={() => { setLoginMethod('password'); setError(''); }}>{isEn ? 'Password' : 'Contraseña'}</button>

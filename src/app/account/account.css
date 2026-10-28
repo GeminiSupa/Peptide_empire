@@ -748,3 +748,8 @@
 .business-list-item { padding:18px 0;border-bottom:1px solid var(--border);overflow-wrap:anywhere; }
 .business-list-item button { margin-top:6px; }
 .account-field textarea,.account-field select { width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;background:var(--bg-main);color:var(--text-main); }
+
+.account-workspace-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.account-workspace-nav > span { flex-basis: 100%; font-weight: 700; color: var(--text-primary); }
+.account-workspace-nav a { padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); text-decoration: none; font-size: .82rem; }
+.account-workspace-nav a[aria-current="page"] { color: var(--cta); border-color: var(--cta); font-weight: 700; }

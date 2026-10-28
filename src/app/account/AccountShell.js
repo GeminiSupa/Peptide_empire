@@ -142,6 +142,15 @@ export default function AccountShell({ children, title }) {
         </button>
       </header>
 
+      <nav className="account-workspace-nav" aria-label={isEn ? 'My Account' : 'Mi cuenta'}>
+        <span>{isEn ? 'My Account' : 'Mi cuenta'}</span>
+        {[
+          { href: '/account', en: 'Personal account', es: 'Cuenta personal' },
+          { href: '/account/business', en: 'Business account', es: 'Cuenta empresarial' },
+          { href: '/account/security', en: 'Security', es: 'Seguridad' },
+        ].map(item => <Link key={item.href} href={item.href} aria-current={tabActive(pathname, item.href) ? 'page' : undefined}>{isEn ? item.en : item.es}</Link>)}
+      </nav>
+
       {children}
 
       <nav className="account-tabbar" aria-label={isEn ? 'Account' : 'Cuenta'}>

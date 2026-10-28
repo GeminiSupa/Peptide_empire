@@ -36,7 +36,8 @@ export default function BusinessAccountsPanel() {
     finally { setBusy(false); }
   }
   return <section style={{ padding: 20, marginBottom: 24, border: '1px solid #334155', borderRadius: 14 }}>
-    <h3>Business accounts</h3><p>Create a company, approve its discount, then send its customer-account invitation. Only the owner can manage these terms.</p>
+    <h3>Business accounts</h3>
+    <p>Customer sign-in: <a href="/account/login?next=%2Faccount%2Fbusiness" target="_blank" rel="noopener noreferrer">Business account login</a>. Customers use the company login email below. Send an invitation after approval; first-time customers choose Email code, then set a password under Security.</p><p>Create a company, approve its discount, then send its customer-account invitation. Only the owner can manage these terms.</p>
     {message && <p role="status">{message}</p>}
     <button type="button" disabled={busy} onClick={() => setForm(empty)}>New business</button>
     <form onSubmit={event => { event.preventDefault(); act(form); }} style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 12, margin: '16px 0' }}>

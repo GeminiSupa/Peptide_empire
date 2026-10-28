@@ -36,6 +36,7 @@ export const ADMIN_MODULES = [
   // Batches made in the lab (or bought in), each with a QR sticker code the
   // packers scan. Assignable so lab staff can have it without the Products tab.
   { id: 'lab_batches', label: 'Lab batches', title: 'Lab batches & stickers', group: 'Core Operations' },
+  { id: 'business_accounts', label: 'Business Accounts', title: 'Business Accounts', group: 'Core Operations', superadminOnly: true },
   { id: 'customers', label: 'Customers', title: 'Customers', group: 'Core Operations' },
   { id: 'reorder_tracking', label: 'Reorder Tracking', title: 'Reorder Tracking', group: 'Core Operations' },
   { id: 'inquiries', label: 'Inquiries', title: 'Inquiries', group: 'Core Operations' },

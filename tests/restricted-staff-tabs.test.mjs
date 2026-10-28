@@ -70,3 +70,12 @@ test('the tabs every staff member keeps without a tickbox are unchanged', () => 
     assert.equal(resolveAdminTabAccess(tab, fresh), true, `${tab} must stay open`);
   }
 });
+
+test('business terms remain owner-only even with an accidental staff permission', () => {
+  assert.equal(resolveAdminTabAccess('business_accounts', OWNER), true);
+  for (const profile of [STAFF, AFFILIATE, SUB_USER]) {
+    assert.equal(resolveAdminTabAccess('business_accounts', { ...profile, permissions: ['business_accounts'] }), false);
+  }
+  assert.equal(resolveAdminTabAccess('business_accounts', { ...OWNER, status: 'suspended' }), false);
+  assert.equal(ASSIGNABLE_ADMIN_MODULE_IDS.has('business_accounts'), false);
+});
