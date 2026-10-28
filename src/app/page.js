@@ -1,5 +1,6 @@
 "use client";
 
+import { pushEvent } from '@/lib/dataLayer.mjs';
 import React, { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import {
@@ -211,6 +212,7 @@ export default function LandingPage() {
   };
 
   const openWhatsApp = (source) => {
+    pushEvent({ event: 'whatsapp_click', click_location: 'floating_button' });
     logWhatsAppSource(source, lang);
     localStorage.setItem('whatsapp_source', source);
     window.open(buildWhatsAppLink(links.whatsappNumber, null, lang), '_blank');

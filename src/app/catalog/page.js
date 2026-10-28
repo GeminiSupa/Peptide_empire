@@ -1,6 +1,9 @@
 "use client";
 
 import { safeLocalStorage as localStorage, safeSessionStorage } from '@/lib/storage';
+import { ecommerceData, analyticsItem } from '@/lib/ecommerceAnalytics.mjs';
+import { pushEvent, stashReceipt, trackLead } from '@/lib/dataLayer.mjs';
+import { readAdClick } from '@/lib/adClickAttribution.mjs';
 import costaricaData from '@/lib/costarica.json';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
@@ -1138,6 +1141,7 @@ export default function CatalogPage() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
+        trackLead('contact');
         setContactFormSuccess(true);
         setContactFormName(''); setContactFormEmail(''); setContactFormSubject(''); setContactFormMessage('');
       } else {
@@ -2375,6 +2379,28 @@ export default function CatalogPage() {
     localStorage.setItem('viewMode', nextView);
   };
 
+  const analyticsStage = useRef('none');
+  const trackCartEvent = (event, lines = cart, extras = {}) => {
+    const wholeCart = lines === cart;
+    const value = wholeCart ? Math.max(0, getFinalTotal() - getShippingFee()) / (currency === 'CRC' ? exchangeRate : 1) : undefined;
+    pushEvent({ event, ecommerce: { ...ecommerceData(lines, { rate: exchangeRate, value }), ...extras } });
+  };
+  useEffect(() => {
+    if (selectedProduct) pushEvent({ event: 'view_item', ecommerce: ecommerceData([{ ...selectedProduct, qty: 1 }], { rate: exchangeRate }) });
+  // A strength change replaces selectedProduct. Currency toggles do not create another view.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProduct?.product, selectedProduct?.vialSize, selectedProduct?.vial_size]);
+  useEffect(() => {
+    const next = !isCartOpen ? 'none' : researchAck ? 'checkout' : 'cart';
+    if (next !== analyticsStage.current) {
+      if (next !== 'none' && analyticsStage.current === 'none') trackCartEvent('view_cart');
+      if (next === 'checkout') trackCartEvent('begin_checkout');
+      analyticsStage.current = next;
+    }
+  // Cart contents changing while open is not another cart-open or checkout event.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCartOpen, researchAck]);
+
   // Cart operations
   const addToCart = (productObj, qty = 1) => {
     // Last line of defence. Filtering the three product lists is what a customer
@@ -2394,6 +2420,7 @@ export default function CatalogPage() {
       return;
     }
 
+    trackCartEvent('add_to_cart', [{ ...productObj, qty: addQty }]);
     if (existing) {
       setCart(cart.map(item => 
         item.product === productObj.product 
@@ -2557,6 +2584,7 @@ export default function CatalogPage() {
       return item;
     }).filter(Boolean);
 
+    if (change > 0 && hitLimit === null) { const item = cart.find(line => line.product === productName); if (item) trackCartEvent('add_to_cart', [{ ...item, qty: change }]); }
     setCart(next);
 
     if (hitLimit !== null) {
@@ -3089,6 +3117,7 @@ export default function CatalogPage() {
       // agreed to.
       const orderPayload = {
         ...applyStoredAttribution(orderRow),
+        ad_attribution: readAdClick(document),
         ...(businessCheckoutQuote?{business_quote_id:businessCheckoutQuote.id}:{}),
         research_ack: { accepted: true, version: RESEARCH_ACK_VERSION },
         // Attached here, with the acknowledgement, for the same reason: both
@@ -3145,6 +3174,7 @@ export default function CatalogPage() {
         localStorage.setItem('cart_session_id', newSid);
         setSessionId(newSid);
       }
+      stashReceipt(data.orderNumber || orderRow.order_number, data.analyticsReceiptToken);
       return { ok: true, id: data.id, paymentToken: data.paymentToken || null };
     } catch (err) {
       console.error('Order save request failed:', err);
@@ -3577,13 +3607,9 @@ export default function CatalogPage() {
 
     const orderNum = 'WPCR-' + Date.now().toString(36).toUpperCase();
 
-    const subtotalVal = getCartTotal();
     const totalVal = getFinalTotal();
-    const vialCount = getCartVialCount();
-    const discountPct = getEffectiveVolumePct();
     const orderItems = buildOrderItems(cart);
-    const totalUsd = currency === 'USD' ? totalVal : Math.round(totalVal / exchangeRate);
-    const totalCrc = currency === 'CRC' ? totalVal : Math.round(totalVal * exchangeRate);
+    const totalUsd = currency === 'USD' ? totalVal : totalVal / exchangeRate;
     const shippingCosts = getShippingCostFields(currency, exchangeRate, getShippingFee());
 
     const whatsappSource = typeof window !== 'undefined' ? localStorage.getItem('whatsapp_source') : null;
@@ -3628,59 +3654,7 @@ export default function CatalogPage() {
       return;
     }
 
-    // 2. Open WhatsApp Receipt
-    const receiptHeader = lang === 'en' 
-      ? `*PEPTIDES COSTA RICA — NEW ORDER*`
-      : `*PÉPTIDOS COSTA RICA — NUEVA ORDEN*`;
-      
-    const idTypeName = customerIdType === '1' ? 'National ID' : customerIdType === '6' ? 'DIMEX' : customerIdType === '5' ? 'Passport' : customerIdType === '2' ? 'Corporate ID' : customerIdType;
-    const idTypeNameEs = customerIdType === '1' ? 'Cédula física' : customerIdType === '6' ? 'DIMEX' : customerIdType === '5' ? 'Pasaporte' : customerIdType === '2' ? 'Cédula jurídica' : customerIdType;
-    const receiptDetails = lang === 'en'
-      ? `\n\n*Customer Details:*\n• Name: ${cleanName}\n• ID: ${customerIdNumber} (${idTypeName})\n• Phone: ${customerPhone}\n• Address: ${shippingAddress}\n\n*Ordered Items:*`
-      : `\n\n*Detalles del Cliente:*\n• Nombre: ${cleanName}\n• Identificación: ${customerIdNumber} (${idTypeNameEs})\n• Teléfono: ${customerPhone}\n• Dirección: ${shippingAddress}\n\n*Artículos Pedidos:*`;
-
-    const itemReceipts = cart.map(item => {
-      const p = getPriceAsNumber(item, currency);
-      return `\n• ${item.product} (x${item.qty}) — ${formatPriceVal(p * item.qty, currency)}`;
-    }).join('');
-
-    const discountReceipt = discountPct > 0
-      ? (lang === 'en'
-        ? `\n\n🏷️ *VOLUME DISCOUNT (${vialCount} vials): ${discountPct}% OFF*\n_Subtotal: ${formatPriceVal(subtotalVal, currency)}_`
-        : `\n\n🏷️ *DESCUENTO POR VOLUMEN (${vialCount} viales): ${discountPct}% DESC.*\n_Subtotal: ${formatPriceVal(subtotalVal, currency)}_`)
-      : '';
-
-    const shipFee = getShippingFee();
-    const shippingReceipt = shipFee > 0
-      ? (lang === 'en'
-        ? `\n\n🚚 *SHIPPING:* *${formatPriceVal(shipFee, currency)}*`
-        : `\n\n🚚 *ENVÍO:* *${formatPriceVal(shipFee, currency)}*`)
-      : (lang === 'en'
-        ? `\n\n🚚 *SHIPPING:* *FREE* — We've got shipping covered on orders over ${getFreeShippingThresholdLabel()}!`
-        : `\n\n🚚 *ENVÍO:* *GRATIS* — ¡Nosotros cubrimos el envío en pedidos superiores a ${getFreeShippingThresholdLabel()}!`);
-
-    const totalReceipt = lang === 'en'
-      ? `\n\n*TOTAL DUE:* *${formatPriceVal(totalVal, currency)}*`
-      : `\n\n*TOTAL A PAGAR:* *${formatPriceVal(totalVal, currency)}*`;
-
-    let instructionsText = '';
-    if (paymentMethod === 'sinpe') {
-      const crcTotal = currency === 'CRC' ? totalVal : Math.round(totalVal * exchangeRate);
-      instructionsText = lang === 'en'
-        ? `\n\n*Payment Method: SINPE Móvil*\n_Please send ₡${crcTotal.toLocaleString('en-US')} CRC via SINPE to:_\n👉 *+506 7264-9160*\n\n_Please send the screenshot of the transfer to verify and coordinate dispatch._`
-        : `\n\n*Método de Pago: SINPE Móvil*\n_Por favor envíe ₡${crcTotal.toLocaleString('en-US')} CRC por SINPE a:_\n👉 *+506 7264-9160*\n\n_Por favor envíe el comprobante por aquí para verificar y coordinar el despacho._`;
-    } else {
-      instructionsText = lang === 'en'
-        ? `\n\n*Payment Method: WhatsApp Coordination*\n_Thank you for your order! We will verify stock availability and coordinate dispatch and payment details immediately._`
-        : `\n\n*Método de Pago: Coordinación por WhatsApp*\n_¡Muchas gracias por su orden! Verificaremos disponibilidad y coordinaremos el despacho y pago de inmediato._`;
-    }
-
-    const fullMessage = `${receiptHeader}${receiptDetails}${itemReceipts}${discountReceipt}${shippingReceipt}${totalReceipt}${instructionsText}`;
-    const whatsappUrl = buildWhatsAppLink(links.whatsappNumber, fullMessage);
-
-    // Open WhatsApp
-    window.open(whatsappUrl, '_blank');
-
+    // The CRM agent starts the conversation; saving an order is not a WhatsApp click.
     setOrderSubmitting(false);
     if (sessionId) localStorage.setItem('checkout_completed_session_id', sessionId);
     setCart([]);
@@ -3709,7 +3683,7 @@ export default function CatalogPage() {
 
     // Redirect to the thank-you conversion page
     stashReviewOptIn(orderNum);
-    router.push(`/thank-you?lang=${lang}`);
+    router.push(`/thank-you?lang=${lang}&order=${encodeURIComponent(orderNum)}`);
   };
 
   const handleReviewSubmit = async (e) => {
@@ -5158,7 +5132,7 @@ export default function CatalogPage() {
             </button>
           ) : (
             <button
-              id="catalog-whatsapp-btn"
+              id="catalog-whatsapp-btn" data-whatsapp-location="floating_button"
               className="catalog-whatsapp-sticky"
               onClick={openCatalogWhatsApp}
               aria-label={lang === 'en' ? 'Order on WhatsApp' : 'Ordenar por WhatsApp'}
@@ -5202,8 +5176,8 @@ export default function CatalogPage() {
               </h3>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
                 {lang === 'en' 
-                  ? 'We have recorded your order and opened WhatsApp for final delivery coordination.'
-                  : 'Hemos registrado su orden y abierto WhatsApp para coordinar los detalles de entrega.'}
+                  ? 'We have recorded your order. Our team will contact you to confirm payment and delivery.'
+                  : 'Hemos registrado su orden. Nuestro equipo le contactará para confirmar el pago y la entrega.'}
               </p>
             </div>
           ) : cart.length === 0 ? (
@@ -5884,7 +5858,7 @@ export default function CatalogPage() {
                     aria-disabled={method.disabled || undefined}
                     disabled={method.disabled}
                     className={`payment-method-card ${paymentMethod === method.value ? 'active' : ''} ${method.disabled ? 'disabled' : ''}`}
-                    onClick={() => !method.disabled && setPaymentMethod(method.value)}
+                    onClick={() => { if (!method.disabled) { setPaymentMethod(method.value); trackCartEvent('add_payment_info', cart, { payment_type: method.value }); } }}
                   >
                     <span className="payment-method-icon">{method.icon}</span>
                     <span className="payment-method-copy">
@@ -6101,7 +6075,7 @@ export default function CatalogPage() {
 
       {/* Product page. Opens on the product address, full screen, instead of a small popup. */}
       {selectedProduct && (
-        <div className="product-page" role="dialog" aria-modal="true" aria-labelledby="product-detail-title">
+        <div className="product-page" data-analytics-item-id={analyticsItem(selectedProduct).item_id} role="dialog" aria-modal="true" aria-labelledby="product-detail-title">
             
             {(() => {
               const en = lang === 'en';
@@ -6433,7 +6407,7 @@ export default function CatalogPage() {
                       <button
                         type="button"
                         className="product-page-sticky-wa"
-                        onClick={() => openProductWhatsApp(selectedProduct.product)}
+                        data-whatsapp-location="product_question" data-analytics-item-id={analyticsItem(selectedProduct).item_id} onClick={() => openProductWhatsApp(selectedProduct.product)}
                         aria-label={en ? 'Ask on WhatsApp' : 'Consultar por WhatsApp'}
                       >
                         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" fill="currentColor">

@@ -1,4 +1,5 @@
 'use client';
+import { stashReceipt } from '@/lib/dataLayer.mjs';
 
 import React, { Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
@@ -53,6 +54,7 @@ function CardPaymentContent() {
         if (!res.ok) throw new Error(data.error || 'Payment link could not be loaded');
         if (cancelled) return;
         setOrder(data.order);
+        stashReceipt(data.order.orderNumber, data.analyticsReceiptToken);
         setForm(prev => ({
           ...prev,
           email: data.order.customerEmail || prev.email || '',

@@ -12,6 +12,7 @@ import { useAccountAccess } from '@/hooks/useAccountAccess';
 import GoogleCustomerReviews from '@/components/GoogleCustomerReviews';
 
 import { appStorefrontHref } from '@/lib/appStorefront';
+import { pushReceiptOnce } from '@/lib/dataLayer.mjs';
 
 const APP_FEATURE_ICONS = [ShoppingCart, CreditCard, Package, ShieldCheck];
 
@@ -25,6 +26,7 @@ function ThankYouContent() {
   const [lang, setLang] = useState('es');
   const [mounted, setMounted] = useState(false);
   const [paidByCard, setPaidByCard] = useState(false);
+  const [receiptOrderNumber, setReceiptOrderNumber] = useState('');
   const [reviewClicked, setReviewClicked] = useState(false);
   const [copiedReferral, setCopiedReferral] = useState(false);
 
@@ -52,6 +54,31 @@ function ThankYouContent() {
     }
   }, []);
 
+  useEffect(() => {
+    let stopped = false; let timer; let attempts = 0;
+    const params = new URLSearchParams(window.location.search);
+    let orderNumber, token;
+    try {
+      orderNumber = params.get('order') || sessionStorage.getItem('pcr_receipt:last');
+      if (/^[A-Za-z0-9-]{6,64}$/.test(orderNumber || '')) setReceiptOrderNumber(orderNumber);
+      token = sessionStorage.getItem('pcr_receipt:' + orderNumber);
+    } catch { return undefined; }
+    if (!token) return undefined;
+    function retry() { if (!stopped && ++attempts < 60) timer = setTimeout(track, 5000); }
+    async function track() {
+      try {
+        const res = await fetch('/api/analytics/order-receipt', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token }) });
+        if (stopped) return;
+        if (!res.ok) { if (res.status >= 500) retry(); return; }
+        const result = await res.json();
+        if (stopped) return;
+        if (result.event) { pushReceiptOnce(result.event, sessionStorage); setPaidByCard(result.event.payment_type === 'card'); }
+        else if (result.pending) retry();
+      } catch { retry(); /* Analytics must never break the receipt. */ }
+    }
+    track(); return () => { stopped = true; clearTimeout(timer); };
+  }, []);
+
   const translations = {
     en: {
       title: "Order Received",
@@ -59,7 +86,7 @@ function ThankYouContent() {
       body1: "Your order has been received, thank you. We will be contacting you soon. Please expect slower response times on weekends or non working hours.",
       body2: "THANK YOU FOR YOUR BUSINESS, WE APPRECIATE IT!!!!!",
       button: "Return to Catalog",
-      notice: "Conversion goal tracked successfully",
+      notice: "Your order has been received",
       reviewTitle: "⭐ Support Our Research, Get 15% Off!",
       reviewBody: "Share your experience with Peptides Costa Rica. Leave us a 5-star Google Review and instantly unlock a 15% discount code for your next order.",
       reviewButton: "Write Google Review",
@@ -92,7 +119,7 @@ function ThankYouContent() {
       body1: "Su pedido ha sido recibido, gracias. Nos pondremos en contacto con usted pronto. Por favor, espere tiempos de respuesta más lentos los fines de semana u horas no laborables.",
       body2: "¡¡¡¡¡MUCHAS GRACIAS POR SU COMPRA, APRECIAMOS ENORMEMENTE SU PREFERENCIA!!!!!",
       button: "Volver al Catálogo",
-      notice: "Meta de conversión registrada exitosamente",
+      notice: "Su pedido ha sido recibido",
       reviewTitle: "⭐ Apoye Nuestra Investigación, ¡Reciba 15% Off!",
       reviewBody: "Comparta su experiencia con Péptidos Costa Rica. Déjenos una reseña de 5 estrellas en Google Maps e inmediatamente desbloqueará un código de 15% de descuento para su próxima orden.",
       reviewButton: "Escribir Reseña en Google",
@@ -459,6 +486,7 @@ function ThankYouContent() {
         }}>
           {t.title}
         </h1>
+        {receiptOrderNumber && <p style={{ color: '#7dd3fc', fontWeight: 700, textAlign: 'center' }}>{lang === 'en' ? 'Order' : 'Pedido'} #{receiptOrderNumber}</p>}
 
         {/* Divider */}
         <div style={{

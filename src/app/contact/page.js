@@ -1,5 +1,6 @@
 "use client";
 
+import { trackLead } from '@/lib/dataLayer.mjs';
 import { useState } from 'react';
 import { MessageCircle, Mail, Send, CheckCircle, User, AtSign, FileText, Loader2 } from 'lucide-react';
 import { buildWhatsAppLink } from '@/lib/whatsapp';
@@ -54,6 +55,7 @@ export default function ContactPage() {
 
       const data = await res.json();
       if (res.ok && data.success) {
+        trackLead('contact');
         setFormSuccess(true);
         setFormName(''); setFormEmail(''); setFormSubject(''); setFormMessage('');
       } else {

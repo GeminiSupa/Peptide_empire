@@ -1,3 +1,6 @@
+import { createAnalyticsReceiptToken } from '@/lib/analyticsReceiptToken';
+import { orderEcommerceSnapshot } from '@/lib/ecommerceAnalytics.mjs';
+import { sanitizeAdAttribution } from '@/lib/adClickAttribution.mjs';
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { markActiveAbandonedCartsConvertedForOrder } from '@/lib/abandonedCartRecovery.mjs';
@@ -546,6 +549,9 @@ export async function POST(request) {
     const requestedBusinessQuoteId=order.business_quote_id || null;
     delete order.business_account_id;
     delete order.business_snapshot;
+    const googleAttribution = sanitizeAdAttribution(order.ad_attribution);
+    delete order.analytics_snapshot; delete order.ads_paid_at;
+    order.ad_attribution = googleAttribution;
     delete order.business_quote_id;
 
     try {
@@ -759,6 +765,7 @@ export async function POST(request) {
     // The empty reservation is explicit so authenticated settlement/card approval
     // can distinguish this order from legacy rows whose stock was already taken.
     orderRow.inventory_deducted = [];
+    orderRow.analytics_snapshot = orderEcommerceSnapshot(orderRow, authoritative, rateResult.rate);
     let savedOrderForAlerts = orderRow;
     if (droppedAttribution.length) {
       console.warn(
@@ -787,6 +794,7 @@ export async function POST(request) {
     let { data, error, droppedColumns } = await writeDroppingMissingColumns(
       orderRow,
       [
+        'ad_attribution', 'analytics_snapshot',
         'utm_campaign',
         'deal_id',
         'inventory_deducted',
@@ -986,6 +994,7 @@ export async function POST(request) {
     return NextResponse.json({
       ok: true,
       id: data.id,
+      analyticsReceiptToken: createAnalyticsReceiptToken(data.order_number, data.id),
       orderNumber: data.order_number,
       ...(paymentToken ? { paymentToken } : {}),
     });

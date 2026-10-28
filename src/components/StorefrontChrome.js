@@ -325,7 +325,7 @@ export function StorefrontBulkBand({ lang, settings }) {
           <h2>{settings?.[`bulkTitle${suffix}`]}</h2>
           <p>{settings?.[`bulkText${suffix}`]}</p>
         </div>
-        <button type="button" onClick={openWhatsApp}>{settings?.[`bulkButton${suffix}`]}</button>
+        <button type="button" data-whatsapp-location="contact_page" onClick={openWhatsApp}>{settings?.[`bulkButton${suffix}`]}</button>
       </div>
     </section>
   );
@@ -446,7 +446,7 @@ export function StorefrontFooter({ lang, settings, categories = [] }) {
         <div>
           <h3>{lang === 'en' ? 'Contact Us' : 'Contáctenos'}</h3>
           <a href={`mailto:${links.supportEmail}`}>{links.supportEmail}</a>
-          <button type="button" onClick={openWhatsApp}>CR {links.whatsappDisplay}</button>
+          <button type="button" data-whatsapp-location="contact_page" onClick={openWhatsApp}>CR {links.whatsappDisplay}</button>
           <a href={`tel:+${links.apiWhatsAppNumber || '18314715559'}`}>US {links.apiWhatsAppDisplay || '+1 (831) 471-5559'}</a>
           {links.googleMapsUrl && <a href={links.googleMapsUrl} target="_blank" rel="noopener noreferrer">Open in Maps</a>}
           {ORGANIZATION_PROFILES.map((profile) => (

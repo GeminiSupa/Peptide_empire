@@ -135,6 +135,7 @@ export function authoritativeCheckout({
         product: product.product,
         qty,
         unitPrice: getUnitPrice(product, currency, exchangeRate),
+        category: product.category || '',
         priceUsd: product.price_usd,
         priceCrc: product.price_crc,
         status: product.status,
@@ -305,6 +306,7 @@ export function authoritativeCheckout({
     currency,
     products: requested.map((item) => ({
       product: item.product,
+      category: item.category,
       priceUsd: item.priceUsd,
       priceCrc: item.priceCrc,
       status: item.status,

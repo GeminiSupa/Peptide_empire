@@ -333,13 +333,13 @@ function LeadModal({ open, onClose, lang, source, utm, onSubmitted, settings }) 
       setSent(true);
       onSubmitted();
       fireEvent('generate_lead', {
+        form_name: /affiliate/i.test(source) ? 'affiliate' : /pro/i.test(source) ? 'pro_account' : 'contact',
         preferredLanguage: answers.language?.id || lang,
         category: answers.category?.id || '',
         location: answers.location?.id || '',
         volume: answers.volume?.id || '',
         source,
       });
-      if (typeof window.gtag === 'function') window.gtag('event', 'generate_lead', { event_category: 'landing_page', source });
     } catch (sendError) {
       console.error('[landing] lead submit failed:', sendError?.message || 'unknown');
       setError(c.sendError);

@@ -1,5 +1,6 @@
 'use client';
 
+import { trackLead } from '@/lib/dataLayer.mjs';
 import React, { useState } from 'react';
 import { Check, Loader2 } from 'lucide-react';
 import LeadFormTrap, { useLeadFormTrap } from '@/components/LeadFormTrap';
@@ -82,6 +83,7 @@ export default function AdWordsLeadForm({
         body: JSON.stringify({ name, email, phone, language: lang, source, ...trapFields() }),
       });
       if (!response.ok) throw new Error('save_failed');
+      trackLead(/affiliate/i.test(source) ? 'affiliate' : /pro/i.test(source) ? 'pro_account' : 'contact');
       setSent(true);
     } catch {
       setError(copy.errSave);

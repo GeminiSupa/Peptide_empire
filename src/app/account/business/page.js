@@ -1,5 +1,6 @@
 'use client';
 
+import { trackLead } from '@/lib/dataLayer.mjs';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import AccountShell from '../AccountShell';
@@ -58,6 +59,7 @@ export default function BusinessAccountPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       setBusiness(data.business);
+      trackLead('pro_account');
       setNotice(data.emailSent
         ? (en ? 'Application received. A confirmation email is on its way.' : 'Solicitud recibida. Le enviamos un correo de confirmación.')
         : (en ? 'Application saved. We could not deliver the confirmation email. You can check your status here.' : 'Solicitud guardada. No pudimos entregar el correo de confirmación. Puede consultar su estado aquí.'));

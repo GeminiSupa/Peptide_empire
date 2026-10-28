@@ -1,3 +1,4 @@
+import { createAnalyticsReceiptToken } from '@/lib/analyticsReceiptToken';
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { verifyCardPaymentOrderToken } from '@/lib/cardPaymentLink';
@@ -47,7 +48,7 @@ export async function GET(request) {
     const supabase = getSupabaseAdmin();
     const { data: order, error } = await supabase
       .from('orders')
-      .select('order_number, customer_name, customer_email, customer_phone, shipping_address, currency, total_usd, total_crc, status, items')
+      .select('id, order_number, customer_name, customer_email, customer_phone, shipping_address, currency, total_usd, total_crc, status, items')
       .eq('order_number', orderNumber)
       .single();
 
@@ -55,7 +56,7 @@ export async function GET(request) {
       return NextResponse.json({ error: error?.message || 'Order not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ ok: true, order: publicOrder(order) });
+    return NextResponse.json({ ok: true, order: publicOrder(order), analyticsReceiptToken: createAnalyticsReceiptToken(order.order_number, order.id) });
   } catch (err) {
     console.error('[card-payment-link/order]', err);
     return NextResponse.json({ error: err.message || 'Internal error' }, { status: 500 });

@@ -59,6 +59,10 @@
     {
       "path": "/api/cron/purge-recycle-bin",
       "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/google-ads-conversions",
+      "schedule": "0 8 * * *"
     }
   ]
 }
