@@ -10,6 +10,7 @@ import { sendBusinessSignupNotifications } from '@/lib/businessSignupNotificatio
 import { validateBusinessTerms } from '@/lib/businessSuite.mjs';
 import { validatedBusinessRep, queueBusinessEmail } from '@/lib/businessSuiteServer';
 import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
+import { resolveBusinessEmailAgent } from '@/lib/businessEmailAgent.mjs';
 
 export async function GET(request) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true });
@@ -53,13 +54,15 @@ export async function POST(request) {
     const { smtp, from } = getOrderMailSettings();
     if (!smtp.host || !smtp.user || !smtp.pass) return Response.json({ error: 'Account saved. Email delivery is not configured.' }, { status: 503 });
     try {
-      const letter = buildBusinessAccountEmail(business, getPublicSiteUrl());
+      const agent = await resolveBusinessEmailAgent(admin, business);
+      const letter = buildBusinessAccountEmail(business, getPublicSiteUrl(), { agent });
       await nodemailer.createTransport({ host: smtp.host, port: smtp.port, secure: smtp.secure, auth: { user: smtp.user, pass: smtp.pass } }).sendMail({
         from, to: business.email,
         ...letter,
         attachments: businessEmailAttachments(letter.html),
       });
-      return Response.json({ ok: true, recipient: business.email });
+      const notifications = await sendBusinessSignupNotifications(business, { admin });
+      return Response.json({ ok: true, recipient: business.email, notifications });
     } catch { return Response.json({ error: 'Account saved, but the welcome email could not be sent. Please retry.' }, { status: 502 }); }
   }
   let details;
@@ -84,15 +87,18 @@ export async function POST(request) {
     ? admin.from('business_accounts').update(payload).eq('id', body.id).eq('email', email)
     : admin.from('business_accounts').insert(payload)).select('*').single());
   if (error) return Response.json({ error: error.code === '23505' ? 'This email or corporation number is already registered.' : 'Could not save business account. Check the migration and try again.' }, { status: 409 });
-  const notifications = body.id ? null : await sendBusinessSignupNotifications(data);
+  let notifications = body.id ? null : await sendBusinessSignupNotifications(data, { admin });
   let customerNotification=null;
   const changed=!previous.data || ['status','discount_pct','minimum_units','minimum_order_usd'].some(key=>String(previous.data[key] ?? 0)!==String(data[key] ?? 0));
   // Becoming approved sends the welcome email. Any other change to the terms
   // sends the short "your account was updated" summary.
   const becameApproved = data.status === 'approved' && previous.data?.status !== 'approved';
+  const repChanged = previous.data && previous.data.rep_user_id !== data.rep_user_id;
+  if (body.id && (becameApproved || repChanged)) notifications = await sendBusinessSignupNotifications(data, { admin });
   if(changed) {
     try {
-      const letter = becameApproved ? buildBusinessAccountEmail(data, getPublicSiteUrl()) : buildBusinessTermsEmail(data, getPublicSiteUrl());
+      const agent = becameApproved ? await resolveBusinessEmailAgent(admin, data) : null;
+      const letter = becameApproved ? buildBusinessAccountEmail(data, getPublicSiteUrl(), { agent }) : buildBusinessTermsEmail(data, getPublicSiteUrl());
       customerNotification=await queueBusinessEmail(admin,data,{key:`${becameApproved ? 'welcome' : 'terms'}:${data.id}:${data.updated_at}`,subject:letter.subject,body:letter.text,html:letter.html});
       if (becameApproved) customerNotification = { ...customerNotification, welcome: true };
     } catch(error) { console.error('[business/terms-email]',error.message); customerNotification={sent:false}; }

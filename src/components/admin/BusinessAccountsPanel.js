@@ -68,7 +68,7 @@ export default function BusinessAccountsPanel() {
       const recipient = data.recipient || data.business?.email || rows.find(row => row.id === body.id)?.email || body.email;
       setMessage(data.customerNotification?.sent === false ? `Account saved, but the customer email to ${recipient} was not sent. Use Resend welcome email for an approved account, or retry the notification in Business operations.` : failed.length
         ? `Account saved. Staff email alerts failed for: ${failed.map(result => result.destination).join(', ')}. Check SMTP settings and retry the staff alert.`
-        : body.action === 'notify' ? 'Staff alerts sent to Omer and info.' : body.action === 'invite' ? `Welcome email sent to ${recipient}.` : data.customerNotification?.welcome ? `Business approved. Welcome email sent to ${recipient}.` : data.business?.status === 'pending' ? `Business saved as Pending review. Open Manage business to approve it and send the welcome email to ${recipient}.` : 'Business account saved.');
+        : body.action === 'notify' ? 'Staff alerts sent to the team and assigned agent, when assigned.' : body.action === 'invite' ? `Welcome email sent to ${recipient}.` : data.customerNotification?.welcome ? `Business approved. Welcome email sent to ${recipient}.` : data.business?.status === 'pending' ? `Business saved as Pending review. Open Manage business to approve it and send the welcome email to ${recipient}.` : 'Business account saved.');
       if (data.business) setForm(data.business);
       await load();
     } catch (err) { setError(err.message); }
@@ -131,6 +131,7 @@ export default function BusinessAccountsPanel() {
         </div></fieldset>
         <fieldset disabled={busy}><legend>Sales representative</legend><div className={styles.formGrid}>
           <label className={styles.field}>Assigned sales rep<select value={form.rep_user_id || ''} onChange={event => setForm({ ...form, rep_user_id: event.target.value })}><option value="">Unassigned</option>{reps.filter(rep => (rep.status || 'active') === 'active' && (rep.tier || 'staff') === 'staff').map(rep => <option key={rep.user_id} value={rep.user_id}>{rep.name || rep.email}</option>)}</select></label>
+          <p>{form.rep_user_id ? (() => { const rep = reps.find(row => row.user_id === form.rep_user_id); return rep ? `Agent notifications go to ${rep.email}. Welcome emails use ${rep.name || rep.email}’s Team profile photo and WhatsApp number. ${rep.avatar_url ? '' : 'No profile photo saved. '}${rep.whatsapp_number ? '' : 'No WhatsApp number saved. '}Update missing details in Team management.` : 'Welcome emails use the assigned agent’s saved Team profile details.'; })() : 'No agent assigned: welcome emails introduce the business support team. No agent notification is sent.'}</p>
           {numberField('rep_commission_pct', 'Agreed rep commission (%)', 100, '0.01')}
         </div></fieldset>
         <p>{form.email ? `Customer emails go to ${form.email}. ` : 'Enter the company login email above. '}Saving as Pending review does not approve the account. Approval activates business pricing and sends the welcome email with Korinne’s photo.</p>

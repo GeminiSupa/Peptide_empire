@@ -4,6 +4,8 @@ import { getOwnDomainSmtpConfig, isOwnDomainAddress } from './ownDomainSmtp.mjs'
 import { ORDER_NOTIFICATION_INBOX, ORDER_NOTIFICATION_OWNER_BCC } from './orderEmailAddressing.mjs';
 import { emailShell } from './accountSignInCode.mjs';
 import { getOrderEmailLogoAttachment } from './orderEmailBranding.mjs';
+import { resolveBusinessEmailAgent } from './businessEmailAgent.mjs';
+import { getSupabaseAdmin } from './supabaseAdmin.js';
 
 const escape = value => String(value ?? '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 
@@ -33,7 +35,11 @@ export async function sendBusinessSignupNotifications(business, {
   createTransport = config => nodemailer.createTransport(config),
   mailSettings = getOrderMailSettings(),
   ownSmtp = getOwnDomainSmtpConfig(),
+  admin,
 } = {}) {
+  let agent = null, agentError = null;
+  try { agent = business.rep_user_id ? await resolveBusinessEmailAgent(admin || getSupabaseAdmin(), business) : null; }
+  catch (error) { agentError = { destination: 'assigned agent', sent: false, error: error.message }; }
   const text = [
     'New business account — Peptides Costa Rica',
     `Company: ${business.legal_name}`,
@@ -50,7 +56,8 @@ export async function sendBusinessSignupNotifications(business, {
     'Review the account in Customers → Customer accounts → Business accounts.',
     'Pending accounts receive no business discount until approved.',
   ].join('\n');
-  return Promise.all(BUSINESS_SIGNUP_RECIPIENTS.map(async destination => {
+  const recipients = [...new Set([...BUSINESS_SIGNUP_RECIPIENTS, ...(agent?.email ? [agent.email] : [])].map(email => email.toLowerCase()))];
+  const results = await Promise.all(recipients.map(async destination => {
     try {
       // Our Rackspace inbox must receive its copy through our own mail host.
       const own = isOwnDomainAddress(destination);
@@ -75,4 +82,5 @@ export async function sendBusinessSignupNotifications(business, {
       return { destination, sent: false, error: error.message };
     }
   }));
+  return agentError ? [...results, agentError] : results;
 }

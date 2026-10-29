@@ -18,6 +18,7 @@ function fixture(previous = null) {
     sendBusinessSignupNotifications: async () => [],
     queueBusinessEmail: async (_db, business, letter) => { queued.push({ recipient: business.email, ...letter }); return { sent: true }; },
     buildBusinessAccountEmail, buildBusinessTermsEmail, businessEmailAttachments,
+    resolveBusinessEmailAgent: async () => ({ name: 'Korinne Dankers', photoUrl: 'https://catalog.peptidescostarica.net/team/korinne-dankers.jpg', whatsapp: '50672004080', phone: '+50672004080' }),
     getPublicSiteUrl: () => 'https://catalog.peptidescostarica.net', rateLimit: () => true,
     getOrderMailSettings: () => ({ smtp: { host: 'smtp', user: 'user', pass: 'pass' }, from: 'store@example.invalid' }),
     nodemailer: { createTransport: () => ({ sendMail: async letter => { sent.push(letter); return {}; } }) },

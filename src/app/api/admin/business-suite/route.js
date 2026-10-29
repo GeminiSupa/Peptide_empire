@@ -14,7 +14,7 @@ export async function GET(request) {
     const admin=getSupabaseAdmin();
     const results=await Promise.all([
       admin.from('business_accounts').select('*').order('created_at',{ascending:false}),
-      admin.from('admin_profiles').select('user_id,name,email,status,tier,is_superadmin'),
+      admin.from('admin_profiles').select('user_id,name,email,status,tier,is_superadmin,avatar_url,whatsapp_number'),
       admin.from('business_product_prices').select('*'),
       admin.from('business_quotes').select('*').order('created_at',{ascending:false}).limit(200),
       admin.from('business_referral_codes').select('*').order('created_at',{ascending:false}),

@@ -27,8 +27,11 @@ export const BUSINESS_AGENT_PHOTO_CID = 'business-agent@peptidescostarica';
 /** Logo always; the agent photo only when the email actually shows it. */
 export function businessEmailAttachments(html, agent = BUSINESS_ACCOUNT_AGENT) {
   const files = [getOrderEmailLogoAttachment()];
-  if (agent.photoUrl && String(html || '').includes(`cid:${BUSINESS_AGENT_PHOTO_CID}`)) {
-    files.push({ filename: 'business-agent.jpg', path: agent.photoUrl, cid: BUSINESS_AGENT_PHOTO_CID, contentDisposition: 'inline' });
+  const marker = String(html || '').match(/data-business-agent-photo="([^"]+)"/);
+  let photoUrl = agent.photoUrl;
+  if (marker) { try { photoUrl = decodeURIComponent(marker[1]); } catch { photoUrl = ''; } }
+  if (photoUrl && String(html || '').includes(`cid:${BUSINESS_AGENT_PHOTO_CID}`)) {
+    files.push({ filename: 'business-agent.jpg', path: photoUrl, cid: BUSINESS_AGENT_PHOTO_CID, contentDisposition: 'inline' });
   }
   return files;
 }
@@ -178,10 +181,12 @@ function buildWelcomeEmail(business, site, agent) {
     ? t(`Meet ${agent.name}, your account manager`, `Conozca a ${agent.name}, su ejecutivo de cuenta`)
     : t('Meet your business support team', 'Conozca a su equipo de soporte empresarial');
   const agentFirst = String(agent.name || '').split(/\s+/)[0];
-  const agentText = agent.name
+  const agentText = !agent.whatsapp
+    ? t('Reply to this email for help with orders, pricing and your business account.', 'Responda este correo para recibir ayuda con pedidos, precios y su cuenta empresarial.')
+    : agent.name
     ? t(`${agentFirst} is your direct contact for orders, pricing and anything your business needs. Message ${agentFirst} any time on WhatsApp.`, `${agentFirst} es su contacto directo para pedidos, precios y todo lo que su empresa necesite. Escríbale a ${agentFirst} por WhatsApp cuando guste.`)
     : t('Your direct contact for orders, pricing and anything your business needs. Message us any time on WhatsApp.', 'Su contacto directo para pedidos, precios y todo lo que su empresa necesite. Escríbanos cuando quiera por WhatsApp.');
-  const chatUrl = whatsappLink(agent, t(`Hi, I'm with ${sentence(name)} Our business account was just approved.`, `Hola, le escribo de ${sentence(name)} Nuestra cuenta empresarial acaba de ser aprobada.`));
+  const chatUrl = agent.whatsapp ? whatsappLink(agent, t(`Hi, I'm with ${sentence(name)} Our business account was just approved.`, `Hola, le escribo de ${sentence(name)} Nuestra cuenta empresarial acaba de ser aprobada.`)) : '';
 
   const subject = t('Your Business Account Is Approved!', '¡Su cuenta empresarial está aprobada!');
   const hello = t(`Hello ${name},`, `Hola ${name},`);
@@ -218,7 +223,7 @@ function buildWelcomeEmail(business, site, agent) {
   </tr>`).join('');
 
   const photo = agent.photoUrl
-    ? `<img src="cid:${BUSINESS_AGENT_PHOTO_CID}" alt="${escape(agent.name)}" width="104" height="104" style="display:block;width:104px;height:104px;margin:0 auto 12px;border-radius:52px;border:3px solid #ffffff;">`
+    ? `<img src="cid:${BUSINESS_AGENT_PHOTO_CID}" data-business-agent-photo="${encodeURIComponent(agent.photoUrl)}" alt="${escape(agent.name)}" width="104" height="104" style="display:block;width:104px;height:104px;margin:0 auto 12px;border-radius:52px;border:3px solid #ffffff;">`
     : '';
 
   const html = emailShell({
@@ -259,7 +264,7 @@ function buildWelcomeEmail(business, site, agent) {
           <div style="font-size:17px;font-weight:800;color:#0f172a;margin-bottom:8px;">${escape(agentHeading)}</div>
           <div style="font-size:14px;line-height:1.6;color:#334155;margin-bottom:${agent.phone ? 8 : 16}px;">${escape(agentText)}</div>
           ${agent.phone ? `<div style="font-size:15px;font-weight:800;color:#15803d;margin-bottom:16px;">WhatsApp: ${escape(agent.phone)}</div>` : ''}
-          ${button(chatUrl, t('Chat with us on WhatsApp', 'Escríbanos por WhatsApp'), '#16A34A')}
+          ${chatUrl ? button(chatUrl, t('Chat with us on WhatsApp', 'Escríbanos por WhatsApp'), '#16A34A') : ''}
         </td></tr>
       </table>
 
