@@ -41,6 +41,19 @@ export default function BusinessAccountsPanel() {
     } finally { setLoading(false); }
   }
   useEffect(() => { load().catch(err => setError(err.message)); }, []);
+  useEffect(() => {
+    if (loading) return;
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('business');
+    if (!id) return;
+    const business = rows.find(row => row.id === id);
+    if (business) {
+      openEditor(business);
+      if (params.get('businessAction') === 'delete') setMessage('Review this business, then use Delete business below. Permanent deletion requires confirming its email.');
+    } else setError('The business linked in the email was not found. It may have been deleted.');
+    params.delete('business'); params.delete('businessAction');
+    window.history.replaceState({}, '', `${window.location.pathname}?${params}`);
+  }, [loading, rows]);
   function openEditor(row) {
     setForm({ ...empty, ...row }); setEditing(true); setMessage(''); setError('');
     requestAnimationFrame(() => editor.current?.focus());
@@ -123,7 +136,7 @@ export default function BusinessAccountsPanel() {
         <p>{form.email ? `Customer emails go to ${form.email}. ` : 'Enter the company login email above. '}Saving as Pending review does not approve the account. Approval activates business pricing and sends the welcome email with Korinne’s photo.</p>
         <div className={styles.saveBar}><button className={styles.primary} disabled={busy} type="submit">{busy ? 'Working…' : 'Save business account'}</button>{rows.find(row => row.id === form.id)?.status !== 'approved' && <button className={styles.primary} disabled={busy} type="submit" name="intent" value="approve">Approve & send welcome email</button>}<button disabled={busy} type="button" onClick={() => setEditing(false)}>Cancel</button></div>
       </form>
-      {form.id && <div className={styles.nextStep}><strong>Welcome email</strong><p>Approval sends the welcome email to {form.email} automatically. Resend it below when needed.</p><button disabled={busy || rows.find(row => row.id === form.id)?.status !== 'approved'} onClick={() => act({ action: 'invite', id: form.id })}>Resend welcome email</button></div>}
+      {form.id && <div className={styles.nextStep}><strong>Welcome email</strong><p>Approval sends the welcome email to {form.email} automatically. Resend it below when needed.</p><button disabled={busy || rows.find(row => row.id === form.id)?.status !== 'approved'} onClick={() => act({ action: 'invite', id: form.id })}>Resend welcome email</button> <button type="button" disabled={busy} onClick={() => permanentlyDelete(rows.find(row => row.id === form.id) || form)}>Delete business</button></div>}
     </section>}
 
     <section aria-labelledby="business-list-heading">
@@ -134,7 +147,7 @@ export default function BusinessAccountsPanel() {
         {row.trading_name && <p>{row.legal_name}</p>}<a className={styles.email} href={`mailto:${row.email}`}>{row.email}</a><p>Welcome email recipient: {row.email}</p>
         <dl><div><dt>Cédula jurídica</dt><dd>{row.corporation_number}</dd></div><div><dt>Discount</dt><dd>{row.discount_pct}%</dd></div><div><dt>Contact</dt><dd>{row.contact_name || '—'}</dd></div></dl>
         <div className={styles.cardActions}><button className={styles.primary} disabled={busy} onClick={() => openEditor(row)}>{row.status === 'pending' ? 'Review application' : 'Manage business'}</button>{row.status === 'approved' && <button disabled={busy} onClick={() => act({ action: 'invite', id: row.id })}>Resend welcome email</button>}</div>
-        <details className={styles.more}><summary>More actions</summary><button disabled={busy} onClick={() => act({ action: 'notify', id: row.id })}>Resend staff alert</button><button type="button" disabled={busy} onClick={() => permanentlyDelete(row)}>Permanently delete</button></details>
+        <div className={styles.cardActions}><button type="button" disabled={busy} onClick={() => openEditor(row)}>Edit details</button><button disabled={busy} onClick={() => act({ action: 'notify', id: row.id })}>Resend staff alert</button><button type="button" disabled={busy} onClick={() => permanentlyDelete(row)}>Delete business</button></div>
       </article>)}</div>}
       {!loading && rows.length > 0 && <p className={styles.hint}>Showing {visible.length} of {rows.length} loaded businesses{rows.length === 500 ? ' (latest 500)' : ''}.</p>}
     </section>
