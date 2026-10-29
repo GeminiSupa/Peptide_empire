@@ -59,7 +59,7 @@ export async function POST(request) {
         ...letter,
         attachments: businessEmailAttachments(letter.html),
       });
-      return Response.json({ ok: true });
+      return Response.json({ ok: true, recipient: business.email });
     } catch { return Response.json({ error: 'Account saved, but the welcome email could not be sent. Please retry.' }, { status: 502 }); }
   }
   let details;

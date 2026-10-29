@@ -52,9 +52,10 @@ export default function BusinessAccountsPanel() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Could not update this business.');
       const failed = (data.notifications || []).filter(result => !result.sent);
-      setMessage(data.customerNotification?.sent === false ? 'Account saved. Customer notification needs retry in Business operations.' : failed.length
+      const recipient = data.recipient || data.business?.email || rows.find(row => row.id === body.id)?.email || body.email;
+      setMessage(data.customerNotification?.sent === false ? `Account saved, but the customer email to ${recipient} was not sent. Use Resend welcome email for an approved account, or retry the notification in Business operations.` : failed.length
         ? `Account saved. Staff email alerts failed for: ${failed.map(result => result.destination).join(', ')}. Check SMTP settings and retry the staff alert.`
-        : body.action === 'notify' ? 'Staff alerts sent to Omer and info.' : body.action === 'invite' ? 'Welcome email sent.' : data.customerNotification?.welcome ? 'Business approved. Welcome email sent.' : 'Business account saved.');
+        : body.action === 'notify' ? 'Staff alerts sent to Omer and info.' : body.action === 'invite' ? `Welcome email sent to ${recipient}.` : data.customerNotification?.welcome ? `Business approved. Welcome email sent to ${recipient}.` : data.business?.status === 'pending' ? `Business saved as Pending review. Open Manage business to approve it and send the welcome email to ${recipient}.` : 'Business account saved.');
       if (data.business) setForm(data.business);
       await load();
     } catch (err) { setError(err.message); }
@@ -101,11 +102,11 @@ export default function BusinessAccountsPanel() {
     {editing && <section className={styles.editor} aria-labelledby="business-editor-heading">
       <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>{form.id ? statuses[form.status] : 'New company'}</p><h3 id="business-editor-heading" ref={editor} tabIndex={-1}>{form.id ? form.legal_name : 'Create business account'}</h3></div><button disabled={busy} onClick={() => setEditing(false)}>Close editor</button></div>
       <p>Check company details, set the agreed discount, then choose Approved and save. Approval automatically sends the styled welcome email with Korinne’s contact details.</p>
-      <form onSubmit={event => { event.preventDefault(); act(form); }}>
+      <form onSubmit={event => { event.preventDefault(); act(event.nativeEvent.submitter?.value === 'approve' ? { ...form, status: 'approved' } : form); }}>
         <fieldset disabled={busy}><legend>Company & contact</legend><div className={styles.formGrid}>
           {fields.map(field => <label key={field.key} className={`${styles.field} ${field.multiline ? styles.wide : ''}`}>{field.label}
             {field.multiline ? <textarea rows={3} value={form[field.key] || ''} required={field.key === 'billing_address'} maxLength={1000} onChange={event => setForm({ ...form, [field.key]: event.target.value })} /> : <input type={field.type || 'text'} autoComplete={field.complete} value={form[field.key] || ''} readOnly={field.key === 'email' && Boolean(form.id)} required={!['trading_name', 'delivery_address'].includes(field.key)} maxLength={200} onChange={event => setForm({ ...form, [field.key]: event.target.value })} />}
-            {field.key === 'email' && <small>{form.id ? 'Login email is fixed for this company.' : 'The customer will sign in using this email.'}</small>}
+            {field.key === 'email' && <small>This is where the customer receives the welcome email and sign-in codes. {form.id ? 'Login email is fixed for this company.' : 'Enter the business customer’s email address.'}</small>}
           </label>)}
         </div></fieldset>
         <fieldset disabled={busy}><legend>Approval & pricing</legend><div className={styles.formGrid}>
@@ -119,9 +120,10 @@ export default function BusinessAccountsPanel() {
           <label className={styles.field}>Assigned sales rep<select value={form.rep_user_id || ''} onChange={event => setForm({ ...form, rep_user_id: event.target.value })}><option value="">Unassigned</option>{reps.filter(rep => (rep.status || 'active') === 'active' && (rep.tier || 'staff') === 'staff').map(rep => <option key={rep.user_id} value={rep.user_id}>{rep.name || rep.email}</option>)}</select></label>
           {numberField('rep_commission_pct', 'Agreed rep commission (%)', 100, '0.01')}
         </div></fieldset>
-        <div className={styles.saveBar}><button className={styles.primary} disabled={busy} type="submit">{busy ? 'Working…' : 'Save business account'}</button><button disabled={busy} type="button" onClick={() => setEditing(false)}>Cancel</button></div>
+        <p>{form.email ? `Customer emails go to ${form.email}. ` : 'Enter the company login email above. '}Saving as Pending review does not approve the account. Approval activates business pricing and sends the welcome email with Korinne’s photo.</p>
+        <div className={styles.saveBar}><button className={styles.primary} disabled={busy} type="submit">{busy ? 'Working…' : 'Save business account'}</button>{rows.find(row => row.id === form.id)?.status !== 'approved' && <button className={styles.primary} disabled={busy} type="submit" name="intent" value="approve">Approve & send welcome email</button>}<button disabled={busy} type="button" onClick={() => setEditing(false)}>Cancel</button></div>
       </form>
-      {form.id && <div className={styles.nextStep}><strong>Welcome email</strong><p>Approval sends the welcome email automatically. Resend it below when needed.</p><button disabled={busy || rows.find(row => row.id === form.id)?.status !== 'approved'} onClick={() => act({ action: 'invite', id: form.id })}>Resend welcome email</button></div>}
+      {form.id && <div className={styles.nextStep}><strong>Welcome email</strong><p>Approval sends the welcome email to {form.email} automatically. Resend it below when needed.</p><button disabled={busy || rows.find(row => row.id === form.id)?.status !== 'approved'} onClick={() => act({ action: 'invite', id: form.id })}>Resend welcome email</button></div>}
     </section>}
 
     <section aria-labelledby="business-list-heading">
@@ -129,14 +131,14 @@ export default function BusinessAccountsPanel() {
       <div className={styles.filters}><label className={styles.field}>Search businesses<input type="search" placeholder="Company, email or cédula jurídica" value={search} onChange={event => setSearch(event.target.value)} /></label><label className={styles.field}>Status<select value={filter} onChange={event => setFilter(event.target.value)}><option value="all">All statuses ({rows.length})</option>{Object.entries(statuses).map(([value, label]) => <option key={value} value={value}>{label} ({counts[value]})</option>)}</select></label></div>
       {loading ? <p className={styles.empty} role="status">Loading business accounts…</p> : !visible.length ? <p className={styles.empty}>{rows.length ? 'No businesses match these filters.' : 'No applications yet. New business applications will appear here, or create a business above.'}</p> : <div className={styles.cards}>{visible.map(row => <article className={styles.card} key={row.id}>
         <div className={styles.cardTitle}><h4>{row.trading_name || row.legal_name}</h4><span className={`${styles.badge} ${styles[row.status] || ''}`}>{statuses[row.status] || row.status}</span></div>
-        {row.trading_name && <p>{row.legal_name}</p>}<a className={styles.email} href={`mailto:${row.email}`}>{row.email}</a>
+        {row.trading_name && <p>{row.legal_name}</p>}<a className={styles.email} href={`mailto:${row.email}`}>{row.email}</a><p>Welcome email recipient: {row.email}</p>
         <dl><div><dt>Cédula jurídica</dt><dd>{row.corporation_number}</dd></div><div><dt>Discount</dt><dd>{row.discount_pct}%</dd></div><div><dt>Contact</dt><dd>{row.contact_name || '—'}</dd></div></dl>
         <div className={styles.cardActions}><button className={styles.primary} disabled={busy} onClick={() => openEditor(row)}>{row.status === 'pending' ? 'Review application' : 'Manage business'}</button>{row.status === 'approved' && <button disabled={busy} onClick={() => act({ action: 'invite', id: row.id })}>Resend welcome email</button>}</div>
         <details className={styles.more}><summary>More actions</summary><button disabled={busy} onClick={() => act({ action: 'notify', id: row.id })}>Resend staff alert</button><button type="button" disabled={busy} onClick={() => permanentlyDelete(row)}>Permanently delete</button></details>
       </article>)}</div>}
       {!loading && rows.length > 0 && <p className={styles.hint}>Showing {visible.length} of {rows.length} loaded businesses{rows.length === 500 ? ' (latest 500)' : ''}.</p>}
     </section>
-    <details className={styles.help}><summary>Where does the customer sign in?</summary><p>Send an invitation after approval. Customers use their company login email and choose Email code for their first login. They can set a password under Security.</p><a href={loginUrl} target="_blank" rel="noopener noreferrer">Open business account login ↗</a></details>
+    <details className={styles.help}><summary>How do I approve a manually created account?</summary><p>Open Review application or Manage business, check the company email and terms, then select Approve &amp; send welcome email. You can also select Approved in Account status and save. The welcome email goes to the company login email shown on the card. For an already approved account, use Resend welcome email. Customers follow the email’s account link and choose Email code to sign in with that same email address. They can set a password under Security.</p><a href={loginUrl} target="_blank" rel="noopener noreferrer">Open business account login ↗</a></details>
     <details className={styles.operations}><summary>Business operations <span>Pricing, quotes, sales reports & brochure links</span></summary><BusinessSuitePanel businessId={editing ? form.id || null : null} onReps={setReps} /></details>
   </section>;
 }
