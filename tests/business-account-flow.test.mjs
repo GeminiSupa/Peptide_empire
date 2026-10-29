@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { businessDetails, findBusinessAccount } from '../src/lib/businessAccounts.mjs';
 import { readBearerToken } from '../src/lib/customerOrderOwnership.mjs';
+import { writeDroppingMissingColumns } from '../src/lib/optionalColumns.mjs';
+import { canManageBusiness } from '../src/lib/businessSuite.mjs';
 
 // Exercise the real route handlers with isolated Auth, database and SMTP
 // adapters. No production account is created and no real email is sent.
@@ -36,7 +38,7 @@ function fixture() {
   };
   const dependencies = {
     getSupabaseAdmin: () => admin,
-    readBearerToken, businessDetails, findBusinessAccount,
+    readBearerToken, businessDetails, findBusinessAccount, writeDroppingMissingColumns, canManageBusiness,
     nodemailer: { createTransport: () => ({ async sendMail(message) { mail.push(message); } }) },
     getOrderMailSettings: () => ({ smtp: { configured: true }, from: 'store@example.invalid' }),
     getPublicSiteUrl: () => 'https://example.invalid',
@@ -68,6 +70,7 @@ test('a test business application is saved pending, acknowledged and alerts the 
   assert.equal(data.business.status, 'pending');
   assert.equal(data.business.discount_pct, 0);
   assert.equal(data.business.corporation_number, '3101999999');
+  assert.equal(data.business.preferred_language, 'es');
   assert.equal(data.emailSent, true);
   assert.equal(data.staffNotified, true);
   assert.equal(f.mail[0].to, 'buyer@example.invalid');
@@ -97,4 +100,11 @@ test('duplicate applications cannot overwrite terms or send another signup alert
   assert.equal(f.rows[0].discount_pct, 25);
   assert.equal(f.mail.length, 1);
   assert.equal(f.notifications.length, 1);
+});
+
+test('an application filled in English makes English the business language', async () => {
+  const f = fixture();
+  const response = await f.POST(request('buyer', { ...application, lang: 'en' }));
+  assert.equal(response.status, 201);
+  assert.equal(f.rows[0].preferred_language, 'en');
 });

@@ -146,6 +146,20 @@ export function catalogFacingName(storedName, lang = 'es') {
   return size ? `${label} ${size}` : label;
 }
 
+/**
+ * The name inside the business dashboard and business emails. Business buyers
+ * are signed in and asked for the real compound name: "Retatrutide 10mg".
+ * The live rows are named "GLP-1 (RT) – Agonista Triple 10mg", so anything
+ * that starts with GLP-1 is matched, not just the bare compound. Orders still
+ * use the stored name.
+ */
+export function businessFacingName(storedName) {
+  const name = String(storedName ?? '');
+  if (!/^\s*glp-1\b/i.test(name)) return name;
+  const size = name.match(/(\d+(?:[.,]\d+)?)\s*(mg|mcg|ml|iu)\s*$/i);
+  return size ? `Retatrutide ${size[1]}${size[2].toLowerCase()}` : 'Retatrutide';
+}
+
 function slugPiece(value) {
   return String(value ?? '')
     .replace(/(\d),(?=\d)/g, '$1')

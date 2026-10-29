@@ -5,6 +5,7 @@ import { businessSalesReport,normalizeBusinessItems } from '@/lib/businessSuite.
 import { isBacWater } from '@/lib/bacWater.mjs';
 import { rateLimit } from '@/lib/rateLimit.mjs';
 import { getPublicSiteUrl } from '@/lib/publicUrl';
+import { buildBusinessQuoteReviewEmail } from '@/lib/businessAccountEmail.mjs';
 
 export async function GET(request) {
   const auth=await verifyAdminSession(request,{requireSuperadmin:true});
@@ -95,7 +96,8 @@ export async function POST(request) {
       const saved=await admin.from('business_quotes').update(patch).eq('id',body.id).eq('business_id',business.id).eq('updated_at',quote.data.updated_at).select('id').maybeSingle();
       if(saved.error) throw saved.error;
       if(!saved.data) throw businessError('The quote changed. Refresh before editing.',409);
-      const notification=await queueBusinessEmail(admin,business,{key:`quote-review:${body.id}:${patch.updated_at}`,recipient:quote.data.requested_by_email,subject:'Cotización actualizada / Quote updated',body:`Su cotización está ${body.status==='approved'?'aprobada':'rechazada'}.\nYour quote is ${body.status}. ${patch.expires_at?`Valid until ${patch.expires_at}.`:''}\n${patch.staff_note}\nAbra su cuenta para revisar los precios y continuar. / Open your account to review prices and continue.`});
+      const letter=buildBusinessQuoteReviewEmail(business,{...quote.data,...patch},getPublicSiteUrl());
+      const notification=await queueBusinessEmail(admin,business,{key:`quote-review:${body.id}:${patch.updated_at}`,recipient:quote.data.requested_by_email,subject:letter.subject,body:letter.text,html:letter.html});
       return Response.json({ok:true,notification});
     }
     throw businessError('Unknown action.');

@@ -6,6 +6,8 @@ import { getPublicSiteUrl } from '@/lib/publicUrl';
 import { getOrderMailSettings } from '@/lib/transactionalSmtp';
 import { getOwnDomainSmtpConfig, isOwnDomainAddress } from '@/lib/ownDomainSmtp.mjs';
 import nodemailer from 'nodemailer';
+import { businessEmailAttachments } from '@/lib/businessAccountEmail.mjs';
+import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 import { canOwnReturningCustomer } from '@/lib/salesAgentAffiliate.mjs';
 
 export function businessError(message, status = 400) { return Object.assign(new Error(message), { status }); }
@@ -87,7 +89,7 @@ export async function deliverBusinessEmail(admin, id) {
     const own = isOwnDomainAddress(row.recipient) ? getOwnDomainSmtpConfig() : null;
     const smtp = own || settings.smtp;
     if (!smtp.configured) throw new Error('Email delivery is not configured.');
-    const result = await nodemailer.createTransport({ host:smtp.host,port:smtp.port,secure:smtp.secure,auth:{user:smtp.user,pass:smtp.pass},connectionTimeout:10000,greetingTimeout:10000,socketTimeout:20000 }).sendMail({ from:own?.from || settings.from,to:row.recipient,subject:row.subject,text:row.body });
+    const result = await nodemailer.createTransport({ host:smtp.host,port:smtp.port,secure:smtp.secure,auth:{user:smtp.user,pass:smtp.pass},connectionTimeout:10000,greetingTimeout:10000,socketTimeout:20000 }).sendMail({ from:own?.from || settings.from,to:row.recipient,subject:row.subject,text:row.body,...(row.html?{html:row.html,attachments:businessEmailAttachments(row.html)}:{}) });
     if (result.rejected?.length) throw new Error('The recipient was rejected by the mail provider.');
     const saved = await admin.from('business_email_outbox').update({status:'sent',last_error:null,updated_at:new Date().toISOString()}).eq('id',row.id);
     if (saved.error) throw saved.error;
@@ -97,9 +99,12 @@ export async function deliverBusinessEmail(admin, id) {
     return {id,sent:false};
   }
 }
-export async function queueBusinessEmail(admin,business,{key,recipient=business.email,subject,body}) {
+// `html` is the branded version. Until business-account-welcome.sql adds the
+// column it is dropped and the plain text still goes out.
+export async function queueBusinessEmail(admin,business,{key,recipient=business.email,subject,body,html}) {
   try {
-  const result = await admin.from('business_email_outbox').upsert({business_id:business.id,event_key:key,recipient,subject,body:`${body}\n\n${getPublicSiteUrl()}/account/business\n\nPeptides Costa Rica`},{onConflict:'event_key',ignoreDuplicates:true}).select('id').maybeSingle();
+  const row={business_id:business.id,event_key:key,recipient,subject,body:`${body}\n\n${getPublicSiteUrl()}/account/business\n\nPeptides Costa Rica`,...(html?{html}:{})};
+  const result = await writeDroppingMissingColumns(row,['html'],payload=>admin.from('business_email_outbox').upsert(payload,{onConflict:'event_key',ignoreDuplicates:true}).select('id').maybeSingle());
   if (result.error) throw result.error;
   if (!result.data) {
     const existing=await admin.from('business_email_outbox').select('status').eq('event_key',key).maybeSingle();

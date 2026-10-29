@@ -2,6 +2,8 @@ import { businessCustomer, businessError, businessFailure, publicBusiness, busin
 import { canManageBusiness, normalizeBusinessItems } from '@/lib/businessSuite.mjs';
 import { rateLimit } from '@/lib/rateLimit.mjs';
 import { BUSINESS_SIGNUP_RECIPIENTS } from '@/lib/businessSignupNotifications.mjs';
+import { buildBusinessQuoteRequestEmail } from '@/lib/businessAccountEmail.mjs';
+import { getPublicSiteUrl } from '@/lib/publicUrl';
 
 export async function GET(request) {
   try {
@@ -48,7 +50,7 @@ export async function POST(request) {
       const alert=await admin.from('admin_notifications').insert({type:'business_quote',title:`Quote requested: ${business.legal_name}`,body:`${items.length} product lines · ${email}`,link_tab:'customers',link_ref:business.id});
       if (alert.error) console.error('[business/quote-alert]',alert.error.message);
       const [notification,...staff]=await Promise.all([
-        queueBusinessEmail(admin,business,{key:`quote-request:${result.data.id}`,recipient:email,subject:'Cotización recibida / Quote request received',body:`Recibimos su solicitud de cotización para ${business.legal_name}.\nWe received your quote request. Our team will confirm pricing in your business account.`}),
+        (()=>{const letter=buildBusinessQuoteRequestEmail(business,result.data,getPublicSiteUrl());return queueBusinessEmail(admin,business,{key:`quote-request:${result.data.id}`,recipient:email,subject:letter.subject,body:letter.text,html:letter.html});})(),
         ...BUSINESS_SIGNUP_RECIPIENTS.map(recipient=>queueBusinessEmail(admin,business,{key:`quote-staff:${result.data.id}:${recipient}`,recipient,subject:`New business quote request: ${business.legal_name}`,body:`${business.legal_name}\nCédula jurídica: ${business.corporation_number}\nRequested by: ${email}\n${items.map(item=>`${item.qty} × ${item.product}`).join('\n')}\nReview and price this quote in Customers → Business operations.`})),
       ]);
       return Response.json({ok:true,quote:result.data,notification,staffNotified:staff.every(row=>row.sent)});

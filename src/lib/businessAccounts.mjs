@@ -14,6 +14,29 @@ export function businessDiscountPct(business) {
   return business?.status === 'approved' && Number.isFinite(pct) && pct > 0 && pct <= 100 ? pct : 0;
 }
 
+/**
+ * The language a business chose for its emails, for an owner or team buyer
+ * address; null for anyone else or if it cannot be read. It only picks the
+ * language of a sign-in code email sent to that same address, so unlike
+ * findBusinessAccount it is fine to call with an address typed on a form.
+ */
+export async function businessLanguageFor(admin, email) {
+  const address = String(email || '').toLowerCase().trim();
+  if (!address) return null;
+  const pick = row => (row?.preferred_language === 'en' || row?.preferred_language === 'es' ? row.preferred_language : null);
+  try {
+    const owner = await admin.from('business_accounts').select('preferred_language').eq('email', address).maybeSingle();
+    if (owner.error) return null;
+    if (owner.data) return pick(owner.data);
+    const membership = await admin.from('business_members').select('business_id').eq('email', address).eq('active', true).maybeSingle();
+    if (membership.error || !membership.data) return null;
+    const company = await admin.from('business_accounts').select('preferred_language').eq('id', membership.data.business_id).maybeSingle();
+    return company.error ? null : pick(company.data);
+  } catch {
+    return null;
+  }
+}
+
 // Only call with the email returned by Supabase getUser, never a checkout field.
 export async function findBusinessAccount(admin, verifiedEmail) {
   if (!verifiedEmail) return null;

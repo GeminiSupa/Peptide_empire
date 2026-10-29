@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {canManageBusiness,normalizeBusinessItems,validatedQuotePrices} from '../src/lib/businessSuite.mjs';
 import {canOwnReturningCustomer} from '../src/lib/salesAgentAffiliate.mjs';
+import {buildBusinessQuoteRequestEmail} from '../src/lib/businessAccountEmail.mjs';
 
 function sourceFunctions(path,names,dependencies){
   const source=readFileSync(new URL(`../${path}`,import.meta.url),'utf8').replace(/^import .*;\r?\n/gm,'').replace(/export (?=(?:async )?function)/g,'');
@@ -13,7 +14,7 @@ const customerDependencies=(overrides={})=>({
   businessCustomer:async()=>({admin:{},business,email:'buyer@test'}),
   businessError:(message,status=400)=>Object.assign(new Error(message),{status}),
   businessFailure:error=>Response.json({error:error.message},{status:error.status||503}),
-  canManageBusiness,normalizeBusinessItems,rateLimit:()=>true,queueBusinessEmail:async()=>({sent:true}),...overrides,
+  canManageBusiness,normalizeBusinessItems,rateLimit:()=>true,queueBusinessEmail:async()=>({sent:true}),buildBusinessQuoteRequestEmail,getPublicSiteUrl:()=>'https://example.invalid',...overrides,
 });
 const post=body=>new Request('https://example.invalid/api/account/business/suite',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
 
@@ -57,6 +58,9 @@ test('a quote request ignores posted approval/prices and alerts both team inboxe
   const inserted=writes.find(([table])=>table==='business_quotes')[1];
   assert.equal(inserted.business_id,'company');assert.equal(inserted.status,undefined);assert.deepEqual(inserted.items,[{product:'A',qty:2}]);
   assert.deepEqual(messages.map(message=>message.recipient).sort(),['buyer@test','info@peptidescostarica.net','omerforce@gmail.com']);
+  const confirmation=messages.find(message=>message.recipient==='buyer@test');
+  assert.match(confirmation.html,/Recibimos su solicitud de cotización/);
+  assert.match(confirmation.body,/2 × A/);
 });
 test('server rejects used quotes and only queries the authenticated company',async()=>{
   const calls=[];

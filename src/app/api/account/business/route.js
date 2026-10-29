@@ -8,6 +8,8 @@ import { buildBusinessAccountEmail } from '@/lib/businessAccountEmail.mjs';
 import { getOrderEmailLogoAttachment } from '@/lib/orderEmailBranding.mjs';
 import { sendBusinessSignupNotifications } from '@/lib/businessSignupNotifications.mjs';
 import { businessProductPrices, publicBusiness, referralBusinessPatch } from '@/lib/businessSuiteServer';
+import { canManageBusiness } from '@/lib/businessSuite.mjs';
+import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 
 async function context(request) {
   const admin = getSupabaseAdmin();
@@ -34,11 +36,13 @@ export async function POST(request) {
   const ctx = await context(request);
   if (!ctx) return Response.json({ error: 'Verified sign-in required.' }, { status: 401 });
   let details;
-  try { const body=await request.json(); details = { ...businessDetails(body), ...await referralBusinessPatch(ctx.admin,body.referral_code) }; }
+  // The language the application was filled in becomes the business's
+  // language for emails; it can be changed later on the dashboard.
+  try { const body=await request.json(); details = { ...businessDetails(body), ...await referralBusinessPatch(ctx.admin,body.referral_code), preferred_language: body.lang === 'en' ? 'en' : 'es' }; }
   catch (error) { return Response.json({ error: error.message }, { status: 400 }); }
   // No upsert: repeat submissions cannot reset approved terms or overwrite a
   // company created by staff. Identity changes need staff review.
-  const { data, error } = await ctx.admin.from('business_accounts').insert({ ...details, email: ctx.email }).select('*').single();
+  const { data, error } = await writeDroppingMissingColumns({ ...details, email: ctx.email }, ['preferred_language'], row => ctx.admin.from('business_accounts').insert(row).select('*').single());
   if (error) return Response.json({ error: error.code === '23505' ? 'This email or corporation number is already registered. Contact us for help.' : 'Unable to submit your application. Please try again.' }, { status: error.code === '23505' ? 409 : 503 });
   const staffNotification = sendBusinessSignupNotifications(data);
   let emailSent = false;
@@ -47,7 +51,7 @@ export async function POST(request) {
     if (smtp.configured) {
       await nodemailer.createTransport({ host: smtp.host, port: smtp.port, secure: smtp.secure, auth: { user: smtp.user, pass: smtp.pass }, connectionTimeout: 10000, greetingTimeout: 10000, socketTimeout: 20000 }).sendMail({
         from, to: ctx.email,
-        ...buildBusinessAccountEmail(data, `${getPublicSiteUrl()}/account/login?next=%2Faccount%2Fbusiness`, { application: true }),
+        ...buildBusinessAccountEmail(data, getPublicSiteUrl(), { application: true }),
         attachments: [getOrderEmailLogoAttachment()],
       });
       emailSent = true;
@@ -55,4 +59,24 @@ export async function POST(request) {
   } catch (error) { console.error('[business/application-email]', error.message); }
   const notifications = await staffNotification;
   return Response.json({ business: data, emailSent, staffNotified: notifications.every(result => result.sent) }, { status: 201 });
+}
+
+// The business's language for emails and its account pages. The owner or a
+// manager can change it; staff can too, from the admin.
+export async function PATCH(request) {
+  const ctx = await context(request);
+  if (!ctx) return Response.json({ error: 'Verified sign-in required.' }, { status: 401 });
+  let body;
+  try { body = await request.json(); } catch { return Response.json({ error: 'Invalid request.' }, { status: 400 }); }
+  if (!['es', 'en'].includes(body.preferred_language)) return Response.json({ error: 'Choose Español or English.' }, { status: 400 });
+  try {
+    const business = await findBusinessAccount(ctx.admin, ctx.email);
+    if (!business) return Response.json({ error: 'Business account not found.' }, { status: 404 });
+    if (!canManageBusiness(business, ctx.email)) return Response.json({ error: 'Only the company owner or a manager can change this.' }, { status: 403 });
+    const { data, error } = await ctx.admin.from('business_accounts').update({ preferred_language: body.preferred_language }).eq('id', business.id).select('*').single();
+    if (error) throw error;
+    return Response.json({ business: publicBusiness({ ...data, member_role: business.member_role }, await businessProductPrices(ctx.admin, data)) });
+  } catch {
+    return Response.json({ error: 'Unable to save the language. Please try again.' }, { status: 503 });
+  }
 }

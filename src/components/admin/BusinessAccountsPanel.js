@@ -15,7 +15,7 @@ const fields = [
   { key: 'billing_address', label: 'Billing address', multiline: true },
   { key: 'delivery_address', label: 'Delivery address (optional)', multiline: true },
 ];
-const empty = { status: 'pending', discount_pct: 0, minimum_units: 0, minimum_order_usd: 0, rep_user_id: '', rep_commission_pct: 0 };
+const empty = { status: 'pending', discount_pct: 0, minimum_units: 0, minimum_order_usd: 0, rep_user_id: '', rep_commission_pct: 0, preferred_language: 'es' };
 const statuses = { pending: 'Pending review', approved: 'Approved', suspended: 'Suspended' };
 const loginUrl = '/account/login?next=%2Faccount%2Fbusiness';
 
@@ -54,10 +54,29 @@ export default function BusinessAccountsPanel() {
       const failed = (data.notifications || []).filter(result => !result.sent);
       setMessage(data.customerNotification?.sent === false ? 'Account saved. Customer notification needs retry in Business operations.' : failed.length
         ? `Account saved. Staff email alerts failed for: ${failed.map(result => result.destination).join(', ')}. Check SMTP settings and retry the staff alert.`
-        : body.action === 'notify' ? 'Staff alerts sent to Omer and info.' : body.action === 'invite' ? 'Invitation sent.' : data.business?.status === 'approved' ? 'Business approved and saved. Send its invitation when ready.' : 'Business account saved. You can send its invitation after approval.');
+        : body.action === 'notify' ? 'Staff alerts sent to Omer and info.' : body.action === 'invite' ? 'Welcome email sent.' : data.customerNotification?.welcome ? 'Business approved. Welcome email sent.' : 'Business account saved.');
       if (data.business) setForm(data.business);
       await load();
     } catch (err) { setError(err.message); }
+    finally { setBusy(false); }
+  }
+  async function permanentlyDelete(row) {
+    const confirmEmail = window.prompt(`Permanently delete ${row.legal_name}? This cannot be undone. Business pricing, memberships, saved lists, quotes and email history will be removed. Customer logins and historical orders will remain. Type the business login email (${row.email}) to confirm:`);
+    if (confirmEmail === null) return;
+    if (confirmEmail.trim().toLowerCase() !== row.email) {
+      setMessage('Email did not match. The business was not deleted.');
+      return;
+    }
+    setBusy(true); setMessage('');
+    try {
+      const res = await adminFetch('/api/admin/business-accounts', { method: 'DELETE', body: JSON.stringify({ id: row.id, confirmEmail }) });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Could not delete this business.');
+      setRows(previous => previous.filter(business => business.id !== row.id));
+      setForm(previous => previous.id === row.id ? empty : previous);
+      if (form.id === row.id) setEditing(false);
+      setMessage(`${row.legal_name} was permanently deleted. Customer logins and historical orders remain.`);
+    } catch (err) { setMessage(err.message); }
     finally { setBusy(false); }
   }
   const counts = Object.fromEntries(Object.keys(statuses).map(status => [status, rows.filter(row => row.status === status).length]));
@@ -81,7 +100,7 @@ export default function BusinessAccountsPanel() {
 
     {editing && <section className={styles.editor} aria-labelledby="business-editor-heading">
       <div className={styles.sectionHeading}><div><p className={styles.eyebrow}>{form.id ? statuses[form.status] : 'New company'}</p><h3 id="business-editor-heading" ref={editor} tabIndex={-1}>{form.id ? form.legal_name : 'Create business account'}</h3></div><button disabled={busy} onClick={() => setEditing(false)}>Close editor</button></div>
-      <p>Check company details, set the agreed discount, then choose Approved and save. Sending the invitation is a separate step.</p>
+      <p>Check company details, set the agreed discount, then choose Approved and save. Approval automatically sends the styled welcome email with Korinne’s contact details.</p>
       <form onSubmit={event => { event.preventDefault(); act(form); }}>
         <fieldset disabled={busy}><legend>Company & contact</legend><div className={styles.formGrid}>
           {fields.map(field => <label key={field.key} className={`${styles.field} ${field.multiline ? styles.wide : ''}`}>{field.label}
@@ -91,6 +110,7 @@ export default function BusinessAccountsPanel() {
         </div></fieldset>
         <fieldset disabled={busy}><legend>Approval & pricing</legend><div className={styles.formGrid}>
           <label className={styles.field}>Account status<select value={form.status} onChange={event => setForm({ ...form, status: event.target.value })}>{Object.entries(statuses).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>
+          <label className={styles.field}>Language for emails and account<select value={form.preferred_language === 'en' ? 'en' : 'es'} onChange={event => setForm({ ...form, preferred_language: event.target.value })}><option value="es">Español</option><option value="en">English</option></select></label>
           {numberField('discount_pct', 'Agreed discount (%)', 100, '0.01')}
           {numberField('minimum_units', 'Minimum merchandise units', 5000, '1', 'Use 0 for no unit minimum.')}
           {numberField('minimum_order_usd', 'Minimum products total (USD)', 1000000, '0.01', 'After discounts; use 0 for no minimum.')}
@@ -101,7 +121,7 @@ export default function BusinessAccountsPanel() {
         </div></fieldset>
         <div className={styles.saveBar}><button className={styles.primary} disabled={busy} type="submit">{busy ? 'Working…' : 'Save business account'}</button><button disabled={busy} type="button" onClick={() => setEditing(false)}>Cancel</button></div>
       </form>
-      {form.id && <div className={styles.nextStep}><strong>Next: invite the customer</strong><p>Save approval first. The customer verifies their company email to activate access.</p><button disabled={busy || rows.find(row => row.id === form.id)?.status !== 'approved'} onClick={() => act({ action: 'invite', id: form.id })}>Send invitation</button></div>}
+      {form.id && <div className={styles.nextStep}><strong>Welcome email</strong><p>Approval sends the welcome email automatically. Resend it below when needed.</p><button disabled={busy || rows.find(row => row.id === form.id)?.status !== 'approved'} onClick={() => act({ action: 'invite', id: form.id })}>Resend welcome email</button></div>}
     </section>}
 
     <section aria-labelledby="business-list-heading">
@@ -111,8 +131,8 @@ export default function BusinessAccountsPanel() {
         <div className={styles.cardTitle}><h4>{row.trading_name || row.legal_name}</h4><span className={`${styles.badge} ${styles[row.status] || ''}`}>{statuses[row.status] || row.status}</span></div>
         {row.trading_name && <p>{row.legal_name}</p>}<a className={styles.email} href={`mailto:${row.email}`}>{row.email}</a>
         <dl><div><dt>Cédula jurídica</dt><dd>{row.corporation_number}</dd></div><div><dt>Discount</dt><dd>{row.discount_pct}%</dd></div><div><dt>Contact</dt><dd>{row.contact_name || '—'}</dd></div></dl>
-        <div className={styles.cardActions}><button className={styles.primary} disabled={busy} onClick={() => openEditor(row)}>{row.status === 'pending' ? 'Review application' : 'Manage business'}</button>{row.status === 'approved' && <button disabled={busy} onClick={() => act({ action: 'invite', id: row.id })}>Send invitation</button>}</div>
-        <details className={styles.more}><summary>More actions</summary><button disabled={busy} onClick={() => act({ action: 'notify', id: row.id })}>Resend staff alert</button></details>
+        <div className={styles.cardActions}><button className={styles.primary} disabled={busy} onClick={() => openEditor(row)}>{row.status === 'pending' ? 'Review application' : 'Manage business'}</button>{row.status === 'approved' && <button disabled={busy} onClick={() => act({ action: 'invite', id: row.id })}>Resend welcome email</button>}</div>
+        <details className={styles.more}><summary>More actions</summary><button disabled={busy} onClick={() => act({ action: 'notify', id: row.id })}>Resend staff alert</button><button type="button" disabled={busy} onClick={() => permanentlyDelete(row)}>Permanently delete</button></details>
       </article>)}</div>}
       {!loading && rows.length > 0 && <p className={styles.hint}>Showing {visible.length} of {rows.length} loaded businesses{rows.length === 500 ? ' (latest 500)' : ''}.</p>}
     </section>
