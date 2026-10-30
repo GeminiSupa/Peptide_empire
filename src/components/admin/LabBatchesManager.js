@@ -5,6 +5,7 @@ import { FlaskConical, Pencil, Printer, RefreshCw, Users, X } from 'lucide-react
 import { adminFetch } from '@/lib/adminApi';
 import { formatCrDate, isoToCrWall } from '@/lib/crTime.mjs';
 import { STICKER_SIZES, printStickers } from '@/lib/stickerPrint';
+import CoaUploadField from './CoaUploadField';
 
 /**
  * Lab batches & stickers.
@@ -143,7 +144,7 @@ function EditBatchForm({ batch, onSaved, onCancel }) {
       <Field label="Vials"><input type="number" min="0" value={draft.vialCount} onChange={set('vialCount')} style={inputStyle} /></Field>
       <Field label="Made on"><input type="date" value={draft.madeDate} onChange={set('madeDate')} style={inputStyle} /></Field>
       <Field label="Expires"><input type="date" value={draft.expiryDate} onChange={set('expiryDate')} style={inputStyle} /></Field>
-      <Field label="Lab report link"><input value={draft.coaUrl} onChange={set('coaUrl')} placeholder="https://…" style={inputStyle} /></Field>
+      <Field label="Lab report / COA"><input value={draft.coaUrl} onChange={set('coaUrl')} placeholder="https://…" style={inputStyle} /><CoaUploadField value={draft.coaUrl} subject={batch.product} lot={draft.batchNumber||batch.code} onChange={(url)=>setDraft(prev=>({...prev,coaUrl:url}))} disabled={saving} compact/></Field>
       <Field label="Supplier"><input value={draft.supplierName} onChange={set('supplierName')} placeholder="Blank = our lab" style={inputStyle} /></Field>
       <div style={{ gridColumn: '1 / -1' }}>
         <Field label="Notes"><input value={draft.notes} onChange={set('notes')} style={inputStyle} /></Field>
@@ -381,7 +382,7 @@ export default function LabBatchesManager() {
             <Field label="Expires"><input type="date" value={form.expiryDate} onChange={setField('expiryDate')} style={inputStyle} /></Field>
             <Field label="Batch number" hint="Blank = use the sticker code"><input value={form.batchNumber} onChange={setField('batchNumber')} style={inputStyle} /></Field>
             <div style={{ gridColumn: '1 / -1' }}>
-              <Field label="Lab report link (optional)"><input value={form.coaUrl} onChange={setField('coaUrl')} placeholder="https://…" style={inputStyle} /></Field>
+              <Field label="Lab report / COA (optional)"><input value={form.coaUrl} onChange={setField('coaUrl')} placeholder="Paste a URL or upload below" style={inputStyle} /><CoaUploadField value={form.coaUrl} subject={products.find(product=>product.id===form.productId)?.product||'batch'} lot={form.batchNumber||'new-batch'} onChange={(url)=>setForm(prev=>({...prev,coaUrl:url}))} disabled={creating}/></Field>
             </div>
             <Field label="Supplier" hint="Blank = made in our lab"><input value={form.supplierName} onChange={setField('supplierName')} style={inputStyle} /></Field>
             <Field label="Notes"><input value={form.notes} onChange={setField('notes')} style={inputStyle} /></Field>

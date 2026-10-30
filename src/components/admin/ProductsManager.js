@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Search, X, Upload, Plus, Save, Download, AlertCircle, Check, ChevronUp, ChevronDown, ChevronsUp, ChevronsDown, Trash2, FileText, Eye, EyeOff, TrendingUp, AlertTriangle, Truck, Tag, DollarSign } from 'lucide-react';
 
 import { CATALOG_CATEGORY_NAMES, cardOpeningItem, catalogCompoundAndSize, composeStoredProductName, groupCatalogCards, splitStoredProductForAdmin } from '@/lib/catalogCategories.mjs';
+import CoaUploadField from './CoaUploadField';
 import {
   calculateProductProfit,
   calculateSalesVelocity,
@@ -931,6 +932,7 @@ export default function ProductsManager({
                     >
                       {p.coa}
                     </div>
+                    <CoaUploadField compact value={p.coa||''} subject={composeStoredProductName(p.product,p.vialSize)} lot={p.coaLotNumber||p.coa_lot_number||''} onChange={(url)=>handleCellChange(p.id,'coa',url)}/>
                   </td>
 
                   {/* COA Expiry Date */}
@@ -1294,6 +1296,7 @@ export default function ProductsManager({
                 <span>COA URL</span>
                 <input value={mobileEditProduct.coa || ''} onChange={(e) => updateMobileDraft('coa', e.target.value)} />
               </label>
+              <CoaUploadField value={mobileEditProduct.coa||''} subject={composeStoredProductName(mobileEditProduct.product,mobileEditProduct.vialSize)} lot={mobileEditProduct.coaLotNumber||mobileEditProduct.coa_lot_number||''} onChange={(url)=>updateMobileDraft('coa',url)}/>
               <div className="product-mobile-field-grid">
                 <label>
                   <span>COA Expiry Date</span>
