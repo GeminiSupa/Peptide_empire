@@ -13,6 +13,7 @@ import 'jspdf-autotable';
 import { useRouter } from 'next/navigation';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { adminFetch } from '@/lib/adminApi';
+import BankPaymentSettings from '@/components/admin/BankPaymentSettings';
 import SocialReviewsSettings from '@/components/admin/SocialReviewsSettings';
 import RequestsManager from '@/components/admin/RequestsManager';
 import { cleanPhoneNumber } from '@/lib/whatsapp';
@@ -5804,6 +5805,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
         {/* TAB 2: ORDERS LEDGER HISTORY */}
         {activeTab === 'orders' && (
           <ErrorBoundary>
+          {adminProfile?.is_superadmin && <BankPaymentSettings />}
           <OrdersManager 
             visibleOrders={visibleOrders}
             isStaffAgent={isStaffAgent}

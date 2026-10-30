@@ -12,6 +12,7 @@
 export const ORDER_PAYMENT_METHODS = [
   { id: 'whatsapp', label: 'WhatsApp', icon: '💬' },
   { id: 'card', label: 'Credit card', icon: '💳' },
+  { id: 'bank_transfer', label: 'BAC bank transfer', icon: '🏦' },
   { id: 'sinpe', label: 'SINPE', icon: '📱' },
   { id: 'paypal', label: 'PayPal', icon: '💳' },
 ];

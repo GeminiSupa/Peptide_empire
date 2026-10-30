@@ -1,6 +1,8 @@
 import { createAnalyticsReceiptToken } from '@/lib/analyticsReceiptToken';
 import { orderEcommerceSnapshot } from '@/lib/ecommerceAnalytics.mjs';
 import { sanitizeAdAttribution } from '@/lib/adClickAttribution.mjs';
+import { isBankMethod, bankAvailability, readBankSettings, bankPaymentSnapshot } from '@/lib/bankPayments.mjs';
+import { createBankPaymentToken } from '@/lib/bankPaymentToken.mjs';
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { markActiveAbandonedCartsConvertedForOrder } from '@/lib/abandonedCartRecovery.mjs';
@@ -399,6 +401,8 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Missing order payload' }, { status: 400 });
     }
 
+    order.payment_method = String(order.payment_method || '').trim().toLowerCase();
+
     for (const field of REQUIRED_FIELDS) {
       if (!order[field]) {
         return NextResponse.json({ error: `Missing required field: ${field}` }, { status: 400 });
@@ -418,11 +422,15 @@ export async function POST(request) {
         || String(order.customer_phone || '').length > 40
         || String(order.customer_email || '').length > 254
         || String(order.shipping_address || '').length > 2000
-        || !['card', 'whatsapp'].includes(String(order.payment_method || '').toLowerCase())) {
+        || !['card', 'whatsapp', 'sinpe', 'bank_transfer'].includes(String(order.payment_method || '').toLowerCase())) {
       return NextResponse.json({ error: 'Invalid order details' }, { status: 400 });
     }
 
     const supabase = getSupabaseAdmin();
+    const bankSettings = isBankMethod(order.payment_method) ? await readBankSettings(supabase) : null;
+    if (bankSettings && !bankAvailability(bankSettings)[order.payment_method]) {
+      return NextResponse.json({ error: 'Coming soon / Próximamente', errorCode: 'bank_payments_unavailable' }, { status: 409 });
+    }
     // Resolved before the limits so a blocked customer is refused in her own
     // language. It used to be read further down, after three English-only
     // rejections had already been written.
@@ -766,6 +774,9 @@ export async function POST(request) {
     // can distinguish this order from legacy rows whose stock was already taken.
     orderRow.inventory_deducted = [];
     orderRow.analytics_snapshot = orderEcommerceSnapshot(orderRow, authoritative, rateResult.rate);
+    if (bankSettings) {
+      orderRow.activity_log = [{ at: new Date().toISOString(), type: 'bank_payment_instructions', by: 'system', message: 'Awaiting BAC payment - verify received funds before marking paid.', payment: bankPaymentSnapshot(bankSettings, orderRow) }];
+    }
     let savedOrderForAlerts = orderRow;
     if (droppedAttribution.length) {
       console.warn(
@@ -996,6 +1007,7 @@ export async function POST(request) {
       id: data.id,
       analyticsReceiptToken: createAnalyticsReceiptToken(data.order_number, data.id),
       orderNumber: data.order_number,
+      ...(bankSettings ? { bankPaymentToken: createBankPaymentToken(String(data.id)) } : {}),
       ...(paymentToken ? { paymentToken } : {}),
     });
   } catch (err) {

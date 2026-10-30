@@ -4,6 +4,7 @@ import { safeLocalStorage as localStorage, safeSessionStorage } from '@/lib/stor
 import { ecommerceData, analyticsItem, orderEcommerceSnapshot } from '@/lib/ecommerceAnalytics.mjs';
 import { pushEvent, stashReceipt, trackLead } from '@/lib/dataLayer.mjs';
 import { readAdClick } from '@/lib/adClickAttribution.mjs';
+import { isBankMethod } from '@/lib/bankPayments.mjs';
 import costaricaData from '@/lib/costarica.json';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
@@ -621,6 +622,10 @@ export default function CatalogPage() {
   const [customerIdType, setCustomerIdType] = useState('1');
   const [customerIdNumber, setCustomerIdNumber] = useState('');
   const [paymentMethod, setPaymentMethod] = useState('whatsapp');
+  const [bankMethods, setBankMethods] = useState({ sinpe: false, bank_transfer: false });
+  useEffect(() => {
+    fetch('/api/bank-payments/settings', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(data => { if (data) setBankMethods(data); }).catch(() => {});
+  }, []);
   const [orderSubmitting, setOrderSubmitting] = useState(false);
   const [formErrors, setFormErrors] = useState({});
   // Has the customer ticked the research-use acknowledgement that stands in
@@ -3199,7 +3204,7 @@ export default function CatalogPage() {
         setSessionId(newSid);
       }
       stashReceipt(data.orderNumber || orderRow.order_number, data.analyticsReceiptToken);
-      return { ok: true, id: data.id, paymentToken: data.paymentToken || null };
+      return { ok: true, id: data.id, bankPaymentToken: data.bankPaymentToken || null, paymentToken: data.paymentToken || null };
     } catch (err) {
       console.error('Order save request failed:', err);
       return { ok: false, error: err.message || 'Network error' };
@@ -3680,6 +3685,14 @@ export default function CatalogPage() {
       setOrderSubmitting(false);
       const notice = checkoutFailureNotice(saveResult);
       failCheckout(notice.title, notice.detail);
+      return;
+    }
+
+    if (isBankMethod(paymentMethod)) {
+      setOrderSubmitting(false);
+      setCart([]);
+      if (sessionId) localStorage.setItem('checkout_completed_session_id', sessionId);
+      window.location.href = `/pay-bank?lang=${lang}#${encodeURIComponent(saveResult.bankPaymentToken)}`;
       return;
     }
 
@@ -5878,6 +5891,13 @@ export default function CatalogPage() {
                       : (CARD_CHECKOUT_LIVE ? null : (lang === 'en' ? 'Test' : 'Prueba')),
                     disabled: !CARD_CHECKOUT_AVAILABLE,
                   },
+                  ...['sinpe', 'bank_transfer'].map(value => ({
+                    value, icon: value === 'sinpe' ? '📱' : '🏦',
+                    title: value === 'sinpe' ? 'SINPE Móvil' : (lang === 'en' ? 'Bank transfer' : 'Transferencia bancaria'),
+                    detail: 'BAC · CRC',
+                    badge: bankMethods[value] ? null : (lang === 'en' ? 'Coming soon' : 'Próximamente'),
+                    disabled: !bankMethods[value],
+                  })),
                 ].map(method => (
                   <button
                     key={method.value}
@@ -5900,6 +5920,12 @@ export default function CatalogPage() {
                   </button>
                 ))}
               </div>
+
+              {isBankMethod(paymentMethod) && <p role="status">
+                {lang === 'en'
+                  ? `Pay in colones: ₡${Math.round(currency === 'CRC' ? getFinalTotal() : getFinalTotal() * exchangeRate).toLocaleString('en-US')}. After placing your order, we will show the BAC payment details. Payment is confirmed after we verify receipt.`
+                  : `Pague en colones: ₡${Math.round(currency === 'CRC' ? getFinalTotal() : getFinalTotal() * exchangeRate).toLocaleString('en-US')}. Al enviar su pedido verá los datos de pago BAC. Confirmaremos el pago después de verificar los fondos.`}
+              </p>}
 
               {/* The apology, said where the customer is looking when they
                   find the card option greyed out. A disabled tile with a
