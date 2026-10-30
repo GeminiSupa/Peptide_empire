@@ -39,6 +39,14 @@ export default function BusinessToolsPage(){
   },[]);
   useEffect(()=>{if(user) load().catch(err=>setError(err.message));},[user,load]);
   useEffect(()=>{const value=new URLSearchParams(window.location.search).get('tab');if(['order','lists','quotes','team','orders'].includes(value))setTab(value);},[]);
+  const track=useCallback(async(event_type,metadata={})=>{
+    try{
+      const token=await getCustomerAccessToken();
+      if(!token)return;
+      await fetch('/api/account/business/activity',{method:'POST',headers:{Authorization:`Bearer ${token}`,'Content-Type':'application/json'},body:JSON.stringify({event_type,metadata}),keepalive:true});
+    }catch{}
+  },[]);
+  useEffect(()=>{if(data)track('tool_tab_viewed',{tab});},[data,tab,track]);
   const selected=Object.entries(quantities).filter(([,qty])=>Number(qty)>0).map(([product,qty])=>({product,qty:Number(qty)}));
   async function action(body){
     setBusy(true);setError('');setNotice('');
@@ -55,6 +63,7 @@ export default function BusinessToolsPage(){
     setError('');
     if(!items.length){setError(text('Choose at least one product.','Seleccione al menos un producto.'));return;}
     try{
+      track('checkout_started',{source:quote?'quote':tab,quote_id:quote?.id||null,products:items.map(item=>item.product),lines:items.length,units:items.reduce((sum,item)=>sum+Number(item.qty||0),0)});
       if(quote) window.localStorage.setItem(BUSINESS_QUOTE_STORAGE_KEY,JSON.stringify({...quote,business_id:data.business.id}));
       else window.localStorage.removeItem(BUSINESS_QUOTE_STORAGE_KEY);
       if(!stashReorder({items,replaceCart:Boolean(quote)}))throw new Error(text('Your browser could not save the cart. Please enable local storage.','Su navegador no pudo guardar el carrito. Habilite el almacenamiento local.'));
@@ -68,6 +77,7 @@ export default function BusinessToolsPage(){
       const res=await fetch(`/api/account/business/invoice?order=${encodeURIComponent(order.id)}`,{headers:{Authorization:`Bearer ${token}`}});
       if(!res.ok){const result=await res.json();throw new Error(result.error);}
       const url=URL.createObjectURL(await res.blob());const anchor=document.createElement('a');anchor.href=url;anchor.download=`statement-${order.order_number}.html`;anchor.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+      track('invoice_downloaded',{order_id:order.id});
     }catch(err){setError(err.message);}finally{setBusy(false);}
   }
   function unitPrice(product){

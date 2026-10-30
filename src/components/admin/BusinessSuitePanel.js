@@ -3,6 +3,7 @@
 import {useCallback,useEffect,useState} from 'react';
 import {adminFetch} from '@/lib/adminApi';
 import QRCode from 'qrcode';
+import BusinessAnalyticsPanel from './BusinessAnalyticsPanel';
 
 const fieldStyle={padding:9,borderRadius:6,color:'#0f172a',background:'#fff',border:'1px solid #94a3b8',maxWidth:'100%'};
 
@@ -37,6 +38,7 @@ export default function BusinessSuitePanel({businessId,onReps}){
   const repName=id=>data.reps.find(rep=>rep.user_id===id)?.name||data.reps.find(rep=>rep.user_id===id)?.email||'Unassigned';
   return <section style={{marginTop:28}}>
     <h3>Business operations</h3><button disabled={busy} onClick={()=>load().catch(error=>setMessage(error.message))}>Refresh operations</button>{message&&<p role="status">{message}</p>}
+    <BusinessAnalyticsPanel analytics={data.analytics} limited={data.activityLimited}/>
     <h4>Business sales</h4><div style={{display:'flex',gap:24,flexWrap:'wrap'}}><p><strong>{data.report.totals.accounts}</strong> accounts</p><p><strong>{data.report.totals.active}</strong> approved</p><p><strong>{data.report.totals.repeat_buyers}</strong> repeat buyers</p><p><strong>US${data.report.totals.revenue_usd.toFixed(2)}</strong> net sales</p></div>
     {data.reportLimited&&<p>Report covers the latest 20,000 business orders. Earlier sales are excluded from these totals.</p>}
     <div style={{overflowX:'auto'}}><table style={{width:'100%',textAlign:'left'}}><thead><tr><th>Company</th><th>Rep</th><th>Paid orders</th><th>Net sales USD</th><th>Last purchase</th><th>Follow-up</th></tr></thead><tbody>{data.report.businesses.map(row=><tr key={row.id}><td data-label="Company">{row.legal_name}</td><td data-label="Rep">{repName(row.rep_user_id)}</td><td data-label="Paid orders">{row.orders}</td><td data-label="Net sales USD">{row.revenue_usd.toFixed(2)}</td><td data-label="Last purchase">{row.last_order_at?new Date(row.last_order_at).toLocaleDateString():'Never'}</td><td data-label="Follow-up">{row.needs_follow_up?'Needs follow-up':'—'}</td></tr>)}</tbody></table></div>

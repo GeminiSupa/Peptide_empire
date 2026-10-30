@@ -4,6 +4,7 @@ import { rateLimit } from '@/lib/rateLimit.mjs';
 import { BUSINESS_SIGNUP_RECIPIENTS } from '@/lib/businessSignupNotifications.mjs';
 import { buildBusinessQuoteRequestEmail } from '@/lib/businessAccountEmail.mjs';
 import { getPublicSiteUrl } from '@/lib/publicUrl';
+import { recordBusinessActivity } from '@/lib/businessActivity.mjs';
 
 export async function GET(request) {
   try {
@@ -17,6 +18,7 @@ export async function GET(request) {
     ]);
     for (const result of results) if (result.error) throw result.error;
     const [lists,quotes,members,orders,products] = results.map(result=>result.data || []);
+    await recordBusinessActivity(admin,business,email,'tools_viewed');
     return Response.json({business:publicBusiness(business,await businessProductPrices(admin,business)),lists,quotes,members:canManageBusiness(business,email)?members:[],orders,products,canManage:canManageBusiness(business,email),isOwner:business.email===email},{headers:{'Cache-Control':'private, no-store'}});
   } catch(error) { return businessFailure(error); }
 }
@@ -32,6 +34,7 @@ export async function POST(request) {
       const result=await admin.from('business_saved_lists').insert({business_id:business.id,name,items:normalizeBusinessItems(body.items),created_by_email:email}).select('*').single();
       if (result.error?.code==='23505') throw businessError('A list with this name already exists.',409);
       if (result.error) throw result.error;
+      await recordBusinessActivity(admin,business,email,'list_created',{list_id:result.data.id,products:result.data.items.map(item=>item.product),lines:result.data.items.length});
       return Response.json({ok:true,list:result.data});
     }
     if (body.action==='delete-list') {
@@ -40,6 +43,7 @@ export async function POST(request) {
       const result=await query.select('id');
       if (result.error) throw result.error;
       if (!result.data?.length) throw businessError('List not found or permission denied.',404);
+      await recordBusinessActivity(admin,business,email,'list_deleted',{list_id:body.id});
       return Response.json({ok:true});
     }
     if (body.action==='request-quote') {
@@ -47,6 +51,7 @@ export async function POST(request) {
       const items=normalizeBusinessItems(body.items);
       const result=await admin.from('business_quotes').insert({business_id:business.id,requested_by_email:email,items,customer_note:String(body.note || '').trim().slice(0,2000)}).select('*').single();
       if (result.error) throw result.error;
+      await recordBusinessActivity(admin,business,email,'quote_requested',{quote_id:result.data.id,products:items.map(item=>item.product),lines:items.length,units:items.reduce((sum,item)=>sum+item.qty,0)});
       const alert=await admin.from('admin_notifications').insert({type:'business_quote',title:`Quote requested: ${business.legal_name}`,body:`${items.length} product lines · ${email}`,link_tab:'customers',link_ref:business.id});
       if (alert.error) console.error('[business/quote-alert]',alert.error.message);
       const [notification,...staff]=await Promise.all([
@@ -70,6 +75,7 @@ export async function POST(request) {
         ? await admin.from('business_members').update({active:true,role}).eq('id',existing.data.id).eq('business_id',business.id).select('*').single()
         : await admin.from('business_members').insert({business_id:business.id,email:memberEmail,role}).select('*').single();
       if (result.error) throw result.error;
+      await recordBusinessActivity(admin,business,email,'member_invited',{role});
       const notification=await queueBusinessEmail(admin,business,{key:`member:${result.data.id}:${Date.now()}`,recipient:memberEmail,subject:'Invitación empresarial / Business buyer invitation',body:`${business.legal_name} le invita a comprar con su cuenta empresarial. Inicie sesión con este correo y verifique su código.\nYou have been invited as a ${role}. Sign in with this email and verify the email code. You will share company pricing and company order history.`});
       return Response.json({ok:true,notification});
     }
@@ -80,6 +86,7 @@ export async function POST(request) {
       const result=await query.select('id');
       if (result.error) throw result.error;
       if (!result.data?.length) throw businessError('Buyer not found or permission denied.',404);
+      await recordBusinessActivity(admin,business,email,'member_removed');
       return Response.json({ok:true});
     }
     throw businessError('Unknown business action.');

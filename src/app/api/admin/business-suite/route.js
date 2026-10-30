@@ -6,6 +6,7 @@ import { isBacWater } from '@/lib/bacWater.mjs';
 import { rateLimit } from '@/lib/rateLimit.mjs';
 import { getPublicSiteUrl } from '@/lib/publicUrl';
 import { buildBusinessQuoteReviewEmail } from '@/lib/businessAccountEmail.mjs';
+import { buildBusinessAnalytics } from '@/lib/businessAnalytics.mjs';
 
 export async function GET(request) {
   const auth=await verifyAdminSession(request,{requireSuperadmin:true});
@@ -19,9 +20,11 @@ export async function GET(request) {
       admin.from('business_quotes').select('*').order('created_at',{ascending:false}).limit(200),
       admin.from('business_referral_codes').select('*').order('created_at',{ascending:false}),
       admin.from('business_email_outbox').select('id,business_id,recipient,subject,status,attempts,last_error,created_at').in('status',['failed','pending','sending']).order('created_at',{ascending:false}).limit(100),
+      admin.from('business_saved_lists').select('id,business_id,name,items,created_by_email,created_at').order('created_at',{ascending:false}),
+      admin.from('business_members').select('id,business_id,email,role,active,created_at').order('created_at',{ascending:false}),
     ]);
     for(const result of results) if(result.error) throw result.error;
-    const [businesses,reps,prices,quotes,codes,emails]=results.map(result=>result.data || []);
+    const [businesses,reps,prices,quotes,codes,emails,lists,members]=results.map(result=>result.data || []);
     const orders=[];
     let hasMore=false;
     for(let start=0;start<20000;start+=1000) {
@@ -31,7 +34,20 @@ export async function GET(request) {
       if((page.data || []).length<1000) break;
       if(start===19000) hasMore=true;
     }
-    return Response.json({businesses,reps,prices,quotes,codes,emails,publicSiteUrl:getPublicSiteUrl(request.url),report:businessSalesReport(businesses,orders),reportLimited:hasMore,quoteOrders:orders.filter(order=>order.business_quote_id).map(order=>({quote_id:order.business_quote_id,order_number:order.order_number}))},{headers:{'Cache-Control':'private, no-store'}});
+    const events=[];
+    let activityLimited=false;
+    for(let start=0;start<20000;start+=1000){
+      const page=await admin.from('business_activity_events').select('id,business_id,member_email,event_type,metadata,occurred_at').gte('occurred_at',new Date(Date.now()-365*86400000).toISOString()).order('occurred_at',{ascending:false}).range(start,start+999);
+      if(page.error){
+        if(['42P01','PGRST205'].includes(page.error.code))break;
+        throw page.error;
+      }
+      events.push(...(page.data||[]));
+      if((page.data||[]).length<1000)break;
+      if(start===19000)activityLimited=true;
+    }
+    const analytics=buildBusinessAnalytics({businesses,events,orders,quotes,lists,members});
+    return Response.json({businesses,reps,prices,quotes,codes,emails,publicSiteUrl:getPublicSiteUrl(request.url),report:businessSalesReport(businesses,orders),analytics,activityLimited,reportLimited:hasMore,quoteOrders:orders.filter(order=>order.business_quote_id).map(order=>({quote_id:order.business_quote_id,order_number:order.order_number}))},{headers:{'Cache-Control':'private, no-store'}});
   }catch(error){return businessFailure(error);}
 }
 

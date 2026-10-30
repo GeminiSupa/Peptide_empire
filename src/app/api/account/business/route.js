@@ -10,6 +10,7 @@ import { sendBusinessSignupNotifications } from '@/lib/businessSignupNotificatio
 import { businessProductPrices, publicBusiness, referralBusinessPatch } from '@/lib/businessSuiteServer';
 import { canManageBusiness } from '@/lib/businessSuite.mjs';
 import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
+import { recordBusinessActivity } from '@/lib/businessActivity.mjs';
 
 async function context(request) {
   const admin = getSupabaseAdmin();
@@ -26,6 +27,7 @@ export async function GET(request) {
   if (!ctx) return Response.json({ error: 'Verified sign-in required.' }, { status: 401 });
   try {
     const business = await findBusinessAccount(ctx.admin, ctx.email);
+    if (business) await recordBusinessActivity(ctx.admin, business, ctx.email, 'dashboard_viewed');
     return Response.json({ business: publicBusiness(business, await businessProductPrices(ctx.admin,business)) }, { headers: { 'Cache-Control': 'private, no-store' } });
   } catch {
     return Response.json({ error: 'Unable to load your business account. Please try again.' }, { status: 503 });
@@ -75,6 +77,7 @@ export async function PATCH(request) {
     if (!canManageBusiness(business, ctx.email)) return Response.json({ error: 'Only the company owner or a manager can change this.' }, { status: 403 });
     const { data, error } = await ctx.admin.from('business_accounts').update({ preferred_language: body.preferred_language }).eq('id', business.id).select('*').single();
     if (error) throw error;
+    await recordBusinessActivity(ctx.admin, business, ctx.email, 'language_changed', { language: body.preferred_language });
     return Response.json({ business: publicBusiness({ ...data, member_role: business.member_role }, await businessProductPrices(ctx.admin, data)) });
   } catch {
     return Response.json({ error: 'Unable to save the language. Please try again.' }, { status: 503 });
