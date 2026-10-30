@@ -229,6 +229,164 @@
     padding: 54px 0 36px;
 }
 
+/* Product-first hero adapted from the supplied storefront reference. */
+.clone-hero-commerce {
+    display: grid;
+    gap: 12px;
+    align-self: stretch;
+    padding: 12px;
+    border-radius: 24px;
+    background: #edf2fb;
+}
+
+.clone-weekly-deal {
+    position: relative;
+    overflow: hidden;
+    padding: 30px;
+    border-radius: 18px;
+    background: radial-gradient(circle at 95% 0, #2e63c1 0, #173b82 42%, #0b2356 100%);
+    color: #fff;
+}
+
+.clone-weekly-deal::after {
+    content: "";
+    position: absolute;
+    right: -70px;
+    bottom: -90px;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    background: rgba(102, 192, 253, .18);
+}
+
+.clone-weekly-deal > * { position: relative; z-index: 1; }
+.clone-weekly-deal > span,
+.clone-most-ordered > strong {
+    display: block;
+    margin-bottom: 10px;
+    color: #89d0ff;
+    font-size: .68rem;
+    font-weight: 900;
+    letter-spacing: .09em;
+}
+.clone-weekly-deal h2 {
+    margin: 0 0 12px;
+    color: #fff;
+    font-size: clamp(1.45rem, 3vw, 2.1rem);
+    line-height: 1.08;
+}
+.clone-weekly-deal p { margin: 0 0 20px; color: #d5e2fb; line-height: 1.5; }
+.clone-weekly-deal a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 17px;
+    border-radius: 999px;
+    background: #f26b1d;
+    color: #fff;
+    font-size: .8rem;
+    font-weight: 900;
+    text-decoration: none;
+}
+.clone-most-ordered { padding: 16px 18px 10px; }
+.clone-most-ordered > strong { color: #6b7491; }
+.clone-most-ordered a {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 0;
+    border-top: 1px solid #d8e0ed;
+    color: #10214a;
+    font-size: .8rem;
+    text-decoration: none;
+}
+.clone-most-ordered b { color: #173f8d; white-space: nowrap; }
+
+.clone-rating-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 16px 22px;
+    border: 1px solid #e1e7f0;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 14px 38px -28px rgba(11, 21, 51, .5);
+}
+.clone-rating-strip > p { margin: 0; color: #44516d; font-size: .8rem; font-weight: 800; }
+.clone-rating-strip > div { display: flex; flex-wrap: wrap; gap: 8px; }
+.clone-rating-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 38px;
+    padding: 5px 11px 5px 6px;
+    border-radius: 999px;
+    background: #f6f8fc;
+    color: #14234a;
+    font-style: normal;
+    font-size: .72rem;
+}
+.clone-rating-pill i {
+    display: grid;
+    place-items: center;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background: #4285f4;
+    color: #fff;
+    font-style: normal;
+    font-weight: 900;
+}
+.clone-rating-pill.facebook i { background: #1877f2; }
+.clone-rating-pill.trustpilot i { background: #00b67a; }
+.clone-rating-pill em { font-style: normal; font-weight: 900; }
+.clone-rating-pill > span { color: #f5a623; font-size: .63rem; letter-spacing: -1px; }
+
+.clone-category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.clone-category-grid a {
+    min-height: 94px;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 17px;
+    border-radius: 16px;
+    text-align: left;
+}
+.clone-category-grid a span { line-height: 1.25; }
+.clone-category-grid a small { color: #78839a; font-size: .68rem; font-weight: 700; }
+
+.clone-success-stories { padding-top: 64px; }
+.clone-story-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.clone-story-grid article {
+    padding: 24px;
+    border: 1px solid #e1e7f0;
+    border-radius: 20px;
+    background: #fff;
+    box-shadow: 0 18px 42px -34px rgba(11, 21, 51, .55);
+}
+.clone-story-grid article > div { display: flex; justify-content: space-between; gap: 10px; color: #0f347d; font-size: .75rem; font-weight: 900; }
+.clone-story-grid article > div b { color: #f5a623; letter-spacing: 1px; }
+.clone-story-grid blockquote { margin: 22px 0; color: #263553; font-size: 1rem; line-height: 1.6; }
+.clone-story-grid cite { color: #6b7491; font-size: .75rem; font-style: normal; font-weight: 800; }
+
+@media (max-width: 900px) {
+    .clone-rating-strip { align-items: flex-start; flex-direction: column; }
+    .clone-category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .clone-story-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 620px) {
+    .clone-hero-commerce { padding: 8px; border-radius: 18px; }
+    .clone-weekly-deal { padding: 24px; }
+    .clone-rating-pill b { display: none; }
+    .clone-rating-strip > div { width: 100%; }
+    .clone-rating-pill { flex: 1; justify-content: center; }
+}
+
 .clone-red-label {
     display: inline-flex;
     align-items: center;

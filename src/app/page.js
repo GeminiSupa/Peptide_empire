@@ -89,35 +89,6 @@ function WaIcon() {
   );
 }
 
-function HeroVialTurn({ products, fallbackSrc }) {
-  const vials = products.filter((product) => product.image_url).slice(0, 5);
-  const [index, setIndex] = useState(0);
-  const [spinning, setSpinning] = useState(false);
-
-  useEffect(() => {
-    if (vials.length < 2) return undefined;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
-    const timer = setInterval(() => {
-      setSpinning(true);
-      window.setTimeout(() => setIndex((current) => (current + 1) % vials.length), 280);
-      window.setTimeout(() => setSpinning(false), 640);
-    }, 4200);
-    return () => clearInterval(timer);
-  }, [vials.length]);
-
-  const current = vials[index];
-  if (!current) {
-    return <img src={fallbackSrc} alt="Peptides Costa Rica products" />;
-  }
-
-  return (
-    <div className="hero-turn">
-      <img className={spinning ? 'is-spinning' : ''} src={current.image_url} alt={current.product} />
-      <p>{current.product}</p>
-    </div>
-  );
-}
-
 function ProductCard({ product, lang }) {
   const price = lang === 'en'
     ? product.price_usd
@@ -149,6 +120,52 @@ function ProductCard({ product, lang }) {
         </Link>
       </div>
     </article>
+  );
+}
+
+function HeroCommercePanel({ products, lang }) {
+  const featured = products.filter((product) => product?.product).slice(0, 3);
+  return (
+    <aside className="clone-hero-commerce" aria-label={lang === 'en' ? 'Store highlights' : 'Destacados de la tienda'}>
+      <div className="clone-weekly-deal">
+        <span>{lang === 'en' ? 'DEAL OF THE WEEK' : 'OFERTA DE LA SEMANA'}</span>
+        <h2>{lang === 'en' ? 'Save more on this week’s featured compounds.' : 'Ahorra más en los compuestos destacados de la semana.'}</h2>
+        <p>{lang === 'en' ? 'The best eligible discount is applied automatically.' : 'El mejor descuento elegible se aplica automáticamente.'}</p>
+        <Link href={`/deal-of-the-week?lang=${lang}`}>{lang === 'en' ? 'See this week’s deal' : 'Ver oferta semanal'} <ArrowRight size={16} /></Link>
+      </div>
+      <div className="clone-most-ordered">
+        <strong>{lang === 'en' ? 'MOST ORDERED THIS WEEK' : 'MÁS PEDIDOS ESTA SEMANA'}</strong>
+        {featured.map((product) => (
+          <Link key={product.product} href={`${productCatalogPath(product.product)}?lang=${lang}`}>
+            <span>{product.product}</span>
+            <b>{lang === 'en' ? product.price_usd : product.price_crc || product.price_usd}</b>
+          </Link>
+        ))}
+      </div>
+    </aside>
+  );
+}
+
+function RatingStrip({ lang }) {
+  const ratings = [
+    { name: 'Google', score: '5.0', tone: 'google' },
+    { name: 'Facebook', score: '5.0', tone: 'facebook' },
+    { name: 'Trustpilot', score: '4.8', tone: 'trustpilot' },
+  ];
+  return (
+    <section className="clone-rating-strip clone-shell" aria-label={lang === 'en' ? 'Customer ratings' : 'Calificaciones de clientes'}>
+      <p>{lang === 'en' ? 'Trusted by researchers across Costa Rica' : 'La confianza de investigadores en toda Costa Rica'}</p>
+      <div>
+        {ratings.map((rating) => (
+          <span className={`clone-rating-pill ${rating.tone}`} key={rating.name}>
+            <i>{rating.name.slice(0, 1)}</i>
+            <b>{rating.name}</b>
+            <em>{rating.score}</em>
+            <span aria-label={`${rating.score} out of 5`}>★★★★★</span>
+          </span>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -289,10 +306,10 @@ export default function LandingPage() {
               </select>
             </label>
           </div>
-          <div className="clone-hero-media">
-            <HeroVialTurn products={products.length ? products : FALLBACK_PRODUCTS} fallbackSrc={settings.heroImageUrl || '/catalog-promo-banner.webp'} />
-          </div>
+          <HeroCommercePanel products={products.length ? products : FALLBACK_PRODUCTS} lang={lang} />
         </section>
+
+        <RatingStrip lang={lang} />
 
         <div className="clone-shell">
           <PressBand lang={lang} settings={settings} variant="landing" />
@@ -322,10 +339,10 @@ export default function LandingPage() {
             </div>
             <Link href={`/catalog?lang=${lang}`}>{lang === 'en' ? 'View all' : 'Ver todo'} <ArrowRight size={15} /></Link>
           </div>
-          <div className="clone-category-chips">
+          <div className="clone-category-chips clone-category-grid">
             {categoryChips.map((category) => (
               <Link key={category} href={`/catalog?category=${encodeURIComponent(category)}&lang=${lang}`}>
-                {category}
+                <span>{category}</span><small>{lang === 'en' ? 'Explore collection' : 'Explorar colección'}</small>
               </Link>
             ))}
           </div>
@@ -381,6 +398,26 @@ export default function LandingPage() {
               <p>{copy(settings, 'proofText', lang)}</p>
             </div>
             <img src={settings.proofImageUrl || '/science_lab_about.webp'} alt="Peptides Costa Rica lab standards" />
+          </div>
+        </section>
+
+        <section className="clone-section clone-shell clone-success-stories">
+          <div className="clone-section-head">
+            <span className="clone-red-label">{lang === 'en' ? 'CUSTOMER EXPERIENCES' : 'EXPERIENCIAS DE CLIENTES'}</span>
+            <h2>{lang === 'en' ? 'Customer Success Stories' : 'Historias de nuestros clientes'}</h2>
+          </div>
+          <div className="clone-story-grid">
+            {[
+              ['Trustpilot', 'Excellent service, quality, and price. For me, they are the best in Costa Rica.', 'Daniel Manzanares Quesada'],
+              ['Trustpilot', 'Hay stock, son rápidos y asesoran muy bien. El producto llega en buen estado.', 'Botanical Cosmetic'],
+              ['Google', 'Son excelentes, mil estrellas.', 'Lic. Juan Alfonso Mata Chavarría'],
+            ].map(([source, quote, author]) => (
+              <article key={author}>
+                <div><span>{source}</span><b aria-label="5 out of 5 stars">★★★★★</b></div>
+                <blockquote>“{quote}”</blockquote>
+                <cite>{author}</cite>
+              </article>
+            ))}
           </div>
         </section>
 
