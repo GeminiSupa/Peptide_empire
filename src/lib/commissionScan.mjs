@@ -29,3 +29,20 @@ export function summarizeCommissionScan(results = [], skippedNoPay = []) {
     cleanupFailed: skippedNoPay.filter((row) => row?.cleanupError).length,
   };
 }
+
+/**
+ * Pending payout cards must include team/extra allocations as well as direct
+ * sales. Those allocations are deliberately stored in override_orders_data,
+ * so looking only at orders_data makes a correctly calculated payout appear
+ * to contain no attributed orders.
+ */
+export function payoutDisplayOrders(payout) {
+  const direct = Array.isArray(payout?.orders_data) ? payout.orders_data : [];
+  const overrides = Array.isArray(payout?.override_orders_data) ? payout.override_orders_data : [];
+  const rows = new Map();
+  for (const order of [...direct, ...overrides]) {
+    const key = order?.id || order?.order_number;
+    if (key) rows.set(key, order);
+  }
+  return [...rows.values()];
+}

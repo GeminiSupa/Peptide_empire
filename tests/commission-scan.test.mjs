@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import {
   hasPositivePayout,
   payoutMatchesPeriod,
+  payoutDisplayOrders,
   summarizeCommissionScan,
 } from '../src/lib/commissionScan.mjs';
 
@@ -52,6 +53,19 @@ test('an approved weekly rerun sends a dedicated accounting copy', () => {
   assert.match(route, /settledPayout\s*\?\s*await sendTaxRecordsPayoutCopy\(/);
   assert.match(route, /accountingCopy,/);
   assert.match(route, /skippedNoPay/);
+});
+
+test('pending payout display includes one-time team commission orders', () => {
+  const direct = { id: 'direct', order_number: 'DIRECT-1' };
+  const extra = { id: 'extra', order_number: 'EXTRA-1', commission_override_rate: 10 };
+  assert.deepEqual(
+    payoutDisplayOrders({ orders_data: [direct], override_orders_data: [extra] }),
+    [direct, extra],
+  );
+  assert.equal(
+    payoutDisplayOrders({ orders_data: [], override_orders_data: [extra] }).length,
+    1,
+  );
 });
 
 test('a commission scan never emails an agent before approval', () => {

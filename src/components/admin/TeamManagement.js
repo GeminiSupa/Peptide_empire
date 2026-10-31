@@ -8,7 +8,7 @@ import AgentDashboard from './AgentDashboard';
 import { formatPayoutPeriod, getOrderCount, recalcPayoutAmounts } from '@/lib/commissionPayouts';
 import { getOrderSalesAmounts, isCommissionEligibleOrder, orderBelongsToAgent } from '@/lib/agentOrders';
 import { ADMIN_MODULE_LABELS, ASSIGNABLE_ADMIN_MODULE_IDS, ASSIGNABLE_ADMIN_MODULES } from '@/lib/adminModules';
-import { payoutMatchesPeriod } from '@/lib/commissionScan.mjs';
+import { payoutDisplayOrders, payoutMatchesPeriod } from '@/lib/commissionScan.mjs';
 import { isAffiliateTier } from '@/lib/subUserTier.mjs';
 import PayoutSettlementDialog from './PayoutSettlementDialog';
 
@@ -1545,7 +1545,16 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                   ? savedOrders.filter(isCommissionEligibleOrder)
                   : savedOrders
                 )].sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
-                const orderCount = includedOrders.length;
+                const savedOverrideOrders = Array.isArray(p.override_orders_data) ? p.override_orders_data : [];
+                const includedOverrideOrders = [...(p.status === 'Pending'
+                  ? savedOverrideOrders.filter(isCommissionEligibleOrder)
+                  : savedOverrideOrders
+                )].sort((a, b) => new Date(b.created_at || 0) - new Date(a.created_at || 0));
+                const displayOrders = payoutDisplayOrders({
+                  orders_data: includedOrders,
+                  override_orders_data: includedOverrideOrders,
+                });
+                const orderCount = displayOrders.length;
                 const currentAmounts = includedOrders.reduce((totals, order) => {
                   const amounts = getOrderSalesAmounts(order);
                   totals.usd += amounts.usd;
@@ -1576,6 +1585,8 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                       crcCommissionOverride: hasPerOrderCommissions ? perOrderCommissions.crc : undefined,
                       weeklySalary: p.weekly_salary_paid,
                       salaryCurrency: p.salary_currency,
+                      overrideUsd: p.override_usd,
+                      overrideCrc: p.override_crc,
                     })
                   : {
                       usd_commission: Number(p.usd_commission || 0),
@@ -1621,8 +1632,8 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                       <div className="commission-payout-card__metric">
                         <span className="label">Commission</span>
                         <span className="value accent">
-                          {formatMoneyUI(displayedPayout.usd_commission, 'USD')}
-                          {displayedPayout.crc_commission > 0 ? ` OR ${formatMoneyUI(displayedPayout.crc_commission, 'CRC')}` : ''}
+                          {formatMoneyUI(Number(displayedPayout.usd_commission || 0) + Number(p.override_usd || 0), 'USD')}
+                          {(Number(displayedPayout.crc_commission || 0) + Number(p.override_crc || 0)) > 0 ? ` OR ${formatMoneyUI(Number(displayedPayout.crc_commission || 0) + Number(p.override_crc || 0), 'CRC')}` : ''}
                         </span>
                       </div>
                       {(p.weekly_salary_paid > 0 || displayedPayout.total_payout_usd > 0 || displayedPayout.total_payout_crc > 0) && (
@@ -1676,6 +1687,11 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                                   : formatMoneyUI(order.commission_earned_crc, 'CRC')}
                               </small>
                             )}
+                            {!order.commission_source_label && order.commission_override_rate > 0 && (
+                              <small style={{ display: 'block', color: '#c084fc', fontWeight: 700 }}>
+                                {order.commission_override_name || 'Team / extra commission'} · {Number(order.commission_override_rate)}%
+                              </small>
+                            )}
                             {order.currency === 'USD'
                               ? formatMoneyUI(order.total_usd, 'USD')
                               : formatMoneyUI(order.total_crc, 'CRC')}
@@ -1690,6 +1706,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                             <span>{formatMoneyUI(displayedUsdSales, 'USD')}</span>
                           </div>
                           {includedOrders.map(orderRow)}
+                          {includedOverrideOrders.map(orderRow)}
 
                           {pendingLoadingId === p.id && !pendingByPayout[p.id] && (
                             <div className="commission-payout-card__order-row" style={{ opacity: 0.6 }}>
