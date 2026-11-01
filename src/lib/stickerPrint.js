@@ -15,13 +15,13 @@ import { stickerUrl } from './labBatches.mjs';
 export const STICKER_SIZES = [
   {
     id: 'vial',
-    label: 'Vial sticker · 50 × 20 mm (label printer)',
+    label: 'Vial QR code · 50 × 20 mm (label printer)',
     page: '50mm 20mm',
     width: 50, height: 20, qr: 17,
   },
   {
     id: 'box',
-    label: 'Box sticker · 60 × 40 mm (label printer)',
+    label: 'Box QR code · 60 × 40 mm (label printer)',
     page: '60mm 40mm',
     width: 60, height: 40, qr: 26,
   },
@@ -79,7 +79,7 @@ export function stickerSheetHtml(batch, size, copies, qrSrc, { autoPrint = true 
       .sticker:last-child { break-after: auto; }`;
   return `<!doctype html>
 <html><head><meta charset="utf-8" />
-<title>Stickers ${escapeHtml(batch.code)} × ${copies}</title>
+<title>QR codes ${escapeHtml(batch.code)} × ${copies}</title>
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: Arial, Helvetica, sans-serif; color: #000; background: #fff; }
@@ -101,9 +101,9 @@ export function stickerSheetHtml(batch, size, copies, qrSrc, { autoPrint = true 
 </style></head>
 <body>
   <div class="help">
-    <strong>${copies} sticker${copies === 1 ? '' : 's'} for ${escapeHtml(batch.code)}.</strong>
+    <strong>${copies} QR code${copies === 1 ? '' : 's'} for ${escapeHtml(batch.code)}.</strong>
     In the print window choose your printer${size.id === 'a4' ? ' and A4 paper' : `, and set the paper size to ${size.width} × ${size.height} mm`}.
-    Turn off "Headers and footers" and set margins to "None". Scan one test sticker before printing them all.
+    Turn off "Headers and footers" and set margins to "None". Scan one test QR code before printing them all.
   </div>
   <div class="sheet">${stickers}</div>
   ${autoPrint ? "<script>window.addEventListener('load', function () { setTimeout(function () { window.print(); }, 300); });</script>" : ''}
@@ -120,7 +120,7 @@ export function stickerSheetHtml(batch, size, copies, qrSrc, { autoPrint = true 
 export async function printStickers({ getBatch, copies, sizeId }) {
   const win = window.open('', '_blank');
   if (!win) throw new Error('Your browser blocked the print window. Allow pop-ups for this site and try again.');
-  win.document.write('<p style="font-family:Arial;padding:16px">Preparing stickers…</p>');
+  win.document.write('<p style="font-family:Arial;padding:16px">Preparing QR codes…</p>');
   try {
     const batch = await getBatch();
     const size = STICKER_SIZES.find((candidate) => candidate.id === sizeId) || STICKER_SIZES[0];

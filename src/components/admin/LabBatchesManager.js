@@ -78,10 +78,10 @@ function PrintDialog({ title, defaultCopies, onCancel, onPrint, busy }) {
           <button type="button" onClick={onCancel} aria-label="Close" style={{ background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer' }}><X size={18} /></button>
         </div>
         <div style={{ display: 'grid', gap: 12 }}>
-          <Field label="How many stickers">
+          <Field label="How many QR codes">
             <input type="number" min="1" max="1000" step="1" value={copies} onChange={(e) => setCopies(e.target.value)} style={inputStyle} />
           </Field>
-          <Field label="Sticker size">
+          <Field label="QR code size">
             <select value={sizeId} onChange={(e) => { setSizeId(e.target.value); saveSize(e.target.value); }} style={inputStyle}>
               {STICKER_SIZES.map((size) => <option key={size.id} value={size.id}>{size.label}</option>)}
             </select>
@@ -152,7 +152,7 @@ function EditBatchForm({ batch, onSaved, onCancel }) {
       <div style={{ gridColumn: '1 / -1', display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
         <button type="button" className="admin-btn admin-btn-primary" onClick={save} disabled={saving}>{saving ? 'Saving…' : 'Save changes'}</button>
         <button type="button" className="admin-btn admin-btn-secondary" onClick={onCancel}>Cancel</button>
-        <span style={{ fontSize: '0.75rem', color: '#64748b' }}>The sticker code and product cannot change — stickers may already be on vials.</span>
+        <span style={{ fontSize: '0.75rem', color: '#64748b' }}>The QR code and product cannot change — QR codes may already be on vials.</span>
         {error && <span style={{ color: '#f87171', fontSize: '0.8rem' }}>{error}</span>}
       </div>
     </div>
@@ -183,7 +183,7 @@ function RecallList({ code }) {
   if (state.orders.length === 0) {
     return (
       <div style={{ padding: '10px 4px', color: '#94a3b8', fontSize: '0.85rem' }}>
-        No packed order has a sticker from {code} yet. Orders appear here once a packer scans this batch in Fulfillment.
+        No packed order has a QR code from {code} yet. Orders appear here once a packer scans this batch in Fulfillment.
       </div>
     );
   }
@@ -286,9 +286,9 @@ export default function LabBatchesManager() {
       }
       setBatches((prev) => [data.batch, ...prev]);
       setForm(emptyForm);
-      setMessage(`Batch ${data.batch.code} created for ${data.batch.product}. Print its stickers next.`);
+      setMessage(`Batch ${data.batch.code} created for ${data.batch.product}. Print its QR codes next.`);
       setPrinting({
-        title: `Stickers for ${data.batch.code}`,
+        title: `QR codes for ${data.batch.code}`,
         defaultCopies: data.batch.vialCount,
         getBatch: async () => data.batch,
       });
@@ -304,7 +304,7 @@ export default function LabBatchesManager() {
     const product = products.find((candidate) => candidate.id === oldStockProductId);
     if (!product) { setMessage('Pick a product first.'); return; }
     setPrinting({
-      title: `Old-stock stickers · ${product.product}`,
+      title: `Old-stock QR codes · ${product.product}`,
       defaultCopies: Math.max(1, Number(product.inventoryCount) || 1),
       // Created (or found) only once Print is pressed, so cancelling makes nothing.
       getBatch: async () => {
@@ -328,7 +328,7 @@ export default function LabBatchesManager() {
     setPrintBusy(true);
     try {
       const batch = await printStickers({ getBatch: printing.getBatch, copies, sizeId });
-      setMessage(`Print window opened: ${copies} sticker${copies === 1 ? '' : 's'} for ${batch.code}.`);
+      setMessage(`Print window opened: ${copies} QR code${copies === 1 ? '' : 's'} for ${batch.code}.`);
       setPrinting(null);
     } catch (err) {
       setMessage(err.message || 'Could not open the print window');
@@ -344,11 +344,11 @@ export default function LabBatchesManager() {
       <div className="admin-toolbar" style={{ marginBottom: 16 }}>
         <div>
           <h3 style={{ display: 'flex', alignItems: 'center', gap: 8, margin: 0 }}>
-            <FlaskConical size={18} /> Lab batches & stickers
+            <FlaskConical size={18} /> Lab batches & QR codes
           </h3>
           <p style={{ margin: '6px 0 0', color: '#94a3b8', fontSize: '0.85rem', maxWidth: 680 }}>
-            When a filling run is done, enter the batch here and print its QR stickers. Packers scan the
-            stickers in Fulfillment, which records which batch went to which customer. This does not change
+            When a filling run is done, enter the batch here and print its QR codes. Packers scan the
+            QR codes in Fulfillment, which records which batch went to which customer. This does not change
             stock — total stock still lives on the Products tab.
           </p>
         </div>
@@ -380,7 +380,7 @@ export default function LabBatchesManager() {
             <Field label="Vials in this batch"><input type="number" min="1" step="1" value={form.vialCount} onChange={setField('vialCount')} style={inputStyle} /></Field>
             <Field label="Made on"><input type="date" value={form.madeDate} onChange={setField('madeDate')} style={inputStyle} /></Field>
             <Field label="Expires"><input type="date" value={form.expiryDate} onChange={setField('expiryDate')} style={inputStyle} /></Field>
-            <Field label="Batch number" hint="Blank = use the sticker code"><input value={form.batchNumber} onChange={setField('batchNumber')} style={inputStyle} /></Field>
+            <Field label="Batch number" hint="Blank = use the QR code"><input value={form.batchNumber} onChange={setField('batchNumber')} style={inputStyle} /></Field>
             <div style={{ gridColumn: '1 / -1' }}>
               <Field label="Lab report / COA (optional)"><input value={form.coaUrl} onChange={setField('coaUrl')} placeholder="Paste a URL or upload below" style={inputStyle} /><CoaUploadField value={form.coaUrl} subject={products.find(product=>product.id===form.productId)?.product||'batch'} lot={form.batchNumber||'new-batch'} onChange={(url)=>setForm(prev=>({...prev,coaUrl:url}))} disabled={creating}/></Field>
             </div>
@@ -389,14 +389,14 @@ export default function LabBatchesManager() {
           </div>
           {formError && <div style={{ color: '#f87171', fontSize: '0.8rem', marginTop: 10 }}>{formError}</div>}
           <button type="submit" className="admin-btn admin-btn-primary" disabled={creating || Boolean(migration)} style={{ marginTop: 12 }}>
-            {creating ? 'Creating…' : 'Create batch & print stickers'}
+            {creating ? 'Creating…' : 'Create batch & print QR codes'}
           </button>
         </form>
 
         <div style={{ padding: 16, borderRadius: 12, background: 'rgba(15,23,42,0.45)', border: '1px solid rgba(148,163,184,0.18)' }}>
-          <div style={{ fontWeight: 700, marginBottom: 6 }}>2. Stickers for vials already on the shelf</div>
+          <div style={{ fontWeight: 700, marginBottom: 6 }}>2. QR codes for vials already on the shelf</div>
           <p style={{ margin: '0 0 12px', color: '#94a3b8', fontSize: '0.8rem', lineHeight: 1.5 }}>
-            Vials made before this screen existed have no batch. Print them an "old stock" sticker so the
+            Vials made before this screen existed have no batch. Print them an "old stock" QR code so the
             packers can scan them too. Each product gets one old-stock code; printing again reuses it.
           </p>
           <Field label="Product">
@@ -410,7 +410,7 @@ export default function LabBatchesManager() {
             </select>
           </Field>
           <button type="button" className="admin-btn" onClick={startOldStockPrint} disabled={Boolean(migration)} style={{ marginTop: 12 }}>
-            <Printer size={14} /> Print old-stock stickers
+            <Printer size={14} /> Print old-stock QR codes
           </button>
         </div>
       </div>
@@ -430,7 +430,7 @@ export default function LabBatchesManager() {
         <table className="admin-table" style={{ width: '100%', minWidth: 760 }}>
           <thead>
             <tr>
-              <th>Sticker code</th>
+              <th>QR code</th>
               <th>Product</th>
               <th style={{ width: 70 }}>Vials</th>
               <th>Made</th>
@@ -469,7 +469,7 @@ export default function LabBatchesManager() {
                       <button
                         type="button"
                         className="admin-btn"
-                        onClick={() => setPrinting({ title: `Stickers for ${batch.code}`, defaultCopies: batch.vialCount || 1, getBatch: async () => batch })}
+                        onClick={() => setPrinting({ title: `QR codes for ${batch.code}`, defaultCopies: batch.vialCount || 1, getBatch: async () => batch })}
                       >
                         <Printer size={13} /> Print
                       </button>

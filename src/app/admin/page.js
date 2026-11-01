@@ -213,7 +213,7 @@ function getAdminPageSubtitle(tabId, { orders, abandonedCarts, leads, reviews, i
     case 'offsite_inventory':
       return 'What the off-site packer is holding · give him more when low';
     case 'lab_batches':
-      return 'Enter a batch, print its QR stickers · packers scan them in Fulfillment';
+      return 'Enter a batch, print its QR codes · packers scan them in Fulfillment';
     case 'leads':
       return newLeads
         ? `${newLeads} new lead${newLeads !== 1 ? 's' : ''} · ${leads.length} total`
