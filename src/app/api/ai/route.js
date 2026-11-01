@@ -302,7 +302,7 @@ Return ONLY a strict JSON object matching this schema:
 {
   "name": "short journey name",
   "description": "one sentence purpose",
-  "trigger": { "type": "new_subscriber|abandoned_cart|catalog_lead|reorder_due", "days": 30 },
+  "trigger": { "type": "new_subscriber|engaged_subscriber|abandoned_cart|catalog_lead|reorder_due", "days": 30 },
   "steps": [
     {
       "type": "action",

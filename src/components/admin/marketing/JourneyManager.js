@@ -7,6 +7,15 @@ import { useMarketingFeedback } from './useMarketingFeedback';
 
 const TEMPLATES = [
   {
+    id: 'active-contacts', name: 'Active Contact Nurture', description: 'A three-email sequence for subscribed contacts who opened or clicked in the last 90 days.',
+    trigger: { type: 'engaged_subscriber', days: 90 },
+    steps: [
+      { channel: 'email', delay_hours: 0, subject: 'What are you researching next, [FIRST_NAME]?', message: 'Hi [FIRST_NAME],\n\nThanks for staying connected with Costa Peptides. If you are planning an upcoming research order, you can browse current availability here:\n\nhttps://catalog.peptidescostarica.net/catalog\n\nReply to this email if you would like help with availability, ordering, or delivery.' },
+      { channel: 'email', delay_hours: 72, subject: 'A quick guide to ordering from Costa Peptides', message: 'Hi [FIRST_NAME],\n\nWe make it simple to check current availability, request support, and arrange delivery in Costa Rica. Browse the catalog when you are ready:\n\nhttps://catalog.peptidescostarica.net/catalog\n\nHave a question? Reply and our team will help.' },
+      { channel: 'email', delay_hours: 96, subject: 'Need help with your next order, [FIRST_NAME]?', message: 'Hi [FIRST_NAME],\n\nThis is our last note in this series. If you need help choosing from current availability, placing an order, or arranging delivery, just reply to this email.\n\nBrowse the catalog:\nhttps://catalog.peptidescostarica.net/catalog' },
+    ],
+  },
+  {
     id: 'welcome', name: 'Welcome & Educate', description: 'Welcome new subscribers and follow up with the catalog.',
     trigger: { type: 'new_subscriber' },
     steps: [
@@ -31,7 +40,7 @@ const TEMPLATES = [
   },
 ];
 
-const TRIGGER_LABELS = { new_subscriber: 'New subscriber', abandoned_cart: 'Cart abandoned', catalog_lead: 'Catalog lead', reorder_due: 'Reorder window' };
+const TRIGGER_LABELS = { new_subscriber: 'New subscriber', engaged_subscriber: 'Active email contact', abandoned_cart: 'Cart abandoned', catalog_lead: 'Catalog lead', reorder_due: 'Reorder window' };
 const CONDITION_LABELS = { has_active_cart: 'Contact still has an active cart', email_engaged: 'Contact opened or clicked an email', no_order_since_enrollment: 'Contact has not ordered since enrollment' };
 const formatMoney = value => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(value || 0);
 const EMPTY_JOURNEY = {
@@ -227,7 +236,7 @@ export default function JourneyManager() {
       id: journey?.id,
       name: source.name || '',
       description: source.description || '',
-      trigger: { type: source.trigger?.type || 'new_subscriber', days: source.trigger?.days || 30 },
+      trigger: { type: source.trigger?.type || 'new_subscriber', days: source.trigger?.days || (source.trigger?.type === 'engaged_subscriber' ? 90 : 30) },
       steps: (source.steps || EMPTY_JOURNEY.steps).map((step, index) => ({ ...step, type: step.type || 'action', id: step.id || `step_${index + 1}` })),
     });
     setEditorError('');
@@ -433,6 +442,7 @@ export default function JourneyManager() {
                 </select>
               </label>
               {editor.trigger.type === 'reorder_due' && <label><span>Days after order</span><input className="mkt-input" type="number" min="1" max="365" value={editor.trigger.days} onChange={event => setEditor({ ...editor, trigger: { ...editor.trigger, days: Number(event.target.value) } })} /></label>}
+              {editor.trigger.type === 'engaged_subscriber' && <label><span>Engagement window (days)</span><input className="mkt-input" type="number" min="1" max="365" value={editor.trigger.days || 90} onChange={event => setEditor({ ...editor, trigger: { ...editor.trigger, days: Number(event.target.value) } })} /></label>}
             </div>
 
             <div className="mkt-builder-trigger"><Zap size={15} /><div><span>START WHEN</span><strong>{TRIGGER_LABELS[editor.trigger.type]}</strong></div></div>

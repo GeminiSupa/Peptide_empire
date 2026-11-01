@@ -6,7 +6,7 @@ import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
 
 export const dynamic = 'force-dynamic';
 
-const TRIGGERS = new Set(['new_subscriber', 'abandoned_cart', 'catalog_lead', 'reorder_due']);
+const TRIGGERS = new Set(['new_subscriber', 'engaged_subscriber', 'abandoned_cart', 'catalog_lead', 'reorder_due']);
 const CHANNELS = new Set(['email', 'whatsapp']);
 const CONDITIONS = new Set(['has_active_cart', 'email_engaged', 'no_order_since_enrollment']);
 
@@ -39,7 +39,9 @@ function cleanJourney(body) {
     description: String(body.description || '').trim().slice(0, 500) || null,
     trigger: {
       type: body.trigger.type,
-      days: body.trigger.type === 'reorder_due' ? Math.max(1, Math.min(365, Number(body.trigger.days || 30))) : undefined,
+      days: ['reorder_due', 'engaged_subscriber'].includes(body.trigger.type)
+        ? Math.max(1, Math.min(365, Number(body.trigger.days || (body.trigger.type === 'engaged_subscriber' ? 90 : 30))))
+        : undefined,
     },
     steps: body.steps.map((step, index) => ({
       id: step.id || `step_${index + 1}`,

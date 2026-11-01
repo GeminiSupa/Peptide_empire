@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { engagedSubscriberIds, normalizeEngagementWindowDays } from '@/lib/journeyAudience.mjs';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -17,7 +18,7 @@ function personalize(value, contact) {
 }
 
 function toContact(row, type) {
-  if (type === 'new_subscriber') return { email: row.email, first_name: row.first_name, last_name: row.last_name, name: [row.first_name, row.last_name].filter(Boolean).join(' ') };
+  if (type === 'new_subscriber' || type === 'engaged_subscriber') return { email: row.email, first_name: row.first_name, last_name: row.last_name, name: [row.first_name, row.last_name].filter(Boolean).join(' ') };
   if (type === 'catalog_lead') {
     const isEmail = row.contact_method === 'email' || String(row.contact_value || '').includes('@');
     return { email: isEmail ? row.contact_value : null, phone: isEmail ? null : row.contact_value, name: row.name || null };
@@ -34,6 +35,26 @@ async function triggerRows(supabase, journey) {
   const activatedAt = journey.activated_at || journey.created_at;
   if (type === 'new_subscriber') {
     return supabase.from('email_subscribers').select('*').eq('status', 'subscribed').gte('created_at', activatedAt).limit(1000);
+  }
+  if (type === 'engaged_subscriber') {
+    const days = normalizeEngagementWindowDays(journey.trigger?.days);
+    const since = new Date(Date.now() - days * 86400000).toISOString();
+    const [{ data: opens, error: openError }, { data: clicks, error: clickError }] = await Promise.all([
+      supabase.from('campaign_opens').select('subscriber_id').gte('opened_at', since).limit(10000),
+      supabase.from('campaign_clicks').select('subscriber_id').gte('clicked_at', since).limit(10000),
+    ]);
+    if (openError || clickError) return { data: null, error: openError || clickError };
+
+    const subscriberIds = engagedSubscriberIds(opens, clicks);
+    if (!subscriberIds.length) return { data: [], error: null };
+
+    const batches = [];
+    for (let index = 0; index < subscriberIds.length; index += 500) {
+      batches.push(supabase.from('email_subscribers').select('*').eq('status', 'subscribed').in('id', subscriberIds.slice(index, index + 500)));
+    }
+    const results = await Promise.all(batches);
+    const failed = results.find(result => result.error);
+    return failed ? { data: null, error: failed.error } : { data: results.flatMap(result => result.data || []), error: null };
   }
   if (type === 'abandoned_cart') {
     return supabase.from('abandoned_carts').select('*').eq('status', 'active').gte('created_at', activatedAt).limit(1000);
