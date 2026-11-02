@@ -3,6 +3,9 @@ import { createClient } from '@supabase/supabase-js';
 import { getPageAccessToken } from '@/lib/facebookPageToken';
 import { resolveLeadOwner } from '@/lib/leadOwner';
 import { verifyMetaWebhook } from '@/lib/metaWebhookAuth';
+import { handoverLeadToChatwoot } from '@/lib/chatwootLead.mjs';
+import { META_LEAD_SOURCE } from '@/lib/chatwootInboxes.mjs';
+import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 
 // ─── Supabase client (service role for server writes) ───
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -149,7 +152,7 @@ export async function POST(request) {
                 label: 'facebook/webhook',
               });
 
-              await supabase.from('catalog_leads').insert({
+              const leadRow = {
                 contact_method: contactMethod,
                 contact_value: contactValue.trim(),
                 sales_agent: salesAgent || null,
@@ -157,8 +160,34 @@ export async function POST(request) {
                 utm_source: 'facebook_ads',
                 utm_medium: 'lead_form',
                 utm_campaign: leadData?.form_id || formId,
-                referrer: 'Meta Lead Ads Form'
-              });
+                referrer: 'Meta Lead Ads Form',
+                lead_source: META_LEAD_SOURCE,
+              };
+              // lead_source arrives by its own migration; without it the lead
+              // is still saved, just without the label.
+              const { data: savedLead } = await writeDroppingMissingColumns(
+                leadRow,
+                ['lead_source'],
+                (row) => supabase.from('catalog_leads').insert(row).select('id').maybeSingle(),
+              );
+
+              // Open the chat in the Meta Ads Chatwoot inbox. A Chatwoot outage
+              // never fails a lead that is already saved: the 15-minute
+              // chatwoot-owner-sync job retries anything that did not land.
+              if (savedLead?.id) {
+                try {
+                  await handoverLeadToChatwoot(supabase, {
+                    ...leadRow,
+                    id: savedLead.id,
+                    lead_source: META_LEAD_SOURCE,
+                    name: fullName,
+                    email: emailVal,
+                    phone: phoneVal,
+                  });
+                } catch (chatwootErr) {
+                  console.error('[Facebook Webhook] Chatwoot handover failed:', chatwootErr);
+                }
+              }
 
               // B. Save notification alert to facebook_notifications
               await supabase.from('facebook_notifications').insert({

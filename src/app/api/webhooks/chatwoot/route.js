@@ -8,7 +8,7 @@ import {
   normalizeChatwootEvent,
   verifyChatwootSignature,
 } from '@/lib/chatwootWebhook.mjs';
-import { chatwootLeadInboxIds, loadCatalogInboxId } from '@/lib/chatwootInboxes.mjs';
+import { chatwootLeadInboxIds, loadCatalogInboxId, loadMetaInboxId } from '@/lib/chatwootInboxes.mjs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -102,13 +102,15 @@ export async function POST(request) {
 
   try {
     const supabase = getSupabaseAdmin();
-    // Leads now live in two inboxes: ad and TikTok chats in CHATWOOT_INBOX_ID,
-    // catalog chats in the catalog inbox saved in the admin. Filtering on the
-    // env one alone would throw away every catalog chat's events — the status,
-    // the assignee and the reply times all come in through here.
+    // Leads live in three inboxes: Google Ads and TikTok chats in
+    // CHATWOOT_INBOX_ID, catalog chats and Meta ad chats in the inboxes saved
+    // in the admin. Filtering on the env one alone would throw away every
+    // catalog and Meta chat's events — the status, the assignee and the reply
+    // times all come in through here.
     const leadInboxIds = chatwootLeadInboxIds({
       adInboxId: process.env.CHATWOOT_INBOX_ID,
       catalogInboxId: await loadCatalogInboxId(supabase),
+      metaInboxId: await loadMetaInboxId(supabase),
     });
     if (leadInboxIds.length && !leadInboxIds.includes(clean(event.inboxId))) {
       return NextResponse.json({ success: true, ignored: true, reason: 'different_inbox' });

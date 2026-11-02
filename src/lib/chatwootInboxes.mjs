@@ -24,14 +24,24 @@ const clean = (value) => String(value ?? '').trim();
 /** The site_settings row that already holds the Chatwoot lead switch. */
 export const CHATWOOT_INBOX_SETTING_ID = 'google_ads_chatwoot';
 
-/** True for the paid-ad and TikTok sources that use the original inbox. */
-export function isPaidAdChatwootSource(source) {
-  const key = clean(source).toLowerCase();
-  return AD_LANDING_SOURCES.has(key) || key === 'tiktok_form';
+/** lead_source the Facebook/Instagram Lead Ads handler saves on a lead. */
+export const META_LEAD_SOURCE = 'meta_lead_ads';
+
+/** True for a lead that came from a Meta (Facebook/Instagram) lead form. */
+export function isMetaLeadSource(source) {
+  return clean(source).toLowerCase() === META_LEAD_SOURCE;
 }
 
-/** The catalog inbox id saved in the admin portal, or '' when unset. */
-export async function loadCatalogInboxId(supabase) {
+/**
+ * True for the paid-ad sources (Google Ads, TikTok, Meta): leads whose only
+ * chat is the one we open. Meta has its own inbox, see inboxIdForLeadSource.
+ */
+export function isPaidAdChatwootSource(source) {
+  const key = clean(source).toLowerCase();
+  return AD_LANDING_SOURCES.has(key) || key === 'tiktok_form' || isMetaLeadSource(key);
+}
+
+async function loadInboxSetting(supabase, key, label) {
   try {
     const { data, error } = await supabase
       .from('site_settings')
@@ -39,19 +49,31 @@ export async function loadCatalogInboxId(supabase) {
       .eq('id', CHATWOOT_INBOX_SETTING_ID)
       .maybeSingle();
     if (error) throw error;
-    return clean(data?.value?.catalogInboxId);
+    return clean(data?.value?.[key]);
   } catch (error) {
-    console.warn('[Chatwoot] Could not read the catalog inbox id:', error.message);
+    console.warn(`[Chatwoot] Could not read the ${label} inbox id:`, error.message);
     return '';
   }
+}
+
+/** The catalog inbox id saved in the admin portal, or '' when unset. */
+export function loadCatalogInboxId(supabase) {
+  return loadInboxSetting(supabase, 'catalogInboxId', 'catalog');
+}
+
+/** The Meta Ads inbox id saved in the admin portal, or '' when unset. */
+export function loadMetaInboxId(supabase) {
+  return loadInboxSetting(supabase, 'metaInboxId', 'Meta Ads');
 }
 
 /**
  * The inbox one lead's chat opens in, or '' when we have no inbox for it.
  *
- * '' for a catalog lead means "not configured yet", never "use the ad inbox".
+ * '' for a catalog or Meta lead means "not configured yet", never "use the ad
+ * inbox".
  */
-export function inboxIdForLeadSource(source, { adInboxId = '', catalogInboxId = '' } = {}) {
+export function inboxIdForLeadSource(source, { adInboxId = '', catalogInboxId = '', metaInboxId = '' } = {}) {
+  if (isMetaLeadSource(source)) return clean(metaInboxId);
   return isPaidAdChatwootSource(source) ? clean(adInboxId) : clean(catalogInboxId);
 }
 
@@ -59,10 +81,10 @@ export function inboxIdForLeadSource(source, { adInboxId = '', catalogInboxId = 
  * Every inbox our leads live in, for the screens and jobs that read Chatwoot
  * back: the webhook filter, the owner sync and the Leads "Assigned to" column.
  * Each of those used to accept or query the single configured inbox, which
- * would silently ignore every catalog chat once they moved.
+ * would silently ignore every catalog or Meta chat once they moved.
  */
-export function chatwootLeadInboxIds({ adInboxId = '', catalogInboxId = '' } = {}) {
-  return [...new Set([clean(adInboxId), clean(catalogInboxId)].filter(Boolean))];
+export function chatwootLeadInboxIds({ adInboxId = '', catalogInboxId = '', metaInboxId = '' } = {}) {
+  return [...new Set([clean(adInboxId), clean(catalogInboxId), clean(metaInboxId)].filter(Boolean))];
 }
 
 /**

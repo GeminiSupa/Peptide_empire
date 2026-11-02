@@ -5,7 +5,7 @@ import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 import { chatwootOwnerColumns, planChatwootOwnerUpdates } from '@/lib/chatwootOwnerSync.mjs';
 import { handoverLeadToChatwoot, loadChatwootLeadEnabled } from '@/lib/chatwootLead.mjs';
 import { leadBelongsInChatwoot } from '@/lib/chatwootLeadEligibility.mjs';
-import { chatwootLeadInboxIds, loadCatalogInboxId } from '@/lib/chatwootInboxes.mjs';
+import { chatwootLeadInboxIds, loadCatalogInboxId, loadMetaInboxId } from '@/lib/chatwootInboxes.mjs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -114,10 +114,11 @@ export async function GET(request) {
       .select('name, email, status, permissions, tier');
     if (profileError) throw profileError;
 
-    // Both inboxes, or a catalog chat's owner would never be synced back.
+    // Every inbox, or a catalog or Meta chat's owner would never be synced back.
     const assignees = await readChatwootAssignees(config, chatwootLeadInboxIds({
       adInboxId: config.inboxId,
       catalogInboxId: await loadCatalogInboxId(supabase),
+      metaInboxId: await loadMetaInboxId(supabase),
     }));
     const { updates, skipped } = planChatwootOwnerUpdates({ leads: leads || [], assignees, profiles: profiles || [] });
 

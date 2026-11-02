@@ -78,7 +78,14 @@ function displayDestination(recipient) {
  * It keeps its own draft so typing is not undone by the parent re-rendering,
  * and only Save writes.
  */
-function CatalogInboxField({ value, saving, canEdit, onSave }) {
+function CatalogInboxField({
+  value, saving, canEdit, onSave,
+  title = 'Catalog WhatsApp inbox',
+  description = 'Catalog leads open their chat in this inbox instead of the Google Ads one, so the two can be tracked separately.',
+  waitingNote = ' While it is empty, catalog leads wait in Leads and are sent the moment it is filled in.',
+  setText = 'Catalog chats go to inbox',
+  unsetText = 'Not set yet - catalog leads are waiting',
+}) {
   const [draft, setDraft] = useState(value || '');
   useEffect(() => { setDraft(value || ''); }, [value]);
   const current = (value || '').trim();
@@ -87,12 +94,11 @@ function CatalogInboxField({ value, saving, canEdit, onSave }) {
   return (
     <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', marginTop: '14px', paddingTop: '14px' }}>
       <div style={{ fontSize: '0.84rem', color: '#f8fafc', fontWeight: 700, marginBottom: '4px' }}>
-        Catalog WhatsApp inbox
+        {title}
       </div>
       <p style={{ fontSize: '0.78rem', color: '#94a3b8', margin: '0 0 10px 0', lineHeight: 1.5 }}>
-        Catalog leads open their chat in this inbox instead of the Google Ads one, so the two can be
-        tracked separately. Paste the inbox ID: the number at the end of the inbox&apos;s URL in Chatwoot.
-        {current ? '' : ' While it is empty, catalog leads wait in Leads and are sent the moment it is filled in.'}
+        {description} Paste the inbox ID: the number at the end of the inbox&apos;s URL in Chatwoot.
+        {current ? '' : waitingNote}
       </p>
       <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
         <input
@@ -113,9 +119,9 @@ function CatalogInboxField({ value, saving, canEdit, onSave }) {
           {saving ? 'Saving...' : 'Save inbox'}
         </button>
         {current ? (
-          <span style={{ fontSize: '0.75rem', color: '#22c55e' }}>Catalog chats go to inbox {current}</span>
+          <span style={{ fontSize: '0.75rem', color: '#22c55e' }}>{setText} {current}</span>
         ) : (
-          <span style={{ fontSize: '0.75rem', color: '#fbbf24' }}>Not set yet - catalog leads are waiting</span>
+          <span style={{ fontSize: '0.75rem', color: '#fbbf24' }}>{unsetText}</span>
         )}
       </div>
     </div>
@@ -130,6 +136,7 @@ function NotificationSettings({
   recipients, tableReady, hint, loading, error, savingId, canEdit,
   chatwootEnabled, chatwootConfigured, chatwootSaving, onChatwootChange,
   chatwootCatalogInbox, chatwootInboxSaving, onChatwootCatalogInboxSave,
+  chatwootMetaInbox, chatwootMetaInboxSaving, onChatwootMetaInboxSave,
   leadRotation, leadRotationSaving, onLeadRotationChange,
   newLabel, setNewLabel, newChannel, setNewChannel, newDestination, setNewDestination,
   adding, onAdd, onUpdate, onRemove,
@@ -208,7 +215,7 @@ function NotificationSettings({
   return (
     <div>
       <p style={{ fontSize: '0.82rem', color: '#94a3b8', margin: '0 0 16px 0', lineHeight: 1.5 }}>
-        Destinations for new-order alerts and optional lead copies. Ad leads (/lp, /glp-1 and TikTok forms) go to Chatwoot;
+        Destinations for new-order alerts and optional lead copies. Ad leads (/lp, /glp-1, TikTok and Meta forms) go to Chatwoot;
         use the Google Ads checkbox here only for email or WhatsApp monitoring copies. Ordinary leads still notify their assigned agent directly.
       </p>
 
@@ -217,7 +224,7 @@ function NotificationSettings({
           icon={<MessageCircle size={15} />}
           title="Send lead alerts to Chatwoot"
           hint={chatwootConfigured
-            ? 'Controls automatic Chatwoot conversations for /lp, /glp-1, TikTok forms, and catalog leads that opted into WhatsApp. Email and WhatsApp copies are controlled separately below.'
+            ? 'Controls automatic Chatwoot conversations for /lp, /glp-1, TikTok forms, Meta lead forms, and catalog leads that opted into WhatsApp. Email and WhatsApp copies are controlled separately below.'
             : 'Chatwoot credentials are missing in Vercel. Add them before enabling this integration.'}
           checked={chatwootEnabled}
           disabled={!canEdit || chatwootSaving}
@@ -229,6 +236,17 @@ function NotificationSettings({
           saving={chatwootInboxSaving}
           canEdit={canEdit}
           onSave={onChatwootCatalogInboxSave}
+        />
+        <CatalogInboxField
+          title="Meta Ads inbox"
+          description="Leads from Facebook and Instagram lead forms open their chat in this inbox (the Chatwoot API inbox made for Meta ads)."
+          waitingNote=" While it is empty, new Meta leads wait in Leads and are sent the moment it is filled in."
+          setText="Meta ad chats go to inbox"
+          unsetText="Not set yet - Meta ad leads are waiting"
+          value={chatwootMetaInbox}
+          saving={chatwootMetaInboxSaving}
+          canEdit={canEdit}
+          onSave={onChatwootMetaInboxSave}
         />
       </div>
 
@@ -412,6 +430,8 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
   const [chatwootSaving, setChatwootSaving] = useState(false);
   const [chatwootCatalogInbox, setChatwootCatalogInbox] = useState('');
   const [chatwootInboxSaving, setChatwootInboxSaving] = useState(false);
+  const [chatwootMetaInbox, setChatwootMetaInbox] = useState('');
+  const [chatwootMetaInboxSaving, setChatwootMetaInboxSaving] = useState(false);
   const [leadRotation, setLeadRotation] = useState(null);
   const [leadRotationSaving, setLeadRotationSaving] = useState(false);
   const [recipientSavingId, setRecipientSavingId] = useState(null);
@@ -513,6 +533,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
       setChatwootEnabled(data.chatwoot?.enabled !== false);
       setChatwootConfigured(data.chatwoot?.configured === true);
       setChatwootCatalogInbox(data.chatwoot?.catalogInboxId || '');
+      setChatwootMetaInbox(data.chatwoot?.metaInboxId || '');
       setLeadRotation(data.leadRotation || null);
     } catch (err) {
       setRecipientsError(err.message);
@@ -559,6 +580,27 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
       await fetchRecipients();
     }
     setChatwootInboxSaving(false);
+  };
+
+  // The inbox Meta (Facebook/Instagram) lead-form chats open in. Same merge as
+  // the catalog inbox: saving it cannot disturb the switch or the other inbox.
+  const updateChatwootMetaInbox = async (value) => {
+    setChatwootMetaInboxSaving(true);
+    setRecipientsError('');
+    try {
+      const res = await adminFetch('/api/admin/notification-recipients', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ chatwootMetaInboxId: String(value || '').trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Could not save the Meta Ads inbox');
+      setChatwootMetaInbox(data.chatwoot?.metaInboxId || '');
+    } catch (err) {
+      setRecipientsError(err.message);
+      await fetchRecipients();
+    }
+    setChatwootMetaInboxSaving(false);
   };
 
   const updateLeadRotation = async (change) => {
@@ -1414,6 +1456,9 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
           chatwootCatalogInbox={chatwootCatalogInbox}
           chatwootInboxSaving={chatwootInboxSaving}
           onChatwootCatalogInboxSave={updateChatwootCatalogInbox}
+          chatwootMetaInbox={chatwootMetaInbox}
+          chatwootMetaInboxSaving={chatwootMetaInboxSaving}
+          onChatwootMetaInboxSave={updateChatwootMetaInbox}
           leadRotation={leadRotation}
           leadRotationSaving={leadRotationSaving}
           onLeadRotationChange={updateLeadRotation}

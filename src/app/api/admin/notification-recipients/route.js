@@ -104,6 +104,7 @@ export async function GET(request) {
 
   let chatwootEnabled = true;
   let chatwootCatalogInboxId = '';
+  let chatwootMetaInboxId = '';
   try {
     const { data: setting, error: settingError } = await supabase
       .from('site_settings')
@@ -113,6 +114,7 @@ export async function GET(request) {
     if (settingError) throw settingError;
     chatwootEnabled = setting?.value?.enabled !== false;
     chatwootCatalogInboxId = String(setting?.value?.catalogInboxId || '').trim();
+    chatwootMetaInboxId = String(setting?.value?.metaInboxId || '').trim();
   } catch (settingError) {
     console.warn('[notification-recipients] Chatwoot switch fallback:', settingError.message);
   }
@@ -139,6 +141,8 @@ export async function GET(request) {
       // Empty means catalog leads are waiting: nothing is sent for them until
       // someone fills this in, and they never go to the Google Ads inbox.
       catalogInboxId: chatwootCatalogInboxId,
+      // Empty means Meta ad leads are waiting, same as the catalog inbox above.
+      metaInboxId: chatwootMetaInboxId,
     },
     leadRotation,
   });
@@ -269,6 +273,19 @@ export async function PATCH(request) {
         return NextResponse.json({ error: error.message }, { status: 500 });
       }
       return NextResponse.json({ chatwoot: { catalogInboxId: inboxId } });
+    }
+    // The inbox Meta (Facebook/Instagram) lead-form leads open their chats in.
+    // Blank it to stop sending Meta leads to Chatwoot.
+    if (body?.chatwootMetaInboxId !== undefined) {
+      const supabase = getSupabaseAdmin();
+      const { ok, inboxId, error: invalid } = normalizeInboxId(body.chatwootMetaInboxId);
+      if (!ok) return NextResponse.json({ error: invalid }, { status: 400 });
+      const { error } = await saveChatwootLeadSetting(supabase, { metaInboxId: inboxId });
+      if (error) {
+        console.error('[notification-recipients] Meta inbox save failed:', error);
+        return NextResponse.json({ error: error.message }, { status: 500 });
+      }
+      return NextResponse.json({ chatwoot: { metaInboxId: inboxId } });
     }
     if (body?.leadRotation && typeof body.leadRotation === 'object') {
       const supabase = getSupabaseAdmin();

@@ -1,8 +1,8 @@
 /**
  * Who gets a Chatwoot conversation opened BY US, from the CRM.
  *
- * Paid ad pages and TikTok forms do: those visitors have no WhatsApp chat of
- * their own, so the chat we open is the only one.
+ * Paid ad pages, TikTok forms and Meta lead forms do: those visitors have no
+ * WhatsApp chat of their own, so the chat we open is the only one.
  *
  * Catalog leads used to as well, and it caused duplicates. The catalog form
  * opens a brand-new conversation on every submission, so a customer who was
@@ -15,6 +15,7 @@
  */
 
 import { isAdLandingLead, AD_LANDING_SOURCES } from './adLandingLeads.mjs';
+import { META_LEAD_SOURCE } from './chatwootInboxes.mjs';
 
 const clean = (value) => String(value ?? '').trim();
 
@@ -43,6 +44,6 @@ export function leadChatwootPhone(lead) {
 export function leadBelongsInChatwoot(lead) {
   if (!lead) return false;
   const source = clean(lead.lead_source).toLowerCase();
-  if (AD_LANDING_SOURCES.has(source) || source === 'tiktok_form') return true;
+  if (AD_LANDING_SOURCES.has(source) || source === 'tiktok_form' || source === META_LEAD_SOURCE) return true;
   return isAdLandingLead(lead);
 }

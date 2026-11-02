@@ -196,6 +196,90 @@ test('the admin portal can set the catalog inbox without a redeploy', async () =
   assert.match(teamScreen, /chatwootCatalogInboxId/);
 });
 
+/* Meta (Facebook/Instagram) lead-form leads: their own API inbox in Chatwoot,
+   set in the admin like the catalog one. */
+const META_INBOXES = { adInboxId: '34', catalogInboxId: '99', metaInboxId: '55' };
+
+test('Meta leads go to the Meta inbox, never the ad or catalog one', () => {
+  assert.equal(inboxIdForLeadSource('meta_lead_ads', META_INBOXES), '55');
+  assert.equal(inboxIdForLeadSource('adwords_lp', META_INBOXES), '34');
+  assert.equal(inboxIdForLeadSource('tiktok_form', META_INBOXES), '34');
+  assert.equal(inboxIdForLeadSource('catalog_gate', META_INBOXES), '99');
+  assert.equal(
+    inboxIdForLeadSource('meta_lead_ads', { adInboxId: '34', catalogInboxId: '99' }),
+    '',
+    'no Meta inbox saved means no inbox, not the ad inbox',
+  );
+});
+
+test('the Meta inbox is one of the inboxes read back', () => {
+  assert.deepEqual(chatwootLeadInboxIds(META_INBOXES), ['34', '99', '55']);
+  assert.deepEqual(chatwootLeadInboxIds({ adInboxId: '34', metaInboxId: '55' }), ['34', '55']);
+});
+
+test('a Meta lead is handed to the Meta inbox with its own contact identifier', async () => {
+  const calls = [];
+  const queue = [
+    response({ inbox_identifier: 'meta-key' }),
+    response({ id: 1, source_id: 'src' }),
+    response({ id: 2 }),
+    response({ id: 3 }),
+  ];
+  const supabase = fakeSupabase({ enabled: true, catalogInboxId: '99', metaInboxId: '55' });
+  const result = await handoverLeadToChatwoot(supabase, {
+    id: 'lead-meta', name: 'Ana Perez', email: 'ana@example.com', phone: '50688887777',
+    lead_source: 'meta_lead_ads', utm_source: 'facebook_ads', utm_medium: 'lead_form',
+  }, {
+    env: ENV,
+    fetchImpl: async (url, options) => { calls.push({ url, options }); return queue.shift(); },
+  });
+
+  assert.equal(result.sent, true);
+  assert.match(calls[0].url, /\/api\/v1\/accounts\/12\/inboxes\/55$/, 'Meta inbox, not 34 or 99');
+  assert.equal(JSON.parse(calls[1].options.body).identifier, 'meta-lead-lead-meta');
+  assert.match(JSON.parse(calls[3].options.body).content, /^New Meta ad lead\n/);
+  assert.equal(supabase.updates[0].chatwoot_status, 'sent');
+});
+
+test('a Meta lead with no Meta inbox saved waits, and says which field to fill in', async () => {
+  let called = false;
+  const supabase = fakeSupabase({ enabled: true, catalogInboxId: '99' });
+  const result = await handoverLeadToChatwoot(supabase, {
+    id: 'lead-meta-2', phone: '50688887777', lead_source: 'meta_lead_ads',
+  }, {
+    env: ENV,
+    fetchImpl: async () => { called = true; },
+  });
+
+  assert.equal(called, false, 'nothing is sent anywhere, least of all the ad inbox');
+  assert.equal(result.sent, false);
+  assert.match(result.error, /Meta Ads inbox ID/);
+  assert.equal(supabase.updates[0].chatwoot_status, 'not_configured', 'the 15-minute retry picks it up');
+});
+
+test('the Facebook lead handler sends each new lead to Chatwoot, and the admin can set the Meta inbox', async () => {
+  const [facebook, adminRoute, teamScreen] = await Promise.all([
+    readFile(new URL('../src/app/api/facebook/webhook/route.js', import.meta.url), 'utf8'),
+    readFile(new URL('../src/app/api/admin/notification-recipients/route.js', import.meta.url), 'utf8'),
+    readFile(new URL('../src/components/admin/TeamManagement.js', import.meta.url), 'utf8'),
+  ]);
+  assert.match(facebook, /handoverLeadToChatwoot\(/);
+  assert.match(facebook, /lead_source: META_LEAD_SOURCE/);
+  assert.match(adminRoute, /chatwootMetaInboxId/);
+  assert.match(adminRoute, /saveChatwootLeadSetting\(supabase, \{ metaInboxId: inboxId \}\)/);
+  assert.match(teamScreen, /Meta Ads inbox/);
+  assert.match(teamScreen, /chatwootMetaInboxId/);
+
+  for (const file of [
+    'src/app/api/webhooks/chatwoot/route.js',
+    'src/app/api/cron/chatwoot-owner-sync/route.js',
+    'src/app/api/admin/chatwoot-assignees/route.js',
+  ]) {
+    const source = await readFile(new URL(`../${file}`, import.meta.url), 'utf8');
+    assert.match(source, /metaInboxId: await loadMetaInboxId\(/, `${file} must read the Meta inbox too`);
+  }
+});
+
 test('saving one field keeps the other: the switch and the inbox share a row', async () => {
   const writes = [];
   const stored = { enabled: false, catalogInboxId: '99' };

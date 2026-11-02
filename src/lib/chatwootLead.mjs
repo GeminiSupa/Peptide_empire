@@ -4,8 +4,10 @@ import { leadBelongsInChatwoot, leadChatwootPhone } from './chatwootLeadEligibil
 import {
   CHATWOOT_INBOX_SETTING_ID,
   inboxIdForLeadSource,
+  isMetaLeadSource,
   isPaidAdChatwootSource,
   loadCatalogInboxId,
+  loadMetaInboxId,
 } from './chatwootInboxes.mjs';
 
 const TIMEOUT_MS = 8000;
@@ -123,6 +125,7 @@ export function buildChatwootLeadMessage({
   const key = clean(source).toLowerCase();
   let title = 'New lead';
   if (key === 'tiktok_form') title = 'New TikTok form lead';
+  else if (isMetaLeadSource(key)) title = 'New Meta ad lead';
   else if (key === 'glp1_lp') title = 'New Google Ads lead — /glp-1';
   else if (key === 'adwords_lp') title = 'New Google Ads lead — /lp';
   else if (key === 'catalog_gate' || key === 'catalog_reprompt' || key === 'catalog_whatsapp') {
@@ -219,7 +222,11 @@ export async function sendAdLeadToChatwoot({
       configured: false,
       sent: false,
       ...(onlyInboxMissing
-        ? { error: 'No Chatwoot inbox is set for this kind of lead. Add the catalog WhatsApp inbox ID under Team → Notification settings.' }
+        ? {
+          error: isMetaLeadSource(source)
+            ? 'No Chatwoot inbox is set for Meta ad leads. Add the Meta Ads inbox ID under Team → Notification settings.'
+            : 'No Chatwoot inbox is set for this kind of lead. Add the catalog WhatsApp inbox ID under Team → Notification settings.',
+        }
         : {}),
     };
   }
@@ -235,12 +242,16 @@ export async function sendAdLeadToChatwoot({
 
     // Keep the old prefix for ad/TikTok contacts already in Chatwoot so a retry
     // finds the same person instead of opening a second contact.
-    const identifier = isPaidAdChatwootSource(source)
+    let identifier = isPaidAdChatwootSource(source)
       ? `google-ads-lead-${leadId}`
       : `crm-lead-${leadId}`;
+    let fallbackName = isPaidAdChatwootSource(source) ? `Google Ads lead ${leadId}` : `Catalog lead ${leadId}`;
+    if (isMetaLeadSource(source)) {
+      identifier = `meta-lead-${leadId}`;
+      fallbackName = `Meta lead ${leadId}`;
+    }
     const contactsUrl = `${config.baseUrl}/public/api/v1/inboxes/${inboxIdentifier}/contacts`;
-    const contactName = clean(name)
-      || (isPaidAdChatwootSource(source) ? `Google Ads lead ${leadId}` : `Catalog lead ${leadId}`);
+    const contactName = clean(name) || fallbackName;
     const phoneNumber = chatwootPhone(phone);
     const createContact = (body) => chatwootRequest(contactsUrl, { fetchImpl, method: 'POST', body });
     let contact;
@@ -338,25 +349,33 @@ export async function handoverLeadToChatwoot(supabase, lead, {
     || clean(lead.consent_source)
     || (lead.whatsapp_consent === true ? 'catalog_whatsapp' : '');
   const phone = leadChatwootPhone(lead);
-  // Ad chats stay unassigned so Chatwoot can pick; WhatsApp catalog leads go to
-  // the CRM owner when we know who that is.
+  // Google Ads and TikTok chats stay unassigned so Chatwoot can pick; catalog
+  // and Meta leads go to the CRM owner when we know who that is (a Meta lead
+  // only has one when it is a returning customer).
   let email = assigneeEmail;
   if (email === undefined) {
-    email = isPaidAdChatwootSource(source) ? '' : await chatwootAssigneeEmailForLead(supabase, lead);
+    email = isPaidAdChatwootSource(source) && !isMetaLeadSource(source)
+      ? ''
+      : await chatwootAssigneeEmailForLead(supabase, lead);
   }
 
-  // Which inbox this chat opens in. Ad and TikTok leads keep the original
-  // WhatsApp number; catalog leads use the catalog number, so the two streams
-  // can be told apart. No catalog inbox saved yet means no inbox for this lead:
-  // the config reads as unconfigured, the lead keeps a null
-  // chatwoot_conversation_id, and the 15-minute retry delivers it as soon as
-  // the inbox is filled in. It never falls back to the ad inbox.
+  // Which inbox this chat opens in. Google Ads and TikTok leads keep the
+  // original WhatsApp number; catalog leads use the catalog number and Meta
+  // leads their own inbox, so the streams can be told apart. No catalog or Meta
+  // inbox saved yet means no inbox for this lead: the config reads as
+  // unconfigured, the lead keeps a null chatwoot_conversation_id, and the
+  // 15-minute retry delivers it as soon as the inbox is filled in. It never
+  // falls back to the ad inbox.
   const catalogInboxId = isPaidAdChatwootSource(source)
     ? ''
     : await loadCatalogInboxId(supabase);
+  const metaInboxId = isMetaLeadSource(source)
+    ? await loadMetaInboxId(supabase)
+    : '';
   const inboxId = inboxIdForLeadSource(source, {
     adInboxId: env.CHATWOOT_INBOX_ID,
     catalogInboxId,
+    metaInboxId,
   });
 
   const qualification = lead.qualification_data || {};

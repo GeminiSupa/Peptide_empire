@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
-import { chatwootLeadInboxIds, loadCatalogInboxId } from '@/lib/chatwootInboxes.mjs';
+import { chatwootLeadInboxIds, loadCatalogInboxId, loadMetaInboxId } from '@/lib/chatwootInboxes.mjs';
 
 export const runtime = 'nodejs';
 
@@ -44,9 +44,11 @@ export async function GET(request) {
     // Every inbox our leads live in. Ad/TikTok chats are in CHATWOOT_INBOX_ID
     // and catalog chats in the catalog inbox, so reading one of them would
     // leave this column blank for every catalog lead.
+    const supabase = getSupabaseAdmin();
     const inboxIds = chatwootLeadInboxIds({
       adInboxId: config.inboxId,
-      catalogInboxId: await loadCatalogInboxId(getSupabaseAdmin()),
+      catalogInboxId: await loadCatalogInboxId(supabase),
+      metaInboxId: await loadMetaInboxId(supabase),
     });
     for (const inboxId of inboxIds) {
       for (let page = 1; page <= PAGE_LIMIT; page += 1) {
