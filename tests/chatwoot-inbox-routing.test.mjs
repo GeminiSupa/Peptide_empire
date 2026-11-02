@@ -141,25 +141,25 @@ test('an ad lead is handed to the ad inbox', async () => {
   assert.match(seen[0], /\/inboxes\/34$/, 'ad lead uses the Google Ads inbox');
 });
 
-/* The catalog form opened a fresh conversation per submission, so a customer
-   already chatting on WhatsApp collected several, each with a different agent.
-   The conversation layer brings catalog leads in now; nothing is opened here,
-   and no chatwoot_* column is written, so the Leads tab does not claim a
-   failed handover and the 15-minute retry leaves these alone. */
-test('a WhatsApp catalog lead is not handed over from the CRM at all', async () => {
+test('a WhatsApp catalog opt-in is handed to the catalog inbox', async () => {
   const supabase = fakeSupabase({ enabled: true, catalogInboxId: '99' });
-  let called = false;
+  const seen = [];
+  const queue = [
+    response({ inbox_identifier: 'catalog-key' }),
+    response({ id: 1, source_id: 'src' }),
+    response({ id: 2 }),
+    response({ id: 3 }),
+  ];
   const result = await handoverLeadToChatwoot(supabase, {
     id: 'lead-5', phone: '50688887777', whatsapp_consent: true, consent_source: 'catalog_gate',
   }, {
     env: ENV,
-    fetchImpl: async () => { called = true; },
+    fetchImpl: async (url) => { seen.push(url); return queue.shift(); },
   });
 
-  assert.equal(called, false, 'nothing is sent to Chatwoot');
-  assert.equal(result.skipped, true);
-  assert.equal(result.sent, false);
-  assert.equal(supabase.updates.length, 0, 'and no lead row is touched');
+  assert.match(seen[0], /\/inboxes\/99$/, 'catalog lead uses the catalog inbox');
+  assert.equal(result.sent, true);
+  assert.equal(supabase.updates[0].chatwoot_status, 'sent');
 });
 
 test('every surface that reads Chatwoot back asks for both inboxes', async () => {
