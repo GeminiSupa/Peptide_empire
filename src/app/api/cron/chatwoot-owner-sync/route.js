@@ -117,6 +117,7 @@ export async function GET(request) {
     // Every inbox, or a catalog or Meta chat's owner would never be synced back.
     const assignees = await readChatwootAssignees(config, chatwootLeadInboxIds({
       adInboxId: config.inboxId,
+      usaInboxId: process.env.CHATWOOT_INBOX_IDUSA,
       catalogInboxId: await loadCatalogInboxId(supabase),
       metaInboxId: await loadMetaInboxId(supabase),
     }));

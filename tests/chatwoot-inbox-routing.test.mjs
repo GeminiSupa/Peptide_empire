@@ -16,6 +16,7 @@ const ENV = {
   CHATWOOT_BASE_URL: 'https://chat.example.com/',
   CHATWOOT_ACCOUNT_ID: '12',
   CHATWOOT_INBOX_ID: '34',
+  CHATWOOT_INBOX_IDUSA: '152489',
   CHATWOOT_API_ACCESS_TOKEN: 'server-secret',
 };
 
@@ -80,6 +81,10 @@ test('the inbox list for reading Chatwoot back covers both and drops blanks', ()
   assert.deepEqual(chatwootLeadInboxIds({ adInboxId: '34', catalogInboxId: '' }), ['34']);
   assert.deepEqual(chatwootLeadInboxIds({ adInboxId: '34', catalogInboxId: '34' }), ['34']);
   assert.deepEqual(chatwootLeadInboxIds({}), []);
+  assert.deepEqual(
+    chatwootLeadInboxIds({ adInboxId: '34', usaInboxId: '152489', catalogInboxId: '99' }),
+    ['34', '152489', '99'],
+  );
 });
 
 test('the admin field takes an inbox id and refuses a pasted URL or phone number', () => {
@@ -141,6 +146,26 @@ test('an ad lead is handed to the ad inbox', async () => {
   assert.match(seen[0], /\/inboxes\/34$/, 'ad lead uses the Google Ads inbox');
 });
 
+test('a USA-qualified ad lead is handed to CHATWOOT_INBOX_IDUSA', async () => {
+  const seen = [];
+  const queue = [
+    response({ inbox_identifier: 'usa-key' }),
+    response({ id: 1, source_id: 'src' }),
+    response({ id: 2 }),
+    response({ id: 3 }),
+  ];
+  await handoverLeadToChatwoot(fakeSupabase(), {
+    id: 'lead-us',
+    phone: '13055550100',
+    lead_source: 'adwords_lp',
+    qualification_data: { location: 'United States' },
+  }, {
+    env: ENV,
+    fetchImpl: async (url) => { seen.push(url); return queue.shift(); },
+  });
+  assert.match(seen[0], /\/inboxes\/152489$/, 'USA lead uses its own inbox');
+});
+
 test('a WhatsApp catalog opt-in is handed to the catalog inbox', async () => {
   const supabase = fakeSupabase({ enabled: true, catalogInboxId: '99' });
   const seen = [];
@@ -173,6 +198,7 @@ test('every surface that reads Chatwoot back asks for both inboxes', async () =>
   for (const file of files) {
     const source = await readFile(new URL(`../${file}`, import.meta.url), 'utf8');
     assert.match(source, /chatwootLeadInboxIds\(/, `${file} must read every lead inbox`);
+    assert.match(source, /CHATWOOT_INBOX_IDUSA/, `${file} must include the USA inbox`);
     assert.doesNotMatch(
       source,
       /inbox_id=\$\{encodeURIComponent\(config\.inboxId\)\}/,

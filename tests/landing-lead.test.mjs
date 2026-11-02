@@ -5,11 +5,21 @@ import { readFile } from 'node:fs/promises';
 import {
   buildLandingLeadPayload,
   hasLandingQualification,
+  isUsaLandingQualification,
   isDuplicateLandingLeadSubmission,
   landingQualificationNotes,
   normalizeLandingQualification,
   normalizeStructuredAnswers,
 } from '../src/lib/landingLead.mjs';
+
+test('USA delivery is recognized from either landing qualification shape', () => {
+  assert.equal(isUsaLandingQualification({ location: 'United States' }), true);
+  assert.equal(isUsaLandingQualification({ location: 'Estados Unidos' }), true);
+  assert.equal(isUsaLandingQualification({
+    answers: [{ questionId: 'location', optionId: 'us', answer: 'United States' }],
+  }), true);
+  assert.equal(isUsaLandingQualification({ location: 'Costa Rica' }), false);
+});
 import {
   DEFAULT_LANDING_LEAD_SETTINGS,
   normalizeLandingLeadSettings,

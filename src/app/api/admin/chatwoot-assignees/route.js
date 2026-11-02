@@ -47,6 +47,7 @@ export async function GET(request) {
     const supabase = getSupabaseAdmin();
     const inboxIds = chatwootLeadInboxIds({
       adInboxId: config.inboxId,
+      usaInboxId: process.env.CHATWOOT_INBOX_IDUSA,
       catalogInboxId: await loadCatalogInboxId(supabase),
       metaInboxId: await loadMetaInboxId(supabase),
     });

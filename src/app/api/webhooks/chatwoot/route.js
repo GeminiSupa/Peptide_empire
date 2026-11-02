@@ -109,6 +109,7 @@ export async function POST(request) {
     // times all come in through here.
     const leadInboxIds = chatwootLeadInboxIds({
       adInboxId: process.env.CHATWOOT_INBOX_ID,
+      usaInboxId: process.env.CHATWOOT_INBOX_IDUSA,
       catalogInboxId: await loadCatalogInboxId(supabase),
       metaInboxId: await loadMetaInboxId(supabase),
     });

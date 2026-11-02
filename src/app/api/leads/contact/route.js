@@ -18,6 +18,7 @@ import { leadNotificationEmailSubject, leadNotificationTitle } from '@/lib/tikto
 import { chatwootLeadColumns, loadChatwootLeadEnabled, sendAdLeadToChatwoot } from '@/lib/chatwootLead.mjs';
 import {
   hasLandingQualification,
+  isUsaLandingQualification,
   isDuplicateLandingLeadSubmission,
   landingQualificationNotes,
   normalizeLandingQualification,
@@ -513,6 +514,9 @@ export async function POST(request) {
             campaign: [utmSource, utmMedium, utmCampaign].filter(Boolean).join(' / '),
             assigneeEmail: '',
             dueAt,
+            inboxId: isUsaLandingQualification(qualification)
+              ? process.env.CHATWOOT_INBOX_IDUSA
+              : undefined,
           }),
           CHATWOOT_STAGE_MS,
           { configured: true, sent: false, error: `Chatwoot did not answer within ${CHATWOOT_STAGE_MS / 1000}s` },

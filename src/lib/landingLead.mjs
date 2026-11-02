@@ -97,6 +97,16 @@ export function hasLandingQualification(qualification = {}) {
   );
 }
 
+/** True when the landing form explicitly selected United States delivery. */
+export function isUsaLandingQualification(qualification = {}) {
+  const location = clean(qualification.location, 100).toLowerCase();
+  if (['united states', 'estados unidos', 'usa', 'us'].includes(location)) return true;
+  return (qualification.answers || []).some((answer) => (
+    clean(answer?.questionId, 60).toLowerCase() === 'location'
+      && clean(answer?.optionId, 60).toLowerCase() === 'us'
+  ));
+}
+
 export function normalizeStructuredAnswers(value) {
   const rows = Array.isArray(value?.answers) ? value.answers : [];
   return {

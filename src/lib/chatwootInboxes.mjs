@@ -83,8 +83,13 @@ export function inboxIdForLeadSource(source, { adInboxId = '', catalogInboxId = 
  * Each of those used to accept or query the single configured inbox, which
  * would silently ignore every catalog or Meta chat once they moved.
  */
-export function chatwootLeadInboxIds({ adInboxId = '', catalogInboxId = '', metaInboxId = '' } = {}) {
-  return [...new Set([clean(adInboxId), clean(catalogInboxId), clean(metaInboxId)].filter(Boolean))];
+export function chatwootLeadInboxIds({ adInboxId = '', usaInboxId = '', catalogInboxId = '', metaInboxId = '' } = {}) {
+  return [...new Set([
+    clean(adInboxId),
+    clean(usaInboxId),
+    clean(catalogInboxId),
+    clean(metaInboxId),
+  ].filter(Boolean))];
 }
 
 /**

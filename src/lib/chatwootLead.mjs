@@ -1,5 +1,5 @@
 import { writeDroppingMissingColumns } from './optionalColumns.mjs';
-import { hasLandingQualification, landingQualificationNotes } from './landingLead.mjs';
+import { hasLandingQualification, isUsaLandingQualification, landingQualificationNotes } from './landingLead.mjs';
 import { leadBelongsInChatwoot, leadChatwootPhone } from './chatwootLeadEligibility.mjs';
 import {
   CHATWOOT_INBOX_SETTING_ID,
@@ -379,6 +379,9 @@ export async function handoverLeadToChatwoot(supabase, lead, {
   });
 
   const qualification = lead.qualification_data || {};
+  const routedInboxId = isUsaLandingQualification(qualification)
+    ? clean(env.CHATWOOT_INBOX_IDUSA)
+    : inboxId;
   const result = enabled
     ? await sendAdLeadToChatwoot({
       leadId: lead.id,
@@ -392,7 +395,7 @@ export async function handoverLeadToChatwoot(supabase, lead, {
       campaign: [lead.utm_source, lead.utm_medium, lead.utm_campaign].filter(Boolean).join(' / '),
       assigneeEmail: email || '',
       dueAt: lead.response_due_at,
-      inboxId,
+      inboxId: routedInboxId,
       env,
       fetchImpl,
     })
