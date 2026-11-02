@@ -4,6 +4,21 @@ This branch contains the website for `peptidescostarica.net`. The `main`
 branch of this repository contains the separate live catalog application for
 `catalog.peptidescostarica.net`.
 
+## The shared workspace
+
+The team works with both branches checked out side by side in one parent
+folder: `peptidecosta/` (branch `main`, the catalog) and
+`peptidecosta-website/` (this branch, a git worktree). That parent folder has
+its own `AGENTS.md` with the rules for both; it is not in Git, so a copy is
+kept in `docs/workspace/` (see `docs/workspace/HOW-TO-USE.md`). The rules
+that matter most:
+
+- Work in one folder at a time. A change to this site never edits the
+  catalog, and the reverse; if a change seems to need both, stop and say so.
+- Never merge `website` into `main` or the reverse.
+- The WordPress site is still live at `peptidescostarica.net`; nothing here
+  may point that domain at Vercel.
+
 ## Where this is going
 
 This site is becoming the shop. The owner's decision (23 Oct 2026) is to
