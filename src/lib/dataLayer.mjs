@@ -11,6 +11,15 @@ export function pushReceiptOnce(event, storage, browser = typeof window !== 'und
   if (!pushEvent(event, browser)) return false;
   emitted.add(key); try { storage.setItem(key, '1'); } catch { /* Storage may be blocked. */ } return true;
 }
+// begin_checkout, add_shipping_info and add_payment_info describe one trip
+// through checkout, not one render of the form. The form re-renders on every
+// keystroke, price refresh and cart edit, so each event may be claimed once
+// until the checkout ends (the cart empties) and the gate is reset.
+export const CHECKOUT_FUNNEL_EVENTS = new Set(['begin_checkout', 'add_shipping_info', 'add_payment_info']);
+export function createCheckoutEventGate() {
+  const sent = new Set();
+  return { claim: name => { if (sent.has(name)) return false; sent.add(name); return true; }, reset: () => sent.clear() };
+}
 export function stashReceipt(orderNumber, token) {
   try { if (!token) return; sessionStorage.setItem(`pcr_receipt:${orderNumber}`, token); sessionStorage.setItem('pcr_receipt:last', orderNumber); } catch { /* Checkout must not depend on analytics. */ }
 }

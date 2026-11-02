@@ -23,6 +23,26 @@ export function ecommerceData(products, { rate = 502, currency = 'USD', value, s
   if (value != null && discountPct == null && !products.some(product => product.analytics_discount != null) && listTotal > 0) for (const item of items) item.discount = money(item.price * Math.max(0, 1 - net / listTotal));
   return { currency: 'USD', value: money(net), ...(shipping ? { shipping: money(shipping) } : {}), items };
 }
+// view_item_list is one event per list the shopper is shown, named for the list
+// (not the plugin default "General Product List"). GA4 keeps 200 items per event.
+export const HOME_BEST_SELLERS_LIST = 'Home - Best sellers';
+export const SHOP_LIST = 'Shop';
+export const DEAL_LIST = 'Deal of the Week';
+export const MAX_LIST_ITEMS = 200;
+export function catalogListName({ category = 'all', dealOnly = false } = {}) {
+  if (dealOnly) return DEAL_LIST;
+  const name = String(category || '').trim();
+  return name && name !== 'all' ? name : SHOP_LIST;
+}
+export function listViewData(products, listName, { rate = 502, currency = 'USD' } = {}) {
+  const item_list_id = slug(listName);
+  const items = (products || []).slice(0, MAX_LIST_ITEMS).map((product, index) => {
+    const item = analyticsItem(product, { rate, currency });
+    delete item.quantity; delete item.discount;
+    return { ...item, index: index + 1, item_list_id, item_list_name: listName };
+  });
+  return { item_list_id, item_list_name: listName, items };
+}
 export function orderEcommerceSnapshot(order, pricing, rate) {
   const rows = (pricing.items || order.items || []).map(line => {
     const product = (pricing.products || []).find(row => row.product === line.product);

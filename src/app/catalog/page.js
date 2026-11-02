@@ -1,8 +1,8 @@
 "use client";
 
 import { safeLocalStorage as localStorage, safeSessionStorage } from '@/lib/storage';
-import { ecommerceData, analyticsItem, orderEcommerceSnapshot } from '@/lib/ecommerceAnalytics.mjs';
-import { pushEvent, stashReceipt, trackLead } from '@/lib/dataLayer.mjs';
+import { ecommerceData, analyticsItem, orderEcommerceSnapshot, catalogListName, listViewData } from '@/lib/ecommerceAnalytics.mjs';
+import { pushEvent, stashReceipt, trackLead, createCheckoutEventGate, CHECKOUT_FUNNEL_EVENTS } from '@/lib/dataLayer.mjs';
 import { readAdClick } from '@/lib/adClickAttribution.mjs';
 import { isBankMethod } from '@/lib/bankPayments.mjs';
 import costaricaData from '@/lib/costarica.json';
@@ -2387,7 +2387,17 @@ export default function CatalogPage() {
 
   const analyticsStage = useRef('none');
   const analyticsPaymentChoice = useRef(null);
+  // One begin_checkout / add_shipping_info / add_payment_info per checkout. The
+  // checkout form re-renders constantly, so the gate lives here rather than in
+  // each caller; it resets when the cart empties (order placed or cleared).
+  const [checkoutEventGate] = useState(createCheckoutEventGate);
+  const analyticsCartHadItems = useRef(false);
+  useEffect(() => {
+    if (cart.length === 0 && analyticsCartHadItems.current) checkoutEventGate.reset();
+    analyticsCartHadItems.current = cart.length > 0;
+  }, [cart.length, checkoutEventGate]);
   const trackCartEvent = (event, lines = cart, extras = {}, pricingCart = lines) => {
+    if (CHECKOUT_FUNNEL_EVENTS.has(event) && !checkoutEventGate.claim(event)) return;
     try {
     const wholeCart = lines === cart;
     const deal = weeklyDeal && pricingCart.some(line => (weeklyDeal.product_names || []).some(name => dealProductNamesMatch(name, line.product))) ? weeklyDeal : null;
@@ -3453,6 +3463,7 @@ export default function CatalogPage() {
       return;
     }
 
+    trackCartEvent('add_shipping_info');
     cardSubmitLockRef.current = true;
     setCardSubmitting(true);
 
@@ -3632,6 +3643,7 @@ export default function CatalogPage() {
       return;
     }
 
+    trackCartEvent('add_shipping_info');
     if (analyticsPaymentChoice.current !== paymentMethod) {
       trackCartEvent('add_payment_info', cart, { payment_type: paymentMethod });
       analyticsPaymentChoice.current = paymentMethod;
@@ -3860,6 +3872,20 @@ export default function CatalogPage() {
   // the final row submits the search and reveals the complete grid.
   const searchSuggestions = filteredProducts.slice(0, searchQuery.trim() ? 10 : 3);
   const hasRestrictiveFilters = activeCategory !== 'all' || priceFilter !== 'all' || inStockOnly || (dealOnly && Boolean(weeklyDeal));
+
+  // One view_item_list per list on screen, named for it ("Shop", the category,
+  // "Deal of the Week"). Changing category is a new list; search, price, stock
+  // and sort refine the same list and must not send another.
+  const analyticsListName = catalogListName({ category: activeCategory, dealOnly: dealOnly && Boolean(weeklyDeal) });
+  const analyticsListedName = useRef(null);
+  const analyticsListReady = !loading && filteredProducts.length > 0;
+  useEffect(() => {
+    if (!analyticsListReady || analyticsListedName.current === analyticsListName) return;
+    analyticsListedName.current = analyticsListName;
+    pushEvent({ event: 'view_item_list', ecommerce: listViewData(filteredProducts, analyticsListName, { rate: exchangeRate }) });
+  // filteredProducts is rebuilt every render; only a new list name or the first load should send.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [analyticsListReady, analyticsListName]);
 
   const revealSearchResults = () => {
     closeSearch();

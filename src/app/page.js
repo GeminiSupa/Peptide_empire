@@ -1,7 +1,8 @@
 "use client";
 
 import { pushEvent } from '@/lib/dataLayer.mjs';
-import React, { useEffect, useMemo, useState } from 'react';
+import { HOME_BEST_SELLERS_LIST, listViewData } from '@/lib/ecommerceAnalytics.mjs';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   ArrowRight,
@@ -176,6 +177,7 @@ export default function LandingPage() {
   const [categories, setCategories] = useState(CATEGORY_FALLBACKS);
   const [heroChoice, setHeroChoice] = useState('');
   const [openFaq, setOpenFaq] = useState(0);
+  const homeListSent = useRef(false);
   const { links } = useBusinessLinks();
 
   const categoryChips = useMemo(() => {
@@ -212,6 +214,11 @@ export default function LandingPage() {
       if (nextProducts.length) {
         setProducts(nextProducts);
         setCategories([...new Set(nextProducts.map((p) => p.category).filter(Boolean))]);
+        // The four cards under "Shop By Category" are the home page's only product list.
+        if (!homeListSent.current) {
+          homeListSent.current = true;
+          pushEvent({ event: 'view_item_list', ecommerce: listViewData(nextProducts.slice(0, 4), HOME_BEST_SELLERS_LIST) });
+        }
       }
 
       if (settingRows?.value) {
