@@ -9,6 +9,7 @@ import { fromPrice } from '@/lib/site/data';
 import { variantFor } from '@/lib/storefront/group-products.mjs';
 import { shelfLabel } from '@/lib/storefront/shelves.mjs';
 import { formatMoney, translator } from '@/lib/storefront/i18n.mjs';
+import { productSchema } from '@/lib/site/product-schema.mjs';
 import FACTS from '@/data/site/compound-facts.json';
 
 const WHY = [
@@ -104,22 +105,7 @@ export default function ProductPage({ lang, site, compound, h1, copy, initialSiz
     links: intro.flatMap((block) => block.links),
   } : null;
 
-  const schema = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    name: compound.name,
-    brand: { '@type': 'Brand', name: 'Peptides Costa Rica' },
-    category: category ? category.name : shelf,
-    image: variant?.image || compound.image || undefined,
-    url: schemaUrl,
-    offers: compound.variants.map((entry) => ({
-      '@type': 'Offer',
-      name: `${compound.name} ${entry.size}`.trim(),
-      price: Math.round(entry.priceUsd * exchangeRate),
-      priceCurrency: 'CRC',
-      availability: entry.inStock ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-    })),
-  };
+  const schema = productSchema({ compound, category, shelf, variant, schemaUrl, exchangeRate });
 
   return (
     <div id="pv" className={`pview${dealMode ? ' dealmode' : ''}`}>
