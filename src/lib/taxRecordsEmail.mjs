@@ -15,6 +15,8 @@
 // It is now its own message, sent independently and reported on. The customer's
 // receipt carries no CC at all.
 
+import { formatCrInstant } from './crTime.mjs';
+
 export const TAX_RECORDS_CC_EMAIL =
   process.env.TAX_RECORDS_CC_EMAIL || 'pbagcr@peptidescostarica.net';
 
@@ -143,6 +145,69 @@ export function buildTaxRecordsPayoutCopy({ payout = {}, html = '', text = '', r
   };
 }
 
+const escapeHtml = (value) => String(value ?? '')
+  .replace(/&/g, '&amp;')
+  .replace(/</g, '&lt;')
+  .replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;');
+
+const payoutMoney = (value, currency) => {
+  const amount = Number(value || 0);
+  if (currency === 'USD') return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+  return `₡${Math.round(amount).toLocaleString('en-US')}`;
+};
+
+/**
+ * The accountant's copy of a payment that has actually been made.
+ *
+ * Approving a payout (above) tells accounting what is owed. Nothing told them
+ * it was paid: recording the payment in the admin saved the method, the
+ * reference and the receipt link on the payout and emailed nobody, so the proof
+ * of payment a tax deduction rests on never left the database.
+ *
+ * Sent to accounting only. The payee is never on it, and the internal payment
+ * note stays internal.
+ */
+export function buildTaxRecordsPaymentReceiptCopy({ payout = {}, payment = {} } = {}) {
+  const payee = payout.name || payout.email || 'sin nombre';
+  const period = payout.period ? ` — ${payout.period}` : '';
+  const header = `Copia contable — Comprobante de pago (${payout.kind || 'comisión'}) — ${payee}${period}`;
+  const paidAt = formatCrInstant(payment.paidAt);
+  const receiptUrl = /^https?:\/\//i.test(String(payment.receiptUrl || '')) ? String(payment.receiptUrl) : '';
+
+  const rows = [
+    ['Beneficiario', `${payee}${payout.email && payout.email !== payee ? ` (${payout.email})` : ''}`],
+    ['Período', payout.period || ''],
+    ['Monto pagado', `${payoutMoney(payout.usd, 'USD')} o ${payoutMoney(payout.crc, 'CRC')} (el mismo pago en dos monedas; no se suman)`],
+    ['Método de pago', payment.method || ''],
+    ['Referencia', payment.reference || ''],
+    ['Fecha de pago', paidAt],
+    ['Registrado por', payment.recordedBy || ''],
+  ].filter(([, value]) => String(value).trim());
+
+  const cell = 'padding:6px 12px 6px 0;vertical-align:top';
+  const tableRows = rows
+    .map(([label, value]) => `<tr><td style="${cell};color:#64748b">${escapeHtml(label)}</td><td style="padding:6px 0;color:#0f172a;font-weight:600">${escapeHtml(value)}</td></tr>`)
+    .join('');
+  const receiptRow = receiptUrl
+    ? `<tr><td style="${cell};color:#64748b">Comprobante</td><td style="padding:6px 0"><a href="${escapeHtml(receiptUrl)}">${escapeHtml(receiptUrl)}</a></td></tr>`
+    : '';
+
+  const text = [
+    header,
+    '',
+    ...rows.map(([label, value]) => `${label}: ${value}`),
+    ...(receiptUrl ? [`Comprobante: ${receiptUrl}`] : []),
+  ].join('\n');
+
+  return {
+    to: taxRecordsRecipients().join(', '),
+    subject: header,
+    html: `<p style="font:600 14px/1.5 system-ui,sans-serif;color:#334155;margin:0 0 16px">${escapeHtml(header)}</p><table style="font:14px/1.5 system-ui,sans-serif;border-collapse:collapse">${tableRows}${receiptRow}</table>`,
+    text,
+  };
+}
+
 /**
  * Hand one prepared accounting message to the transport. Never throws.
  *
@@ -207,6 +272,27 @@ export async function sendTaxRecordsPayoutCopy({
     transporter,
     from,
     message: buildTaxRecordsPayoutCopy({ payout, html, text, resent }),
+    logPrefix,
+  });
+}
+
+/**
+ * Send the accountant the proof that an approved payout was paid. Never throws.
+ *
+ * Callers run this only once the payout is saved as Paid. A paid payout is
+ * immutable, so it goes out once per payout.
+ */
+export async function sendTaxRecordsPaymentReceipt({
+  transporter,
+  from,
+  payout = {},
+  payment = {},
+  logPrefix = '[Tax records]',
+} = {}) {
+  return dispatchTaxRecordsCopy({
+    transporter,
+    from,
+    message: buildTaxRecordsPaymentReceiptCopy({ payout, payment }),
     logPrefix,
   });
 }

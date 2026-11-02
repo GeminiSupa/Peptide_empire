@@ -42,6 +42,13 @@ export default function PayoutSettlementDialog({ payout, endpoint, label, onClos
       const data = await response.json();
       if (!response.ok) throw new Error(data.error || 'Could not save payment record');
       onSaved(data.payout);
+      // Said either way: a silent success is how "did the accountant get it?"
+      // went unanswered, and a failed copy must be named, not buried.
+      if (data.payout?.status === 'Paid' && data.accountingCopy) {
+        alert(data.accountingCopy.sent
+          ? 'Payment saved. The payment receipt was emailed to the accountant.'
+          : `Payment saved, but the receipt did NOT reach the accountant (${data.accountingCopy.error || 'not sent'}). Tell the developer.`);
+      }
       onClose();
     } catch (saveError) {
       setError(saveError.message);

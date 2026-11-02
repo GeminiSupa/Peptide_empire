@@ -3,6 +3,8 @@ import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { planPayoutSettlement } from '@/lib/payoutSettlement.mjs';
 import { recordAdminActivity } from '@/lib/adminActivityLog.mjs';
+import { sendTaxRecordsPaymentReceipt } from '@/lib/taxRecordsEmail.mjs';
+import { resolveTaxRecordsMailer } from '@/lib/taxRecordsSmtp.mjs';
 
 export async function POST(request) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true });
@@ -37,7 +39,38 @@ export async function POST(request) {
       },
       request,
     });
-    return NextResponse.json({ success: true, payout: data });
+
+    // Same rule as the team payouts: the accountant gets the proof of payment
+    // when, and only when, the payout is saved as Paid. Never throws.
+    let accountingCopy = { sent: false, skipped: 'not paid' };
+    if (data.status === 'Paid') {
+      const mailer = resolveTaxRecordsMailer();
+      accountingCopy = await sendTaxRecordsPaymentReceipt({
+        transporter: mailer.transporter,
+        from: mailer.from,
+        payout: {
+          kind: 'afiliado',
+          name: data.affiliate_name || data.affiliate_email,
+          email: data.affiliate_email,
+          period: data.start_date && data.end_date
+            ? `${String(data.start_date).slice(0, 10)} → ${String(data.end_date).slice(0, 10)}`
+            : null,
+          usd: data.usd_commission,
+          crc: data.crc_commission,
+        },
+        payment: {
+          method: data.payment_method,
+          reference: data.payment_reference,
+          receiptUrl: data.payment_receipt_url,
+          paidAt: data.paid_at,
+          recordedBy: data.payment_recorded_by,
+        },
+        logPrefix: '[Affiliate Payment Receipt]',
+      });
+      accountingCopy.transport = mailer.source;
+    }
+
+    return NextResponse.json({ success: true, payout: data, accountingCopy });
   } catch (error) {
     console.error('[affiliates/payouts/settle]', error);
     return NextResponse.json({ error: error.message || 'Could not record payout settlement' }, { status: 500 });
