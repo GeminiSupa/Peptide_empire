@@ -1,5 +1,7 @@
 import { getPublishedPage } from '@/lib/site-cms';
 import { notFound } from 'next/navigation';
+import ProductRoute, { productFor } from '@/components/site/product-route';
+import PageRoute, { hasNewDesign } from '@/components/site/page-route';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
@@ -40,6 +42,12 @@ export default async function PageEn({ params }) {
   const { slug } = await params;
   const page = await getPublishedPage(byEnglishSlug(slug));
   if (!page) notFound();
+
+  // Product pages are in the new design; a page whose product the catalog
+  // no longer sells keeps its old layout rather than 404ing.
+  const product = await productFor(page, 'en');
+  if (product) return <ProductRoute page={page} lang="en" product={product} />;
+  if (hasNewDesign(page)) return <PageRoute page={page} lang="en" />;
 
   return (
     <>

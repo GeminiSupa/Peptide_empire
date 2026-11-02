@@ -8,7 +8,7 @@ import { dirname, join } from 'node:path';
 /**
  * The vendored pricing modules must stay byte-identical to the catalog's.
  *
- * `lib/catalog-pricing/` holds verbatim copies of four files from the catalog
+ * `lib/catalog-pricing/` holds verbatim copies of files from the catalog
  * (see its README). The storefront shows a shopper a total using them, and
  * `/api/orders/create` refuses an order whose total disagrees with the one it
  * computes — so the moment these drift, the shop starts showing numbers
@@ -31,6 +31,12 @@ const COPIES = [
   ['bacWater.mjs', 'bacWater.mjs'],
   ['bulkDeal.mjs', 'bulkDeal.mjs'],
   ['fallbackExchangeRate.mjs', 'fallbackExchangeRate.mjs'],
+  ['authoritativeCheckout.mjs', 'authoritativeCheckout.mjs'],
+  ['dealOffers.mjs', 'dealOffers.mjs'],
+  ['catalogFilters.mjs', 'catalogFilters.mjs'],
+  ['promoEligibility.mjs', 'promoEligibility.mjs'],
+  ['promoBadge.mjs', 'promoBadge.mjs'],
+  ['checkoutBreakdown.mjs', 'checkoutBreakdown.mjs'],
 ];
 
 async function read(path) {

@@ -1,21 +1,18 @@
 import { getPublishedPage } from '@/lib/site-cms';
-import Storefront from '@/components/storefront/storefront';
-import { getStorefrontCatalog } from '@/lib/storefront/feed';
+import SiteShell from '@/components/site/site-shell';
+import HomePage from '@/components/site/home-page';
+import { getSiteData } from '@/lib/site/data';
+import { liveH1 } from '@/lib/site/live-h1';
 import homeData from '@/data/pages/homeBlocks.json';
 import { alternates } from '@/lib/routes';
 import { metadataForPath } from '@/lib/seo';
 
 /**
- * English home at `/` — the shop.
- *
- * This URL used to render the harvested WordPress marketing home through the
- * block pipeline. It is now the storefront: the owner's decision (23 Oct 2026)
- * is that this site becomes the catalog. The marketing home's content is
- * untouched in the CMS and still in git history; it is simply no longer what
- * `/` renders.
+ * English home at `/` — the new design's home page (docs/design/).
  *
  * The title and description still come from the CMS, so the owner's admin keeps
- * control of the metadata on the site's most important indexed URL.
+ * control of the metadata on the site's most important indexed URL, and the H1
+ * is the live page's own.
  */
 const sourcePage = homeData.pages[0];
 
@@ -30,21 +27,11 @@ export async function generateMetadata() {
   });
 }
 
-export default async function HomeEn({ searchParams }) {
-  const [{ compounds, exchangeRate, ok }, params] = await Promise.all([
-    getStorefrontCatalog(),
-    searchParams,
-  ]);
-
+export default async function HomeEn() {
+  const [page, site] = await Promise.all([getPublishedPage(sourcePage), getSiteData('en')]);
   return (
-    <Storefront
-      compounds={compounds}
-      exchangeRate={exchangeRate}
-      feedOk={ok}
-      lang="en"
-      initialSlug={typeof params?.p === 'string' ? params.p : ''}
-      homeHref="/"
-      altHref="/es/"
-    />
+    <SiteShell lang="en" altHref="/es/">
+      <HomePage lang="en" h1={liveH1(page, 'en')} site={site} />
+    </SiteShell>
   );
 }

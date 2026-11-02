@@ -151,4 +151,9 @@ test('slugs and name stripping', () => {
   assert.equal(compoundName('HGH 12 IU', '12 IU'), 'HGH');
   // A size that is not actually in the name leaves the name alone.
   assert.equal(compoundName('Mystery Peptide', '10mg'), 'Mystery Peptide');
+  // A size typed into the name over and over is dropped with its repeats.
+  assert.equal(compoundName('GLP-1 (RT) - USA Manufactured 60 60 60 60 60 60 60 60 60', '60'), 'GLP-1 (RT) - USA Manufactured');
+  assert.equal(compoundName('Tirzepatide – USA Manufactured 100 100 100', '100'), 'Tirzepatide – USA Manufactured');
+  // A number that belongs to the name stays.
+  assert.equal(compoundName('BPC-157 10mg', '10mg'), 'BPC-157');
 });

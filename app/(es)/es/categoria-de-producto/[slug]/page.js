@@ -1,5 +1,6 @@
 import { getPublishedPage } from '@/lib/site-cms';
 import { notFound } from 'next/navigation';
+import PageRoute from '@/components/site/page-route';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
@@ -31,6 +32,9 @@ export default async function CategoryEs({ params }) {
   const { slug } = await params;
   const page = await getPublishedPage(bySpanishSlug(slug));
   if (!page) notFound();
+
+  // The new design's category view, listing the catalog's live compounds.
+  return <PageRoute page={{ ...page, group: 'wooCategory' }} lang="es" />;
 
   return (
     <>

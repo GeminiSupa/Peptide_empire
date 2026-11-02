@@ -5,7 +5,8 @@ import Ms from '@/components/storefront/icon';
 import ProductImage from '@/components/storefront/product-image';
 import WhatsAppIcon from '@/components/storefront/whatsapp-glyph';
 import { cantonsIn, formatAddress, PROVINCES } from '@/lib/storefront/cr-regions.mjs';
-import { freeDeliveryProgress, nextTier, totalsFor } from '@/lib/storefront/cart-math.mjs';
+import { freeDeliveryProgress, freeShippingThreshold, nextTier, totalsFor } from '@/lib/storefront/cart-math.mjs';
+import { deliveryProgress } from '@/lib/site/quote.mjs';
 import { CARD_NOTICE } from '@/lib/storefront/content.mjs';
 import { canSubmitOrdersFrom } from '@/lib/storefront/catalog-origin.mjs';
 import {
@@ -62,6 +63,11 @@ export default function CartSheet({
   whatsappFor,
   hrefFor,
   freeShippingLabel,
+  quote = null,
+  dealName = '',
+  dealRunning = false,
+  onPlaced = null,
+  track = null,
 }) {
   const [step, setStep] = useState('cart');
   const [ack, setAck] = useState(false);
@@ -95,9 +101,26 @@ export default function CartSheet({
     });
   };
 
-  const totals = useMemo(() => totalsFor(cart, currency, exchangeRate), [cart, currency, exchangeRate]);
-  const delivery = useMemo(() => freeDeliveryProgress(cart, currency, exchangeRate), [cart, currency, exchangeRate]);
-  const tier = useMemo(() => nextTier(cart), [cart]);
+  // The new design passes `quote`: checkout's pricing with the live deal, so
+  // the drawer shows the total the order will be charged. Without one (the
+  // older storefront), the volume-tier arithmetic.
+  const totals = useMemo(() => (quote ? {
+    subtotal: quote.subtotal,
+    discountAmount: quote.savings,
+    discountPct: Math.round(quote.discountPct * 100),
+    shipping: quote.shipping,
+    total: quote.total,
+    dealApplied: quote.dealApplied,
+  } : totalsFor(cart, currency, exchangeRate)), [quote, cart, currency, exchangeRate]);
+  const delivery = useMemo(
+    () => (quote
+      ? deliveryProgress(quote, freeShippingThreshold(currency, exchangeRate))
+      : freeDeliveryProgress(cart, currency, exchangeRate)),
+    [quote, cart, currency, exchangeRate],
+  );
+  // While a deal runs the order total decides the discount, so the per-line
+  // "+N for 15% off" nudge would promise a discount that never combines.
+  const tier = useMemo(() => (dealRunning ? null : nextTier(cart)), [cart, dealRunning]);
 
   // An empty cart has no later steps to be on.
   useEffect(() => {
@@ -165,6 +188,7 @@ export default function CartSheet({
       lang,
       orderNumber: newOrderNumber(),
       honeypot,
+      quote,
     });
 
     if (details.notes) {
@@ -196,6 +220,24 @@ export default function CartSheet({
       'noopener',
     );
     setStep('cart');
+    // The new design follows a WhatsApp order with its thank-you page.
+    onPlaced?.({
+      orderNumber: result.orderNumber,
+      phone: details.phone,
+      lines: cart.map((line) => ({
+        name: line.name,
+        size: line.size,
+        qty: line.qty,
+        image: line.image,
+        priceUsd: line.priceUsd,
+        total: (currency === 'USD' ? line.priceUsd : line.priceCrc) * line.qty,
+      })),
+      currency,
+      exchangeRate,
+      shipping: totals.shipping,
+      savings: totals.discountAmount,
+      total: totals.total,
+    });
   }
 
   const suggestions = useMemo(() => {
@@ -263,7 +305,7 @@ export default function CartSheet({
                       </span>
                     </div>
                     <div className={`track${delivery.reached ? ' done' : ''}`}>
-                      <i style={{ width: `${delivery.percent}%` }} />
+                      <i style={{ width: `${Math.round(delivery.percent)}%` }} />
                       <span className="mk"><Ms name="local_shipping" /></span>
                     </div>
                   </div>
@@ -509,7 +551,7 @@ export default function CartSheet({
                       className="method"
                       type="button"
                       aria-pressed={method === 'card'}
-                      onClick={() => setMethod('card')}
+                      onClick={() => { setMethod('card'); track?.('add_payment_info', { payment_type: 'card' }); }}
                     >
                       <Ms name="credit_card" />
                       <b>{t('Card')}</b>
@@ -519,7 +561,7 @@ export default function CartSheet({
                       className="method"
                       type="button"
                       aria-pressed={method === 'whatsapp'}
-                      onClick={() => setMethod('whatsapp')}
+                      onClick={() => { setMethod('whatsapp'); track?.('add_payment_info', { payment_type: 'whatsapp' }); }}
                     >
                       <span className="wa-ic"><WhatsAppIcon /></span>
                       <b>WhatsApp</b>
@@ -534,7 +576,11 @@ export default function CartSheet({
                     </div>
                     {totals.discountAmount > 0 ? (
                       <div>
-                        <span>{t(`${totals.discountPct}% bulk discount`)}</span>
+                        <span>
+                          {totals.dealApplied
+                            ? `${totals.discountPct}% ${t('off')}${dealName ? ` · ${dealName}` : ''}`
+                            : t(`${totals.discountPct}% bulk discount`)}
+                        </span>
                         <span className="ok num">
                           {`−${money(totals.discountAmount, totals.discountAmount)}`}
                         </span>
@@ -671,7 +717,7 @@ export default function CartSheet({
                   className="btn block"
                   type="button"
                   disabled={!ack}
-                  onClick={() => { setError(''); setStep('details'); }}
+                  onClick={() => { setError(''); setStep('details'); track?.('begin_checkout'); }}
                 >
                   {t('Continue to checkout')}
                   <Ms name="arrow_forward" />

@@ -1,5 +1,6 @@
 import { getPublishedPage } from '@/lib/site-cms';
 import { notFound } from 'next/navigation';
+import PageRoute from '@/components/site/page-route';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
@@ -32,6 +33,9 @@ export default async function BlogPostEs({ params }) {
   const { slug } = await params;
   const page = await getPublishedPage(bySpanishSlug(slug));
   if (!page) notFound();
+
+  // The new design's article view, around the live article.
+  return <PageRoute page={{ ...page, group: 'blogPost' }} lang="es" />;
 
   return (
     <>

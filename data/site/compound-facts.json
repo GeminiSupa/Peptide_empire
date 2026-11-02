@@ -1,0 +1,92 @@
+{
+  "GHK-Cu": [
+    [
+      "Type",
+      "Copper(II) complex of Gly-His-Lys"
+    ],
+    [
+      "Molecular formula",
+      "C₁₄H₂₂CuN₆O₄"
+    ],
+    [
+      "Molecular weight",
+      "≈ 401.9 g/mol"
+    ],
+    [
+      "CAS",
+      "49557-75-7"
+    ]
+  ],
+  "BPC-157": [
+    [
+      "Type",
+      "15-amino-acid synthetic peptide"
+    ],
+    [
+      "Molecular formula",
+      "C₆₂H₉₈N₁₆O₂₂"
+    ],
+    [
+      "Molecular weight",
+      "1419.5 g/mol"
+    ],
+    [
+      "CAS",
+      "137525-51-0"
+    ]
+  ],
+  "Glutathione": [
+    [
+      "Type",
+      "Tripeptide (γ-Glu-Cys-Gly), reduced form"
+    ],
+    [
+      "Molecular formula",
+      "C₁₀H₁₇N₃O₆S"
+    ],
+    [
+      "Molecular weight",
+      "307.32 g/mol"
+    ],
+    [
+      "CAS",
+      "70-18-8"
+    ]
+  ],
+  "NAD+": [
+    [
+      "Type",
+      "Dinucleotide coenzyme"
+    ],
+    [
+      "Molecular formula",
+      "C₂₁H₂₇N₇O₁₄P₂"
+    ],
+    [
+      "Molecular weight",
+      "663.43 g/mol"
+    ],
+    [
+      "CAS",
+      "53-84-9"
+    ]
+  ],
+  "Epithalon": [
+    [
+      "Type",
+      "Tetrapeptide (Ala-Glu-Asp-Gly)"
+    ],
+    [
+      "Molecular formula",
+      "C₁₄H₂₂N₄O₉"
+    ],
+    [
+      "Molecular weight",
+      "390.35 g/mol"
+    ],
+    [
+      "CAS",
+      "307297-39-8"
+    ]
+  ]
+}

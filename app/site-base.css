@@ -1,0 +1,108 @@
+/*
+ * Hand-written additions to the new design. app/site.css is generated from
+ * the designer's prototype (scripts/import-prototype.mjs) and is never edited
+ * by hand; anything the site needs on top of it goes here.
+ */
+
+/* The prototype names its font "Inter"; here Inter comes from next/font,
+   whose family name is generated, so the token points at its variable. */
+.pcr-site {
+  --f: var(--font-inter), system-ui, -apple-system, 'Segoe UI', sans-serif;
+  flex: 1 0 auto;
+}
+
+/* globals.css styles bare h1–h6 for the cloned WordPress pages: navy, Inter,
+   tight tracking, line-height 1.3. Inside the new design headings take the
+   prototype's own values instead. :where() keeps this at one class of
+   specificity, so every heading rule in site.css still wins over it. */
+.pcr-site :where(h1, h2, h3, h4, h5, h6) {
+  color: inherit;
+  font-family: inherit;
+  letter-spacing: normal;
+  line-height: inherit;
+}
+.pcr-site :where(h1, h2, h3) {
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+/* The prototype animates an accordion's height in script; here an open item
+   simply shows its answer. */
+.pcr-site .acc.open .body {
+  height: auto;
+}
+
+/* The prototype slides the cart sheet and order bar in with Motion, in
+   script; site.css only parks them off-screen. Here React toggles the
+   classes, so the open states state the transform. */
+.pcr-site .sheet {
+  transition: transform 0.34s cubic-bezier(0.22, 0.8, 0.2, 1), visibility 0.34s;
+}
+.pcr-site .sheet.open {
+  transform: none;
+}
+.pcr-site .obar {
+  transition: transform 0.34s cubic-bezier(0.22, 0.8, 0.2, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .pcr-site .sheet,
+  .pcr-site .obar {
+    transition: none;
+  }
+}
+
+/* The drawer's search opens the search overlay, so it is a button styled as
+   the prototype's search field. */
+.pcr-site button.dsearch {
+  cursor: text;
+}
+
+/* The prototype's header holds seven controls; on a phone they need ~440px
+   and overflow the screen, pushing the cart off the right edge. Under 520px
+   the app button goes (the drawer links the app) and the gaps tighten;
+   under 370px the WhatsApp button goes too (the drawer and every product
+   page keep it). */
+@media (max-width: 520px) {
+  .pcr-site header.top .wrap { gap: 6px; }
+  .pcr-site header.top .appbtn { display: none; }
+}
+@media (max-width: 370px) {
+  .pcr-site header.top .wab { display: none; }
+}
+
+/* A card's in-order control is too narrow on a phone for "1 in order" on
+   one line; the words go and the number stays. */
+@media (max-width: 559px) {
+  .pcr-site .qctl .qw { display: none; }
+}
+
+/* Page heroes keep the live site's H1. Where the design sets a kicker over a
+   headline, the kicker is the H1 (styled as the kicker) and the headline is a
+   paragraph styled as the design's headline (components/site/proto-page.js). */
+.pcr-site .phero h1.eyebrow {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--sky);
+  margin: 14px 0 0;
+}
+.pcr-site .phero p.h1 {
+  font-size: clamp(34px, 7vw, 58px);
+  line-height: 1.03;
+  letter-spacing: -.04em;
+  font-weight: 700;
+  color: #fff;
+  max-width: none;
+  margin: 10px 0 12px;
+  text-wrap: balance;
+}
+
+/* The sitemap's group titles are h2 for the outline, sized as the design's h3. */
+.pcr-site .smg h2.h3 { font-size: 18px; margin-bottom: 8px; }
+/* A long path would otherwise widen its column past a phone screen. */
+.pcr-site .smg { min-width: 0; }
+.pcr-site .smg a { min-width: 0; }
+.pcr-site .smg a > code { flex-shrink: 1; }

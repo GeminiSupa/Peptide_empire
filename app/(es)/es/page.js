@@ -1,17 +1,13 @@
 import { getPublishedPage } from '@/lib/site-cms';
-import Storefront from '@/components/storefront/storefront';
-import { getStorefrontCatalog } from '@/lib/storefront/feed';
+import SiteShell from '@/components/site/site-shell';
+import HomePage from '@/components/site/home-page';
+import { getSiteData } from '@/lib/site/data';
+import { liveH1 } from '@/lib/site/live-h1';
 import homeData from '@/data/pages/homeBlocks.json';
 import { alternates } from '@/lib/routes';
 import { metadataForPath } from '@/lib/seo';
 
-/**
- * Spanish home at `/es/` — the shop, on the live site's own path.
- *
- * The English counterpart carries the note on why `/` is now the storefront.
- * The Spanish copy is the designer's own, looked up while rendering rather
- * than swapped into the DOM afterwards; see `lib/storefront/i18n.mjs`.
- */
+/** Spanish home at `/es/`; see the English page for notes. */
 const sourcePage = homeData.pages[0];
 
 /** Stated explicitly rather than inherited, so it cannot drift from the English side. */
@@ -26,21 +22,11 @@ export async function generateMetadata() {
   });
 }
 
-export default async function HomeEs({ searchParams }) {
-  const [{ compounds, exchangeRate, ok }, params] = await Promise.all([
-    getStorefrontCatalog(),
-    searchParams,
-  ]);
-
+export default async function HomeEs() {
+  const [page, site] = await Promise.all([getPublishedPage(sourcePage), getSiteData('es')]);
   return (
-    <Storefront
-      compounds={compounds}
-      exchangeRate={exchangeRate}
-      feedOk={ok}
-      lang="es"
-      initialSlug={typeof params?.p === 'string' ? params.p : ''}
-      homeHref="/es/"
-      altHref="/"
-    />
+    <SiteShell lang="es" altHref="/">
+      <HomePage lang="es" h1={liveH1(page, 'es')} site={site} />
+    </SiteShell>
   );
 }

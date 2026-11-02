@@ -187,3 +187,12 @@ test('the card page is the catalog\'s, with the order and token in the path', ()
   assert.match(url, /^https:\/\/catalog\.peptidescostarica\.net\/pay-card\//);
   assert.ok(url.includes('tok%2Fen'), 'the token is encoded, not left to break the path');
 });
+
+test('a quote states the deal-inclusive total the shopper saw', () => {
+  const quoted = payload({ quote: { total: 150000, shipping: 0 } });
+  assert.equal(quoted.total_crc, 150000);
+  assert.equal(quoted.total_usd, Math.round(150000 / RATE));
+  assert.equal(quoted.shipping_cost_crc, 0);
+  // Without one, the volume-tier total is stated as before.
+  assert.notEqual(payload().total_crc, 150000);
+});

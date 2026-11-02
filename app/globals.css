@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 @import './ekiticons.css';
+/* The design prototype and its rendered pages are reference files, not source:
+   scanning their 3 MB of inline images for class names stalls the build. */
+@source not '../docs';
+@source not '../scripts';
 
 /* ---------------------------------------------------------------
    Peptides Costa Rica — design tokens

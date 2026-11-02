@@ -1,6 +1,6 @@
 # Vendored catalog pricing modules
 
-These four files are **verbatim copies** from the catalog application
+These files are **verbatim copies** from the catalog application
 (`main` branch, `src/lib/`):
 
 | file                      | copied from                      |
@@ -9,6 +9,19 @@ These four files are **verbatim copies** from the catalog application
 | `bacWater.mjs`            | `src/lib/bacWater.mjs`           |
 | `bulkDeal.mjs`            | `src/lib/bulkDeal.mjs`           |
 | `fallbackExchangeRate.mjs`| `src/lib/fallbackExchangeRate.mjs`|
+| `authoritativeCheckout.mjs` | `src/lib/authoritativeCheckout.mjs` |
+| `dealOffers.mjs`          | `src/lib/dealOffers.mjs`         |
+| `catalogFilters.mjs`      | `src/lib/catalogFilters.mjs`     |
+| `promoEligibility.mjs`    | `src/lib/promoEligibility.mjs`   |
+| `promoBadge.mjs`          | `src/lib/promoBadge.mjs`         |
+| `checkoutBreakdown.mjs`   | `src/lib/checkoutBreakdown.mjs`  |
+
+`pricing.js` is not a copy: it re-exports `pricing.mjs` so that
+`authoritativeCheckout.mjs`, which imports `./pricing.js`, can stay verbatim.
+
+`authoritativeCheckout.mjs` is checkout's own pricing function. The storefront
+runs it over the cart to show the deal or the volume discount, whichever is
+larger, exactly as `/api/orders/create` will decide it.
 
 ## Why copies and not a reimplementation
 
@@ -35,7 +48,7 @@ See the reprice path there.
 
 They are pure functions with no server dependencies, which is what makes
 copying safe. Do not edit them here. If the catalog changes its pricing rules,
-re-copy all four and re-run `npm test` — `tests/pricing-parity.test.mjs`
+re-copy them all and re-run `npm test` — `tests/pricing-parity.test.mjs`
 asserts these files are byte-identical to the catalog's when that checkout is
 present on disk, so a drift shows up as a failing test rather than as a
 mispriced cart.
