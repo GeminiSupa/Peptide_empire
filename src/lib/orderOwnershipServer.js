@@ -1,10 +1,28 @@
 import { buildAgentNameResolver, lookupHistoricalAgent } from '@/lib/agentAttribution.mjs';
-import { findActiveProfile, profileOwnerName } from '@/lib/orderOwnership.mjs';
+import { findActiveProfile, profileOwnerName, profilesWithOwnerAliases } from '@/lib/orderOwnership.mjs';
 
 export async function loadTeamProfiles(supabase) {
   const { data, error } = await supabase.from('admin_profiles').select('*');
   if (error) throw error;
-  return data || [];
+  const profiles = data || [];
+  const ids = profiles.map((profile) => profile.user_id).filter(Boolean);
+  if (!ids.length) return profiles;
+
+  // Renaming a profile must not orphan the customers credited under the old
+  // name. Account edits already record old -> new in this durable audit log,
+  // so use those former names as identity aliases without rewriting payroll
+  // history on completed orders.
+  const { data: activity, error: activityError } = await supabase
+    .from('admin_activity_log')
+    .select('subject_id, detail')
+    .eq('subject_type', 'account')
+    .eq('action', 'account.updated')
+    .in('subject_id', ids);
+  if (activityError) {
+    console.warn('[orderOwnershipServer] Could not load agent name history:', activityError.message);
+    return profiles;
+  }
+  return profilesWithOwnerAliases(profiles, activity || []);
 }
 
 /**

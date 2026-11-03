@@ -2,10 +2,30 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
+  assignableOwnerNames,
   decideOwnerChange,
   findActiveProfile,
+  profilesWithOwnerAliases,
   resolveManualOrderOwner,
 } from '../src/lib/orderOwnership.mjs';
+
+test('the owner roster trims Yesenia and excludes people who cannot own an order', () => {
+  const profiles = [
+    { name: 'Yesenia Araya Herrera ', email: 'surfyesi@hotmail.com', tier: 'staff', status: 'active' },
+    { name: ' Suspended Rep ', tier: 'staff', status: 'suspended' },
+    { name: 'Outside Partner', tier: 'affiliate', status: 'active' },
+  ];
+  assert.deepEqual(assignableOwnerNames(profiles), ['Yesenia Araya Herrera']);
+});
+
+test('an audited profile rename keeps the former owner name as an alias', () => {
+  const [yesenia] = profilesWithOwnerAliases(
+    [{ user_id: 'yesenia', name: 'Yesenia Araya Herrera', status: 'active' }],
+    [{ subject_id: 'yesenia', detail: { name: { from: 'Yese', to: 'Yesenia Araya Herrera' } } }],
+  );
+  assert.deepEqual(yesenia.aliases, ['Yese']);
+  assert.equal(findActiveProfile([yesenia], 'Yese')?.name, 'Yesenia Araya Herrera');
+});
 
 test('the 14 Sep case: staff cannot take a completed order whose customer is Dani\'s', () => {
   // WPCR-MTYORQAN: entered by Dani with the owner left blank, completed, then

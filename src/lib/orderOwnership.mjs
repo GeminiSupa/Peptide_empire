@@ -22,7 +22,7 @@
  */
 
 import { isAwaitingPayment } from './orderAwaitingPayment.mjs';
-import { isActiveProfile } from './subUserTier.mjs';
+import { isActiveProfile, isInternalStaff } from './subUserTier.mjs';
 
 export const OWNER_REASON_MIN = 5;
 export const OWNER_REASON_MAX = 500;
@@ -42,6 +42,18 @@ export function profileOwnerName(profile) {
   return text(profile?.name || profile?.email);
 }
 
+/** Canonical, assignable names for order-owner controls. */
+export function assignableOwnerNames(profiles = []) {
+  const names = new Map();
+  for (const profile of Array.isArray(profiles) ? profiles : []) {
+    if (!isInternalStaff(profile) || !isActiveProfile(profile)) continue;
+    const name = profileOwnerName(profile);
+    const key = name.toLowerCase();
+    if (name && !names.has(key)) names.set(key, name);
+  }
+  return [...names.values()].sort((left, right) => left.localeCompare(right, undefined, { sensitivity: 'base' }));
+}
+
 /**
  * The ways one person is written on an order: their name, their email, and
  * the part of the email before the @. Mirrors agentMatchKeys in agentOrders.js,
@@ -57,7 +69,28 @@ function profileKeys(profile) {
     const local = email.split('@')[0];
     if (local) keys.add(local);
   }
+  for (const alias of Array.isArray(profile?.aliases) ? profile.aliases : []) {
+    const key = text(alias).toLowerCase();
+    if (key) keys.add(key);
+  }
   return keys;
+}
+
+/** Attach former profile names recorded by the account audit log. */
+export function profilesWithOwnerAliases(profiles = [], activityRows = []) {
+  const aliasesById = new Map();
+  for (const row of Array.isArray(activityRows) ? activityRows : []) {
+    const userId = text(row?.subject_id);
+    const formerName = text(row?.detail?.name?.from);
+    if (!userId || !formerName) continue;
+    const aliases = aliasesById.get(userId) || new Set();
+    aliases.add(formerName);
+    aliasesById.set(userId, aliases);
+  }
+  return (Array.isArray(profiles) ? profiles : []).map((profile) => ({
+    ...profile,
+    aliases: [...(aliasesById.get(text(profile?.user_id)) || [])],
+  }));
 }
 
 /**

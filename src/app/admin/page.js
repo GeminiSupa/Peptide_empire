@@ -88,7 +88,7 @@ import {
   getDefaultAdminTab,
   resolveAdminTabAccess,
 } from '@/lib/adminModules';
-import { isAffiliateTier, isInternalStaff, isSubUser } from '@/lib/subUserTier.mjs';
+import { isAffiliateTier, isSubUser } from '@/lib/subUserTier.mjs';
 import {
   DEFAULT_LANDING_PAGE_SETTINGS,
   DEFAULT_PUBLIC_PAGE_SETTINGS,
@@ -2499,25 +2499,17 @@ Core Rules:
 
   // Fetch active sales agents from admin_profiles
   const fetchAgents = async () => {
-    if (isSupabaseConfigured && supabase) {
+    if (isSupabaseConfigured) {
       try {
-        const { data: agentData, error: agentError } = await supabase
-          .from('admin_profiles')
-          .select('user_id, name, email, tier, status')
-          .order('name', { ascending: true });
-        
-        if (!agentError && agentData) {
-          // Staff only. This list feeds every "sales agent" and owner dropdown in
-          // the admin, so an affiliate left in it could be handed an order or a
-          // lead — and the owner lock would then treat an outside partner as the
-          // colleague who owns that customer.
-          const staff = agentData.filter(isInternalStaff);
-          const loadedAgents = staff.map(a => a.name || a.email).filter(Boolean);
-          setAgents(loadedAgents.length > 0 ? loadedAgents : ['Joe', 'info@peptidescostarica.net']);
-          setAgentProfiles(staff);
-        } else {
-          setAgents(['Joe', 'info@peptidescostarica.net']);
-        }
+        // Use the service-backed roster. A browser-side admin_profiles query is
+        // governed by RLS and may return only part of the team, which left valid
+        // people (including Yesenia) impossible to choose as an order owner.
+        const response = await adminFetch('/api/admin/orders/agents', { cache: 'no-store' });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || 'Could not load agents');
+        const loadedAgents = Array.isArray(data.agents) ? data.agents : [];
+        setAgents(loadedAgents.length > 0 ? loadedAgents : ['Joe', 'info@peptidescostarica.net']);
+        setAgentProfiles(Array.isArray(data.profiles) ? data.profiles : []);
       } catch (err) {
         console.error("Failed to load agents:", err);
         setAgents(['Joe', 'info@peptidescostarica.net']);

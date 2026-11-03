@@ -4,6 +4,7 @@ import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { recordAdminActivity, summariseChanges } from '@/lib/adminActivityLog.mjs';
 import { ADMIN_PROFILE_OPTIONAL_COLUMNS, writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
+import { renameAgentIdentity } from '@/lib/agentIdentityRename.mjs';
 
 export async function PUT(request) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true });
@@ -44,7 +45,7 @@ export async function PUT(request) {
 
     // 2. Update profile in public.admin_profiles
     const updateData = {};
-    if (name !== undefined) updateData.name = name;
+    if (name !== undefined) updateData.name = String(name || '').trim();
     if (permissions !== undefined) updateData.permissions = permissions;
     if (is_superadmin !== undefined) updateData.is_superadmin = is_superadmin;
     if (commission_rate !== undefined) updateData.commission_rate = parseFloat(commission_rate) || 0;
@@ -77,6 +78,13 @@ export async function PUT(request) {
       if (profileError) {
         console.error('Error updating admin profile:', profileError);
         return NextResponse.json({ error: profileError.message }, { status: 500 });
+      }
+
+      const formerName = String(before?.name || before?.email || '').trim();
+      const currentName = String(profileData?.name || profileData?.email || '').trim();
+      let identityMigration = { changed: 0, tables: [] };
+      if (formerName && currentName && formerName !== currentName) {
+        identityMigration = await renameAgentIdentity(supabaseAdmin, formerName, currentName);
       }
       // Permissions get their own action, because "who widened somebody's
       // reach" is a different question from "who corrected a phone number" and
@@ -111,7 +119,7 @@ export async function PUT(request) {
         request,
       });
 
-      return NextResponse.json({ success: true, user: profileData });
+      return NextResponse.json({ success: true, user: profileData, identityMigration });
     }
 
     return NextResponse.json({ success: true });

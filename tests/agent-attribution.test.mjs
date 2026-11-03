@@ -455,6 +455,13 @@ test('one agent under both their name and their email is a single owner', () => 
   assert.equal(findHistoricalAgent(history, { email: 'eva@correo.com' })?.agent, 'Korinne');
 });
 
+test('a former agent name resolves to the current profile after a rename', () => {
+  const resolveAgent = buildAgentNameResolver([
+    { name: 'Yesenia Araya Herrera', email: 'surfyesi@hotmail.com', aliases: ['Yese'] },
+  ]);
+  assert.equal(resolveAgent('Yese'), 'Yesenia Araya Herrera');
+});
+
 test('a lead contact value is routed to the right key', () => {
   assert.deepEqual(contactKeysFor('whatsapp', '+506 8404 6973'), { phone: '+506 8404 6973', email: '' });
   assert.deepEqual(contactKeysFor('email', 'ana@correo.com'), { phone: '', email: 'ana@correo.com' });

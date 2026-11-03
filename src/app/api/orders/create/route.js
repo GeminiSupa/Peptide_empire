@@ -28,6 +28,7 @@ import {
 } from '@/lib/customerOrderOwnership.mjs';
 import { agentMatchKeys } from '@/lib/agentOrders';
 import { CUSTOMER_HISTORY_SOURCE, buildAgentNameResolver, lookupHistoricalAgent } from '@/lib/agentAttribution.mjs';
+import { loadTeamProfiles } from '@/lib/orderOwnershipServer';
 import { getNotificationRecipients } from '@/lib/notificationRecipients.mjs';
 import { identityMessage, validateCustomerName } from '@/lib/checkoutIdentity.mjs';
 import { researchAckMessage, researchAckRecord, validateResearchAck } from '@/lib/researchAcknowledgement.mjs';
@@ -194,7 +195,7 @@ async function applyCustomerHistoryAttribution(supabase, order) {
   if (String(order?.sales_agent || '').trim()) return order;
 
   try {
-    const { data: profiles } = await supabase.from('admin_profiles').select('*');
+    const profiles = await loadTeamProfiles(supabase);
 
     const match = await lookupHistoricalAgent(supabase, {
       phone: order.customer_phone,

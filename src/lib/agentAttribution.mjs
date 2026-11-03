@@ -153,6 +153,10 @@ export function buildAgentNameResolver(profiles) {
       const local = email.split('@')[0];
       if (local) byKey.set(local, canonical);
     }
+    for (const alias of Array.isArray(profile?.aliases) ? profile.aliases : []) {
+      const key = String(alias || '').trim().toLowerCase();
+      if (key) byKey.set(key, canonical);
+    }
   }
 
   return (value) => {
