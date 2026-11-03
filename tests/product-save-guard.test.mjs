@@ -8,6 +8,7 @@ import {
   planBulkSave,
   checkSingleSave,
   isExistingProductId,
+  statusForInventory,
 } from '../src/lib/productSaveGuard.mjs';
 
 // A database row the way Postgres returns it.
@@ -64,6 +65,14 @@ const toGridRow = (item) => ({
 });
 
 const roundTrip = (row, priority = 0) => productToDbRow(toGridRow(row), priority);
+
+test('zero tracked inventory automatically saves as out of stock', () => {
+  assert.equal(statusForInventory('In Stock', 0), 'Out of Stock');
+  assert.equal(statusForInventory('Coming Soon', '0'), 'Out of Stock');
+  assert.equal(statusForInventory('In Stock', null), 'In Stock');
+  assert.equal(statusForInventory('Coming Soon', 4), 'Coming Soon');
+  assert.equal(productToDbRow({ product: 'GLP-1', status: 'In Stock', inventoryCount: 0 }, 0).status, 'Out of Stock');
+});
 
 test('an untouched row reads the same after a trip through the grid', () => {
   // Seconds on the sale time, +00:00 vs Z, a null free-water flag and a null

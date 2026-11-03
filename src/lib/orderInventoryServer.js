@@ -46,6 +46,7 @@ export function inventoryReservationPlan(currentLines = [], desiredItems = [], p
       product,
       before: stockNow,
       after: nextInventory,
+      statusBefore: row.status,
       offsiteBefore,
       offsiteAfter: offsitePlan.after,
       offsiteShortfall: offsitePlan.shortfall,
@@ -64,7 +65,10 @@ async function applyInventoryChanges(supabase, changes, direction = 'forward') {
   for (const change of changes) {
     const value = direction === 'forward' ? change.after : change.before;
     const offsiteValue = direction === 'forward' ? change.offsiteAfter : change.offsiteBefore;
-    const payload = { inventory_count: value };
+    const payload = {
+      inventory_count: value,
+      status: direction === 'forward' && value === 0 ? 'Out of Stock' : change.statusBefore,
+    };
     if (offsiteValue !== undefined && offsiteValue !== null) {
       payload.offsite_inventory_count = offsiteValue;
     }
@@ -93,7 +97,7 @@ export async function prepareInventoryReservation(supabase, currentLines, desire
   // way it was named before a rename, which an exact-name filter would miss.
   const { data, error } = await supabase
     .from('products')
-    .select('product,inventory_count,offsite_inventory_count,low_stock_threshold');
+    .select('product,status,inventory_count,offsite_inventory_count,low_stock_threshold');
   if (error) throw error;
 
   const plan = inventoryReservationPlan(currentLines, desiredItems, data || []);

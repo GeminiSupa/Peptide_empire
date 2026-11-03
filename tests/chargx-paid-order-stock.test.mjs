@@ -51,8 +51,8 @@ function makeSupabase({ products = [], ordersUpdateError = null } = {}) {
 }
 
 const PRODUCTS = [
-  { product: 'BPC-157 5mg', inventory_count: 10, low_stock_threshold: 5 },
-  { product: 'GHK-Cu 50mg', inventory_count: 4, low_stock_threshold: 5 },
+  { product: 'BPC-157 5mg', status: 'In Stock', inventory_count: 10, low_stock_threshold: 5 },
+  { product: 'GHK-Cu 50mg', status: 'In Stock', inventory_count: 4, low_stock_threshold: 5 },
 ];
 
 const paidOrder = (overrides = {}) => ({
@@ -69,7 +69,10 @@ test('a paid card order takes its vials out of stock', async () => {
   const result = await reservePaidOrderInventory(supabase, paidOrder());
 
   assert.equal(result.reserved, true);
-  assert.deepEqual(writes.products, [{ product: 'BPC-157 5mg', patch: { inventory_count: 8 } }]);
+  assert.deepEqual(writes.products, [{
+    product: 'BPC-157 5mg',
+    patch: { inventory_count: 8, status: 'In Stock', offsite_inventory_count: 0 },
+  }]);
   assert.deepEqual(writes.orders, [{
     id: 'row-1',
     patch: { inventory_deducted: [{ product: 'BPC-157 5mg', qty: 2 }] },
@@ -106,9 +109,13 @@ test('stock dropping to the threshold still raises the low-stock alert', async (
     items: [{ product: 'GHK-Cu 50mg', qty: 4 }],
   }));
 
-  assert.equal(writes.notifications.length, 1);
-  assert.equal(writes.notifications[0].type, 'low_inventory');
-  assert.match(writes.notifications[0].title, /Out of Stock: GHK-Cu 50mg/);
+  const lowInventory = writes.notifications.find((notification) => notification.type === 'low_inventory');
+  assert.ok(lowInventory);
+  assert.match(lowInventory.title, /Out of Stock: GHK-Cu 50mg/);
+  assert.deepEqual(writes.products, [{
+    product: 'GHK-Cu 50mg',
+    patch: { inventory_count: 0, status: 'Out of Stock', offsite_inventory_count: 0 },
+  }]);
 });
 
 test('a stock write that fails is rolled back and reported, never thrown', async () => {
@@ -122,6 +129,7 @@ test('a stock write that fails is rolled back and reported, never thrown', async
   assert.equal(result.reserved, false);
   // Deducted, then put back, so a failed write cannot eat the stock.
   assert.deepEqual(writes.products.map((write) => write.patch.inventory_count), [8, 10]);
+  assert.deepEqual(writes.products.map((write) => write.patch.status), ['In Stock', 'In Stock']);
   assert.equal(writes.notifications.length, 1);
   assert.equal(writes.notifications[0].type, 'inventory_reservation_failed');
   assert.match(writes.notifications[0].title, /CARD-ABC123/);

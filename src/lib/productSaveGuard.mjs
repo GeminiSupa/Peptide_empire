@@ -46,6 +46,14 @@ export function emojiForCategory(category) {
   return '🧪';
 }
 
+/** Zero tracked inventory always wins over a manually selected stock status. */
+export function statusForInventory(status, inventoryCount) {
+  if (inventoryCount !== null && inventoryCount !== undefined && inventoryCount !== '' && Number(inventoryCount) === 0) {
+    return 'Out of Stock';
+  }
+  return status;
+}
+
 /** A grid row (camelCase) as the database row (snake_case) it is saved as. */
 export function productToDbRow(product, priority) {
   const row = {
@@ -58,7 +66,7 @@ export function productToDbRow(product, priority) {
     discount: product.discount || null,
     sale_start_time: crWallToIso(product.saleStartTime),
     sale_end_time: crWallToIso(product.saleEndTime),
-    status: product.status,
+    status: statusForInventory(product.status, product.inventoryCount),
     vial_size: String(product.vialSize || '').trim() || null,
     is_default_size: product.isDefaultSize === true,
     inventory_count: product.inventoryCount === '' ? null : product.inventoryCount,

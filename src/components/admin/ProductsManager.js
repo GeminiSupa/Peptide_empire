@@ -8,6 +8,7 @@ import {
   calculateSalesVelocity,
   calculateStockoutForecast,
 } from '@/lib/inventoryForecasting.mjs';
+import { statusForInventory } from '@/lib/productSaveGuard.mjs';
 
 /**
  * The compound a row belongs to, spelled the way the catalog groups cards.
@@ -168,7 +169,14 @@ export default function ProductsManager({
   };
   const updateMobileDraft = (field, value) => {
     setMobileProductError('');
-    setMobileEditProduct((current) => current ? { ...current, [field]: value } : current);
+    setMobileEditProduct((current) => {
+      if (!current) return current;
+      const next = { ...current, [field]: value };
+      if (field === 'inventoryCount') {
+        next.status = statusForInventory(next.status, value);
+      }
+      return next;
+    });
   };
   const validateMobileProduct = () => {
     const p = mobileEditProduct;

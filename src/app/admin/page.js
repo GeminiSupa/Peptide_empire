@@ -69,7 +69,7 @@ import WebsitePanel from '@/components/admin/WebsitePanel';
 import AdminHelpBot from '@/components/admin/AdminHelpBot';
 import ActivityLogPanel from '@/components/admin/ActivityLogPanel';
 import TwilioPanel from '@/components/TwilioPanel';
-import { productBaseline as buildProductBaseline } from '@/lib/productSaveGuard.mjs';
+import { productBaseline as buildProductBaseline, statusForInventory } from '@/lib/productSaveGuard.mjs';
 import { catalogCompoundAndSize, composeStoredProductName, splitStoredProductForAdmin } from '@/lib/catalogCategories.mjs';
 import DealOfWeekPanel from '@/components/admin/DealOfWeekPanel';
 import WhatsAppInbox from '@/components/admin/WhatsAppInbox';
@@ -3215,9 +3215,14 @@ Core Rules:
   // Spreadsheet Cell modification helper
   const handleCellChange = (productId, fieldName, val) => {
     productsDirtyRef.current = true;
-    setProducts(prev => prev.map(p =>
-      p.id === productId ? { ...p, [fieldName]: val } : p
-    ));
+    setProducts(prev => prev.map((p) => {
+      if (p.id !== productId) return p;
+      const next = { ...p, [fieldName]: val };
+      if (fieldName === 'inventoryCount') {
+        next.status = statusForInventory(next.status, val);
+      }
+      return next;
+    }));
     // Remembered so the save confirmation can name what it is about to write.
     // Nothing on this grid saves as you type — an operator can edit thirty
     // cells across ten rows and then walk away, and until now the only signal
