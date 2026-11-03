@@ -2650,7 +2650,10 @@ Core Rules:
             discount: item.discount || '',
             saleStartTime: isoToCrWall(item.sale_start_time),
             saleEndTime: isoToCrWall(item.sale_end_time),
-            status: item.status || 'In Stock',
+            // Older rows may already be at zero while their stored status is
+            // still "In Stock". Normalize on load so the dropdown tells the
+            // truth immediately; the next save persists the correction.
+            status: statusForInventory(item.status || 'In Stock', item.inventory_count),
             coa: item.coa || '',
             imageUrl: item.image_url || '',
             descriptionEn: item.description_en || '',
