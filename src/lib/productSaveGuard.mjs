@@ -227,6 +227,18 @@ export function productBaseline(rows = []) {
   return Object.fromEntries((rows || []).filter((row) => row?.id).map((row) => [String(row.id), productFingerprint(row)]));
 }
 
+/** Keep catalog visibility attached to a row when its stored name changes. */
+export function remapHiddenProductNames(hiddenNames = [], renames = [], deletedNames = []) {
+  const deleted = new Set(deletedNames.map((name) => String(name || '').trim()).filter(Boolean));
+  const renameMap = new Map(renames
+    .map(({ from, to }) => [String(from || '').trim(), String(to || '').trim()])
+    .filter(([from, to]) => from && to));
+  return [...new Set(hiddenNames
+    .map((name) => String(name || '').trim())
+    .filter((name) => name && !deleted.has(name))
+    .map((name) => renameMap.get(name) || name))];
+}
+
 const unique = (list) => [...new Set(list.filter(Boolean))];
 
 /**

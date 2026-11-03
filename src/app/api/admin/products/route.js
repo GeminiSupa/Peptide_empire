@@ -13,6 +13,7 @@ import {
   planBulkSave,
   productFingerprint,
   productToDbRow,
+  remapHiddenProductNames,
 } from '@/lib/productSaveGuard.mjs';
 
 import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
@@ -63,6 +64,22 @@ async function moveReviewsToNewName(supabase, fromName, toName) {
     .select('id');
   if (error) throw error;
   return (data || []).length;
+}
+
+async function preserveHiddenProductNames(supabase, renames = [], deletedNames = []) {
+  const { data, error } = await supabase
+    .from('site_settings')
+    .select('value')
+    .eq('id', 'hidden_products')
+    .maybeSingle();
+  if (error) throw error;
+  const current = Array.isArray(data?.value?.names) ? data.value.names : [];
+  const next = remapHiddenProductNames(current, renames, deletedNames);
+  if (JSON.stringify(next) === JSON.stringify(current)) return;
+  const { error: writeError } = await supabase
+    .from('site_settings')
+    .upsert({ id: 'hidden_products', value: { names: next } });
+  if (writeError) throw writeError;
 }
 
 /**
@@ -183,6 +200,15 @@ export async function PUT(request) {
       if (error) throw error;
     }
 
+    const currentByIdForVisibility = new Map((currentRows || []).map((row) => [String(row.id), row]));
+    const hiddenRenames = toUpdate
+      .map((row) => ({ from: currentByIdForVisibility.get(String(row.id))?.product, to: row.product }))
+      .filter(({ from, to }) => from && to && from !== to);
+    const deletedHiddenNames = (currentRows || [])
+      .filter((row) => plan.toDelete.includes(String(row.id)))
+      .map((row) => row.product);
+    await preserveHiddenProductNames(supabase, hiddenRenames, deletedHiddenNames);
+
     // Only rows this save actually wrote, and only their own old -> new name,
     // read from the database rather than from what the page claims.
     const moveIds = new Set((Array.isArray(moveReviewsForIds) ? moveReviewsForIds : []).map(String));
@@ -250,6 +276,10 @@ async function saveOneProduct(supabase, { product, baseline, moveReviews }, { ac
 
   const { data: saved, error: writeError } = await writeProductRows(supabase, 'update', [row], id);
   if (writeError) throw writeError;
+
+  await preserveHiddenProductNames(supabase, [
+    { from: currentRow.product, to: saved.product },
+  ]);
 
   const movedReviews = moveReviews === true
     ? await moveReviewsToNewName(supabase, currentRow.product, saved.product)

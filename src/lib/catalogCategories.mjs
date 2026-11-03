@@ -294,10 +294,18 @@ export function composeStoredProductName(name, vialSize) {
   const raw = String(name ?? '').trim().replace(/\s+/g, ' ');
   const size = String(vialSize ?? '').trim().replace(/\s+/g, ' ');
   if (!size) return raw;
+  // The vial-size field is not limited to unit-bearing values. Products such
+  // as HGH may use a bare presentation count ("60"). splitCompoundAndSize
+  // intentionally does not guess that every number in a name is a size, so
+  // remove only the *explicit field value* from the end. This also repairs
+  // names produced by the old non-idempotent save path ("... 60 60 60").
+  const escapedSize = size.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const repeatedExplicitSize = new RegExp(`(?:\\s+${escapedSize})+$`, 'i');
+  const withoutExplicitSize = raw.replace(repeatedExplicitSize, '').trim();
   const parsed = splitCompoundAndSize(raw);
   if (parsed.size && sizesMatch(parsed.size, size)) return `${parsed.compound} ${parsed.size}`.trim();
   if (parsed.size) return `${parsed.compound} ${size}`.trim();
-  return `${raw} ${size}`.trim();
+  return `${withoutExplicitSize} ${size}`.trim();
 }
 
 /** What the product grid shows when a size has been saved in its own field. */
@@ -305,9 +313,12 @@ export function splitStoredProductForAdmin(storedName, vialSize) {
   const size = String(vialSize ?? '').trim();
   const name = String(storedName ?? '');
   if (!size) return { product: name, vialSize: '' };
+  const escapedSize = size.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const repeatedExplicitSize = new RegExp(`(?:\\s+${escapedSize})+$`, 'i');
+  const withoutExplicitSize = name.trim().replace(repeatedExplicitSize, '').trim();
   const parsed = splitCompoundAndSize(name);
   if (parsed.size && sizesMatch(parsed.size, size)) return { product: parsed.compound, vialSize: size };
-  return { product: name, vialSize: size };
+  return { product: withoutExplicitSize, vialSize: size };
 }
 
 /** The "Default size" tick an admin puts on one size of a compound. */

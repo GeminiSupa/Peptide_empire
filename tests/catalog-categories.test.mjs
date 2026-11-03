@@ -250,6 +250,12 @@ test('a size saved in its own field becomes the chip, and a size left in the nam
   assert.equal(composeStoredProductName('AHK-CU 50mg', '50mg'), 'AHK-CU 50mg');
   assert.equal(composeStoredProductName('AHK-CU 50mg', ''), 'AHK-CU 50mg');
   assert.deepEqual(catalogCompoundAndSize({ product: 'AHK-CU 50mg' }), { compound: 'AHK-CU', size: '50mg' });
+  assert.equal(composeStoredProductName('GLP-1 (RT) - USA Manufactured 60', '60'), 'GLP-1 (RT) - USA Manufactured 60');
+  assert.equal(composeStoredProductName('GLP-1 (RT) - USA Manufactured 60 60 60', '60'), 'GLP-1 (RT) - USA Manufactured 60');
+  assert.deepEqual(
+    splitStoredProductForAdmin('GLP-1 (RT) - USA Manufactured 60 60 60', '60'),
+    { product: 'GLP-1 (RT) - USA Manufactured', vialSize: '60' },
+  );
 
   const fromField = groupCatalogCards([
     { product: 'AHK-CU', vialSize: '50mg' },

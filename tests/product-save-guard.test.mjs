@@ -9,6 +9,7 @@ import {
   checkSingleSave,
   isExistingProductId,
   statusForInventory,
+  remapHiddenProductNames,
 } from '../src/lib/productSaveGuard.mjs';
 
 // A database row the way Postgres returns it.
@@ -72,6 +73,16 @@ test('zero tracked inventory automatically saves as out of stock', () => {
   assert.equal(statusForInventory('In Stock', null), 'In Stock');
   assert.equal(statusForInventory('Coming Soon', 4), 'Coming Soon');
   assert.equal(productToDbRow({ product: 'GLP-1', status: 'In Stock', inventoryCount: 0 }, 0).status, 'Out of Stock');
+});
+
+test('hidden catalog products stay hidden when their stored name is repaired or renamed', () => {
+  assert.deepEqual(
+    remapHiddenProductNames(
+      ['GLP-1 (RT) - USA Manufactured 60 60', 'BPC-157 10mg'],
+      [{ from: 'GLP-1 (RT) - USA Manufactured 60 60', to: 'GLP-1 (RT) - USA Manufactured 60' }],
+    ),
+    ['GLP-1 (RT) - USA Manufactured 60', 'BPC-157 10mg'],
+  );
 });
 
 test('an untouched row reads the same after a trip through the grid', () => {
