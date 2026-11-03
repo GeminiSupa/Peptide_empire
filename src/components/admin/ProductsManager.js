@@ -930,16 +930,16 @@ export default function ProductsManager({
 
                   {/* COA Link */}
                   <td data-label="COA URL Link">
-                    <div 
-                      contentEditable 
-                      suppressContentEditableWarning
-                      className="cell-editable"
-                      style={{ minWidth: '80px', maxWidth: '150px', overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis' }}
-                      onBlur={(e) => handleCellChange(p.id, 'coa', e.target.innerText)}
-                      title={p.coa}
-                    >
-                      {p.coa}
-                    </div>
+                    <input
+                      type="url"
+                      className="cell-input"
+                      value={p.coa || ''}
+                      placeholder="Paste COA URL"
+                      aria-label={`COA URL for ${composeStoredProductName(p.product, p.vialSize)}`}
+                      onChange={(e) => handleCellChange(p.id, 'coa', e.target.value)}
+                      title={p.coa || 'Paste a COA link; uploading a file is optional'}
+                      style={{ minWidth: '150px', width: '100%' }}
+                    />
                     <CoaUploadField compact value={p.coa||''} subject={composeStoredProductName(p.product,p.vialSize)} lot={p.coaLotNumber||p.coa_lot_number||''} onChange={(url)=>handleCellChange(p.id,'coa',url)}/>
                   </td>
 
@@ -1301,8 +1301,8 @@ export default function ProductsManager({
                 <input value={mobileEditProduct.imageUrl || ''} onChange={(e) => updateMobileDraft('imageUrl', e.target.value)} />
               </label>
               <label>
-                <span>COA URL</span>
-                <input value={mobileEditProduct.coa || ''} onChange={(e) => updateMobileDraft('coa', e.target.value)} />
+                <span>COA URL Link</span>
+                <input type="url" placeholder="Paste COA URL" value={mobileEditProduct.coa || ''} onChange={(e) => updateMobileDraft('coa', e.target.value)} />
               </label>
               <CoaUploadField value={mobileEditProduct.coa||''} subject={composeStoredProductName(mobileEditProduct.product,mobileEditProduct.vialSize)} lot={mobileEditProduct.coaLotNumber||mobileEditProduct.coa_lot_number||''} onChange={(url)=>updateMobileDraft('coa',url)}/>
               <div className="product-mobile-field-grid">

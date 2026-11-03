@@ -102,3 +102,8 @@ test('long product lists can be reordered without repeated arrow clicks', () => 
   assert.match(grid, /moveMobileProductToIndex\(0\)/);
   assert.match(grid, /Move to #/);
 });
+
+test('a COA can be saved as a link without uploading a file', () => {
+  assert.match(grid, /type="url"[\s\S]{0,200}placeholder="Paste COA URL"[\s\S]{0,250}handleCellChange\(p\.id, 'coa', e\.target\.value\)/);
+  assert.match(grid, /<span>COA URL Link<\/span>[\s\S]{0,150}type="url"[\s\S]{0,100}placeholder="Paste COA URL"/);
+});
