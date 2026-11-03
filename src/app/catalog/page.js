@@ -4,6 +4,7 @@ import { safeLocalStorage as localStorage, safeSessionStorage } from '@/lib/stor
 import { ecommerceData, analyticsItem, orderEcommerceSnapshot, catalogListName, listViewData } from '@/lib/ecommerceAnalytics.mjs';
 import { pushEvent, stashReceipt, trackLead, createCheckoutEventGate, CHECKOUT_FUNNEL_EVENTS } from '@/lib/dataLayer.mjs';
 import { readAdClick } from '@/lib/adClickAttribution.mjs';
+import { readGaIdentity } from '@/lib/gaIdentity.mjs';
 import { isBankMethod } from '@/lib/bankPayments.mjs';
 import costaricaData from '@/lib/costarica.json';
 
@@ -3157,6 +3158,7 @@ export default function CatalogPage() {
       const orderPayload = {
         ...applyStoredAttribution(orderRow),
         ad_attribution: readAdClick(document),
+        ...readGaIdentity(document),
         ...(businessCheckoutQuote?{business_quote_id:businessCheckoutQuote.id}:{}),
         research_ack: { accepted: true, version: RESEARCH_ACK_VERSION },
         // Attached here, with the acknowledgement, for the same reason: both

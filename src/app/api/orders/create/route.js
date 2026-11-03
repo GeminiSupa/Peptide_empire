@@ -1,6 +1,7 @@
 import { createAnalyticsReceiptToken } from '@/lib/analyticsReceiptToken';
 import { orderEcommerceSnapshot } from '@/lib/ecommerceAnalytics.mjs';
 import { sanitizeAdAttribution } from '@/lib/adClickAttribution.mjs';
+import { sanitizeGaIdentity } from '@/lib/gaIdentity.mjs';
 import { isBankMethod, bankAvailability, readBankSettings, bankPaymentSnapshot } from '@/lib/bankPayments.mjs';
 import { createBankPaymentToken } from '@/lib/bankPaymentToken.mjs';
 import { NextResponse } from 'next/server';
@@ -560,6 +561,9 @@ export async function POST(request) {
     const googleAttribution = sanitizeAdAttribution(order.ad_attribution);
     delete order.analytics_snapshot; delete order.ads_paid_at;
     order.ad_attribution = googleAttribution;
+    // The visitor's GA4 cookie IDs, kept only if shaped like real ones. They let a
+    // WhatsApp sale confirmed later be sent to GA4 as part of this same visit.
+    Object.assign(order, sanitizeGaIdentity(order));
     delete order.business_quote_id;
 
     try {
@@ -813,7 +817,7 @@ export async function POST(request) {
     let { data, error, droppedColumns } = await writeDroppingMissingColumns(
       orderRow,
       [
-        'ad_attribution', 'analytics_snapshot',
+        'ad_attribution', 'analytics_snapshot', 'ga_client_id', 'ga_session_id',
         'utm_campaign',
         'deal_id',
         'inventory_deducted',

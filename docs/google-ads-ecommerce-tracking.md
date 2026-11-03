@@ -59,7 +59,20 @@ The durable queue catches all eligible new confirmations, rather than a fragile 
 
 The offline Ads value is the confirmed total paid in USD, less any refund already recorded before upload. Browser ecommerce value excludes shipping as specified. Refunds after an accepted upload are not automatically retracted by this change; a separate conversion-adjustment workflow is needed for historical refunds.
 
-This importer targets Google Ads. It does not separately send paid WhatsApp purchase events into GA4 server-side; that would require a GA4 destination/client attribution setup. The browser correctly leaves those orders as whatsapp_order.
+This importer targets Google Ads only. Paid WhatsApp sales reach GA4 through the separate sender below; the browser still sends `whatsapp_order` at checkout and never `purchase` for WhatsApp.
+
+## GA4 purchase for paid WhatsApp orders
+
+When a WhatsApp order is confirmed paid, `/api/cron/ga4-whatsapp-purchases` (every 15 minutes) sends GA4 a server-side `purchase` (Measurement Protocol) with `payment_type: "whatsapp"`, the real order number as `transaction_id`, the same net product value and items the card `purchase` uses, and the shopper's GA4 client and session IDs saved at checkout (`orders.ga_client_id` / `ga_session_id`). A CRM/manual order has no browser IDs and is sent as a new visitor, so it still counts as revenue but has no traffic source.
+
+Setup:
+
+1. Run `add-ga4-whatsapp-purchases.sql` in the Supabase SQL Editor (needs `add-google-ads-conversions.sql`).
+2. Set server-side production Vercel variables: `GA4_MEASUREMENT_ID` (the web stream's `G-…` ID) and `GA4_API_SECRET` (GA4 Admin > Data streams > Measurement Protocol API secrets). Never NEXT_PUBLIC, never committed.
+3. Signed-in superadmin: POST `/api/admin/ga4/validate` with `{ "orderId": "<confirmed WhatsApp order UUID>" }`. It uses Google's validation endpoint: nothing is recorded and `validationMessages` must be empty.
+4. Set `GA4_OFFLINE_ENABLED=true` and redeploy. The cron skips quietly until then.
+
+GA4 rejects events older than 72 hours, so only orders confirmed paid within the last 70 hours are sent; each order is sent once (`ga4_purchase_exports`), failures retry up to 5 times, and GA4 also de-duplicates `purchase` by `transaction_id`. Test, excluded, unpaid and $0 orders are skipped. Measurement Protocol answers 204 even for events it ignores, so check GA4 DebugView/Realtime after the first real order.
 
 ## Verification status
 
