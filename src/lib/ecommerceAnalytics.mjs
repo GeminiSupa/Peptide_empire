@@ -75,3 +75,12 @@ export function receiptEvent(order) {
   const email = conversionEmail(order.customer_email), phone = conversionPhone(order.customer_phone);
   return { event: method === 'card' ? 'purchase' : 'whatsapp_order', payment_type: method, ecommerce, user_data: { ...(email ? { email } : {}), ...(phone ? { phone } : {}) } };
 }
+// What the thank-you page pushes. A WhatsApp order is also announced as a
+// `purchase` the moment it is saved, $0 orders included, so the GA4 purchase and
+// Google Ads tags fire; `whatsapp_order` is kept for the tags already built on
+// it. Card stays a single `purchase`, and only once payment is confirmed.
+export function receiptEvents(order) {
+  const event = receiptEvent(order);
+  if (!event) return [];
+  return event.event === 'whatsapp_order' ? [event, { ...event, event: 'purchase' }] : [event];
+}
