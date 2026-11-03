@@ -173,7 +173,13 @@ test('the cron is scheduled, guarded like the Ads one, and off until switched on
   assert.match(route, /Bearer \$\{process\.env\.CRON_SECRET\}/);
   assert.match(route, /GA4_OFFLINE_ENABLED !== 'true'/);
   assert.match(route, /config\.missing\.length/);
-  const validate = read('src/app/api/admin/ga4/validate/route.js');
+  // Every outcome is logged by name and count, so a skip is visible in Vercel.
+  assert.equal((route.match(/console\.(log|error)\(/g) || []).length, 5);
+  assert.match(route, /GA4_OFFLINE_ENABLED is/);
+  assert.match(route, /config\.missing\.join/);
+  // The API secret may be reported as set / not set, never printed.
+  for (const line of route.split('\n').filter(row => /console\./.test(row))) assert.equal(/GA4_API_SECRET|apiSecret(?! \?)/.test(line), false, line);
+  const validate =read('src/app/api/admin/ga4/validate/route.js');
   assert.match(validate, /requireSuperadmin: true/);
   assert.match(validate, /debug: true/);
   assert.match(validate, /sent: false/);
