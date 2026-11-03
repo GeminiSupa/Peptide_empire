@@ -585,6 +585,8 @@ export default function TeamChat({ profile }) {
         /* ── Messages ─────────────────────────────────────────────────────── */
         .tc-messages {
           flex: 1; overflow-y: auto;
+          min-width: 0;
+          overflow-x: hidden;
           padding: 16px 20px;
           display: flex; flex-direction: column; gap: 2px;
           scroll-behavior: smooth;
@@ -602,7 +604,10 @@ export default function TeamChat({ profile }) {
         /* ── Message row ──────────────────────────────────────────────────── */
         .tc-msg-row {
           display: flex; flex-direction: column;
-          max-width: 78%; position: relative;
+          width: fit-content;
+          max-width: min(78%, 680px);
+          min-width: 0;
+          position: relative;
           margin-bottom: 1px;
         }
         .tc-msg-row.mine   { align-self: flex-end;   align-items: flex-end; }
@@ -617,6 +622,7 @@ export default function TeamChat({ profile }) {
 
         .tc-bubble-wrap {
           display: flex; align-items: flex-end; gap: 5px;
+          max-width: 100%; min-width: 0;
           position: relative;
         }
         .tc-msg-row.mine   .tc-bubble-wrap { flex-direction: row-reverse; }
@@ -644,8 +650,19 @@ export default function TeamChat({ profile }) {
           padding: 10px 14px;
           border-radius: 18px;
           font-size: 0.9rem; line-height: 1.5;
+          overflow-wrap: anywhere;
           word-break: break-word;
+          max-width: 100%; min-width: 0;
+          overflow: hidden;
+        }
+        .tc-bubble img {
+          display: block;
+          width: auto;
           max-width: 100%;
+          height: auto;
+          max-height: min(360px, 48dvh);
+          object-fit: contain;
+          border-radius: 10px;
         }
         .tc-msg-row.mine   .tc-bubble {
           background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
@@ -823,6 +840,8 @@ export default function TeamChat({ profile }) {
           .tc-main   { display: ${mobileShowContacts ? 'none' : 'flex'}; width: 100%; min-height: 0; }
           .tc-back-btn { display: inline-flex; }
           .tc-messages { padding: 10px 12px; -webkit-overflow-scrolling: touch; }
+          .tc-msg-row { max-width: 88%; }
+          .tc-bubble img { max-height: min(300px, 42dvh); }
           .tc-emoji-picker { width: calc(100vw - 32px); left: 8px; }
         }
       ` }} />
