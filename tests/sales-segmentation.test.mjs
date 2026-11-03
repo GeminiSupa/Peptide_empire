@@ -40,11 +40,56 @@ test('calculateExpandedSalesMetrics computes today, month, LTV, AOV and inventor
   assert.equal(metrics.ltvUsd, 380); // 380 / 1 customer
   assert.equal(metrics.repeatCustomerPct, 100); // 1 customer with 2 orders = 100%
 
+  assert.deepEqual(metrics.bestSellers.map(({ name, unitsSold, revenueUsd }) => ({ name, unitsSold, revenueUsd })), [
+    { name: 'Semaglutide 10mg', unitsSold: 2, revenueUsd: 250 },
+    { name: 'BPC-157 5mg', unitsSold: 2, revenueUsd: 130 },
+  ]);
+
   // Inventory Valuation
   // Cost value = 10*35 + 20*15 = 350 + 300 = 650
   // Retail value = 10*125 + 20*65 = 1250 + 1300 = 2550
   assert.equal(metrics.inventoryCostValueUsd, 650);
   assert.equal(metrics.inventoryRetailValueUsd, 2550);
+});
+
+test('best sellers converts CRC item prices and excludes free gifts', () => {
+  const metrics = calculateExpandedSalesMetrics([
+    {
+      id: 'crc-order',
+      created_at: '2026-09-20T10:00:00Z',
+      status: 'Completed',
+      currency: 'CRC',
+      total_crc: 100000,
+      items: [
+        { product: 'Retatrutide 20mg', qty: 2, price: 50000 },
+        { product: 'Agua Bacteriostática 3ml (Regalo)', qty: 2, price: 0 },
+      ],
+    },
+  ], [], 500, new Date('2026-09-20T12:00:00Z'));
+
+  assert.deepEqual(metrics.bestSellers, [{
+    name: 'Retatrutide 20mg',
+    unitsSold: 2,
+    revenueUsd: 200,
+    orderCount: 1,
+  }]);
+});
+
+test('best sellers uses explicit item currency fields before the order currency', () => {
+  const metrics = calculateExpandedSalesMetrics([
+    {
+      id: 'mixed-shape-order',
+      created_at: '2026-09-20T10:00:00Z',
+      status: 'Paid',
+      currency: 'CRC',
+      total_crc: 75000,
+      items: [
+        { product: 'GHK-CU 100mg', qty: 1, price_usd: 150, price: 75000 },
+      ],
+    },
+  ], [], 500, new Date('2026-09-20T12:00:00Z'));
+
+  assert.equal(metrics.bestSellers[0].revenueUsd, 150);
 });
 
 test('getCustomerSegments classifies customer groups accurately', () => {

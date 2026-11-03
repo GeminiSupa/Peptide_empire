@@ -2,15 +2,13 @@
  * Expanded Sales Analytics & Inventory Valuation Module
  */
 
-import { orderNetRevenue } from './orderRevenue.mjs';
+import { orderCountsAsSale, orderNetRevenue } from './orderRevenue.mjs';
 
 /**
  * Check if order is successful / paid / completed for revenue analytics
  */
 export function isPaidOrder(order) {
-  if (!order || !order.status) return false;
-  const status = String(order.status).toLowerCase();
-  return status !== 'cancelled' && status !== 'pending' && status !== 'refunded';
+  return orderCountsAsSale(order);
 }
 
 /**
@@ -28,6 +26,32 @@ function extractOrderItems(order) {
     }
   }
   return [];
+}
+
+function numericMoney(value) {
+  const parsed = Number(String(value ?? '').replace(/[^0-9.-]/g, ''));
+  return Number.isFinite(parsed) ? Math.max(0, parsed) : 0;
+}
+
+/**
+ * Item prices written by checkout use the order currency in the generic
+ * `price` field. Prefer an explicitly named USD/CRC field when one exists,
+ * then interpret the generic field using the order's currency.
+ */
+function itemUnitPriceUsd(item, order, exchangeRate) {
+  const rate = Number.isFinite(Number(exchangeRate)) && Number(exchangeRate) > 0
+    ? Number(exchangeRate)
+    : 454.48;
+  const explicitUsd = numericMoney(item?.price_usd ?? item?.priceUsd);
+  if (explicitUsd > 0) return explicitUsd;
+
+  const explicitCrc = numericMoney(item?.price_crc ?? item?.priceCrc);
+  if (explicitCrc > 0) return explicitCrc / rate;
+
+  const price = numericMoney(item?.price);
+  return String(order?.currency || 'USD').trim().toUpperCase() === 'CRC'
+    ? price / rate
+    : price;
 }
 
 /**
@@ -56,7 +80,7 @@ export function calculateExpandedSalesMetrics(orders = [], products = [], exchan
   const customerOrdersMap = {};
 
   paidOrders.forEach((o) => {
-    const net = orderNetRevenue(o);
+    const net = orderNetRevenue(o, exchangeRate);
     totalRevenueUsd += net.usd;
     totalRevenueCrc += net.crc;
 
@@ -96,20 +120,26 @@ export function calculateExpandedSalesMetrics(orders = [], products = [], exchan
     const items = extractOrderItems(o);
     items.forEach((item) => {
       const productName = String(item.product || item.name || 'Peptides').trim();
-      const qty = Math.max(1, Number(item.quantity || item.qty || 1));
-      const price = parseFloat(String(item.price || item.price_usd || '0').replace(/[^0-9.]/g, '')) || 0;
+      const qty = Math.max(0, Number(item.quantity ?? item.qty ?? 1) || 0);
+      const priceUsd = itemUnitPriceUsd(item, o, exchangeRate);
+
+      // Giveaways are fulfilled units, not sold units. Including them made
+      // complimentary BAC water the dashboard's #1 "selling" product.
+      if (qty <= 0 || priceUsd <= 0) return;
 
       if (!productSalesMap[productName]) {
         productSalesMap[productName] = { name: productName, unitsSold: 0, revenueUsd: 0, orderCount: 0 };
       }
       productSalesMap[productName].unitsSold += qty;
-      productSalesMap[productName].revenueUsd += price * qty;
+      productSalesMap[productName].revenueUsd += priceUsd * qty;
       productSalesMap[productName].orderCount += 1;
     });
   });
 
   // Best Sellers Ranking
-  const bestSellers = Object.values(productSalesMap).sort((a, b) => b.unitsSold - a.unitsSold || b.revenueUsd - a.revenueUsd);
+  const bestSellers = Object.values(productSalesMap)
+    .map((item) => ({ ...item, revenueUsd: Math.round(item.revenueUsd * 100) / 100 }))
+    .sort((a, b) => b.unitsSold - a.unitsSold || b.revenueUsd - a.revenueUsd);
 
   // Customer Metrics
   const totalCustomers = Object.keys(customerOrdersMap).length;

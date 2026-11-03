@@ -629,7 +629,7 @@ export default function DashboardHome({
                   <span style={{ fontSize: '1rem', fontWeight: 800, color: idx === 0 ? '#fbbf24' : idx === 1 ? '#cbd5e1' : '#cd7f32' }}>#{idx + 1}</span>
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#f8fafc', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{item.name}</div>
-                    <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{item.unitsSold} units sold · ${item.revenueUsd.toFixed(2)}</div>
+                    <div style={{ fontSize: '0.75rem', color: '#94a3b8' }}>{item.unitsSold.toLocaleString()} paid units · ${item.revenueUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                   </div>
                 </div>
               ))}
