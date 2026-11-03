@@ -1,6 +1,7 @@
 import { isBacWater, bacUnitPrice, getBacWaterSizeMl } from './bacWater.mjs';
 import { conversionEmail, conversionPhone } from './conversionIdentity.mjs';
 import { catalogCompoundAndSize } from './catalogCategories.mjs';
+import { hasNothingToPay } from './freeOrder.mjs';
 export const money = value => Math.round((Number(value) + Number.EPSILON) * 100) / 100;
 export function numericPrice(value) { const n = Number(String(value ?? '').replace(/[^0-9.-]/g, '')); return Number.isFinite(n) ? Math.max(0, n) : 0; }
 const slug = value => String(value || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -76,9 +77,7 @@ export function receiptEvent(order) {
   return { event: method === 'card' ? 'purchase' : 'whatsapp_order', payment_type: method, ecommerce, user_data: { ...(email ? { email } : {}), ...(phone ? { phone } : {}) } };
 }
 // Nothing owed, so nothing left to pay: a 100%-off order has no payment to wait for.
-export function isFreeOrder(order) {
-  return Number(order?.total_usd) === 0 && !(Number(order?.total_crc) > 0);
-}
+export const isFreeOrder = hasNothingToPay;
 // What the thank-you page pushes. A WhatsApp order with a real total is only a
 // `whatsapp_order` here: its `purchase` is sent once staff confirm payment (GA4
 // server send, Google Ads import), so unpaid orders never count as sales. A $0

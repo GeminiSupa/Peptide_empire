@@ -83,6 +83,8 @@ test('a WhatsApp order is only whatsapp_order until paid, but a $0 one is also a
   const order={order_number:'WPCR-TEST08',items:[{product:'BPC-157 10mg',qty:1,price:50}],total_usd:50,currency:'USD',status:'Pending',payment_method:'whatsapp'};
   const events=receiptEvents(order);assert.deepEqual(events.map(row=>row.event),['whatsapp_order']);assert.equal(events[0].payment_type,'whatsapp');assert.equal(events[0].ecommerce.value,50);
   assert.deepEqual(receiptEvents({...order,total_usd:0.4,total_crc:200}).map(row=>row.event),['whatsapp_order']);
+  assert.deepEqual(receiptEvents({...order,total_usd:null,total_crc:null}).map(row=>row.event),['whatsapp_order']);
+  const freeCard=receiptEvents({...order,order_number:'CARD-TEST11',payment_method:'card',status:'Paid',total_usd:0,total_crc:0});assert.deepEqual(freeCard.map(row=>row.event),['purchase']);assert.equal(freeCard[0].payment_type,'card');assert.equal(freeCard[0].ecommerce.value,0);
   const free=receiptEvents({...order,order_number:'WPCR-TEST09',total_usd:0,total_crc:0,items:[{product:'Agua Bacteriostática 3ml (Regalo)',qty:1,price:0}]});
   assert.deepEqual(free.map(row=>row.event),['whatsapp_order','purchase']);assert.ok(free.every(row=>row.payment_type==='whatsapp'&&row.ecommerce.value===0&&row.ecommerce.transaction_id==='WPCR-TEST09'));
   const browser={dataLayer:[]},saved=storage();for(const row of free)assert.equal(pushReceiptOnce(row,saved,browser),true);for(const row of free)assert.equal(pushReceiptOnce(row,saved,browser),false);

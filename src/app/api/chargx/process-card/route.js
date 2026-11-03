@@ -13,6 +13,7 @@ import { sendCustomerOrderConfirmation } from '@/lib/orderWhatsAppAlerts';
 import { parseBillingAddress } from '@/lib/billingAddress.mjs';
 import { withPaymentStatusActivity } from '@/lib/paymentStatusActivity.mjs';
 import { reservePaidOrderInventory } from '@/lib/orderInventoryServer';
+import { isFreeCardOrder } from '@/lib/freeOrder.mjs';
 import { verifyCardCheckoutToken } from '@/lib/cardPaymentLink';
 import {
   consumeDurableRateLimit,
@@ -55,7 +56,7 @@ async function updateOrderStatus(orderNumber, status, transaction, orderContact 
     const patch = withPaymentStatusActivity(
       existingOrder,
       buildPaymentPatch(status, transaction),
-      { by: 'Chargex' },
+      { by: transaction?.free_order ? 'Checkout' : 'Chargex' },
     );
     const { error } = await supabase
       .from('orders')
@@ -84,8 +85,10 @@ async function updateOrderStatus(orderNumber, status, transaction, orderContact 
 
       await supabase.from('admin_notifications').insert({
         type: 'payment_received',
-        title: `Card payment approved: ${orderNumber}`,
-        body: `Chargex approved transaction ${transaction?.id || ''}. Verify the amount before fulfilling.`,
+        title: transaction?.free_order ? `Free order confirmed: ${orderNumber}` : `Card payment approved: ${orderNumber}`,
+        body: transaction?.free_order
+          ? 'A 100%-off code covered this order, so nothing was charged. It is marked Paid.'
+          : `Chargex approved transaction ${transaction?.id || ''}. Verify the amount before fulfilling.`,
         link_tab: 'orders',
         link_ref: orderNumber,
       });
@@ -151,7 +154,9 @@ export async function POST(req) {
       lang = 'es',
     } = body;
 
-    if (!amount || !orderNumber || !paymentToken) {
+    // 0 is a real amount here: a 100%-off order posts $0 and is settled below
+    // without touching the gateway. Anything else falsy is still refused.
+    if ((!amount && amount !== 0) || !orderNumber || !paymentToken) {
       return stopCheckout('missing_details', lang, 400,
         `Missing required billing fields for ${orderNumber || 'unknown order'}`);
     }
@@ -229,8 +234,13 @@ export async function POST(req) {
     // willing to edit the request, and the order still came back marked Paid.
     // The claim above already returned the stored row, so the authoritative
     // figure is in hand without a second read.
+    //
+    // The one exception is a $0 order a promo code fully covers. The stored row
+    // says so (both totals exactly 0, code on the order), never the request, and
+    // there is nothing to charge, so it skips the gateway and is marked Paid.
+    const freeOrder = isFreeCardOrder(claim.order);
     const storedAmount = Number(claim.order?.total_usd || 0);
-    if (!Number.isFinite(storedAmount) || storedAmount <= 0) {
+    if (!freeOrder && (!Number.isFinite(storedAmount) || storedAmount <= 0)) {
       // Nothing trustworthy to charge. Release the claim first, or the order is
       // stranded in PROCESSING_STATUS with no way for the customer to retry.
       await releaseOrderClaim(supabase, orderNumber);
@@ -255,27 +265,31 @@ export async function POST(req) {
     const baseUrl = APP_URL.replace(/\/$/, '');
 
     let transaction;
-    try {
-      const page = await createChargxCardCheckout({
-        amount: formattedAmount,
-        successUrl: `${baseUrl}/thank-you?lang=${encodeURIComponent(lang)}&order=${encodeURIComponent(orderNumber)}&payment=card`,
-        cancelUrl: `${baseUrl}/catalog?lang=${encodeURIComponent(lang)}&payment=cancel&order=${encodeURIComponent(orderNumber)}`,
-      });
-      transaction = {
-        ...page,
-        descriptor_text: 'Chargex',
-        redirect_url: withChargxCheckoutDetails(page.redirect_url, {
-          orderNumber,
-          email: customerEmail,
-          phone: customerPhone,
-          billing: parseBillingAddress(shippingAddress),
-        }),
-      };
-    } catch (chargeErr) {
-      // No charge result — release the claim so the customer can retry instead of
-      // the order being stuck as "processing".
-      await releaseOrderClaim(supabase, orderNumber);
-      throw chargeErr;
+    if (freeOrder) {
+      transaction = { id: null, status: 'Approved', descriptor_text: 'No charge ($0 order)', free_order: true };
+    } else {
+      try {
+        const page = await createChargxCardCheckout({
+          amount: formattedAmount,
+          successUrl: `${baseUrl}/thank-you?lang=${encodeURIComponent(lang)}&order=${encodeURIComponent(orderNumber)}&payment=card`,
+          cancelUrl: `${baseUrl}/catalog?lang=${encodeURIComponent(lang)}&payment=cancel&order=${encodeURIComponent(orderNumber)}`,
+        });
+        transaction = {
+          ...page,
+          descriptor_text: 'Chargex',
+          redirect_url: withChargxCheckoutDetails(page.redirect_url, {
+            orderNumber,
+            email: customerEmail,
+            phone: customerPhone,
+            billing: parseBillingAddress(shippingAddress),
+          }),
+        };
+      } catch (chargeErr) {
+        // No charge result — release the claim so the customer can retry instead of
+        // the order being stuck as "processing".
+        await releaseOrderClaim(supabase, orderNumber);
+        throw chargeErr;
+      }
     }
 
     const orderStatus = statusToOrderStatus(transaction.status);
