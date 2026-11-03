@@ -6,7 +6,7 @@
 - Every ecommerce push clears `ecommerce` first. USD numbers, real transaction IDs, stable compound-strength item IDs, list price and separate unit discount.
 - `view_item` on product/strength changes; `add_to_cart` only for added units; `view_cart` on cart open; `begin_checkout` when the checkout fields become available; `add_payment_info` when a method is chosen.
 - Card `purchase` is gated by persisted payment status through a signed receipt endpoint, including 3DS and card-payment links. A query string never proves payment.
-- WhatsApp checkout saves the order and opens thank-you without requiring the customer to send a WhatsApp message. On the thank-you page it emits `whatsapp_order` and, in the same moment, a `purchase` with `payment_type: whatsapp` and the same transaction ID, $0 orders included, so the GA4 purchase and Google Ads tags fire before payment is confirmed. Card still emits `purchase` only once payment is confirmed.
+- WhatsApp checkout saves the order and opens thank-you without requiring the customer to send a WhatsApp message. On the thank-you page it emits `whatsapp_order`. A WhatsApp order with a real total never emits `purchase` there: that waits for confirmed payment (the server sends below). A $0 WhatsApp order has nothing to pay, so it also emits a `purchase` with `payment_type: whatsapp` and the same transaction ID straight away. Card emits `purchase` only once payment is confirmed.
 - Both receipt events are deduplicated in sessionStorage per event/transaction. Contact fields are available only on the signed receipt response for Enhanced Conversions (owner explicitly approved their use).
 - Contact, affiliate-source contact and business application successes send `generate_lead` with `form_name`.
 - Centralized WhatsApp-link capture uses the agreed `click_location` allow-list. Programmatic existing buttons carry explicit attributes. Referral sharing and checkout submission are not enquiry clicks.
@@ -18,7 +18,7 @@ The requested dataLayer contract uses **list unit price** plus `discount`. GA4's
 
 Do not forward `user_data.email` or `user_data.phone` as normal GA4 event parameters. Use them only in the Google Ads Enhanced Conversions user-provided-data mapping; GTM handles hashing and the site's configured consent behavior. No customer consent is fabricated by the importer. Data Manager applies row/account consent settings and may return consent errors requiring account configuration.
 
-`payment_type` is top-level on the two receipt events and inside ecommerce for `add_payment_info`. Configure the requested GA4 custom dimensions for payment_type and click_location. `whatsapp_order` is still sent next to the WhatsApp `purchase`. Because that `purchase` now fires before payment is confirmed, paid-only reporting needs `payment_type`/order status, not the event alone.
+`payment_type` is top-level on the two receipt events and inside ecommerce for `add_payment_info`. Configure the requested GA4 custom dimensions for payment_type and click_location. Keep whatsapp_order secondary/non-purchase for orders with a real total; only paid WhatsApp imports should optimize for the WhatsApp sale action. The one browser WhatsApp `purchase` is for $0 orders.
 
 ## Database installation
 
@@ -59,7 +59,7 @@ The durable queue catches all eligible new confirmations, rather than a fragile 
 
 The offline Ads value is the confirmed total paid in USD, less any refund already recorded before upload. Browser ecommerce value excludes shipping as specified. Refunds after an accepted upload are not automatically retracted by this change; a separate conversion-adjustment workflow is needed for historical refunds.
 
-This importer targets Google Ads only. Paid WhatsApp sales reach GA4 through the separate sender below; the browser also sends a `purchase` for every WhatsApp order at checkout (unpaid and $0 included), with the order number as `transaction_id`, so the later paid send for the same order should be de-duplicated by GA4 and Google Ads on that ID.
+This importer targets Google Ads only. Paid WhatsApp sales reach GA4 through the separate sender below; the browser sends `whatsapp_order` at checkout, plus a `purchase` for $0 WhatsApp orders only (the paid senders never send $0 orders, so nothing is counted twice).
 
 ## GA4 purchase for paid WhatsApp orders
 

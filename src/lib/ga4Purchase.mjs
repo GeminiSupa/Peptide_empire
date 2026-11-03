@@ -4,7 +4,7 @@ import { sanitizeGaIdentity } from './gaIdentity.mjs';
 // A paid WhatsApp order is confirmed by staff after the shopper has left, so the
 // browser can never send its `purchase`. This sends it to GA4 from the server
 // (Measurement Protocol) once the order is confirmed paid: event `purchase`,
-// payment_type "whatsapp". The browser sends `whatsapp_order` and a `purchase` at checkout (same transaction_id).
+// payment_type "whatsapp". The browser sends `whatsapp_order` at checkout, and a `purchase` only for $0 orders.
 export const GA4_COLLECT_URL = 'https://www.google-analytics.com/mp/collect';
 export const GA4_DEBUG_URL = 'https://www.google-analytics.com/debug/mp/collect';
 // GA4 refuses events more than 72 hours old; stay inside that with margin.

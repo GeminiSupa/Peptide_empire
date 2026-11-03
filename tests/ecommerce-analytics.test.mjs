@@ -79,20 +79,22 @@ test('Spanish and English free-water labels resolve to the same item identity',(
   const en=analyticsItem({product:'Bacteriostatic Water 3ml (Free Gift)',priceUsd:0,analytics_gift:true});const es=analyticsItem({product:'Agua Bacteriostática 3ml (Regalo)',priceUsd:0,analytics_gift:true});assert.equal(en.item_id,es.item_id);assert.equal(en.item_name,es.item_name);assert.equal(es.item_variant,'3 ml');assert.equal(es.price,0);
 });
 
-test('a WhatsApp order, $0 included, is announced as whatsapp_order and as purchase; card stays one purchase after payment',()=>{
+test('a WhatsApp order is only whatsapp_order until paid, but a $0 one is also a purchase; card stays one purchase after payment',()=>{
   const order={order_number:'WPCR-TEST08',items:[{product:'BPC-157 10mg',qty:1,price:50}],total_usd:50,currency:'USD',status:'Pending',payment_method:'whatsapp'};
-  const events=receiptEvents(order);assert.deepEqual(events.map(row=>row.event),['whatsapp_order','purchase']);
-  assert.ok(events.every(row=>row.payment_type==='whatsapp'&&row.ecommerce.transaction_id==='WPCR-TEST08'&&row.ecommerce.value===50));
-  const browser={dataLayer:[]},saved=storage();for(const row of events)assert.equal(pushReceiptOnce(row,saved,browser),true);for(const row of events)assert.equal(pushReceiptOnce(row,saved,browser),false);
-  assert.deepEqual(browser.dataLayer.filter(row=>row.event).map(row=>row.event),['whatsapp_order','purchase']);
+  const events=receiptEvents(order);assert.deepEqual(events.map(row=>row.event),['whatsapp_order']);assert.equal(events[0].payment_type,'whatsapp');assert.equal(events[0].ecommerce.value,50);
+  assert.deepEqual(receiptEvents({...order,total_usd:0.4,total_crc:200}).map(row=>row.event),['whatsapp_order']);
   const free=receiptEvents({...order,order_number:'WPCR-TEST09',total_usd:0,total_crc:0,items:[{product:'Agua Bacteriostática 3ml (Regalo)',qty:1,price:0}]});
-  assert.deepEqual(free.map(row=>row.event),['whatsapp_order','purchase']);assert.equal(free[1].ecommerce.value,0);assert.equal(free[1].ecommerce.transaction_id,'WPCR-TEST09');
+  assert.deepEqual(free.map(row=>row.event),['whatsapp_order','purchase']);assert.ok(free.every(row=>row.payment_type==='whatsapp'&&row.ecommerce.value===0&&row.ecommerce.transaction_id==='WPCR-TEST09'));
+  const browser={dataLayer:[]},saved=storage();for(const row of free)assert.equal(pushReceiptOnce(row,saved,browser),true);for(const row of free)assert.equal(pushReceiptOnce(row,saved,browser),false);
+  assert.deepEqual(browser.dataLayer.filter(row=>row.event).map(row=>row.event),['whatsapp_order','purchase']);
   assert.deepEqual(receiptEvents({...order,payment_method:'card'}),[]);assert.deepEqual(receiptEvents({...order,payment_method:'card',status:'Paid'}).map(row=>row.event),['purchase']);
 });
-test('receipt endpoint returns both events for a WhatsApp order and the thank-you page pushes every one',async()=>{
-  const q={select(){return this;},eq(){return this;},async maybeSingle(){return {data:{order_number:'WPCR-TEST10',items:[{product:'BPC-157 10mg',price:50,qty:1}],currency:'USD',total_usd:50,payment_method:'whatsapp',status:'Pending'}};}};
-  const POST=receiptRoute({verifyAnalyticsReceiptToken:()=>({orderId:'id1',orderNumber:'WPCR-TEST10'}),getSupabaseAdmin:()=>({from:()=>q}),receiptEvent,receiptEvents});
-  const result=await (await POST(new Request('https://test.invalid',{method:'POST',body:'{"token":"signed"}'}))).json();
-  assert.equal(result.event.event,'whatsapp_order');assert.deepEqual(result.events.map(row=>row.event),['whatsapp_order','purchase']);assert.equal(result.pending,false);
+test('receipt endpoint returns purchase only for a $0 WhatsApp order and the thank-you page pushes every event',async()=>{
+  for(const total of [50,0]){
+    const q={select(){return this;},eq(){return this;},async maybeSingle(){return {data:{order_number:'WPCR-TEST10',items:[{product:'BPC-157 10mg',price:50,qty:1}],currency:'USD',total_usd:total,total_crc:total*500,payment_method:'whatsapp',status:'Pending'}};}};
+    const POST=receiptRoute({verifyAnalyticsReceiptToken:()=>({orderId:'id1',orderNumber:'WPCR-TEST10'}),getSupabaseAdmin:()=>({from:()=>q}),receiptEvent,receiptEvents});
+    const result=await (await POST(new Request('https://test.invalid',{method:'POST',body:'{"token":"signed"}'}))).json();
+    assert.equal(result.event.event,'whatsapp_order');assert.deepEqual(result.events.map(row=>row.event),total?['whatsapp_order']:['whatsapp_order','purchase']);assert.equal(result.pending,false);
+  }
   assert.match(readFileSync(new URL('../src/app/thank-you/page.js',import.meta.url),'utf8'),/for \(const event of result\.events\?\.length \? result\.events : \[result\.event\]\) pushReceiptOnce\(event, sessionStorage\)/);
 });
