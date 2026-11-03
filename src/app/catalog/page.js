@@ -45,7 +45,7 @@ import {
   researchAckText,
   researchAckTitle,
 } from '@/lib/researchAcknowledgement.mjs';
-import { countPromoEligibleUnits, checkUnitLimits, unitLimitsMessage, effectiveVolumeDiscountPct, replacesVolumeDiscount } from '@/lib/promoEligibility.mjs';
+import { countPromoEligibleUnits, checkUnitLimits, unitLimitsMessage, effectiveVolumeDiscountPct, isFullOrderPromo, replacesVolumeDiscount } from '@/lib/promoEligibility.mjs';
 import { tenPlusDiscountPct, STANDARD_FIVE_PLUS_PCT } from '@/lib/bulkDeal.mjs';
 import {
   PHONE_COUNTRIES,
@@ -2821,6 +2821,7 @@ export default function CatalogPage() {
   };
 
   const getShippingFee = () => {
+    if (isFullOrderPromo(getAppliedPromoData())) return 0;
     const businessQuote = getBusinessQuote();
     if (businessQuote) return businessQuote.shipping;
     if (cart.length === 0) return 0;
@@ -2868,6 +2869,7 @@ export default function CatalogPage() {
     if (!offer) return null;
     const promo = getAppliedPromoData();
     if (!promo) return offer;
+    if (isFullOrderPromo(promo)) return null;
     const base = getDiscountableSubtotal();
     const promoSaving = base * (Number(promo.discount_pct) || 0);
     // Ties stay with the deal: it needs no code.
@@ -2875,6 +2877,8 @@ export default function CatalogPage() {
   };
 
   const getPromoDiscountAmount = () => {
+    const fullOrderPromo = getAppliedPromoData();
+    if (isFullOrderPromo(fullOrderPromo)) return getDiscountedTotal();
     const businessQuote = getBusinessQuote();
     if (businessQuote) return businessQuote.promoDiscount;
     // A live weekly deal is the only promotion on an order containing one of

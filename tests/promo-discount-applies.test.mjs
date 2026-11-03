@@ -54,8 +54,8 @@ test('a promo code works in colones too', () => {
   assert.equal(result.promoDiscount, Math.round(31407 * 0.10));
 });
 
-// A 100% code is how staff place a test order. Delivery is worked out before
-// the code, so a small cart still owes the flat fee and can be paid by card.
+// A 100% code is how staff place a test order. It waives the complete checkout
+// so the zero-dollar order can follow the dedicated settlement path.
 const hundredPct = { code: 'TEST100', discount_pct: 1, target_product: null };
 
 // The catalog's getPromoDiscountAmount, code branch: merchandise only, after
@@ -65,19 +65,19 @@ const browserCodeDiscount = (discountableSubtotal, volumePct, pct, currency) => 
   return currency === 'USD' ? parseFloat((base * pct).toFixed(2)) : Math.round(base * pct);
 };
 
-test('a 100% code makes the products free and leaves the delivery fee', () => {
+test('a 100% code makes the complete CRC order free', () => {
   const result = checkout([{ product: 'GHK-CU 50mg', qty: 1 }], hundredPct, 'CRC');
   assert.equal(result.promoDiscount, 31407);
-  assert.equal(result.shipping, 2500);
-  assert.equal(result.total, 2500);
+  assert.equal(result.shipping, 0);
+  assert.equal(result.total, 0);
   assert.equal(browserCodeDiscount(31407, result.volumeDiscountPct, 1, 'CRC'), result.promoDiscount);
 });
 
-test('a 100% code still charges for BAC water, which no code discounts', () => {
+test('a 100% code also waives paid BAC water and delivery', () => {
   const result = checkout([{ product: 'GHK-CU 50mg', qty: 1 }, { product: 'BAC Water 3ml', qty: 1 }], hundredPct);
-  assert.equal(result.promoDiscount, 70);
-  assert.equal(result.total, result.subtotal - result.volumeDiscountAmount - 70 + result.shipping);
-  assert.ok(result.total > 0);
+  assert.equal(result.promoDiscount, result.subtotal - result.volumeDiscountAmount);
+  assert.equal(result.shipping, 0);
+  assert.equal(result.total, 0);
 });
 
 test('a 100% code on a cart past free delivery comes to zero', () => {
@@ -85,4 +85,12 @@ test('a 100% code on a cart past free delivery comes to zero', () => {
   assert.equal(result.shipping, 0);
   assert.equal(result.total, 0);
   assert.equal(browserCodeDiscount(210, result.volumeDiscountPct, 1, 'USD'), result.promoDiscount);
+});
+
+test('a targeted 100% promo keeps its normal product-only scope', () => {
+  const targeted = { ...hundredPct, target_product: 'GHK-CU 50mg', is_flash_sale: true, exact_target_match: true };
+  const result = checkout([{ product: 'GHK-CU 50mg', qty: 1 }, { product: 'BAC Water 3ml', qty: 1 }], targeted);
+  assert.equal(result.promoDiscount, 70);
+  assert.ok(result.shipping > 0);
+  assert.ok(result.total > 0);
 });

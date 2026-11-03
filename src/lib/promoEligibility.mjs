@@ -162,6 +162,17 @@ export function replacesVolumeDiscount(promo) {
   return getMinUnits(promo) > 0;
 }
 
+/**
+ * An unrestricted 100% code is a staff test-order code: the complete checkout
+ * is free, including paid BAC water and delivery. Targeted promotions retain
+ * their normal scope even when their percentage is 100%.
+ */
+export function isFullOrderPromo(promo) {
+  return Boolean(promo)
+    && !String(promo.target_product || '').trim()
+    && Number(promo.discount_pct) >= 1;
+}
+
 /** Volume discount percent to apply, given any promo currently in the cart. */
 export function effectiveVolumeDiscountPct(promo, volumeDiscountPct) {
   if (promo && replacesVolumeDiscount(promo)) return 0;

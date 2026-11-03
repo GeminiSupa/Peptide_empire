@@ -16,7 +16,7 @@ import {
   summarizeBacWater,
 } from './bacWater.mjs';
 import { chooseDealOffer, freeVialLine } from './dealOffers.mjs';
-import { effectiveVolumeDiscountPct } from './promoEligibility.mjs';
+import { effectiveVolumeDiscountPct, isFullOrderPromo } from './promoEligibility.mjs';
 import { computeOrderTotals, getUnitPrice, getVolumeDiscountPct } from './pricing.js';
 
 const round2 = (value) => Math.round(Number(value || 0) * 100) / 100;
@@ -225,8 +225,11 @@ export function authoritativeCheckout({
     if (offer && offer.kind !== 'volume' && offer.kind !== 'none') tierPct = 0;
 
     const lineTotals = computeOrderTotals(requested, currency, exchangeRate, { volumeDiscountPct: tierPct });
+    const fullOrderPromo = usePromo && isFullOrderPromo(promo);
     let discount;
-    if (offer?.kind === 'mix' || offer?.kind === 'spend') {
+    if (fullOrderPromo) {
+      discount = lineTotals.discountedTotal;
+    } else if (offer?.kind === 'mix' || offer?.kind === 'spend') {
       // "10% off your entire order": totals.subtotal is the merchandise plus
       // the paid BAC water, so the water is discounted too. A Spend & Save
       // step takes its percentage off the same whole order.
@@ -239,12 +242,13 @@ export function authoritativeCheckout({
     } else {
       discount = promoDiscountAmount(requested, lineTotals, usePromo ? promo : null, currency);
     }
+    const pricedTotals = fullOrderPromo ? { ...lineTotals, shipping: 0 } : lineTotals;
     return {
       dealOffer: offer,
       volumeDiscountPct: tierPct,
-      totals: lineTotals,
+      totals: pricedTotals,
       promoDiscount: discount,
-      total: roundCurrency(lineTotals.discountedTotal - discount + lineTotals.shipping, currency),
+      total: roundCurrency(pricedTotals.discountedTotal - discount + pricedTotals.shipping, currency),
     };
   };
 
