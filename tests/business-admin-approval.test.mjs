@@ -2,6 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { buildBusinessAccountEmail, buildBusinessTermsEmail, businessEmailAttachments } from '../src/lib/businessAccountEmail.mjs';
+import { planFirstOrderExtraSetting } from '../src/lib/businessFirstOrderExtra.mjs';
+import { missingColumnFrom } from '../src/lib/notificationPreferences.mjs';
 
 const company = { id: 'company', email: 'business@example.invalid', legal_name: 'Test Business', contact_name: 'Buyer', status: 'approved', preferred_language: 'en', discount_pct: 25, updated_at: '2026-10-29' };
 function fixture(previous = null) {
@@ -18,6 +20,7 @@ function fixture(previous = null) {
     sendBusinessSignupNotifications: async () => [],
     queueBusinessEmail: async (_db, business, letter) => { queued.push({ recipient: business.email, ...letter }); return { sent: true }; },
     buildBusinessAccountEmail, buildBusinessTermsEmail, businessEmailAttachments,
+    planFirstOrderExtraSetting, missingColumnFrom,
     resolveBusinessEmailAgent: async () => ({ name: 'Korinne Dankers', photoUrl: 'https://catalog.peptidescostarica.net/team/korinne-dankers.jpg', whatsapp: '50672004080', phone: '+50672004080' }),
     getPublicSiteUrl: () => 'https://catalog.peptidescostarica.net', rateLimit: () => true,
     getOrderMailSettings: () => ({ smtp: { host: 'smtp', user: 'user', pass: 'pass' }, from: 'store@example.invalid' }),

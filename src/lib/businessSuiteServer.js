@@ -9,6 +9,7 @@ import nodemailer from 'nodemailer';
 import { businessEmailAttachments } from '@/lib/businessAccountEmail.mjs';
 import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 import { canOwnReturningCustomer } from '@/lib/salesAgentAffiliate.mjs';
+import { firstOrderExtraArmed, planFirstOrderExtra } from '@/lib/businessFirstOrderExtra.mjs';
 
 export function businessError(message, status = 400) { return Object.assign(new Error(message), { status }); }
 export function businessFailure(error) {
@@ -36,7 +37,14 @@ export async function businessProductPrices(admin, business) {
 }
 export function publicBusiness(business, product_prices = []) {
   if (!business) return null;
-  const { rep_commission_pct: _commission, rep_user_id: _rep, ...customer } = business;
+  // What the team earns on this account never reaches the customer: not the
+  // rep's commission, and not the one-time extra set for another team member.
+  const {
+    rep_commission_pct: _commission, rep_user_id: _rep,
+    first_order_extra_user_id: _extraUser, first_order_extra_pct: _extraPct,
+    first_order_extra_used_at: _extraUsed, first_order_extra_order_number: _extraOrder,
+    ...customer
+  } = business;
   return { ...customer, product_prices };
 }
 export async function resolveBusinessQuote(admin, business, quoteId, items) {
@@ -68,6 +76,62 @@ export async function applyBusinessOrderAttribution(admin,order,business,quote,p
   try { rep=await validatedBusinessRep(admin,business.rep_user_id); }
   catch(error) { if(error.status!==400) throw error; }
   return {...stamped,sales_agent:rep?(rep.name || rep.email):null,agent_commission_source:'business_account',agent_commission_rate_override:rep?Number(business.rep_commission_pct || 0):0,affiliate_id:null,affiliate_commission_usd:0,affiliate_commission_crc:0};
+}
+/**
+ * Takes a business's one-time extra commission for the order about to be saved.
+ *
+ * The setting is claimed with a single conditional update (only while it is
+ * still unused), so two orders placed at the same moment cannot both carry it.
+ * Returns the fields to stamp on the order, or null when there is nothing to
+ * apply. Never throws: a sale is worth more than the commission note, and a
+ * problem raises an admin notification so the extra can be added by hand.
+ */
+export async function claimFirstOrderExtraCommission(admin, order, business) {
+  if (!firstOrderExtraArmed(business)) return null;
+  const warn = async (reason) => {
+    console.error('[orders/create] First-order extra commission not applied:', reason);
+    try {
+      await admin.from('admin_notifications').insert({
+        type: 'first_order_extra_skipped',
+        title: `Extra commission not applied: ${order.order_number}`,
+        body: `${business.legal_name} — ${reason}. Add the one-time extra by hand in Order Details.`.slice(0, 500),
+        link_tab: 'orders',
+        link_ref: order.order_number,
+      });
+    } catch { /* notification table may not exist yet */ }
+    return null;
+  };
+  try {
+    const { data: profiles, error: profileError } = await admin.from('admin_profiles').select('user_id,name,email,tier,status,is_superadmin');
+    if (profileError) return await warn(profileError.message);
+    const plan = planFirstOrderExtra({ business, order, profiles });
+    if (!plan.apply) return plan.skipped ? await warn(plan.skipped) : null;
+    const claimed = await admin.from('business_accounts')
+      .update({ first_order_extra_used_at: plan.activity.at, first_order_extra_order_number: order.order_number })
+      .eq('id', business.id)
+      .eq('first_order_extra_user_id', business.first_order_extra_user_id)
+      .is('first_order_extra_used_at', null)
+      .select('id')
+      .maybeSingle();
+    if (claimed.error) return await warn(claimed.error.message);
+    // Another order took it between our read and this update.
+    if (!claimed.data) return null;
+    return { patch: plan.patch, activity: plan.activity };
+  } catch (error) {
+    return await warn(error.message);
+  }
+}
+/** Hands the extra back when the order it was taken for could not be saved. */
+export async function releaseFirstOrderExtraCommission(admin, business, orderNumber) {
+  try {
+    const released = await admin.from('business_accounts')
+      .update({ first_order_extra_used_at: null, first_order_extra_order_number: null })
+      .eq('id', business.id)
+      .eq('first_order_extra_order_number', orderNumber);
+    if (released.error) console.error('[orders/create] Could not release the first-order extra:', released.error.message);
+  } catch (error) {
+    console.error('[orders/create] Could not release the first-order extra:', error.message);
+  }
 }
 export async function referralBusinessPatch(admin, value) {
   const code = String(value || '').toUpperCase().trim();

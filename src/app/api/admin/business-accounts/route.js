@@ -11,6 +11,8 @@ import { validateBusinessTerms } from '@/lib/businessSuite.mjs';
 import { validatedBusinessRep, queueBusinessEmail } from '@/lib/businessSuiteServer';
 import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 import { resolveBusinessEmailAgent } from '@/lib/businessEmailAgent.mjs';
+import { missingColumnFrom } from '@/lib/notificationPreferences.mjs';
+import { planFirstOrderExtraSetting } from '@/lib/businessFirstOrderExtra.mjs';
 
 export async function GET(request) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true });
@@ -78,14 +80,29 @@ export async function POST(request) {
   const { data: blocked, error: blockError } = await admin.from('order_claim_blocklist').select('email').eq('email', email).maybeSingle();
   if (blockError) return Response.json({ error: 'Could not verify account eligibility.' }, { status: 503 });
   if (blocked) return Response.json({ error: 'Use a dedicated customer email. This address is excluded from customer accounts.' }, { status: 400 });
-  const row = { ...details, email, status: body.status, discount_pct: pct, ...(body.preferred_language ? { preferred_language: body.preferred_language === 'en' ? 'en' : 'es' } : {}) };
   const previous=body.id ? await admin.from('business_accounts').select('*').eq('id',body.id).eq('email',email).maybeSingle() : {data:null};
   if(previous.error) return Response.json({error:'Unable to read current business terms.'},{status:503});
+  // The one-time extra commission for another team member. Only written when
+  // it actually changed, so ordinary edits still save before its migration.
+  let extraSetting;
+  {
+    const wanted = String(body.first_order_extra_user_id || '').trim();
+    let profiles = [];
+    if (wanted) {
+      const result = await admin.from('admin_profiles').select('user_id,name,email,tier,status,is_superadmin');
+      if (result.error) return Response.json({ error: 'Could not check the team member for the extra commission.' }, { status: 503 });
+      profiles = result.data || [];
+    }
+    extraSetting = planFirstOrderExtraSetting({ body, previous: previous.data, repUserId: details.rep_user_id, profiles });
+    if (!extraSetting.ok) return Response.json({ error: extraSetting.error }, { status: 400 });
+  }
+  const row = { ...details, ...extraSetting.patch, email, status: body.status, discount_pct: pct, ...(body.preferred_language ? { preferred_language: body.preferred_language === 'en' ? 'en' : 'es' } : {}) };
   // Updates cannot retarget a business to another mailbox accidentally.
   // preferred_language arrives with business-account-welcome.sql.
   const { data, error } = await writeDroppingMissingColumns(row, ['preferred_language'], payload => (body.id
     ? admin.from('business_accounts').update(payload).eq('id', body.id).eq('email', email)
     : admin.from('business_accounts').insert(payload)).select('*').single());
+  if (missingColumnFrom(error)?.startsWith('first_order_extra_')) return Response.json({ error: 'The one-time extra commission is not enabled in the database yet. Run add-business-first-order-extra.sql in Supabase first. Nothing was saved.' }, { status: 503 });
   if (error) return Response.json({ error: error.code === '23505' ? 'This email or corporation number is already registered.' : 'Could not save business account. Check the migration and try again.' }, { status: 409 });
   let notifications = body.id ? null : await sendBusinessSignupNotifications(data, { admin });
   let customerNotification=null;

@@ -10,7 +10,7 @@ import { countPromoEligibleUnits, checkUnitLimits, unitLimitsMessage } from '@/l
 import { isGiftLine } from '@/lib/bacWater.mjs';
 import { authoritativeCheckout, activeDealForOrder } from '@/lib/authoritativeCheckout.mjs';
 import { findBusinessAccount, businessDiscountPct } from '@/lib/businessAccounts.mjs';
-import { businessProductPrices, resolveBusinessQuote, applyBusinessOrderAttribution } from '@/lib/businessSuiteServer';
+import { businessProductPrices, resolveBusinessQuote, applyBusinessOrderAttribution, claimFirstOrderExtraCommission, releaseFirstOrderExtraCommission } from '@/lib/businessSuiteServer';
 import { businessMinimumError,mergeBusinessProductPrices } from '@/lib/businessSuite.mjs';
 import { getDatabaseBackedUsdToCrcRate } from '@/lib/exchangeRate';
 import { mergeOrderWhatsAppDestinations, selectWithOptionalPreferences } from '@/lib/notificationPreferences.mjs';
@@ -777,6 +777,14 @@ export async function POST(request) {
     if (bankSettings) {
       orderRow.activity_log = [{ at: new Date().toISOString(), type: 'bank_payment_instructions', by: 'system', message: 'Awaiting BAC payment - verify received funds before marking paid.', payment: bankPaymentSnapshot(bankSettings, orderRow) }];
     }
+    // A business's one-time extra commission (set in admin) rides on its next
+    // order. Taken last, after the activity log above is built, and handed back
+    // below if the order cannot be saved.
+    const firstOrderExtra = await claimFirstOrderExtraCommission(supabase, orderRow, business);
+    if (firstOrderExtra) {
+      Object.assign(orderRow, firstOrderExtra.patch);
+      orderRow.activity_log = [...(orderRow.activity_log || []), firstOrderExtra.activity];
+    }
     let savedOrderForAlerts = orderRow;
     if (droppedAttribution.length) {
       console.warn(
@@ -835,6 +843,7 @@ export async function POST(request) {
     }
 
     if (error) {
+      if (firstOrderExtra) await releaseFirstOrderExtraCommission(supabase, business, orderRow.order_number);
       if(error.code==='23505'&&businessQuote)return NextResponse.json({error:'This quote already has an order. Open the existing company order to continue.',errorCode:'quote_already_ordered'},{status:409});
       console.error('[orders/create] Insert failed:', error.message, { order_number: order.order_number });
       try {
