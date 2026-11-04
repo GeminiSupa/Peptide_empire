@@ -194,10 +194,10 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
   // Reel first so it is on screen immediately; vials → Ziggy after it finishes.
   const { index: slideIndex, active: slide, animate, goTo, holdRef } = useVisualCarousel(3, 7000);
   const reelRef = useRef(null);
-  // Try sound by default; fall back to muted playback if autoplay is blocked.
+  // Muted until the shopper turns sound on with the button.
   // Mirror the choice into a ref so toggling it does not restart the clip.
-  const [soundOn, setSoundOn] = useState(true);
-  const soundRef = useRef(true);
+  const [soundOn, setSoundOn] = useState(false);
+  const soundRef = useRef(false);
 
   useEffect(() => {
     if (!campaign.validUntil) return undefined;
