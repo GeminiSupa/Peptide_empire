@@ -133,15 +133,29 @@
 .pcr-site .ratechip.sachip { padding: 4px 8px; }
 .pcr-site .ratechip.sachip a, .pcr-site .ratechip.sachip img { display: block; }
 .pcr-site .ratechip.sachip img { height: 44px; width: auto; border-radius: 0 !important; }
-/* The footer column is narrow: the two ratings share a row, the seal sits under them. */
-.pcr-site .fratebar { margin: 14px 0 4px; gap: 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: stretch; }
+/* The footer column is narrow and dark: the ratings sit as rows of one quiet
+   card (icon, score and stars, source on the right), the seal on the last row. */
+.pcr-site .fratebar {
+  display: grid; gap: 0; margin: 16px 0 0; padding: 2px 14px;
+  background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .12); border-radius: 14px;
+}
+.pcr-site .fratebar .ratechip {
+  min-height: 0; padding: 10px 0; gap: 10px; border-radius: 0;
+  background: transparent; color: #fff; box-shadow: none;
+  border-bottom: 1px solid rgba(255, 255, 255, .1);
+}
+.pcr-site .fratebar a.ratechip:hover { transform: none; box-shadow: none; }
+.pcr-site .fratebar a.ratechip:hover small { color: #fff; }
+.pcr-site .fratebar .ratei { width: 28px; height: 28px; background: #fff; }
+.pcr-site .fratebar .ratei svg { width: 16px; height: 16px; }
+.pcr-site .fratebar .ratet { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
+.pcr-site .fratebar .ratet b { font-size: 15px; margin-right: 6px; }
+.pcr-site .fratebar .ratet .st { font-size: 12px; letter-spacing: .5px; }
+.pcr-site .fratebar .ratet small { color: #b8c5e6; font-size: 13px; }
 .pcr-site .fratebar .ratew { display: none; }
-.pcr-site .fratebar .ratechip.sachip { justify-self: start; }
-.pcr-site .fratebar .ratechip { min-height: 46px; padding: 6px 12px 6px 8px; gap: 8px; box-shadow: none; }
-.pcr-site .fratebar .ratei { width: 28px; height: 28px; }
-.pcr-site .fratebar .ratei svg { width: 17px; height: 17px; }
-.pcr-site .fratebar .ratechip.sachip { padding: 3px 6px; }
-.pcr-site .fratebar .ratechip.sachip img { height: 38px; }
+.pcr-site .fratebar .ratechip.sachip { padding: 10px 0; border-bottom: 0; }
+.pcr-site .fratebar .ratechip.sachip img { height: 40px; border-radius: 6px !important; }
+.pcr-site footer .fratebar + .tpw { margin: 12px 0 0; }
 /* In a hero the cards share the column's width, under the card above them. */
 .pcr-site .hside .ratebar .ratechip, .pcr-site .chero .ratebar .ratechip { flex: 1 1 auto; justify-content: center; }
 
