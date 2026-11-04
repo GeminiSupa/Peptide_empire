@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import Ms from '@/components/storefront/icon';
 import WhatsAppGlyph from '@/components/storefront/whatsapp-glyph';
-import { ShopperSeal, TrustpilotCount } from '@/components/site/review-widgets';
-import { CONTACT, REVIEW_LINKS, SOCIALS } from '@/lib/site/links.mjs';
+import { RatingBadges, TrustpilotCount } from '@/components/site/review-widgets';
+import { CONTACT, SOCIALS } from '@/lib/site/links.mjs';
 
 const QUICK_LINKS = [
   ['home', 'Home'],
@@ -25,8 +25,6 @@ const POLICY_LINKS = [
   ['html-sitemap', 'HTML Sitemap'],
 ];
 
-const STARS = <span className="st">★★★★★</span>;
-
 /** The prototype's footer. Server-rendered: every link is in the page source. */
 export default function SiteFooter({ t, lang, links, categories }) {
   const whatsapp = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(t("Hi! I'd like to order."))}`;
@@ -46,12 +44,8 @@ export default function SiteFooter({ t, lang, links, categories }) {
               <Ms name="arrow_forward" />
             </Link>
             <p>{t('Research-grade peptides in local stock in Costa Rica. Third-party tested, stored at 2–8 °C, delivered in 2–4 days.')}</p>
-            <div className="fbadges">
-              <a href={REVIEW_LINKS.google} target="_blank" rel="noopener noreferrer"><img src="/site/google.webp" alt="Google" /><b>5.0</b></a>
-              <a href={REVIEW_LINKS.facebook} target="_blank" rel="noopener noreferrer"><img src="/site/facebook.webp" alt="Facebook" /><b>5.0</b>{STARS}</a>
-            </div>
+            <RatingBadges lang={lang} className="fratebar" />
             <TrustpilotCount dark lang={lang} className="tpw" />
-            <ShopperSeal className="fseal" />
           </div>
           <div>
             <h4>{t('Quick Links')}</h4>

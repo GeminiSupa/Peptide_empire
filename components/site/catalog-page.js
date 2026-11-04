@@ -2,7 +2,7 @@ import CatalogBrowser from '@/components/site/catalog-browser';
 import CopyBlock from '@/components/site/copy-block';
 import { DealCard } from '@/components/site/deal-bits';
 import { Reviews } from '@/components/site/blocks';
-import { ShopperRotating, ShopperSeal } from '@/components/site/review-widgets';
+import { RatingBadges, ShopperRotating } from '@/components/site/review-widgets';
 import { dealPicks } from '@/lib/site/data';
 import { translator } from '@/lib/storefront/i18n.mjs';
 
@@ -44,11 +44,7 @@ export default function CatalogPage({ lang, site, h1, copy }) {
                 </div>
               ))}
             </div>
-            <div className="rates">
-              <span className="rate"><img src="/site/google.webp" alt="Google" /><b>5.0</b><span className="st">★★★★★</span></span>
-              <span className="rate"><img src="/site/facebook.webp" alt="Facebook" /><b>5.0</b><span className="st">★★★★★</span></span>
-            </div>
-            <ShopperSeal />
+            <RatingBadges lang={lang} />
             <div className="press">
               {t('As featured in')}
               {' '}

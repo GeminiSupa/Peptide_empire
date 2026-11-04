@@ -3,7 +3,7 @@ import Ms from '@/components/storefront/icon';
 import { DealCard } from '@/components/site/deal-bits';
 import Faq from '@/components/site/faq';
 import ProductGrid from '@/components/site/product-grid';
-import { ShopperRotating, ShopperSeal, TrustpilotCount } from '@/components/site/review-widgets';
+import { RatingBadges, ShopperRotating, TrustpilotCount } from '@/components/site/review-widgets';
 import { dealPicks } from '@/lib/site/data';
 import { REVIEWS, Reviews, CategoryTiles, Section, Steps } from '@/components/site/blocks';
 import { translator } from '@/lib/storefront/i18n.mjs';
@@ -83,11 +83,7 @@ export default function HomePage({ lang, h1, site }) {
           </div>
           <div className="hside">
             <DealCard deal={dealView} picks={picks} dealHref={links['deal-of-the-week']} id="hdeal" />
-            <div className="rates">
-              <span className="rate"><img src="/site/google.webp" alt="Google" /><b>5.0</b><span className="st">★★★★★</span></span>
-              <span className="rate"><img src="/site/facebook.webp" alt="Facebook" /><b>5.0</b><span className="st">★★★★★</span></span>
-            </div>
-            <div className="hrev"><ShopperSeal /></div>
+            <RatingBadges lang={lang} />
           </div>
         </div>
       </section>

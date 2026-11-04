@@ -112,3 +112,35 @@
 
 /* A two-column split whose picture was retired (proto-page.js) runs as one column. */
 .pcr-site .split:not(:has(> :nth-child(2))) { grid-template-columns: 1fr; max-width: 760px; }
+
+/* Ratings row (RatingBadges in review-widgets.js): Google, Facebook and the
+   live Shopper Approved seal as matching white cards, icon first. */
+.pcr-site .ratebar { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+.pcr-site .ratechip {
+  display: inline-flex; align-items: center; gap: 10px;
+  min-height: 52px; padding: 8px 14px 8px 10px;
+  background: #fff; color: var(--ink); border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(15, 37, 89, .12), 0 6px 18px rgba(15, 37, 89, .14);
+  text-decoration: none; transition: transform .15s ease, box-shadow .15s ease;
+}
+.pcr-site a.ratechip:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(15, 37, 89, .14), 0 10px 24px rgba(15, 37, 89, .2); }
+.pcr-site .ratei { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #f3f5fa; }
+.pcr-site .ratei svg { width: 20px; height: 20px; display: block; }
+.pcr-site .ratet { display: grid; gap: 1px; line-height: 1.15; }
+.pcr-site .ratet b { font-size: 16px; font-weight: 700; margin-right: 6px; }
+.pcr-site .ratet .st { color: #f5a623; font-size: 13px; letter-spacing: 1px; }
+.pcr-site .ratet small { font-size: 12px; color: #5b6478; white-space: nowrap; }
+.pcr-site .ratechip.sachip { padding: 4px 8px; }
+.pcr-site .ratechip.sachip a, .pcr-site .ratechip.sachip img { display: block; }
+.pcr-site .ratechip.sachip img { height: 44px; width: auto; border-radius: 0 !important; }
+/* The footer column is narrow: the two ratings share a row, the seal sits under them. */
+.pcr-site .fratebar { margin: 14px 0 4px; gap: 8px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); justify-items: stretch; }
+.pcr-site .fratebar .ratew { display: none; }
+.pcr-site .fratebar .ratechip.sachip { justify-self: start; }
+.pcr-site .fratebar .ratechip { min-height: 46px; padding: 6px 12px 6px 8px; gap: 8px; box-shadow: none; }
+.pcr-site .fratebar .ratei { width: 28px; height: 28px; }
+.pcr-site .fratebar .ratei svg { width: 17px; height: 17px; }
+.pcr-site .fratebar .ratechip.sachip { padding: 3px 6px; }
+.pcr-site .fratebar .ratechip.sachip img { height: 38px; }
+/* In a hero the cards share the column's width, under the card above them. */
+.pcr-site .hside .ratebar .ratechip, .pcr-site .chero .ratebar .ratechip { flex: 1 1 auto; justify-content: center; }
