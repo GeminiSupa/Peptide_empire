@@ -1654,12 +1654,12 @@ export default function CampaignBuilder({ editingCampaignId, onDirtyChange, noti
             <div><strong style={{ color: '#fff' }}>Reply-to:</strong> {replyTo || ACTUAL_SMTP_SENDER}</div>
             <div><strong style={{ color: '#fff' }}>Actual SMTP sender:</strong> {ACTUAL_SMTP_SENDER}</div>
           </div>
+        </Section>
 
-          {/* Schedule */}
-          <div style={{ marginTop: '16px', padding: '14px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
-            <label className="mkt-label" style={{ marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <CalendarClock size={14} style={{ color: '#34d399' }} /> Send Timing
-            </label>
+        {/* Send timing has its own open section. It used to sit inside the
+            collapsed "Sender & Delivery" block, where nobody looked for it. */}
+        <Section title="Send timing — send now or schedule for later" icon={CalendarClock} defaultOpen>
+          <div style={{ padding: '14px', background: 'rgba(255,255,255,0.02)', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>
             <div style={{ display: 'flex', gap: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
               <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '13px', color: scheduleMode === 'now' ? '#34d399' : 'rgba(255,255,255,0.5)' }}>
                 <input type="radio" name="scheduleMode" value="now" checked={scheduleMode === 'now'} onChange={() => updateDraftField(setScheduleMode, 'now')} style={{ accentColor: '#10b981' }} />

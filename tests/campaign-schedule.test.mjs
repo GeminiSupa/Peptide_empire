@@ -48,6 +48,20 @@ test('a full-day window never moves anything', () => {
   assert.equal(out.scheduledFor, at('2026-11-05T03:00'));
 });
 
+// "Schedule for later" was built inside the "Sender & Delivery" block, which
+// starts collapsed, so nobody could find it. It lives in its own open section.
+test('the schedule box is not inside a collapsed section', () => {
+  const source = fs.readFileSync(new URL('../src/components/admin/marketing/CampaignBuilder.js', import.meta.url), 'utf8');
+  const sender = source.indexOf('<Section title="3. Sender & Delivery"');
+  const senderEnd = source.indexOf('</Section>', sender);
+  const timing = source.indexOf('<Section title="Send timing');
+  const label = source.indexOf('Schedule for later');
+  assert.ok(sender > -1 && timing > -1 && label > -1, 'sections and the label must exist');
+  assert.ok(senderEnd < timing, 'Send timing must come after Sender & Delivery closes');
+  assert.ok(timing < label, 'the Schedule for later option must sit inside the Send timing section');
+  assert.match(source.slice(timing, source.indexOf('>', timing)), /defaultOpen(?!=\{false\})/, 'Send timing must start open');
+});
+
 // The picker used to read what was typed in the browser's own zone. An admin in
 // Pakistan choosing "8 PM" scheduled it for 9 AM Costa Rica. Every other admin
 // date goes through crWallToIso / isoToCrWall; this keeps the builder on them.
