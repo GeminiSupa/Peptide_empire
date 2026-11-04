@@ -4,9 +4,25 @@ import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { orderNetRevenueUsd } from '@/lib/orderRevenue.mjs';
 import { normalizeBehaviorFilter } from '@/lib/campaignBehavior.mjs';
 import { planScheduleUpdate } from '@/lib/campaignScheduleStatus.mjs';
+import { fitToSendingHours, sendingWindow } from '@/lib/campaignSchedule.mjs';
+import { getCampaignSafetyConfig } from '@/lib/campaignSafety.mjs';
 import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
 
 export const dynamic = 'force-dynamic';
+
+// A requested send time, moved into Costa Rica sending hours when it falls
+// outside them. `schedule` goes back to the admin so the screen can say when
+// the mail will really go out. A request with no time passes through untouched,
+// including `undefined`, which the PUT handler reads as "not mentioned".
+function resolveSchedule(scheduledAt) {
+  if (!scheduledAt) return { scheduledAt, schedule: null };
+  const config = getCampaignSafetyConfig();
+  const fitted = fitToSendingHours(scheduledAt, { startHour: config.sendWindowStartHour, endHour: config.sendWindowEndHour });
+  return {
+    scheduledAt: fitted.scheduledFor,
+    schedule: { requested: scheduledAt, scheduledFor: fitted.scheduledFor, moved: fitted.moved, window: fitted.window },
+  };
+}
 
 const OPTIONAL_CAMPAIGN_COLUMNS = ['preview_text', 'from_name', 'from_email', 'reply_to', 'include_leads', 'audience_scope', 'behavior_filter'];
 
@@ -176,7 +192,13 @@ export async function GET(request) {
       engagement: engagementMap[c.id] || null,
     }));
 
-    return NextResponse.json({ campaigns: enrichedCampaigns });
+    // The sending hours ride along so the builder can show the real ones
+    // beside the schedule box instead of assuming the defaults.
+    const config = getCampaignSafetyConfig();
+    return NextResponse.json({
+      campaigns: enrichedCampaigns,
+      sendWindow: sendingWindow({ startHour: config.sendWindowStartHour, endHour: config.sendWindowEndHour }),
+    });
   } catch (err) {
     console.error('Error fetching campaigns:', err);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
@@ -212,7 +234,8 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Title and Subject Line are required' }, { status: 400 });
     }
 
-    const status = scheduled_at ? 'scheduled' : 'draft';
+    const { scheduledAt, schedule } = resolveSchedule(scheduled_at);
+    const status = scheduledAt ? 'scheduled' : 'draft';
 
     const { data, error } = await insertCampaignWithSchemaFallback(supabaseAdmin, {
       title,
@@ -229,7 +252,7 @@ export async function POST(request) {
       include_leads: Boolean(include_leads),
       audience_scope: audience_scope || (include_leads ? 'all' : 'subscribers'),
       behavior_filter: normalizeBehaviorFilter(behavior_filter),
-      scheduled_for: scheduled_at || null,
+      scheduled_for: scheduledAt || null,
       status
     });
 
@@ -238,7 +261,7 @@ export async function POST(request) {
     }
     if (error) throw error;
 
-    return NextResponse.json({ campaign: data });
+    return NextResponse.json({ campaign: data, schedule });
   } catch (err) {
     console.error('Error saving campaign:', err);
     return NextResponse.json({ error: err.message || 'Internal Server Error' }, { status: 500 });
@@ -306,7 +329,8 @@ export async function PUT(request) {
     if (behavior_filter !== undefined) updates.behavior_filter = normalizeBehaviorFilter(behavior_filter);
     // Scheduling only means anything before a campaign goes out. The rule and
     // its reasoning live in campaignScheduleStatus.mjs, where they are tested.
-    const schedule = planScheduleUpdate(current.status, scheduled_at);
+    const requested = resolveSchedule(scheduled_at);
+    const schedule = planScheduleUpdate(current.status, requested.scheduledAt);
     Object.assign(updates, schedule);
     if (scheduled_at !== undefined && !('status' in schedule)) {
       console.log(`[Campaigns] ${id} is "${current.status}"; leaving its status and schedule alone.`);
@@ -319,7 +343,9 @@ export async function PUT(request) {
     }
     if (error) throw error;
 
-    return NextResponse.json({ campaign: data });
+    // Only echo a schedule the update actually applied: a sent or mid-send
+    // campaign ignores the requested time, and saying it was moved would be wrong.
+    return NextResponse.json({ campaign: data, schedule: 'status' in schedule ? requested.schedule : null });
   } catch (err) {
     console.error('Error updating campaign:', err);
     return NextResponse.json({ error: err.message || 'Internal Server Error' }, { status: 500 });

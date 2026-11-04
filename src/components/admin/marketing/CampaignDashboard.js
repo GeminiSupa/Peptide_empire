@@ -5,6 +5,7 @@ import { adminFetch } from '@/lib/adminApi';
 import { normalizeAudienceScope, scopeIncludesLeads } from '@/lib/campaignAudience.mjs';
 import { normalizeBehaviorFilter } from '@/lib/campaignBehavior.mjs';
 import { campaignEngagement, totalEngagement } from '@/lib/campaignEngagement.mjs';
+import { formatCrInstant } from '@/lib/crTime.mjs';
 import {
   BarChart2, Eye, MousePointerClick, Send, Loader2,
   Trophy, RefreshCw, TrendingUp, Activity, CopyPlus, Trash2, Pencil,
@@ -299,6 +300,11 @@ export default function CampaignDashboard({ onEdit, onCreate, onViewReport, noti
                         }`}>
                           {camp.status}
                         </span>
+                        {camp.status === 'scheduled' && camp.scheduled_for && (
+                          <div className="mkt-text-xs mkt-text-muted" style={{ marginTop: '5px' }}>
+                            {sends > 0 ? 'Next batch' : 'Goes out'} {formatCrInstant(camp.scheduled_for)}
+                          </div>
+                        )}
                       </td>
                       <td data-label="Health">
                         <CampaignHealthCell batch={camp.latest_delivery_batch} />

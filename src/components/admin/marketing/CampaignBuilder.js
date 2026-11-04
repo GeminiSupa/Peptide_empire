@@ -13,6 +13,8 @@ import { adminFetch } from '@/lib/adminApi';
 import { MARKETING_FOOTER_MARKER, buildMarketingEmailFooterTemplateHtml } from '@/lib/marketingEmailFooter';
 import { normalizeAudienceScope } from '@/lib/campaignAudience.mjs';
 import { BEHAVIOR_FILTERS, behaviorFilterLabel, matchesBehaviorFilter, normalizeBehaviorFilter, signalsFor } from '@/lib/campaignBehavior.mjs';
+import { crWallToIso, formatCrInstant, formatCrWall, isoToCrWall } from '@/lib/crTime.mjs';
+import { DEFAULT_CAMPAIGN_SAFETY } from '@/lib/campaignSafety.mjs';
 
 // The browser backup is per campaign, not per studio.
 //
@@ -451,7 +453,12 @@ export default function CampaignBuilder({ editingCampaignId, onDirtyChange, noti
 
   // Schedule
   const [scheduleMode, setScheduleMode] = useState('now'); // 'now' | 'scheduled'
+  // What is typed here is Costa Rica wall time ("2026-11-05T19:00"), never the
+  // browser's own zone: the team sits 11 hours ahead of the business.
   const [scheduledAt,  setScheduledAt]  = useState('');
+  // Costa Rica sending hours; the server sends the real ones with the campaign
+  // list, these are only what shows before that first answer arrives.
+  const [sendWindow, setSendWindow] = useState({ start: DEFAULT_CAMPAIGN_SAFETY.sendWindowStartHour, end: DEFAULT_CAMPAIGN_SAFETY.sendWindowEndHour });
 
   // Test email
   const [testEmail,      setTestEmail]      = useState('');
@@ -792,6 +799,7 @@ export default function CampaignBuilder({ editingCampaignId, onDirtyChange, noti
       const res  = await adminFetch('/api/admin/campaigns');
       const data = await res.json();
       if (data.campaigns) setCampaigns(data.campaigns);
+      if (data.sendWindow) setSendWindow(data.sendWindow);
     } catch (err) {
       console.error('Failed to fetch campaigns:', err);
     }
@@ -832,7 +840,7 @@ export default function CampaignBuilder({ editingCampaignId, onDirtyChange, noti
     setPreviewText(selectedCampaign.preview_text || '');
     if (selectedCampaign.scheduled_for) {
       setScheduleMode('scheduled');
-      setScheduledAt(new Date(selectedCampaign.scheduled_for).toISOString().slice(0, 16));
+      setScheduledAt(isoToCrWall(selectedCampaign.scheduled_for));
     } else {
       setScheduleMode('now');
       setScheduledAt('');
@@ -1029,7 +1037,7 @@ export default function CampaignBuilder({ editingCampaignId, onDirtyChange, noti
           from_email: fromEmail || null,
           reply_to: replyTo || null,
           preview_text: previewText || null,
-          scheduled_at: scheduleMode === 'scheduled' && scheduledAt ? new Date(scheduledAt).toISOString() : null,
+          scheduled_at: scheduleMode === 'scheduled' && scheduledAt ? crWallToIso(scheduledAt) : null,
         };
         // Method and id must come from the same place, and that place is the
         // ref. The state lags by a render, so reading the method from it while
@@ -1047,7 +1055,14 @@ export default function CampaignBuilder({ editingCampaignId, onDirtyChange, noti
         setSelectedCampaignId(data.campaign.id);
         setAutosaveStatus('saved');
         setLastSavedAt(new Date());
-        setStatusDetail(`${silent ? 'Autosaved' : 'Saved'} to server at ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.`);
+        // The server may have moved the time into sending hours; say so, so the
+        // admin is never left believing a time the mail will not go out at.
+        const sched = data.schedule;
+        const hourLabel = (hour) => `${String(hour).padStart(2, '0')}:00`;
+        const scheduleNote = !sched ? '' : sched.moved
+          ? ` ${formatCrInstant(sched.requested)} is outside sending hours (${hourLabel(sched.window.start)}–${hourLabel(sched.window.end)} Costa Rica), so it will go out ${formatCrInstant(sched.scheduledFor)}.`
+          : ` Goes out ${formatCrInstant(sched.scheduledFor)}.`;
+        setStatusDetail(`${silent ? 'Autosaved' : 'Saved'} to server at ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.${scheduleNote}`);
         writeLocalSnapshot({ unsaved: false, source: silent ? 'autosave' : 'server-save' });
         // The campaign has just been given an id, so its backup now lives
         // under that id. Clear the 'new' slot it was using, or the next blank
@@ -1661,10 +1676,24 @@ export default function CampaignBuilder({ editingCampaignId, onDirtyChange, noti
                   onChange={e => updateDraftField(setScheduledAt, e.target.value)}
                   className="mkt-input"
                   style={{ maxWidth: '240px', margin: 0 }}
-                  min={new Date().toISOString().slice(0, 16)}
+                  min={isoToCrWall(new Date().toISOString())}
                 />
               )}
+              {scheduleMode === 'scheduled' && (
+                <span className="mkt-text-xs mkt-text-muted">Costa Rica time</span>
+              )}
             </div>
+            {scheduleMode === 'scheduled' && (
+              <div className="mkt-text-xs mkt-text-muted" style={{ marginTop: '10px', lineHeight: 1.5 }}>
+                {scheduledAt
+                  ? <>Goes out <strong style={{ color: '#fff' }}>{formatCrWall(scheduledAt)}</strong>. </>
+                  : 'Pick the day and time in Costa Rica time. '}
+                {scheduledAt && crWallToIso(scheduledAt) && Date.parse(crWallToIso(scheduledAt)) < Date.now()
+                  ? 'That time has already passed, so it goes out within about 5 minutes. '
+                  : ''}
+                Campaigns only go out between {String(sendWindow.start).padStart(2, '0')}:00 and {String(sendWindow.end).padStart(2, '0')}:00 Costa Rica time; a later time waits for the next morning, and a long list keeps going in batches until it is done. The change saves by itself — the line at the bottom says when it will really go out.
+              </div>
+            )}
           </div>
 
         </Section>
