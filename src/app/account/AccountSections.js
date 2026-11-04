@@ -348,6 +348,7 @@ export function LearnSection() {
   const [lang] = useStorefrontLang();
   const isEn = lang === 'en';
   const links = [
+    { href: '/account/dosing-guides', en: 'Dosing guides', es: 'Guías de dosificación' },
     { href: `/info-center?lang=${lang}`, en: 'Info center', es: 'Centro de información' },
     { href: `/faq?lang=${lang}`, en: 'Questions', es: 'Preguntas' },
     { href: `/blog?lang=${lang}`, en: 'Articles', es: 'Artículos' },
@@ -377,6 +378,7 @@ export function AppSection() {
 export const ACCOUNT_LINKS = [
   { href: '/account/security', en: 'Login & security', es: 'Acceso y seguridad' },
   { href: '/account/business', en: 'Business account', es: 'Cuenta empresarial' },
+  { href: '/account/dosing-guides', en: 'Dosing guides', es: 'Guías de dosificación' },
   { href: '/account/rewards', en: 'Rewards', es: 'Recompensas' },
   { href: '/account/favorites', en: 'Favorites', es: 'Favoritos' },
   { href: '/account/notifications', en: 'Notifications', es: 'Avisos' },
