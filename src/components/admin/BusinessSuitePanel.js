@@ -16,17 +16,20 @@ export default function BusinessSuitePanel({businessId,onReps}){
   const [referral,setReferral]=useState({code:'',rep_user_id:'',label:''});
   const [qr,setQr]=useState({});
   const [reviews,setReviews]=useState({});
+  const [refreshing,setRefreshing]=useState(false);
+  const [lastUpdated,setLastUpdated]=useState(null);
   const load=useCallback(async()=>{
-    const res=await adminFetch('/api/admin/business-suite');const result=await res.json();if(!res.ok)throw new Error(result.error);setData(result);
+    setRefreshing(true);try{const res=await adminFetch('/api/admin/business-suite');const result=await res.json();if(!res.ok)throw new Error(result.error);setData(result);setLastUpdated(new Date().toISOString());}finally{setRefreshing(false);}
   },[]);
   useEffect(()=>{load().catch(error=>setMessage(error.message));},[load]);
+  useEffect(()=>{const refresh=()=>{if(document.visibilityState==='visible')load().catch(()=>{});};const timer=window.setInterval(refresh,30000);window.addEventListener('focus',refresh);document.addEventListener('visibilitychange',refresh);return()=>{window.clearInterval(timer);window.removeEventListener('focus',refresh);document.removeEventListener('visibilitychange',refresh);};},[load]);
   useEffect(()=>{if(data&&onReps)onReps(data.reps);},[data,onReps]);
-  async function act(body){
-    setBusy(true);setMessage('');
+  async function act(body,options={}){
+    setBusy(true);if(!options.quiet)setMessage('');
     try{
       const res=await adminFetch('/api/admin/business-suite',{method:'POST',body:JSON.stringify(body)});const result=await res.json();if(!res.ok)throw new Error(result.error);
-      setMessage(result.notification?.sent===false||result.sent===false?'Saved. Email delivery needs attention; retry it below.':'Saved successfully.');await load();
-    }catch(error){setMessage(error.message);}finally{setBusy(false);}
+      if(!options.quiet)setMessage(result.notification?.sent===false||result.sent===false?'Saved. Email delivery needs attention; retry it below.':'Saved successfully.');await load();return result;
+    }catch(error){if(!options.quiet)setMessage(error.message);return null;}finally{setBusy(false);}
   }
   function signupUrl(code){return `${data.publicSiteUrl}/account/business?ref=${encodeURIComponent(code)}`;}
   async function showQr(code){try{const image=await QRCode.toDataURL(signupUrl(code),{width:600,margin:3,errorCorrectionLevel:'M'});setQr(current=>({...current,[code]:image}));}catch(error){setMessage(error.message);}}
@@ -38,7 +41,7 @@ export default function BusinessSuitePanel({businessId,onReps}){
   const repName=id=>data.reps.find(rep=>rep.user_id===id)?.name||data.reps.find(rep=>rep.user_id===id)?.email||'Unassigned';
   return <section style={{marginTop:28}}>
     <h3>Business operations</h3><button disabled={busy} onClick={()=>load().catch(error=>setMessage(error.message))}>Refresh operations</button>{message&&<p role="status">{message}</p>}
-    <BusinessAnalyticsPanel analytics={data.analytics} limited={data.activityLimited}/>
+    <BusinessAnalyticsPanel analytics={data.analytics} limited={data.activityLimited} intelligenceReady={data.intelligenceReady} onAction={act} onRefresh={load} refreshing={refreshing} lastUpdated={lastUpdated} reps={data.reps}/>
     <h4>Business sales</h4><div style={{display:'flex',gap:24,flexWrap:'wrap'}}><p><strong>{data.report.totals.accounts}</strong> accounts</p><p><strong>{data.report.totals.active}</strong> approved</p><p><strong>{data.report.totals.repeat_buyers}</strong> repeat buyers</p><p><strong>US${data.report.totals.revenue_usd.toFixed(2)}</strong> net sales</p></div>
     {data.reportLimited&&<p>Report covers the latest 20,000 business orders. Earlier sales are excluded from these totals.</p>}
     <div style={{overflowX:'auto'}}><table style={{width:'100%',textAlign:'left'}}><thead><tr><th>Company</th><th>Rep</th><th>Paid orders</th><th>Net sales USD</th><th>Last purchase</th><th>Follow-up</th></tr></thead><tbody>{data.report.businesses.map(row=><tr key={row.id}><td data-label="Company">{row.legal_name}</td><td data-label="Rep">{repName(row.rep_user_id)}</td><td data-label="Paid orders">{row.orders}</td><td data-label="Net sales USD">{row.revenue_usd.toFixed(2)}</td><td data-label="Last purchase">{row.last_order_at?new Date(row.last_order_at).toLocaleDateString():'Never'}</td><td data-label="Follow-up">{row.needs_follow_up?'Needs follow-up':'—'}</td></tr>)}</tbody></table></div>

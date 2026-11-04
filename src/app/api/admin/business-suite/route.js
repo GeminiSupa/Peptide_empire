@@ -46,8 +46,12 @@ export async function GET(request) {
       if((page.data||[]).length<1000)break;
       if(start===19000)activityLimited=true;
     }
-    const analytics=buildBusinessAnalytics({businesses,events,orders,quotes,lists,members});
-    return Response.json({businesses,reps,prices,quotes,codes,emails,publicSiteUrl:getPublicSiteUrl(request.url),report:businessSalesReport(businesses,orders),analytics,activityLimited,reportLimited:hasMore,quoteOrders:orders.filter(order=>order.business_quote_id).map(order=>({quote_id:order.business_quote_id,order_number:order.order_number}))},{headers:{'Cache-Control':'private, no-store'}});
+    let intelligence=[];
+    const intelResult=await admin.from('business_account_intelligence').select('*');
+    if(!intelResult.error) intelligence=intelResult.data||[];
+    else if(!['42P01','PGRST205'].includes(intelResult.error.code)) throw intelResult.error;
+    const analytics=buildBusinessAnalytics({businesses,events,orders,quotes,lists,members,intelligence});
+    return Response.json({businesses,reps,prices,quotes,codes,emails,publicSiteUrl:getPublicSiteUrl(request.url),report:businessSalesReport(businesses,orders),analytics,activityLimited,intelligenceReady:!intelResult.error,reportLimited:hasMore,quoteOrders:orders.filter(order=>order.business_quote_id).map(order=>({quote_id:order.business_quote_id,order_number:order.order_number}))},{headers:{'Cache-Control':'private, no-store'}});
   }catch(error){return businessFailure(error);}
 }
 
@@ -59,6 +63,34 @@ export async function POST(request) {
     const body=await request.json();
     const admin=getSupabaseAdmin();
     if(body.action==='retry-email') return Response.json(await deliverBusinessEmail(admin,body.id));
+    if(body.action==='save-intelligence') {
+      const stages=new Set(['','prospect','onboarding','active','growth','at_risk','dormant']);
+      const priorities=new Set(['low','normal','high','urgent']);
+      const stage=String(body.lifecycle_stage||'').trim();const priority=String(body.priority||'normal').trim();
+      if(!stages.has(stage)||!priorities.has(priority)) throw businessError('Choose a valid stage and priority.');
+      const tags=[...new Set((Array.isArray(body.tags)?body.tags:[]).map(value=>String(value).trim().slice(0,30)).filter(Boolean))].slice(0,12);
+      const followUp=body.next_follow_up_at?new Date(body.next_follow_up_at):null;
+      if(followUp&&!Number.isFinite(followUp.getTime())) throw businessError('Choose a valid follow-up date.');
+      const intelligencePatch={lifecycle_stage:stage,priority,tags,internal_note:String(body.internal_note||'').trim().slice(0,4000),next_follow_up_at:followUp?.toISOString()||null,updated_by:auth.user.email,updated_at:new Date().toISOString()};
+      let saved=await admin.from('business_account_intelligence').update(intelligencePatch).eq('business_id',body.business_id).select('*').maybeSingle();
+      if(!saved.error&&!saved.data)saved=await admin.from('business_account_intelligence').insert({business_id:body.business_id,...intelligencePatch}).select('*').single();
+      if(saved.error){if(['42P01','PGRST205'].includes(saved.error.code))throw businessError('Run business-account-analytics.sql before saving CRM details.',409);throw saved.error;}
+      return Response.json({ok:true,intelligence:saved.data});
+    }
+    if(body.action==='log-contact') {
+      const channel=String(body.channel||'');if(!['email','whatsapp','phone'].includes(channel))throw businessError('Choose a valid contact channel.');
+      const businessResult=await admin.from('business_accounts').select('id,email,phone,owner_whatsapp').eq('id',body.business_id).single();
+      if(businessResult.error||!businessResult.data)throw businessError('Business not found.',404);
+      const recipient=channel==='email'?businessResult.data.email:(businessResult.data.owner_whatsapp||businessResult.data.phone);
+      const now=new Date().toISOString();
+      const contact=await admin.from('business_contact_events').insert({business_id:body.business_id,actor_email:auth.user.email,channel,recipient:String(recipient||'').slice(0,200),occurred_at:now});
+      if(contact.error){if(['42P01','PGRST205'].includes(contact.error.code))throw businessError('Run business-account-analytics.sql before contact logging is available.',409);throw contact.error;}
+      const contactPatch={last_contacted_at:now,last_contacted_channel:channel,updated_by:auth.user.email,updated_at:now};
+      let intel=await admin.from('business_account_intelligence').update(contactPatch).eq('business_id',body.business_id).select('business_id').maybeSingle();
+      if(!intel.error&&!intel.data)intel=await admin.from('business_account_intelligence').insert({business_id:body.business_id,...contactPatch}).select('business_id').single();
+      if(intel.error)throw intel.error;
+      return Response.json({ok:true,contacted_at:now});
+    }
     if(body.action==='save-referral') {
       const code=String(body.code || '').toUpperCase().trim();
       if(!/^[A-Z0-9_-]{4,40}$/.test(code)) throw businessError('Use 4–40 letters, numbers, underscores or hyphens for the code.');
