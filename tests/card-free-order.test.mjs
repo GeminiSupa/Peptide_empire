@@ -13,6 +13,7 @@ import { classifyPaymentOutcome, declineReasonFrom, gatewayStatusToOrderStatus, 
 import { cardCheckoutMessage } from '../src/lib/cardCheckoutMessages.mjs';
 import { isFreeCardOrder, hasNothingToPay } from '../src/lib/freeOrder.mjs';
 import { withPaymentStatusActivity } from '../src/lib/paymentStatusActivity.mjs';
+import { normalizeChargxPaymentType } from '../src/lib/chargxPay.mjs';
 
 const person = {
   customer_name: 'Test Buyer', customer_phone: '+50688888888',
@@ -40,6 +41,7 @@ function loadRoute() {
     isChargxConfigured: () => true,
     createChargxCardCheckout: async (args) => { calls.gateway.push(args); return { id: 'tx1', status: 'Redirect', redirect_url: 'https://pay.test/x' }; },
     withChargxCheckoutDetails: (url) => url,
+    normalizeChargxPaymentType,
     claimOrderForPayment: async () => ({ claimed: true, order: row }),
     releaseOrderClaim: async (_s, number) => { calls.released.push(number); },
     describeOrderPaymentState: async () => 'processing',
@@ -120,6 +122,18 @@ test('posting $0 for a real order still charges the stored total, never the post
   assert.equal(calls.gateway[0].amount, '50.00');
   assert.equal(res.body.orderStatus, 'Pending - Card 3DS');
   assert.notEqual(calls.updates[0].status, 'Paid');
+});
+
+test('an ACH or crypto request opens that Chargex page; anything else stays a card', async () => {
+  for (const [sent, expected] of [['ach', 'ach'], ['crypto', 'crypto'], ['card', 'card'], [undefined, 'card'], ['paypal', 'card']]) {
+    const { POST, calls, setRow } = loadRoute();
+    setRow({ ...freeRow, total_usd: 50, total_crc: 25000, promo_code: null });
+    const res = await POST({ body: { amount: 50, currency: 'USD', orderNumber: 'CARD-T1', paymentToken: 'ok', lang: 'en', payType: sent } });
+    assert.equal(calls.gateway.length, 1, String(sent));
+    assert.equal(calls.gateway[0].type, expected, String(sent));
+    assert.match(calls.gateway[0].successUrl, new RegExp(`payment=${expected}$`), String(sent));
+    assert.equal(res.body.orderStatus, 'Pending - Card 3DS', String(sent));
+  }
 });
 
 test('only a real zero with a code is free', () => {

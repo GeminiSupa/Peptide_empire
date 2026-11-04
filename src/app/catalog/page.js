@@ -3479,6 +3479,10 @@ export default function CatalogPage() {
     cardSubmitLockRef.current = true;
     setCardSubmitting(true);
 
+    // The ACH and crypto tiles run this same flow. The order is saved as a
+    // Chargex order either way; only the page Chargex opens differs.
+    const chargxPayType = paymentMethod === 'ach' || paymentMethod === 'crypto' ? paymentMethod : 'card';
+
     const orderNum = `CARD-${Date.now().toString(36).toUpperCase()}`;
     const totalVal = getFinalTotal();
     const cardCurrency = 'USD';
@@ -3545,6 +3549,7 @@ export default function CatalogPage() {
           shippingAddress,
           lang,
           paymentMethod: 'card',
+          payType: chargxPayType,
           customerIdType,
           customerIdNumber,
           customerIp: customerMetadata?.ip_address || null,
@@ -3600,7 +3605,11 @@ export default function CatalogPage() {
           ? (lang === 'en' ? 'We could not confirm your payment' : 'No pudimos confirmar su pago')
           : data.errorCode === 'already_paid'
             ? (lang === 'en' ? 'This order is already paid' : 'Este pedido ya fue pagado')
-            : (lang === 'en' ? 'The card payment did not go through' : 'El pago con tarjeta no se completó'),
+            : chargxPayType === 'ach'
+              ? (lang === 'en' ? 'The bank payment did not go through' : 'El pago bancario no se completó')
+              : chargxPayType === 'crypto'
+                ? (lang === 'en' ? 'The crypto payment did not go through' : 'El pago con cripto no se completó')
+                : (lang === 'en' ? 'The card payment did not go through' : 'El pago con tarjeta no se completó'),
         isGatewayDecline
           ? [
             endSentence(data.error) || (lang === 'en' ? 'The bank did not give a reason.' : 'El banco no dio un motivo.'),
@@ -3638,8 +3647,8 @@ export default function CatalogPage() {
   // Checkout submit
   const handleCheckoutSubmit = async (e) => {
     e.preventDefault();
-    if (paymentMethod === 'card') {
-      // Card payment is handled by its own button below — should not reach here
+    if (paymentMethod === 'card' || paymentMethod === 'ach' || paymentMethod === 'crypto') {
+      // Card, ACH and crypto are handled by their own button below — should not reach here
       return;
     }
     if (cart.length === 0) return;
@@ -5594,7 +5603,7 @@ export default function CatalogPage() {
             /* noValidate is deliberate: native constraint validation runs before
                 the submit event, so without it the browser's own bubble preempts
                 validateForm() and none of the inline field errors ever render. */
-            <form id="checkout-form-main" noValidate onSubmit={handleCheckoutSubmit} className="checkout-form" style={{ paddingBottom: paymentMethod === 'card' && CARD_CHECKOUT_AVAILABLE && !cardRetryBlocked ? '24px' : '96px' }}>
+            <form id="checkout-form-main" noValidate onSubmit={handleCheckoutSubmit} className="checkout-form" style={{ paddingBottom: (paymentMethod === 'card' || paymentMethod === 'ach' || paymentMethod === 'crypto') && CARD_CHECKOUT_AVAILABLE && !cardRetryBlocked ? '24px' : '96px' }}>
 
               {/* The honeypot. Off-screen rather than display:none, because a
                   script that skips hidden inputs is the one this is for; out of
@@ -5929,6 +5938,26 @@ export default function CatalogPage() {
                       : (CARD_CHECKOUT_LIVE ? null : (lang === 'en' ? 'Test' : 'Prueba')),
                     disabled: !CARD_CHECKOUT_AVAILABLE,
                   },
+                  {
+                    value: 'ach',
+                    icon: '🏛️',
+                    title: lang === 'en' ? 'Bank (ACH)' : 'Banco (ACH)',
+                    detail: !CARD_CHECKOUT_AVAILABLE
+                      ? (lang === 'en' ? 'Under maintenance' : 'En mantenimiento')
+                      : (lang === 'en' ? 'US bank account • USD' : 'Cuenta bancaria de EE. UU. • USD'),
+                    badge: !CARD_CHECKOUT_AVAILABLE ? (lang === 'en' ? 'Maintenance' : 'Mantenimiento') : null,
+                    disabled: !CARD_CHECKOUT_AVAILABLE,
+                  },
+                  {
+                    value: 'crypto',
+                    icon: '₿',
+                    title: lang === 'en' ? 'Crypto' : 'Cripto',
+                    detail: !CARD_CHECKOUT_AVAILABLE
+                      ? (lang === 'en' ? 'Under maintenance' : 'En mantenimiento')
+                      : (lang === 'en' ? 'Cryptocurrency • USD value' : 'Criptomonedas • valor en USD'),
+                    badge: !CARD_CHECKOUT_AVAILABLE ? (lang === 'en' ? 'Maintenance' : 'Mantenimiento') : null,
+                    disabled: !CARD_CHECKOUT_AVAILABLE,
+                  },
                   ...['sinpe', 'bank_transfer'].map(value => ({
                     value, icon: value === 'sinpe' ? '📱' : '🏦',
                     title: value === 'sinpe' ? 'SINPE Móvil' : (lang === 'en' ? 'Bank transfer' : 'Transferencia bancaria'),
@@ -6136,6 +6165,69 @@ export default function CatalogPage() {
                       {lang === 'en'
                         ? 'Card payments are processed in US dollars.'
                         : 'Los pagos con tarjeta se procesan en dólares estadounidenses.'}
+                    </p>
+                  )}
+                </div>
+                </>
+              ) : (paymentMethod === 'ach' || paymentMethod === 'crypto') && CARD_CHECKOUT_AVAILABLE ? (
+                <>
+                {/* Bank (ACH) and crypto. Same Chargex hand-off as the card
+                    above, minus the card-only notes (statement name, bank
+                    fee, Apple/Google Pay). */}
+                <div className="card-payment-panel">
+                  <div className="card-payment-fields">
+                    <p className="card-payment-security-note">
+                      {paymentMethod === 'ach'
+                        ? (lang === 'en'
+                          ? 'The next page is Chargex, our payment processor. You enter your US bank account details there. We never see them.'
+                          : 'La siguiente página es Chargex, nuestro procesador de pagos. Ahí escribe los datos de su cuenta bancaria de EE. UU. Nosotros nunca los vemos.')
+                        : (lang === 'en'
+                          ? 'The next page is Chargex, our payment processor. You send the crypto payment from there. We never handle your wallet.'
+                          : 'La siguiente página es Chargex, nuestro procesador de pagos. Desde ahí envía el pago en cripto. Nosotros nunca manejamos su billetera.')}
+                    </p>
+                  </div>
+                  <p className="card-payment-fee-note">
+                    <strong>{lang === 'en' ? 'Note:' : 'Nota:'}</strong>{' '}
+                    {paymentMethod === 'ach'
+                      ? (lang === 'en'
+                        ? 'Bank payments can take a few business days to confirm. ACH is for US bank accounts only.'
+                        : 'Los pagos bancarios pueden tardar unos días hábiles en confirmarse. ACH es solo para cuentas bancarias de EE. UU.')
+                      : (lang === 'en'
+                        ? 'Your total is priced in US dollars. Chargex shows you what to send on the next page.'
+                        : 'Su total está en dólares estadounidenses. Chargex le muestra qué enviar en la siguiente página.')}
+                  </p>
+                </div>
+                <div className="cart-sticky-submit">
+                  <button
+                    type="button"
+                    disabled={cardSubmitting || cardRetryBlocked || cart.length === 0 || checkBacOnlyMinimum(cart).blocked || Boolean(getWeeklyDealLimitError())}
+                    onClick={startCardCheckout}
+                    className="card-payment-btn"
+                  >
+                    {cardRetryBlocked ? (
+                      <>
+                        <MessageCircle size={18} />
+                        {lang === 'en' ? 'Message us on WhatsApp' : 'Escríbanos por WhatsApp'}
+                      </>
+                    ) : cardSubmitting ? (
+                      <>
+                        <div className="sync-spinner" style={{ width: '16px', height: '16px' }}></div>
+                        {lang === 'en' ? 'Redirecting to payment...' : 'Redirigiendo al pago...'}
+                      </>
+                    ) : (
+                      <>
+                        <span aria-hidden="true">{paymentMethod === 'ach' ? '🏛️' : '₿'}</span>
+                        {paymentMethod === 'ach'
+                          ? (lang === 'en' ? `Pay ${formatPriceVal(getFinalTotal(), currency)} by Bank (ACH)` : `Pagar ${formatPriceVal(getFinalTotal(), currency)} por Banco (ACH)`)
+                          : (lang === 'en' ? `Pay ${formatPriceVal(getFinalTotal(), currency)} with Crypto` : `Pagar ${formatPriceVal(getFinalTotal(), currency)} con Cripto`)}
+                      </>
+                    )}
+                  </button>
+                  {currency === 'CRC' && (
+                    <p className="card-payment-caption">
+                      {lang === 'en'
+                        ? 'This payment is processed in US dollars.'
+                        : 'Este pago se procesa en dólares estadounidenses.'}
                     </p>
                   )}
                 </div>

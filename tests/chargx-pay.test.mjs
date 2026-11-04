@@ -2,7 +2,10 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import crypto from 'crypto';
 
+import fs from 'node:fs';
 import {
+  createChargxCardCheckout,
+  normalizeChargxPaymentType,
   opaqueDataFromTokenResponse,
   transactionFromChargxResponse,
   verifyChargxWebhookSignature,
@@ -75,4 +78,61 @@ test('webhook signatures accept the v1= prefix and reject a tampered body', () =
   assert.equal(verifyChargxWebhookSignature({
     secret, timestamp, signatureHeader: `v1=${hex}`, rawBody: `${rawBody} `,
   }), false);
+});
+
+// ---------------------------------------------------------------------------
+// ACH and crypto ride the same hosted page as cards; only `type` changes.
+// ---------------------------------------------------------------------------
+
+test('only card, ach and crypto are accepted; anything else is a card', () => {
+  assert.equal(normalizeChargxPaymentType('ach'), 'ach');
+  assert.equal(normalizeChargxPaymentType(' CRYPTO '), 'crypto');
+  assert.equal(normalizeChargxPaymentType('card'), 'card');
+  assert.equal(normalizeChargxPaymentType('paypal'), 'card');
+  assert.equal(normalizeChargxPaymentType(undefined), 'card');
+});
+
+async function sentTypeFor(type) {
+  const realFetch = globalThis.fetch;
+  const previousKey = process.env.CHARGX_PUBLISHABLE_API_KEY;
+  process.env.CHARGX_PUBLISHABLE_API_KEY = 'pk_test_not_real';
+  let sentBody = null;
+  globalThis.fetch = async (_url, init) => {
+    sentBody = JSON.parse(init.body);
+    return new Response(JSON.stringify({
+      payment_request: { id: 'pr_1', checkout_url: 'https://dashboard.chargx.io/payment-form/pr_1', isProduction: true },
+    }), { status: 200 });
+  };
+  try {
+    const page = await createChargxCardCheckout({
+      amount: 50, successUrl: 'https://example.com/ok', ...(type === undefined ? {} : { type }),
+    });
+    return { sentBody, page };
+  } finally {
+    globalThis.fetch = realFetch;
+    if (previousKey === undefined) delete process.env.CHARGX_PUBLISHABLE_API_KEY;
+    else process.env.CHARGX_PUBLISHABLE_API_KEY = previousKey;
+  }
+}
+
+test('the payment request carries the chosen type, and defaults to card', async () => {
+  assert.equal((await sentTypeFor('ach')).sentBody.type, 'ach');
+  assert.equal((await sentTypeFor('crypto')).sentBody.type, 'crypto');
+  assert.equal((await sentTypeFor(undefined)).sentBody.type, 'card');
+  assert.equal((await sentTypeFor('bitcoin-atm')).sentBody.type, 'card');
+  assert.equal((await sentTypeFor('ach')).page.payment_type, 'ach');
+});
+
+test('the storefront offers ACH and crypto, and the server passes the type on', () => {
+  const catalog = fs.readFileSync('src/app/catalog/page.js', 'utf8');
+  const route = fs.readFileSync('src/app/api/chargx/process-card/route.js', 'utf8');
+  assert.match(catalog, /value: 'ach'/);
+  assert.match(catalog, /value: 'crypto'/);
+  assert.match(catalog, /payType: chargxPayType/);
+  // Enter in a form field must not fall through to the manual-order path.
+  assert.match(catalog, /paymentMethod === 'card' \|\| paymentMethod === 'ach' \|\| paymentMethod === 'crypto'\) \{\s*\/\/ Card, ACH and crypto/);
+  assert.match(route, /normalizeChargxPaymentType\(body\?\.payType\)/);
+  assert.match(route, /type: payType/);
+  // The order is still saved as a card order, so no other path changes.
+  assert.match(catalog, /payment_method: 'card',\s*status: 'Pending - Card'/);
 });

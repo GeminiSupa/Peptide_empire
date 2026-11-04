@@ -1,6 +1,6 @@
 import { NextResponse, after } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
-import { isChargxConfigured, createChargxCardCheckout, withChargxCheckoutDetails } from '@/lib/chargxPay.mjs';
+import { isChargxConfigured, createChargxCardCheckout, withChargxCheckoutDetails, normalizeChargxPaymentType } from '@/lib/chargxPay.mjs';
 import { claimOrderForPayment, releaseOrderClaim, describeOrderPaymentState } from '@/lib/cardPaymentLock';
 import { classifyPaymentOutcome, declineReasonFrom, gatewayStatusToOrderStatus, ORDER_STATUS } from '@/lib/paymentOutcome.mjs';
 import { sendPaymentResultEmails } from '@/lib/paymentResultEmail.mjs';
@@ -269,9 +269,13 @@ export async function POST(req) {
       transaction = { id: null, status: 'Approved', descriptor_text: 'No charge ($0 order)', free_order: true };
     } else {
       try {
+        // card (default), ach or crypto. The order itself stays a Chargex order
+        // either way, so the webhook, stock and receipts below need no change.
+        const payType = normalizeChargxPaymentType(body?.payType);
         const page = await createChargxCardCheckout({
           amount: formattedAmount,
-          successUrl: `${baseUrl}/thank-you?lang=${encodeURIComponent(lang)}&order=${encodeURIComponent(orderNumber)}&payment=card`,
+          type: payType,
+          successUrl: `${baseUrl}/thank-you?lang=${encodeURIComponent(lang)}&order=${encodeURIComponent(orderNumber)}&payment=${payType}`,
           cancelUrl: `${baseUrl}/catalog?lang=${encodeURIComponent(lang)}&payment=cancel&order=${encodeURIComponent(orderNumber)}`,
         });
         transaction = {

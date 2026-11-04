@@ -205,14 +205,25 @@ export async function processChargxCardPayment({
   return transaction;
 }
 
+/** The three ways Chargex's hosted page can take payment (their `type` field). */
+export const CHARGX_PAYMENT_TYPES = ['card', 'ach', 'crypto'];
+
+/** Anything we do not recognise is a card, which is what every order was before. */
+export function normalizeChargxPaymentType(value) {
+  const type = String(value || '').trim().toLowerCase();
+  return CHARGX_PAYMENT_TYPES.includes(type) ? type : 'card';
+}
+
 /**
- * Open Chargex's own card page. This store refuses a card typed on our site.
+ * Open Chargex's own payment page. This store refuses a card typed on our site.
  * Amount is dollars, as a number. The returned page says whether the key is live.
+ * `type` picks card, ach or crypto; the name stays because other code imports it.
  */
 export async function createChargxCardCheckout({
   amount,
   successUrl,
   cancelUrl,
+  type = 'card',
 }, { mode = 'live' } = {}) {
   if (!isChargxConfigured(mode)) {
     throw new Error('Chargex credentials are not configured');
@@ -223,11 +234,12 @@ export async function createChargxCardCheckout({
     throw new Error('Chargex payment amount is not usable');
   }
 
+  const paymentType = normalizeChargxPaymentType(type);
   const body = {
     amount: dollars,
     currency: 'usd',
     success_url: successUrl,
-    type: 'card',
+    type: paymentType,
   };
   if (cancelUrl) body.cancel_url = cancelUrl;
 
@@ -250,6 +262,7 @@ export async function createChargxCardCheckout({
     status: 'Redirect',
     redirect_url: String(page.checkout_url),
     isProduction: page.isProduction === true,
+    payment_type: paymentType,
   };
 }
 
