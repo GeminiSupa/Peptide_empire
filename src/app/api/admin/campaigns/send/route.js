@@ -21,6 +21,7 @@ export async function POST(request) {
         ? null
         : { scope: audience_scope, includeLeads: include_leads, targetTags: target_tags, behaviorFilter: behavior_filter },
     });
+    if (result.held) return NextResponse.json({ success: true, message: result.heldMessage, ...result });
     const counter = `${result.sentTotal}/${result.totalEligible}`;
     const nextBatch = result.nextBatchAt
       ? ` Next batch is scheduled for ${new Date(result.nextBatchAt).toLocaleString()}.`

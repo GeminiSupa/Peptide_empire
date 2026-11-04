@@ -26,6 +26,8 @@ import {
 import { classifySmtpFailure } from '@/lib/marketingDelivery.mjs';
 import { getCampaignSafetyConfig } from '@/lib/campaignSafety.mjs';
 import { buildCampaignDestination } from '@/lib/campaignLinks.mjs';
+import { nextWindowOpening, readSendWindow, withinSendWindow } from '@/lib/broadcastPacing.mjs';
+import { formatCrInstant } from '@/lib/crTime.mjs';
 
 const DOMAIN = process.env.NEXT_PUBLIC_BASE_URL || LIVE_SITE_URL;
 const LEAD_UPSERT_CHUNK_SIZE = 500;
@@ -603,6 +605,40 @@ export async function deliverCampaign(campaignId, options = {}) {
   }
 
   if (audience && !sendWinner) campaign = await applyAudienceSelection(supabase, campaign, audience);
+
+  // Outside Costa Rica sending hours nothing goes out. A normal send is parked
+  // as scheduled for the next opening and the cron carries on from there. A
+  // test batch or winner send cannot be parked that way — the cron would resume
+  // it as an ordinary full send — so those are refused with the time to retry.
+  const safetyConfig = getCampaignSafetyConfig();
+  const sendWindow = readSendWindow({
+    send_window_start_hour: safetyConfig.sendWindowStartHour,
+    send_window_end_hour: safetyConfig.sendWindowEndHour,
+  });
+  const nowMs = Date.now();
+  if (!withinSendWindow(sendWindow, nowMs)) {
+    const opensAt = new Date(nextWindowOpening(sendWindow, nowMs)).toISOString();
+    const hours = `${sendWindow.start}:00–${sendWindow.end}:00 Costa Rica time`;
+    if (isTestBatch || sendWinner) {
+      throw new CampaignDeliveryError(`Campaign emails only go out ${hours}. Try again after ${formatCrInstant(opensAt)}.`, 409);
+    }
+    const { error: holdError } = await supabase.from('email_campaigns')
+      .update({ status: 'scheduled', scheduled_for: opensAt, updated_at: new Date().toISOString() })
+      .eq('id', campaignId)
+      .eq('status', campaign.status);
+    if (holdError) throw holdError;
+    return {
+      campaignId,
+      held: true,
+      heldMessage: `Outside sending hours (${hours}). Nothing was sent now; it will go out from ${formatCrInstant(opensAt)}.`,
+      targeted: 0,
+      sent: 0,
+      failed: 0,
+      bounced: 0,
+      nextBatchAt: opensAt,
+      completed: false,
+    };
+  }
 
   const audienceScope = normalizeAudienceScope(campaign.audience_scope, campaign.include_leads);
   let leadEmails = null;

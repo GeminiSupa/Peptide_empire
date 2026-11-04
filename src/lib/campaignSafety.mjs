@@ -5,6 +5,11 @@ export const DEFAULT_CAMPAIGN_SAFETY = Object.freeze({
   fallbackSendDelayMs: 2500,
   maxConnections: 1,
   sendBudgetMs: 240000,
+  // Campaigns only go out between these Costa Rica hours (start inclusive,
+  // end exclusive). A batch due outside them waits for the next opening, so a
+  // list that takes all afternoon does not keep mailing people through the night.
+  sendWindowStartHour: 8,
+  sendWindowEndHour: 20,
 });
 
 function positiveInteger(value, fallback) {
@@ -47,6 +52,14 @@ export function getCampaignSafetyConfig(env = process.env) {
     sendBudgetMs: positiveInteger(
       env.EMAIL_CAMPAIGN_SEND_BUDGET_MS,
       DEFAULT_CAMPAIGN_SAFETY.sendBudgetMs,
+    ),
+    sendWindowStartHour: nonNegativeInteger(
+      env.EMAIL_CAMPAIGN_SEND_WINDOW_START_HOUR,
+      DEFAULT_CAMPAIGN_SAFETY.sendWindowStartHour,
+    ),
+    sendWindowEndHour: nonNegativeInteger(
+      env.EMAIL_CAMPAIGN_SEND_WINDOW_END_HOUR,
+      DEFAULT_CAMPAIGN_SAFETY.sendWindowEndHour,
     ),
   };
 }
