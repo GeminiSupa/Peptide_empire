@@ -168,3 +168,24 @@ test('loose name matching never guesses between two products with the same shape
   assert.equal(result.ok, false);
   assert.match(result.error, /no longer available: BPC157 10mg/);
 });
+
+test('refusals are written in Spanish only when the checkout asks for it', () => {
+  const run = (extra) => authoritativeCheckout({
+    postedOrder: posted([{ product: peptide.product, qty: 3, price: 100 }]),
+    products: [{ ...peptide, inventory_count: 2 }],
+    exchangeRate: RATE,
+    ...extra,
+  });
+
+  assert.match(run({}).error, /only 2 available/);
+  assert.match(run({ messageLang: 'en' }).error, /only 2 available/);
+  assert.match(run({ messageLang: 'es' }).error, /solo hay 2 disponibles/);
+
+  const gone = authoritativeCheckout({
+    postedOrder: posted([{ product: 'Nope 5mg', qty: 1, price: 1 }]),
+    products: [peptide],
+    exchangeRate: RATE,
+    messageLang: 'es',
+  });
+  assert.match(gone.error, /ya no están disponibles: Nope 5mg/);
+});

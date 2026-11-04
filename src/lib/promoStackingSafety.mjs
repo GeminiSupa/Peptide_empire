@@ -93,8 +93,12 @@ export async function findBulkPromoConflictForDeal(supabase, productNames, now =
 
 /** Read by staff in the admin and by customers at checkout, so it names the
  *  reason rather than telling a shopper to end a deal they cannot see. */
-export function promoDealConflictMessage(promo, products) {
-  return `Promo ${String(promo?.code || '').trim().toUpperCase() || 'code'} cannot be used on ${products.join(', ')} - those products are already marked down for the Deal of the Week, and the two discounts cannot stack.`;
+export function promoDealConflictMessage(promo, products, lang = 'en') {
+  const code = String(promo?.code || '').trim().toUpperCase();
+  if (lang === 'es') {
+    return `El código ${code || 'promocional'} no se puede usar en ${products.join(', ')}: esos productos ya tienen descuento por la Oferta de la Semana y los dos descuentos no se pueden combinar.`;
+  }
+  return `Promo ${code || 'code'} cannot be used on ${products.join(', ')} - those products are already marked down for the Deal of the Week, and the two discounts cannot stack.`;
 }
 
 export function dealPromoConflictMessage(conflict) {

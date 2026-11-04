@@ -87,3 +87,9 @@ test('launching a non-shelf deal is not blocked by an active bulk code', async (
   const blocked = await findBulkPromoConflictForDeal(fakeSupabase(bulkRows), ['Tirzepatide 20mg'], new Date(), { pricingMode: 'shelf' });
   assert.equal(blocked.promo.code, 'WHOLESALE40');
 });
+
+test('the deal-conflict message is Spanish on request and English by default', async () => {
+  const { promoDealConflictMessage } = await import('../src/lib/promoStackingSafety.mjs');
+  assert.match(promoDealConflictMessage({ code: 'abc' }, ['BPC-157 10mg']), /^Promo ABC cannot be used on BPC-157 10mg/);
+  assert.match(promoDealConflictMessage({ code: 'abc' }, ['BPC-157 10mg'], 'es'), /^El código ABC no se puede usar en BPC-157 10mg/);
+});

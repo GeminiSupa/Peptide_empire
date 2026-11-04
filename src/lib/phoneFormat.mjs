@@ -16,7 +16,7 @@
 /** Costa Rica first — it is the default and the overwhelming majority of orders. */
 export const PHONE_COUNTRIES = [
   { code: 'CR', dial: '506', flag: '🇨🇷', name: 'Costa Rica', nationalDigits: 8 },
-  { code: 'US', dial: '1', flag: '🇺🇸', name: 'USA / Canada', nationalDigits: 10 },
+  { code: 'US', dial: '1', flag: '🇺🇸', name: 'USA / Canada', nameEs: 'EE. UU. / Canadá', nationalDigits: 10 },
   { code: 'MX', dial: '52', flag: '🇲🇽', name: 'México', nationalDigits: 10 },
   { code: 'PA', dial: '507', flag: '🇵🇦', name: 'Panamá', nationalDigits: 8 },
   { code: 'NI', dial: '505', flag: '🇳🇮', name: 'Nicaragua', nationalDigits: 8 },
@@ -25,9 +25,9 @@ export const PHONE_COUNTRIES = [
   { code: 'SV', dial: '503', flag: '🇸🇻', name: 'El Salvador', nationalDigits: 8 },
   { code: 'CO', dial: '57', flag: '🇨🇴', name: 'Colombia', nationalDigits: 10 },
   { code: 'ES', dial: '34', flag: '🇪🇸', name: 'España', nationalDigits: 9 },
-  { code: 'DE', dial: '49', flag: '🇩🇪', name: 'Deutschland', nationalDigits: null },
-  { code: 'GB', dial: '44', flag: '🇬🇧', name: 'United Kingdom', nationalDigits: null },
-  { code: 'PK', dial: '92', flag: '🇵🇰', name: 'Pakistan', nationalDigits: 10 },
+  { code: 'DE', dial: '49', flag: '🇩🇪', name: 'Deutschland', nameEs: 'Alemania', nationalDigits: null },
+  { code: 'GB', dial: '44', flag: '🇬🇧', name: 'United Kingdom', nameEs: 'Reino Unido', nationalDigits: null },
+  { code: 'PK', dial: '92', flag: '🇵🇰', name: 'Pakistan', nameEs: 'Pakistán', nationalDigits: 10 },
 ];
 
 export const DEFAULT_PHONE_COUNTRY = 'CR';

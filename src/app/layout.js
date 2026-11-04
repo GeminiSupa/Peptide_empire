@@ -7,6 +7,7 @@ import GlobalContactForm from "@/components/GlobalContactForm";
 import AnalyticsTracker from "@/components/AnalyticsTracker";
 import EntryDisclaimer from "@/components/EntryDisclaimer";
 import CatchAccountSignIn from "@/components/CatchAccountSignIn";
+import SkipLink from "@/components/SkipLink";
 import { LIVE_SITE_URL } from "@/lib/publicUrl";
 import { ORGANIZATION_SAME_AS } from "@/lib/businessLinks";
 import { getTikTokPixelBootstrapScript } from "@/lib/tiktokPixel.mjs";
@@ -219,7 +220,7 @@ export default async function RootLayout({ children }) {
         />
       </head>
       <body suppressHydrationWarning>
-        <a className="skip-link" href="#main-content">Skip to main content</a>
+        <SkipLink />
         {/* Google Tag Manager — noscript fallback */}
         <noscript>
           <iframe

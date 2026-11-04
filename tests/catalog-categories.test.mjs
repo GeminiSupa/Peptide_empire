@@ -322,3 +322,31 @@ test('a name split for the products grid rejoins to the stored name', () => {
     );
   }
 });
+
+test('every category a product carries in the catalog reads in Spanish', () => {
+  // The names products held on the live catalog; one ("Skin & Anti-Aging")
+  // had no translation and showed in English to Spanish readers.
+  const inUse = [
+    'Nootropic & Neuropeptides',
+    'Metabolic & GLP-1 Compounds',
+    'Tissue Repair Compounds',
+    'Reproductive Signalling Peptides',
+    'Growth Hormone Secretagogues',
+    'Copper & Dermatological Peptides',
+    'Bioregulator Peptides',
+    'Anti-Inflammatory',
+    'Somatropin & Related Compounds',
+    'Mitochondrial Compounds',
+    'Immune System Modulation',
+    'Sleep-Related Neuropeptides',
+    'Immune & Antioxidant',
+    'Skin & Anti-Aging',
+    'Collagen Peptides',
+    'Bacteriostatic Water',
+  ];
+  for (const category of inUse) {
+    assert.notEqual(translateCategoryLabel(category, 'es'), category, `${category} has no Spanish label`);
+    assert.equal(translateCategoryLabel(category, 'en'), category);
+  }
+  assert.equal(translateCategoryLabel('Skin & Anti-Aging', 'es'), 'Piel y antienvejecimiento');
+});

@@ -11,9 +11,11 @@ export async function POST(request) {
   try {
     const body = await request.json();
     const { code } = body;
+    // The shopper's language, so a wrong or expired code is explained in it.
+    const lang = body?.lang === 'en' ? 'en' : 'es';
 
     if (!code) {
-      return NextResponse.json({ valid: false, error: 'No code provided' }, { status: 400 });
+      return NextResponse.json({ valid: false, error: lang === 'en' ? 'No code provided' : 'No se ingresó ningún código' }, { status: 400 });
     }
 
     // Standardize code to uppercase and trimmed
@@ -45,28 +47,28 @@ export async function POST(request) {
       .single();
 
     if (error || !promo) {
-      return NextResponse.json({ valid: false, error: 'Invalid or inactive promo code.' });
+      return NextResponse.json({ valid: false, error: lang === 'en' ? 'Invalid or inactive promo code.' : 'Código promocional inválido o inactivo.' });
     }
 
     // Check date boundaries if they exist
     const now = new Date();
     if (promo.valid_from && now < new Date(promo.valid_from)) {
-      return NextResponse.json({ valid: false, error: 'Promo code is not yet active.' });
+      return NextResponse.json({ valid: false, error: lang === 'en' ? 'Promo code is not yet active.' : 'El código promocional todavía no está activo.' });
     }
     if (promo.valid_until && now > new Date(promo.valid_until)) {
-      return NextResponse.json({ valid: false, error: 'Promo code has expired.' });
+      return NextResponse.json({ valid: false, error: lang === 'en' ? 'Promo code has expired.' : 'El código promocional venció.' });
     }
 
     // Check usage limits
     if (promo.usage_limit !== null && promo.usage_count >= promo.usage_limit) {
-      return NextResponse.json({ valid: false, error: 'Promo code has already been used or reached its usage limit.' });
+      return NextResponse.json({ valid: false, error: lang === 'en' ? 'Promo code has already been used or reached its usage limit.' : 'El código promocional ya fue utilizado o alcanzó su límite de uso.' });
     }
 
     const dealConflict = await findLiveDealConflictForPromo(supabase, promo);
     if (dealConflict) {
       return NextResponse.json({
         valid: false,
-        error: promoDealConflictMessage(promo, dealConflict.products),
+        error: promoDealConflictMessage(promo, dealConflict.products, lang),
       });
     }
 
@@ -93,7 +95,7 @@ export async function POST(request) {
         discount_pct: promo.discount_pct,
         target_product: promo.target_product,
         is_flash_sale: promo.is_flash_sale,
-        error: unitLimitsMessage(promo, unitCheck.unitCount, body?.lang || 'es'),
+        error: unitLimitsMessage(promo, unitCheck.unitCount, lang),
         min_units: unitCheck.minUnits,
         max_units: unitCheck.maxUnits,
         unit_count: unitCheck.unitCount,
@@ -115,6 +117,6 @@ export async function POST(request) {
 
   } catch (err) {
     console.error('[Promo API] Validation error:', err);
-    return NextResponse.json({ valid: false, error: 'Server error validating code' }, { status: 500 });
+    return NextResponse.json({ valid: false, error: 'Server error validating code / Error del servidor al validar el código' }, { status: 500 });
   }
 }

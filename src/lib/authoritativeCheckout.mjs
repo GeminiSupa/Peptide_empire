@@ -78,6 +78,10 @@ function promoDiscountAmount(cart, totals, promo, currency) {
 
 export function authoritativeCheckout({
   postedOrder,
+  // The language the refusal messages are written in. English unless the public
+  // checkout asks otherwise, so admin screens and callers that never passed a
+  // language keep reading exactly what they always have.
+  messageLang = 'en',
   products,
   promo = null,
   exchangeRate,
@@ -145,15 +149,18 @@ export function authoritativeCheckout({
   }
 
   const requested = [...requestedByName.values()];
+  const inEs = messageLang === 'es';
 
   if (missing.length > 0) {
-    return { ok: false, error: `These products are no longer available: ${[...new Set(missing)].join(', ')}` };
+    const names = [...new Set(missing)].join(', ');
+    return { ok: false, error: inEs ? `Estos productos ya no están disponibles: ${names}` : `These products are no longer available: ${names}` };
   }
-  if (requested.length === 0) return { ok: false, error: 'The order has no purchasable items.' };
+  if (requested.length === 0) return { ok: false, error: inEs ? 'El pedido no tiene artículos para comprar.' : 'The order has no purchasable items.' };
 
   const retiredWater = requested.filter((item) => isBacWater(item.product) && !isSellableBacWater(item.product));
   if (retiredWater.length > 0) {
-    return { ok: false, error: `These products are no longer sold: ${retiredWater.map((item) => item.product).join(', ')}` };
+    const names = retiredWater.map((item) => item.product).join(', ');
+    return { ok: false, error: inEs ? `Estos productos ya no se venden: ${names}` : `These products are no longer sold: ${names}` };
   }
 
   // A null inventory_count means this product is not quantity-tracked. Most
@@ -165,7 +172,8 @@ export function authoritativeCheckout({
     || (item.inventoryCount !== null && Number(item.inventoryCount) <= 0)
   ));
   if (unavailable.length > 0) {
-    return { ok: false, error: `These products are out of stock: ${unavailable.map((item) => item.product).join(', ')}` };
+    const names = unavailable.map((item) => item.product).join(', ');
+    return { ok: false, error: inEs ? `Estos productos están agotados: ${names}` : `These products are out of stock: ${names}` };
   }
   const overStock = requested.filter((item) => (
     item.inventoryCount !== null && item.qty > Number(item.inventoryCount)
@@ -173,7 +181,9 @@ export function authoritativeCheckout({
   if (overStock.length > 0) {
     return {
       ok: false,
-      error: overStock.map((item) => `${item.product}: only ${item.inventoryCount} available`).join('; '),
+      error: overStock.map((item) => (
+        inEs ? `${item.product}: solo hay ${item.inventoryCount} disponibles` : `${item.product}: only ${item.inventoryCount} available`
+      )).join('; '),
     };
   }
 
@@ -181,7 +191,9 @@ export function authoritativeCheckout({
   if (bacMinimum.blocked) {
     return {
       ok: false,
-      error: `Water-only orders require at least ${bacMinimum.minUnits} vials; add ${bacMinimum.shortfall} more.`,
+      error: inEs
+        ? `Los pedidos solo de agua requieren al menos ${bacMinimum.minUnits} viales; agrega ${bacMinimum.shortfall} más.`
+        : `Water-only orders require at least ${bacMinimum.minUnits} vials; add ${bacMinimum.shortfall} more.`,
     };
   }
 
@@ -193,7 +205,7 @@ export function authoritativeCheckout({
       ))
     ));
     if (!hasTarget) {
-      return { ok: false, error: `This promo requires ${promo.target_product} in the cart.` };
+      return { ok: false, error: inEs ? `Este código requiere ${promo.target_product} en el carrito.` : `This promo requires ${promo.target_product} in the cart.` };
     }
   }
 

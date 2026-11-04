@@ -41,7 +41,7 @@ export const CATALOG_CATEGORIES = Object.freeze([
  */
 export const LEGACY_CATEGORY_TRANSLATIONS = Object.freeze({
   'Weight Loss & Metabolism': 'Pérdida de peso y metabolismo',
-  'Exercise Mimetic & Metabolic Modulator': 'Exercise Mimetic & Metabolic Modulator',
+  'Exercise Mimetic & Metabolic Modulator': 'Mimético del ejercicio y modulador metabólico',
   'Recovery & Healing': 'Recuperación y curación',
   'Anti-Inflammatory': 'Antiinflamatorio',
   'Performance & Hormones': 'Rendimiento y hormonas',
@@ -52,6 +52,7 @@ export const LEGACY_CATEGORY_TRANSLATIONS = Object.freeze({
   'Sexual Health': 'Salud sexual',
   'Tanning & Sexual Function': 'Bronceado y función sexual',
   'Skin & Hair': 'Piel y cabello',
+  'Skin & Anti-Aging': 'Piel y antienvejecimiento',
   'Immune & Antioxidant': 'Sistema inmunitario y antioxidante',
   'Reconstitution Supply': 'Suministro de reconstitución',
 });

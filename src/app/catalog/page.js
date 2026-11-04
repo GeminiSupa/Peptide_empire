@@ -1152,7 +1152,7 @@ export default function CatalogPage() {
         setContactFormSuccess(true);
         setContactFormName(''); setContactFormEmail(''); setContactFormSubject(''); setContactFormMessage('');
       } else {
-        setContactFormError(data.error || (lang === 'en' ? 'Failed to send message.' : 'Error al enviar mensaje.'));
+        setContactFormError(lang === 'en' ? (data.error || 'Failed to send message.') : 'Error al enviar mensaje.');
       }
     } catch(err) {
       setContactFormError(lang === 'en' ? 'Connection error.' : 'Error de conexión.');
@@ -3212,7 +3212,11 @@ export default function CatalogPage() {
           }
         }
         console.error('Order save failed:', data.error || res.statusText);
-        return { ok: false, error: data.error || res.statusText, errorCode: data.errorCode || null };
+        // An unexplained server failure carries the database's own English
+        // text (or the HTTP status name). Leave it empty so the notice shows its
+        // fallback in the shopper's language instead.
+        const unexplained = res.status >= 500 && !data.errorCode;
+        return { ok: false, error: unexplained ? '' : (data.error || ''), errorCode: data.errorCode || null };
       }
       if (data.ok && sessionId) {
         const newSid = 'session_' + Math.random().toString(36).substring(2, 15);
@@ -3223,7 +3227,9 @@ export default function CatalogPage() {
       return { ok: true, id: data.id, bankPaymentToken: data.bankPaymentToken || null, paymentToken: data.paymentToken || null };
     } catch (err) {
       console.error('Order save request failed:', err);
-      return { ok: false, error: err.message || 'Network error' };
+      // The browser's own message ("Failed to fetch") is English whatever
+      // language the shopper chose; the notice has a translated fallback.
+      return { ok: false, error: '' };
     }
   };
 
@@ -3415,7 +3421,7 @@ export default function CatalogPage() {
     if (!customerPhoneNational.trim()) {
       errors.customerPhone = lang === 'en' ? 'WhatsApp number is required.' : 'El número de WhatsApp es requerido.';
     } else if (!phoneLooksValid) {
-      errors.customerPhone = lang === 'en' ? `Invalid number for ${findPhoneCountry(customerPhoneCountry).name}.` : `Número inválido para ${findPhoneCountry(customerPhoneCountry).name}.`;
+      errors.customerPhone = lang === 'en' ? `Invalid number for ${findPhoneCountry(customerPhoneCountry).name}.` : `Número inválido para ${findPhoneCountry(customerPhoneCountry).nameEs || findPhoneCountry(customerPhoneCountry).name}.`;
     }
 
     if (!customerIdNumber.trim()) {
@@ -5675,7 +5681,7 @@ export default function CatalogPage() {
                     >
                       {PHONE_COUNTRIES.map((country) => (
                         <option key={country.code} value={country.code}>
-                          {country.flag} +{country.dial} {country.name}
+                          {country.flag} +{country.dial} {lang === 'en' ? country.name : (country.nameEs || country.name)}
                         </option>
                       ))}
                     </select>
@@ -6687,7 +6693,7 @@ export default function CatalogPage() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="trust-badge"
-                aria-label={`Trustpilot rating ${liveTrustpilotRating} out of 5`}
+                aria-label={lang === 'en' ? `Trustpilot rating ${liveTrustpilotRating} out of 5` : `Calificación de Trustpilot: ${liveTrustpilotRating} de 5`}
               >
                 <div className="tp-star-box">
                   <Star size={10} fill="#fff" color="#fff" />
@@ -6909,7 +6915,7 @@ export default function CatalogPage() {
         }}>
           <button
             onClick={dismissWaReprompt}
-            aria-label="Close"
+            aria-label={lang === 'en' ? 'Close' : 'Cerrar'}
             style={{ position: 'absolute', top: '8px', right: '10px', background: 'transparent', border: 'none', color: 'var(--text-muted)', fontSize: '20px', cursor: 'pointer', lineHeight: 1 }}
           >
             &times;

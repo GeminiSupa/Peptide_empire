@@ -594,29 +594,29 @@ export async function POST(request) {
         .single();
         
       if (!promoData) {
-        return NextResponse.json({ error: 'Invalid promo code' }, { status: 400 });
+        return NextResponse.json({ error: orderLang === 'en' ? 'Invalid promo code' : 'Código promocional inválido' }, { status: 400 });
       }
       resolvedPromo = promoData;
       if (!promoData.is_active) {
-        return NextResponse.json({ error: 'Promo code is inactive' }, { status: 400 });
+        return NextResponse.json({ error: orderLang === 'en' ? 'Promo code is inactive' : 'El código promocional está inactivo' }, { status: 400 });
       }
       
       const now = new Date();
       if (promoData.valid_from && now < new Date(promoData.valid_from)) {
-        return NextResponse.json({ error: 'Promo code is not yet active' }, { status: 400 });
+        return NextResponse.json({ error: orderLang === 'en' ? 'Promo code is not yet active' : 'El código promocional todavía no está activo' }, { status: 400 });
       }
       if (promoData.valid_until && now > new Date(promoData.valid_until)) {
         // Auto-deactivate expired code
         await supabase.from('promo_codes').update({ is_active: false }).eq('code', order.promo_code.toUpperCase());
-        return NextResponse.json({ error: 'Promo code has expired' }, { status: 400 });
+        return NextResponse.json({ error: orderLang === 'en' ? 'Promo code has expired' : 'El código promocional venció' }, { status: 400 });
       }
       if (promoData.usage_limit !== null && promoData.usage_count >= promoData.usage_limit) {
-        return NextResponse.json({ error: 'Promo code has reached its usage limit' }, { status: 400 });
+        return NextResponse.json({ error: orderLang === 'en' ? 'Promo code has reached its usage limit' : 'El código promocional alcanzó su límite de uso' }, { status: 400 });
       }
       const dealConflict = await findLiveDealConflictForPromo(supabase, promoData);
       if (dealConflict) {
         return NextResponse.json({
-          error: promoDealConflictMessage({ ...promoData, code: order.promo_code }, dealConflict.products),
+          error: promoDealConflictMessage({ ...promoData, code: order.promo_code }, dealConflict.products, orderLang),
         }, { status: 409 });
       }
       // Unit conditions, re-checked against the items actually being ordered.
@@ -653,7 +653,7 @@ export async function POST(request) {
         await checkPriorUse('customer_email', order.customer_email);
         await checkPriorUse('customer_phone', order.customer_phone);
         if (alreadyUsed) {
-          return NextResponse.json({ error: 'This promo code can only be used once per customer.' }, { status: 400 });
+          return NextResponse.json({ error: orderLang === 'en' ? 'This promo code can only be used once per customer.' : 'Este código promocional solo se puede usar una vez por cliente.' }, { status: 400 });
         }
       }
     }
@@ -686,7 +686,9 @@ export async function POST(request) {
     const dealUnits = dealEligibleUnits(matchedDeal, order.items);
     if (matchedDeal && dealPricingMode(matchedDeal) === 'bulk_threshold' && dealMaximum && dealUnits > dealMaximum) {
       return NextResponse.json({
-        error: `This limited-stock weekly deal covers up to ${dealMaximum} selected vials. Remove ${dealUnits - dealMaximum} to continue.`,
+        error: orderLang === 'en'
+          ? `This limited-stock weekly deal covers up to ${dealMaximum} selected vials. Remove ${dealUnits - dealMaximum} to continue.`
+          : `Esta oferta semanal de inventario limitado cubre hasta ${dealMaximum} viales seleccionados. Quita ${dealUnits - dealMaximum} para continuar.`,
         errorCode: 'weekly_deal_quantity_limit',
       }, { status: 409 });
     }
@@ -703,6 +705,7 @@ export async function POST(request) {
     const contractPrices=mergeBusinessProductPrices(await businessProductPrices(supabase,business),businessQuote?.prices || []);
     const authoritative = authoritativeCheckout({
       postedOrder: order,
+      messageLang: orderLang,
       products: currentProducts || [],
       promo: resolvedPromo || dealPromo,
       exchangeRate: rateResult.rate,
