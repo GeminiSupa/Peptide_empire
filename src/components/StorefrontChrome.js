@@ -385,6 +385,7 @@ export function StorefrontFooter({ lang, settings, categories = [] }) {
     ...(!hasReviewsLink
       ? [{ labelEn: 'Reviews', labelEs: 'Reseñas', href: '/reviews' }]
       : []),
+    { labelEn: 'Dosing Guides', labelEs: 'Guías de dosificación', href: '/dosing-guides' },
     { labelEn: 'Mobile App', labelEs: 'Aplicación Móvil', href: appStorefrontHref({ source: 'footer', lang }) },
   ];
   const categoryList = categories.length

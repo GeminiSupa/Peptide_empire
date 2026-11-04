@@ -4225,6 +4225,9 @@ export default function CatalogPage() {
           <Link href="/about" className="catalog-about-link">
             {lang === 'en' ? 'About' : 'Nosotros'}
           </Link>
+          <Link href={`/dosing-guides?lang=${lang}`} className="catalog-about-link">
+            {lang === 'en' ? 'Dosing Guides' : 'Guías de dosificación'}
+          </Link>
           <a href={appStorefrontHref({ source: 'catalog_nav', lang })} className="catalog-about-link">
             {lang === 'en' ? 'Mobile App' : 'Aplicación Móvil'}
           </a>

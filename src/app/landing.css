@@ -4337,3 +4337,22 @@
 .clone-affiliate-talk .clone-affiliate-btn {
     margin-top: 6px;
 }
+.guide-public-hero { padding:64px 0 34px; }
+.guide-public-hero > span { color:#c62828;font-size:12px;font-weight:800;letter-spacing:1.8px; }
+.guide-public-hero h1 { margin:8px 0 12px;font-size:clamp(2.2rem,5vw,4rem);letter-spacing:-.04em; }
+.guide-public-hero > p { max-width:680px;color:#526071;font-size:1.08rem; }
+.guide-public-search { max-width:720px;margin-top:24px;display:flex;align-items:center;gap:10px;padding:0 16px;border:1px solid #ccd4df;border-radius:14px;background:#fff;box-shadow:0 10px 28px rgba(15,35,76,.08); }
+.guide-public-search input { width:100%;padding:16px 0;border:0;outline:0;background:transparent;font:inherit;color:#10234c; }
+.guide-public-hero small { display:block;margin-top:10px;color:#687589; }
+.guide-public-section { padding-bottom:36px; }
+.guide-public-grid { list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px; }
+.guide-public-grid li { display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:12px;padding:16px;border:1px solid #dde3ea;border-radius:14px;background:#fff;box-shadow:0 4px 16px rgba(15,35,76,.05); }
+.guide-public-grid li > svg { color:#c62828; }
+.guide-public-grid strong,.guide-public-grid span { display:block;overflow-wrap:anywhere; }
+.guide-public-grid strong { color:#10234c;font-size:14px;line-height:1.35; }
+.guide-public-grid span { margin-top:4px;color:#788498;font-size:12px; }
+.guide-public-grid a { color:#1d4f9c;font-size:13px;font-weight:800; }
+.guide-public-empty { padding:40px;text-align:center;border:1px dashed #b9c4d2;border-radius:14px; }
+.guide-public-notice { margin-bottom:64px;padding:20px 22px;border-left:4px solid #d97706;border-radius:10px;background:#fff7e8; }
+.guide-public-notice p { margin:6px 0 0;color:#6d5a32; }
+@media (max-width:720px) { .guide-public-hero { padding:42px 16px 28px; }.guide-public-section,.guide-public-notice { margin-left:16px;margin-right:16px; }.guide-public-grid { grid-template-columns:1fr; } }
