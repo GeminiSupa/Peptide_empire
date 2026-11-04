@@ -144,3 +144,7 @@
 .pcr-site .fratebar .ratechip.sachip img { height: 38px; }
 /* In a hero the cards share the column's width, under the card above them. */
 .pcr-site .hside .ratebar .ratechip, .pcr-site .chero .ratebar .ratechip { flex: 1 1 auto; justify-content: center; }
+
+/* The cart bar's progress track shares its class name with the design's
+   ".mini" image tile, which centres its child: keep the fill at the left. */
+.pcr-site .obar .mini { display: block; place-items: normal; }
