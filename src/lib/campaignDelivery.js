@@ -25,6 +25,7 @@ import {
 } from '@/lib/campaignAudience.mjs';
 import { classifySmtpFailure } from '@/lib/marketingDelivery.mjs';
 import { getCampaignSafetyConfig } from '@/lib/campaignSafety.mjs';
+import { buildCampaignDestination } from '@/lib/campaignLinks.mjs';
 
 const DOMAIN = process.env.NEXT_PUBLIC_BASE_URL || LIVE_SITE_URL;
 const LEAD_UPSERT_CHUNK_SIZE = 500;
@@ -137,9 +138,7 @@ function trackedHtml(campaign, subscriber) {
   const safeHtml = stabilizeSimpleLinkRows(clampOutlookButtonSizes(campaign.html_content));
   const content = personalize(safeHtml, subscriber).replace(/href="([^"]+)"/g, (match, url) => {
     if (!url.startsWith('http') && !url.startsWith('/')) return match;
-    const absoluteUrl = url.startsWith('/') ? `${DOMAIN}${url}` : url;
-    const separator = absoluteUrl.includes('?') ? '&' : '?';
-    const destination = `${absoluteUrl}${separator}utm_source=email&utm_medium=campaign&utm_campaign=${campaign.id}`;
+    const destination = buildCampaignDestination(url, campaign.id, DOMAIN);
     const signature = createTrackingUrlToken(destination);
     return `href="${DOMAIN}/api/tracking/click?c=${campaign.id}&s=${subscriber.id}&url=${encodeURIComponent(destination)}&k=${signature}"`;
   });
