@@ -3,7 +3,8 @@ import Ms from '@/components/storefront/icon';
 import { DealCard } from '@/components/site/deal-bits';
 import Faq from '@/components/site/faq';
 import ProductGrid from '@/components/site/product-grid';
-import { RatingBadges, ShopperRotating, TrustpilotCount } from '@/components/site/review-widgets';
+import ReviewBar from '@/components/site/review-bar';
+import { ShopperRotating } from '@/components/site/review-widgets';
 import { dealPicks } from '@/lib/site/data';
 import { REVIEWS, Reviews, CategoryTiles, Section, Steps } from '@/components/site/blocks';
 import { translator } from '@/lib/storefront/i18n.mjs';
@@ -74,7 +75,6 @@ export default function HomePage({ lang, h1, site }) {
                 </a>
               )}
             </div>
-            <TrustpilotCount dark lang={lang} />
             <ul className="hpoints">
               <li><Ms name="verified" />{t('Verified quality')}</li>
               <li><Ms name="sell" />{t('Transparent pricing')}</li>
@@ -83,7 +83,7 @@ export default function HomePage({ lang, h1, site }) {
           </div>
           <div className="hside">
             <DealCard deal={dealView} picks={picks} dealHref={links['deal-of-the-week']} id="hdeal" />
-            <RatingBadges lang={lang} />
+            <ReviewBar reviews={site.reviews} lang={lang} className="rb-two" />
           </div>
         </div>
       </section>

@@ -119,7 +119,7 @@ export default function ProductPage({ lang, site, compound, h1, copy, initialSiz
           <b>{compound.name}</b>
         </nav>
 
-        <ProductBuy compound={compound} initialSize={initialSize} h1={h1} bac={bac} companion={companion} />
+        <ProductBuy compound={compound} initialSize={initialSize} h1={h1} bac={bac} companion={companion} reviews={site.reviews} />
 
         <div className="twocol">
           <section className="psec">

@@ -82,7 +82,7 @@ function ThankYouTemplate({ site }) {
     const variant = compound ? variantFor(compound, size || compound.defaultSize) : null;
     return variant ? { name: compound.name, size: variant.size, priceCrc: variant.priceCrc, priceUsd: variant.priceUsd, image: variant.image || compound.image } : null;
   }).filter(Boolean);
-  return <ThankYou upsells={upsells} appHref={site.links['explore-our-app']} />;
+  return <ThankYou upsells={upsells} appHref={site.links['explore-our-app']} reviews={site.reviews} />;
 }
 
 /** Pages the new design adds, by key; they have no harvested page. */

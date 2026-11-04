@@ -107,58 +107,56 @@
 .pcr-site .smg a { min-width: 0; }
 .pcr-site .smg a > code { flex-shrink: 1; }
 
-/* The Trustpilot count under a centred call to action (review-widgets.js). */
-.pcr-site .tpcount.tpcenter { margin-left: auto; margin-right: auto; text-align: center; }
-
 /* A two-column split whose picture was retired (proto-page.js) runs as one column. */
 .pcr-site .split:not(:has(> :nth-child(2))) { grid-template-columns: 1fr; max-width: 760px; }
-
-/* Ratings row (RatingBadges in review-widgets.js): Google, Facebook and the
-   live Shopper Approved seal as matching white cards, icon first. */
-.pcr-site .ratebar { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
-.pcr-site .ratechip {
-  display: inline-flex; align-items: center; gap: 10px;
-  min-height: 52px; padding: 8px 14px 8px 10px;
-  background: #fff; color: var(--ink); border-radius: 12px;
-  box-shadow: 0 1px 2px rgba(15, 37, 89, .12), 0 6px 18px rgba(15, 37, 89, .14);
-  text-decoration: none; transition: transform .15s ease, box-shadow .15s ease;
-}
-.pcr-site a.ratechip:hover { transform: translateY(-1px); box-shadow: 0 2px 4px rgba(15, 37, 89, .14), 0 10px 24px rgba(15, 37, 89, .2); }
-.pcr-site .ratei { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #f3f5fa; }
-.pcr-site .ratei svg { width: 20px; height: 20px; display: block; }
-.pcr-site .ratet { display: grid; gap: 1px; line-height: 1.15; }
-.pcr-site .ratet b { font-size: 16px; font-weight: 700; margin-right: 6px; }
-.pcr-site .ratet .st { color: #f5a623; font-size: 13px; letter-spacing: 1px; }
-.pcr-site .ratet small { font-size: 12px; color: #5b6478; white-space: nowrap; }
-.pcr-site .ratechip.sachip { padding: 4px 8px; }
-.pcr-site .ratechip.sachip a, .pcr-site .ratechip.sachip img { display: block; }
-.pcr-site .ratechip.sachip img { height: 44px; width: auto; border-radius: 0 !important; }
-/* The footer column is narrow and dark: the ratings sit as rows of one quiet
-   card (icon, score and stars, source on the right), the seal on the last row. */
-.pcr-site .fratebar {
-  display: grid; gap: 0; margin: 16px 0 0; padding: 2px 14px;
-  background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .12); border-radius: 14px;
-}
-.pcr-site .fratebar .ratechip {
-  min-height: 0; padding: 10px 0; gap: 10px; border-radius: 0;
-  background: transparent; color: #fff; box-shadow: none;
-  border-bottom: 1px solid rgba(255, 255, 255, .1);
-}
-.pcr-site .fratebar a.ratechip:hover { transform: none; box-shadow: none; }
-.pcr-site .fratebar a.ratechip:hover small { color: #fff; }
-.pcr-site .fratebar .ratei { width: 28px; height: 28px; background: #fff; }
-.pcr-site .fratebar .ratei svg { width: 16px; height: 16px; }
-.pcr-site .fratebar .ratet { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
-.pcr-site .fratebar .ratet b { font-size: 15px; margin-right: 6px; }
-.pcr-site .fratebar .ratet .st { font-size: 12px; letter-spacing: .5px; }
-.pcr-site .fratebar .ratet small { color: #b8c5e6; font-size: 13px; }
-.pcr-site .fratebar .ratew { display: none; }
-.pcr-site .fratebar .ratechip.sachip { padding: 10px 0; border-bottom: 0; }
-.pcr-site .fratebar .ratechip.sachip img { height: 40px; border-radius: 6px !important; }
-.pcr-site footer .fratebar + .tpw { margin: 12px 0 0; }
-/* In a hero the cards share the column's width, under the card above them. */
-.pcr-site .hside .ratebar .ratechip, .pcr-site .chero .ratebar .ratechip { flex: 1 1 auto; justify-content: center; }
 
 /* The cart bar's progress track shares its class name with the design's
    ".mini" image tile, which centres its child: keep the fill at the left. */
 .pcr-site .obar .mini { display: block; place-items: normal; }
+
+/* Review scores (review-bar.js): one look everywhere. White cards with the
+   platform's mark, score, stars filled to the score, and the review count. */
+.pcr-site .reviewbar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; max-width: 480px; margin-top: 18px; }
+.pcr-site .rbcard {
+  display: inline-flex; align-items: center; gap: 9px; min-width: 0;
+  padding: 7px 13px 7px 9px; border-radius: 12px; line-height: 1.15;
+  background: #fff; color: var(--ink); text-decoration: none;
+  box-shadow: 0 0 0 1px rgba(15, 37, 89, .08), 0 4px 14px rgba(15, 37, 89, .1);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.pcr-site a.rbcard:hover { transform: translateY(-1px); box-shadow: 0 0 0 1px rgba(15, 37, 89, .1), 0 8px 20px rgba(15, 37, 89, .16); }
+.pcr-site .rbmark { flex: none; display: inline-grid; place-items: center; width: 24px; height: 24px; }
+.pcr-site .rbmark svg { width: 22px; height: 22px; display: block; }
+.pcr-site .rbtext { display: grid; gap: 2px; min-width: 0; }
+.pcr-site .rbscore { display: flex; align-items: center; gap: 6px; }
+.pcr-site .rbscore b { font-size: 15px; font-weight: 700; }
+.pcr-site .rstars { position: relative; display: inline-block; font-size: 12px; letter-spacing: 1px; line-height: 1; color: #d9dee8; white-space: nowrap; }
+.pcr-site .rstars::after { content: '★★★★★'; position: absolute; top: 0; left: 0; bottom: 0; width: var(--rpct); overflow: hidden; color: #f5a623; }
+.pcr-site .rbcard small { font-size: 11.5px; color: #5b6478; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Centred calls to action centre the block. */
+.pcr-site .fcta .reviewbar { margin-left: auto; margin-right: auto; text-align: left; }
+/* Under a card of fixed width (home hero, product) it takes that width. */
+.pcr-site .reviewbar.rb-two, .pcr-site .reviewbar.rb-buy { max-width: none; }
+.pcr-site .reviewbar.rb-two { margin-top: 0; }
+/* The footer: rows of one quiet card on the dark background. */
+.pcr-site .reviewbar.rb-rows {
+  display: grid; grid-template-columns: 1fr; max-width: none; gap: 0; margin-top: 16px; padding: 2px 14px;
+  background: rgba(255, 255, 255, .04); border: 1px solid rgba(255, 255, 255, .12); border-radius: 14px;
+}
+.pcr-site .rb-rows .rbcard { padding: 10px 0; border-radius: 0; background: transparent; color: #fff; box-shadow: none; border-bottom: 1px solid rgba(255, 255, 255, .1); }
+.pcr-site .rb-rows .rbcard:last-child { border-bottom: 0; }
+.pcr-site .rb-rows a.rbcard:hover { transform: none; box-shadow: none; }
+.pcr-site .rb-rows .rbmark { width: 28px; height: 28px; border-radius: 50%; background: #fff; }
+.pcr-site .rb-rows .rbmark svg { width: 18px; height: 18px; }
+.pcr-site .rb-rows .rbtext { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pcr-site .rb-rows .rstars { color: rgba(255, 255, 255, .22); }
+.pcr-site .rb-rows .rbcard small { color: #b8c5e6; font-size: 12.5px; }
+.pcr-site .rb-rows .rbcount { display: none; }
+/* A proof strip's score: the platform's mark, the score, the name. */
+.pcr-site .pbrate { display: inline-flex; align-items: center; gap: 6px; }
+.pcr-site .pbrate .rbmark { width: 18px; height: 18px; }
+.pcr-site .pbrate .rbmark svg { width: 16px; height: 16px; }
+/* On a phone the cards are too narrow for the count: score, stars and name. */
+@media (max-width: 600px) {
+  .pcr-site .reviewbar .rbcount { display: none; }
+}

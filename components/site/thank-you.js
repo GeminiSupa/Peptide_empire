@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Ms from '@/components/storefront/icon';
 import ProductImage from '@/components/storefront/product-image';
 import { useSite } from '@/components/site/site-provider';
-import { TrustpilotCount } from '@/components/site/review-widgets';
+import ReviewBar from '@/components/site/review-bar';
 import { pushEvent, whatsappOrderEvent } from '@/lib/site/analytics.mjs';
 
 /** Where the cart leaves the order it just placed, for this page to show. */
@@ -24,7 +24,7 @@ function readOrder() {
  * placed (the cart stores it in sessionStorage before coming here). Opened
  * without one, it shows the next steps alone rather than a made-up order.
  */
-export default function ThankYou({ upsells, appHref }) {
+export default function ThankYou({ upsells, appHref, reviews }) {
   const { t, lang, money, whatsapp } = useSite();
   const [order, setOrder] = useState(null);
   useEffect(() => {
@@ -102,7 +102,7 @@ export default function ThankYou({ upsells, appHref }) {
                   <h2>{t('Get more off your next order.')}</h2>
                   <p>{t('Install the Peptides CR app: earn points on every purchase, climb tiers for extra discounts and free delivery, get referral credit, and reorder in one tap. It installs from your browser in 10 seconds.')}</p>
                   <div className="hctas"><Link className="btn" href={appHref}>{t('Get the app')}<Ms name="download" /></Link></div>
-                  <TrustpilotCount lang={lang} />
+                  <ReviewBar reviews={reviews} lang={lang} />
                 </div>
               </div>
               {upsells.length ? (

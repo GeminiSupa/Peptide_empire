@@ -42,7 +42,7 @@ export default async function SiteShell({ lang, altHref, children }) {
           freeShippingLabel={site.freeShippingLabel}
         />
         <main>{children}</main>
-        <SiteFooter t={t} lang={lang} links={site.links} categories={site.categories} />
+        <SiteFooter t={t} lang={lang} links={site.links} categories={site.categories} reviews={site.reviews} />
         <SiteOverlays
           compounds={site.compounds}
           categories={site.categories}

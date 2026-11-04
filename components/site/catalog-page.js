@@ -2,7 +2,8 @@ import CatalogBrowser from '@/components/site/catalog-browser';
 import CopyBlock from '@/components/site/copy-block';
 import { DealCard } from '@/components/site/deal-bits';
 import { Reviews } from '@/components/site/blocks';
-import { RatingBadges, ShopperRotating } from '@/components/site/review-widgets';
+import ReviewBar from '@/components/site/review-bar';
+import { ShopperRotating } from '@/components/site/review-widgets';
 import { dealPicks } from '@/lib/site/data';
 import { translator } from '@/lib/storefront/i18n.mjs';
 
@@ -44,7 +45,7 @@ export default function CatalogPage({ lang, site, h1, copy }) {
                 </div>
               ))}
             </div>
-            <RatingBadges lang={lang} />
+            <ReviewBar reviews={site.reviews} lang={lang} />
             <div className="press">
               {t('As featured in')}
               {' '}

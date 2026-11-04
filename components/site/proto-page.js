@@ -7,7 +7,8 @@ import ProtoInteractions, { LabCalc, OpenNow } from '@/components/site/proto-int
 import { BulkCalc, BulkExamples, PerMg } from '@/components/site/bulk-tools';
 import { AffiliateForm, ContactForm, ProForm } from '@/components/site/lead-forms';
 import { CategoryTiles } from '@/components/site/blocks';
-import { ShopperRotating, ShopperSeal, TrustpilotCount } from '@/components/site/review-widgets';
+import ReviewBar, { ReviewMark } from '@/components/site/review-bar';
+import { ShopperRotating } from '@/components/site/review-widgets';
 import { CATEGORIES, CONTACT, categoryHref, pageHref, NEW_PAGES } from '@/lib/site/links.mjs';
 import { localePath, routeGroup } from '@/lib/routes';
 import { imageUrl } from '@/lib/images';
@@ -35,7 +36,7 @@ const ATTR_NAMES = {
   autocomplete: 'autoComplete', colspan: 'colSpan', rowspan: 'rowSpan', readonly: 'readOnly',
   maxlength: 'maxLength', viewbox: 'viewBox', 'fill-rule': 'fillRule', 'clip-rule': 'clipRule',
   'stroke-width': 'strokeWidth', 'stroke-linecap': 'strokeLinecap', 'stroke-linejoin': 'strokeLinejoin',
-  'xmlns:xlink': 'xmlnsXlink', 'xlink:href': 'xlinkHref',
+  'xmlns:xlink': 'xmlnsXlink', 'xlink:href': 'xlinkHref', 'stroke-dasharray': 'strokeDasharray', 'stroke-dashoffset': 'strokeDashoffset',
 };
 const BOOLEAN = new Set(['required', 'disabled', 'hidden', 'open']);
 
@@ -128,8 +129,9 @@ function render(node, ctx, key) {
 
   // Widgets the site draws from live data.
   switch (tag) {
-    case '$trustpilot': return <TrustpilotCount key={key} dark={attrs.dark} lang={ctx.lang} className={attrs.className || 'tpcount'} />;
-    case '$shopperLink': return <ShopperSeal key={key} bare />;
+    // Every review mention is the one ReviewBar; the seal beside it is folded in.
+    case '$trustpilot': return <ReviewBar key={key} reviews={ctx.site.reviews} lang={ctx.lang} />;
+    case '$shopperLink': return null;
     case '$shopperRotating': return <ShopperRotating key={key} lang={ctx.lang} />;
     case '$categories': return <CategoryTiles key={key} categories={ctx.site.categories} t={ctx.t} />;
     case '$products': {
@@ -158,6 +160,17 @@ function render(node, ctx, key) {
         </Fragment>
       );
     default: break;
+  }
+
+  if (tag === 'div' && attrs?.class === 'hseal') return null;
+  // A proof strip's "logo 4.6 Trustpilot" item: the platform's mark and its live score.
+  const proofSource = tag === 'span' && Array.isArray(children[0]) && children[0][0] === 'img'
+    ? { '/site/trustpilot.webp': ['trustpilot', 'Trustpilot'], '/site/google.webp': ['google', 'Google'] }[children[0][1]?.src]
+    : null;
+  if (proofSource && Array.isArray(children[1]) && children[1][0] === 'b') {
+    const [source, name] = proofSource;
+    const score = ctx.site.reviews?.[source]?.score;
+    return <span key={key} className="pbrate"><ReviewMark source={source} /><b>{score ? score.toFixed(1) : children[1][2]}</b>{name}</span>;
   }
 
   if (tag === 'figure' && children.some((child) => Array.isArray(child) && child[0] === 'img' && isRetired(child[1]?.src))) return null;

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Ms from '@/components/storefront/icon';
 import ProductImage from '@/components/storefront/product-image';
 import { useSite } from '@/components/site/site-provider';
-import { ShopperSeal, TrustpilotCount } from '@/components/site/review-widgets';
+import ReviewBar from '@/components/site/review-bar';
 import { variantFor } from '@/lib/storefront/group-products.mjs';
 import { shelfLabel } from '@/lib/storefront/shelves.mjs';
 import { freeShippingThreshold } from '@/lib/storefront/cart-math.mjs';
@@ -36,7 +36,7 @@ function strengthChips(compound, selected) {
  * starts at 1: the order total decides the discount, shown as one ladder.
  * Otherwise the presets and volume pricing show, starting at 5.
  */
-export default function ProductBuy({ compound, initialSize, h1, bac, companion }) {
+export default function ProductBuy({ compound, initialSize, h1, bac, companion, reviews }) {
   const {
     t, lang, currency, exchangeRate, cart, quoteFor, money, dealView,
     addToCart, setQty, setSheetOpen, whatsapp, setToast,
@@ -309,10 +309,7 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion }
           <span><Ms name="payments" />{t('Pay cash on delivery')}</span>
           <span><Ms name="schedule" />{t('2–4 day delivery')}</span>
         </div>
-        <div className="sealrow sealstack">
-          <TrustpilotCount lang={lang} />
-          <ShopperSeal className="saseal" />
-        </div>
+        <ReviewBar reviews={reviews} lang={lang} className="rb-buy" />
 
         {fbtItems.length > 1 ? (
           <div className="fbt">
