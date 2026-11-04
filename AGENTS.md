@@ -111,6 +111,7 @@ here, so test traffic never reaches the reports.
 | `/shop/`, `/all-peptide-products-costa-rica/` | catalog |
 | `/<compound>-costa-rica/` (productLander) | product view |
 | `/product/<slug>/` (variant URLs) | product view, that strength preselected |
+| `/product/<compound-slug>/`, `/es/producto/<compound-slug>/` | product view for a compound the catalog added after the live site was harvested (no live URL); new URLs, title from the name, description from the catalog row |
 | marketing categories and `/product-category/<slug>/` | category |
 | core pages (about, bulk discounts, COA, FAQ, contact…) | their prototype page |
 | legal pages | policy page |
@@ -139,7 +140,9 @@ here, so test traffic never reaches the reports.
   `#` links to live URLs, translates, fills in live figures, keeps the live
   H1 (as the kicker when the design's headline differs) and swaps in live
   widgets (`$products`, `$categories`, review widgets, calculators, the lead
-  forms in `lead-forms.js`, the COA list). Those pages use the designer's new
+  forms in `lead-forms.js`, the COA list). Marketing photos of the old vial
+  design are left out (`RETIRED_IMAGES` in `proto-page.js`) until new photos
+  exist; don't bring them back. Those pages use the designer's new
   copy; product, category, catalog and city pages keep the live copy below the
   design. Lead forms have no backend: they open WhatsApp with the answers.
 - Templates by URL and page kind: `components/site/page-route.js`. Articles

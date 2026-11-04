@@ -3,10 +3,11 @@ import ProductPage from '@/components/site/product-page';
 import { getSiteData } from '@/lib/site/data';
 import { liveCopy } from '@/lib/site/live-copy.mjs';
 import { liveH1 } from '@/lib/site/live-h1';
-import { compoundForLander } from '@/lib/site/links.mjs';
+import { compoundForLander, hasLivePage, newProductPath } from '@/lib/site/links.mjs';
 import { resolveVialPage } from '@/lib/site/product-pages.mjs';
 import { alternates } from '@/lib/routes';
 import { SITE_URL } from '@/lib/indexing';
+import { metadataForPath } from '@/lib/seo';
 
 /**
  * The compound (and strength) a live product page sells, or null.
@@ -28,6 +29,48 @@ export async function productFor(page, lang) {
     return found ? { site, ...found } : null;
   }
   return null;
+}
+
+/**
+ * A compound the catalog sells that the live site never had a page for, by
+ * its `/product/<slug>/` slug, or null. A live page with the same slug wins,
+ * since the route looks that up first.
+ */
+export async function newProductFor(slug, lang) {
+  const site = await getSiteData(lang);
+  const compound = site.compounds.find((entry) => entry.slug === slug && !hasLivePage(entry.name));
+  return compound ? { site, compound, size: null } : null;
+}
+
+/** Title, description and language links of a new product page. */
+export function newProductMetadata({ compound }, lang) {
+  const description = (lang === 'es' ? compound.descriptionEs : compound.descriptionEn) || compound.descriptionEn || '';
+  return metadataForPath(newProductPath(compound.slug, lang), {
+    title: `${compound.name} ${lang === 'es' ? 'en Costa Rica' : 'Costa Rica'} | Peptides Costa Rica`,
+    description: description.replace(/\s+/g, ' ').trim().slice(0, 155) || undefined,
+    en: newProductPath(compound.slug, 'en'),
+    es: newProductPath(compound.slug, 'es'),
+  });
+}
+
+/** A new product page: the same layout, with the catalog's own description. */
+export function NewProductRoute({ lang, product }) {
+  const { compound } = product;
+  const description = (lang === 'es' ? compound.descriptionEs : compound.descriptionEn) || compound.descriptionEn || '';
+  const paras = description.split(/\n\s*\n/).map((para) => para.trim()).filter(Boolean);
+  const path = newProductPath(compound.slug, lang);
+  return (
+    <SiteShell lang={lang} altHref={newProductPath(compound.slug, lang === 'es' ? 'en' : 'es')}>
+      <ProductPage
+        lang={lang}
+        site={product.site}
+        compound={compound}
+        h1={compound.name}
+        copy={paras.length ? { blocks: [{ title: '', paras, items: [], links: [], faq: [] }], faq: [] } : null}
+        schemaUrl={new URL(path, SITE_URL).toString()}
+      />
+    </SiteShell>
+  );
 }
 
 /** A live product page in the new design. */

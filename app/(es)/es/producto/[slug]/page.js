@@ -1,6 +1,6 @@
 import { getPublishedPage } from '@/lib/site-cms';
 import { notFound } from 'next/navigation';
-import ProductRoute, { productFor } from '@/components/site/product-route';
+import ProductRoute, { NewProductRoute, newProductFor, newProductMetadata, productFor } from '@/components/site/product-route';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
@@ -12,7 +12,9 @@ import { metaTitle } from '@/lib/page-title';
 import { metadataForPath } from '@/lib/seo';
 
 /** Spanish product pages at the live canonical `/es/producto/<slug>/`. */
-export const dynamicParams = false;
+// Open, so a compound the catalog adds later gets its page without a rebuild
+// (newProductFor); any other unknown slug is still a 404.
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return spanishParams();
@@ -20,7 +22,10 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const page = await getPublishedPage(bySpanishSlug(slug));
-  if (!page) return {};
+  if (!page) {
+    const product = await newProductFor(slug, 'es');
+    return product ? newProductMetadata(product, 'es') : {};
+  }
   const alt = alternates(page.en);
   return metadataForPath(page.es, {
     title: metaTitle(page, 'es'),
@@ -33,7 +38,11 @@ export async function generateMetadata({ params }) {
 export default async function ProductEs({ params }) {
   const { slug } = await params;
   const page = await getPublishedPage(bySpanishSlug(slug));
-  if (!page) notFound();
+  if (!page) {
+    const product = await newProductFor(slug, 'es');
+    if (product) return <NewProductRoute lang="es" product={product} />;
+    notFound();
+  }
 
   // Product pages are in the new design; a page whose product the catalog
   // no longer sells keeps its old layout rather than 404ing.

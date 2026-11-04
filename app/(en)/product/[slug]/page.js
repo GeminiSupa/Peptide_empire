@@ -1,6 +1,6 @@
 import { getPublishedPage } from '@/lib/site-cms';
 import { notFound } from 'next/navigation';
-import ProductRoute, { productFor } from '@/components/site/product-route';
+import ProductRoute, { NewProductRoute, newProductFor, newProductMetadata, productFor } from '@/components/site/product-route';
 import SiteHeader from '@/components/site-header';
 import SiteFooter from '@/components/site-footer';
 import Sections from '@/components/sections';
@@ -16,7 +16,9 @@ import { metadataForPath } from '@/lib/seo';
  *
  * Display only. The catalog site owns the cart; see components/product-summary.
  */
-export const dynamicParams = false;
+// Open, so a compound the catalog adds later gets its page without a rebuild
+// (newProductFor); any other unknown slug is still a 404.
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return englishParams();
@@ -25,7 +27,10 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const page = await getPublishedPage(byEnglishSlug(slug));
-  if (!page) return {};
+  if (!page) {
+    const product = await newProductFor(slug, 'en');
+    return product ? newProductMetadata(product, 'en') : {};
+  }
   const alt = alternates(page.en);
   return metadataForPath(page.en, {
     title: metaTitle(page, 'en'),
@@ -38,7 +43,11 @@ export async function generateMetadata({ params }) {
 export default async function ProductEn({ params }) {
   const { slug } = await params;
   const page = await getPublishedPage(byEnglishSlug(slug));
-  if (!page) notFound();
+  if (!page) {
+    const product = await newProductFor(slug, 'en');
+    if (product) return <NewProductRoute lang="en" product={product} />;
+    notFound();
+  }
 
   // Product pages are in the new design; a page whose product the catalog
   // no longer sells keeps its old layout rather than 404ing.

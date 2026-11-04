@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * The live review widgets, embedded exactly as the prototype embeds them: the
@@ -34,37 +34,61 @@ function loadScript(src, id) {
  * Trustpilot's "Micro Review Count" TrustBox. The link inside is what shows
  * until Trustpilot's script swaps the live widget in, and what a visitor with
  * scripts blocked sees.
+ *
+ * It follows the section it sits in: centred under a centred call to action,
+ * left-aligned beside left-aligned copy, and white on a dark background. That
+ * is read from the surrounding layout, so a section never has to say so.
  */
 export function TrustpilotCount({ dark = false, lang = 'en', className = 'tpcount' }) {
   const ref = useRef(null);
+  const [look, setLook] = useState({ dark, center: false, measured: false });
+
   useEffect(() => {
+    const parent = ref.current?.parentElement;
+    if (!parent) return;
+    const style = getComputedStyle(parent);
+    const center = style.textAlign === 'center'
+      || (style.display.includes('flex') && style.flexDirection.startsWith('column') && style.alignItems === 'center');
+    setLook({ dark: isLight(style.color), center, measured: true });
+  }, []);
+
+  useEffect(() => {
+    if (!look.measured) return undefined;
     let cancelled = false;
     loadScript(TRUSTPILOT_SCRIPT, 'tp-bootstrap').then(() => {
       if (!cancelled && ref.current && window.Trustpilot) window.Trustpilot.loadFromElement(ref.current, true);
     });
     return () => { cancelled = true; };
-  }, []);
+  }, [look]);
+
   return (
     <div
       ref={ref}
-      className={`trustpilot-widget ${className}`}
+      className={`trustpilot-widget ${className}${look.center ? ' tpcenter' : ''}`}
       data-locale={lang === 'es' ? 'es-ES' : 'en-US'}
       data-template-id="5419b6a8b0d04a076446a9ad"
       data-businessunit-id={TRUSTPILOT_BUSINESS_UNIT}
       data-style-height="24px"
       data-style-width="100%"
-      data-theme={dark ? 'dark' : 'light'}
+      data-theme={look.dark ? 'dark' : 'light'}
       data-min-review-count="10"
-      data-style-alignment="left"
+      data-style-alignment={look.center ? 'center' : 'left'}
     >
       <a className="tpfb3" href="https://www.trustpilot.com/review/peptidescostarica.net" target="_blank" rel="noopener noreferrer">
         {lang === 'es' ? 'Vea nuestras ' : 'See our '}
         <u>{lang === 'es' ? 'reseñas' : 'reviews'}</u>
         {lang === 'es' ? ' en ' : ' on '}
-        <img src={dark ? '/site/trustpilot-wordmark-white.webp' : '/site/trustpilot-wordmark.webp'} alt="Trustpilot" />
+        <img src={look.dark ? '/site/trustpilot-wordmark-white.webp' : '/site/trustpilot-wordmark.webp'} alt="Trustpilot" />
       </a>
     </div>
   );
+}
+
+/** Whether a computed `rgb(...)` text colour is a light one, i.e. sits on a dark background. */
+function isLight(color) {
+  const [r, g, b] = (color.match(/[\d.]+/g) || []).map(Number);
+  if (b === undefined) return false;
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255 > 0.6;
 }
 
 /** The Shopper Approved seal, which opens the reviews in a popup as the vendor's own code does. */

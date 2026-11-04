@@ -106,3 +106,9 @@
 .pcr-site .smg { min-width: 0; }
 .pcr-site .smg a { min-width: 0; }
 .pcr-site .smg a > code { flex-shrink: 1; }
+
+/* The Trustpilot count under a centred call to action (review-widgets.js). */
+.pcr-site .tpcount.tpcenter { margin-left: auto; margin-right: auto; text-align: center; }
+
+/* A two-column split whose picture was retired (proto-page.js) runs as one column. */
+.pcr-site .split:not(:has(> :nth-child(2))) { grid-template-columns: 1fr; max-width: 760px; }

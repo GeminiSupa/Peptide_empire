@@ -38,6 +38,20 @@ const ATTR_NAMES = {
   'xmlns:xlink': 'xmlnsXlink', 'xlink:href': 'xlinkHref',
 };
 const BOOLEAN = new Set(['required', 'disabled', 'hidden', 'open']);
+
+/**
+ * Marketing photos of the old vial design, which no longer matches what
+ * customers receive. Their figures are left out until new photos replace them;
+ * a split that loses its picture runs as one column (site-base.css).
+ */
+const RETIRED_IMAGES = [
+  'homepage-vial-images.webp',
+  'banner-new.webp',
+  'secure-peptide-packaging-',
+  'faq-banner-',
+  'Untitled-design-9-',
+];
+const isRetired = (src) => typeof src === 'string' && RETIRED_IMAGES.some((name) => src.split('/').pop().startsWith(name));
 const VOID = new Set(['img', 'input', 'br', 'hr', 'source', 'meta', 'link', 'col', 'path', 'circle', 'rect', 'line', 'polyline', 'polygon', 'ellipse', 'use', 'stop']);
 
 function styleObject(css) {
@@ -146,6 +160,8 @@ function render(node, ctx, key) {
     default: break;
   }
 
+  if (tag === 'figure' && children.some((child) => Array.isArray(child) && child[0] === 'img' && isRetired(child[1]?.src))) return null;
+
   // The live H1 (see above).
   const cls = ` ${attrs?.class || ''} `;
   if (ctx.h1 && ctx.swapKicker && !ctx.state.h1Done && tag === 'span' && cls.includes(' eyebrow ') && ctx.state.inHero) {
@@ -173,7 +189,9 @@ function render(node, ctx, key) {
       continue;
     }
     if (name === 'src' && /^https:\/\/peptidescostarica\.net\/wp-content\//.test(value)) {
-      props.src = imageUrl(value.replace('https://peptidescostarica.net', ''));
+      // `photo.jpg.webp` is the WordPress optimiser's copy, which the site's
+      // mirror doesn't hold; the original upload beside it is the same picture.
+      props.src = imageUrl(value.replace('https://peptidescostarica.net', '').replace(/\.(jpe?g|png)\.webp$/i, '.$1'));
       continue;
     }
     props[ATTR_NAMES[name] || name] = value;
