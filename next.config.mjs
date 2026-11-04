@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  outputFileTracingIncludes: {
+    '/api/account/dosing-guides/*': ['./private/dosing-guides/**/*'],
+  },
   allowedDevOrigins: ['192.168.100.71', '192.168.18.57'],
 
   compress: true,

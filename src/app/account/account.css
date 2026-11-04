@@ -738,6 +738,11 @@
 .business-grid .account-btn-primary { text-decoration: none; text-align: center; margin-top: 12px; }
 .business-details dd { margin: 5px 0 0; overflow-wrap: anywhere; white-space: pre-wrap; }
 @media (max-width: 600px) { .business-grid { grid-template-columns: 1fr; } }
+.dosing-guide-intro { background:linear-gradient(135deg,#10234c,#2758a6);color:#fff;border:0;border-bottom:5px solid #c62828; }
+.dosing-guide-intro h2 { color:#fff;margin:8px 0; }.dosing-guide-intro p { color:#dbe6ff;margin-bottom:0; }.dosing-guide-eyebrow { font-size:11px;font-weight:800;letter-spacing:1.6px; }
+.dosing-guide-library > label { display:block;font-weight:700;margin-bottom:8px; }.dosing-guide-library > input { width:100%;padding:13px 14px;border:1px solid var(--border);border-radius:10px;background:var(--bg-main);color:var(--text-main);font:inherit; }.dosing-guide-count { margin:10px 0 16px; }
+.dosing-guide-grid { list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px; }.dosing-guide-grid li { display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:12px;padding:13px;border:1px solid var(--border);border-radius:12px;background:var(--bg-main); }.dosing-guide-grid strong,.dosing-guide-grid span { display:block;overflow-wrap:anywhere; }.dosing-guide-grid strong { font-size:14px;line-height:1.35; }.dosing-guide-grid span { color:var(--text-muted);font-size:12px;margin-top:3px; }
+.dosing-guide-icon { width:42px;height:42px;border-radius:10px;display:grid;place-items:center;background:#fee2e2;color:#b91c1c;font-size:10px;font-weight:900; }.dosing-guide-notice { border-left:4px solid #d97706; }.dosing-guide-notice p { color:var(--text-muted);margin-bottom:0; }@media (max-width:700px) { .dosing-guide-grid { grid-template-columns:1fr; } }
 .business-tool-tabs { display:flex;gap:8px;overflow-x:auto;margin:18px 0;padding-bottom:8px; }
 .business-tool-tabs button { width:auto;flex:none;white-space:nowrap; }
 .business-product-list { max-height:420px;overflow-y:auto; }
