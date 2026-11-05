@@ -10,7 +10,7 @@
     },
     {
       "path": "/api/cron/payment-recovery",
-      "schedule": "*/15 * * * *"
+      "schedule": "*/5 * * * *"
     },
     {
       "path": "/api/cron/vip-tagging",

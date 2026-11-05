@@ -140,6 +140,11 @@ export async function sendCardHandoffReceipt(baseUrl, order, orderNumber, {
   payload.paymentRecoveryUrl = `${baseUrl}${buildPaymentRecoveryPath(orderNumber, order?.status)}`;
   const retryPath = buildPaymentRetryPath(orderNumber);
   if (retryPath) payload.paymentRetryUrl = `${baseUrl}${retryPath}`;
+  // buildOrderNotificationPayload copies only known order fields, so these
+  // flags have to be carried across here or the mail goes out under the
+  // ordinary "Order received" subject.
+  if (order?.isPaymentRecoveryReminder === true) payload.isPaymentRecoveryReminder = true;
+  if (order?.isPaymentRecoveryFollowUp === true) payload.isPaymentRecoveryFollowUp = true;
 
   try {
     const body = JSON.stringify(payload);
@@ -159,6 +164,15 @@ export async function sendCardHandoffReceipt(baseUrl, order, orderNumber, {
     console.error(`${logPrefix} ${orderNumber}: send failed —`, error.message);
     return { sent: false, error: error.message };
   }
+}
+
+/** The 15-minute "your payment has not gone through" mail. */
+export async function sendPaymentRecoveryFollowUpEmail(baseUrl, order, orderNumber, options = {}) {
+  const resultOrder = { ...order, isPaymentRecoveryFollowUp: true };
+  return sendCardHandoffReceipt(baseUrl, resultOrder, orderNumber, {
+    ...options,
+    logPrefix: options.logPrefix || '[Payment recovery 15-minute email]',
+  });
 }
 
 export async function sendPaymentRecoveryReminderEmail(baseUrl, order, orderNumber, options = {}) {

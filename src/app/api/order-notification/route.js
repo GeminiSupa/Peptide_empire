@@ -364,7 +364,11 @@ export async function POST(request) {
         // whether anything is wrong. "Order Confirmation" over a refused card
         // is the whole complaint in one line, so it tracks the outcome.
         const outcome = classifyPaymentOutcome(order.status);
-        const customerSubject = order.isPaymentRecoveryReminder === true
+        const customerSubject = order.isPaymentRecoveryFollowUp === true
+          ? (orderLang === 'en'
+            ? `Your payment has not gone through yet - Order #${order.orderNumber || ''}`
+            : `Su pago aún no se ha completado - Pedido #${order.orderNumber || ''}`)
+          : order.isPaymentRecoveryReminder === true
           ? (orderLang === 'en'
             ? `Reminder: your bank still needs approval - Order #${order.orderNumber || ''}`
             : `Recordatorio: su banco aún debe aprobar - Pedido #${order.orderNumber || ''}`)
