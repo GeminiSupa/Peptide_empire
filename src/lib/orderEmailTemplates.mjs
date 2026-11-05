@@ -29,14 +29,14 @@ export const paymentLabels = {
   en: {
     whatsapp: 'WhatsApp Manual Coordination',
     sinpe: 'SINPE Móvil',
-    bank_transfer: 'BAC bank transfer',
+    bank_transfer: 'Bank transfer',
     card: 'Credit / Debit Card via Chargex',
     unknown: 'Standard Payment Method',
   },
   es: {
     whatsapp: 'Coordinación Manual por WhatsApp',
     sinpe: 'SINPE Móvil',
-    bank_transfer: 'Transferencia bancaria BAC',
+    bank_transfer: 'Transferencia bancaria',
     card: 'Tarjeta de Crédito / Débito vía Chargex',
     unknown: 'Método de Pago Estándar',
   }

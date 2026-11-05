@@ -6025,7 +6025,9 @@ export default function CatalogPage() {
                   ...['sinpe', 'bank_transfer'].map(value => ({
                     value, icon: value === 'sinpe' ? '📱' : '🏦',
                     title: value === 'sinpe' ? 'SINPE Móvil' : (lang === 'en' ? 'Bank transfer' : 'Transferencia bancaria'),
-                    detail: 'BAC · CRC',
+                    detail: value === 'sinpe'
+                      ? (lang === 'en' ? 'From any participating bank · CRC' : 'Desde cualquier banco participante · CRC')
+                      : (lang === 'en' ? 'From any bank · CRC or USD' : 'Desde cualquier banco · CRC o USD'),
                     badge: bankMethods[value] ? null : (lang === 'en' ? 'Coming soon' : 'Próximamente'),
                     disabled: !bankMethods[value],
                   })),
@@ -6053,9 +6055,13 @@ export default function CatalogPage() {
               </div>
 
               {isBankMethod(paymentMethod) && <p role="status">
-                {lang === 'en'
-                  ? `Pay in colones: ₡${Math.round(currency === 'CRC' ? getFinalTotal() : getFinalTotal() * exchangeRate).toLocaleString('en-US')}. After placing your order, we will show the BAC payment details. Payment is confirmed after we verify receipt.`
-                  : `Pague en colones: ₡${Math.round(currency === 'CRC' ? getFinalTotal() : getFinalTotal() * exchangeRate).toLocaleString('en-US')}. Al enviar su pedido verá los datos de pago BAC. Confirmaremos el pago después de verificar los fondos.`}
+                {paymentMethod === 'sinpe'
+                  ? (lang === 'en'
+                    ? `Pay from any participating bank in colones: ₡${Math.round(currency === 'CRC' ? getFinalTotal() : getFinalTotal() * exchangeRate).toLocaleString('en-US')}. We will show the SINPE number after you place the order.`
+                    : `Pague desde cualquier banco participante en colones: ₡${Math.round(currency === 'CRC' ? getFinalTotal() : getFinalTotal() * exchangeRate).toLocaleString('en-US')}. Mostraremos el número SINPE después de enviar el pedido.`)
+                  : (lang === 'en'
+                    ? `Transfer from any bank in ${currency}. We will show the receiving account after you place the order and confirm payment after the funds arrive.`
+                    : `Transfiera desde cualquier banco en ${currency}. Mostraremos la cuenta receptora después de enviar el pedido y confirmaremos el pago cuando lleguen los fondos.`)}
               </p>}
 
               {/* The apology, said where the customer is looking when they
