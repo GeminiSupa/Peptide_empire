@@ -126,6 +126,7 @@ import { FALLBACK_EXCHANGE_RATE, isPlausibleRate } from '@/lib/pricing';
 import { tooManyAttemptsMessage, tooManyAttemptsTitle } from '@/lib/checkoutRateLimits.mjs';
 import { coaLinkLabel } from '@/lib/coaLinks.mjs';
 import { productCoaLinks, matchingCoaReports } from '@/lib/productCoas.mjs';
+import { buildUpsellRecommendations } from '@/lib/upsellRecommendations.mjs';
 
 // const WHATSAPP_NUMBER = '50684046973'; // Replaced with useBusinessLinks()
 const FREE_SHIPPING_USD_THRESHOLD = 200;
@@ -2645,32 +2646,15 @@ export default function CatalogPage() {
     }, 3000);
   };
 
-  // Get product suggestions based on cart items (Amazon-style)
+  // Predictable complementary-category upsells. The pure helper owns ranking,
+  // variant deduplication and exclusions so the drawer cannot drift from tests.
   const getSuggestions = () => {
-    if (cart.length === 0 || products.length === 0) return [];
-    const cartProductNames = new Set(cart.map(c => c.product));
-    const cartCategories = new Set(cart.map(c => c.category).filter(Boolean));
-    
-    // Find in-stock products from same categories, not already in cart
-    let suggestions = products.filter(p =>
-      !cartProductNames.has(p.product) &&
-      isListableProduct(p) &&
-      isInStock(p.status) &&
-      cartCategories.has(p.category)
-    );
-
-    // If not enough, add other in-stock products
-    if (suggestions.length < 3) {
-      const more = products.filter(p =>
-        !cartProductNames.has(p.product) &&
-        isListableProduct(p) &&
-        isInStock(p.status) &&
-        !cartCategories.has(p.category)
-      );
-      suggestions = [...suggestions, ...more];
-    }
-    
-    return suggestions.slice(0, 3);
+    return buildUpsellRecommendations({
+      cart,
+      products,
+      limit: 3,
+      isListable: isListableProduct,
+    });
   };
 
   const updateCartQty = (productName, change) => {
