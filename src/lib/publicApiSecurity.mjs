@@ -37,6 +37,43 @@ function isCompanyHost(hostname) {
 }
 
 /**
+ * CORS headers for a public route that the company's other sites call from
+ * the browser — the new website on `peptidescostarica.net` posts its orders
+ * to this app's `/api/orders/create`.
+ *
+ * A browser treats every subdomain as a separate site. Before it lets a page
+ * on one post JSON to another it asks first (a preflight), and it blocks the
+ * request unless the answer names the page's origin. isTrustedStorefrontRequest
+ * below already accepts these origins; without this answer the browser never
+ * lets the request reach it.
+ *
+ * Only an HTTPS company host is named — the same rule as
+ * isTrustedStorefrontRequest — plus localhost outside production, which that
+ * check also allows. Any other origin gets no Allow-Origin, so the browser
+ * keeps blocking it. Cookies and Authorization are not allowed cross-site.
+ */
+export function storefrontCorsHeaders(origin) {
+  const candidate = String(origin || '').trim();
+  let allowed = '';
+  try {
+    const url = new URL(candidate);
+    const companyHttps = url.protocol === 'https:' && isCompanyHost(url.hostname);
+    const localDev = process.env.NODE_ENV !== 'production'
+      && ['localhost', '127.0.0.1', '[::1]'].includes(url.hostname);
+    if (url.origin === candidate && (companyHttps || localDev)) allowed = candidate;
+  } catch {
+    allowed = '';
+  }
+  return {
+    ...(allowed ? { 'Access-Control-Allow-Origin': allowed } : {}),
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Max-Age': '86400',
+    Vary: 'Origin',
+  };
+}
+
+/**
  * Browser POSTs must originate on the storefront/company domain. This is a
  * CSRF/cross-site abuse control, not a substitute for the durable limiter.
  */

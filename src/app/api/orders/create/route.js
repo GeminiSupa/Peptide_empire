@@ -45,6 +45,7 @@ import {
   rateLimitHeaders,
   readLimitedJson,
   RequestBodyError,
+  storefrontCorsHeaders,
 } from '@/lib/publicApiSecurity.mjs';
 import {
   limiterUnavailableMessage,
@@ -390,7 +391,26 @@ async function sendAgentOrderWhatsApp(supabase, order, orderNumber, orderId = nu
   });
 }
 
+/**
+ * The new website (`peptidescostarica.net`, branch `website`) posts its orders
+ * here from the browser. A different subdomain is a different site to the
+ * browser, so it asks first (OPTIONS) and only sends the order — and only lets
+ * the website read the answer — when these headers name its origin. Nothing
+ * else about the order changes: createOrder runs exactly as for the catalog.
+ */
+export function OPTIONS(request) {
+  return new Response(null, { status: 204, headers: storefrontCorsHeaders(request.headers.get('origin')) });
+}
+
 export async function POST(request) {
+  const response = await createOrder(request);
+  for (const [name, value] of Object.entries(storefrontCorsHeaders(request.headers.get('origin')))) {
+    response.headers.set(name, value);
+  }
+  return response;
+}
+
+async function createOrder(request) {
   try {
     if (!isTrustedStorefrontRequest(request)) {
       return NextResponse.json({ error: 'Request origin is not allowed' }, { status: 403 });
