@@ -7,7 +7,7 @@ import {
   readClickAttribution,
 } from '../src/lib/whatsappLink.mjs';
 
-const textOf = (url) => decodeURIComponent(url.split('text=')[1] ?? '');
+const textOf = (url) => new URL(url, 'https://catalog.peptidescostarica.net').searchParams.get('text') || '';
 
 const store = (values) => ({ getItem: (k) => (k in values ? values[k] : null) });
 
@@ -39,11 +39,13 @@ test('the customer never sends our internal tracking note', () => {
   }
 });
 
-test('the link is a valid wa.me url with the text encoded', () => {
+test('the link uses the first-party attribution handoff with the text encoded', () => {
   const url = buildWhatsAppLink('50684046973', null, 'es');
-  assert.ok(url.startsWith('https://wa.me/50684046973?text='));
+  assert.ok(url.startsWith('/api/whatsapp/open?'));
   assert.ok(!url.includes(' '), 'spaces must be encoded');
-  assert.equal(new URL(url).searchParams.get('text'), 'Hola, me interesa');
+  const parsed = new URL(url, 'https://catalog.peptidescostarica.net');
+  assert.equal(parsed.searchParams.get('phone'), '50684046973');
+  assert.equal(parsed.searchParams.get('text'), 'Hola, me interesa');
 });
 
 test('attribution is read for storing, not for showing', () => {

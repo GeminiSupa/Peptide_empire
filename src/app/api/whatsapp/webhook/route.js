@@ -31,6 +31,7 @@ import {
 } from '@/lib/whatsappCompliance';
 import { verifyMetaWebhook } from '@/lib/metaWebhookAuth';
 import { combineLiveDeals } from '@/lib/dealOfWeek.mjs';
+import { claimWhatsAppGoogleAttribution } from '@/lib/whatsappGoogleAttribution.mjs';
 
 // ─── Supabase client (server-side with service role for writes) ───
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -110,6 +111,7 @@ export async function POST(request) {
           const timestamp = msg?.timestamp;
           const receivedAt = new Date().toISOString();
           const adAttribution = extractWhatsAppAdAttribution(msg);
+          const googleAttribution = await claimWhatsAppGoogleAttribution(supabase, messageText, waId);
 
           // Get display name from contacts array
           const contact = contacts.find(c => c.wa_id === waId);
@@ -176,6 +178,13 @@ export async function POST(request) {
                 console.error('[WhatsApp Webhook] Failed to update order:', updateError);
               } else {
                 console.log(`[WhatsApp Webhook] ✅ Linked wa_id ${waId} to order ${matchedOrderId}`);
+              }
+              if (googleAttribution) {
+                await supabase
+                  .from('orders')
+                  .update({ ad_attribution: googleAttribution })
+                  .eq('id', matchedOrderId)
+                  .is('ad_attribution', null);
               }
             }
 

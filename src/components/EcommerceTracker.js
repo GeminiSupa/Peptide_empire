@@ -13,7 +13,7 @@ export default function EcommerceTracker() {
       if (!target || target.dataset.whatsappOrder === 'true') return;
       const href = target.getAttribute('href') || '';
       const explicit = target.dataset.whatsappLocation;
-      if (!explicit && !/^(?:https?:\/\/(wa\.me|wa\.link|api\.whatsapp\.com|web\.whatsapp\.com)\/|whatsapp:\/\/)/i.test(href)) return;
+      if (!explicit && !/^(?:\/api\/whatsapp\/open(?:\?|$)|https?:\/\/(wa\.me|wa\.link|api\.whatsapp\.com|web\.whatsapp\.com)\/|whatsapp:\/\/)/i.test(href)) return;
       if (target.dataset.whatsappShare === 'true') return;
       const location = WHATSAPP_LOCATIONS.has(explicit) ? explicit : whatsappLocation({ path: window.location.pathname, text: target.textContent, hint: target.getAttribute('aria-label') || target.id });
       pushEvent({ event: 'whatsapp_click', click_location: location, ...(target.closest('[data-analytics-item-id]')?.dataset.analyticsItemId ? { item_id: target.closest('[data-analytics-item-id]').dataset.analyticsItemId } : {}) });

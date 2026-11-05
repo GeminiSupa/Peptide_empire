@@ -39,7 +39,8 @@ export const DEFAULT_GREETING = {
  */
 export function buildWhatsAppLink(phone, baseMessage, lang = 'es') {
   const greeting = baseMessage || DEFAULT_GREETING[lang] || DEFAULT_GREETING.es;
-  return `https://wa.me/${phone}?text=${encodeURIComponent(greeting)}`;
+  const params = new URLSearchParams({ phone: String(phone || ''), text: greeting });
+  return `/api/whatsapp/open?${params.toString()}`;
 }
 
 /**

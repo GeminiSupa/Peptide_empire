@@ -28,6 +28,7 @@ import {
 import { insertWhatsAppMessage } from './whatsappMessageLog';
 import { upsertWhatsAppConversation } from './whatsappConversations.mjs';
 import { extractWhatsAppAdAttribution } from './whatsappWorkflow.mjs';
+import { claimWhatsAppGoogleAttribution } from './whatsappGoogleAttribution.mjs';
 
 // ── Lazy imports (Baileys is ESM-only, load dynamically) ──────────────────
 let makeWASocket, useMultiFileAuthState, DisconnectReason, makeCacheableSignalKeyStore,
@@ -494,6 +495,7 @@ export async function startSession() {
             },
           })
         : null;
+      await claimWhatsAppGoogleAttribution(supabase, messageText, waId);
       const { error: conversationError } = await upsertWhatsAppConversation(supabase, {
         waId,
         displayName,
