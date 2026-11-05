@@ -467,6 +467,16 @@ function CardBrandMarks() {
   );
 }
 
+function CostaRicaBankMarks() {
+  return (
+    <span className="payment-bank-row" aria-label="Cuenta receptora BAC; transferencias desde BAC, BNCR, BCR y otros bancos">
+      <span className="payment-bank-mark payment-bank-mark--bac">BAC</span>
+      <span className="payment-bank-mark payment-bank-mark--bn">BNCR</span>
+      <span className="payment-bank-mark payment-bank-mark--bcr">BCR</span>
+    </span>
+  );
+}
+
 export default function CatalogPage() {
   const { links } = useBusinessLinks();
   const { rating: liveTrustpilotRating } = useTrustpilotRating();
@@ -6003,9 +6013,25 @@ export default function CatalogPage() {
                     disabled: !CARD_CHECKOUT_AVAILABLE,
                   },
                   {
+                    value: 'sinpe',
+                    icon: '📱',
+                    title: 'SINPE Móvil',
+                    detail: lang === 'en' ? 'From any participating bank · CRC' : 'Desde cualquier banco participante · CRC',
+                    badge: bankMethods.sinpe ? null : (lang === 'en' ? 'Coming soon' : 'Próximamente'),
+                    disabled: !bankMethods.sinpe,
+                  },
+                  {
+                    value: 'bank_transfer',
+                    icon: <CostaRicaBankMarks />,
+                    title: lang === 'en' ? 'Bank transfer' : 'Transferencia bancaria',
+                    detail: lang === 'en' ? 'Any Costa Rican bank · CRC or USD' : 'Cualquier banco de Costa Rica · CRC o USD',
+                    badge: bankMethods.bank_transfer ? null : (lang === 'en' ? 'Coming soon' : 'Próximamente'),
+                    disabled: !bankMethods.bank_transfer,
+                  },
+                  {
                     value: 'ach',
                     icon: '🏛️',
-                    title: lang === 'en' ? 'Bank (ACH)' : 'Banco (ACH)',
+                    title: 'ACH',
                     detail: !CARD_CHECKOUT_AVAILABLE
                       ? (lang === 'en' ? 'Under maintenance' : 'En mantenimiento')
                       : (lang === 'en' ? 'US bank account • USD' : 'Cuenta bancaria de EE. UU. • USD'),
@@ -6022,15 +6048,6 @@ export default function CatalogPage() {
                     badge: !CARD_CHECKOUT_AVAILABLE ? (lang === 'en' ? 'Maintenance' : 'Mantenimiento') : null,
                     disabled: !CARD_CHECKOUT_AVAILABLE,
                   },
-                  ...['sinpe', 'bank_transfer'].map(value => ({
-                    value, icon: value === 'sinpe' ? '📱' : '🏦',
-                    title: value === 'sinpe' ? 'SINPE Móvil' : (lang === 'en' ? 'Bank transfer' : 'Transferencia bancaria'),
-                    detail: value === 'sinpe'
-                      ? (lang === 'en' ? 'From any participating bank · CRC' : 'Desde cualquier banco participante · CRC')
-                      : (lang === 'en' ? 'From any bank · CRC or USD' : 'Desde cualquier banco · CRC o USD'),
-                    badge: bankMethods[value] ? null : (lang === 'en' ? 'Coming soon' : 'Próximamente'),
-                    disabled: !bankMethods[value],
-                  })),
                 ].map(method => (
                   <button
                     key={method.value}

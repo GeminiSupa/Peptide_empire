@@ -3382,6 +3382,34 @@ body {
     justify-self: center;
 }
 
+.payment-bank-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.payment-bank-mark {
+    display: inline-flex;
+    min-width: 38px;
+    height: 23px;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    border-radius: 5px;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 0.58rem;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.16);
+}
+
+.payment-bank-mark--bac { background: #d71920; }
+.payment-bank-mark--bn { background: #07549a; }
+.payment-bank-mark--bcr { background: linear-gradient(135deg, #0667a8 0 60%, #5aa832 60%); }
+
 /* The middle column. Without min-width:0 a flex item refuses to shrink below
    its content's min-content width, so the card overflowed instead of wrapping —
    the badge was what got pushed out of the box. */
