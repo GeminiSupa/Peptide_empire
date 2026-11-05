@@ -10,6 +10,7 @@ import { parseBillingAddress } from '@/lib/billingAddress.mjs';
 import { cardCheckoutMessage } from '@/lib/cardCheckoutMessages.mjs';
 import { areCardPaymentsPaused } from '@/lib/cardPaymentsPaused.mjs';
 import { withPaymentStatusActivity } from '@/lib/paymentStatusActivity.mjs';
+import { buildPaymentRecoveryPath } from '@/lib/paymentRecovery.mjs';
 
 export const runtime = 'nodejs';
 
@@ -124,7 +125,7 @@ export async function POST(request) {
       const page = await createChargxCardCheckout({
         amount: amountUsd.toFixed(2),
         successUrl: `${baseUrl}/thank-you?lang=${encodeURIComponent(lang)}&order=${encodeURIComponent(order.order_number)}&payment=card`,
-        cancelUrl: `${baseUrl}/pay-card?order=${encodeURIComponent(order.order_number)}&token=${encodeURIComponent(token)}`,
+        cancelUrl: `${baseUrl}${buildPaymentRecoveryPath(order.order_number, ORDER_STATUS.CARD_3DS)}&lang=${encodeURIComponent(lang)}`,
       });
       transaction = {
         ...page,
@@ -227,6 +228,7 @@ export async function POST(request) {
       status: transaction.status,
       orderStatus,
       transactionId: transaction.id,
+      recoveryUrl: `${buildPaymentRecoveryPath(order.order_number, orderStatus)}&lang=${encodeURIComponent(lang)}`,
       error: declineReason || `Payment ${transaction.status || 'failed'}`,
     }, { status: 402 });
   } catch (err) {

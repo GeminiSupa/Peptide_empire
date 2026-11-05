@@ -3,7 +3,7 @@ import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { isChargxConfigured, createChargxCardCheckout, withChargxCheckoutDetails, normalizeChargxPaymentType } from '@/lib/chargxPay.mjs';
 import { claimOrderForPayment, releaseOrderClaim, describeOrderPaymentState } from '@/lib/cardPaymentLock';
 import { classifyPaymentOutcome, declineReasonFrom, gatewayStatusToOrderStatus, ORDER_STATUS } from '@/lib/paymentOutcome.mjs';
-import { sendPaymentResultEmails } from '@/lib/paymentResultEmail.mjs';
+import { sendCardHandoffReceipt, sendPaymentResultEmails } from '@/lib/paymentResultEmail.mjs';
 import { sendAdminOrderEmail } from '@/lib/adminOrderEmail.mjs';
 import { cardCheckoutMessage } from '@/lib/cardCheckoutMessages.mjs';
 import { areCardPaymentsPaused } from '@/lib/cardPaymentsPaused.mjs';
@@ -12,6 +12,8 @@ import { getPublicSiteUrl } from '@/lib/publicUrl';
 import { sendCustomerOrderConfirmation } from '@/lib/orderWhatsAppAlerts';
 import { parseBillingAddress } from '@/lib/billingAddress.mjs';
 import { withPaymentStatusActivity } from '@/lib/paymentStatusActivity.mjs';
+import { buildPaymentRecoveryPath } from '@/lib/paymentRecovery.mjs';
+import { sendPaymentRecoveryWhatsApp } from '@/lib/paymentRecoveryWhatsApp.mjs';
 import { reservePaidOrderInventory } from '@/lib/orderInventoryServer';
 import { isFreeCardOrder } from '@/lib/freeOrder.mjs';
 import { verifyCardCheckoutToken } from '@/lib/cardPaymentLink';
@@ -276,7 +278,7 @@ export async function POST(req) {
           amount: formattedAmount,
           type: payType,
           successUrl: `${baseUrl}/thank-you?lang=${encodeURIComponent(lang)}&order=${encodeURIComponent(orderNumber)}&payment=${payType}`,
-          cancelUrl: `${baseUrl}/catalog?lang=${encodeURIComponent(lang)}&payment=cancel&order=${encodeURIComponent(orderNumber)}`,
+          cancelUrl: `${baseUrl}${buildPaymentRecoveryPath(orderNumber, ORDER_STATUS.CARD_3DS)}&lang=${encodeURIComponent(lang)}`,
         });
         transaction = {
           ...page,
@@ -335,10 +337,20 @@ export async function POST(req) {
       if (orderRow) {
         // /api/orders/create held the team's alert for this order, so this
         // one mail is both the new-order alert and the payment outcome.
-        await sendPaymentResultEmails(baseUrl, orderRow, orderNumber, {
+        const emailResult = await sendPaymentResultEmails(baseUrl, orderRow, orderNumber, {
           declineReason,
           firstTeamAlert: true,
         });
+        if (outcome === 'declined') {
+          const retryUrl = `${baseUrl}${buildPaymentRecoveryPath(orderNumber, orderStatus)}&lang=${encodeURIComponent(lang)}`;
+          const waResult = await sendPaymentRecoveryWhatsApp(supabase, orderRow, retryUrl);
+          const recoveryPatch = {};
+          if (emailResult.sent) recoveryPatch.payment_recovery_email_sent_at = new Date().toISOString();
+          if (waResult.sent) recoveryPatch.payment_recovery_whatsapp_sent_at = new Date().toISOString();
+          if (Object.keys(recoveryPatch).length) {
+            await supabase.from('orders').update(recoveryPatch).eq('id', orderRow.id);
+          }
+        }
       } else {
         console.warn(`[Chargex] No order row for ${orderNumber}; payment result email not sent`);
       }
@@ -379,6 +391,23 @@ export async function POST(req) {
       // a mail nobody can prove was sent is the problem being fixed.
       await sendHeldTeamAlert(orderNumber, 'handed off to Chargex');
 
+      const { data: handoffOrder } = await supabase
+        .from('orders')
+        .select('*')
+        .eq('order_number', orderNumber)
+        .maybeSingle();
+      if (handoffOrder) {
+        const emailResult = await sendCardHandoffReceipt(baseUrl, handoffOrder, orderNumber);
+        const retryUrl = `${baseUrl}${buildPaymentRecoveryPath(orderNumber, ORDER_STATUS.CARD_3DS)}&lang=${encodeURIComponent(lang)}`;
+        const waResult = await sendPaymentRecoveryWhatsApp(supabase, handoffOrder, retryUrl);
+        const recoveryPatch = {};
+        if (emailResult.sent) recoveryPatch.payment_recovery_email_sent_at = new Date().toISOString();
+        if (waResult.sent) recoveryPatch.payment_recovery_whatsapp_sent_at = new Date().toISOString();
+        if (Object.keys(recoveryPatch).length) {
+          await supabase.from('orders').update(recoveryPatch).eq('id', handoffOrder.id);
+        }
+      }
+
       return NextResponse.json({
         ok: true,
         status: transaction.status,
@@ -397,6 +426,7 @@ export async function POST(req) {
       // wording and still deserves our "try another card" sentence.
       errorCode: 'declined',
       retryable: true,
+      recoveryUrl: `${buildPaymentRecoveryPath(orderNumber, orderStatus)}&lang=${encodeURIComponent(lang)}`,
       error: declineReason || `Payment ${transaction.status || 'failed'}`,
     }, { status: 402 });
   } catch (error) {

@@ -153,9 +153,9 @@ test('handing the customer to ChargX sends the team alert that was held back', (
   const route = fs.readFileSync('src/app/api/chargx/process-card/route.js', 'utf8');
   const redirectBranch = route.slice(route.indexOf('ORDER_STATUS.CARD_3DS && transaction.redirect_url'));
   assert.match(redirectBranch, /await sendHeldTeamAlert\(orderNumber/);
-  // Team only: the customer must not be told "processing" before the payment
-  // is confirmed, which is why sendCardHandoffReceipt was removed.
-  assert.equal(route.includes('sendCardHandoffReceipt'), false);
+  // The customer also receives the recovery instructions immediately so an
+  // abandoned 3DS prompt does not strand the saved order.
+  assert.equal(route.includes('sendCardHandoffReceipt'), true);
 });
 
 test('the webhook no longer claims to be the team first sight of the order', () => {

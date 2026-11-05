@@ -364,7 +364,11 @@ export async function POST(request) {
         // whether anything is wrong. "Order Confirmation" over a refused card
         // is the whole complaint in one line, so it tracks the outcome.
         const outcome = classifyPaymentOutcome(order.status);
-        const customerSubject = order.isResend === true
+        const customerSubject = order.isPaymentRecoveryReminder === true
+          ? (orderLang === 'en'
+            ? `Reminder: your bank still needs approval - Order #${order.orderNumber || ''}`
+            : `Recordatorio: su banco aún debe aprobar - Pedido #${order.orderNumber || ''}`)
+          : order.isResend === true
           ? (orderLang === 'en'
             ? `Your receipt - Order #${order.orderNumber || ''} - Peptides Costa Rica`
             : `Su recibo - Pedido #${order.orderNumber || ''} - Péptidos Costa Rica`)

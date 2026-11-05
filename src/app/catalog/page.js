@@ -554,11 +554,13 @@ export default function CatalogPage() {
   // orders with an owner; the notice reports anything a reorder could not carry.
   const { session: customerSession, accessToken: customerAccessToken } = useCustomerSession();
   const [businessAccount, setBusinessAccount] = useState(null);
+  const [businessAddressPrefilled, setBusinessAddressPrefilled] = useState(false);
   const [businessCheckoutQuote,setBusinessCheckoutQuote]=useState(null);
   const [businessQuoteError,setBusinessQuoteError]=useState('');
   const [businessQuoteLoading,setBusinessQuoteLoading]=useState(false);
   useEffect(() => {
     setBusinessAccount(null);
+    setBusinessAddressPrefilled(false);
     if (!customerAccessToken) return;
     let active = true;
     fetch('/api/account/business', { headers: { Authorization: `Bearer ${customerAccessToken}` } })
@@ -1630,20 +1632,42 @@ export default function CatalogPage() {
       const client = getCustomerSupabase();
       if (!client) return;
 
-      const [{ data: profile }, { data: address }] = await Promise.all([
+      const [{ data: profile }, { data: address }, { data: latestOrder }] = await Promise.all([
         client.from('customer_profiles').select('display_name, phone').eq('user_id', customerSession.user.id).maybeSingle(),
-        client.from('customer_addresses').select('*').eq('is_default', true).maybeSingle(),
+        client.from('customer_addresses').select('*').eq('customer_user_id', customerSession.user.id).eq('is_default', true).maybeSingle(),
+        client.from('orders').select('customer_id_type, customer_id_number').eq('customer_user_id', customerSession.user.id).order('created_at', { ascending: false }).limit(1).maybeSingle(),
       ]);
 
       if (!active) return;
 
       setCustomerEmail((current) => current || customerSession.user.email || '');
       if (profile?.display_name) setCustomerName((current) => current || profile.display_name);
-      if (profile?.phone) setCustomerPhone((current) => current || profile.phone);
+      if (profile?.phone) {
+        const { countryCode, nationalNumber } = splitE164(profile.phone);
+        setCustomerPhoneNational((current) => {
+          if (current) return current;
+          setCustomerPhoneCountry(countryCode);
+          return nationalNumber;
+        });
+      }
+      if (latestOrder?.customer_id_number) {
+        setCustomerIdNumber((current) => {
+          if (current) return current;
+          setCustomerIdType(latestOrder.customer_id_type || '1');
+          return latestOrder.customer_id_number;
+        });
+      }
 
       if (address) {
         if (address.recipient_name) setCustomerName((current) => current || address.recipient_name);
-        if (address.phone) setCustomerPhone((current) => current || address.phone);
+        if (address.phone) {
+          const { countryCode, nationalNumber } = splitE164(address.phone);
+          setCustomerPhoneNational((current) => {
+            if (current) return current;
+            setCustomerPhoneCountry(countryCode);
+            return nationalNumber;
+          });
+        }
         if (address.province) {
           setShippingProvince((current) => {
             if (current) return current;
@@ -1665,6 +1689,39 @@ export default function CatalogPage() {
 
     return () => { active = false; };
   }, [customerSession]);
+
+  // Business accounts already collected these details during application.
+  // Reuse them at checkout instead of making the company type the same contact
+  // and delivery address again. A saved personal/default address or anything
+  // typed during this visit still wins because only blank controls are filled.
+  useEffect(() => {
+    if (!businessAccount || !customerSession?.user) return;
+
+    const storedAddress = String(
+      businessAccount.delivery_address || businessAccount.billing_address || ''
+    ).trim();
+    setCustomerEmail((current) => current || customerSession.user.email || businessAccount.email || '');
+    if (businessAccount.contact_name) setCustomerName((current) => current || businessAccount.contact_name);
+    if (businessAccount.phone) {
+      const { countryCode, nationalNumber } = splitE164(businessAccount.phone);
+      setCustomerPhoneNational((current) => {
+        if (current) return current;
+        setCustomerPhoneCountry(countryCode);
+        return nationalNumber;
+      });
+    }
+    if (businessAccount.corporation_number) {
+      setCustomerIdType('2');
+      setCustomerIdNumber(businessAccount.corporation_number);
+    }
+    if (storedAddress) {
+      setShippingDetailedAddress((current) => {
+        if (current) return current;
+        setBusinessAddressPrefilled(true);
+        return storedAddress;
+      });
+    }
+  }, [businessAccount, customerSession]);
 
   // "Order again" from the account area. The account pages stash only product
   // names and quantities; every price, discount, shipping fee and BAC-water
@@ -3428,7 +3485,9 @@ export default function CatalogPage() {
       errors.customerIdNumber = lang === 'en' ? 'ID number is required.' : 'El número de identificación es requerido.';
     }
 
-    if (!shippingProvince || !shippingCanton || !shippingDistrict || !shippingDetailedAddress.trim()) {
+    const hasStructuredAddress = shippingProvince && shippingCanton && shippingDistrict && shippingDetailedAddress.trim();
+    const hasSavedBusinessAddress = businessAddressPrefilled && shippingDetailedAddress.trim();
+    if (!hasStructuredAddress && !hasSavedBusinessAddress) {
       errors.shippingAddress = lang === 'en' ? 'Please complete your full shipping address.' : 'Por favor complete su dirección de envío completa.';
     }
 
@@ -3585,6 +3644,11 @@ export default function CatalogPage() {
         localStorage.removeItem('cart');
         stashReviewOptIn(orderNum);
         window.location.href = `/thank-you?lang=${lang}&order=${encodeURIComponent(orderNum)}`;
+        return;
+      }
+
+      if (data.recoveryUrl) {
+        window.location.href = data.recoveryUrl;
         return;
       }
 

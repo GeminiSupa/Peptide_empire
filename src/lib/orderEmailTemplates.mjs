@@ -274,6 +274,7 @@ export const buildCustomerHtml = (order, paymentLabel, totalPrimary, totalUsd, t
   // A decline with no button leaves the customer holding a refusal and no way
   // to act on it, which is the state they write in angry from.
   const showDeclinedHelpAction = isDeclined;
+  const showRecoveryAction = Boolean(order.paymentRetryUrl) && (isDeclined || (isGatewayPayment && !isPaid));
   const strings = {
     title: isResend
       ? (isEn ? 'Your Receipt' : 'Su Recibo')
@@ -291,7 +292,7 @@ export const buildCustomerHtml = (order, paymentLabel, totalPrimary, totalUsd, t
       : isPaid
       ? (isEn ? "We've received your order and payment. Here are your transaction details." : 'Hemos recibido su pedido y su pago. A continuación encontrará los detalles.')
       : isDeclined
-        ? (isEn ? "Your card payment was declined. Please try again or choose a different payment method." : 'Su pago con tarjeta fue rechazado. Por favor intente nuevamente o elija un método de pago distinto.')
+        ? (isEn ? "Your bank declined the card attempt — Costa Peptides did not block it. Your order is still saved." : 'Su banco rechazó el intento — Costa Peptides no bloqueó su tarjeta. Su pedido sigue guardado.')
         : isGatewayPayment
           ? (isEn ? "We've received your order and are waiting for the payment processor's final confirmation." : 'Hemos recibido su pedido y estamos esperando la confirmación final del procesador de pago.')
           : (isEn ? "We've received your order! Please submit your payment to complete processing." : '¡Hemos recibido su pedido! Por favor envíe su pago para procesarlo.'),
@@ -314,6 +315,7 @@ export const buildCustomerHtml = (order, paymentLabel, totalPrimary, totalUsd, t
     whatsappBtn: isEn ? 'Chat with Support on WhatsApp' : 'Chatear con Soporte por WhatsApp',
     payNowBtn: isEn ? 'Complete Payment on WhatsApp' : 'Completar Pago por WhatsApp',
     declinedHelpBtn: isEn ? 'Message Us on WhatsApp' : 'Escríbanos por WhatsApp',
+    retryCardBtn: isEn ? 'Try Card Payment Again' : 'Intentar el Pago de Nuevo',
     footer: isEn ? 'High-Purity Research Peptides · Base in Costa Rica' : 'Péptidos de Alta Pureza para Investigación · Con base en Costa Rica',
   };
 
@@ -358,18 +360,23 @@ export const buildCustomerHtml = (order, paymentLabel, totalPrimary, totalUsd, t
                 // "Reason given", not "your bank's reason" — "Card brand not
                 // allowed" is the gateway refusing a card type we do not
                 // accept, and the customer's bank never saw the transaction.
-                ? `Your card was not charged and nothing has left your account.${declineReason ? ` Reason given: “${escapeHtml(declineReason)}”.` : ''} Please try again with another card, or message us on WhatsApp and we will take the order for you.`
-                : `No se realizó ningún cargo a su tarjeta y no se ha debitado nada de su cuenta.${declineReason ? ` Motivo indicado: “${escapeHtml(declineReason)}”.` : ''} Intente nuevamente con otra tarjeta, o escríbanos por WhatsApp y tomamos su pedido.`)
+                ? `Your bank declined this attempt; Costa Peptides did not block your card. Nothing was charged.${declineReason ? ` Reason given: “${escapeHtml(declineReason)}”.` : ''} Open your bank app and approve the purchase, or call the bank, then try again.`
+                : `Su banco rechazó este intento; Costa Peptides no bloqueó su tarjeta. No se realizó ningún cargo.${declineReason ? ` Motivo indicado: “${escapeHtml(declineReason)}”.` : ''} Abra la app de su banco y autorice la compra, o llame al banco, y luego intente de nuevo.`)
               : isGatewayPayment
                 ? (isEn
-                  ? 'No WhatsApp payment action is needed for this order. We will update your order once the payment processor confirms the transaction.'
-                  : 'No necesita completar el pago por WhatsApp para este pedido. Actualizaremos su orden cuando el procesador confirme la transacción.')
+                  ? 'Your bank still needs to finish the 3D Secure approval. Open your bank app and approve the purchase, or call the bank, then use the button below. Your order is saved.'
+                  : 'Su banco aún debe completar la aprobación 3D Secure. Abra la app del banco y autorice la compra, o llame al banco, y luego use el botón. Su pedido está guardado.')
                 : (isEn
                   ? 'To secure your order and schedule dispatch, please send your payment confirmation screenshot to our agent on WhatsApp.'
                   : 'Para asegurar su pedido y programar el envío, por favor envíe el comprobante de su pago a nuestro asesor por WhatsApp.')}
           </p>
+          ${showRecoveryAction ? `
+          <a href="${escapeHtml(order.paymentRetryUrl)}" style="display:inline-block;background-color:#0f766e;color:#ffffff;text-decoration:none;padding:16px 28px;border-radius:12px;font-weight:800;font-size:16px;margin:0 6px 10px;">
+             ↻ ${strings.retryCardBtn}
+          </a>
+          ` : ''}
           ${showManualPaymentAction || showDeclinedHelpAction ? `
-          <a href="${whatsappPayLink}" style="display:inline-block;background-color:#22c55e;color:#ffffff;text-decoration:none;padding:16px 32px;border-radius:12px;font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:0.5px;">
+          <a href="${whatsappPayLink}" style="display:inline-block;background-color:#22c55e;color:#ffffff;text-decoration:none;padding:16px 28px;border-radius:12px;font-weight:800;font-size:16px;margin:0 6px 10px;">
              💬 ${showDeclinedHelpAction ? strings.declinedHelpBtn : strings.payNowBtn}
           </a>
           ` : ''}

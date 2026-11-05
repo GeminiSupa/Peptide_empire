@@ -23,6 +23,7 @@
 import { buildOrderNotificationPayload } from './adminOrderEmail.mjs';
 import { internalJsonHeaders } from './internalRequestAuth.mjs';
 import { classifyPaymentOutcome } from './paymentOutcome.mjs';
+import { buildPaymentRecoveryPath, buildPaymentRetryPath } from './paymentRecovery.mjs';
 
 // Same budget as the team's new-order alert: it must outlive the mail route's
 // own SMTP connection budget, or a healthy cold connection gets aborted here
@@ -71,6 +72,9 @@ export async function sendPaymentResultEmails(baseUrl, order, orderNumber, {
     declineReason,
     firstTeamAlert,
   });
+  payload.paymentRecoveryUrl = `${baseUrl}${buildPaymentRecoveryPath(orderNumber, status)}`;
+  const retryPath = buildPaymentRetryPath(orderNumber);
+  if (retryPath) payload.paymentRetryUrl = `${baseUrl}${retryPath}`;
 
   try {
     const body = JSON.stringify(payload);
@@ -133,6 +137,9 @@ export async function sendCardHandoffReceipt(baseUrl, order, orderNumber, {
     customerReceiptOnly: true,
     forceCustomerReceipt: true,
   });
+  payload.paymentRecoveryUrl = `${baseUrl}${buildPaymentRecoveryPath(orderNumber, order?.status)}`;
+  const retryPath = buildPaymentRetryPath(orderNumber);
+  if (retryPath) payload.paymentRetryUrl = `${baseUrl}${retryPath}`;
 
   try {
     const body = JSON.stringify(payload);
@@ -152,4 +159,12 @@ export async function sendCardHandoffReceipt(baseUrl, order, orderNumber, {
     console.error(`${logPrefix} ${orderNumber}: send failed —`, error.message);
     return { sent: false, error: error.message };
   }
+}
+
+export async function sendPaymentRecoveryReminderEmail(baseUrl, order, orderNumber, options = {}) {
+  const resultOrder = { ...order, isPaymentRecoveryReminder: true };
+  return sendCardHandoffReceipt(baseUrl, resultOrder, orderNumber, {
+    ...options,
+    logPrefix: options.logPrefix || '[Payment recovery reminder]',
+  });
 }

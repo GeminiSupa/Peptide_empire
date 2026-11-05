@@ -116,6 +116,10 @@ function CardPaymentContent() {
       }
 
       if (!res.ok || !data.ok) {
+        if (data.recoveryUrl) {
+          window.location.href = data.recoveryUrl;
+          return;
+        }
         throw new Error(data.error || (isEn ? 'Card payment failed' : 'El pago con tarjeta falló'));
       }
 

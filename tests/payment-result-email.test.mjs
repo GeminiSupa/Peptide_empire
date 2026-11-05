@@ -110,9 +110,9 @@ test('the team new-order alert is unchanged and still admin-only', () => {
   assert.equal(payload.declineReason, null);
 });
 
-test('opening Chargex does not mail the customer that payment is processing', () => {
+test('opening Chargex immediately mails the customer the 3DS recovery steps', () => {
   const route = fs.readFileSync('src/app/api/chargx/process-card/route.js', 'utf8');
-  assert.equal(route.includes('sendCardHandoffReceipt'), false);
+  assert.equal(route.includes('sendCardHandoffReceipt'), true);
 });
 
 test('a 3DS hand-off still tells the customer their order exists', async () => {
