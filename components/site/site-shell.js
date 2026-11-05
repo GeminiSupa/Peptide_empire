@@ -3,6 +3,7 @@ import SiteHeader from '@/components/site/site-header';
 import SiteFooter from '@/components/site/site-footer';
 import SiteOverlays from '@/components/site/site-overlays';
 import SiteTracking from '@/components/site/site-tracking';
+import VisitorTracker from '@/components/site/visitor-tracker';
 import { ALLOW_INDEXING } from '@/lib/indexing';
 import { getSiteData } from '@/lib/site/data';
 import { translator } from '@/lib/storefront/i18n.mjs';
@@ -51,6 +52,9 @@ export default async function SiteShell({ lang, altHref, children }) {
         />
         {/* Tag Manager loads only once the real domain points here. */}
         <SiteTracking enabled={ALLOW_INDEXING} />
+        {/* Saves agent links, campaigns and ad clicks for the order; reports
+            visits to the CRM once the real domain points here. */}
+        <VisitorTracker enabled={ALLOW_INDEXING} />
       </SiteProvider>
     </div>
   );

@@ -104,6 +104,25 @@ test('how an off-card customer intends to pay is recorded in the notes', () => {
   assert.match(payload({ offCardMethod: 'cash' }).internal_notes, /cash on delivery/);
 });
 
+test('the order is posted inside `order`, the shape checkout reads', async () => {
+  // The catalog's /api/orders/create reads `body.order` and answers a bare
+  // order with 400 "Missing order payload" -- every order would be lost.
+  let posted;
+  globalThis.fetch = async (url, options) => {
+    posted = { url, body: JSON.parse(options.body) };
+    return new Response(JSON.stringify({ ok: true, id: 'row-0', orderNumber: 'W-TEST-ABCD' }), {
+      status: 200, headers: { 'content-type': 'application/json' },
+    });
+  };
+
+  const order = payload();
+  await submitOrder(order);
+  assert.match(posted.url, /\/api\/orders\/create$/);
+  assert.deepEqual(Object.keys(posted.body), ['order']);
+  assert.equal(posted.body.order.order_number, order.order_number);
+  assert.equal(posted.body.order.total_crc, order.total_crc);
+});
+
 test('a successful save returns the order and its card token', async () => {
   globalThis.fetch = async () => new Response(
     JSON.stringify({ ok: true, id: 'row-1', orderNumber: 'W-TEST-ABCD', paymentToken: 'tok' }),
@@ -121,7 +140,7 @@ test('a cheaper reprice is adopted silently and the order goes through', async (
   // ordinary. The shopper can do nothing about it and must not be asked to.
   const posted = [];
   globalThis.fetch = async (_url, options) => {
-    const body = JSON.parse(options.body);
+    const body = JSON.parse(options.body).order;
     posted.push(body);
     if (posted.length === 1) {
       return new Response(JSON.stringify({
@@ -144,7 +163,7 @@ test('a cheaper reprice is adopted silently and the order goes through', async (
 
 test('a dearer reprice stops and asks, rather than charging more', async () => {
   globalThis.fetch = async (_url, options) => {
-    const body = JSON.parse(options.body);
+    const body = JSON.parse(options.body).order;
     return new Response(JSON.stringify({
       error: 'Prices moved.',
       errorCode: 'price_changed',
@@ -162,7 +181,7 @@ test('a reprice loop cannot run forever', async () => {
   let calls = 0;
   globalThis.fetch = async (_url, options) => {
     calls += 1;
-    const body = JSON.parse(options.body);
+    const body = JSON.parse(options.body).order;
     return new Response(JSON.stringify({
       errorCode: 'price_changed',
       error: 'Prices moved.',
@@ -195,4 +214,32 @@ test('a quote states the deal-inclusive total the shopper saw', () => {
   assert.equal(quoted.shipping_cost_crc, 0);
   // Without one, the volume-tier total is stated as before.
   assert.notEqual(payload().total_crc, 150000);
+});
+
+test('an order carries the visitor\'s agent link, ad click and GA4 visit', () => {
+  // The browser state captureAttribution() leaves behind after a visitor
+  // arrives on ?sales_agent=maria&gclid=... with GA4 cookies set.
+  const store = new Map([
+    ['checkout_sales_agent', 'maria'],
+    ['lead_utm_source', 'google'],
+    ['lead_utm_campaign', 'Brand CR'],
+  ]);
+  const click = encodeURIComponent(JSON.stringify({ clicked_at: Date.now() - 60000, gclid: 'Cj0KCQabc-123' }));
+  globalThis.window = {
+    localStorage: { getItem: (key) => (store.has(key) ? store.get(key) : null) },
+    document: { cookie: `pcr_google_click=${click}; _ga=GA1.1.123456789.1700000000` },
+  };
+  try {
+    const order = payload();
+    assert.equal(order.sales_agent, 'maria');
+    assert.equal(order.ad_attribution.gclid, 'Cj0KCQabc-123');
+    assert.equal(order.ga_client_id, '123456789.1700000000');
+    assert.equal(order.utm_campaign, 'Brand CR');
+    // Not columns the catalog's checkout writes; one unknown column fails the order.
+    for (const key of ['utm_source', 'utm_medium', 'gclid', 'referrer']) {
+      assert.equal(key in order, false, `${key} must not be sent`);
+    }
+  } finally {
+    delete globalThis.window;
+  }
 });

@@ -4,14 +4,42 @@ import { useRef, useState } from 'react';
 import Ms from '@/components/storefront/icon';
 import { useSite } from '@/components/site/site-provider';
 import { pushEvent, trackLead } from '@/lib/site/analytics.mjs';
+import { LEAD_HONEYPOT_FIELD, LEAD_SOURCES, saveLead } from '@/lib/site/leads.mjs';
 
 /**
  * The prototype's three lead forms: contact, affiliate application and
- * professional account. The prototype only thanked the visitor; here the
- * answers go to the team as a WhatsApp message (the channel every enquiry
- * already arrives on), opened ready to send, and the catalog's
- * `generate_lead` event fires.
+ * professional account. The prototype only thanked the visitor; here each
+ * one is saved as a lead in the CRM (the catalog's `/api/leads/contact`,
+ * lib/site/leads.mjs), the full answers go to the team as a WhatsApp message
+ * opened ready to send, and the catalog's `generate_lead` event fires.
  */
+
+/**
+ * The bot filter's two client halves, as the catalog's LeadFormTrap: a field
+ * no person can see or reach, and the time the form has been open.
+ */
+const HIDDEN = {
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  padding: 0,
+  margin: '-1px',
+  border: 0,
+  overflow: 'hidden',
+  clipPath: 'inset(50%)',
+  whiteSpace: 'nowrap',
+};
+
+function Trap() {
+  return (
+    <div style={HIDDEN} aria-hidden="true">
+      <label>
+        Leave this field empty
+        <input name={LEAD_HONEYPOT_FIELD} type="text" defaultValue="" tabIndex={-1} autoComplete="off" />
+      </label>
+    </div>
+  );
+}
 
 function fieldsOf(form) {
   const data = new FormData(form);
@@ -41,11 +69,21 @@ function Done({ title, body }) {
 }
 
 function useSend() {
-  const { whatsapp } = useSite();
-  return (heading, labels, values, formName) => {
+  const { whatsapp, lang } = useSite();
+  const openedAt = useRef(Date.now());
+  return (form, heading, labels, values, formName, contact) => {
     const lines = Object.entries(labels)
       .filter(([name]) => values[name])
       .map(([name, label]) => `${label}: ${values[name]}`);
+    // Started before WhatsApp opens and not awaited: the window has to open
+    // inside the click or the browser blocks it.
+    saveLead({
+      ...contact,
+      source: LEAD_SOURCES[formName],
+      lang,
+      honeypot: form.elements[LEAD_HONEYPOT_FIELD]?.value || '',
+      formMs: Date.now() - openedAt.current,
+    });
     trackLead(formName);
     window.open(whatsapp([heading, '', ...lines].join('\n')), '_blank', 'noopener');
   };
@@ -62,13 +100,15 @@ export function ContactForm() {
   const submit = () => {
     const bad = missing(form.current);
     if (bad.length) { setError(t('Please fill in your name, email and message.')); bad[0].focus(); return; }
-    send('Website contact form', { name: 'Name', phone: 'Phone', email: 'Email', topic: 'Topic', msg: 'Message' },
-      fieldsOf(form.current), 'contact');
+    const values = fieldsOf(form.current);
+    send(form.current, 'Website contact form', { name: 'Name', phone: 'Phone', email: 'Email', topic: 'Topic', msg: 'Message' },
+      values, 'contact', { name: values.name, email: values.email, phone: values.phone });
     setSent(true);
   };
 
   return (
     <form ref={form} noValidate onSubmit={(event) => { event.preventDefault(); submit(); }}>
+      <Trap />
       <div className="g2">
         <label>{t('Name')}<input required name="name" autoComplete="name" /></label>
         <label>{t('Phone or WhatsApp')}<input name="phone" type="tel" /></label>
@@ -119,12 +159,13 @@ export function AffiliateForm() {
       pushEvent({ event: 'affiliate_form_step', step: step + 1 });
       return;
     }
-    send('Affiliate application', {
+    const values = fieldsOf(form.current);
+    send(form.current, 'Affiliate application', {
       name: 'Name', email: 'Email', wa: 'WhatsApp', biz: 'Business', phys: 'Physical business',
       aud: 'Has an audience', plat: 'Platforms', size: 'Audience size', refs: 'Monthly referrals',
       how: 'How they will promote', cur: 'Promotes peptides now', int: 'Interested in', cats: 'Categories',
       content: 'Content source', heard: 'Heard about us',
-    }, fieldsOf(form.current), 'affiliate');
+    }, values, 'affiliate', { name: values.name, email: values.email, phone: values.wa });
     setSent(true);
   };
 
@@ -136,6 +177,7 @@ export function AffiliateForm() {
         ))}
       </div>
       <form ref={form} noValidate onSubmit={(event) => { event.preventDefault(); next(); }}>
+        <Trap />
         <fieldset data-step="1" hidden={step !== 1}>
           <div className="g2">
             <label>{t('Full name')}<input required name="name" autoComplete="name" /></label>
@@ -206,10 +248,11 @@ export function ProForm() {
       form.current.elements.ced.focus();
       return;
     }
-    send('Professional account application', {
+    const values = fieldsOf(form.current);
+    send(form.current, 'Professional account application', {
       biz: 'Business', ced: 'Cédula jurídica', name: 'Name', role: 'Role', email: 'Email', wa: 'WhatsApp',
       type: 'Organisation', vol: 'Monthly volume', cmp: 'Compounds', custom: 'Custom sizes or blends',
-    }, fieldsOf(form.current), 'pro_account');
+    }, values, 'pro_account', { name: values.name, email: values.email, phone: values.wa });
     setSent(true);
   };
 
@@ -221,6 +264,7 @@ export function ProForm() {
         ))}
       </div>
       <form ref={form} noValidate onSubmit={(event) => { event.preventDefault(); next(); }}>
+        <Trap />
         <fieldset data-step="1" hidden={step !== 1}>
           <label>{t('Type of organisation')}<Radios name="type" t={t} initial="Clinic" options={['Clinic', 'Research lab', 'University', 'Pharmacy', 'Other business'].map((x) => [x, x])} /></label>
           <label>{t('Expected monthly volume')}<Radios name="vol" t={t} initial="10–25 vials" options={['10–25 vials', '25–50 vials', '50–100 vials', '100+ vials'].map((x) => [x, x])} /></label>
