@@ -3551,6 +3551,20 @@ export default function CatalogPage() {
     // The ACH and crypto tiles run this same flow. The order is saved as a
     // Chargex order either way; only the page Chargex opens differs.
     const chargxPayType = paymentMethod === 'ach' || paymentMethod === 'crypto' ? paymentMethod : 'card';
+    // Chargex keeps some invalid-card failures entirely on its own hosted page:
+    // no webhook and no cancel redirect. Keep our tab behind it on the recovery
+    // instructions so closing the hosted tab never drops the customer back into
+    // the catalog with no explanation. Opening now preserves the click's user
+    // gesture; browsers commonly block a new tab opened after the API awaits.
+    const hostedPaymentWindow = chargxPayType === 'card'
+      ? window.open('', '_blank')
+      : null;
+    if (hostedPaymentWindow) {
+      hostedPaymentWindow.document.title = lang === 'en' ? 'Opening secure payment…' : 'Abriendo pago seguro…';
+      hostedPaymentWindow.document.body.textContent = lang === 'en'
+        ? 'Opening the secure card page…'
+        : 'Abriendo la página segura de pago…';
+    }
 
     const orderNum = `CARD-${Date.now().toString(36).toUpperCase()}`;
     const totalVal = getFinalTotal();
@@ -3594,6 +3608,7 @@ export default function CatalogPage() {
     });
 
     if (!cardSave.ok) {
+      hostedPaymentWindow?.close();
       setCardSubmitting(false);
       cardSubmitLockRef.current = false;
       // Nothing was charged — worth saying, because "could not save your
@@ -3644,11 +3659,20 @@ export default function CatalogPage() {
         // /thank-you with no order number in the URL, and session storage
         // survives the round trip in this tab.
         stashReviewOptIn(orderNum);
-        window.location.href = data.paymentUrl;
+        if (hostedPaymentWindow && !hostedPaymentWindow.closed) {
+          hostedPaymentWindow.opener = null;
+          hostedPaymentWindow.location.href = data.paymentUrl;
+          window.location.href = data.recoveryUrl
+            || `/payment-help?order=${encodeURIComponent(orderNum)}&reason=3ds&lang=${encodeURIComponent(lang)}`;
+        } else {
+          // Popup blocking is the only case where we still have to use this tab.
+          window.location.href = data.paymentUrl;
+        }
         return;
       }
 
       if (data.ok) {
+        hostedPaymentWindow?.close();
         if (sessionId) localStorage.setItem('checkout_completed_session_id', sessionId);
         setCart([]);
         localStorage.removeItem('cart');
@@ -3658,6 +3682,7 @@ export default function CatalogPage() {
       }
 
       if (data.recoveryUrl) {
+        hostedPaymentWindow?.close();
         window.location.href = data.recoveryUrl;
         return;
       }
@@ -3703,6 +3728,7 @@ export default function CatalogPage() {
       setCardSubmitting(false);
       cardSubmitLockRef.current = false;
     } catch (err) {
+      hostedPaymentWindow?.close();
       console.error('Card payment error:', err);
       // "Nothing has been charged" was a guess here too. A request that fails
       // in the browser usually never arrived, but a charge whose response was

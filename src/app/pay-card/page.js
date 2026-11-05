@@ -97,6 +97,16 @@ function CardPaymentContent() {
 
     submitLockRef.current = true;
     setPaying(true);
+    // Keep this Costa Peptides tab on the recovery instructions while Chargex
+    // handles the card in a separate tab. Chargex can reject an invalid card
+    // without returning to us, so this is the only reliable browser-side exit.
+    const hostedPaymentWindow = window.open('', '_blank');
+    if (hostedPaymentWindow) {
+      hostedPaymentWindow.document.title = isEn ? 'Opening secure payment…' : 'Abriendo pago seguro…';
+      hostedPaymentWindow.document.body.textContent = isEn
+        ? 'Opening the secure card page…'
+        : 'Abriendo la página segura de pago…';
+    }
     try {
       const res = await fetch('/api/card-payment-link/pay', {
         method: 'POST',
@@ -111,11 +121,19 @@ function CardPaymentContent() {
       const data = await res.json();
 
       if (data.paymentUrl) {
-        window.location.href = data.paymentUrl;
+        if (hostedPaymentWindow && !hostedPaymentWindow.closed) {
+          hostedPaymentWindow.opener = null;
+          hostedPaymentWindow.location.href = data.paymentUrl;
+          window.location.href = data.recoveryUrl
+            || `/payment-help?order=${encodeURIComponent(orderNumber)}&reason=3ds&lang=${encodeURIComponent(lang)}`;
+        } else {
+          window.location.href = data.paymentUrl;
+        }
         return;
       }
 
       if (!res.ok || !data.ok) {
+        hostedPaymentWindow?.close();
         if (data.recoveryUrl) {
           window.location.href = data.recoveryUrl;
           return;
@@ -123,8 +141,10 @@ function CardPaymentContent() {
         throw new Error(data.error || (isEn ? 'Card payment failed' : 'El pago con tarjeta falló'));
       }
 
+      hostedPaymentWindow?.close();
       setPaid(true);
     } catch (err) {
+      hostedPaymentWindow?.close();
       setError(err.message);
     } finally {
       setPaying(false);

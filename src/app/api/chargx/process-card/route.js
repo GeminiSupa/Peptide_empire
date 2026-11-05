@@ -414,6 +414,7 @@ export async function POST(req) {
         orderStatus,
         transactionId: transaction.id,
         paymentUrl: transaction.redirect_url,
+        recoveryUrl: `${buildPaymentRecoveryPath(orderNumber, orderStatus)}&lang=${encodeURIComponent(lang)}`,
       });
     }
 
