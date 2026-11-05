@@ -42,7 +42,7 @@ export default function BankPaymentSettings() {
     <p>Add the receiving account details, then enable each method when mobile banking is ready. Payments require manual verification in BAC.</p>
     <p>Use receiving details only. No banking password, PIN or one-time code is needed.</p>
     {settings && <form onSubmit={save} style={{ display: 'grid', gap: 12, maxWidth: 600 }}>
-      {[['recipient', 'Account holder / recipient name'], ['legalId', 'Business legal ID'], ['sinpePhone', 'SINPE Móvil number (8 digits)'], ['ibanCrc', 'BAC CRC IBAN']].map(([key, label]) => <label key={key}>{label}<input value={settings[key]} maxLength={160} onChange={e => setSettings({ ...settings, [key]: e.target.value })} style={{ display: 'block', width: '100%', padding: 10 }} /></label>)}
+      {[['recipient', 'Account holder / recipient name'], ['legalId', 'Business legal ID (optional)'], ['sinpePhone', 'SINPE Móvil number (8 digits)'], ['accountCrc', 'BAC CRC account number'], ['ibanCrc', 'BAC CRC IBAN'], ['accountUsd', 'BAC USD account number'], ['ibanUsd', 'BAC USD IBAN']].map(([key, label]) => <label key={key}>{label}<input value={settings[key] || ''} maxLength={160} onChange={e => setSettings({ ...settings, [key]: e.target.value })} style={{ display: 'block', width: '100%', padding: 10 }} /></label>)}
       {[['sinpeEnabled', 'Enable SINPE Móvil'], ['transferEnabled', 'Enable bank transfers']].map(([key, label]) => <label key={key}><input type="checkbox" checked={settings[key]} onChange={e => setSettings({ ...settings, [key]: e.target.checked })} /> {label}</label>)}
       <button disabled={saving}>{saving ? 'Saving…' : 'Save BAC payment settings'}</button>
     </form>}

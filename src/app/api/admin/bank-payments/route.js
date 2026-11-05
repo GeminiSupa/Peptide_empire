@@ -25,7 +25,7 @@ export async function PUT(request) {
     const settings = normalizeBankSettings(await request.json());
     const availability = bankAvailability(settings);
     if ((settings.sinpeEnabled && !availability.sinpe) || (settings.transferEnabled && !availability.bank_transfer)) {
-      return Response.json({ error: 'Enter the recipient, legal ID and a valid SINPE number / CRC IBAN before enabling that method.' }, { status: 422 });
+      return Response.json({ error: 'Enter the recipient, a valid SINPE number, and valid CRC and USD IBANs before enabling the corresponding method.' }, { status: 422 });
     }
     const { error } = await getSupabaseAdmin().from('site_settings').upsert({ id: BANK_SETTINGS_ID, value: settings }, { onConflict: 'id' });
     if (error) throw new Error('Could not save BAC settings');

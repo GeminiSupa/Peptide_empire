@@ -5,7 +5,7 @@ import { createBankPaymentToken, verifyBankPaymentToken } from '../src/lib/bankP
 
 test('bank methods remain coming soon until explicitly enabled with complete details', () => {
   assert.deepEqual(bankAvailability(), { sinpe: false, bank_transfer: false });
-  const details = { recipient: 'Example SA', legalId: '3101000000', sinpePhone: '88888888', ibanCrc: 'CR05015202001026284066' };
+  const details = { recipient: 'Example SA', sinpePhone: '88888888', ibanCrc: 'CR05015202001026284066', ibanUsd: 'CR15010200009745624493' };
   assert.equal(validCostaRicaIban(details.ibanCrc), true);
   assert.deepEqual(bankAvailability(details), { sinpe: false, bank_transfer: false });
   assert.deepEqual(bankAvailability({ ...details, sinpeEnabled: true, transferEnabled: true }), { sinpe: true, bank_transfer: true });
@@ -23,6 +23,18 @@ test('instructions use saved authoritative CRC total and copy recipient details'
   assert.equal(payment.destination, '88888888');
   assert.equal(payment.currency, 'CRC');
   assert.throws(() => bankPaymentSnapshot(settings, { total_crc: -1 }));
+});
+
+test('bank transfers select the account matching the checkout currency', () => {
+  const settings = {
+    recipient: 'Example SA',
+    ibanCrc: 'CR15010200009745624493', accountCrc: '974562449',
+    ibanUsd: 'CR14010200009745624317', accountUsd: '974562431',
+  };
+  const usd = bankPaymentSnapshot(settings, { payment_method: 'bank_transfer', currency: 'USD', total_usd: 125.5, total_crc: 65000, order_number: 'USD-1' });
+  const crc = bankPaymentSnapshot(settings, { payment_method: 'bank_transfer', currency: 'CRC', total_usd: 125.5, total_crc: 65000, order_number: 'CRC-1' });
+  assert.deepEqual([usd.currency, usd.amount, usd.destination, usd.accountNumber], ['USD', 125.5, 'CR14010200009745624317', '974562431']);
+  assert.deepEqual([crc.currency, crc.amount, crc.destination, crc.accountNumber], ['CRC', 65000, 'CR15010200009745624493', '974562449']);
 });
 
 test('bank payment links reject tampering and expire', () => {

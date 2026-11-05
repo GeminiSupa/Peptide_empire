@@ -7,6 +7,9 @@ export function normalizeBankSettings(input = {}) {
     recipient: text('recipient'), legalId: text('legalId'),
     sinpePhone: text('sinpePhone').replace(/\D/g, '').replace(/^506(?=\d{8}$)/, ''),
     ibanCrc: text('ibanCrc').replace(/\s/g, '').toUpperCase(),
+    accountCrc: text('accountCrc').replace(/\D/g, ''),
+    ibanUsd: text('ibanUsd').replace(/\s/g, '').toUpperCase(),
+    accountUsd: text('accountUsd').replace(/\D/g, ''),
     sinpeEnabled: input?.sinpeEnabled === true,
     transferEnabled: input?.transferEnabled === true,
   };
@@ -14,10 +17,11 @@ export function normalizeBankSettings(input = {}) {
 
 export function bankAvailability(input) {
   const s = normalizeBankSettings(input);
-  const recipientReady = Boolean(s.recipient && s.legalId);
+  const recipientReady = Boolean(s.recipient);
   return {
     sinpe: recipientReady && /^[6-8]\d{7}$/.test(s.sinpePhone) && s.sinpeEnabled,
-    bank_transfer: recipientReady && validCostaRicaIban(s.ibanCrc) && s.transferEnabled,
+    bank_transfer: recipientReady && validCostaRicaIban(s.ibanCrc)
+      && validCostaRicaIban(s.ibanUsd) && s.transferEnabled,
   };
 }
 
@@ -37,12 +41,15 @@ export async function readBankSettings(db) {
 
 export function bankPaymentSnapshot(settings, order) {
   const s = normalizeBankSettings(settings);
-  const amount = Number(order.total_crc);
-  if (!Number.isInteger(amount) || amount <= 0) throw new Error('Invalid bank payment amount');
+  const isSinpe = order.payment_method === 'sinpe';
+  const currency = isSinpe ? 'CRC' : (order.currency === 'USD' ? 'USD' : 'CRC');
+  const amount = Number(currency === 'USD' ? order.total_usd : order.total_crc);
+  if (!Number.isFinite(amount) || amount <= 0) throw new Error('Invalid bank payment amount');
   return {
     bank: 'BAC', recipient: s.recipient, legalId: s.legalId,
-    destination: order.payment_method === 'sinpe' ? s.sinpePhone : s.ibanCrc,
-    method: order.payment_method, currency: 'CRC', amount,
+    destination: isSinpe ? s.sinpePhone : (currency === 'USD' ? s.ibanUsd : s.ibanCrc),
+    accountNumber: isSinpe ? '' : (currency === 'USD' ? s.accountUsd : s.accountCrc),
+    method: order.payment_method, currency, amount,
     reference: order.order_number,
   };
 }

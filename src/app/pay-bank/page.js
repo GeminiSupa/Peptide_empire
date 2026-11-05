@@ -42,14 +42,15 @@ export default function BankPaymentPage() {
       <p><strong>{en ? 'Order' : 'Pedido'}: {p.reference}</strong></p>
       <p role="status">{en ? 'Order status' : 'Estado del pedido'}: {data.status}</p>
       {data.awaitingPayment && <>
-        <p>{en ? 'Send the exact amount in colones from your banking app. Include the order number in the transfer description.' : 'Envíe el monto exacto en colones desde su aplicación bancaria. Incluya el número de pedido en el detalle de la transferencia.'}</p>
+        <p>{en ? `Send the exact amount in ${p.currency === 'USD' ? 'US dollars' : 'colones'} from your banking app. Include the order number in the transfer description.` : `Envíe el monto exacto en ${p.currency === 'USD' ? 'dólares' : 'colones'} desde su aplicación bancaria. Incluya el número de pedido en el detalle de la transferencia.`}</p>
         <dl>{[
           [en ? 'Recipient' : 'Beneficiario', p.recipient],
-          [en ? 'Legal ID' : 'Cédula jurídica', p.legalId],
-          [p.method === 'sinpe' ? 'SINPE Móvil' : 'IBAN CRC', p.destination],
-          [en ? 'Amount (CRC)' : 'Monto (CRC)', p.amount],
+          ...(p.legalId ? [[en ? 'Legal ID' : 'Cédula jurídica', p.legalId]] : []),
+          ...(p.accountNumber ? [[en ? `BAC account (${p.currency})` : `Cuenta BAC (${p.currency})`, p.accountNumber]] : []),
+          [p.method === 'sinpe' ? 'SINPE Móvil' : `IBAN ${p.currency}`, p.destination],
+          [en ? `Amount (${p.currency})` : `Monto (${p.currency})`, p.amount],
           [en ? 'Payment description' : 'Detalle del pago', p.reference],
-        ].map(([label, value]) => <div key={label} style={{ padding: '12px 0', borderBottom: '1px solid #aaa' }}><dt>{label}</dt><dd style={{ margin: 0, overflowWrap: 'anywhere' }}><strong>{label.includes('(CRC)') ? `₡${Number(value).toLocaleString()}` : value}</strong>{' '}<button type="button" onClick={() => copy(value)}>{copied === String(value) ? (en ? 'Copied' : 'Copiado') : (en ? 'Copy' : 'Copiar')}</button></dd></div>)}</dl>
+        ].map(([label, value]) => <div key={label} style={{ padding: '12px 0', borderBottom: '1px solid #aaa' }}><dt>{label}</dt><dd style={{ margin: 0, overflowWrap: 'anywhere' }}><strong>{label.startsWith(en ? 'Amount (' : 'Monto (') ? `${p.currency === 'USD' ? '$' : '₡'}${Number(value).toLocaleString(undefined, { minimumFractionDigits: p.currency === 'USD' ? 2 : 0, maximumFractionDigits: 2 })}` : value}</strong>{' '}<button type="button" onClick={() => copy(value)}>{copied === String(value) ? (en ? 'Copied' : 'Copiado') : (en ? 'Copy' : 'Copiar')}</button></dd></div>)}</dl>
         {data.reported ? <p role="status">{en ? 'Payment reported. We will verify receipt in BAC before confirming your payment. Please do not send another payment.' : 'Pago reportado. Verificaremos los fondos en BAC antes de confirmar su pago. No envíe otro pago.'}</p> : <form onSubmit={e => { e.preventDefault(); load(token, 'report', { reference, payer }); }} style={{ display: 'grid', gap: 16 }}>
           <label>{en ? 'Name of the person who paid' : 'Nombre de quien realizó el pago'}<input required maxLength={120} value={payer} onChange={e => setPayer(e.target.value)} style={{ display: 'block', width: '100%', padding: 12 }} /></label>
           <label>{en ? 'Bank transaction reference' : 'Número de referencia bancaria'}<input required maxLength={100} value={reference} onChange={e => setReference(e.target.value)} style={{ display: 'block', width: '100%', padding: 12 }} /></label>
