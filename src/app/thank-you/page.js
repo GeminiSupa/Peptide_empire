@@ -26,6 +26,7 @@ function ThankYouContent() {
   const [lang, setLang] = useState('es');
   const [mounted, setMounted] = useState(false);
   const [paidByCard, setPaidByCard] = useState(false);
+  const [bankReported, setBankReported] = useState(false);
   const [receiptOrderNumber, setReceiptOrderNumber] = useState('');
   const [reviewClicked, setReviewClicked] = useState(false);
   const [copiedReferral, setCopiedReferral] = useState(false);
@@ -50,6 +51,9 @@ function ThankYouContent() {
       }
       if (params.get('payment') === 'card') {
         setPaidByCard(true);
+      }
+      if (params.get('payment') === 'bank_reported') {
+        setBankReported(true);
       }
     }
   }, []);
@@ -112,6 +116,11 @@ function ThankYouContent() {
       cardStatementMexicoDetail: "The card is charged in US dollars by Chargex. This is completely normal — your order is with us in Costa Rica.",
       cardStatementNameLabel: "Statement descriptor:",
       cardStatementNameDetail: "The charge will appear as \"Agile disruptive tech\" on your card statement. That is our payment processor — it is us. Please do not dispute this charge.",
+      bankTitle: "Payment Reported",
+      bankStatus: "Pending BAC Verification",
+      bankBody1: "Thank you. We received your payment confirmation and our team will verify the funds in BAC. Please do not send another payment.",
+      bankBody2: "YOUR ORDER IS RESERVED WHILE WE VERIFY YOUR PAYMENT.",
+      bankNotice: "Your payment confirmation has been received",
     },
     es: {
       title: "Orden Recibida",
@@ -145,10 +154,18 @@ function ThankYouContent() {
       cardStatementMexicoDetail: "La tarjeta se cobra en dólares estadounidenses a través de Chargex. Esto es completamente normal — tu pedido es con nosotros en Costa Rica.",
       cardStatementNameLabel: "Nombre en el estado de cuenta:",
       cardStatementNameDetail: "El cargo aparecerá como \"Agile disruptive tech\" en tu estado de cuenta. Ese es nuestro procesador de pagos — somos nosotros. Por favor no disputes este cargo.",
+      bankTitle: "Pago Reportado",
+      bankStatus: "Pendiente de Verificación BAC",
+      bankBody1: "Gracias. Recibimos la confirmación de su pago y nuestro equipo verificará los fondos en BAC. Por favor no envíe otro pago.",
+      bankBody2: "SU PEDIDO ESTÁ RESERVADO MIENTRAS VERIFICAMOS SU PAGO.",
+      bankNotice: "Recibimos la confirmación de su pago",
     }
   };
 
-  const t = translations[lang] || translations.es;
+  const baseTranslation = translations[lang] || translations.es;
+  const t = bankReported
+    ? { ...baseTranslation, title: baseTranslation.bankTitle, status: baseTranslation.bankStatus, body1: baseTranslation.bankBody1, body2: baseTranslation.bankBody2, notice: baseTranslation.bankNotice }
+    : baseTranslation;
 
   if (!mounted) {
     return (

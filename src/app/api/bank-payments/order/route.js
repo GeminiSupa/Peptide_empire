@@ -9,12 +9,13 @@ export async function POST(request) {
     const claims = verifyBankPaymentToken(body?.token);
     if (!claims) return Response.json({ error: 'Invalid or expired payment link / Enlace inválido o vencido' }, { status: 401 });
     const db = getSupabaseAdmin();
-    const { data: order, error } = await db.from('orders').select('id,order_number,status,payment_method,total_crc,activity_log').eq('id', claims.id).single();
+    const { data: order, error } = await db.from('orders').select('id,order_number,status,payment_method,currency,total_crc,total_usd,activity_log').eq('id', claims.id).single();
     if (error || !order) return Response.json({ error: 'Order unavailable' }, { status: 404 });
     const log = Array.isArray(order.activity_log) ? order.activity_log : [];
     const payment = log.find(e => e.type === 'bank_payment_instructions')?.payment;
     if (!payment || payment.method !== order.payment_method) return Response.json({ error: 'Payment method has changed. Contact support.' }, { status: 409 });
-    if (isAwaitingPayment(order.status) && payment.amount !== Number(order.total_crc)) return Response.json({ error: 'The order total has changed. Contact support for updated payment instructions. / El total cambió. Contacte a soporte para recibir instrucciones actualizadas.' }, { status: 409 });
+    const authoritativeAmount = payment.currency === 'USD' ? Number(order.total_usd) : Number(order.total_crc);
+    if (isAwaitingPayment(order.status) && payment.amount !== authoritativeAmount) return Response.json({ error: 'The order total has changed. Contact support for updated payment instructions. / El total cambió. Contacte a soporte para recibir instrucciones actualizadas.' }, { status: 409 });
     let reported = log.some(e => e.type === 'bank_payment_reported');
     if (body.action === 'report') {
       if (!isAwaitingPayment(order.status)) return Response.json({ error: 'This order is no longer awaiting payment.' }, { status: 409 });
