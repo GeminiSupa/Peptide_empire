@@ -1,4 +1,4 @@
--- Analytics snapshots and reliable paid-WhatsApp conversion queue.
+-- Analytics snapshots and reliable paid WhatsApp/card conversion queue.
 -- Run in Supabase SQL Editor before enabling the Google Ads import.
 BEGIN;
 ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS ad_attribution jsonb;
@@ -24,10 +24,10 @@ REVOKE ALL ON public.google_ads_conversion_exports FROM anon, authenticated;
 GRANT ALL ON public.google_ads_conversion_exports TO service_role;
 CREATE INDEX IF NOT EXISTS google_ads_exports_due ON public.google_ads_conversion_exports(status,next_attempt_at);
 -- Use AFTER for inserts because the queue references the persisted order.
-CREATE OR REPLACE FUNCTION public.enqueue_paid_whatsapp_conversion() RETURNS trigger
+CREATE OR REPLACE FUNCTION public.enqueue_paid_google_conversion() RETURNS trigger
 LANGUAGE plpgsql SECURITY DEFINER SET search_path = public, pg_temp AS $$
 BEGIN
-  IF NEW.ads_paid_at IS NOT NULL AND lower(coalesce(NEW.payment_method,'')) = 'whatsapp'
+  IF NEW.ads_paid_at IS NOT NULL AND lower(coalesce(NEW.payment_method,'')) IN ('whatsapp','card')
     AND lower(trim(coalesce(NEW.status,''))) IN ('paid','order complete','completed','complete','shipped','delivered') THEN
     IF TG_OP = 'INSERT' OR OLD.ads_paid_at IS NULL THEN
       INSERT INTO public.google_ads_conversion_exports(order_id,paid_at) VALUES(NEW.id,NEW.ads_paid_at) ON CONFLICT(order_id) DO NOTHING;
@@ -52,7 +52,15 @@ END $$;
 DROP TRIGGER IF EXISTS orders_stamp_ads_paid_at ON public.orders;
 CREATE TRIGGER orders_stamp_ads_paid_at BEFORE INSERT OR UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION public.stamp_ads_paid_at();
 DROP TRIGGER IF EXISTS orders_queue_google_conversion ON public.orders;
-CREATE TRIGGER orders_queue_google_conversion AFTER INSERT OR UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION public.enqueue_paid_whatsapp_conversion();
+CREATE TRIGGER orders_queue_google_conversion AFTER INSERT OR UPDATE ON public.orders FOR EACH ROW EXECUTE FUNCTION public.enqueue_paid_google_conversion();
+-- Card orders paid since the original migration already have an authoritative
+-- ads_paid_at timestamp. Queue them now; never invent a time for legacy rows.
+INSERT INTO public.google_ads_conversion_exports(order_id,paid_at)
+SELECT id,ads_paid_at FROM public.orders
+WHERE ads_paid_at IS NOT NULL
+  AND lower(coalesce(payment_method,'')) IN ('whatsapp','card')
+  AND lower(trim(coalesce(status,''))) IN ('paid','order complete','completed','complete','shipped','delivered')
+ON CONFLICT(order_id) DO NOTHING;
 CREATE OR REPLACE FUNCTION public.claim_google_ads_exports(batch_size integer DEFAULT 20)
 RETURNS SETOF public.google_ads_conversion_exports LANGUAGE sql SECURITY DEFINER SET search_path = public, pg_temp AS $$
   UPDATE public.google_ads_conversion_exports q SET status='leased', lease_until=now()+interval '10 minutes', attempts=attempts+1

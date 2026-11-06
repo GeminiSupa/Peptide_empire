@@ -7,7 +7,8 @@ export function costaRicaTimestamp(date) {
   return new Date(value.getTime() - 6 * 3600000).toISOString().replace('Z', '-06:00');
 }
 export function offlineConversionEvent(order, paidAt) {
-  if (String(order.payment_method).toLowerCase() !== 'whatsapp' || !hasConfirmedPayment(order)) throw new Error('Order is not a confirmed WhatsApp sale.');
+  const paymentMethod = String(order.payment_method).toLowerCase();
+  if (!['whatsapp', 'card'].includes(paymentMethod) || !hasConfirmedPayment(order)) throw new Error('Order is not a confirmed Google Ads sale.');
   if (order.stats_override === 'exclude' || /\bTEST\b/i.test(`${order.internal_notes || ''} ${order.notes || ''}`)) throw new Error('Test or excluded order.');
   const click = sanitizeAdAttribution(order.ad_attribution);
   const email = hashableEmail(order.customer_email), phone = conversionPhone(order.customer_phone);
@@ -18,11 +19,14 @@ export function offlineConversionEvent(order, paidAt) {
   const value = Number(order.total_usd) - Number(order.refunded_amount_usd || 0);
   if (!Number.isFinite(value) || value <= 0) throw new Error('Missing confirmed USD amount.');
   const { clicked_at: _time, ...adIdentifiers } = click || {};
-  return { transactionId: order.order_number, eventTimestamp: costaRicaTimestamp(paidAt), eventSource: 'WEB', eventName: 'purchase', additionalEventParameters: [{ parameterName: 'payment_type', value: 'whatsapp' }], currency: 'USD', conversionValue: money(value), ...(click ? { adIdentifiers } : {}), ...(userIdentifiers.length ? { userData: { userIdentifiers } } : {}) };
+  return { transactionId: order.order_number, eventTimestamp: costaRicaTimestamp(paidAt), eventSource: 'WEB', eventName: 'purchase', additionalEventParameters: [{ parameterName: 'payment_type', value: paymentMethod }], currency: 'USD', conversionValue: money(value), ...(click ? { adIdentifiers } : {}), ...(userIdentifiers.length ? { userData: { userIdentifiers } } : {}) };
 }
-export function googleAdsDestination(env) {
+export function googleAdsActionId(env, paymentMethod = 'whatsapp') {
+  return String(paymentMethod === 'card' ? env.GOOGLE_ADS_CARD_CONVERSION_ACTION_ID : env.GOOGLE_ADS_WHATSAPP_CONVERSION_ACTION_ID || '');
+}
+export function googleAdsDestination(env, paymentMethod = 'whatsapp') {
   const accountId = String(env.GOOGLE_ADS_CUSTOMER_ID || '').replace(/-/g, '');
-  const actionId = String(env.GOOGLE_ADS_WHATSAPP_CONVERSION_ACTION_ID || '');
+  const actionId = googleAdsActionId(env, paymentMethod);
   if (!/^\d{10}$/.test(accountId) || !/^\d+$/.test(actionId)) throw new Error('Google Ads customer ID and WhatsApp conversion action ID must be configured.');
   const destination = { operatingAccount: { accountType: 'GOOGLE_ADS', accountId }, productDestinationId: actionId };
   if (env.GOOGLE_ADS_LOGIN_CUSTOMER_ID) destination.loginAccount = { accountType: 'GOOGLE_ADS', accountId: env.GOOGLE_ADS_LOGIN_CUSTOMER_ID.replace(/-/g, '') };

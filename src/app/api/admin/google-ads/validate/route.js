@@ -11,7 +11,8 @@ export async function POST(request) {
   if (result.error || !result.data) return Response.json({ error: 'Order not available.' }, { status: 404 });
   try {
     const event = offlineConversionEvent(result.data, result.data.ads_paid_at);
-    const google = await googleAdsClient(); const response = await google.upload(event, true);
+    const google = await googleAdsClient();
+    const response = await google.upload(event, true, String(result.data.payment_method || '').toLowerCase());
     return Response.json({ validated: true, uploaded: false, warnings: response.fieldWarnings?.length || 0 });
   } catch (error) { return Response.json({ error: error.message }, { status: 400 }); }
 }

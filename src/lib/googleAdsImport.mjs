@@ -1,6 +1,7 @@
 import { offlineConversionEvent, googleRequestState } from './googleAdsConversions.mjs';
 export async function runGoogleAdsImport(admin, google) {
   const deadline = Date.now() + 230000;
+  const allowedDestinations = google.destinations || new Set([google.destination]);
   async function concurrent(rows, action) {
     let index = 0;
     await Promise.all(Array.from({ length: Math.min(5, rows.length) }, async () => {
@@ -12,7 +13,7 @@ export async function runGoogleAdsImport(admin, google) {
   const submitted = await admin.from('google_ads_conversion_exports').select('id,request_id,destination').eq('status','submitted').order('submitted_at').limit(100);
   if (submitted.error) throw new Error('Run add-google-ads-conversions.sql before enabling imports.');
   await concurrent(submitted.data || [], async row => {
-    if (row.destination !== google.destination) return;
+    if (!allowedDestinations.has(row.destination)) return;
     try {
       const result = await google.status(row.request_id); const state = googleRequestState(result);
       if (state === 'submitted') return;
@@ -28,12 +29,14 @@ export async function runGoogleAdsImport(admin, google) {
     try {
       const current = await admin.from('orders').select('*').eq('id', row.order_id).maybeSingle();
       if (current.error) throw new Error('Could not read confirmed order.');
+      const paymentMethod = String(current.data?.payment_method || '').toLowerCase();
       let event;
       try { event = offlineConversionEvent(current.data || {}, row.paid_at); }
       catch (error) { await update(row.id, { status: 'skipped', lease_until: null, last_error: error.message }); summary.skipped++; return; }
-      const result = await google.upload(event);
+      const result = await google.upload(event, false, paymentMethod);
       if (!result.requestId) throw new Error('Google returned no request ID.');
-      await update(row.id, { status: 'submitted', request_id: result.requestId, destination: google.destination, lease_until: null, submitted_at: new Date().toISOString(), last_error: null });
+      const destination = google.destinationFor ? google.destinationFor(paymentMethod) : google.destination;
+      await update(row.id, { status: 'submitted', request_id: result.requestId, destination, lease_until: null, submitted_at: new Date().toISOString(), last_error: null });
       summary.submitted++;
     } catch (error) {
       await update(row.id, { status: 'failed', lease_until: null, last_error: error.message, next_attempt_at: new Date(Date.now()+Math.min(24,2**Math.min(row.attempts,5))*3600000).toISOString() }); summary.failed++;
