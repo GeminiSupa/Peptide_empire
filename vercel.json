@@ -66,7 +66,7 @@
     },
     {
       "path": "/api/cron/google-ads-conversions",
-      "schedule": "0 8 * * *"
+      "schedule": "*/15 * * * *"
     },
     {
       "path": "/api/cron/ga4-whatsapp-purchases",
