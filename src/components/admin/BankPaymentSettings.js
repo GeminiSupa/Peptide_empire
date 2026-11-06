@@ -46,7 +46,7 @@ export default function BankPaymentSettings() {
       {[['sinpeEnabled', 'Enable SINPE Móvil'], ['transferEnabled', 'Enable bank transfers']].map(([key, label]) => <label key={key}><input type="checkbox" checked={settings[key]} onChange={e => setSettings({ ...settings, [key]: e.target.checked })} /> {label}</label>)}
       <button disabled={saving}>{saving ? 'Saving…' : 'Save BAC payment settings'}</button>
     </form>}
-    {message && <p role="status">{message}</p>}
+    {message && message !== 'Could not load bank payment verification queue' && <p role="status">{message}</p>}
     <h4>Payments reported · verify in BAC ({pending.length})</h4>
     <button disabled={saving} type="button" onClick={async () => {
       try {
