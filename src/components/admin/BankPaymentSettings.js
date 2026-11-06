@@ -38,16 +38,12 @@ export default function BankPaymentSettings() {
     finally { setSaving(false); }
   }
   return <section className="dashboard-section" style={{ padding: 20, marginBottom: 20 }}>
-    <h3>BAC · SINPE & bank transfers</h3>
-    <p>Add the receiving account details, then enable each method when mobile banking is ready. Payments require manual verification in BAC.</p>
-    <p>Use receiving details only. No banking password, PIN or one-time code is needed.</p>
     {settings && <form onSubmit={save} style={{ display: 'grid', gap: 12, maxWidth: 600 }}>
       {[['recipient', 'Account holder / recipient name'], ['legalId', 'Business legal ID (optional)'], ['sinpePhone', 'SINPE Móvil number (8 digits)'], ['accountCrc', 'BAC CRC account number'], ['ibanCrc', 'BAC CRC IBAN'], ['accountUsd', 'BAC USD account number'], ['ibanUsd', 'BAC USD IBAN']].map(([key, label]) => <label key={key}>{label}<input value={settings[key] || ''} maxLength={160} onChange={e => setSettings({ ...settings, [key]: e.target.value })} style={{ display: 'block', width: '100%', padding: 10 }} /></label>)}
       {[['sinpeEnabled', 'Enable SINPE Móvil'], ['transferEnabled', 'Enable bank transfers']].map(([key, label]) => <label key={key}><input type="checkbox" checked={settings[key]} onChange={e => setSettings({ ...settings, [key]: e.target.checked })} /> {label}</label>)}
       <button disabled={saving}>{saving ? 'Saving…' : 'Save BAC payment settings'}</button>
     </form>}
     {message && message !== 'Could not load bank payment verification queue' && <p role="status">{message}</p>}
-    <h4>Payments reported · verify in BAC ({pending.length})</h4>
     <button disabled={saving} type="button" onClick={async () => {
       try {
         const r = await adminFetch('/api/admin/bank-payments'); const data = await r.json();
