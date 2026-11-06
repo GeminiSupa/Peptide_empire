@@ -76,7 +76,7 @@ function ThankYouContent() {
         if (!res.ok) { if (res.status >= 500) retry(); return; }
         const result = await res.json();
         if (stopped) return;
-        if (result.event) { for (const event of result.events?.length ? result.events : [result.event]) pushReceiptOnce(event, sessionStorage); setPaidByCard(result.event.payment_type === 'card' && Number(result.event.ecommerce?.value) + Number(result.event.ecommerce?.shipping || 0) > 0); }
+        if (result.event) { for (const event of result.events?.length ? result.events : [result.event]) pushReceiptOnce(event, localStorage); setPaidByCard(result.event.payment_type === 'card' && Number(result.event.ecommerce?.value) + Number(result.event.ecommerce?.shipping || 0) > 0); }
         else if (result.pending) retry();
       } catch { retry(); /* Analytics must never break the receipt. */ }
     }

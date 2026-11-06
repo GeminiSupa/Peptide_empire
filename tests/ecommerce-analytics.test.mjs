@@ -98,5 +98,15 @@ test('receipt endpoint returns purchase only for a $0 WhatsApp order and the tha
     const result=await (await POST(new Request('https://test.invalid',{method:'POST',body:'{"token":"signed"}'}))).json();
     assert.equal(result.event.event,'whatsapp_order');assert.deepEqual(result.events.map(row=>row.event),total?['whatsapp_order']:['whatsapp_order','purchase']);assert.equal(result.pending,false);
   }
-  assert.match(readFileSync(new URL('../src/app/thank-you/page.js',import.meta.url),'utf8'),/for \(const event of result\.events\?\.length \? result\.events : \[result\.event\]\) pushReceiptOnce\(event, sessionStorage\)/);
+  assert.match(readFileSync(new URL('../src/app/thank-you/page.js',import.meta.url),'utf8'),/for \(const event of result\.events\?\.length \? result\.events : \[result\.event\]\) pushReceiptOnce\(event, localStorage\)/);
+});
+
+test('the original tab watches Chargex settlement and shares purchase deduplication with its return window',()=>{
+  const watcher=readFileSync(new URL('../src/app/payment-help/PaymentConfirmationWatcher.js',import.meta.url),'utf8');
+  const page=readFileSync(new URL('../src/app/payment-help/page.js',import.meta.url),'utf8');
+  assert.match(watcher,/pcr_receipt:/);
+  assert.match(watcher,/event\.event === 'purchase' && event\.payment_type === 'card'/);
+  assert.match(watcher,/pushReceiptOnce\(paidCard, localStorage\)/);
+  assert.match(watcher,/window\.location\.replace\(`\/thank-you/);
+  assert.match(page,/<PaymentConfirmationWatcher orderNumber=\{order\} lang=\{lang\} \/>/);
 });

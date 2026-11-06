@@ -4,6 +4,7 @@ import { AlertTriangle, Building2, CheckCircle2, MessageCircle, RefreshCw, Shiel
 import { buildPaymentRetryPath } from '@/lib/paymentRecovery.mjs';
 import { getBusinessLinks } from '@/lib/settings';
 import { buildWhatsAppLink } from '@/lib/whatsappLink.mjs';
+import PaymentConfirmationWatcher from './PaymentConfirmationWatcher';
 import styles from './payment-help.module.css';
 
 export const metadata = { title: 'Payment help | Peptides Costa Rica' };
@@ -22,6 +23,7 @@ export default async function PaymentHelpPage({ searchParams }) {
 
   return (
     <main className={styles.page}>
+      <PaymentConfirmationWatcher orderNumber={order} lang={lang} />
       <section className={styles.shell}>
         <div className={styles.brand}><Image src="/logo.png" alt="Peptides Costa Rica" width={48} height={48} /><span>PEPTIDES COSTA RICA</span></div>
         <div className={styles.card}>
