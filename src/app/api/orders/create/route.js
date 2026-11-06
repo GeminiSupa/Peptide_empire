@@ -1,6 +1,6 @@
 import { createAnalyticsReceiptToken } from '@/lib/analyticsReceiptToken';
 import { orderEcommerceSnapshot } from '@/lib/ecommerceAnalytics.mjs';
-import { sanitizeAdAttribution } from '@/lib/adClickAttribution.mjs';
+import { readAdClick, sanitizeAdAttribution } from '@/lib/adClickAttribution.mjs';
 import { sanitizeGaIdentity } from '@/lib/gaIdentity.mjs';
 import { isBankMethod, bankAvailability, readBankSettings, bankPaymentSnapshot } from '@/lib/bankPayments.mjs';
 import { createBankPaymentToken } from '@/lib/bankPaymentToken.mjs';
@@ -579,7 +579,12 @@ async function createOrder(request) {
     const requestedBusinessQuoteId=order.business_quote_id || null;
     delete order.business_account_id;
     delete order.business_snapshot;
-    const googleAttribution = sanitizeAdAttribution(order.ad_attribution);
+    // The first-party cookie is the server's authoritative copy. Reading it
+    // here closes the gap where a browser extension, an early navigation, or
+    // a stale client bundle prevented the checkout payload from carrying the
+    // click even though the landing page had already saved it.
+    const googleAttribution = readAdClick({ cookie: request.headers.get('cookie') || '' })
+      || sanitizeAdAttribution(order.ad_attribution);
     delete order.analytics_snapshot; delete order.ads_paid_at;
     order.ad_attribution = googleAttribution;
     // The visitor's GA4 cookie IDs, kept only if shaped like real ones. They let a

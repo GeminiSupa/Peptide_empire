@@ -989,13 +989,31 @@ var CONFIG = {
     enabled: true,                                     // <- flip to false to fall back to email/phone
     type: "whatsapp",                                  // whatsapp | telegram | sms | messenger | ...
     handle: "50684046973",                             // number or username, no symbols
-    urlTemplate: "https://wa.me/{handle}?text={text}", // {handle} and {text} are substituted
+    urlTemplate: "/api/whatsapp/open?phone={handle}&text={text}", // preserves Google click attribution, then redirects to WhatsApp
     label: { en: "WhatsApp us", es: "Escríbenos por WhatsApp" }
   }
 };
 
 var $  = function(s,c){return (c||document).querySelector(s);};
 var $$ = function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s));};
+
+/* Keep Google's click ID through a later catalog checkout or WhatsApp sale. */
+(function captureGoogleAdClick(){
+  try {
+    var params = new URLSearchParams(window.location.search);
+    var click = { clicked_at: Date.now() };
+    ["gclid", "gbraid", "wbraid"].forEach(function(key){
+      var value = params.get(key);
+      if (value && /^[A-Za-z0-9_.~+=\/-]{1,512}$/.test(value)) click[key] = value;
+    });
+    if (click.gclid || click.gbraid || click.wbraid) {
+      document.cookie = "pcr_google_click=" + encodeURIComponent(JSON.stringify(click))
+        + "; Max-Age=7776000; Path=/; SameSite=Lax; Secure; Domain=.peptidescostarica.net";
+    }
+  } catch (error) {
+    // Attribution must never interrupt the landing page.
+  }
+})();
 
 /* ============================================================
    i18n — English in the markup, Spanish here

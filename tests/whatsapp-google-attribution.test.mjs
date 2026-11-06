@@ -6,6 +6,7 @@ import {
   extractWhatsAppReference,
 } from '../src/lib/whatsappGoogleAttribution.mjs';
 import { captureAdClick, readAdClick } from '../src/lib/adClickAttribution.mjs';
+import { readFileSync } from 'node:fs';
 
 test('Google click identifiers are captured in a shared 90-day first-party cookie', () => {
   const now = Date.now();
@@ -33,4 +34,17 @@ test('the WhatsApp handoff exposes only an opaque reference', () => {
 test('unrelated customer messages cannot claim attribution', () => {
   assert.equal(extractWhatsAppReference('Hola, quiero información'), null);
   assert.equal(extractWhatsAppReference('Ref: PCR-TOO-SHORT'), null);
+});
+
+test('the Google Ads landing page preserves clicks before opening WhatsApp', () => {
+  const page = readFileSync(new URL('../public/lp/index.html', import.meta.url), 'utf8');
+  assert.match(page, /pcr_google_click=/);
+  assert.match(page, /\/api\/whatsapp\/open\?phone=\{handle\}&text=\{text\}/);
+  assert.doesNotMatch(page, /urlTemplate:\s*["']https:\/\/wa\.me/);
+});
+
+test('order creation recovers the click cookie on the trusted server', () => {
+  const route = readFileSync(new URL('../src/app/api/orders/create/route.js', import.meta.url), 'utf8');
+  assert.match(route, /readAdClick\(\{ cookie: request\.headers\.get\('cookie'\)/);
+  assert.ok(route.indexOf('readAdClick({ cookie:') < route.indexOf('sanitizeAdAttribution(order.ad_attribution)'));
 });
