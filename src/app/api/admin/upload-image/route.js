@@ -35,10 +35,9 @@ const IMAGE_CACHE_SECONDS = '31536000';
 
 // Must match the bucket's own file_size_limit. Checked here as well so an
 // oversized file is refused with its actual size named, rather than with the
-// bucket's own message, which nobody can act on. Raised from 5 MB on request
-// (Oct 2026) - the bucket's own limit has to be raised to match or Supabase
-// refuses the file before this number means anything.
-const MAX_MB = 25;
+// bucket's own message, which nobody can act on. Keep this in sync with the
+// signed-upload endpoint and the browser check.
+const MAX_MB = 2;
 const MAX_BYTES = MAX_MB * 1024 * 1024;
 
 /**

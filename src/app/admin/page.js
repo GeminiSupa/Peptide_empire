@@ -98,8 +98,18 @@ import {
   mergePublicPageSettings,
 } from '@/lib/landingContent';
 import dynamic from 'next/dynamic';
-
 import ErrorBoundary from '@/components/ErrorBoundary';
+
+// Keep this in sync with the admin upload endpoints and the product-pics
+// bucket. Checking in the browser gives staff an answer before any upload is
+// attempted (and before a hosting provider can return an unhelpful 413 page).
+const PRODUCT_IMAGE_MAX_BYTES = 2 * 1024 * 1024;
+
+const imageSizeTooLargeMessage = (file) => {
+  const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+  const maxMb = PRODUCT_IMAGE_MAX_BYTES / (1024 * 1024);
+  return `“${file.name}” is ${sizeMb} MB. Images must be ${maxMb} MB or smaller. Please resize or compress this image and try again.`;
+};
 
 function AdminTabLoading({ label = 'Loading tab…' }) {
   return (
@@ -3455,6 +3465,12 @@ Core Rules:
     if (!e.target.files || !e.target.files[0]) return;
     const file = e.target.files[0];
 
+    if (file.size > PRODUCT_IMAGE_MAX_BYTES) {
+      alert(imageSizeTooLargeMessage(file));
+      e.target.value = '';
+      return;
+    }
+
     // Show indicator
     handleCellChange(productId, 'imageUrl', 'Uploading...');
 
@@ -3465,21 +3481,24 @@ Core Rules:
       // about a bucket that existed and was public.
       const previousUrl = products.find(p => p.id === productId)?.imageUrl || '';
       try {
-        const form = new FormData();
-        form.append('file', file);
-        form.append('kind', 'product');
-
-        const response = await adminFetch('/api/admin/upload-image', { method: 'POST', body: form });
-        const data = await response.json();
+        const response = await adminFetch('/api/admin/upload-image/sign', {
+          method: 'POST',
+          body: JSON.stringify({ name: file.name, type: file.type, size: file.size, kind: 'product' }),
+        });
+        const data = await response.json().catch(() => ({}));
         if (!response.ok) {
-          // A photo refused for its shape or size is not a failure to report
-          // as one: the person can fix it, so they get the popup that says how.
-          if (data.imageCheck) {
-            handleCellChange(productId, 'imageUrl', previousUrl);
-            setRejectedImage({ fileName: file.name, ...data.imageCheck });
-            return null;
-          }
-          throw new Error(data.error || 'Upload failed.');
+          throw new Error(data.error || `Upload could not be prepared (HTTP ${response.status}).`);
+        }
+
+        const { error: uploadError } = await supabase.storage
+          .from('product-pics')
+          .uploadToSignedUrl(data.path, data.token, file, {
+            contentType: file.type || 'image/jpeg',
+            cacheControl: '31536000',
+            upsert: false,
+          });
+        if (uploadError) {
+          throw new Error(uploadError.message || 'Supabase could not store that image.');
         }
 
         handleCellChange(productId, 'imageUrl', data.url);
@@ -3513,6 +3532,12 @@ Core Rules:
     if (!e.target.files || !e.target.files[0]) return;
     const file = e.target.files[0];
 
+    if (file.size > PRODUCT_IMAGE_MAX_BYTES) {
+      alert(imageSizeTooLargeMessage(file));
+      e.target.value = '';
+      return;
+    }
+
     // Show uploading indicator in the field
     setEditingBlog(prev => ({ ...prev, image_url: 'Uploading...' }));
 
@@ -3520,13 +3545,21 @@ Core Rules:
       // Same server route as the product images, for the same reason.
       const previousUrl = editingBlog?.image_url || '';
       try {
-        const form = new FormData();
-        form.append('file', file);
-        form.append('kind', 'blog');
+        const response = await adminFetch('/api/admin/upload-image/sign', {
+          method: 'POST',
+          body: JSON.stringify({ name: file.name, type: file.type, size: file.size, kind: 'blog' }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || `Upload could not be prepared (HTTP ${response.status}).`);
 
-        const response = await adminFetch('/api/admin/upload-image', { method: 'POST', body: form });
-        const data = await response.json();
-        if (!response.ok) throw new Error(data.error || 'Upload failed.');
+        const { error: uploadError } = await supabase.storage
+          .from('product-pics')
+          .uploadToSignedUrl(data.path, data.token, file, {
+            contentType: file.type || 'image/jpeg',
+            cacheControl: '31536000',
+            upsert: false,
+          });
+        if (uploadError) throw new Error(uploadError.message || 'Supabase could not store that image.');
 
         setEditingBlog(prev => ({ ...prev, image_url: data.url }));
         fetchBucketImages(); // Refresh the list of images so it appears in dropdowns
