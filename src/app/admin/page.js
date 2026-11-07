@@ -1810,7 +1810,7 @@ Core Rules:
       icon: <Users size={iconSize} />,
     },
     customer_accounts: {
-      label: 'Customer Accounts',
+      label: 'Individual Accounts',
       icon: <User size={iconSize} />,
     },
     business_accounts: {
@@ -1957,10 +1957,10 @@ Core Rules:
       // tab missing from both is invisible on a desktop no matter what the
       // permission rules say. That is exactly what happened to Requests, which
       // now sits down in Operations with the other owner-only screens.
-      : ['home', 'orders', 'fulfillment', 'whatsapp_ai', 'chatwoot', 'twilio', 'leads', 'customers', 'customer_accounts', 'carts']
+      : ['home', 'orders', 'fulfillment', 'whatsapp_ai', 'chatwoot', 'twilio', 'leads', 'customers', 'carts']
   ).filter((tabId) => hasAccess(tabId));
   const desktopSecondaryGroups = [
-    { title: 'Sales & Customers', tabs: ['customers', 'customer_accounts', 'business_accounts', 'inquiries', 'prospects'] },
+    { title: 'Customer workspace', tabs: ['customers', 'customer_accounts', 'business_accounts', 'inquiries', 'prospects'] },
     { title: 'Growth', tabs: ['share', 'reviews', 'marketing', 'affiliates', 'deals', 'broadcasts', 'twilio', 'my_qr', 'my_team'] },
     { title: 'Operations', tabs: ['spreadsheet', 'offsite_inventory', 'lab_batches', 'analytics', 'cms', 'wa_session', 'team', 'requests', 'recycle_bin', 'team_chat', 'payment_test', 'activity_log'] },
   ].map((group) => ({

@@ -70,7 +70,7 @@ export default function CustomerAccountsPanel() {
 
   return <section style={{ maxWidth: 1400, margin: '0 auto', color: '#e2e8f0' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', gap: 18, flexWrap: 'wrap', alignItems: 'end', marginBottom: 18 }}>
-      <div><p style={{ ...muted, textTransform: 'uppercase', letterSpacing: 1.4, margin: '0 0 5px' }}>Account intelligence</p><h2 style={{ margin: 0 }}>Customer accounts</h2><p style={{ ...muted, marginBottom: 0 }}>Searchable login records and purchase health — separate from the order CRM.</p></div>
+      <div><p style={{ ...muted, textTransform: 'uppercase', letterSpacing: 1.4, margin: '0 0 5px' }}>Customer workspace · individual accounts</p><h2 style={{ margin: 0 }}>Individual customer accounts</h2><p style={{ ...muted, marginBottom: 0 }}>Purchase health, product interest, and outreach actions for people—not company accounts.</p></div>
       <button type="button" onClick={() => load(data.page)} disabled={loading}>Refresh</button>
     </div>
     {summary ? <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 12, marginBottom: 18 }}>

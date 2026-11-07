@@ -41,7 +41,7 @@ export const ADMIN_MODULES = [
   // Customer logins are a distinct, growing dataset.  Keep this separate from
   // the order-led CRM so staff can search and manage accounts without loading
   // or scrolling through every historical customer record.
-  { id: 'customer_accounts', label: 'Customer Accounts', title: 'Customer Accounts', group: 'Core Operations', superadminOnly: true },
+  { id: 'customer_accounts', label: 'Individual Accounts', title: 'Individual Customer Accounts', group: 'Core Operations', superadminOnly: true },
   { id: 'reorder_tracking', label: 'Reorder Tracking', title: 'Reorder Tracking', group: 'Core Operations' },
   { id: 'inquiries', label: 'Inquiries', title: 'Inquiries', group: 'Core Operations' },
   { id: 'share', label: 'Share Links', title: 'Share Links', group: 'Sales & Marketing' },
