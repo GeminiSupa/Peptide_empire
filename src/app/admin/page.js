@@ -34,7 +34,7 @@ import {
   Dna, FlaskConical, ShieldAlert, Syringe, TestTubes, Atom, 
   Brain, Shield, Moon, Sun, Flame, Zap, Sparkles, Microscope,
   KeyRound, ShoppingCart, Table, ClipboardList, Link2, Star, FileText, BarChart2, Users, UserPlus, Send, QrCode,
-  Bell, X, TrendingUp, Target, Smartphone, Inbox, Search, ChevronLeft, Megaphone,
+  Bell, X, TrendingUp, Target, Smartphone, Inbox, Search, ChevronLeft, Megaphone, User,
   PanelLeftClose, PanelLeftOpen, Wallet, MapPinned, ChevronDown, Package
 } from 'lucide-react';
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
