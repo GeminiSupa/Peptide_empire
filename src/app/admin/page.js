@@ -39,6 +39,7 @@ import {
 } from 'lucide-react';
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
 import CustomersCRM from '@/components/admin/CustomersCRM';
+import CustomerAccountsPanel from '@/components/admin/CustomerAccountsPanel';
 import BusinessAccountsPanel from '@/components/admin/BusinessAccountsPanel';
 import ReorderTrackingPanel from '@/components/admin/ReorderTrackingPanel';
 import ExportModal from '@/components/admin/ExportModal';
@@ -1804,9 +1805,16 @@ Core Rules:
       badge: fulfillmentQueueCount,
       badgeTone: 'warning',
     },
-    business_accounts: { label: 'Business Accounts', icon: <Users size={iconSize} /> },
     customers: {
       label: 'Customers',
+      icon: <Users size={iconSize} />,
+    },
+    customer_accounts: {
+      label: 'Customer Accounts',
+      icon: <User size={iconSize} />,
+    },
+    business_accounts: {
+      label: 'Business Accounts',
       icon: <Users size={iconSize} />,
     },
     inquiries: {
@@ -1952,7 +1960,7 @@ Core Rules:
       : ['home', 'orders', 'fulfillment', 'whatsapp_ai', 'chatwoot', 'twilio', 'leads', 'customers', 'carts']
   ).filter((tabId) => hasAccess(tabId));
   const desktopSecondaryGroups = [
-    { title: 'Sales & Customers', tabs: ['customers', 'business_accounts', 'inquiries', 'prospects'] },
+    { title: 'Sales & Customers', tabs: ['customers', 'customer_accounts', 'business_accounts', 'inquiries', 'prospects'] },
     { title: 'Growth', tabs: ['share', 'reviews', 'marketing', 'affiliates', 'deals', 'broadcasts', 'twilio', 'my_qr', 'my_team'] },
     { title: 'Operations', tabs: ['spreadsheet', 'offsite_inventory', 'lab_batches', 'analytics', 'cms', 'wa_session', 'team', 'requests', 'recycle_bin', 'team_chat', 'payment_test', 'activity_log'] },
   ].map((group) => ({
@@ -2652,10 +2660,7 @@ Core Rules:
             discount: item.discount || '',
             saleStartTime: isoToCrWall(item.sale_start_time),
             saleEndTime: isoToCrWall(item.sale_end_time),
-            // Older rows may already be at zero while their stored status is
-            // still "In Stock". Normalize on load so the dropdown tells the
-            // truth immediately; the next save persists the correction.
-            status: statusForInventory(item.status || 'In Stock', item.inventory_count),
+            status: item.status || 'In Stock',
             coa: item.coa || '',
             imageUrl: item.image_url || '',
             descriptionEn: item.description_en || '',
@@ -7348,12 +7353,6 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
           </div>
         )}
 
-        {activeTab === 'business_accounts' && adminProfile?.is_superadmin && (
-          <div className="admin-orders-tab admin-tab-panel">
-            <ErrorBoundary><BusinessAccountsPanel /></ErrorBoundary>
-          </div>
-        )}
-
         {/* TAB: CUSTOMERS CRM */}
         {activeTab === 'customers' && (
           <div className="admin-orders-tab admin-tab-panel">
@@ -7377,6 +7376,18 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
             />
               </ErrorBoundary>
             )}
+          </div>
+        )}
+
+        {activeTab === 'customer_accounts' && (
+          <div className="admin-orders-tab admin-tab-panel">
+            <ErrorBoundary><CustomerAccountsPanel /></ErrorBoundary>
+          </div>
+        )}
+
+        {activeTab === 'business_accounts' && (
+          <div className="admin-orders-tab admin-tab-panel">
+            <ErrorBoundary><BusinessAccountsPanel /></ErrorBoundary>
           </div>
         )}
 

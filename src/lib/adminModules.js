@@ -38,6 +38,10 @@ export const ADMIN_MODULES = [
   { id: 'lab_batches', label: 'Lab batches', title: 'Lab batches & stickers', group: 'Core Operations' },
   { id: 'business_accounts', label: 'Business Accounts', title: 'Business Accounts', group: 'Core Operations', superadminOnly: true },
   { id: 'customers', label: 'Customers', title: 'Customers', group: 'Core Operations' },
+  // Customer logins are a distinct, growing dataset.  Keep this separate from
+  // the order-led CRM so staff can search and manage accounts without loading
+  // or scrolling through every historical customer record.
+  { id: 'customer_accounts', label: 'Customer Accounts', title: 'Customer Accounts', group: 'Core Operations', superadminOnly: true },
   { id: 'reorder_tracking', label: 'Reorder Tracking', title: 'Reorder Tracking', group: 'Core Operations' },
   { id: 'inquiries', label: 'Inquiries', title: 'Inquiries', group: 'Core Operations' },
   { id: 'share', label: 'Share Links', title: 'Share Links', group: 'Sales & Marketing' },

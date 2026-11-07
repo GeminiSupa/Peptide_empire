@@ -9,7 +9,6 @@ import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import ExportModal from './ExportModal';
-import CustomerAccountsPanel from './CustomerAccountsPanel';
 import { formatCrInstant } from '@/lib/crTime.mjs';
 import { adminFetch } from '@/lib/adminApi';
 import { calculateCustomerReorderStats } from '@/lib/reorderTracking.mjs';
@@ -1428,8 +1427,6 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
           </div>
         </div>
       </div>
-
-      <CustomerAccountsPanel />
 
       <div className="crm-header">
         <div className="crm-title">
