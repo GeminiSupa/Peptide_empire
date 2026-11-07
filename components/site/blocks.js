@@ -68,7 +68,10 @@ export function CategoryTiles({ categories, t = (s) => s }) {
           <Link className="ctile" href={category.href} key={category.slug}>
             <span className="cim">{first ? <img loading="lazy" src={first.image} alt="" /> : null}</span>
             <b>{t(category.name)}</b>
-            <small>{t(`${count} compound${count === 1 ? '' : 's'}`)}</small>
+            <span className="ctile-meta">
+              <small>{t(`${count} compound${count === 1 ? '' : 's'}`)}</small>
+              <span className="ctile-go" aria-hidden="true">arrow_forward</span>
+            </span>
           </Link>
         );
       })}

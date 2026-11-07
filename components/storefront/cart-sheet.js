@@ -1,10 +1,12 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import Ms from '@/components/storefront/icon';
+import CardBrandMarks from '@/components/storefront/payment-brand-marks';
 import ProductImage from '@/components/storefront/product-image';
 import WhatsAppIcon from '@/components/storefront/whatsapp-glyph';
 import { cantonsIn, formatAddress, PROVINCES } from '@/lib/storefront/cr-regions.mjs';
+import { freeBacWaterImage } from '@/lib/storefront/cart-display.mjs';
 import { freeDeliveryProgress, freeShippingThreshold, nextTier, totalsFor } from '@/lib/storefront/cart-math.mjs';
 import { deliveryProgress } from '@/lib/site/quote.mjs';
 import { CARD_NOTICE } from '@/lib/storefront/content.mjs';
@@ -81,6 +83,7 @@ export default function CartSheet({
   const [busy, setBusy] = useState(false);
   const [honeypot, setHoneypot] = useState('');
   const [canSubmit, setCanSubmit] = useState(true);
+  const upsellsRef = useRef(null);
 
   useEffect(() => {
     const stored = readDetails();
@@ -129,6 +132,13 @@ export default function CartSheet({
   }, [cart.length]);
 
   const stepIndex = STEPS.indexOf(step);
+  const bacWaterImage = useMemo(() => freeBacWaterImage(compounds), [compounds]);
+
+  const scrollUpsells = (direction) => {
+    const rail = upsellsRef.current;
+    if (!rail) return;
+    rail.scrollBy({ left: direction * Math.max(300, rail.clientWidth * 0.8), behavior: 'smooth' });
+  };
 
   const whatsappMessage = () => {
     const lines = cart.map((line) => `${line.qty} × ${line.name} ${line.size}`);
@@ -361,7 +371,11 @@ export default function CartSheet({
                     ))}
 
                     <div className="line gift">
-                      <span className="im"><Ms name="redeem" /></span>
+                      <span className="im">
+                        {bacWaterImage
+                          ? <ProductImage src={bacWaterImage} alt="BAC Water 3 ml" />
+                          : <Ms name="redeem" />}
+                      </span>
                       <div className="n">
                         <b>BAC Water</b>
                         <small>{`3 ml · ${t('free with every order')}`}</small>
@@ -378,26 +392,34 @@ export default function CartSheet({
                           ? t('Researchers also add')
                           : t(`Add ${money(delivery.remaining, delivery.remaining)} for free delivery`)}
                       </h4>
-                      <div className="ups">
-                        {suggestions.map((compound) => {
-                          const variant = compound.variants.find((entry) => entry.inStock)
-                            || compound.variants[0];
-                          return (
-                            <div className="up" key={compound.slug}>
-                              <a className="im" href={hrefFor(compound.slug)}>
-                                <ProductImage src={variant.image || compound.image} alt="" />
-                              </a>
-                              <b>{compound.name}</b>
-                              <small>
-                                {[variant.size, money(variant.priceCrc, variant.priceUsd)].filter(Boolean).join(' · ')}
-                              </small>
-                              <button type="button" onClick={() => onAdd(compound, variant, 1)}>
-                                <Ms name="add" />
-                                {t('Add')}
-                              </button>
-                            </div>
-                          );
-                        })}
+                      <div className="ups-wrap">
+                        <button className="ups-nav prev" type="button" aria-label={t('Previous products')} onClick={() => scrollUpsells(-1)}>
+                          <Ms name="arrow_back" />
+                        </button>
+                        <div className="ups" ref={upsellsRef}>
+                          {suggestions.map((compound) => {
+                            const variant = compound.variants.find((entry) => entry.inStock)
+                              || compound.variants[0];
+                            return (
+                              <div className="up" key={compound.slug}>
+                                <a className="im" href={hrefFor(compound.slug)}>
+                                  <ProductImage src={variant.image || compound.image} alt="" />
+                                </a>
+                                <b>{compound.name}</b>
+                                <small>
+                                  {[variant.size, money(variant.priceCrc, variant.priceUsd)].filter(Boolean).join(' · ')}
+                                </small>
+                                <button type="button" onClick={() => onAdd(compound, variant, 1)}>
+                                  <Ms name="add" />
+                                  {t('Add')}
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                        <button className="ups-nav next" type="button" aria-label={t('Next products')} onClick={() => scrollUpsells(1)}>
+                          <Ms name="arrow_forward" />
+                        </button>
                       </div>
                     </div>
                   ) : null}
@@ -554,9 +576,9 @@ export default function CartSheet({
                       aria-pressed={method === 'card'}
                       onClick={() => { setMethod('card'); track?.('add_payment_info', { payment_type: 'card' }); }}
                     >
-                      <Ms name="credit_card" />
+                      <CardBrandMarks />
                       <b>{t('Card')}</b>
-                      <small>Visa, Mastercard, Apple Pay, Google Pay</small>
+                      <small>{t('Credit/Debit · Apple Pay · Google Pay')}</small>
                     </button>
                     <button
                       className="method"
@@ -623,7 +645,7 @@ export default function CartSheet({
                       <ul>
                         <li>
                           <Ms name="shield_lock" />
-                          <span>{t("You enter your card on Chargex's secure page. Your card number never reaches us.")}</span>
+                          <span>{t('The next page is Chargex, our card processor. You enter the card there. We never see the card number.')}</span>
                         </li>
                         <li>
                           <Ms name="currency_exchange" />
@@ -745,7 +767,7 @@ export default function CartSheet({
                   onClick={() => place(method)}
                 >
                   {busy ? t('Working…') : method === 'card'
-                    ? `${t('Pay')} ${money(totals.total, totals.total)}`
+                    ? `${t('Pay')} ${money(totals.total, totals.total)} ${t('by Card')}`
                     : t('Send on WhatsApp')}
                 </button>
               )}

@@ -114,6 +114,62 @@
    ".mini" image tile, which centres its child: keep the fill at the left. */
 .pcr-site .obar .mini { display: block; place-items: normal; }
 
+/* Cart recommendations scroll by touch on phones. Pointer devices also get
+   explicit translucent controls instead of an invisible horizontal rail. */
+.pcr-site .ups-wrap { position: relative; }
+.pcr-site .ups { scroll-behavior: smooth; }
+.pcr-site .ups-nav {
+  display: none;
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border: 1px solid rgba(15, 37, 89, .16);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, .88);
+  color: var(--navy);
+  box-shadow: 0 8px 24px rgba(15, 37, 89, .18);
+  backdrop-filter: blur(8px);
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.pcr-site .ups-nav.prev { left: -8px; }
+.pcr-site .ups-nav.next { right: -8px; }
+.pcr-site .ups-nav:hover { background: #fff; }
+@media (min-width: 720px) and (hover: hover) {
+  .pcr-site .ups-nav { display: grid; }
+}
+
+/* Match the catalog's recognizable card brands instead of a generic icon. */
+.pcr-site .payment-brand-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+  width: 100%;
+  max-width: 148px;
+}
+.pcr-site .payment-brand-row svg {
+  display: block;
+  height: 22px;
+  width: auto;
+  max-width: 100%;
+  justify-self: center;
+}
+
+/* Category cards are links already; the arrow makes that action obvious. */
+.pcr-site .ctile-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pcr-site .ctile-go {
+  flex: none;
+  font-family: 'Material Symbols Rounded';
+  font-size: 19px;
+  line-height: 1;
+  color: var(--navy);
+  transition: transform .2s ease;
+}
+.pcr-site .ctile:hover .ctile-go { transform: translateX(3px); }
+
 /* Review scores (review-bar.js): one look everywhere. White cards with the
    platform's mark, score, stars filled to the score, and the review count. */
 .pcr-site .reviewbar { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; max-width: 480px; margin-top: 18px; }
