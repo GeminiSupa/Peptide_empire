@@ -12,6 +12,7 @@ import { canSubmitOrdersFrom } from '@/lib/storefront/catalog-origin.mjs';
 import {
   buildOrderPayload,
   cardPaymentUrl,
+  hasCustomerName,
   newOrderNumber,
   submitOrder,
 } from '@/lib/storefront/order.mjs';
@@ -146,8 +147,8 @@ export default function CartSheet({
 
   function validate() {
     if (!ack) return t('Please confirm the research-use statement.');
-    if (String(details.name || '').trim().split(/\s+/).length < 2) {
-      return t('Please add your full name.');
+    if (!hasCustomerName(details.name)) {
+      return t('Please add your name.');
     }
     if (phoneDigits(details.phone).length !== 8) {
       return t('Please add a valid WhatsApp number (8 digits).');
@@ -407,7 +408,7 @@ export default function CartSheet({
                 <div className="box form">
                   <div className="fsec">{t('Contact')}</div>
                   <div className="fld">
-                    <label htmlFor="co-name">{t('Full name')}</label>
+                    <label htmlFor="co-name">{t('Name')}</label>
                     <input
                       id="co-name"
                       autoComplete="name"

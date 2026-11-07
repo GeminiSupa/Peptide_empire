@@ -6,6 +6,7 @@ import {
   RESEARCH_ACK_VERSION,
   buildOrderPayload,
   cardPaymentUrl,
+  hasCustomerName,
   newOrderNumber,
   submitOrder,
 } from '../lib/storefront/order.mjs';
@@ -52,6 +53,12 @@ test('an order number satisfies checkout\'s own pattern', () => {
 
 test('only the two payment methods checkout accepts', () => {
   assert.deepEqual(PAYMENT_METHODS, ['card', 'whatsapp']);
+});
+
+test('checkout accepts customers who legitimately use a single name', () => {
+  assert.equal(hasCustomerName('Maaz'), true);
+  assert.equal(hasCustomerName('Ana Rojas'), true);
+  assert.equal(hasCustomerName('  '), false);
 });
 
 test('the payload carries what checkout requires', () => {
