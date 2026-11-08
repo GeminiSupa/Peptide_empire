@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { catalogUrl } from '@/lib/storefront/catalog-origin.mjs';
 import { captureAttribution, ATTRIBUTION_KEYS } from '@/lib/site/attribution.mjs';
-import { recordReferralScan } from '@/lib/site/crm.mjs';
+import { onCompanyDomain, recordReferralScan } from '@/lib/site/crm.mjs';
 
 /**
  * Saves where the visitor came from, and reports the visit to the CRM.
@@ -12,14 +12,16 @@ import { recordReferralScan } from '@/lib/site/crm.mjs';
  * 1. Every page: the landing URL's agent link, campaign tags and Google Ads
  *    click are saved (lib/site/attribution.mjs), so a later order or lead is
  *    credited to them. This always runs; it only writes to this browser.
- * 2. When `enabled`: a page view and a 15-second heartbeat go to the
+ * 2. On the company domain (or when `enabled`): a page view and a 15-second heartbeat go to the
  *    catalog's `/api/analytics/track`, which fills the CRM's live visitors
  *    and traffic sources. This is the catalog's own `AnalyticsTracker`,
  *    ported unchanged apart from where it reads the cart and contact details.
  *    The catalog accepts it only from a `*.peptidescostarica.net` origin.
  *
- * `enabled` is the same launch switch as Tag Manager
- * (NEXT_PUBLIC_ALLOW_INDEXING), so test visits never reach the reports.
+ * The CRM is fed from new.peptidescostarica.net / peptidescostarica.net
+ * (owner, 8 Nov 2026: the new site is the business). Localhost and
+ * *.vercel.app previews never feed it. Tag Manager stays on its own launch
+ * switch (NEXT_PUBLIC_ALLOW_INDEXING).
  */
 
 const VISITOR_COOKIE = 'pcr_visitor_id';
@@ -97,7 +99,9 @@ export default function VisitorTracker({ enabled }) {
 
   useEffect(() => {
     captureAttribution();
-    if (!enabled) return undefined;
+    // The CRM (live visitors, traffic sources, scans) is fed from the company
+    // domain whether or not the site is open to Google yet.
+    if (!enabled && !onCompanyDomain()) return undefined;
     // A QR code or agent / affiliate link: count the landing for the CRM.
     recordReferralScan();
 
