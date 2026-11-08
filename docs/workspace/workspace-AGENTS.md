@@ -6,6 +6,29 @@ are Codex, Claude, or any other agent and you want to record context, a to-do
 list, or a status update, put it here or in the relevant project's own
 `AGENTS.md` — do not invent a new name.
 
+## THE GOAL — read this before anything else (owner, 8 Nov 2026)
+
+The new site (`peptidecosta-website`, now at `new.peptidescostarica.net`,
+moving to `peptidescostarica.net` to replace WordPress) **is the main business
+site**. It is not a marketing clone or a preview, and "not live yet" is never a
+reason to skip back-end work.
+
+1. **It must run the whole Costa Rica business on its own.** If
+   `catalog.peptidescostarica.net` is ever shut down, customers and staff must
+   notice nothing: checkout, every payment method, the card and bank payment
+   pages, customer and business accounts, admin and CRM, the WhatsApp bot and
+   cart recovery, scheduled jobs, links in emails and WhatsApp messages, GA4 /
+   Tag Manager and Google Ads conversions. Today most of that still runs on the
+   catalog app; anything that only works because the catalog subdomain exists
+   is a gap to close, not an acceptable dependency.
+2. **While both are running, nothing may duplicate or conflict:** one order
+   per checkout, no double purchase/conversion events, no double CRM leads,
+   carts or WhatsApp messages, no scheduled job running twice, only one site
+   indexed by Google, no price shown on one that is charged differently on the
+   other.
+
+Judge every change against those two rules.
+
 ## What is in this folder
 
 Two applications, one GitHub repo (`GeminiSupa/peptidecosta`), two branches
@@ -14,9 +37,17 @@ checked out as sibling folders:
 - `peptidecosta/` — branch `main`. The shop: catalog, cart, checkout, orders,
   admin portal, CRM, WhatsApp bot, deals and pricing. Live at
   `catalog.peptidescostarica.net` via the Vercel project `peptidecosta`.
-- `peptidecosta-website/` — branch `website`. The site that replaces the
-  current WordPress site, and now carries the storefront too. Not live yet.
-  Deploys to the Vercel project `peptidecostarica-website`.
+- `peptidecosta-website/` — branch `website`. The main business site that
+  replaces the WordPress site. Live for testing at `new.peptidescostarica.net`
+  (Vercel project `peptidecostarica-website`); the owner moves it onto
+  `peptidescostarica.net` when he decides.
+
+**Retired, never work there:** the old standalone repo
+`GeminiSupa/peptidecostarica-website` and its local copies
+(`C:\Users\Maaz\Projects\peptidecostarica-website`,
+`H:\Joe Webster\peptidecostarica-website`). It stopped on 18 Oct 2026, nothing
+builds from it, and its `.vercel` link still points at the live website
+project, so a `vercel` command there would overwrite the new site.
 
 `peptidecosta-website` is a git worktree of the same repo. Running `git` inside
 it operates on the `website` branch (named `clone-website` until 23 Oct 2026).

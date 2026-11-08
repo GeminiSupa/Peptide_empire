@@ -4,6 +4,33 @@ This branch contains the website for `peptidescostarica.net`. The `main`
 branch of this repository contains the separate live catalog application for
 `catalog.peptidescostarica.net`.
 
+## THE GOAL (owner, 8 Nov 2026)
+
+This site is **the main business site**, not a marketing clone or preview.
+(1) It must run the whole Costa Rica business on its own: if
+`catalog.peptidescostarica.net` were shut down, checkout, every payment
+method, accounts, admin and CRM, the WhatsApp bot, scheduled jobs, email and
+WhatsApp links, GA4/GTM and Google Ads conversions must keep working. (2) While
+both run, nothing may duplicate or conflict: one order per checkout, no double
+conversions, leads, carts, messages or cron runs, one site indexed, one price.
+Full text: `docs/workspace/workspace-AGENTS.md`.
+
+## Where the code lives and deploys
+
+- Repo `GeminiSupa/peptidecosta`, branch **`website`** (this folder). Vercel
+  project `peptidecostarica-website` builds this branch as production and
+  serves `new.peptidescostarica.net`.
+- The catalog is branch `main` of the same repo → Vercel project
+  `peptidecosta` → `catalog.peptidescostarica.net`.
+- **Retired, do not use:** the standalone repo
+  `GeminiSupa/peptidecostarica-website` (branch `main`, last commit
+  18 Oct 2026) and its local copies in `C:\Users\Maaz\Projects\` and
+  `H:\Joe Webster\`. Nothing builds from it. If your working folder has no
+  `AGENTS.md`, a README saying the catalog is a "separate private repo", or a
+  remote ending in `peptidecostarica-website.git`, you are in the wrong
+  folder: stop and say so. Never run `vercel` from it — it is still linked to
+  the live project and would overwrite the new site with the October version.
+
 ## The shared workspace
 
 The team works with both branches checked out side by side in one parent

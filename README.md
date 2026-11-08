@@ -1,10 +1,19 @@
 # Peptides Costa Rica — website
 
-Next.js rebuild of **https://peptidescostarica.net/** (currently WordPress +
-WooCommerce + Elementor + Astra).
+> **Agents: read `AGENTS.md` first.** It is the current source of truth and
+> overrides anything older in this file. In short: this is the `website` branch
+> of `GeminiSupa/peptidecosta` (the catalog is the `main` branch of the same
+> repo). Vercel project `peptidecostarica-website` builds this branch and serves
+> `new.peptidescostarica.net`. This site is becoming the main business site and
+> must eventually run checkout, accounts, admin and CRM on its own.
+>
+> The old standalone repo `GeminiSupa/peptidecostarica-website` (local copies in
+> `C:\Users\Maaz\Projects\` and `H:\Joe Webster\`) is **retired**: it stopped at
+> 18 Oct 2026, nothing builds from it, and work done there is lost. Never work
+> or run `vercel` from it.
 
-This is a **re-platform, not a redesign**. The visual result should match the
-existing site: same layout, sections, order, and wording.
+Next.js rebuild of **https://peptidescostarica.net/** (currently WordPress +
+WooCommerce + Elementor + Astra), now under a new design.
 
 ## Stack
 
@@ -25,21 +34,17 @@ npm install
 npm run dev
 ```
 
-## The two-sites rule
+## The two sites
 
-The business runs **two** separate websites. Do not confuse them.
-
-| | This repo | Catalog site |
+| | This branch (`website`) | Catalog (`main`) |
 |---|---|---|
-| Domain | `peptidescostarica.net` | `catalog.peptidescostarica.net` |
-| Role | Marketing site | Live catalog, cart, checkout, admin |
-| Repo | this one | separate private repo |
+| Domain | `new.peptidescostarica.net` → `peptidescostarica.net` at cutover | `catalog.peptidescostarica.net` |
+| Vercel project | `peptidecostarica-website` | `peptidecosta` |
+| Role | The main business site (taking over shop, checkout, accounts, admin) | Still takes every real order today |
+| Repo | `GeminiSupa/peptidecosta`, branch `website` | same repo, branch `main` |
 
-**Never** copy the catalog site's cron jobs, `/admin` panel, API routes, or
-environment variables into this project. That site sends real email and takes
-real payments — duplicating any of it would double-charge or double-email real
-customers. The only thing this project needs from it is its public URL, for
-linking.
+While both run, nothing may duplicate: one order per checkout, no double
+conversion events, CRM leads, WhatsApp messages or cron runs. See `AGENTS.md`.
 
 ## Rules this repo must not break
 
@@ -51,8 +56,9 @@ linking.
 3. **Never hardcode a `*.vercel.app` URL** in shipped code, content, or metadata.
    Use the real domain or relative paths.
 4. **Search engines are blocked until launch** — see below.
-5. **No admin panel, cron jobs, or marketing automation.** Those live on the
-   catalog site. This project is a website, not a second backend.
+5. **Back-end work moves here deliberately, never by copy-paste.** Admin, cron
+   jobs and automation still run on the catalog; bringing one over must switch
+   the catalog's copy off at the same time so nothing runs twice.
 6. **Ask before adding any third-party script** (analytics, chat, pixels).
 
 ## Pre-launch: indexing is blocked
@@ -69,7 +75,6 @@ the production environment; robots and page metadata switch together.
 - [ ] Set production `NEXT_PUBLIC_ALLOW_INDEXING=true` at the domain cutover
 - [ ] `sitemap.xml` generated with the real domain
 - [ ] Canonical URLs point at `https://peptidescostarica.net`
-- [ ] All shop buttons point at `catalog.peptidescostarica.net`
 - [ ] Verify `/robots.txt`, `/sitemap.xml`, canonical, hreflang and schema on production
 - [ ] Submit the new sitemap in Google Search Console after cutover
 - [ ] Keep the existing Search Console property; do **not** use Change of Address
@@ -78,16 +83,13 @@ the production environment; robots and page metadata switch together.
 - [ ] Keep WordPress running and reachable for 2 weeks after cutover (rollback)
 - [ ] After cutover, verify `catalog.peptidescostarica.net` still works
 
-## Settled decisions (client, 2026-07-31)
+## Settled decisions
 
-**"Add to Cart" links to the catalog site.** Products and prices are shown here,
-but every buy button links to `catalog.peptidescostarica.net`. One cart, one
-checkout, one order list. This repo gets **no** cart, checkout, payment gateway,
-or order handling — see the two-sites rule above.
-
-**Visuals match the live site exactly**, because this is a re-platform, not a
-redesign: white page background, Open Sans body / Inter headings. The brief's
-brand kit (`#F4F6F9`, Montserrat) is deliberately *not* applied.
+The 31 Jul 2026 decisions ("Add to Cart links to the catalog", "no cart or
+checkout here", "visuals match WordPress exactly") were **reversed** on
+23 Oct and 1 Nov 2026: this site has its own cart and new design, and posts
+orders to the catalog's `/api/orders/create`. Current decisions are in
+`AGENTS.md`.
 
 **The blog is CMS-backed** (Supabase), per `docs/data-model.md` — not MDX files,
 not headless WordPress.
