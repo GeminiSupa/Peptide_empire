@@ -235,8 +235,15 @@
 .pcr-site .promo-note { color: var(--ink2); font-size: 12.5px; }
 .pcr-site .promo-err { color: var(--red); font-size: 12.5px; font-weight: 600; }
 /* "Send me WhatsApp updates" at checkout. */
-.pcr-site .optin { display: flex; gap: 10px; align-items: flex-start; margin-top: 12px; font-size: 13.5px; color: var(--ink2); cursor: pointer; }
-.pcr-site .optin input { width: 18px; height: 18px; margin-top: 1px; flex: none; accent-color: var(--navy); }
+/* `.form label` in site.css (display:block, bold) outranks a bare `.optin`,
+   which squashed the box against the text — hence the doubled class. */
+.pcr-site label.optin.optin { display: flex; gap: 12px; align-items: center; margin: 14px 0 0; padding: 12px 14px; border-radius: 12px; box-shadow: inset 0 0 0 1.5px var(--line); font-size: 14px; font-weight: 500; line-height: 1.35; color: var(--ink); cursor: pointer; transition: box-shadow .15s, background .15s; }
+.pcr-site label.optin.optin:has(input:checked) { box-shadow: inset 0 0 0 1.5px var(--navy); background: color-mix(in srgb, var(--navy) 5%, transparent); }
+.pcr-site .optin input { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; margin: 0; flex: none; border-radius: 6px; box-shadow: inset 0 0 0 1.5px var(--line); background: #fff; display: grid; place-items: center; cursor: pointer; transition: background .15s, box-shadow .15s; }
+.pcr-site .optin input::after { content: ''; width: 10px; height: 6px; border: solid #fff; border-width: 0 0 2px 2px; transform: translateY(-1px) rotate(-45deg) scale(0); transition: transform .15s; }
+.pcr-site .optin input:checked { background: var(--navy); box-shadow: none; }
+.pcr-site .optin input:checked::after { transform: translateY(-1px) rotate(-45deg) scale(1); }
+.pcr-site .optin input:focus-visible { outline: 2px solid var(--navy); outline-offset: 2px; }
 /* Footer newsletter signup (components/site/newsletter-form.js). */
 .pcr-site .fnews { margin-top: 14px; display: grid; gap: 8px; }
 .pcr-site .fnews b { color: #fff; font-size: 13.5px; }
