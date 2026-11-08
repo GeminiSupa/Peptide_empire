@@ -1,8 +1,7 @@
 import CatalogBrowser from '@/components/site/catalog-browser';
-import CopyBlock from '@/components/site/copy-block';
+import CatalogDetails from '@/components/site/catalog-details';
 import { DealCard } from '@/components/site/deal-bits';
 import { Reviews } from '@/components/site/blocks';
-import ReviewBar from '@/components/site/review-bar';
 import { ShopperRotating } from '@/components/site/review-widgets';
 import { dealPicks } from '@/lib/site/data';
 import { translator } from '@/lib/storefront/i18n.mjs';
@@ -16,8 +15,9 @@ const PROMISES = [
 
 /**
  * The prototype's catalog view (`#catalog`): hero with the deal card, the
- * filter rail and every compound, then customer reviews. Below them, the
- * live page's own copy and FAQ, so the URL keeps the words it ranks for.
+ * filter rail and every compound, then customer reviews. Below them, a
+ * compact guide keeps the live category names and examples without the
+ * oversized explanatory copy and FAQ layout.
  *
  * `h1` is the live page's H1; `copy` its text (lib/site/live-copy.mjs).
  */
@@ -45,7 +45,6 @@ export default function CatalogPage({ lang, site, h1, copy }) {
                 </div>
               ))}
             </div>
-            <ReviewBar reviews={site.reviews} lang={lang} />
             <div className="press">
               {t('As featured in')}
               {' '}
@@ -68,11 +67,7 @@ export default function CatalogPage({ lang, site, h1, copy }) {
         </div>
       </section>
 
-      {blocks.length ? (
-        <div className="wrap">
-          {blocks.map((block) => <CopyBlock block={block} t={t} lang={lang} key={block.title || block.paras[0]} />)}
-        </div>
-      ) : null}
+      {blocks.length ? <CatalogDetails blocks={blocks} lang={lang} /> : null}
     </div>
   );
 }
