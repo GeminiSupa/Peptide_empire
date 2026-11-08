@@ -1,13 +1,9 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import nodemailer from 'nodemailer';
 import { isSalesAgentAffiliate } from '@/lib/salesAgentAffiliate.mjs';
 import { getOrderMailSettings } from '@/lib/transactionalSmtp';
 import { stripOwnerAddress } from '@/lib/orderEmailAddressing.mjs';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 // The owner is BCC'd on this mail, so they are stripped from the visible
 // recipients rather than named twice on the same envelope.
@@ -26,6 +22,8 @@ export async function GET(request) {
     if (process.env.CRON_SECRET && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    const supabase = getSupabaseAdmin();
 
     // 2. Fetch orders from the last 7 days with affiliate commissions
     const sevenDaysAgo = new Date();

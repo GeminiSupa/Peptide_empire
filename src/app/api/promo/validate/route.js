@@ -1,11 +1,7 @@
 import { NextResponse } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { countPromoEligibleUnits, checkUnitLimits, unitLimitsMessage } from '@/lib/promoEligibility.mjs';
 import { findLiveDealConflictForPromo, promoDealConflictMessage } from '@/lib/promoStackingSafety.mjs';
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 export async function POST(request) {
   try {
@@ -17,6 +13,8 @@ export async function POST(request) {
     if (!code) {
       return NextResponse.json({ valid: false, error: lang === 'en' ? 'No code provided' : 'No se ingresó ningún código' }, { status: 400 });
     }
+
+    const supabase = getSupabaseAdmin();
 
     // Standardize code to uppercase and trimmed
     const cleanCode = code.trim().toUpperCase();

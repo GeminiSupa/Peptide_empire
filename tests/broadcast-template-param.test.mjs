@@ -99,3 +99,16 @@ test('both broadcast routes share one implementation', () => {
     );
   }
 });
+
+test('database-backed routes do not require Supabase while Next builds them', () => {
+  for (const route of [
+    'src/app/api/admin/broadcast/route.js',
+    'src/app/api/cron/affiliate-payouts/route.js',
+    'src/app/api/cron/process-broadcasts/route.js',
+    'src/app/api/promo/validate/route.js',
+  ]) {
+    const source = fs.readFileSync(route, 'utf8');
+    assert.match(source, /import \{ getSupabaseAdmin \} from '@\/lib\/supabaseAdmin'/);
+    assert.doesNotMatch(source, /const supabase = createClient\(/);
+  }
+});

@@ -3,7 +3,7 @@ import { writeDroppingMissingColumns, BROADCAST_PACING_COLUMNS, BROADCAST_WINDOW
 import {
   DEFAULT_BATCH_SIZE, DEFAULT_DELAY_SECONDS, MAX_BATCH_SIZE, MAX_DELAY_SECONDS,
 } from '@/lib/broadcastPacing.mjs';
-import { createClient } from '@supabase/supabase-js';
+import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import nodemailer from 'nodemailer';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getCampaignSmtpConfig } from '@/lib/campaignSmtp';
@@ -17,10 +17,6 @@ import { getCustomerSegments } from '@/lib/customerSegmentation.mjs';
 import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || LIVE_SITE_URL;
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Helper for sending WhatsApp via the official graph API
 async function sendWhatsApp(to, message, templateName = null, firstName = null, languageCode = 'es', greetingVariable = false, parameterMode = null, templateParameters = null) {
@@ -162,6 +158,7 @@ export async function DELETE(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
   try {
+    const supabase = getSupabaseAdmin();
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     if (!id) return NextResponse.json({ error: 'ID required' }, { status: 400 });
@@ -202,7 +199,7 @@ function clampPacing(value, fallback, min, max) {
   return Math.min(max, Math.max(min, n));
 }
 
-async function collectBroadcastTargets(audience, customContacts) {
+async function collectBroadcastTargets(supabase, audience, customContacts) {
   const targets = new Map();
 
   if (audience === 'all_customers' || audience === 'all_leads' || audience === 'leads_7_days') {
@@ -364,6 +361,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
+    const supabase = getSupabaseAdmin();
     const { searchParams } = new URL(request.url);
     if (searchParams.get('estimate') !== '1') {
       return NextResponse.json({ error: 'Unknown broadcast action' }, { status: 400 });
@@ -371,7 +369,7 @@ export async function GET(request) {
 
     const audience = searchParams.get('audience') || 'all_customers';
     const customContacts = searchParams.get('customContacts') || '';
-    const targets = await collectBroadcastTargets(audience, customContacts);
+    const targets = await collectBroadcastTargets(supabase, audience, customContacts);
     const contacts = Array.from(targets.values());
 
     return NextResponse.json({
@@ -391,6 +389,7 @@ export async function POST(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
   try {
+    const supabase = getSupabaseAdmin();
     const { audience, channels, message, testContact, customContacts, scheduledAt, enableBatching, whatsappTemplateName, whatsappTemplateLanguage, dealId, pacing } = await request.json();
 
     // The operator's chosen speed, clamped here as well as in the processor so
@@ -477,7 +476,7 @@ export async function POST(request) {
          email: isEmail ? testContact : null 
        });
     } else {
-      targets = await collectBroadcastTargets(audience, customContacts);
+      targets = await collectBroadcastTargets(supabase, audience, customContacts);
     } // Close the else block
 
     const contacts = Array.from(targets.values());
