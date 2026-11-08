@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Ms from '@/components/storefront/icon';
 import WhatsAppGlyph from '@/components/storefront/whatsapp-glyph';
-import ReviewBar from '@/components/site/review-bar';
 import NewsletterForm from '@/components/site/newsletter-form';
 import { CONTACT, SOCIALS } from '@/lib/site/links.mjs';
 
@@ -27,7 +26,7 @@ const POLICY_LINKS = [
 ];
 
 /** The prototype's footer. Server-rendered: every link is in the page source. */
-export default function SiteFooter({ t, lang, links, categories, reviews, contact = CONTACT }) {
+export default function SiteFooter({ t, links, categories, contact = CONTACT }) {
   const whatsapp = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(t("Hi! I'd like to order."))}`;
   return (
     <footer className="sfoot">
@@ -45,7 +44,6 @@ export default function SiteFooter({ t, lang, links, categories, reviews, contac
               <Ms name="arrow_forward" />
             </Link>
             <p>{t('Research-grade peptides in local stock in Costa Rica. Third-party tested, stored at 2–8 °C, delivered in 2–4 days.')}</p>
-            <ReviewBar reviews={reviews} lang={lang} variant="rows" />
           </div>
           <div>
             <h4>{t('Quick Links')}</h4>

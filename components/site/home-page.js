@@ -19,10 +19,7 @@ export const HOME_FAQ = [
   ['Do you ship outside Costa Rica?', 'No. We deliver within Costa Rica only.'],
   ['Do you offer online checkout?', 'Yes. Order on the website and pay by card, or send your order on WhatsApp.'],
   ['What payment methods do you accept?', 'SINPE Móvil, bank transfer, card, or cash on delivery.'],
-  ['Is there a bulk discount?', 'Yes: 15% off 5+ vials of the same product and 20% off 10+, applied automatically.'],
   ['How do I confirm product availability?', 'Stock shows live in the catalog. We also confirm it before payment.'],
-  ['How quickly do you respond?', 'Usually within minutes on WhatsApp during business hours.'],
-  ['Can I modify my order after placing it?', 'Yes, until it\'s packed for delivery.'],
 ];
 
 const OPS = [
@@ -30,8 +27,6 @@ const OPS = [
   ['lab_profile', 'Available Documentation', 'Most products have a Certificate of Analysis and specification sheet, published before sale. Find it on the product page or ask with your batch number.'],
   ['ac_unit', 'Storage & Handling', 'Products arrive lyophilised and stay at 2–8 °C from arrival to dispatch, in our own cold storage.'],
   ['local_shipping', 'Ordering & Delivery', 'Stock is live in the catalog. We confirm availability and the full total before payment, then deliver across Costa Rica in days.'],
-  ['sell', 'Bulk & Pricing', '15% off 5+ vials of the same product, 20% off 10+. Applied before payment. No minimum spend, no membership.'],
-  ['support_agent', 'Customer Support', 'WhatsApp or phone for stock, documentation or order questions. Damaged or mismatched vials are replaced.'],
 ];
 
 /** The prototype's home page (`#home`), in the page source. */
@@ -111,7 +106,7 @@ export default function HomePage({ lang, h1, site }) {
         </p>
       </Section>
 
-      <Section title={t('How We Operate')}>
+      <Section title={t('How We Operate')} className="home-compact">
         <div className="ops">
           {OPS.map(([icon, title, body]) => (
             <div className="op" key={title}><span className="ms">{icon}</span><h3>{t(title)}</h3><p>{t(body)}</p></div>
@@ -130,21 +125,6 @@ export default function HomePage({ lang, h1, site }) {
         </div>
       </section>
 
-      <Section title={t('Laboratory-Tested Purity')} className="alt">
-        <div className="duo">
-          <div>
-            <h3>{t('Research-Grade Peptides')}</h3>
-            <p>{t('Produced under quality control standards and tested for purity and consistency, for laboratory research use.')}</p>
-            <Link className="btn ghost" href={links['lab-tests-coa-results']}>{t('View the COA database')}</Link>
-          </div>
-          <div>
-            <h3>{t('Your Trusted Peptide Supplier in Costa Rica')}</h3>
-            <p>{t('Research peptides from certified laboratories, handled under controlled conditions, for researchers across Costa Rica.')}</p>
-            <a className="btn ghost" href={(site.contact || CONTACT).phoneCrHref}>{t('Call to order')}</a>
-          </div>
-        </div>
-      </Section>
-
       <Section title={t('Customer Success Stories')}>
         <ShopperRotating lang={lang} />
         <Reviews items={REVIEWS} />
@@ -154,7 +134,7 @@ export default function HomePage({ lang, h1, site }) {
         <ProductGrid compounds={latest} id="hlatest" />
       </Section>
 
-      <Section title={t('Frequently Asked Questions')}>
+      <Section title={t('Frequently Asked Questions')} className="home-faq">
         <Faq items={HOME_FAQ.map(([q, a]) => [t(q), t(a)])} />
       </Section>
 
