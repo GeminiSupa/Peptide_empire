@@ -4,7 +4,6 @@ import { DealCard } from '@/components/site/deal-bits';
 import Faq from '@/components/site/faq';
 import ProductGrid from '@/components/site/product-grid';
 import ReviewBar from '@/components/site/review-bar';
-import { ShopperRotating } from '@/components/site/review-widgets';
 import { dealPicks } from '@/lib/site/data';
 import { REVIEWS, Reviews, CategoryTiles, Section, Steps } from '@/components/site/blocks';
 import { translator } from '@/lib/storefront/i18n.mjs';
@@ -126,7 +125,6 @@ export default function HomePage({ lang, h1, site }) {
       </section>
 
       <Section title={t('Customer Success Stories')}>
-        <ShopperRotating lang={lang} />
         <Reviews items={REVIEWS} />
       </Section>
 
