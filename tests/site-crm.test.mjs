@@ -110,3 +110,10 @@ test('view_item_list in the catalog\'s shape', () => {
     price: 90, index: 1, item_list_id: 'shop', item_list_name: 'Shop',
   });
 });
+
+test('the order receipt relay passes only the token, and returns only the event', () => {
+  const relay = relayFor('order-receipt');
+  assert.equal(relay.body({}), null);
+  assert.deepEqual(relay.body({ token: 'abc', extra: 1 }), { token: 'abc' });
+  assert.deepEqual(relay.reply({ event: { event: 'whatsapp_order' }, events: [1], pending: false }), { event: { event: 'whatsapp_order' } });
+});

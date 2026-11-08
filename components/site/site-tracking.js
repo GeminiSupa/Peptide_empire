@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Script from 'next/script';
 import { pushEvent, whatsappLocation } from '@/lib/site/analytics.mjs';
+import { onCompanyDomain } from '@/lib/site/crm.mjs';
 
 /** The Google Tag Manager container the catalog already reports to. */
 export const GTM_ID = 'GTM-M2GVDQ44';
@@ -12,12 +13,19 @@ const WHATSAPP_LINK = /^(?:https?:\/\/(wa\.me|wa\.link|api\.whatsapp\.com|web\.w
 /**
  * Google Tag Manager, and the catalog's `whatsapp_click` event.
  *
- * `enabled` is the launch switch (NEXT_PUBLIC_ALLOW_INDEXING): until the real
- * domain points here, the container is not loaded, so previews and test
- * visits never reach the reports. The events are still pushed to
- * `dataLayer`, where GTM's preview mode can inspect them.
+ * The container loads on the company domain (new.peptidescostarica.net now,
+ * peptidescostarica.net after the move), or anywhere when `enabled`
+ * (NEXT_PUBLIC_ALLOW_INDEXING). Localhost and *.vercel.app previews never
+ * load it, so they never reach the reports; their events still go to
+ * `dataLayer`, where GTM's preview mode can inspect them. Decided after
+ * mount, so the server and browser render the same markup.
  */
 export default function SiteTracking({ enabled }) {
+  const [load, setLoad] = useState(Boolean(enabled));
+  useEffect(() => {
+    if (!enabled && onCompanyDomain()) setLoad(true);
+  }, [enabled]);
+
   useEffect(() => {
     const onClick = (event) => {
       const link = event.target?.closest?.('a');
@@ -32,7 +40,7 @@ export default function SiteTracking({ enabled }) {
     return () => document.removeEventListener('click', onClick, true);
   }, []);
 
-  if (!enabled) return null;
+  if (!load) return null;
   return (
     <>
       <noscript>

@@ -30,10 +30,12 @@ export default function ThankYou({ upsells, appHref, reviews }) {
   useEffect(() => {
     const placed = readOrder();
     setOrder(placed);
-    // The catalog's conversion for a WhatsApp order, once per order even if
-    // this page is reloaded.
-    const event = whatsappOrderEvent(placed);
-    if (!event) return;
+    // The WhatsApp order's conversion, once per order even if this page is
+    // reloaded. It is the event the catalog's own thank-you page sends, built
+    // by the catalog from the saved order (true totals, and the hashed email
+    // and phone Google Ads uses for enhanced conversions). Only if that cannot
+    // be fetched is it built here from the cart.
+    if (!placed?.orderNumber) return;
     const key = `pcr_conversion:whatsapp_order:${placed.orderNumber}`;
     try {
       if (window.sessionStorage.getItem(key)) return;
@@ -41,7 +43,24 @@ export default function ThankYou({ upsells, appHref, reviews }) {
     } catch {
       // Without storage the event can repeat on reload; it is still sent.
     }
-    pushEvent(event);
+    (async () => {
+      let event = null;
+      if (placed.receiptToken) {
+        try {
+          const response = await fetch('/api/catalog/order-receipt/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token: placed.receiptToken }),
+          });
+          const data = await response.json().catch(() => ({}));
+          if (data.event?.event === 'whatsapp_order') event = data.event;
+        } catch {
+          // Fall back below.
+        }
+      }
+      event = event || whatsappOrderEvent(placed);
+      if (event) pushEvent(event);
+    })();
   }, []);
   const m = (amount) => money(amount, amount);
   const ref = order?.orderNumber ? ` ${order.orderNumber}` : '';

@@ -337,6 +337,7 @@ export default function CartSheet({
     // The new design follows a WhatsApp order with its thank-you page.
     onPlaced?.({
       orderNumber: result.orderNumber,
+      receiptToken: result.analyticsReceiptToken || null,
       phone: details.phone,
       lines: cart.map((line) => ({
         name: line.name,
