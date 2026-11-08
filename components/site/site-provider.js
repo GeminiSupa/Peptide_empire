@@ -6,6 +6,7 @@ import { useCart, useCurrency } from '@/lib/storefront/use-cart';
 import { quoteCart } from '@/lib/site/quote.mjs';
 import { CONTACT } from '@/lib/site/links.mjs';
 import { ecommerceData, pushEvent } from '@/lib/site/analytics.mjs';
+import { promoFromReply, promoFromUrl, readPromo, validatePromo, writePromo } from '@/lib/site/promo.mjs';
 
 const SiteContext = createContext(null);
 
@@ -27,7 +28,28 @@ export function useSite() {
 export default function SiteProvider({ lang, exchangeRate, deal, dealView = null, children }) {
   const t = useMemo(() => translator(lang), [lang]);
   const [currency, setCurrency] = useCurrency();
-  const { cart, hydrated, add, setQty, remove, clear } = useCart();
+  const { cart, hydrated, add, setQty: setCartQty, remove: removeLine, clear } = useCart();
+
+  // GA4 `remove_from_cart` (Belhassen's spec; the catalog has no such event
+  // yet), in the same `ecommerce` shape as add_to_cart.
+  const pushRemoval = useCallback((line, qty) => {
+    if (!line || qty <= 0) return;
+    pushEvent({
+      event: 'remove_from_cart',
+      ecommerce: ecommerceData([{ name: line.name, size: line.size, priceUsd: line.priceUsd, qty, category: line.category }]),
+    });
+  }, []);
+  const setQty = useCallback((product, qty) => {
+    const line = cart.find((entry) => entry.product === product);
+    const wanted = Math.max(0, Math.floor(Number(qty) || 0));
+    if (line && wanted < line.qty) pushRemoval(line, line.qty - wanted);
+    setCartQty(product, qty);
+  }, [cart, pushRemoval, setCartQty]);
+  const remove = useCallback((product) => {
+    const line = cart.find((entry) => entry.product === product);
+    if (line) pushRemoval(line, line.qty);
+    removeLine(product);
+  }, [cart, pushRemoval, removeLine]);
   const [sheetOpen, setSheetOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -44,10 +66,43 @@ export default function SiteProvider({ lang, exchangeRate, deal, dealView = null
     [currency, exchangeRate],
   );
 
+  // The promo / affiliate code, as the catalog validated it. Kept in this
+  // browser so it survives moving between pages, as the cart does.
+  const [promo, setPromo] = useState(null);
+  useEffect(() => {
+    setPromo(readPromo());
+  }, []);
+  const savePromo = useCallback((next) => {
+    setPromo(next);
+    writePromo(next);
+  }, []);
+
+  /**
+   * Check `code` with the catalog and keep it if it is valid, or valid once the
+   * cart is big enough. Returns the catalog's answer for the cart to show.
+   */
+  const applyPromo = useCallback(async (code, lines = cart) => {
+    const items = lines.map((line) => ({ product: line.product, qty: line.qty }));
+    const reply = await validatePromo(code, { lang, items });
+    if (reply.valid || reply.pending) savePromo(promoFromReply(reply));
+    return reply;
+  }, [cart, lang, savePromo]);
+  const removePromo = useCallback(() => savePromo(null), [savePromo]);
+
+  // An affiliate or QR link carries its code in the URL (?promo=, as the
+  // catalog reads it). Applied on landing, quietly: a bad code in a link is
+  // the link's fault, not the shopper's.
+  useEffect(() => {
+    const code = promoFromUrl(window.location.search);
+    if (code) applyPromo(code, []).catch(() => {});
+    // Once per page load.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   /** Any cart, priced as checkout would price it — for "if you add this" figures. */
   const quoteFor = useCallback(
-    (lines) => quoteCart(lines, { currency, exchangeRate, deal }),
-    [currency, exchangeRate, deal],
+    (lines) => quoteCart(lines, { currency, exchangeRate, deal, promo }),
+    [currency, exchangeRate, deal, promo],
   );
   const quote = useMemo(() => quoteFor(cart), [quoteFor, cart]);
 
@@ -87,12 +142,14 @@ export default function SiteProvider({ lang, exchangeRate, deal, dealView = null
   const value = useMemo(() => ({
     lang, t, currency, setCurrency, exchangeRate, deal, dealView,
     cart, hydrated, addToCart, setQty, remove, clear, quote, quoteFor,
+    promo, applyPromo, removePromo,
     money, moneyCrc, whatsapp,
     sheetOpen, setSheetOpen, drawerOpen, setDrawerOpen, searchOpen, setSearchOpen,
     toast, setToast,
   }), [
     lang, t, currency, setCurrency, exchangeRate, deal, dealView,
     cart, hydrated, addToCart, setQty, remove, clear, quote, quoteFor,
+    promo, applyPromo, removePromo,
     money, moneyCrc, whatsapp, sheetOpen, drawerOpen, searchOpen, toast,
   ]);
 

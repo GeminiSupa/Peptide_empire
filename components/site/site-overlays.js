@@ -19,6 +19,7 @@ export default function SiteOverlays({ compounds, categories, freeShippingLabel,
   const {
     t, lang, currency, exchangeRate, cart, quote, money, whatsapp, dealView,
     sheetOpen, setSheetOpen, addToCart, setQty, clear, toast, setToast,
+    promo, applyPromo, removePromo,
   } = useSite();
 
   const router = useRouter();
@@ -106,6 +107,9 @@ export default function SiteOverlays({ compounds, categories, freeShippingLabel,
         dealRunning={Boolean(dealView?.tiers?.length)}
         onPlaced={onPlaced}
         track={track}
+        promo={promo}
+        onApplyPromo={applyPromo}
+        onRemovePromo={removePromo}
       />
 
       <SiteSearch compounds={compounds} categories={categories} />

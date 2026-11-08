@@ -5,6 +5,7 @@ import ProductBuy from '@/components/site/product-buy';
 import ProductGrid from '@/components/site/product-grid';
 import { Reviews, Steps } from '@/components/site/blocks';
 import CopyBlock from '@/components/site/copy-block';
+import CustomerReviews from '@/components/site/customer-reviews';
 import { fromPrice } from '@/lib/site/data';
 import { variantFor } from '@/lib/storefront/group-products.mjs';
 import { shelfLabel } from '@/lib/storefront/shelves.mjs';
@@ -154,6 +155,7 @@ export default function ProductPage({ lang, site, compound, h1, copy, initialSiz
 
         <section className="psec">
           <h2>{t('What people say')}</h2>
+          <CustomerReviews compound={compound} t={t} />
           <Reviews />
         </section>
 

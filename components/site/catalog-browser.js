@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Ms from '@/components/storefront/icon';
 import ProductCard from '@/components/storefront/product-card';
+import ListViewEvent from '@/components/site/list-view-event';
+import { SHOP_LIST } from '@/lib/site/analytics.mjs';
 import { useSite } from '@/components/site/site-provider';
 import { applyFilters, shelfChips } from '@/lib/storefront/filter.mjs';
 
@@ -47,8 +49,14 @@ export default function CatalogBrowser({ compounds }) {
   const shown = useMemo(() => applyFilters(compounds, filters, lang), [compounds, filters, lang]);
   const set = (patch) => setFilters((current) => ({ ...current, ...patch }));
 
+  // The catalog names a list "Shop", or the category it is filtered to.
+  const listName = filters.shelf === 'all'
+    ? SHOP_LIST
+    : (chips.find((chip) => chip.id === filters.shelf)?.label || SHOP_LIST);
+
   return (
     <>
+      <ListViewEvent listName={listName} compounds={shown} />
       <div className="rail">
         <div className="wrap">
           <div className="searchrow">

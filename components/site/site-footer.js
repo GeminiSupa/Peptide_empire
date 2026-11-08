@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Ms from '@/components/storefront/icon';
 import WhatsAppGlyph from '@/components/storefront/whatsapp-glyph';
 import ReviewBar from '@/components/site/review-bar';
+import NewsletterForm from '@/components/site/newsletter-form';
 import { CONTACT, SOCIALS } from '@/lib/site/links.mjs';
 
 const QUICK_LINKS = [
@@ -72,6 +73,15 @@ export default function SiteFooter({ t, lang, links, categories, reviews }) {
               <span className="wai"><WhatsAppGlyph /></span>
               {t('Order on WhatsApp')}
             </a>
+            <NewsletterForm
+              labels={{
+                title: t('Offers and new compounds by email'),
+                placeholder: t('Your email'),
+                button: t('Subscribe'),
+                done: t("You're subscribed. Thank you!"),
+                error: t('Please enter a valid email address.'),
+              }}
+            />
             <div className="socials">
               {SOCIALS.map(([name, href]) => (
                 <a key={name} href={href} target="_blank" rel="noopener noreferrer">{name}</a>

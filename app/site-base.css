@@ -215,3 +215,50 @@
 @media (max-width: 600px) {
   .pcr-site .reviewbar .rbcount { display: none; }
 }
+
+/* The cart's promo / affiliate code box (components/storefront/cart-sheet.js). */
+.pcr-site .promo-box { padding: 12px 14px; display: grid; gap: 6px; }
+.pcr-site .promo-form { display: flex; gap: 8px; }
+.pcr-site .promo-form input {
+  flex: 1; min-width: 0; height: 42px; padding: 0 12px; border: 1px solid var(--line); border-radius: 10px;
+  font: inherit; font-size: 14.5px; text-transform: uppercase; background: #fff; color: var(--ink);
+}
+.pcr-site .promo-form input::placeholder { text-transform: none; }
+.pcr-site .promo-form button {
+  height: 42px; padding: 0 16px; border: 0; border-radius: 10px; background: var(--navy); color: #fff;
+  font-weight: 700; font-size: 14px; cursor: pointer;
+}
+.pcr-site .promo-form button:disabled { opacity: .5; cursor: default; }
+.pcr-site .promo-on { display: flex; align-items: center; gap: 8px; color: var(--ok); font-size: 14.5px; }
+.pcr-site .promo-on span { flex: 1; text-align: left; }
+.pcr-site .promo-x { border: 0; background: transparent; color: var(--ink2); cursor: pointer; display: grid; place-items: center; padding: 4px; }
+.pcr-site .promo-note { color: var(--ink2); font-size: 12.5px; }
+.pcr-site .promo-err { color: var(--red); font-size: 12.5px; font-weight: 600; }
+/* "Send me WhatsApp updates" at checkout. */
+.pcr-site .optin { display: flex; gap: 10px; align-items: flex-start; margin-top: 12px; font-size: 13.5px; color: var(--ink2); cursor: pointer; }
+.pcr-site .optin input { width: 18px; height: 18px; margin-top: 1px; flex: none; accent-color: var(--navy); }
+/* Footer newsletter signup (components/site/newsletter-form.js). */
+.pcr-site .fnews { margin-top: 14px; display: grid; gap: 8px; }
+.pcr-site .fnews b { color: #fff; font-size: 13.5px; }
+.pcr-site .fnews div { display: flex; gap: 6px; }
+.pcr-site .fnews input {
+  flex: 1; min-width: 0; height: 40px; padding: 0 12px; border-radius: 10px; font: inherit; font-size: 14px;
+  border: 1px solid rgba(255, 255, 255, .18); background: rgba(255, 255, 255, .06); color: #fff;
+}
+.pcr-site .fnews input::placeholder { color: #8d9bc2; }
+.pcr-site .fnews button {
+  height: 40px; padding: 0 14px; border: 0; border-radius: 10px; background: var(--cta); color: #fff;
+  font-weight: 700; font-size: 13.5px; cursor: pointer;
+}
+.pcr-site .fnews button:disabled { opacity: .6; }
+.pcr-site .fnews small { color: #ffb4a1; font-size: 12.5px; }
+.pcr-site .fnews-ok { margin-top: 14px; color: #9fe3bf; font-weight: 600; }
+/* Approved customer reviews from the catalog admin (components/site/customer-reviews.js). */
+.pcr-site .creviews { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-bottom: 18px; }
+.pcr-site .creviews figure { margin: 0; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #fff; display: grid; gap: 8px; align-content: start; }
+.pcr-site .creviews .cr-stars { display: flex; color: #f5a524; }
+.pcr-site .creviews .cr-stars .ms { font-size: 18px; }
+.pcr-site .creviews blockquote { margin: 0; color: var(--ink); font-size: 14.5px; line-height: 1.5; }
+.pcr-site .creviews figcaption { display: grid; font-size: 13px; }
+.pcr-site .creviews figcaption small { color: var(--ink2); }
+.pcr-site .creviews .cr-stars .ms:not(.f) { color: #d9dde7; }

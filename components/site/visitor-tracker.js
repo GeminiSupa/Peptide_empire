@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { catalogUrl } from '@/lib/storefront/catalog-origin.mjs';
 import { captureAttribution, ATTRIBUTION_KEYS } from '@/lib/site/attribution.mjs';
+import { recordReferralScan } from '@/lib/site/crm.mjs';
 
 /**
  * Saves where the visitor came from, and reports the visit to the CRM.
@@ -97,6 +98,8 @@ export default function VisitorTracker({ enabled }) {
   useEffect(() => {
     captureAttribution();
     if (!enabled) return undefined;
+    // A QR code or agent / affiliate link: count the landing for the CRM.
+    recordReferralScan();
 
     let base;
     try {

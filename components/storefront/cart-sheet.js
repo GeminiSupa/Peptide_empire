@@ -8,7 +8,10 @@ import WhatsAppIcon from '@/components/storefront/whatsapp-glyph';
 import { cantonsIn, formatAddress, PROVINCES } from '@/lib/storefront/cr-regions.mjs';
 import { freeBacWaterImage } from '@/lib/storefront/cart-display.mjs';
 import { freeDeliveryProgress, freeShippingThreshold, nextTier, totalsFor } from '@/lib/storefront/cart-math.mjs';
-import { deliveryProgress } from '@/lib/site/quote.mjs';
+import { deliveryProgress, usablePromo } from '@/lib/site/quote.mjs';
+import { promoOrderFields } from '@/lib/site/promo.mjs';
+import { clearAbandonedCart, saveAbandonedCart, whatsappOptIn } from '@/lib/site/crm.mjs';
+import { countPromoEligibleUnits, minUnitsMessage } from '@/lib/catalog-pricing/promoEligibility.mjs';
 import { CARD_NOTICE } from '@/lib/storefront/content.mjs';
 import { canSubmitOrdersFrom } from '@/lib/storefront/catalog-origin.mjs';
 import {
@@ -82,7 +85,14 @@ export default function CartSheet({
   dealRunning = false,
   onPlaced = null,
   track = null,
+  // Promo / affiliate codes (the new design only; see lib/site/promo.mjs).
+  promo = null,
+  onApplyPromo = null,
+  onRemovePromo = null,
 }) {
+  const [promoInput, setPromoInput] = useState('');
+  const [promoError, setPromoError] = useState('');
+  const [promoBusy, setPromoBusy] = useState(false);
   const [step, setStep] = useState('cart');
   const [ack, setAck] = useState(false);
   const [details, setDetails] = useState({
@@ -103,6 +113,42 @@ export default function CartSheet({
   // and updates too late to stop a fast double click placing two orders.
   const placingRef = useRef(false);
   const upsellsRef = useRef(null);
+
+  // Card, ACH, crypto, SINPE and bank transfer leave this page with the order
+  // lock still held, so nothing can place a second order while the browser is
+  // navigating. Pressing Back can restore this page from the back/forward
+  // cache exactly as it was left — lock included — and then every Pay button
+  // silently did nothing. A restored page is a fresh visit: release the lock.
+  useEffect(() => {
+    const onPageShow = (event) => {
+      if (!event.persisted) return;
+      placingRef.current = false;
+      setBusy(false);
+    };
+    window.addEventListener('pageshow', onPageShow);
+    return () => window.removeEventListener('pageshow', onPageShow);
+  }, []);
+
+  // The cart, saved to the catalog's abandoned carts once the shopper has
+  // given a name, phone or email (as the catalog's checkout does), so staff
+  // and the WhatsApp recovery job can follow it up. Debounced: one save per
+  // pause in typing, not one per keystroke.
+  const cartSavedRef = useRef(false);
+  useEffect(() => {
+    if (!cart.length) {
+      // Emptied by hand after a save: nothing left to recover.
+      if (cartSavedRef.current) clearAbandonedCart();
+      cartSavedRef.current = false;
+      return undefined;
+    }
+    const timer = setTimeout(() => {
+      if (placingRef.current) return;
+      saveAbandonedCart({ cart, details, lang, currency }).then((saved) => {
+        if (saved) cartSavedRef.current = true;
+      });
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [cart, details.name, details.phone, details.email, lang, currency]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const stored = readDetails();
@@ -145,7 +191,10 @@ export default function CartSheet({
   const totals = useMemo(() => (quote ? {
     subtotal: quote.subtotal,
     discountAmount: quote.savings,
-    discountPct: Math.round(quote.discountPct * 100),
+    promoDiscount: quote.promoDiscount || 0,
+    promoApplied: Boolean(quote.promoApplied),
+    // The volume tier / deal share of the saving, as a percent of the subtotal.
+    discountPct: Math.round(((quote.savings - (quote.promoApplied ? quote.promoDiscount || 0 : 0)) / (quote.subtotal || 1)) * 100),
     shipping: quote.shipping,
     total: quote.total,
     dealApplied: quote.dealApplied,
@@ -245,6 +294,9 @@ export default function CartSheet({
     if (details.notes) {
       payload.internal_notes = `${payload.internal_notes} · ${details.notes}`;
     }
+    // The code travels with the order as the catalog's checkout sends it;
+    // checkout validates it again and prices with it.
+    Object.assign(payload, promoOrderFields(usablePromo(promo, cart)));
 
     const result = await submitOrder(payload);
     setBusy(false);
@@ -259,7 +311,9 @@ export default function CartSheet({
       return;
     }
 
+    cartSavedRef.current = false;
     onClear();
+    clearAbandonedCart();
 
     if (CHARGEX_CHOICES.includes(paymentMethod) && result.paymentToken) {
       // Held until the page leaves, so nothing can place a second order.
@@ -433,6 +487,60 @@ export default function CartSheet({
                     </div>
                   </div>
 
+                  {onApplyPromo ? (
+                    <div className="box promo-box">
+                      {promo ? (
+                        <>
+                          <div className="promo-on">
+                            <Ms name="sell" filled />
+                            <span>
+                              <b>{promo.code}</b>
+                              {` · ${Math.round(promo.discount_pct * 100)}% ${t('off')}`}
+                            </span>
+                            <button type="button" className="promo-x" aria-label={t('Remove code')} onClick={() => { onRemovePromo?.(); setPromoError(''); }}>
+                              <Ms name="close" />
+                            </button>
+                          </div>
+                          {(() => {
+                            const units = countPromoEligibleUnits(promo, cart.map((line) => ({ product: line.product, qty: line.qty })));
+                            const short = minUnitsMessage(promo, units, lang === 'en' ? 'en' : 'es');
+                            if (short) return <small className="promo-note">{short}</small>;
+                            if (quote && !quote.promoApplied && quote.dealApplied) {
+                              return <small className="promo-note">{t('The live deal saves you more on this cart, so it is applied instead of the code.')}</small>;
+                            }
+                            return null;
+                          })()}
+                        </>
+                      ) : (
+                        <form
+                          className="promo-form"
+                          onSubmit={async (event) => {
+                            event.preventDefault();
+                            if (!promoInput.trim() || promoBusy) return;
+                            setPromoBusy(true);
+                            setPromoError('');
+                            const reply = await onApplyPromo(promoInput);
+                            setPromoBusy(false);
+                            if (reply.valid || reply.pending) setPromoInput('');
+                            else setPromoError(reply.error || t('That code is not valid.'));
+                          }}
+                        >
+                          <input
+                            aria-label={t('Promo code')}
+                            placeholder={t('Promo or affiliate code')}
+                            autoCapitalize="characters"
+                            value={promoInput}
+                            onChange={(event) => setPromoInput(event.target.value)}
+                          />
+                          <button type="submit" disabled={!promoInput.trim() || promoBusy}>
+                            {promoBusy ? t('Checking…') : t('Apply code')}
+                          </button>
+                        </form>
+                      )}
+                      {promoError ? <small className="promo-err">{promoError}</small> : null}
+                    </div>
+                  ) : null}
+
                   {suggestions.length ? (
                     <div className="upsell">
                       <h4>
@@ -594,6 +702,15 @@ export default function CartSheet({
                     />
                   </div>
 
+                  <label className="optin">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(details.whatsappOptIn)}
+                      onChange={(event) => update({ whatsappOptIn: event.target.checked })}
+                    />
+                    <span>{t('Send me order updates and offers on WhatsApp')}</span>
+                  </label>
+
                   {/* A bot fills this; a person never sees it. Checkout scores
                       it and strips the key before the insert. */}
                   <input
@@ -671,7 +788,13 @@ export default function CartSheet({
                       <span>{t('Products')}</span>
                       <span className="num">{money(totals.subtotal, totals.subtotal)}</span>
                     </div>
-                    {totals.discountAmount > 0 ? (
+                    {totals.promoApplied && totals.promoDiscount > 0 ? (
+                      <div>
+                        <span>{`${t('Code')} ${promo?.code || ''}`}</span>
+                        <span className="ok num">{`−${money(totals.promoDiscount, totals.promoDiscount)}`}</span>
+                      </div>
+                    ) : null}
+                    {totals.discountAmount - (totals.promoApplied ? totals.promoDiscount : 0) > 0 ? (
                       <div>
                         <span>
                           {totals.dealApplied
@@ -679,7 +802,10 @@ export default function CartSheet({
                             : t(`${totals.discountPct}% bulk discount`)}
                         </span>
                         <span className="ok num">
-                          {`−${money(totals.discountAmount, totals.discountAmount)}`}
+                          {(() => {
+                            const amount = totals.discountAmount - (totals.promoApplied ? totals.promoDiscount : 0);
+                            return `−${money(amount, amount)}`;
+                          })()}
                         </span>
                       </div>
                     ) : null}
@@ -862,6 +988,8 @@ export default function CartSheet({
                     if (problem) { setError(problem); return; }
                     setError('');
                     setStep('pay');
+                    track?.('add_shipping_info', { shipping_tier: 'delivery' });
+                    if (details.whatsappOptIn) whatsappOptIn({ phone: details.phone, lang });
                   }}
                 >
                   {t('Continue to payment')}

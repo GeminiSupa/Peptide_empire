@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { recordProductView } from '@/lib/site/crm.mjs';
 import Ms from '@/components/storefront/icon';
 import ProductImage from '@/components/storefront/product-image';
 import { useSite } from '@/components/site/site-provider';
@@ -55,6 +56,15 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
       event: 'view_item',
       ecommerce: ecommerceData([{ name: compound.name, size: variant.size, priceUsd: variant.priceUsd, qty: 1, category: compound.category }]),
     });
+    // The CRM's record of what this visitor looked at, as the catalog keeps it.
+    let contact = null;
+    try {
+      const saved = JSON.parse(window.localStorage.getItem('pcr_store_details') || '{}');
+      contact = String(saved.phone || '').replace(/\D/g, '') || String(saved.email || '').trim() || null;
+    } catch {
+      // Anonymous view.
+    }
+    recordProductView({ product: variant.product, productId: variant.id, contact });
     // Once per page view, for the strength the page opened on.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

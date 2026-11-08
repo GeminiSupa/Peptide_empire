@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import CopyBlock from '@/components/site/copy-block';
+import ListViewEvent from '@/components/site/list-view-event';
 import Faq from '@/components/site/faq';
 import ProductGrid from '@/components/site/product-grid';
 import { CategoryTiles } from '@/components/site/blocks';
@@ -98,6 +99,7 @@ export default function CategoryPage({ lang, site, category, h1, copy }) {
           <span><span className="ms">redeem</span>{t('Free BAC Water')}</span>
         </div>
 
+        <ListViewEvent listName={category.name || h1} compounds={compounds} />
         <ProductGrid compounds={compounds} id="cgrid" />
 
         <div className="midcta wide">
