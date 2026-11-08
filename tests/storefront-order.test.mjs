@@ -4,7 +4,10 @@ import {
   HONEYPOT_FIELD,
   PAYMENT_METHODS,
   RESEARCH_ACK_VERSION,
+  CHECKOUT_CHOICES,
+  bankPaymentUrl,
   buildOrderPayload,
+  chargexTypeFor,
   cardPaymentUrl,
   hasCustomerName,
   newOrderNumber,
@@ -51,8 +54,47 @@ test('an order number satisfies checkout\'s own pattern', () => {
   assert.match(newOrderNumber(), /^W-/);
 });
 
-test('only the two payment methods checkout accepts', () => {
-  assert.deepEqual(PAYMENT_METHODS, ['card', 'whatsapp']);
+test('only the payment methods checkout stores', () => {
+  // catalog /api/orders/create refuses anything else.
+  assert.deepEqual(PAYMENT_METHODS, ['card', 'whatsapp', 'sinpe', 'bank_transfer']);
+});
+
+test('the six catalog options, saved the way the catalog saves them', () => {
+  assert.deepEqual(CHECKOUT_CHOICES, ['card', 'whatsapp', 'sinpe', 'bank_transfer', 'ach', 'crypto']);
+  // ACH and crypto are Chargex card orders, so the card's double-charge lock covers them.
+  for (const choice of ['card', 'ach', 'crypto']) {
+    const order = payload({ paymentMethod: choice });
+    assert.equal(order.payment_method, 'card', choice);
+    assert.equal(order.status, 'Pending - Card', choice);
+  }
+  assert.equal(chargexTypeFor('ach'), 'ach');
+  assert.equal(chargexTypeFor('crypto'), 'crypto');
+  assert.equal(chargexTypeFor('card'), 'card');
+  assert.match(payload({ paymentMethod: 'ach' }).internal_notes, /ACH/);
+  assert.match(payload({ paymentMethod: 'crypto' }).internal_notes, /Crypto/);
+  for (const choice of ['sinpe', 'bank_transfer', 'whatsapp']) {
+    const order = payload({ paymentMethod: choice });
+    assert.equal(order.payment_method, choice);
+    assert.equal(order.status, 'Pending');
+    assert.ok(PAYMENT_METHODS.includes(order.payment_method));
+  }
+});
+
+test('each option continues on the catalog page that takes its payment', () => {
+  assert.equal(cardPaymentUrl('W-1', 'tok'), 'https://catalog.peptidescostarica.net/pay-card/W-1/tok');
+  assert.equal(cardPaymentUrl('W-1', 'tok', 'ach'), 'https://catalog.peptidescostarica.net/pay-card?order=W-1&token=tok&type=ach');
+  assert.equal(cardPaymentUrl('W-1', 'tok', 'crypto'), 'https://catalog.peptidescostarica.net/pay-card?order=W-1&token=tok&type=crypto');
+  assert.equal(bankPaymentUrl('a.b', 'en'), 'https://catalog.peptidescostarica.net/pay-bank?lang=en#a.b');
+  assert.equal(bankPaymentUrl('a.b', 'xx'), 'https://catalog.peptidescostarica.net/pay-bank?lang=es#a.b');
+});
+
+test('the bank page token comes back from checkout', async () => {
+  globalThis.fetch = async () => new Response(
+    JSON.stringify({ ok: true, id: 'row-9', orderNumber: 'W-TEST-ABCD', bankPaymentToken: 'bank-tok' }),
+    { status: 200, headers: { 'content-type': 'application/json' } },
+  );
+  const result = await submitOrder(payload({ paymentMethod: 'sinpe' }));
+  assert.equal(result.bankPaymentToken, 'bank-tok');
 });
 
 test('checkout accepts customers who legitimately use a single name', () => {

@@ -12,8 +12,12 @@ import { deliveryProgress } from '@/lib/site/quote.mjs';
 import { CARD_NOTICE } from '@/lib/storefront/content.mjs';
 import { canSubmitOrdersFrom } from '@/lib/storefront/catalog-origin.mjs';
 import {
+  BANK_CHOICES,
+  CHARGEX_CHOICES,
+  bankPaymentUrl,
   buildOrderPayload,
   cardPaymentUrl,
+  chargexTypeFor,
   hasCustomerName,
   newOrderNumber,
   submitOrder,
@@ -43,10 +47,17 @@ function readDetails() {
  *
  * Nothing is priced or saved here. The order is posted to the catalog's
  * `/api/orders/create`, which re-prices it from the database and is the only
- * thing that decides what is charged. A card order then continues on the
- * catalog's own `/pay-card` page; a WhatsApp order opens a prepared message.
+ * thing that decides what is charged. The six payment options are the
+ * catalog checkout's own, and each continues where the catalog's does:
  *
- * Both paths save the order FIRST. An order that exists but was never paid is
+ * - Card, Bank (ACH), Crypto: the catalog's `/pay-card` page, which opens
+ *   Chargex. All three are saved as card orders, as the catalog saves them,
+ *   so the catalog's "one payment at a time" lock stops a second charge.
+ * - SINPE Móvil, bank transfer: the catalog's `/pay-bank` page, with the
+ *   account to pay into. Shown as coming soon when staff have them off.
+ * - WhatsApp: a prepared message.
+ *
+ * Every path saves the order FIRST. An order that exists but was never paid is
  * a lead the staff can call back; a WhatsApp message with no order behind it
  * is nothing at all.
  */
@@ -85,6 +96,12 @@ export default function CartSheet({
   const [busy, setBusy] = useState(false);
   const [honeypot, setHoneypot] = useState('');
   const [canSubmit, setCanSubmit] = useState(true);
+  // SINPE and bank transfer, as switched on in the catalog admin. Off until
+  // confirmed, as in the catalog.
+  const [bankMethods, setBankMethods] = useState({ sinpe: false, bank_transfer: false });
+  // Blocks a second click the instant the first lands: `busy` is React state
+  // and updates too late to stop a fast double click placing two orders.
+  const placingRef = useRef(false);
   const upsellsRef = useRef(null);
 
   useEffect(() => {
@@ -94,6 +111,21 @@ export default function CartSheet({
     }
     setCanSubmit(canSubmitOrdersFrom(window.location.origin));
   }, []);
+
+  // Read when the sheet loads, so the answer is in long before the payment
+  // step, and again on reaching it, so a method staff just switched on or off
+  // is shown as it is now. Every answer is applied: they all describe the same
+  // setting, and dropping one (as a cancelled effect did) left SINPE and bank
+  // transfer greyed out although they were on.
+  useEffect(() => {
+    if (step !== 'cart' && step !== 'pay') return;
+    fetch('/api/bank-methods/', { cache: 'no-store' })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data) => {
+        if (data) setBankMethods({ sinpe: data.sinpe === true, bank_transfer: data.bank_transfer === true });
+      })
+      .catch(() => {});
+  }, [step]);
 
   const update = (patch) => {
     setDetails((current) => {
@@ -175,13 +207,19 @@ export default function CartSheet({
   }
 
   async function place(paymentMethod) {
+    if (placingRef.current) return; // an order is already being placed
     const problem = validate();
     if (problem) {
       setError(problem);
       setStep(ack ? 'details' : 'cart');
       return;
     }
+    if (BANK_CHOICES.includes(paymentMethod) && !bankMethods[paymentMethod]) {
+      setError(t('This payment method is not available right now. Please choose another.'));
+      return;
+    }
 
+    placingRef.current = true;
     setBusy(true);
     setError('');
 
@@ -195,7 +233,7 @@ export default function CartSheet({
         idNumber: details.cedula || null,
       },
       paymentMethod,
-      offCardMethod: paymentMethod === 'card' ? null : 'sinpe',
+      offCardMethod: paymentMethod === 'whatsapp' ? 'sinpe' : null,
       currency,
       exchangeRate,
       lang,
@@ -210,6 +248,7 @@ export default function CartSheet({
 
     const result = await submitOrder(payload);
     setBusy(false);
+    placingRef.current = false;
 
     if (!result.ok) {
       if (result.errorCode === 'price_increased') {
@@ -222,8 +261,16 @@ export default function CartSheet({
 
     onClear();
 
-    if (paymentMethod === 'card' && result.paymentToken) {
-      window.location.href = cardPaymentUrl(result.orderNumber, result.paymentToken);
+    if (CHARGEX_CHOICES.includes(paymentMethod) && result.paymentToken) {
+      // Held until the page leaves, so nothing can place a second order.
+      placingRef.current = true;
+      window.location.href = cardPaymentUrl(result.orderNumber, result.paymentToken, chargexTypeFor(paymentMethod));
+      return;
+    }
+
+    if (BANK_CHOICES.includes(paymentMethod) && result.bankPaymentToken) {
+      placingRef.current = true;
+      window.location.href = bankPaymentUrl(result.bankPaymentToken, lang);
       return;
     }
 
@@ -592,6 +639,31 @@ export default function CartSheet({
                       <b>WhatsApp</b>
                       <small>{t('SINPE, transfer or cash on delivery')}</small>
                     </button>
+                    {[
+                      { value: 'sinpe', icon: 'smartphone', title: 'SINPE Móvil', detail: t('From any participating bank · CRC'), off: !bankMethods.sinpe },
+                      { value: 'bank_transfer', icon: 'account_balance', title: t('Bank transfer'), detail: t('Any Costa Rican bank · CRC or USD'), off: !bankMethods.bank_transfer },
+                      { value: 'ach', icon: 'account_balance_wallet', title: 'ACH', detail: t('US bank account · USD'), off: false },
+                      { value: 'crypto', icon: 'currency_bitcoin', title: t('Crypto'), detail: t('Cryptocurrency · USD value'), off: false },
+                    ].map((option) => (
+                      <button
+                        key={option.value}
+                        className="method"
+                        type="button"
+                        aria-pressed={method === option.value}
+                        disabled={option.off}
+                        style={option.off ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
+                        onClick={() => {
+                          if (option.off) return;
+                          setMethod(option.value);
+                          setError('');
+                          track?.('add_payment_info', { payment_type: option.value });
+                        }}
+                      >
+                        <Ms name={option.icon} />
+                        <b>{option.title}</b>
+                        <small>{option.off ? t('Coming soon') : option.detail}</small>
+                      </button>
+                    ))}
                   </div>
 
                   <div className="box paysum">
@@ -670,6 +742,40 @@ export default function CartSheet({
                         {t("That's us. If you have a question about the charge, message us first and we'll sort it out.")}
                       </p>
                     </div>
+                  ) : method === 'ach' || method === 'crypto' ? (
+                    <div className="cardinfo">
+                      <div className="ci-h">
+                        <Ms name="lock" filled />
+                        <span>
+                          <b>{method === 'ach' ? t('Bank (ACH) payment') : t('Crypto payment')}</b>
+                          <small>{`${t('Processed by')} ${CARD_NOTICE.processor}`}</small>
+                        </span>
+                      </div>
+                      <ul>
+                        <li>
+                          <Ms name="shield_lock" />
+                          <span>
+                            {method === 'ach'
+                              ? t('The next page is Chargex, our payment processor. You enter your US bank account details there. We never see them.')
+                              : t('The next page is Chargex, our payment processor. You send the crypto payment from there. We never handle your wallet.')}
+                          </span>
+                        </li>
+                        <li>
+                          <Ms name="info" />
+                          <span>
+                            {method === 'ach'
+                              ? t('Bank payments can take a few business days to confirm. ACH is for US bank accounts only.')
+                              : t('Your total is priced in US dollars. Chargex shows you what to send on the next page.')}
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+                  ) : method === 'sinpe' || method === 'bank_transfer' ? (
+                    <p className="muted" role="status" style={{ fontSize: '13.5px', margin: '14px 0 8px' }}>
+                      {method === 'sinpe'
+                        ? t(`Pay from any participating bank in colones: ₡${Math.round(currency === 'CRC' ? totals.total : totals.total * exchangeRate).toLocaleString('en-US')}. We will show the SINPE number after you place the order.`)
+                        : t(`Transfer from any bank in ${currency}. We will show the receiving account after you place the order and confirm payment after the funds arrive.`)}
+                    </p>
                   ) : method === 'whatsapp' ? (
                     <>
                       <p className="muted" style={{ fontSize: '13.5px', margin: '14px 0 8px' }}>
@@ -765,12 +871,18 @@ export default function CartSheet({
                 <button
                   className="btn block"
                   type="button"
-                  disabled={!method || busy || !canSubmit}
+                  disabled={!method || busy || !canSubmit || (BANK_CHOICES.includes(method) && !bankMethods[method])}
                   onClick={() => place(method)}
                 >
                   {busy ? t('Working…') : method === 'card'
                     ? `${t('Pay')} ${money(totals.total, totals.total)} ${t('by Card')}`
-                    : t('Send on WhatsApp')}
+                    : method === 'ach'
+                      ? `${t('Pay')} ${money(totals.total, totals.total)} ${t('by Bank (ACH)')}`
+                      : method === 'crypto'
+                        ? `${t('Pay')} ${money(totals.total, totals.total)} ${t('with Crypto')}`
+                        : BANK_CHOICES.includes(method)
+                          ? `${t('Place order')} · ${money(totals.total, totals.total)}`
+                          : t('Send on WhatsApp')}
                 </button>
               )}
             </div>
