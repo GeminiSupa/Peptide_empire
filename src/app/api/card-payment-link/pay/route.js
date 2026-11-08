@@ -5,7 +5,7 @@ import {
   getPublicBaseUrl,
   verifyCardPaymentAccessToken,
 } from '@/lib/cardPaymentLink';
-import { isChargxConfigured, createChargxCardCheckout, withChargxCheckoutDetails } from '@/lib/chargxPay.mjs';
+import { isChargxConfigured, createChargxCardCheckout, normalizeChargxPaymentType, withChargxCheckoutDetails } from '@/lib/chargxPay.mjs';
 import { claimOrderForPayment, releaseOrderClaim, describeOrderPaymentState } from '@/lib/cardPaymentLock';
 import { markActiveAbandonedCartsConvertedForOrder } from '@/lib/abandonedCartRecovery.mjs';
 import { classifyPaymentOutcome, declineReasonFrom, gatewayStatusToOrderStatus, ORDER_STATUS } from '@/lib/paymentOutcome.mjs';
@@ -56,6 +56,11 @@ export async function POST(request) {
   try {
     const body = await request.json();
     const { orderNumber, token, customerEmail, lang = 'es' } = body;
+    // card (default), ach or crypto: which Chargex page to open, exactly as
+    // /api/chargx/process-card takes it from the catalog checkout. The order
+    // stays a card order either way, so the claim below still allows only
+    // one payment at a time.
+    const payType = normalizeChargxPaymentType(body?.payType);
     customerLang = lang === 'en' ? 'en' : 'es';
 
     // The kill switch, ahead of every other check. A payment link already sent
@@ -133,7 +138,8 @@ export async function POST(request) {
     try {
       const page = await createChargxCardCheckout({
         amount: amountUsd.toFixed(2),
-        successUrl: `${baseUrl}/thank-you?lang=${encodeURIComponent(lang)}&order=${encodeURIComponent(order.order_number)}&payment=card`,
+        type: payType,
+        successUrl: `${baseUrl}/thank-you?lang=${encodeURIComponent(lang)}&order=${encodeURIComponent(order.order_number)}&payment=${payType}`,
         cancelUrl: `${baseUrl}${buildPaymentRecoveryPath(order.order_number, ORDER_STATUS.CARD_3DS)}&lang=${encodeURIComponent(lang)}`,
       });
       transaction = {

@@ -26,6 +26,10 @@ function CardPaymentContent() {
   const searchParams = useSearchParams();
   const orderNumber = searchParams.get('order') || '';
   const token = searchParams.get('token') || '';
+  // card (default), ach or crypto — the website's Bank (ACH) and Crypto
+  // options land here too, as the catalog checkout's own tiles do.
+  const requestedType = String(searchParams.get('type') || '').toLowerCase();
+  const payType = requestedType === 'ach' || requestedType === 'crypto' ? requestedType : 'card';
   const { links } = useBusinessLinks();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -100,7 +104,8 @@ function CardPaymentContent() {
     // Keep this Costa Peptides tab on the recovery instructions while Chargex
     // handles the card in a separate tab. Chargex can reject an invalid card
     // without returning to us, so this is the only reliable browser-side exit.
-    const hostedPaymentWindow = window.open('', '_blank');
+    // Card only, as in the catalog checkout: ACH and crypto open in this tab.
+    const hostedPaymentWindow = payType === 'card' ? window.open('', '_blank') : null;
     if (hostedPaymentWindow) {
       hostedPaymentWindow.document.title = isEn ? 'Opening secure payment…' : 'Abriendo pago seguro…';
       hostedPaymentWindow.document.body.textContent = isEn
@@ -116,6 +121,7 @@ function CardPaymentContent() {
           token,
           lang,
           customerEmail: form.email.trim(),
+          payType,
         }),
       });
       const data = await res.json();
@@ -157,7 +163,13 @@ function CardPaymentContent() {
       <section className="card-pay-shell">
         <div className="card-pay-brand">
           <img src="/logo.png" alt="Peptides Costa Rica" />
-          <span>{isEn ? 'Secure card payment' : 'Pago seguro con tarjeta'}</span>
+          <span>
+            {payType === 'ach'
+              ? (isEn ? 'Secure bank payment (ACH)' : 'Pago bancario seguro (ACH)')
+              : payType === 'crypto'
+                ? (isEn ? 'Secure crypto payment' : 'Pago seguro con cripto')
+                : (isEn ? 'Secure card payment' : 'Pago seguro con tarjeta')}
+          </span>
         </div>
 
         {/* First branch in the chain on purpose. A link that arrived before the
@@ -249,7 +261,11 @@ function CardPaymentContent() {
                 ))}
               </div>
               <div className="card-pay-total-row">
-                <span>{isEn ? 'Card charge' : 'Cargo a tarjeta'}</span>
+                <span>
+                  {payType === 'card'
+                    ? (isEn ? 'Card charge' : 'Cargo a tarjeta')
+                    : (isEn ? 'Amount to pay' : 'Monto a pagar')}
+                </span>
                 <strong>{formatMoney(order.cardAmountUsd, 'USD')}</strong>
               </div>
               {order.currency === 'CRC' && (
@@ -257,6 +273,7 @@ function CardPaymentContent() {
                   {isEn ? 'Order total' : 'Total de la orden'}: {formatMoney(order.totalCrc, 'CRC')}
                 </p>
               )}
+              {payType === 'card' && (<>
               <p className="card-pay-note">
                 <Lock size={14} />
                 {isEn
@@ -280,6 +297,7 @@ function CardPaymentContent() {
                   </li>
                 </ul>
               </div>
+              </>)}
             </aside>
 
             <form className="card-pay-panel card-pay-form" onSubmit={submitPayment}>
@@ -288,9 +306,17 @@ function CardPaymentContent() {
                 <h2>{isEn ? 'Pay on Chargex' : 'Pagar en Chargex'}</h2>
               </div>
               <p className="card-pay-muted">
-                {isEn
-                  ? 'The next page is Chargex. You enter the card there. We never see the card number.'
-                  : 'La siguiente página es Chargex. Ahí escribe la tarjeta. Nosotros nunca vemos el número.'}
+                {payType === 'ach'
+                  ? (isEn
+                    ? 'The next page is Chargex, our payment processor. You enter your US bank account details there. We never see them.'
+                    : 'La siguiente página es Chargex, nuestro procesador de pagos. Ahí escribe los datos de su cuenta bancaria de EE. UU. Nosotros nunca los vemos.')
+                  : payType === 'crypto'
+                    ? (isEn
+                      ? 'The next page is Chargex, our payment processor. You send the crypto payment from there. We never handle your wallet.'
+                      : 'La siguiente página es Chargex, nuestro procesador de pagos. Desde ahí envía el pago en cripto. Nosotros nunca manejamos su billetera.')
+                    : (isEn
+                      ? 'The next page is Chargex. You enter the card there. We never see the card number.'
+                      : 'La siguiente página es Chargex. Ahí escribe la tarjeta. Nosotros nunca vemos el número.')}
               </p>
               <label>
                 <span>{isEn ? 'Email for receipt' : 'Correo para recibo'}</span>
