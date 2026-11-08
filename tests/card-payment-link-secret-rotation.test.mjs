@@ -96,3 +96,37 @@ test('an expired checkout token is still refused', async () => {
     null,
   );
 });
+
+test('the shared payment page accepts both checkout and staff payment-link tokens', async () => {
+  const mod = await freshModule({ CARD_PAYMENT_LINK_SECRET: CHARGX_ERA });
+  const checkout = mod.createCardCheckoutToken('W-TEST-CARD', 'order-row-9');
+  const paymentLink = mod.signCardPaymentOrder('W-TEST-CARD');
+
+  assert.deepEqual(
+    mod.verifyCardPaymentAccessToken('W-TEST-CARD', checkout),
+    { kind: 'checkout', orderId: 'order-row-9' },
+  );
+  assert.deepEqual(
+    mod.verifyCardPaymentAccessToken('W-TEST-CARD', paymentLink),
+    { kind: 'payment_link', orderId: null },
+  );
+});
+
+test('checkout access stays bound to its card order row', async () => {
+  const mod = await freshModule({ CARD_PAYMENT_LINK_SECRET: CHARGX_ERA });
+  const token = mod.createCardCheckoutToken('W-TEST-BOUND', 'order-row-10');
+  const access = mod.verifyCardPaymentAccessToken('W-TEST-BOUND', token);
+
+  assert.equal(mod.cardPaymentAccessMatchesOrder(access, {
+    id: 'order-row-10',
+    payment_method: 'card',
+  }), true);
+  assert.equal(mod.cardPaymentAccessMatchesOrder(access, {
+    id: 'a-different-row',
+    payment_method: 'card',
+  }), false);
+  assert.equal(mod.cardPaymentAccessMatchesOrder(access, {
+    id: 'order-row-10',
+    payment_method: 'whatsapp',
+  }), false);
+});

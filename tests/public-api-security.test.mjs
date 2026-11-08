@@ -104,6 +104,8 @@ test('all service-consuming routes carry their required guards', () => {
   const createOrder = fs.readFileSync('src/app/api/orders/create/route.js', 'utf8');
   const ai = fs.readFileSync('src/app/api/ai/route.js', 'utf8');
   const card = fs.readFileSync('src/app/api/chargx/process-card/route.js', 'utf8');
+  const cardPaymentOrder = fs.readFileSync('src/app/api/card-payment-link/order/route.js', 'utf8');
+  const cardPaymentPay = fs.readFileSync('src/app/api/card-payment-link/pay/route.js', 'utf8');
   const catalog = fs.readFileSync('src/app/catalog/page.js', 'utf8');
 
   assert.match(orderMail, /verifyInternalRequest/);
@@ -118,4 +120,8 @@ test('all service-consuming routes carry their required guards', () => {
   assert.match(ai, /bucket: 'customer-ai-ip'/);
   assert.match(card, /verifyCardCheckoutToken/);
   assert.match(card, /bucket: 'card-attempt-order'/);
+  assert.match(cardPaymentOrder, /verifyCardPaymentAccessToken/);
+  assert.match(cardPaymentOrder, /cardPaymentAccessMatchesOrder/);
+  assert.match(cardPaymentPay, /verifyCardPaymentAccessToken/);
+  assert.match(cardPaymentPay, /cardPaymentAccessMatchesOrder/);
 });

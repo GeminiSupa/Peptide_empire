@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
-import { verifyCardPaymentOrderToken, getPublicBaseUrl } from '@/lib/cardPaymentLink';
+import {
+  cardPaymentAccessMatchesOrder,
+  getPublicBaseUrl,
+  verifyCardPaymentAccessToken,
+} from '@/lib/cardPaymentLink';
 import { isChargxConfigured, createChargxCardCheckout, withChargxCheckoutDetails } from '@/lib/chargxPay.mjs';
 import { claimOrderForPayment, releaseOrderClaim, describeOrderPaymentState } from '@/lib/cardPaymentLock';
 import { markActiveAbandonedCartsConvertedForOrder } from '@/lib/abandonedCartRecovery.mjs';
@@ -71,7 +75,8 @@ export async function POST(request) {
       return stopPayment('link_invalid', lang, 400, 'Payment link is missing order or token details');
     }
 
-    if (!verifyCardPaymentOrderToken(orderNumber, token)) {
+    const access = verifyCardPaymentAccessToken(orderNumber, token);
+    if (!access) {
       return stopPayment('link_invalid', lang, 403, 'Payment link signature is invalid');
     }
 
@@ -87,6 +92,10 @@ export async function POST(request) {
 
     if (error || !order) {
       return stopPayment('link_invalid', lang, 404, error?.message || 'Order not found');
+    }
+
+    if (!cardPaymentAccessMatchesOrder(access, order)) {
+      return stopPayment('link_invalid', lang, 403, 'Checkout authorization does not match this card order');
     }
 
     const currentStatus = String(order.status || '').toLowerCase();

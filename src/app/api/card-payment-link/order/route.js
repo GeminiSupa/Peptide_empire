@@ -1,7 +1,10 @@
 import { createAnalyticsReceiptToken } from '@/lib/analyticsReceiptToken';
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
-import { verifyCardPaymentOrderToken } from '@/lib/cardPaymentLink';
+import {
+  cardPaymentAccessMatchesOrder,
+  verifyCardPaymentAccessToken,
+} from '@/lib/cardPaymentLink';
 
 export const runtime = 'nodejs';
 
@@ -41,19 +44,24 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Payment link is missing order or token details' }, { status: 400 });
     }
 
-    if (!verifyCardPaymentOrderToken(orderNumber, token)) {
+    const access = verifyCardPaymentAccessToken(orderNumber, token);
+    if (!access) {
       return NextResponse.json({ error: 'Payment link signature is invalid. Please request a fresh card payment link.' }, { status: 403 });
     }
 
     const supabase = getSupabaseAdmin();
     const { data: order, error } = await supabase
       .from('orders')
-      .select('id, order_number, customer_name, customer_email, customer_phone, shipping_address, currency, total_usd, total_crc, status, items')
+      .select('id, order_number, customer_name, customer_email, customer_phone, shipping_address, currency, total_usd, total_crc, status, items, payment_method')
       .eq('order_number', orderNumber)
       .single();
 
     if (error || !order) {
       return NextResponse.json({ error: error?.message || 'Order not found' }, { status: 404 });
+    }
+
+    if (!cardPaymentAccessMatchesOrder(access, order)) {
+      return NextResponse.json({ error: 'Payment link signature is invalid. Please request a fresh card payment link.' }, { status: 403 });
     }
 
     return NextResponse.json({ ok: true, order: publicOrder(order), analyticsReceiptToken: createAnalyticsReceiptToken(order.order_number, order.id) });

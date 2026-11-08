@@ -113,6 +113,34 @@ export function verifyCardCheckoutToken(token, orderNumber, { now = Date.now() }
   }
 }
 
+/**
+ * Authorize either way a customer can reach the shared payment page.
+ *
+ * Staff-issued payment links use a durable order-number signature. A checkout
+ * that has just saved a card order receives a short-lived token bound to the
+ * row id. The payment page serves both flows, so it must recognise both token
+ * formats without weakening the checkout token's expiry or row binding.
+ */
+export function verifyCardPaymentAccessToken(orderNumber, token, options = {}) {
+  const checkout = verifyCardCheckoutToken(token, orderNumber, options);
+  if (checkout) {
+    return { kind: 'checkout', orderId: String(checkout.orderId) };
+  }
+  if (verifyCardPaymentOrderToken(orderNumber, token)) {
+    return { kind: 'payment_link', orderId: null };
+  }
+  return null;
+}
+
+/** The short-lived checkout authorization must still belong to this card row. */
+export function cardPaymentAccessMatchesOrder(access, order) {
+  if (!access || !order) return false;
+  if (access.kind === 'payment_link') return true;
+  return access.kind === 'checkout'
+    && String(order.id || '') === access.orderId
+    && String(order.payment_method || '').toLowerCase() === 'card';
+}
+
 export const CARD_CHECKOUT_TOKEN_TTL_SECONDS = CHECKOUT_TOKEN_TTL_SECONDS;
 
 export function buildCardPaymentPath(orderNumber) {
