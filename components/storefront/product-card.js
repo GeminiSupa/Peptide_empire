@@ -44,7 +44,10 @@ export default function ProductCard({
     <article className="card">
       <a className="ph" href={href} aria-label={`${t('View')} ${compound.name}`}>
         <div className="tags">
-          {compound.best ? <span className="tg best">{t('Best seller')}</span> : <span />}
+          {/* The admin's sale ribbon leads; otherwise the best-seller tag. */}
+          {variant.ribbon
+            ? <span className="tg promo">{variant.ribbon}</span>
+            : compound.best ? <span className="tg best">{t('Best seller')}</span> : <span />}
           {compound.inStock ? null : <span className="tg oos">{t('Out of stock')}</span>}
         </div>
         <ProductImage loading="lazy" src={variant.image || compound.image} alt={`${compound.name} ${variant.size}`} />
@@ -95,6 +98,8 @@ export default function ProductCard({
 
         <div className="pr">
           <b className="num">{money(variant.priceCrc, variant.priceUsd)}</b>
+          {/* A sale set in the admin: the price before it, struck through. */}
+          {variant.wasUsd ? <s className="was num">{money(variant.wasCrc, variant.wasUsd)}</s> : null}
           <small>
             {t('per vial')}
             {variant.inStock ? '' : ` · ${t('out of stock')}`}

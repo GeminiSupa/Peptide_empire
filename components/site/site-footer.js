@@ -27,8 +27,8 @@ const POLICY_LINKS = [
 ];
 
 /** The prototype's footer. Server-rendered: every link is in the page source. */
-export default function SiteFooter({ t, lang, links, categories, reviews }) {
-  const whatsapp = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(t("Hi! I'd like to order."))}`;
+export default function SiteFooter({ t, lang, links, categories, reviews, contact = CONTACT }) {
+  const whatsapp = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(t("Hi! I'd like to order."))}`;
   return (
     <footer className="sfoot">
       <div className="wrap">
@@ -66,9 +66,9 @@ export default function SiteFooter({ t, lang, links, categories, reviews }) {
           </div>
           <div>
             <h4>{t('Contact Us')}</h4>
-            <a href={`mailto:${CONTACT.email}`}><Ms name="mail" />{CONTACT.email}</a>
-            <a href={CONTACT.phoneCrHref}><Ms name="call" />CR {CONTACT.phoneCr}</a>
-            <a href={CONTACT.phoneUsHref}><Ms name="call" />US {CONTACT.phoneUs}</a>
+            <a href={`mailto:${contact.email}`}><Ms name="mail" />{contact.email}</a>
+            <a href={contact.phoneCrHref}><Ms name="call" />CR {contact.phoneCr}</a>
+            <a href={contact.phoneUsHref}><Ms name="call" />US {contact.phoneUs}</a>
             <a href={whatsapp} target="_blank" rel="noopener noreferrer">
               <span className="wai"><WhatsAppGlyph /></span>
               {t('Order on WhatsApp')}

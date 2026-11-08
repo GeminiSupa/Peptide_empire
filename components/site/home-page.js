@@ -65,7 +65,7 @@ export default function HomePage({ lang, h1, site }) {
               ) : (
                 <a
                   className="btn ghost on-dark"
-                  href={`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(t('Hi! I have a question before ordering.'))}`}
+                  href={`https://wa.me/${(site.contact || CONTACT).whatsapp}?text=${encodeURIComponent(t('Hi! I have a question before ordering.'))}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cta="home-hero"
@@ -140,7 +140,7 @@ export default function HomePage({ lang, h1, site }) {
           <div>
             <h3>{t('Your Trusted Peptide Supplier in Costa Rica')}</h3>
             <p>{t('Research peptides from certified laboratories, handled under controlled conditions, for researchers across Costa Rica.')}</p>
-            <a className="btn ghost" href="tel:+50684046973">{t('Call to order')}</a>
+            <a className="btn ghost" href={(site.contact || CONTACT).phoneCrHref}>{t('Call to order')}</a>
           </div>
         </div>
       </Section>

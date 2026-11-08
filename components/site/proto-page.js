@@ -1,3 +1,4 @@
+import { contactReplacements } from '@/lib/site/admin-settings.mjs';
 import { createElement, Fragment } from 'react';
 import Link from 'next/link';
 import CopyBlock from '@/components/site/copy-block';
@@ -207,11 +208,14 @@ function render(node, ctx, key) {
       props.src = imageUrl(value.replace('https://peptidescostarica.net', '').replace(/\.(jpe?g|png)\.webp$/i, '.$1'));
       continue;
     }
-    props[ATTR_NAMES[name] || name] = value;
+    // The design's phone, email and WhatsApp links, as the admin has set them.
+    props[ATTR_NAMES[name] || name] = name === 'href'
+      ? ctx.vars.contactPairs.reduce((out, [from, to]) => out.split(from).join(to), value)
+      : value;
   }
 
   if (tag === 'a' && attrs?.['data-wa'] != null) {
-    props.href = `https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(ctx.t(attrs['data-wa']))}`;
+    props.href = `https://wa.me/${(ctx.site.contact || CONTACT).whatsapp}?text=${encodeURIComponent(ctx.t(attrs['data-wa']))}`;
     props.target = '_blank';
     props.rel = 'noopener noreferrer';
   }
@@ -278,7 +282,9 @@ export default function ProtoPage({ tree, lang, site, h1, copy, replacements = [
       compoundCount: site.compounds.length,
       coaCount: site.compounds.filter((compound) => compound.coa).length,
       freeShippingLabel: site.freeShippingLabel,
-      replacements,
+      // The design's contact details, wherever written, become the admin's.
+      replacements: [...replacements, ...contactReplacements(site.contact || CONTACT)],
+      contactPairs: contactReplacements(site.contact || CONTACT),
     },
     state: { h1Done: false, kicker: false, inHero: false },
   };

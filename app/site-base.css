@@ -262,3 +262,7 @@
 .pcr-site .creviews figcaption { display: grid; font-size: 13px; }
 .pcr-site .creviews figcaption small { color: var(--ink2); }
 .pcr-site .creviews .cr-stars .ms:not(.f) { color: #d9dde7; }
+/* Admin-controlled sale ribbon and struck-through sale price. */
+.pcr-site .tg.promo { background: var(--cta); }
+.pcr-site s.was { color: var(--soft, #8a94ad); font-size: .82em; font-weight: 600; margin-left: 6px; }
+.pcr-site .perline s.was { margin-left: 0; }

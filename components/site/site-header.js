@@ -48,9 +48,10 @@ export default function SiteHeader({
   altHref,
   compoundCount,
   freeShippingLabel,
+  banners = [],
 }) {
   const {
-    lang, t, currency, setCurrency, cart, whatsapp,
+    lang, t, currency, setCurrency, cart, whatsapp, contact,
     setSheetOpen, drawerOpen, setDrawerOpen, setSearchOpen,
   } = useSite();
   const [openMenu, setOpenMenu] = useState('');
@@ -96,9 +97,27 @@ export default function SiteHeader({
               {t('Deal of the Week')}
             </Link>
           ) : null}
-          <span><Ms name="redeem" />{t('Free BAC Water with every order')}</span>
-          <span><Ms name="sell" />{t('15% off 5+ · 20% off 10+')}</span>
-          <span><Ms name="local_shipping" />{t(`Free delivery over ${freeShippingLabel}`)}</span>
+          {/* The banners switched on in the catalog admin take the place of
+              the design's standing offers, as on the catalog. */}
+          {banners.length ? banners.map((banner) => {
+            const href = banner.href === 'whatsapp'
+              ? whatsapp('')
+              : /^\/catalog(\/|\?|$)/.test(banner.href) ? links.catalog : banner.href;
+            const external = /^https?:\/\//.test(href) || banner.href === 'whatsapp';
+            return href ? (
+              <a key={banner.id} href={href} data-banner="" {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+                <Ms name="campaign" />{banner.text}
+              </a>
+            ) : (
+              <span key={banner.id} data-banner=""><Ms name="campaign" />{banner.text}</span>
+            );
+          }) : (
+            <>
+              <span><Ms name="redeem" />{t('Free BAC Water with every order')}</span>
+              <span><Ms name="sell" />{t('15% off 5+ · 20% off 10+')}</span>
+              <span><Ms name="local_shipping" />{t(`Free delivery over ${freeShippingLabel}`)}</span>
+            </>
+          )}
           <Link href={links['explore-our-app']} data-cta="announce-app">
             <Ms name="smartphone" />
             {t('Earn points & extra discounts in our app')}
@@ -299,8 +318,8 @@ export default function SiteHeader({
             <span className="ms">arrow_forward</span>
           </Link>
           <div className="dcontact">
-            <a href="tel:+50684046973"><span className="ms">call</span>+506 8404-6973</a>
-            <a href="tel:+18314715559"><span className="ms">call</span>+1 (831) 471-5559</a>
+            <a href={contact.phoneCrHref}><span className="ms">call</span>{contact.phoneCr}</a>
+            <a href={contact.phoneUsHref}><span className="ms">call</span>{contact.phoneUs}</a>
           </div>
         </div>
       </aside>

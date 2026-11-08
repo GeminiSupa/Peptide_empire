@@ -141,7 +141,9 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
     <div className="pgrid">
       <div className="pgal" style={{ '--t': 'var(--tint)' }}>
         <div className="tags">
-          {compound.best ? <span className="tg best">{t('Best seller')}</span> : <span />}
+          {variant.ribbon
+            ? <span className="tg promo">{variant.ribbon}</span>
+            : compound.best ? <span className="tg best">{t('Best seller')}</span> : <span />}
         </div>
         <ProductImage src={variant.image || compound.image} alt={`${compound.name} ${variant.size} vial`} />
         {!supplies && bac ? (
@@ -170,6 +172,8 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
           {pct ? <span className="save">{t(`Save ${m(full - tot)}`)}</span> : null}
         </div>
         <div className="perline">
+          {/* A sale set in the admin: the price before it, struck through. */}
+          {variant.wasUsd ? <><s className="was num">{m(currency === 'USD' ? variant.wasUsd : variant.wasCrc)}</s>{' '}</> : null}
           {`${qty} × ${m(unit)}`}
           {pct ? ` · ${quote?.dealApplied ? `${pctLabel}% ${t('off')} · ${dealView?.name || ''}` : `${pctLabel}% ${t('bulk discount')}`}` : ''}
           {supplies ? '' : ` · ${t('+ free BAC Water')}`}

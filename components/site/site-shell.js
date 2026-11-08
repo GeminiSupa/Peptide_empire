@@ -31,7 +31,7 @@ export default async function SiteShell({ lang, altHref, children }) {
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..600,0..1,0&display=block"
       />
       <link rel="stylesheet" href="https://www.shopperapproved.com/svg-seal/default.css" />
-      <SiteProvider lang={lang} exchangeRate={site.exchangeRate} deal={site.deal} dealView={site.dealView}>
+      <SiteProvider lang={lang} exchangeRate={site.exchangeRate} deal={site.deal} dealView={site.dealView} contact={site.contact}>
         <SiteHeader
           links={site.links}
           products={site.products}
@@ -41,19 +41,20 @@ export default async function SiteShell({ lang, altHref, children }) {
           altHref={altHref}
           compoundCount={site.compounds.length}
           freeShippingLabel={site.freeShippingLabel}
+          banners={site.banners}
         />
         <main>{children}</main>
-        <SiteFooter t={t} lang={lang} links={site.links} categories={site.categories} reviews={site.reviews} />
+        <SiteFooter t={t} lang={lang} links={site.links} categories={site.categories} reviews={site.reviews} contact={site.contact} />
         <SiteOverlays
           compounds={site.compounds}
           categories={site.categories}
           freeShippingLabel={site.freeShippingLabel}
           links={site.links}
         />
-        {/* Tag Manager loads only once the real domain points here. */}
+        {/* Tag Manager: on the company domain, or anywhere once indexing is on. */}
         <SiteTracking enabled={ALLOW_INDEXING} />
         {/* Saves agent links, campaigns and ad clicks for the order; reports
-            visits to the CRM once the real domain points here. */}
+            visits to the CRM from the company domain. */}
         <VisitorTracker enabled={ALLOW_INDEXING} />
       </SiteProvider>
     </div>
