@@ -203,12 +203,19 @@ const manifest = Buffer.from(`${JSON.stringify({
 }, null, 2)}\n`);
 outputs.set(MANIFEST, manifest);
 
+/** Equal, ignoring CRLF vs LF (Git on Windows converts text files on checkout). */
+function sameContent(a, b) {
+  if (a.equals(b)) return true;
+  const text = (buf) => buf.toString('utf8').replace(/\r\n/g, '\n');
+  return !a.includes(0) && !b.includes(0) && text(a) === text(b);
+}
+
 if (CHECK) {
   const drift = [];
   for (const [dest, content] of outputs) {
     const p = path.join(ROOT, dest);
     if (!fs.existsSync(p)) drift.push(`missing  ${dest}`);
-    else if (!fs.readFileSync(p).equals(content)) drift.push(`differs  ${dest}`);
+    else if (!sameContent(fs.readFileSync(p), content)) drift.push(`differs  ${dest}`);
   }
   for (const s of stale) if (fs.existsSync(path.join(ROOT, s))) drift.push(`stale    ${s}`);
   if (drift.length) {
