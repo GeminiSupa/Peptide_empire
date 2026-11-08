@@ -1,0 +1,795 @@
+"use client";
+// Copied from the catalog (src/app/thank-you/page.js) by scripts/sync-catalog-checkout.mjs. Do not edit.
+
+import React, { useEffect, useState, Suspense } from 'react';
+import Link from 'next/link';
+import {
+  CheckCircle2, ArrowLeft, ShieldAlert, Sparkles, Send, Calendar,
+  Smartphone, ShoppingCart, CreditCard, Package, ShieldCheck, ChevronRight,
+} from 'lucide-react';
+import { safeLocalStorage as localStorage } from '@/catalog/lib/storage';
+import { useBusinessLinks } from '@/catalog/hooks/useBusinessLinks';
+import { useAccountAccess } from '@/catalog/hooks/useAccountAccess';
+import GoogleCustomerReviews from '@/catalog/components/GoogleCustomerReviews';
+
+import { appStorefrontHref } from '@/catalog/lib/appStorefront';
+import { pushReceiptOnce } from '@/catalog/lib/dataLayer.mjs';
+
+const APP_FEATURE_ICONS = [ShoppingCart, CreditCard, Package, ShieldCheck];
+
+function ThankYouContent() {
+  const { links } = useBusinessLinks();
+  // Unlike the "My Account" nav link, this card actively asks the customer to
+  // create an account. Sending them to a coming-soon notice moments after they
+  // paid would read as a broken promise, so it stays hidden until accounts are
+  // live rather than becoming a dead end.
+  const { allowed: accountsAvailable } = useAccountAccess();
+  const [lang, setLang] = useState('es');
+  const [mounted, setMounted] = useState(false);
+  const [paidByCard, setPaidByCard] = useState(false);
+  const [bankReported, setBankReported] = useState(false);
+  const [receiptOrderNumber, setReceiptOrderNumber] = useState('');
+  const [reviewClicked, setReviewClicked] = useState(false);
+  const [copiedReferral, setCopiedReferral] = useState(false);
+
+  const appHref = appStorefrontHref({ source: 'thank_you', lang });
+  const appImageSrc = lang === 'en' ? '/email-app-launch-en.jpg' : '/email-app-launch-es.jpg';
+
+  useEffect(() => {
+    setMounted(true);
+    // 1. Detect language from URL parameter
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const urlLang = params.get('lang');
+      if (urlLang === 'en' || urlLang === 'es') {
+        setLang(urlLang);
+      } else {
+        // 2. Fallback to localStorage
+        const storedLang = localStorage.getItem('lang');
+        if (storedLang === 'en' || storedLang === 'es') {
+          setLang(storedLang);
+        }
+      }
+      if (params.get('payment') === 'card') {
+        setPaidByCard(true);
+      }
+      if (params.get('payment') === 'bank_reported') {
+        setBankReported(true);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    let stopped = false; let timer; let attempts = 0;
+    const params = new URLSearchParams(window.location.search);
+    let orderNumber, token;
+    try {
+      orderNumber = params.get('order') || sessionStorage.getItem('pcr_receipt:last');
+      if (/^[A-Za-z0-9-]{6,64}$/.test(orderNumber || '')) setReceiptOrderNumber(orderNumber);
+      token = sessionStorage.getItem('pcr_receipt:' + orderNumber);
+    } catch { return undefined; }
+    if (!token) return undefined;
+    function retry() { if (!stopped && ++attempts < 60) timer = setTimeout(track, 5000); }
+    async function track() {
+      try {
+        const res = await fetch('/api/analytics/order-receipt', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token }) });
+        if (stopped) return;
+        if (!res.ok) { if (res.status >= 500) retry(); return; }
+        const result = await res.json();
+        if (stopped) return;
+        if (result.event) { for (const event of result.events?.length ? result.events : [result.event]) pushReceiptOnce(event, localStorage); setPaidByCard(result.event.payment_type === 'card' && Number(result.event.ecommerce?.value) + Number(result.event.ecommerce?.shipping || 0) > 0); }
+        else if (result.pending) retry();
+      } catch { retry(); /* Analytics must never break the receipt. */ }
+    }
+    track(); return () => { stopped = true; clearTimeout(timer); };
+  }, []);
+
+  const translations = {
+    en: {
+      title: "Order Received",
+      status: "Successful Transaction",
+      body1: "Your order has been received, thank you. We will be contacting you soon. Please expect slower response times on weekends or non working hours.",
+      body2: "THANK YOU FOR YOUR BUSINESS, WE APPRECIATE IT!!!!!",
+      button: "Return to Catalog",
+      notice: "Your order has been received",
+      reviewTitle: "⭐ Support Our Research, Get 15% Off!",
+      reviewBody: "Share your experience with Peptides Costa Rica. Leave us a 5-star Google Review and instantly unlock a 15% discount code for your next order.",
+      reviewButton: "Write Google Review",
+      reviewReveal: "🎉 Thank you! Use coupon code COSTA15 on your next order.",
+      referralTitle: "🧬 Ambassador Referral Program",
+      referralBody: "Share Peptides Costa Rica with a research colleague. If they buy, you both get a free Bacteriostatic Water added to your next package!",
+      referralCopy: "Copy Referral Link",
+      referralCopied: "Copied!",
+      referralWhatsapp: "Share on WhatsApp",
+      appEyebrow: "New app",
+      appTitle: "Take Peptides CR with you",
+      appBody: "Products, protocols, tracking, and lab verification — open it on your phone in one tap.",
+      appFeatures: ["Shop", "Pay", "Track", "Verify"],
+      appButton: "Open the app",
+      appUrlLabel: "app.peptidescostarica.net",
+      appHint: "On a computer? Scan the QR in the image with your phone.",
+      accountTitle: "📦 Track this order",
+      accountBody: "Create your account with the same email you just used, and this order — along with every order you have placed before — appears in it automatically. Track shipments and reorder in one tap.",
+      accountButton: "Set up my account",
+      cardStatementTitle: "🏦 About your card statement",
+      cardStatementBody: "So there are no surprises — here is exactly what to expect:",
+      cardStatementMexicoLabel: "Charged in US dollars:",
+      cardStatementMexicoDetail: "The card is charged in US dollars by Chargex. This is completely normal — your order is with us in Costa Rica.",
+      cardStatementNameLabel: "Statement descriptor:",
+      cardStatementNameDetail: "The charge will appear as \"Agile disruptive tech\" on your card statement. That is our payment processor — it is us. Please do not dispute this charge.",
+      bankTitle: "Payment Reported",
+      bankStatus: "Payment Verification Pending",
+      bankBody1: "Thank you. We received your payment confirmation and our team will verify the funds in the receiving account. Please do not send another payment.",
+      bankBody2: "YOUR ORDER IS RESERVED WHILE WE VERIFY YOUR PAYMENT.",
+      bankNotice: "Your payment confirmation has been received",
+    },
+    es: {
+      title: "Orden Recibida",
+      status: "Transacción Exitosa",
+      body1: "Su pedido ha sido recibido, gracias. Nos pondremos en contacto con usted pronto. Por favor, espere tiempos de respuesta más lentos los fines de semana u horas no laborables.",
+      body2: "¡¡¡¡¡MUCHAS GRACIAS POR SU COMPRA, APRECIAMOS ENORMEMENTE SU PREFERENCIA!!!!!",
+      button: "Volver al Catálogo",
+      notice: "Su pedido ha sido recibido",
+      reviewTitle: "⭐ Apoye Nuestra Investigación, ¡Reciba 15% Off!",
+      reviewBody: "Comparta su experiencia con Péptidos Costa Rica. Déjenos una reseña de 5 estrellas en Google Maps e inmediatamente desbloqueará un código de 15% de descuento para su próxima orden.",
+      reviewButton: "Escribir Reseña en Google",
+      reviewReveal: "🎉 ¡Muchas gracias! Utilice el cupón COSTA15 en su próxima orden.",
+      referralTitle: "🧬 Programa de Embajadores",
+      referralBody: "Comparta Péptidos Costa Rica con un colega de investigación. Si realiza su compra, ¡ambos recibirán un Agua Bacteriostática gratis en su próximo pedido!",
+      referralCopy: "Copiar Enlace de Referido",
+      referralCopied: "¡Copiado!",
+      referralWhatsapp: "Compartir por WhatsApp",
+      appEyebrow: "Nueva app",
+      appTitle: "Lleva Peptides CR en el bolsillo",
+      appBody: "Productos, protocolos, seguimiento y verificación de laboratorio — ábrela en tu teléfono con un toque.",
+      appFeatures: ["Compra", "Paga", "Rastrea", "Verifica"],
+      appButton: "Abrir la app",
+      appUrlLabel: "app.peptidescostarica.net",
+      appHint: "¿Estás en computadora? Escanea el QR de la imagen con tu teléfono.",
+      accountTitle: "📦 Dé seguimiento a este pedido",
+      accountBody: "Cree su cuenta con el mismo correo que acaba de usar y este pedido — junto con todos los que ha hecho antes — aparecerá automáticamente. Siga sus envíos y vuelva a pedir con un solo toque.",
+      accountButton: "Crear mi cuenta",
+      cardStatementTitle: "🏦 Sobre tu estado de cuenta",
+      cardStatementBody: "Para que no haya sorpresas — esto es exactamente lo que esperarás:",
+      cardStatementMexicoLabel: "Cargo en dólares:",
+      cardStatementMexicoDetail: "La tarjeta se cobra en dólares estadounidenses a través de Chargex. Esto es completamente normal — tu pedido es con nosotros en Costa Rica.",
+      cardStatementNameLabel: "Nombre en el estado de cuenta:",
+      cardStatementNameDetail: "El cargo aparecerá como \"Agile disruptive tech\" en tu estado de cuenta. Ese es nuestro procesador de pagos — somos nosotros. Por favor no disputes este cargo.",
+      bankTitle: "Pago Reportado",
+      bankStatus: "Pendiente de Verificación",
+      bankBody1: "Gracias. Recibimos la confirmación de su pago y nuestro equipo verificará los fondos en la cuenta receptora. Por favor no envíe otro pago.",
+      bankBody2: "SU PEDIDO ESTÁ RESERVADO MIENTRAS VERIFICAMOS SU PAGO.",
+      bankNotice: "Recibimos la confirmación de su pago",
+    }
+  };
+
+  const baseTranslation = translations[lang] || translations.es;
+  const t = bankReported
+    ? { ...baseTranslation, title: baseTranslation.bankTitle, status: baseTranslation.bankStatus, body1: baseTranslation.bankBody1, body2: baseTranslation.bankBody2, notice: baseTranslation.bankNotice }
+    : baseTranslation;
+
+  if (!mounted) {
+    return (
+      <div style={{
+        minHeight: '100vh',
+        background: '#090d16',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#94a3b8',
+        fontFamily: 'var(--font-inter), sans-serif'
+      }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{
+            width: '40px',
+            height: '40px',
+            border: '3px solid rgba(56, 189, 248, 0.1)',
+            borderTopColor: '#38bdf8',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            margin: '0 auto 16px'
+          }} />
+          <style dangerouslySetInnerHTML={{__html: `
+            @keyframes spin {
+              to { transform: rotate(360deg); }
+            }
+          `}} />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{
+      minHeight: '100vh',
+      background: '#070a13',
+      color: '#e2e8f0',
+      fontFamily: 'var(--font-inter), -apple-system, BlinkMacSystemFont, sans-serif',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '24px',
+      position: 'relative',
+      overflowX: 'hidden'
+    }}>
+      {/* Immersive Organic Glow/Mesh Blobs */}
+      <div style={{
+        position: 'absolute',
+        width: '500px',
+        height: '500px',
+        background: 'radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(0,0,0,0) 70%)',
+        top: '-10%',
+        left: '-10%',
+        zIndex: 0,
+        pointerEvents: 'none',
+        animation: 'pulseGlow 8s ease-in-out infinite alternate'
+      }} />
+      <div style={{
+        position: 'absolute',
+        width: '600px',
+        height: '600px',
+        background: 'radial-gradient(circle, rgba(56, 189, 248, 0.1) 0%, rgba(0,0,0,0) 70%)',
+        bottom: '-10%',
+        right: '-10%',
+        zIndex: 0,
+        pointerEvents: 'none',
+        animation: 'pulseGlow 12s ease-in-out infinite alternate-reverse'
+      }} />
+
+      {/* Embedded Animations Style Block */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes pulseGlow {
+          0% { transform: scale(1) translate(0, 0); opacity: 0.8; }
+          100% { transform: scale(1.15) translate(30px, 20px); opacity: 1; }
+        }
+        @keyframes checkPop {
+          0% { transform: scale(0.8); opacity: 0; }
+          50% { transform: scale(1.1); }
+          100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes subtleUp {
+          from { transform: translateY(20px); opacity: 0; }
+          to { transform: translateY(0); opacity: 1; }
+        }
+        @keyframes floatEffect {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-6px); }
+          100% { transform: translateY(0px); }
+        }
+        .animate-check {
+          animation: checkPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+        .animate-card {
+          animation: subtleUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .btn-hover {
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-hover:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.3);
+          border-color: rgba(56, 189, 248, 0.5) !important;
+          background: rgba(56, 189, 248, 0.15) !important;
+        }
+        .thankyou-layout {
+          position: relative;
+          z-index: 1;
+          width: 100%;
+          max-width: 560px;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          align-items: stretch;
+        }
+        .thankyou-order-card {
+          width: 100%;
+          max-width: 560px;
+        }
+        .thankyou-app-card {
+          position: relative;
+          overflow: hidden;
+          background:
+            radial-gradient(120% 80% at 100% 0%, rgba(56, 189, 248, 0.22) 0%, transparent 55%),
+            linear-gradient(165deg, rgba(8, 47, 73, 0.95) 0%, rgba(15, 23, 42, 0.98) 55%, rgba(2, 32, 71, 0.92) 100%);
+          border: 1px solid rgba(56, 189, 248, 0.4);
+          border-radius: 18px;
+          padding: 20px;
+          text-align: left;
+          box-shadow: 0 18px 40px -18px rgba(14, 165, 233, 0.45), inset 0 1px 0 rgba(255,255,255,0.06);
+          animation: subtleUp 1s 0.15s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        @media (min-width: 960px) {
+          .thankyou-layout {
+            max-width: 1040px;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 24px;
+          }
+          .thankyou-order-card {
+            flex: 1 1 0;
+            min-width: 0;
+          }
+          .thankyou-app-card {
+            flex: 1 1 0;
+            min-width: 0;
+            max-width: 440px;
+            align-self: stretch;
+          }
+        }
+        .thankyou-app-card::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(115deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+          pointer-events: none;
+        }
+        .thankyou-app-features {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: 6px;
+          margin: 0 0 16px;
+        }
+        .thankyou-app-feature {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 6px;
+          padding: 10px 4px;
+          border-radius: 12px;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid rgba(255,255,255,0.08);
+          text-align: center;
+        }
+        .thankyou-app-feature span {
+          font-size: 0.65rem;
+          font-weight: 800;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          color: #cbd5e1;
+          line-height: 1.2;
+        }
+        .thankyou-app-feature svg {
+          color: #38bdf8;
+        }
+        .thankyou-app-media {
+          display: block;
+          margin: 0 0 16px;
+          border-radius: 14px;
+          overflow: hidden;
+          border: 1px solid rgba(255,255,255,0.12);
+          background: #0b1220;
+          transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.35s ease;
+        }
+        .thankyou-app-media:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 12px 28px -12px rgba(56, 189, 248, 0.45);
+        }
+        .thankyou-app-media img {
+          display: block;
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+          object-position: center center;
+          background: #0b1220;
+        }
+        .thankyou-app-cta {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          width: 100%;
+          padding: 15px 22px;
+          border: 0;
+          border-radius: 12px;
+          background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 45%, #0ea5e9 100%);
+          color: #04121f;
+          font-weight: 900;
+          font-size: 1rem;
+          letter-spacing: -0.01em;
+          text-decoration: none;
+          cursor: pointer;
+          box-shadow: 0 10px 24px -8px rgba(14, 165, 233, 0.65);
+          transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.25s ease, filter 0.25s ease;
+        }
+        .thankyou-app-cta:hover {
+          transform: translateY(-2px);
+          filter: brightness(1.05);
+          box-shadow: 0 16px 32px -10px rgba(14, 165, 233, 0.75);
+        }
+        .thankyou-app-cta:active {
+          transform: translateY(0);
+        }
+        .thankyou-app-meta {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 4px;
+          margin-top: 12px;
+        }
+        .thankyou-app-url {
+          font-size: 0.78rem;
+          font-weight: 700;
+          color: #7dd3fc;
+          letter-spacing: 0.02em;
+        }
+        .thankyou-app-hint {
+          display: none;
+          margin: 0;
+          font-size: 0.7rem;
+          color: #64748b;
+          text-align: center;
+          line-height: 1.4;
+        }
+        @media (min-width: 640px) {
+          .thankyou-app-hint { display: block; }
+        }
+        @media (max-width: 380px) {
+          .thankyou-app-features { gap: 4px; }
+          .thankyou-app-feature { padding: 8px 2px; }
+          .thankyou-app-feature span { font-size: 0.58rem; }
+        }
+      `}} />
+
+      <div className="thankyou-layout">
+      {/* Main Container Card */}
+      <div 
+        className="animate-card thankyou-order-card"
+        style={{
+          background: 'linear-gradient(135deg, rgba(17, 24, 39, 0.75) 0%, rgba(15, 23, 42, 0.85) 100%)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: '24px',
+          padding: '40px 32px',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          textAlign: 'center',
+          position: 'relative'
+        }}
+      >
+        {/* Glowing Science Header */}
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '8px',
+          padding: '6px 12px',
+          background: 'rgba(56, 189, 248, 0.05)',
+          border: '1px solid rgba(56, 189, 248, 0.15)',
+          borderRadius: '20px',
+          fontSize: '0.75rem',
+          fontWeight: 'bold',
+          color: '#38bdf8',
+          textTransform: 'uppercase',
+          letterSpacing: '1.5px',
+          marginBottom: '32px'
+        }}>
+          <img src="/logo.png" alt="Peptides Costa Rica Logo" style={{ height: '26px', width: 'auto', borderRadius: '5px', verticalAlign: 'middle' }} /> {t.status}
+        </div>
+
+        {/* Dynamic Glowing Success Checkmark */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          marginBottom: '28px'
+        }}>
+          <div 
+            className="animate-check"
+            style={{
+              position: 'relative',
+              width: '84px',
+              height: '84px',
+              background: 'radial-gradient(circle, rgba(34, 197, 94, 0.15) 0%, rgba(34, 197, 94, 0.02) 100%)',
+              border: '2px solid rgba(34, 197, 94, 0.3)',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 0 30px rgba(34, 197, 94, 0.15)'
+            }}
+          >
+            <CheckCircle2 size={44} style={{ color: '#22c55e' }} />
+          </div>
+        </div>
+
+        {/* Heading */}
+        <h1 style={{
+          fontFamily: 'var(--font-montserrat), sans-serif',
+          fontSize: '2.25rem',
+          fontWeight: '900',
+          letterSpacing: '-1px',
+          background: 'linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          marginBottom: '20px',
+          lineHeight: '1.15'
+        }}>
+          {t.title}
+        </h1>
+        {receiptOrderNumber && <p style={{ color: '#7dd3fc', fontWeight: 700, textAlign: 'center' }}>{lang === 'en' ? 'Order' : 'Pedido'} #{receiptOrderNumber}</p>}
+
+        {/* Divider */}
+        <div style={{
+          height: '1px',
+          background: 'linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0) 100%)',
+          marginBottom: '24px'
+        }} />
+
+        {/* Primary Message */}
+        <p style={{
+          fontSize: '1.05rem',
+          lineHeight: '1.6',
+          color: '#cbd5e1',
+          marginBottom: '32px',
+          textAlign: 'center',
+          fontWeight: '400'
+        }}>
+          {t.body1}
+        </p>
+
+        {/* Callout Card (Requested in emphasized CAPS) */}
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(168, 85, 247, 0.08) 0%, rgba(56, 189, 248, 0.03) 100%)',
+          border: '1px solid rgba(168, 85, 247, 0.25)',
+          borderRadius: '16px',
+          padding: '20px',
+          marginBottom: '28px',
+          boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)'
+        }}>
+          <p style={{
+            fontSize: '0.9rem',
+            lineHeight: '1.5',
+            fontWeight: '900',
+            letterSpacing: '1px',
+            color: '#c084fc',
+            margin: 0,
+            textTransform: 'uppercase'
+          }}>
+            {t.body2}
+          </p>
+        </div>
+
+        {/* GROWTH LOOPS SECTION */}
+        {(() => {
+          const handleCopyLink = () => {
+            const refLink = `https://catalog.peptidescostarica.net/catalog?lang=${lang}&utm_source=referral`;
+            if (typeof navigator !== 'undefined' && navigator.clipboard) {
+              navigator.clipboard.writeText(refLink);
+            }
+            setCopiedReferral(true);
+            setTimeout(() => setCopiedReferral(false), 2000);
+          };
+          return null; // Value Exchange Section Removed as requested
+        })()}
+
+        {/* Create an account: the order was just placed with a verified email
+            address, so signing up with that same address pulls this order and
+            the customer's whole history into the dashboard on first login. */}
+        {accountsAvailable ? (
+        <div style={{
+          background: 'rgba(56, 189, 248, 0.06)',
+          border: '1px solid rgba(56, 189, 248, 0.22)',
+          borderRadius: '14px',
+          padding: '20px',
+          marginBottom: '28px',
+          textAlign: 'left'
+        }}>
+          <p style={{
+            margin: '0 0 8px',
+            fontSize: '0.95rem',
+            fontWeight: '800',
+            color: '#38bdf8'
+          }}>
+            {t.accountTitle}
+          </p>
+          <p style={{
+            margin: '0 0 16px',
+            fontSize: '0.85rem',
+            lineHeight: '1.55',
+            color: '#94a3b8'
+          }}>
+            {t.accountBody}
+          </p>
+          <Link href={`https://catalog.peptidescostarica.net/account/login?lang=${lang}`} style={{ textDecoration: 'none' }}>
+            <button
+              className="btn-hover"
+              style={{
+                width: '100%',
+                padding: '12px 24px',
+                background: '#38bdf8',
+                border: 0,
+                borderRadius: '10px',
+                color: '#04121f',
+                fontWeight: '800',
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+                outline: 'none'
+              }}
+            >
+              {t.accountButton}
+            </button>
+          </Link>
+        </div>
+        ) : null}
+
+        {/* Card statement notice — shown only for card payments */}
+        {paidByCard && (
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(251, 191, 36, 0.08) 0%, rgba(245, 158, 11, 0.05) 100%)',
+            border: '1px solid rgba(251, 191, 36, 0.35)',
+            borderRadius: '16px',
+            padding: '20px 22px',
+            marginBottom: '24px',
+            textAlign: 'left',
+          }}>
+            <p style={{ margin: '0 0 6px', fontSize: '1rem', fontWeight: '800', color: '#fbbf24', letterSpacing: '-0.2px' }}>
+              {t.cardStatementTitle}
+            </p>
+            <p style={{ margin: '0 0 14px', fontSize: '0.82rem', color: '#94a3b8', lineHeight: 1.5 }}>
+              {t.cardStatementBody}
+            </p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                <span style={{ fontSize: '1.1rem', flexShrink: 0, marginTop: '1px' }}>💵</span>
+                <div>
+                  <span style={{ fontWeight: '700', color: '#e2e8f0', fontSize: '0.82rem' }}>{t.cardStatementMexicoLabel}</span>{' '}
+                  <span style={{ color: '#94a3b8', fontSize: '0.82rem', lineHeight: 1.5 }}>{t.cardStatementMexicoDetail}</span>
+                </div>
+              </div>
+              <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                <span style={{ fontSize: '1.1rem', flexShrink: 0, marginTop: '1px' }}>💳</span>
+                <div>
+                  <span style={{ fontWeight: '700', color: '#e2e8f0', fontSize: '0.82rem' }}>{t.cardStatementNameLabel}</span>{' '}
+                  <span style={{ color: '#94a3b8', fontSize: '0.82rem', lineHeight: 1.5 }}>
+                    {t.cardStatementNameDetail.split('"Agile disruptive tech"').map((part, i, arr) =>
+                      i < arr.length - 1
+                        ? <React.Fragment key={i}>{part}<strong style={{ color: '#fbbf24', background: 'rgba(251,191,36,0.12)', padding: '1px 6px', borderRadius: '4px' }}>&ldquo;Agile disruptive tech&rdquo;</strong></React.Fragment>
+                        : <React.Fragment key={i}>{part}</React.Fragment>
+                    )}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Button & Notice */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '16px'
+        }}>
+          <Link href="/shop/" style={{ textDecoration: 'none', width: '100%' }}>
+            <button 
+              className="btn-hover"
+              style={{
+                width: '100%',
+                padding: '14px 28px',
+                background: 'rgba(56, 189, 248, 0.08)',
+                border: '1px solid rgba(56, 189, 248, 0.25)',
+                borderRadius: '12px',
+                color: '#38bdf8',
+                fontWeight: '800',
+                fontSize: '0.95rem',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '8px',
+                outline: 'none'
+              }}
+            >
+              <ArrowLeft size={16} /> {t.button}
+            </button>
+          </Link>
+          
+          <span style={{
+            fontSize: '0.7rem',
+            color: '#475569',
+            letterSpacing: '0.5px',
+            textTransform: 'uppercase',
+            fontWeight: '600'
+          }}>
+            ✓ {t.notice}
+          </span>
+        </div>
+      </div>
+
+        {/* App upsell — sits beside Orden Recibida on desktop.
+            Same destination as the launch email / QR (app.peptidescostarica.net). */}
+        <div className="thankyou-app-card">
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
+            marginBottom: '10px',
+            fontSize: '0.7rem',
+            fontWeight: '800',
+            color: '#7dd3fc',
+            textTransform: 'uppercase',
+            letterSpacing: '1.2px'
+          }}>
+            <Smartphone size={13} strokeWidth={2.4} /> {t.appEyebrow}
+          </div>
+          <h2 style={{
+            margin: '0 0 8px',
+            fontFamily: 'var(--font-montserrat), sans-serif',
+            fontSize: '1.35rem',
+            fontWeight: '900',
+            color: '#f8fafc',
+            letterSpacing: '-0.4px',
+            lineHeight: 1.2
+          }}>
+            {t.appTitle}
+          </h2>
+          <p style={{
+            margin: '0 0 16px',
+            fontSize: '0.9rem',
+            lineHeight: 1.55,
+            color: '#94a3b8'
+          }}>
+            {t.appBody}
+          </p>
+
+          <div className="thankyou-app-features" aria-hidden="true">
+            {t.appFeatures.map((label, i) => {
+              const Icon = APP_FEATURE_ICONS[i];
+              return (
+                <div key={label} className="thankyou-app-feature">
+                  <Icon size={18} strokeWidth={2.2} />
+                  <span>{label}</span>
+                </div>
+              );
+            })}
+          </div>
+
+          <a
+            href={appHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="thankyou-app-media"
+            aria-label={t.appButton}
+          >
+            <img
+              src={appImageSrc}
+              alt=""
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+
+          <a
+            href={appHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="thankyou-app-cta"
+          >
+            <Smartphone size={18} strokeWidth={2.4} />
+            <span>{t.appButton}</span>
+            <ChevronRight size={18} strokeWidth={2.6} />
+          </a>
+
+          <div className="thankyou-app-meta">
+            <span className="thankyou-app-url">{t.appUrlLabel}</span>
+            <p className="thankyou-app-hint">{t.appHint}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ThankYouPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: '100vh', background: '#070a13', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: '40px', height: '40px', border: '3px solid rgba(56, 189, 248, 0.1)', borderTopColor: '#38bdf8', borderRadius: '50%', animation: 'spin 1s linear infinite' }} />
+      </div>
+    }>
+      <ThankYouContent />
+      {/* Google's survey opt-in. Renders nothing unless checkout left a
+          complete order record behind, so it stays out of the way of anyone
+          who reaches this page without having just bought something. */}
+      <GoogleCustomerReviews />
+    </Suspense>
+  );
+}

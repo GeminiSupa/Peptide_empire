@@ -1,0 +1,34 @@
+// Copied from the catalog (src/lib/orderActivity.js) by scripts/sync-catalog-checkout.mjs. Do not edit.
+/** Append an entry to an order's activity_log JSONB array. */
+export function appendOrderActivity(existingLog, entry) {
+  const log = Array.isArray(existingLog) ? [...existingLog] : [];
+  log.unshift({
+    at: new Date().toISOString(),
+    ...entry,
+  });
+  return log.slice(0, 100);
+}
+
+export function formatActivityType(type) {
+  const labels = {
+    created: 'Order created',
+    status_change: 'Status updated',
+    note: 'Note added',
+    tracking: 'Tracking updated',
+    payment_proof: 'Payment proof uploaded',
+    manual_entry: 'Manual order entry',
+    shipping_cost: 'Shipping cost updated',
+    contact_updated: 'Customer contact updated',
+    items_updated: 'Order items updated',
+    manual_discount_applied: 'Order discount applied',
+    manual_discount_removed: 'Order discount removed',
+    payment_method_change: 'Payment method changed',
+    receipt_resent: 'Receipt resent to customer',
+    agent_assignment: 'Owner changed',
+    additional_commission_updated: 'One-time extra commission updated',
+    owner_change_requested: 'Owner change requested',
+    owner_change_rejected: 'Owner change rejected',
+    email: 'Email',
+  };
+  return labels[type] || type;
+}

@@ -78,12 +78,36 @@ logic:
   two disagree; on `409 price_changed` it re-posts at the server's figure.
 - **Card payments** continue on the catalog's own `/pay-card` page. No card
   number ever reaches this site.
-- **There is no service-role key here, and none is needed.** If you find
-  yourself wanting one, you are about to write a second implementation of
-  something checkout already does.
+
+### Own checkout (8 Nov 2026, owner's decision: "full copy")
+
+So the business survives without the catalog subdomain, this site carries a
+**verbatim copy** of the catalog's checkout and payment code:
+`/api/orders/create`, card/ACH/crypto (`/api/card-payment-link/*`,
+`/api/chargx/*`, `/pay-card/`), SINPE and bank (`/api/bank-payments/*`,
+`/pay-bank/`), order emails (`/api/order-notification`), the purchase receipt
+and the catalog's thank-you page, here at **`/order-confirmation/`** (this
+site's own `/thank-you/` is the WhatsApp one). Helpers live in `catalog/`;
+the pages in `app/(pay)/`, a separate root layout loading the catalog's CSS.
+
+- **Never hand-edit** anything listed in `catalog/.synced-files.json`. Fix the
+  catalog (branch `main`), then `node scripts/sync-catalog-checkout.mjs`.
+  `--check` fails when the copy has drifted; run it before every push.
+  The few deliberate differences are the `PATCHES` in that script.
+- It is **off** until `NEXT_PUBLIC_OWN_CHECKOUT=true` is set in the Vercel
+  project together with the catalog's server keys (service-role key, ChargX,
+  WhatsApp, secrets). Off, the cart posts to the catalog as before
+  (`checkoutUrl()` in `lib/storefront/catalog-origin.mjs`).
+- Both apps write the same database, and each order is posted once, to one
+  of them, so nothing doubles. ChargX's webhook stays on the catalog until it
+  is deliberately moved; a payment is recorded by whichever URL ChargX calls.
+- Never copy the catalog's `NEXT_PUBLIC_SITE_URL` here: it would point
+  canonicals and payment returns at the catalog.
 
 Still on the catalog and not here: the admin portal, CRM, WhatsApp bot,
-affiliate dashboards, cron jobs and every migration.
+affiliate dashboards, cron jobs and every migration, plus deals, the
+exchange rate, analytics tracking and the lead endpoints this site still
+fetches from the catalog (`catalogUrl()` callers).
 
 ### The order-submission constraint
 

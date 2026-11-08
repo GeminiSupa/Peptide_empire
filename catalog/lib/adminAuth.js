@@ -1,0 +1,127 @@
+// Copied from the catalog (src/lib/adminAuth.js) by scripts/sync-catalog-checkout.mjs. Do not edit.
+import { createClient } from '@supabase/supabase-js';
+import { NextResponse } from 'next/server';
+import { getSupabaseAdmin } from '@/catalog/lib/supabaseAdmin';
+import { isActiveProfile, isAffiliateTier, isPendingApproval, isSubUser } from '@/catalog/lib/subUserTier.mjs';
+import {
+  adminPermissionsForPath,
+  profileHasAnyAdminPermission,
+} from '@/catalog/lib/adminApiPermissions.mjs';
+
+/**
+ * Verify the caller is an authenticated admin via Supabase JWT (Bearer token).
+ * Returns { user, profile } on success, or { error: NextResponse } on failure.
+ *
+ * Sub-users are rejected BY DEFAULT, and that default is the whole security
+ * story for the tier. Most routes in this app are gated on nothing more than
+ * "does this person have an admin_profiles row", so a sub-user login would
+ * otherwise reach the customer list, the broadcast sender and order creation.
+ * Routes a sub-user is genuinely meant to call opt in with
+ * { allowSubUser: true } — a short list: their own earnings and referral link.
+ * Default-deny means the other routes need no audit and no edit.
+ *
+ * Pending and suspended accounts are rejected for everyone, sub-user or staff,
+ * so approval really does gate access and suspending someone takes effect at
+ * once rather than at their next login.
+ *
+ * Affiliates are refused the same way, and for a sharper reason: an affiliate
+ * login belongs to somebody outside the business. The four routes behind their
+ * dashboard opt in with { allowAffiliate: true }; every other route in the app
+ * refuses them without being edited, which is the only version of this that
+ * stays true as routes get added.
+ */
+export async function verifyAdminSession(
+  request,
+  {
+    requireSuperadmin = false,
+    allowSubUser = false,
+    allowAffiliate = false,
+    requirePermission = null,
+    requireAnyPermission = null,
+    skipPathPermission = false,
+  } = {}
+) {
+  const authHeader = request.headers.get('authorization');
+  const token = authHeader?.startsWith('Bearer ') ? authHeader.slice(7).trim() : null;
+
+  if (!token) {
+    return { error: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) };
+  }
+
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return { error: NextResponse.json({ error: 'Server misconfigured' }, { status: 500 }) };
+  }
+
+  const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  });
+
+  const { data: { user }, error: userError } = await supabase.auth.getUser(token);
+  if (userError || !user) {
+    return { error: NextResponse.json({ error: 'Invalid or expired session' }, { status: 401 }) };
+  }
+
+  const supabaseAdmin = getSupabaseAdmin();
+  const { data: profile, error: profileError } = await supabaseAdmin
+    .from('admin_profiles')
+    .select('*')
+    .eq('user_id', user.id)
+    .single();
+
+  if (profileError || !profile) {
+    return { error: NextResponse.json({ error: 'Forbidden: not an admin' }, { status: 403 }) };
+  }
+
+  if (!isActiveProfile(profile)) {
+    const message = isPendingApproval(profile)
+      ? 'Your account is waiting for approval'
+      : 'Your account has been suspended';
+    return { error: NextResponse.json({ error: message }, { status: 403 }) };
+  }
+
+  if (isSubUser(profile) && !allowSubUser) {
+    return { error: NextResponse.json({ error: 'Forbidden: not available to sub-users' }, { status: 403 }) };
+  }
+
+  if (isAffiliateTier(profile) && !allowAffiliate) {
+    return { error: NextResponse.json({ error: 'Forbidden: not available to affiliates' }, { status: 403 }) };
+  }
+
+  // An affiliate is never a superadmin and never holds an admin permission, so
+  // the two checks below would refuse them anyway. Kept explicit rather than
+  // relied upon: allowAffiliate must not become a way past them.
+  if (isAffiliateTier(profile) && (requireSuperadmin || requirePermission || requireAnyPermission)) {
+    return { error: NextResponse.json({ error: 'Forbidden: not available to affiliates' }, { status: 403 }) };
+  }
+
+  if (requireSuperadmin && !profile.is_superadmin) {
+    return { error: NextResponse.json({ error: 'Forbidden: superadmin required' }, { status: 403 }) };
+  }
+
+  const explicitPermissions = requireAnyPermission
+    || (requirePermission ? [requirePermission] : null);
+  const pathPermissions = skipPathPermission
+    ? []
+    : adminPermissionsForPath(request.nextUrl?.pathname || new URL(request.url).pathname);
+  const requiredPermissions = explicitPermissions || pathPermissions;
+
+  if (
+    requiredPermissions.length > 0
+    && !profileHasAnyAdminPermission(profile, requiredPermissions)
+  ) {
+    return {
+      error: NextResponse.json(
+        { error: `Forbidden: ${requiredPermissions.join(' or ')} permission required` },
+        { status: 403 }
+      ),
+    };
+  }
+
+  return { user, profile };
+}
+
+/** AI modes callable without admin auth (public storefront chat). */
+export const PUBLIC_AI_MODES = new Set(['customer_chat']);

@@ -1,0 +1,1064 @@
+// Copied from the catalog (src/app/api/orders/create/route.js) by scripts/sync-catalog-checkout.mjs. Do not edit.
+import { createAnalyticsReceiptToken } from '@/catalog/lib/analyticsReceiptToken';
+import { orderEcommerceSnapshot } from '@/catalog/lib/ecommerceAnalytics.mjs';
+import { readAdClick, sanitizeAdAttribution } from '@/catalog/lib/adClickAttribution.mjs';
+import { sanitizeGaIdentity } from '@/catalog/lib/gaIdentity.mjs';
+import { isBankMethod, bankAvailability, readBankSettings, bankPaymentSnapshot } from '@/catalog/lib/bankPayments.mjs';
+import { createBankPaymentToken } from '@/catalog/lib/bankPaymentToken.mjs';
+import { NextResponse } from 'next/server';
+import { getSupabaseAdmin } from '@/catalog/lib/supabaseAdmin';
+import { markActiveAbandonedCartsConvertedForOrder } from '@/catalog/lib/abandonedCartRecovery.mjs';
+import { countPromoEligibleUnits, checkUnitLimits, unitLimitsMessage } from '@/catalog/lib/promoEligibility.mjs';
+import { isGiftLine } from '@/catalog/lib/bacWater.mjs';
+import { authoritativeCheckout, activeDealForOrder } from '@/catalog/lib/authoritativeCheckout.mjs';
+import { findBusinessAccount, businessDiscountPct } from '@/catalog/lib/businessAccounts.mjs';
+import { businessProductPrices, resolveBusinessQuote, applyBusinessOrderAttribution, claimFirstOrderExtraCommission, releaseFirstOrderExtraCommission } from '@/catalog/lib/businessSuiteServer';
+import { businessMinimumError,mergeBusinessProductPrices } from '@/catalog/lib/businessSuite.mjs';
+import { getDatabaseBackedUsdToCrcRate } from '@/catalog/lib/exchangeRate';
+import { mergeOrderWhatsAppDestinations, selectWithOptionalPreferences } from '@/catalog/lib/notificationPreferences.mjs';
+import { sanitizeOrderAttribution } from '@/catalog/lib/orderAttribution.mjs';
+import { affiliateCommissionPatch, affiliateHandlingAgentName, partnerReferralAffiliate } from '@/catalog/lib/affiliateCommission.mjs';
+import { checkoutOrderStatus } from '@/catalog/lib/checkoutOrderStatus.mjs';
+import { ORDER_RESEARCH_ACK_COLUMNS, writeDroppingMissingColumns } from '@/catalog/lib/optionalColumns.mjs';
+import { sendAdminOrderEmail } from '@/catalog/lib/adminOrderEmail.mjs';
+import { rememberOrderAddress } from '@/catalog/lib/accountAddress.mjs';
+import {
+  CustomerSessionError,
+  applyCustomerOrderOwnership,
+  resolveCustomerOrderOwner,
+} from '@/catalog/lib/customerOrderOwnership.mjs';
+import { agentMatchKeys } from '@/catalog/lib/agentOrders';
+import { CUSTOMER_HISTORY_SOURCE, buildAgentNameResolver, lookupHistoricalAgent } from '@/catalog/lib/agentAttribution.mjs';
+import { loadTeamProfiles } from '@/catalog/lib/orderOwnershipServer';
+import { getNotificationRecipients } from '@/catalog/lib/notificationRecipients.mjs';
+import { identityMessage, validateCustomerName } from '@/catalog/lib/checkoutIdentity.mjs';
+import { researchAckMessage, researchAckRecord, validateResearchAck } from '@/catalog/lib/researchAcknowledgement.mjs';
+import { createCardCheckoutToken } from '@/catalog/lib/cardPaymentLink';
+import { findLiveDealConflictForPromo, promoDealConflictMessage } from '@/catalog/lib/promoStackingSafety.mjs';
+import { automaticDealPromo, combineLiveDeals, dealEligibleUnits, dealMaxUnits, dealPricingMode } from '@/catalog/lib/dealOfWeek.mjs';
+import { OFFERS_PRICING_MODE } from '@/catalog/lib/dealOffers.mjs';
+import { DEAL_PAGE_EXPERIMENT, normalizeVariant } from '@/catalog/lib/dealPageExperiment.mjs';
+import {
+  consumeDurableRateLimit,
+  getRequestIp,
+  isTrustedStorefrontRequest,
+  peekDurableRateLimit,
+  rateLimitHeaders,
+  readLimitedJson,
+  RequestBodyError,
+  storefrontCorsHeaders,
+} from '@/catalog/lib/publicApiSecurity.mjs';
+import {
+  limiterUnavailableMessage,
+  orderContactLimits,
+  orderIpSavedLimits,
+  tooManyAttemptsMessage,
+  ORDER_ATTEMPTS_PER_IP_PER_HOUR,
+  ORDER_IP_WINDOW_SECONDS,
+} from '@/catalog/lib/checkoutRateLimits.mjs';
+import {
+  HONEYPOT_FIELD,
+  junkOrderMessage,
+  junkOrderSummary,
+  scoreJunkOrder,
+} from '@/catalog/lib/checkoutJunkGuard.mjs';
+import {
+  applySalesAgentReferral,
+  canOwnReturningCustomer,
+  isEligibleSalesAgentProfile,
+  isSalesAgentAffiliate,
+  salesAgentReferralRate,
+} from '@/catalog/lib/salesAgentAffiliate.mjs';
+import {
+  WHATSAPP_TIMEOUT_MS,
+  formatSalesAlertTotal,
+  logOrderAlert,
+  sendAffiliateOrderWhatsApp,
+  sendCustomerOrderConfirmation,
+} from '@/catalog/lib/orderWhatsAppAlerts';
+
+export const runtime = 'nodejs';
+// Every post-order alert now runs before the response, so this budget covers
+// the whole handler. The default was short enough that a slow SMTP handshake
+// could eat it and silently drop the alerts.
+export const maxDuration = 60;
+
+const REQUIRED_FIELDS = ['order_number', 'customer_name', 'customer_phone', 'items'];
+
+/**
+ * A partner's own link, when the partner is not on the sales team.
+ *
+ * Who the name belongs to is decided by partnerReferralAffiliate, which is
+ * tested on its own. A promo code that already chose an affiliate always wins:
+ * the link never overrides the code.
+ */
+async function applyPartnerReferral(supabase, order, requestedAgent, profiles) {
+  if (order.affiliate_id || !requestedAgent) return order;
+
+  const { data: affiliates } = await supabase
+    .from('affiliates')
+    .select('*')
+    .not('admin_profile_user_id', 'is', null);
+
+  const match = partnerReferralAffiliate(affiliates || [], profiles || [], requestedAgent);
+  if (!match) return order;
+
+  const credited = { ...order, affiliate_id: match.id };
+  return { ...credited, ...affiliateCommissionPatch(credited, match) };
+}
+
+async function applyTrustedAgentReferralAttribution(supabase, untrustedOrder) {
+  const order = { ...untrustedOrder };
+  // Checkout callers do not choose payout rates. Attribution is resolved from
+  // the linked server-side profile below.
+  delete order.agent_commission_rate_override;
+  delete order.agent_commission_source;
+
+  let affiliate = null;
+  if (order.affiliate_id) {
+    const { data } = await supabase
+      .from('affiliates')
+      .select('*')
+      .eq('id', order.affiliate_id)
+      .maybeSingle();
+    affiliate = data || null;
+  }
+
+  // The browser does not get to say what a referral earns. These two columns
+  // arrived in the POST body and were written down as given, and the weekly
+  // affiliate scan sums them straight off the row onto an invoice somebody
+  // approves and pays. Recomputed here from the affiliate's own stored rate, so
+  // the figure on that invoice is ours. The sales-agent branches below zero
+  // these deliberately — they pay through the agent report instead — and still
+  // win, because they run after this.
+  Object.assign(order, affiliateCommissionPatch(order, affiliate));
+
+  if (isSalesAgentAffiliate(affiliate)) {
+    const { data: profile } = await supabase
+      .from('admin_profiles')
+      .select('*')
+      .eq('user_id', affiliate.admin_profile_user_id)
+      .maybeSingle();
+
+    if (isEligibleSalesAgentProfile(profile)) {
+      return applySalesAgentReferral(order, profile, {
+        rate: salesAgentReferralRate(affiliate),
+      });
+    }
+
+    // A suspended or otherwise invalid linked agent must not fall through to
+    // the ordinary affiliate payout and accidentally earn there instead.
+    return {
+      ...order,
+      affiliate_commission_usd: 0,
+      affiliate_commission_crc: 0,
+    };
+  }
+
+  if (affiliate && !String(order.sales_agent || '').trim()) {
+    const { data: profiles } = await supabase
+      .from('admin_profiles')
+      .select('user_id, name, email, tier, status');
+    const handlingAgent = affiliateHandlingAgentName(affiliate, profiles || []);
+    if (handlingAgent) {
+      order.sales_agent = handlingAgent;
+    }
+  }
+
+  const requestedAgent = String(order.sales_agent || '').trim().toLowerCase();
+  if (!requestedAgent) return order;
+
+  const { data: profiles } = await supabase.from('admin_profiles').select('*');
+  const profile = (profiles || []).find((row) => agentMatchKeys(row).has(requestedAgent));
+  if (!isEligibleSalesAgentProfile(profile)) {
+    return applyPartnerReferral(supabase, order, requestedAgent, profiles || []);
+  }
+
+  const { data: linkedAffiliate } = await supabase
+    .from('affiliates')
+    .select('*')
+    .eq('admin_profile_user_id', profile.user_id)
+    .maybeSingle();
+
+  return applySalesAgentReferral({
+    ...order,
+    affiliate_id: linkedAffiliate?.id || order.affiliate_id || null,
+  }, profile, { rate: salesAgentReferralRate(linkedAffiliate) });
+}
+
+/**
+ * Credits a returning customer's order to the agent who first closed them.
+ *
+ * Runs only when the order arrived with no agent, so a referral link always
+ * wins. Attribution is never worth losing a sale over: if the lookup fails the
+ * order saves unattributed and an agent can still assign it by hand.
+ */
+async function applyCustomerHistoryAttribution(supabase, order) {
+  if (String(order?.sales_agent || '').trim()) return order;
+
+  try {
+    const profiles = await loadTeamProfiles(supabase);
+
+    const match = await lookupHistoricalAgent(supabase, {
+      phone: order.customer_phone,
+      email: order.customer_email,
+      // Some closed orders record an agent's email rather than their name.
+      // Without this they read as a second, non-existent agent.
+      resolveAgent: buildAgentNameResolver(profiles),
+    });
+    if (!match) return order;
+
+    // The agent who closed them may have left since. Only a currently active
+    // profile can be credited (a selling superadmin counts), otherwise the
+    // order is left unassigned.
+    const profile = (profiles || []).find((row) => agentMatchKeys(row).has(match.agent.toLowerCase()));
+    if (!canOwnReturningCustomer(profile)) return order;
+
+    console.log(`[orders/create] Attributed to ${match.agent} from customer history`);
+    return {
+      ...order,
+      sales_agent: match.agent,
+      agent_commission_source: CUSTOMER_HISTORY_SOURCE,
+    };
+  } catch (err) {
+    console.warn('[orders/create] History attribution skipped:', err.message);
+    return order;
+  }
+}
+
+function isFkViolation(error) {
+  const msg = error?.message || '';
+  return msg.includes('foreign key constraint') || error?.code === '23503';
+}
+
+/**
+ * The durable "a new order landed" record behind the admin bell.
+ *
+ * This is written before any alert is attempted, precisely because the email
+ * and WhatsApp alerts are best-effort: if all of them fail, the team still has
+ * one notification that cannot be lost to a timeout. The dynamic pending-order
+ * badge does not cover this — it vanishes the moment the status moves off
+ * "Pending", and never appears for card orders ("Pending - Card").
+ */
+async function recordNewOrderNotification(supabase, order, orderNumber) {
+  // Counts what the customer paid for. Orders carry an explicit zero-price line
+  // for the free BAC water, and counting it would report a 5-vial order as
+  // "10 articulos" — inflating every alert the team reads.
+  const itemCount = (order.items || []).reduce((total, item) => (
+    Number(item.price || 0) > 0 ? total + Number(item.qty || 0) : total
+  ), 0);
+  const method = String(order.payment_method || 'order').toUpperCase();
+
+  const { error } = await supabase.from('admin_notifications').insert({
+    type: 'new_order',
+    title: `New order ${orderNumber} (${method})`,
+    body: `${order.customer_name || 'Customer'} — ${formatSalesAlertTotal(order)} · ${itemCount} ${itemCount === 1 ? 'unit' : 'units'}`.slice(0, 500),
+    link_tab: 'orders',
+    link_ref: orderNumber,
+  });
+
+  if (error) throw new Error(error.message);
+}
+
+/**
+ * Records an order alert in whatsapp_messages so its delivery can be seen.
+ *
+ * Meta returning a message id only means "accepted for delivery" — the real
+ * `sent -> delivered -> read` trail arrives later as webhook status callbacks,
+ * and /api/whatsapp/webhook applies them by matching `meta_message_id`. Order
+ * alerts were the one send path that never wrote such a row, so their statuses
+ * had nowhere to land and "did that number actually get the alert?" was
+ * unanswerable. Best-effort: a logging failure must not fail the order.
+ */
+/**
+ * Where the new-order WhatsApp alert goes.
+ *
+ * Notification Settings covers standalone destinations. Team-member WhatsApp
+ * opt-ins are added from admin_profiles so editing a member controls that
+ * member's own order alerts.
+ */
+async function resolveAgentWhatsAppRecipients(supabase) {
+  const { available, recipients } = await getNotificationRecipients(supabase, {
+    channel: 'whatsapp',
+    type: 'new_order',
+  });
+
+  const { data, error } = await selectWithOptionalPreferences(
+    // tier and status feed the staff-only rule in mergeOrderWhatsAppDestinations.
+    ['name', 'tier', 'status', 'notifications_enabled', 'order_whatsapp_notifications', 'whatsapp_number'],
+    (columns) => supabase.from('admin_profiles').select(columns)
+  );
+
+  if (error) {
+    if (available) {
+      console.warn('[orders/create] Could not load team WhatsApp preferences:', error.message);
+      return mergeOrderWhatsAppDestinations({ managed: recipients, managedAvailable: true, profiles: [] });
+    }
+    throw new Error(error.message);
+  }
+
+  return mergeOrderWhatsAppDestinations({
+    managed: recipients,
+    managedAvailable: available,
+    profiles: data || [],
+  });
+}
+
+/**
+ * New-order WhatsApp alerts for everyone on the notification list.
+ *
+ * The version before last blasted three hardcoded company numbers — one of
+ * which was the business's own WhatsApp number, which Meta rejects on every
+ * send. Destinations are explicit now, and a destination no longer has to be a
+ * team member with a login.
+ */
+async function sendAgentOrderWhatsApp(supabase, order, orderNumber, orderId = null) {
+  const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
+  const phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID;
+  if (!accessToken || !phoneNumberId) {
+    console.warn('[orders/create] Agent WhatsApp skipped: WHATSAPP_ACCESS_TOKEN / WHATSAPP_PHONE_NUMBER_ID not set');
+    return;
+  }
+
+  const recipients = await resolveAgentWhatsAppRecipients(supabase);
+
+  if (recipients.length === 0) {
+    console.warn(`[orders/create] Agent WhatsApp skipped for ${orderNumber}: nobody has the alert switched on with a usable number`);
+    return;
+  }
+
+  console.log(`[orders/create] Sending agent WhatsApp for ${orderNumber} to ${recipients.length} recipient(s)`);
+
+  const templateName = process.env.SALES_TEAM_WHATSAPP_TEMPLATE || 'alerta_nuevo_pedido';
+  const templateLanguage = process.env.SALES_TEAM_WHATSAPP_TEMPLATE_LANGUAGE || 'es';
+  // Counts what the customer paid for. Orders carry an explicit zero-price line
+  // for the free BAC water, and counting it would report a 5-vial order as
+  // "10 articulos" — inflating every alert the team reads.
+  const itemCount = (order.items || []).reduce((total, item) => (
+    Number(item.price || 0) > 0 ? total + Number(item.qty || 0) : total
+  ), 0);
+
+  const results = await Promise.allSettled(recipients.map(async ({ phone }) => {
+    const response = await fetch(`https://graph.facebook.com/v25.0/${phoneNumberId}/messages`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      signal: AbortSignal.timeout(WHATSAPP_TIMEOUT_MS),
+      body: JSON.stringify({
+        messaging_product: 'whatsapp',
+        to: phone,
+        type: 'template',
+        template: {
+          name: templateName,
+          language: { code: templateLanguage },
+          components: [{
+            type: 'body',
+            parameters: [
+              { type: 'text', text: orderNumber },
+              { type: 'text', text: `${order.customer_name} - ${order.customer_phone || 'N/A'}` },
+              { type: 'text', text: formatSalesAlertTotal(order) },
+              { type: 'text', text: `${itemCount} ${itemCount === 1 ? 'articulo' : 'articulos'}` },
+            ],
+          }],
+        },
+      }),
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result?.error?.message || `Meta API returned ${response.status}`);
+    const messageId = result.messages?.[0]?.id;
+
+    await logOrderAlert(supabase, {
+      phone,
+      messageId,
+      summary: `New order alert ${orderNumber} — ${order.customer_name} · ${formatSalesAlertTotal(order)} · ${itemCount} ${itemCount === 1 ? 'articulo' : 'articulos'}`,
+      orderId,
+      raw: result,
+    });
+
+    return { phone, messageId };
+  }));
+
+  results.forEach((result, index) => {
+    if (result.status === 'fulfilled') {
+      console.log('[orders/create] Agent WhatsApp alert sent:', result.value);
+    } else {
+      console.error('[orders/create] Agent WhatsApp alert failed:', {
+        agent: recipients[index].name,
+        error: result.reason?.message || String(result.reason),
+      });
+    }
+  });
+}
+
+/**
+ * The new website (`peptidescostarica.net`, branch `website`) posts its orders
+ * here from the browser. A different subdomain is a different site to the
+ * browser, so it asks first (OPTIONS) and only sends the order — and only lets
+ * the website read the answer — when these headers name its origin. Nothing
+ * else about the order changes: createOrder runs exactly as for the catalog.
+ */
+export function OPTIONS(request) {
+  return new Response(null, { status: 204, headers: storefrontCorsHeaders(request.headers.get('origin')) });
+}
+
+export async function POST(request) {
+  const response = await createOrder(request);
+  for (const [name, value] of Object.entries(storefrontCorsHeaders(request.headers.get('origin')))) {
+    response.headers.set(name, value);
+  }
+  return response;
+}
+
+async function createOrder(request) {
+  try {
+    if (!isTrustedStorefrontRequest(request)) {
+      return NextResponse.json({ error: 'Request origin is not allowed' }, { status: 403 });
+    }
+
+    const { body } = await readLimitedJson(request, 96 * 1024);
+    let order = body?.order;
+
+    if (!order || typeof order !== 'object') {
+      return NextResponse.json({ error: 'Missing order payload' }, { status: 400 });
+    }
+
+    order.payment_method = String(order.payment_method || '').trim().toLowerCase();
+
+    for (const field of REQUIRED_FIELDS) {
+      if (!order[field]) {
+        return NextResponse.json({ error: `Missing required field: ${field}` }, { status: 400 });
+      }
+    }
+
+    if (!Array.isArray(order.items) || order.items.length === 0) {
+      return NextResponse.json({ error: 'Order must include at least one item' }, { status: 400 });
+    }
+    if (order.items.length > 50
+        || order.items.some((item) => !Number.isInteger(Number(item?.qty))
+          || Number(item.qty) < 1
+          || Number(item.qty) > 100)) {
+      return NextResponse.json({ error: 'Order item limits exceeded' }, { status: 400 });
+    }
+    if (!/^[A-Za-z0-9-]{6,64}$/.test(String(order.order_number || ''))
+        || String(order.customer_phone || '').length > 40
+        || String(order.customer_email || '').length > 254
+        || String(order.shipping_address || '').length > 2000
+        || !['card', 'whatsapp', 'sinpe', 'bank_transfer'].includes(String(order.payment_method || '').toLowerCase())) {
+      return NextResponse.json({ error: 'Invalid order details' }, { status: 400 });
+    }
+
+    const supabase = getSupabaseAdmin();
+    const bankSettings = isBankMethod(order.payment_method) ? await readBankSettings(supabase) : null;
+    if (bankSettings && !bankAvailability(bankSettings)[order.payment_method]) {
+      return NextResponse.json({ error: 'Coming soon / Próximamente', errorCode: 'bank_payments_unavailable' }, { status: 409 });
+    }
+    // Resolved before the limits so a blocked customer is refused in her own
+    // language. It used to be read further down, after three English-only
+    // rejections had already been written.
+    const orderLang = order.lang === 'en' ? 'en' : 'es';
+
+    const ip = getRequestIp(request);
+    // Attempts, not orders: this counter's whole purpose is to notice a machine
+    // hammering the endpoint, and a refused attempt is exactly what that looks
+    // like. See checkoutRateLimits.mjs for why it sits so far above the
+    // per-person caps.
+    const ipLimit = await consumeDurableRateLimit(supabase, {
+      bucket: 'order-create-ip',
+      key: ip,
+      limit: ORDER_ATTEMPTS_PER_IP_PER_HOUR,
+      windowSeconds: ORDER_IP_WINDOW_SECONDS,
+    });
+    if (!ipLimit.allowed) {
+      return NextResponse.json(
+        {
+          error: ipLimit.unavailable
+            ? limiterUnavailableMessage(orderLang)
+            : tooManyAttemptsMessage(orderLang),
+          errorCode: ipLimit.unavailable ? 'limiter_unavailable' : 'too_many_attempts',
+        },
+        { status: ipLimit.unavailable ? 503 : 429, headers: rateLimitHeaders(ipLimit) },
+      );
+    }
+
+    // Peeked, not consumed. These cap how much one person may buy in a day —
+    // and, since 23 Sep 2026, how many orders one address may put in front of
+    // the sales team in an hour. All of them count orders that actually saved:
+    // a customer refused by the validation below has bought nothing, and
+    // charging her a slot for it spends her allowance on our own failures. The
+    // matching consume runs once the insert has succeeded.
+    const contactLimits = [...orderIpSavedLimits(ip), ...orderContactLimits(order)];
+    for (const contactLimit of contactLimits) {
+      const result = await peekDurableRateLimit(supabase, contactLimit);
+      if (result.allowed) continue;
+      return NextResponse.json(
+        {
+          error: result.unavailable
+            ? limiterUnavailableMessage(orderLang)
+            : tooManyAttemptsMessage(orderLang),
+          errorCode: result.unavailable ? 'limiter_unavailable' : 'too_many_attempts',
+        },
+        { status: result.unavailable ? 503 : 429, headers: rateLimitHeaders(result) },
+      );
+    }
+
+    // The opening status is ours, not the caller's. This route is public and
+    // runs as service-role, so a posted `status: 'Paid'` used to create a
+    // settled order that no money had ever been attached to — one the weekly
+    // commission scan then counted as a real sale. Derived from the payment
+    // method, which is the only thing that has ever decided it in practice.
+    //
+    // Set here rather than just before the insert so the alerts and the
+    // abandoned-cart cleanup further down read the same status the row gets.
+    order.status = checkoutOrderStatus(order.payment_method);
+
+    // The same rules the checkout form runs, run again here. The browser is not
+    // the authority: a stale tab, a retry from a saved payload or a direct post
+    // would otherwise write a name nobody can address a package to. Names are
+    // stored normalized so the staff alert and the courier label match.
+    const nameCheck = validateCustomerName(order.customer_name);
+    if (!nameCheck.ok) {
+      return NextResponse.json({ error: identityMessage(nameCheck.reason, orderLang) }, { status: 400 });
+    }
+    order.customer_name = nameCheck.name;
+
+    // What the fields say, now that the name is normalized.
+    //
+    // This USED to refuse an order whose name, phone, email and address scored
+    // as made-up. It no longer does: the team tests the live checkout with
+    // deliberately fake details, and being turned away for it cost more than
+    // the junk orders did. The score is still computed and still logged, so a
+    // run of junk can be read back out of the logs, but it never stops anyone.
+    //
+    // The hidden field is the one exception and still refuses on its own. No
+    // customer and no person testing can see it or type into it, so anything
+    // in there came from a script filling every input on the page.
+    const junk = scoreJunkOrder(order);
+    const honeypotFilled = (junk.signals || []).some((entry) => entry.signal === 'honeypotFilled');
+    // The hidden field never belongs on the row. Nothing whitelists the order
+    // fields before the insert, so leaving it here is an unknown column and a
+    // failed order for the real customers who never filled it in.
+    delete order[HONEYPOT_FIELD];
+    if (junk.score > 0) {
+      console.warn(`[orders/create] Junk signals from ${ip}: ${junkOrderSummary(junk)}`);
+    }
+    if (honeypotFilled) {
+      console.warn(`[orders/create] Refused bot order from ${ip}: honeypot filled`);
+      return NextResponse.json(
+        { error: junkOrderMessage(orderLang), errorCode: 'details_not_verified' },
+        { status: 400 },
+      );
+    }
+
+    // The bank's condition on the card account: no order may be created — and
+    // therefore no card checkout token minted — without the research-use
+    // acknowledgement the storefront gates the checkout form behind. Checked
+    // here rather than only in the browser for the same reason as the name
+    // above, and because this endpoint is the single door the card path and
+    // the WhatsApp path both go through.
+    const ackCheck = validateResearchAck(order.research_ack);
+    if (!ackCheck.ok) {
+      return NextResponse.json(
+        { error: researchAckMessage(ackCheck.reason, orderLang), errorCode: ackCheck.reason },
+        { status: 400 },
+      );
+    }
+    // What the browser sent was a claim; what goes on the row is our own record
+    // of accepting it, stamped with our clock. The nested object itself must not
+    // survive — nothing whitelists the order fields before the insert, so a
+    // stray key here becomes an unknown column and fails the whole order.
+    delete order.research_ack;
+    Object.assign(order, researchAckRecord());
+
+    let resolvedPromo = null;
+    delete order.additional_commission_user_id;
+    delete order.additional_commission_pct;
+    delete order.additional_commission_reason;
+    delete order.additional_commission_assigned_at;
+    let business = null;
+    const requestedBusinessQuoteId=order.business_quote_id || null;
+    delete order.business_account_id;
+    delete order.business_snapshot;
+    // The first-party cookie is the server's authoritative copy. Reading it
+    // here closes the gap where a browser extension, an early navigation, or
+    // a stale client bundle prevented the checkout payload from carrying the
+    // click even though the landing page had already saved it.
+    const googleAttribution = readAdClick({ cookie: request.headers.get('cookie') || '' })
+      || sanitizeAdAttribution(order.ad_attribution);
+    delete order.analytics_snapshot; delete order.ads_paid_at;
+    order.ad_attribution = googleAttribution;
+    // The visitor's GA4 cookie IDs, kept only if shaped like real ones. They let a
+    // WhatsApp sale confirmed later be sent to GA4 as part of this same visit.
+    Object.assign(order, sanitizeGaIdentity(order));
+    delete order.business_quote_id;
+
+    try {
+      const customer = await resolveCustomerOrderOwner(
+        supabase,
+        request.headers.get('authorization'),
+      );
+      order = applyCustomerOrderOwnership(order, customer?.id);
+      if (customer?.email) {
+        const token = request.headers.get('authorization').replace(/^Bearer\s+/i, '');
+        const { data: verified, error: verificationError } = await supabase.auth.getUser(token);
+        if (verificationError) throw new CustomerSessionError();
+        if (verified?.user?.email_confirmed_at) business = await findBusinessAccount(supabase, customer.email);
+      }
+    } catch (error) {
+      if (error instanceof CustomerSessionError) {
+        return NextResponse.json({ error: error.message }, { status: error.status });
+      }
+      throw error;
+    }
+
+    if (order.promo_code) {
+      const { data: promoData } = await supabase
+        .from('promo_codes')
+        .select('is_active, valid_from, valid_until, usage_limit, usage_count, once_per_customer, min_units, max_units, discount_pct, target_product, is_flash_sale')
+        .eq('code', order.promo_code.toUpperCase())
+        .single();
+        
+      if (!promoData) {
+        return NextResponse.json({ error: orderLang === 'en' ? 'Invalid promo code' : 'Código promocional inválido' }, { status: 400 });
+      }
+      resolvedPromo = promoData;
+      if (!promoData.is_active) {
+        return NextResponse.json({ error: orderLang === 'en' ? 'Promo code is inactive' : 'El código promocional está inactivo' }, { status: 400 });
+      }
+      
+      const now = new Date();
+      if (promoData.valid_from && now < new Date(promoData.valid_from)) {
+        return NextResponse.json({ error: orderLang === 'en' ? 'Promo code is not yet active' : 'El código promocional todavía no está activo' }, { status: 400 });
+      }
+      if (promoData.valid_until && now > new Date(promoData.valid_until)) {
+        // Auto-deactivate expired code
+        await supabase.from('promo_codes').update({ is_active: false }).eq('code', order.promo_code.toUpperCase());
+        return NextResponse.json({ error: orderLang === 'en' ? 'Promo code has expired' : 'El código promocional venció' }, { status: 400 });
+      }
+      if (promoData.usage_limit !== null && promoData.usage_count >= promoData.usage_limit) {
+        return NextResponse.json({ error: orderLang === 'en' ? 'Promo code has reached its usage limit' : 'El código promocional alcanzó su límite de uso' }, { status: 400 });
+      }
+      const dealConflict = await findLiveDealConflictForPromo(supabase, promoData);
+      if (dealConflict) {
+        return NextResponse.json({
+          error: promoDealConflictMessage({ ...promoData, code: order.promo_code }, dealConflict.products, orderLang),
+        }, { status: 409 });
+      }
+      // Unit conditions, re-checked against the items actually being ordered.
+      // The browser already blocks this, but the browser is not the authority:
+      // a capped intro code ("up to 4") is worth real money on a 30-vial order,
+      // so the cart size is verified once more before anything is saved.
+      const unitCheck = checkUnitLimits(
+        promoData,
+        // Only the products this code discounts count toward its minimum. A
+        // basket padded with items the code does not cover must not unlock it.
+        countPromoEligibleUnits(promoData, order.items.filter((item) => !isGiftLine(item))),
+      );
+      if (!unitCheck.ok) {
+        return NextResponse.json({
+          error: unitLimitsMessage(promoData, unitCheck.unitCount, order.lang || 'es'),
+        }, { status: 400 });
+      }
+      // One-time-per-customer codes: block if this customer (by email or phone)
+      // already has a prior order using this code.
+      if (promoData.once_per_customer) {
+        const codeUpper = order.promo_code.toUpperCase();
+        let alreadyUsed = false;
+        const checkPriorUse = async (field, value) => {
+          if (alreadyUsed || !value) return;
+          const { data: prior } = await supabase
+            .from('orders')
+            .select('promo_code')
+            .eq(field, value)
+            .not('promo_code', 'is', null);
+          if ((prior || []).some((o) => String(o.promo_code || '').trim().toUpperCase() === codeUpper)) {
+            alreadyUsed = true;
+          }
+        };
+        await checkPriorUse('customer_email', order.customer_email);
+        await checkPriorUse('customer_phone', order.customer_phone);
+        if (alreadyUsed) {
+          return NextResponse.json({ error: orderLang === 'en' ? 'This promo code can only be used once per customer.' : 'Este código promocional solo se puede usar una vez por cliente.' }, { status: 400 });
+        }
+      }
+    }
+
+    // Rebuild every public order from current product rows. A saved browser cart
+    // can straddle a deal start/end, and callers can edit posted prices; neither
+    // is allowed to decide what the customer is charged.
+    const [{ data: currentProducts, error: productError }, rateResult, { data: liveDealRows, error: liveDealError }] = await Promise.all([
+      supabase
+        .from('products')
+        .select('id,product,price_usd,price_crc,status,inventory_count'),
+      getDatabaseBackedUsdToCrcRate(),
+      // select('*') keeps ordinary checkout compatible during a rolling deploy:
+      // pre-migration databases simply return legacy shelf-deal rows, while a
+      // bulk launch itself still refuses until its required columns exist.
+      // Every live promotion, not just one: a flash sale runs alongside the
+      // Deal of the Week, and combineLiveDeals pools their offers so the
+      // customer is charged the single best one.
+      supabase.from('deals').select('*').eq('status', 'live'),
+    ]);
+    if (productError) {
+      return NextResponse.json({ error: `Could not verify current prices: ${productError.message}` }, { status: 503 });
+    }
+    if (liveDealError) {
+      return NextResponse.json({ error: `Could not verify weekly-deal pricing: ${liveDealError.message}` }, { status: 503 });
+    }
+    const liveDeal = combineLiveDeals(liveDealRows || []);
+    const matchedDeal = activeDealForOrder(liveDeal ? [liveDeal] : [], order.items);
+    const dealMaximum = dealMaxUnits(matchedDeal);
+    const dealUnits = dealEligibleUnits(matchedDeal, order.items);
+    if (matchedDeal && dealPricingMode(matchedDeal) === 'bulk_threshold' && dealMaximum && dealUnits > dealMaximum) {
+      return NextResponse.json({
+        error: orderLang === 'en'
+          ? `This limited-stock weekly deal covers up to ${dealMaximum} selected vials. Remove ${dealUnits - dealMaximum} to continue.`
+          : `Esta oferta semanal de inventario limitado cubre hasta ${dealMaximum} viales seleccionados. Quita ${dealUnits - dealMaximum} para continuar.`,
+        errorCode: 'weekly_deal_quantity_limit',
+      }, { status: 409 });
+    }
+    const dealPromo = resolvedPromo ? null : automaticDealPromo(matchedDeal, order.items);
+    // A two-offer deal is priced inside authoritativeCheckout, which picks the
+    // one offer that saves the customer most and adds any free vials itself.
+    // Passed even with a code entered: authoritativeCheckout prices the deal
+    // and the code and charges the cheaper, so a small code can no longer
+    // cancel a bigger offer.
+    const dealOffers = matchedDeal && dealPricingMode(matchedDeal) === OFFERS_PRICING_MODE
+      ? matchedDeal.offers
+      : null;
+    const businessQuote=await resolveBusinessQuote(supabase,business,requestedBusinessQuoteId,order.items);
+    const contractPrices=mergeBusinessProductPrices(await businessProductPrices(supabase,business),businessQuote?.prices || []);
+    const authoritative = authoritativeCheckout({
+      postedOrder: order,
+      messageLang: orderLang,
+      products: currentProducts || [],
+      promo: resolvedPromo || dealPromo,
+      exchangeRate: rateResult.rate,
+      suppressVolumeDiscount: Boolean(matchedDeal && dealPricingMode(matchedDeal) === 'shelf'),
+      dealOffers,
+      businessDiscountPct: businessDiscountPct(business),
+      businessProductPrices: contractPrices,
+    });
+    if (!authoritative.ok) {
+      return NextResponse.json({ error: authoritative.error, errorCode: 'cart_invalid' }, { status: 409 });
+    }
+    const minimumError=businessMinimumError(business,authoritative,order.items,rateResult.rate);
+    if(minimumError) return NextResponse.json({error:minimumError,errorCode:'business_minimum'},{status:409});
+    if (authoritative.changed) {
+      // The rate travels with the refusal, and it is the field that makes this
+      // recoverable. Colón totals are compared exactly, and the browser fetches
+      // the USD/CRC rate once when the page loads and never again — so a page
+      // left open across an hourly refresh posts a total that can never match,
+      // and every retry from that tab fails identically. Telling the customer
+      // to "submit again" was the worst possible answer: nothing in the cart
+      // was wrong, and nothing she could do would change the number. With the
+      // rate in hand the checkout re-prices itself and only interrupts her if
+      // the new total is actually higher than the one she agreed to.
+      return NextResponse.json({
+        error: orderLang === 'en'
+          ? 'Prices moved while this cart was open. Please review the new total.'
+          : 'Los precios cambiaron mientras el carrito estaba abierto. Revise el nuevo total.',
+        errorCode: 'price_changed',
+        exchangeRate: rateResult.rate,
+        pricing: authoritative,
+      }, { status: 409 });
+    }
+
+    order.items = authoritative.items;
+    // Recorded rather than recomputed later: the tier rules change during a
+    // deal week, and this order's badge must keep showing the rate it was
+    // actually charged. Dropped harmlessly if the migration has not been run.
+    order.volume_discount_pct = authoritative.volumeDiscountPct ?? 0;
+    order.total_usd = authoritative.totalUsd;
+    order.total_crc = authoritative.totalCrc;
+    order.discount_amount_usd = order.currency === 'USD'
+      ? authoritative.promoDiscount
+      : Number((authoritative.promoDiscount / rateResult.rate).toFixed(2));
+    order.discount_amount_crc = order.currency === 'CRC'
+      ? authoritative.promoDiscount
+      : Math.round(authoritative.promoDiscount * rateResult.rate);
+    order.shipping_cost_usd = order.currency === 'USD'
+      ? authoritative.shipping
+      : Number((authoritative.shipping / rateResult.rate).toFixed(2));
+    order.shipping_cost_crc = order.currency === 'CRC'
+      ? authoritative.shipping
+      : Math.round(authoritative.shipping * rateResult.rate);
+
+    // Attribution is derived from the live deal and the products actually
+    // priced, never from a query parameter supplied by the shopper.
+    // Credit the promotion whose offer actually discounted this order: with a
+    // flash sale and the weekly deal both running, the winner may not be the
+    // deal the pooled view is anchored to.
+    if (matchedDeal) order.deal_id = authoritative.dealOfferDealId || matchedDeal.id;
+
+    // A marketing tag must never cost us the sale. A free-text campaign name
+    // reaching a uuid column used to fail the whole insert, which broke
+    // checkout for every customer who arrived through that link.
+    const { order: sanitizedOrder, dropped: droppedAttribution } = sanitizeOrderAttribution(order);
+    const referredOrder = await applyTrustedAgentReferralAttribution(supabase, sanitizedOrder);
+    // A returning customer goes back to the agent who first closed them, so the
+    // team keeps its clients now that the WhatsApp history is gone. This only
+    // fills a gap: an order that already has an agent (a referral link) is left
+    // exactly as it is, so nobody is paid twice for the same sale.
+    const attributedOrder = await applyCustomerHistoryAttribution(supabase, referredOrder);
+    const orderRow = await applyBusinessOrderAttribution(supabase,attributedOrder,business,businessQuote?.quote,authoritative,contractPrices);
+    // A public request may create an unpaid order, but it may not mutate stock.
+    // The empty reservation is explicit so authenticated settlement/card approval
+    // can distinguish this order from legacy rows whose stock was already taken.
+    orderRow.inventory_deducted = [];
+    orderRow.analytics_snapshot = orderEcommerceSnapshot(orderRow, authoritative, rateResult.rate);
+    if (bankSettings) {
+      orderRow.activity_log = [{ at: new Date().toISOString(), type: 'bank_payment_instructions', by: 'system', message: 'Awaiting BAC payment - verify received funds before marking paid.', payment: bankPaymentSnapshot(bankSettings, orderRow) }];
+    }
+    // A business's one-time extra commission (set in admin) rides on its next
+    // order. Taken last, after the activity log above is built, and handed back
+    // below if the order cannot be saved.
+    const firstOrderExtra = await claimFirstOrderExtraCommission(supabase, orderRow, business);
+    if (firstOrderExtra) {
+      Object.assign(orderRow, firstOrderExtra.patch);
+      orderRow.activity_log = [...(orderRow.activity_log || []), firstOrderExtra.activity];
+    }
+    let savedOrderForAlerts = orderRow;
+    if (droppedAttribution.length) {
+      console.warn(
+        '[orders/create] Dropped invalid attribution (order still saved):',
+        droppedAttribution.map(({ field, value }) => `${field}="${value}"`).join(', ')
+      );
+    }
+
+    // The checkout page collected this by calling ipapi.co, then db-ip, then
+    // ipify from the customer's browser. Ad blockers block all three, which is
+    // why roughly one order in seven has no address at all, and a value the
+    // browser supplies can be edited by whoever is sending it. The platform
+    // already puts the real client address on the request, so it is read here
+    // and the browser's guess kept only as a local-development fallback.
+    const forwardedFor = request.headers.get('x-forwarded-for')
+      || request.headers.get('x-real-ip')
+      || '';
+    const requestIp = forwardedFor.split(',')[0].trim();
+    if (requestIp) orderRow.ip_address = requestIp;
+
+    // utm_campaign arrives via its own hand-run migration
+    // (add-order-utm-campaign.sql). Dropping it rather than failing keeps
+    // checkout working on a database that has not had that file pasted in yet —
+    // the same principle as the attribution sanitizer: an order is worth more
+    // than its marketing tag.
+    let { data, error, droppedColumns } = await writeDroppingMissingColumns(
+      orderRow,
+      [
+        'ad_attribution', 'analytics_snapshot', 'ga_client_id', 'ga_session_id',
+        'utm_campaign',
+        'deal_id',
+        'inventory_deducted',
+        'volume_discount_pct',
+        // add-order-research-acknowledgement.sql. The gate is enforced above
+        // whether or not this SQL has been pasted in; without it we simply lose
+        // the audit trail of which wording was agreed to. Refusing the order
+        // instead would take checkout down for the window between the deploy
+        // and the migration, which is the opposite of what the bank wants.
+        ...ORDER_RESEARCH_ACK_COLUMNS,
+      ],
+      (row) => supabase.from('orders').insert(row).select('id, order_number').single(),
+    );
+    if (droppedColumns?.length) {
+      console.warn(`[orders/create] Order saved without ${droppedColumns.join(', ')} — run the migration to keep it.`);
+    }
+
+    if (error && isFkViolation(error) && orderRow.affiliate_id) {
+      console.warn('[orders/create] Affiliate FK failed, retrying without affiliate fields:', error.message);
+      const { affiliate_id, affiliate_commission_usd, affiliate_commission_crc, ...withoutAffiliate } = orderRow;
+      savedOrderForAlerts = withoutAffiliate;
+      ({ data, error } = await supabase
+        .from('orders')
+        .insert(withoutAffiliate)
+        .select('id, order_number')
+        .single());
+    }
+
+    if (error) {
+      if (firstOrderExtra) await releaseFirstOrderExtraCommission(supabase, business, orderRow.order_number);
+      if(error.code==='23505'&&businessQuote)return NextResponse.json({error:'This quote already has an order. Open the existing company order to continue.',errorCode:'quote_already_ordered'},{status:409});
+      console.error('[orders/create] Insert failed:', error.message, { order_number: order.order_number });
+      try {
+        await supabase.from('admin_notifications').insert({
+          type: 'order_save_failed',
+          title: `Order save failed: ${order.order_number}`,
+          body: `${order.customer_name} — ${error.message}`.slice(0, 500),
+          link_tab: 'orders',
+          link_ref: order.order_number,
+        });
+      } catch {
+        // notification table may not exist yet
+      }
+      return NextResponse.json({ error: error.message }, { status: 500 });
+    }
+
+    // The order exists, so now it counts. Every `return` above this line leaves
+    // the customer's daily allowance untouched, which is the whole point: she
+    // is capped on what she buys, never on what we refused to sell her.
+    //
+    // Best-effort. A limiter that cannot record a saved order must not undo one
+    // that is already in the database.
+    if (orderRow.customer_user_id) {
+      try {
+        await rememberOrderAddress(supabase, orderRow.customer_user_id, orderRow);
+      } catch (addressErr) {
+        console.error('[orders/create] Could not save the account address:', addressErr.message);
+      }
+    }
+    for (const contactLimit of contactLimits) {
+      try {
+        await consumeDurableRateLimit(supabase, contactLimit);
+      } catch (limitErr) {
+        console.error('[orders/create] Could not record order against contact limit:', limitErr.message);
+      }
+    }
+
+    // Raise the bell before anything that can fail slowly. Email and WhatsApp
+    // are best-effort; this row is the one alert the team is guaranteed to get.
+    try {
+      await recordNewOrderNotification(supabase, order, data.order_number);
+    } catch (notifyErr) {
+      console.error('[orders/create] New order notification insert failed:', notifyErr.message);
+    }
+
+    // Deal of the Week page A/B test: credit the order to the page version the
+    // shopper saw in the last 14 days. Best-effort — a lost tag never costs a sale.
+    const experimentTag = body?.dealPageExperiment;
+    const experimentVariant = normalizeVariant(experimentTag?.variant);
+    if (experimentTag?.experiment === DEAL_PAGE_EXPERIMENT && experimentVariant) {
+      try {
+        const { error: experimentError } = await supabase.from('ab_test_events').insert({
+          experiment: DEAL_PAGE_EXPERIMENT,
+          variant: experimentVariant,
+          event: 'order',
+          visitor_id: String(experimentTag.visitorId || '').slice(0, 100) || null,
+          session_id: body.sessionId ? String(body.sessionId).slice(0, 100) : null,
+          order_id: data.id,
+          order_number: data.order_number,
+          value_usd: Number(orderRow.total_usd) || null,
+        });
+        if (experimentError && experimentError.code !== '23505') {
+          console.warn('[orders/create] Deal page A/B order not recorded:', experimentError.message);
+        }
+      } catch (experimentErr) {
+        console.warn('[orders/create] Deal page A/B order not recorded:', experimentErr.message);
+      }
+    }
+
+    const updatePromises = [];
+    if (body.sessionId) {
+      updatePromises.push(
+        supabase
+          .from('abandoned_carts')
+          .delete()
+          .eq('session_id', body.sessionId)
+      );
+    }
+    if (order.customer_phone) {
+      const cleanPhone = order.customer_phone.replace(/\D/g, '');
+      const phoneSearch = cleanPhone.length >= 8 ? cleanPhone.slice(-8) : cleanPhone;
+      updatePromises.push(
+        supabase
+          .from('abandoned_carts')
+          .delete()
+          .ilike('customer_phone', `%${phoneSearch}%`)
+      );
+    }
+    if (order.customer_email) {
+      updatePromises.push(
+        supabase
+          .from('abandoned_carts')
+          .delete()
+          .eq('customer_email', order.customer_email)
+      );
+    }
+    if (order.promo_code) {
+      updatePromises.push(
+        (async () => {
+          const { data: pCode } = await supabase.from('promo_codes').select('usage_count').eq('code', order.promo_code).single();
+          if (pCode) {
+            await supabase.from('promo_codes').update({ usage_count: (pCode.usage_count || 0) + 1 }).eq('code', order.promo_code);
+          }
+        })()
+      );
+    }
+
+    if (updatePromises.length > 0) {
+      try {
+        await Promise.all(updatePromises);
+      } catch (cartErr) {
+        console.warn('[orders/create] Abandoned cart update failed:', cartErr.message);
+      }
+    }
+
+    const { error: paidCartCleanupError } = await markActiveAbandonedCartsConvertedForOrder(supabase, order);
+    if (paidCartCleanupError) {
+      console.warn('[orders/create] Paid cart cleanup failed:', paidCartCleanupError.message);
+    }
+
+    // Every post-order alert runs here, before the response.
+    //
+    // In `after()` these produced no result and no log at all — while the
+    // identical WhatsApp call in /api/leads/capture, made from the request
+    // path, sends reliably. The WhatsApp alerts were moved out first; the
+    // admin email was left behind and kept vanishing on its own, which is why
+    // a test order could land in the dashboard, mail the customer, and still
+    // never reach the team.
+    //
+    // They run together so the checkout waits for the slowest one rather than
+    // the sum, and each is capped tightly enough that neither Meta nor SMTP
+    // can hold up a customer.
+    const baseUrl = new URL(request.url).origin;
+    const alerts = [
+      order.payment_method === 'card' 
+        ? ['customer WhatsApp (skipped)', Promise.resolve()]
+        : ['customer WhatsApp', sendCustomerOrderConfirmation(supabase, savedOrderForAlerts, data.order_number, data.id)],
+      ['agent WhatsApp', sendAgentOrderWhatsApp(supabase, savedOrderForAlerts, data.order_number, data.id)],
+      ['affiliate WhatsApp', sendAffiliateOrderWhatsApp(supabase, savedOrderForAlerts, data.order_number, data.id)],
+      // A card order's alert is held until the charge answers, so the team
+      // gets one email that states the outcome instead of two — the first of
+      // which could only ever say "PENDING - CARD", whether the card was about
+      // to be approved or refused. The bell row above is raised either way, so
+      // the order is never invisible while the charge is in flight.
+      // Sent by /api/chargx/process-card, or by the webhook for 3DS.
+      order.payment_method === 'card'
+        ? ['admin email (deferred to payment result)', Promise.resolve()]
+        : ['order emails', sendAdminOrderEmail(baseUrl, savedOrderForAlerts, data.order_number, {
+          notificationOptions: {
+            adminNotificationOnly: false,
+            customerReceiptOnly: false,
+          },
+        })],
+    ];
+    const alertResults = await Promise.allSettled(alerts.map(([, promise]) => promise));
+    alertResults.forEach((result, index) => {
+      const label = alerts[index][0];
+      if (result.status === 'rejected') {
+        console.error(`[orders/create] ${label} alert failed for ${data.order_number}:`, result.reason?.message || String(result.reason));
+      } else {
+        console.log(`[orders/create] ${label} alert completed for ${data.order_number}`);
+      }
+    });
+
+    const paymentToken = order.payment_method === 'card'
+      ? createCardCheckoutToken(data.order_number, data.id)
+      : null;
+    return NextResponse.json({
+      ok: true,
+      id: data.id,
+      analyticsReceiptToken: createAnalyticsReceiptToken(data.order_number, data.id),
+      orderNumber: data.order_number,
+      ...(bankSettings ? { bankPaymentToken: createBankPaymentToken(String(data.id)) } : {}),
+      ...(paymentToken ? { paymentToken } : {}),
+    });
+  } catch (err) {
+    console.error('[orders/create] Unexpected error:', err);
+    if (err instanceof RequestBodyError) {
+      return NextResponse.json({ error: err.message }, { status: err.status });
+    }
+    if([400,401,403,404,409].includes(err.status)) return NextResponse.json({error:err.message},{status:err.status});
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}
