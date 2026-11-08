@@ -73,6 +73,7 @@ test('the payload carries what checkout requires', () => {
   assert.ok(HONEYPOT_FIELD in order, 'the honeypot travels and checkout strips it');
   assert.equal(order.payment_method, 'whatsapp');
   assert.equal(order.status, 'Pending');
+  assert.equal('lang' in order, false, 'the catalog order row has no lang column');
   assert.ok(order.items.length >= 1);
   assert.equal(order.items[0].product, 'BPC-157 10mg', 'the stored product string, unaltered');
 });

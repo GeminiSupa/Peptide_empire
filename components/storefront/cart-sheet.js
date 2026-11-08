@@ -78,7 +78,9 @@ export default function CartSheet({
     name: '', phone: '', email: '', province: '', canton: '', district: '',
     directions: '', cedula: '', notes: '',
   });
-  const [method, setMethod] = useState('');
+  // Card is the primary checkout path and should never require an extra,
+  // unexplained choice before the payment button becomes usable.
+  const [method, setMethod] = useState('card');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [honeypot, setHoneypot] = useState('');
