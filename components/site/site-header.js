@@ -84,44 +84,63 @@ export default function SiteHeader({
     </div>
   );
 
+  // What the top strip says. `copy` is the ticker's second, hidden pass:
+  // its links are taken out of the tab order.
+  const announceItems = (copy) => {
+    const tab = copy ? { tabIndex: -1 } : {};
+    return (
+      <>
+        {deal ? (
+          <Link href={links['deal-of-the-week']} data-deal="" {...tab}>
+            <Ms name="local_offer" />
+            {t('Deal of the Week')}
+          </Link>
+        ) : null}
+        {/* The banners switched on in the catalog admin take the place of
+            the design's standing offers, as on the catalog. */}
+        {banners.length ? banners.map((banner) => {
+          const href = banner.href === 'whatsapp'
+            ? whatsapp('')
+            : /^\/catalog(\/|\?|$)/.test(banner.href) ? links.catalog : banner.href;
+          const external = /^https?:\/\//.test(href) || banner.href === 'whatsapp';
+          return href ? (
+            <a key={banner.id} href={href} data-banner="" {...tab} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
+              <Ms name="campaign" />{banner.text}
+            </a>
+          ) : (
+            <span key={banner.id} data-banner=""><Ms name="campaign" />{banner.text}</span>
+          );
+        }) : (
+          <>
+            <span><Ms name="redeem" />{t('Free BAC Water with every order')}</span>
+            <span><Ms name="sell" />{t('15% off 5+ · 20% off 10+')}</span>
+            <span><Ms name="local_shipping" />{t(`Free delivery over ${freeShippingLabel}`)}</span>
+          </>
+        )}
+        <Link href={links['explore-our-app']} data-cta="announce-app" {...tab}>
+          <Ms name="smartphone" />
+          {t('Earn points & extra discounts in our app')}
+        </Link>
+      </>
+    );
+  };
+
   const closeDrawer = () => setDrawerOpen(false);
   const dealHref = links['deal-of-the-week'];
 
   return (
     <>
-      <div className="announce">
+      <div className={`announce${banners.length ? ' ticking' : ''}`}>
         <div className="wrap">
-          {deal ? (
-            <Link href={dealHref} data-deal="">
-              <Ms name="local_offer" />
-              {t('Deal of the Week')}
-            </Link>
-          ) : null}
-          {/* The banners switched on in the catalog admin take the place of
-              the design's standing offers, as on the catalog. */}
-          {banners.length ? banners.map((banner) => {
-            const href = banner.href === 'whatsapp'
-              ? whatsapp('')
-              : /^\/catalog(\/|\?|$)/.test(banner.href) ? links.catalog : banner.href;
-            const external = /^https?:\/\//.test(href) || banner.href === 'whatsapp';
-            return href ? (
-              <a key={banner.id} href={href} data-banner="" {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
-                <Ms name="campaign" />{banner.text}
-              </a>
-            ) : (
-              <span key={banner.id} data-banner=""><Ms name="campaign" />{banner.text}</span>
-            );
-          }) : (
-            <>
-              <span><Ms name="redeem" />{t('Free BAC Water with every order')}</span>
-              <span><Ms name="sell" />{t('15% off 5+ · 20% off 10+')}</span>
-              <span><Ms name="local_shipping" />{t(`Free delivery over ${freeShippingLabel}`)}</span>
-            </>
-          )}
-          <Link href={links['explore-our-app']} data-cta="announce-app">
-            <Ms name="smartphone" />
-            {t('Earn points & extra discounts in our app')}
-          </Link>
+          {banners.length ? (
+            // Admin banners are long, so the strip scrolls like the catalog's
+            // ticker: the items twice over, moved left by one copy's width,
+            // so the loop never shows a gap. Pauses under the pointer.
+            <div className="ann-move" style={{ '--ann-s': `${Math.max(25, Math.round(banners.reduce((n, banner) => n + banner.text.length, 0) / 6))}s` }}>
+              <div className="ann-set">{announceItems(false)}</div>
+              <div className="ann-set" aria-hidden="true">{announceItems(true)}</div>
+            </div>
+          ) : announceItems(false)}
         </div>
       </div>
 

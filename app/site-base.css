@@ -266,3 +266,23 @@
 .pcr-site .tg.promo { background: var(--cta); }
 .pcr-site s.was { color: var(--soft, #8a94ad); font-size: .82em; font-weight: 600; margin-left: 6px; }
 .pcr-site .perline s.was { margin-left: 0; }
+/* The top strip as a moving ticker when admin banners run (site-header.js):
+   two copies side by side, slid left by one copy, so it loops without a gap. */
+.pcr-site .announce.ticking .wrap { justify-content: flex-start; overflow: hidden; max-width: none; padding-left: 0; padding-right: 0; }
+.pcr-site .announce .ann-move { display: flex; width: max-content; animation: pcr-ann var(--ann-s, 40s) linear infinite; }
+.pcr-site .announce .ann-set { display: flex; align-items: center; gap: 28px; padding-right: 28px; flex: none; }
+.pcr-site .announce .ann-set > * { flex: none; }
+.pcr-site .announce.ticking:hover .ann-move { animation-play-state: paused; }
+@keyframes pcr-ann { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .pcr-site .announce .ann-move { animation: none; }
+  .pcr-site .announce.ticking .wrap { overflow-x: auto; }
+}
+
+/* Language / currency menu: the language you are not on is a link to that
+   page, so it needs the same look as the buttons beside it. */
+.pcr-site .seg a {
+  height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: var(--ink); text-decoration: none; cursor: pointer;
+}
+.pcr-site .seg a:hover, .pcr-site .seg button:not([aria-pressed=true]):hover { background: rgba(255, 255, 255, .6); }
