@@ -4,6 +4,7 @@ import Faq from '@/components/site/faq';
 import ProductGrid from '@/components/site/product-grid';
 import { BigClock, Bundles, DealViewed, Ladder } from '@/components/site/deal-live';
 import { ShopperRotating } from '@/components/site/review-widgets';
+import ShopperApprovedLogo from '@/components/site/shopper-approved-logo';
 import { formatMoney, translator } from '@/lib/storefront/i18n.mjs';
 
 /**
@@ -76,7 +77,7 @@ export default function DealPage({ lang, site }) {
             <div className="dltrust">
               <span><b>3,400+</b>{` ${t('researchers served')}`}</span>
               <span><b>5.0</b>{` ★ Google`}</span>
-              <span><b>4.8</b>{` ★ Shopper Approved`}</span>
+              <span><ShopperApprovedLogo width={70} /></span>
               <span>{`${t('Delivered in')} `}<b>{t('2–4 days')}</b></span>
             </div>
           </div>

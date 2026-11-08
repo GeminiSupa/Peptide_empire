@@ -8,6 +8,8 @@
  * No hooks, so server and client components can both draw it.
  */
 
+import ShopperApprovedLogo from '@/components/site/shopper-approved-logo';
+
 const MARKS = {
   trustpilot: (
     <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -30,10 +32,7 @@ const MARKS = {
     </svg>
   ),
   shopperApproved: (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <circle cx="12" cy="12" r="12" fill="#F58220" />
-      <path fill="none" stroke="#fff" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" d="M7 12.4l3.2 3.2L17.2 8.6" />
-    </svg>
+    <ShopperApprovedLogo width={48} decorative />
   ),
 };
 
@@ -46,7 +45,15 @@ const SOURCES = [
 
 /** A platform's mark, for a one-line mention such as a proof strip. */
 export function ReviewMark({ source }) {
-  return <span className="rbmark">{MARKS[source]}</span>;
+  const isShopperApproved = source === 'shopperApproved';
+  return (
+    <span
+      className="rbmark"
+      style={isShopperApproved ? { width: '48px', height: '24px' } : undefined}
+    >
+      {MARKS[source]}
+    </span>
+  );
 }
 
 /** Five stars filled to the score, so a 4.6 reads as 4.6 and not as five. */
@@ -69,7 +76,7 @@ export default function ReviewBar({ reviews, lang = 'en', variant = 'cards', cla
         if (!entry) return null;
         return (
           <a className="rbcard" key={key} href={entry.url} target="_blank" rel="noopener noreferrer">
-            <span className="rbmark">{MARKS[key]}</span>
+            <ReviewMark source={key} />
             <span className="rbtext">
               <span className="rbscore"><b>{entry.score.toFixed(1)}</b><Stars score={entry.score} lang={lang} /></span>
               <small>{name}{entry.count ? <span className="rbcount"> · {reviewsWord(entry.count)}</span> : null}</small>
