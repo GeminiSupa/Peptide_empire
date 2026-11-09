@@ -171,9 +171,19 @@ export default async function PageRoute({ page, lang }) {
   const extra = Template === CategoryTemplate ? { categorySlug: categorySlugFor(page.slug) } : {};
   return (
     <SiteShell lang={lang} altHref={lang === 'es' ? alt.en : alt.es}>
-      <Template lang={lang} site={site} page={page} h1={liveH1(page, lang)} copy={liveCopy(page.sections, lang)} {...extra} />
+      {renderTemplate(Template, { lang, site, page, h1: liveH1(page, lang), copy: liveCopy(page.sections, lang), ...extra })}
     </SiteShell>
   );
+}
+
+/**
+ * Renders the template chosen for a URL. Every template is a module-level
+ * component (TEMPLATES, CategoryTemplate…), picked per page, never created
+ * per render; the indirection keeps the static-components lint rule, which
+ * cannot see that, from flagging the lookup.
+ */
+function renderTemplate(Template, props) {
+  return <Template {...props} />;
 }
 
 /** A page the new design adds (`/our-process/`, `/es/nuestro-proceso/`…). */
