@@ -6,6 +6,10 @@ import ProductGrid from '@/components/site/product-grid';
 import { CategoryTiles } from '@/components/site/blocks';
 import { fromPrice } from '@/lib/site/data';
 import { formatMoney, translator } from '@/lib/storefront/i18n.mjs';
+import Breadcrumbs from '@/components/site/breadcrumbs';
+import JsonLd from '@/components/site/json-ld';
+import { SITE_URL } from '@/lib/indexing';
+import { collectionNodes, faqNode } from '@/lib/site/structured-data.mjs';
 
 /**
  * The prototype's category view (`catHTML`, "CATEGORY PAGES: SEO + CRO"):
@@ -45,7 +49,7 @@ export function categorySlugFor(slug) {
   return WOO_TO_CATEGORY[slug] || slug;
 }
 
-export default function CategoryPage({ lang, site, category, h1, copy }) {
+export default function CategoryPage({ lang, site, category, h1, copy, page }) {
   const t = translator(lang);
   const { links, categories, exchangeRate } = site;
   const name = t(category.name);
@@ -63,18 +67,26 @@ export default function CategoryPage({ lang, site, category, h1, copy }) {
     ['How fast is delivery?', '2–4 days anywhere in Costa Rica, from our own cold storage. No customs or import fees.'],
     ['Do you provide dosing information?', 'No. These products are supplied for laboratory research only. We don\'t provide dosing, protocols or medical advice.'],
   ].filter(([, answer]) => answer);
+  const shownFaq = faq.map(([q, a]) => [t(q), t(a)]);
+  const blocks = copy?.blocks || [];
+  // This page's own URL (a category has a marketing and a WooCommerce URL).
+  const url = (lang === 'es' ? page?.es : page?.en) || category.href;
 
   return (
     <div id="cat">
+      <JsonLd
+        nodes={[
+          collectionNodes({ base: SITE_URL, url, name: h1, description: what ? t(what) : undefined, lang, products: compounds }),
+          faqNode({ base: SITE_URL, url, lists: [shownFaq, ...blocks.map((block) => block.faq || [])] }),
+        ]}
+      />
       <section className="chead">
         <div className="wrap">
-          <nav className="bc" aria-label={t('Breadcrumb')}>
-            <Link href={links.home}>{t('Home')}</Link>
-            <span>/</span>
-            <Link href={links.shop}>{t('Categories')}</Link>
-            <span>/</span>
-            <b>{name}</b>
-          </nav>
+          <Breadcrumbs
+            label={t('Breadcrumb')}
+            url={url}
+            items={[{ name: t('Home'), href: links.home }, { name: t('Categories'), href: links.shop }, { name }]}
+          />
           <div className="chg">
             <div>
               <span className="ms big" aria-hidden="true">{category.icon}</span>
@@ -135,10 +147,10 @@ export default function CategoryPage({ lang, site, category, h1, copy }) {
 
         <section className="psec">
           <h2>{t(`${name} FAQ`)}</h2>
-          <Faq items={faq.map(([q, a]) => [t(q), t(a)])} />
+          <Faq items={shownFaq} />
         </section>
 
-        {(copy?.blocks || []).map((block) => (
+        {blocks.map((block) => (
           <CopyBlock block={block} t={t} lang={lang} key={block.title || block.paras[0]} />
         ))}
 

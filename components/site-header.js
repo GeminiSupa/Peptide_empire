@@ -10,7 +10,6 @@ import { getPublishedGlobal } from '@/lib/site-cms';
 import { searchIndex } from '@/lib/search-index';
 import { label, t } from '@/lib/i18n';
 import { alternatePath, localePath, DEFAULT_LANG } from '@/lib/routes';
-import StructuredData from '@/components/structured-data';
 
 // The only strings that live in code are UI affordances with no equivalent on
 // the live site's markup (the shop button and the language toggle labels).
@@ -31,7 +30,9 @@ export default async function SiteHeader({ lang = DEFAULT_LANG, path = '/' }) {
 
   return (
     <>
-      <StructuredData path={path} />
+      {/* No harvested WordPress JSON-LD here (removed Nov 2026): it carried
+          old prices and FAQs these legacy pages don't show. Structured data
+          comes from lib/site/structured-data.mjs on new-design pages. */}
       <header className="relative z-40 border-b border-slate-200/80 bg-white/95 shadow-[0_4px_18px_rgba(9,39,113,0.06)] backdrop-blur">
       {/* Announcement bar */}
       <div className="bg-primary text-white">

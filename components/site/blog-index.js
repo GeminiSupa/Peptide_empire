@@ -5,6 +5,7 @@ import { posts } from '@/content/pages/posts';
 import { mixingGuides } from '@/content/pages/mixing-guides';
 import { pathHref } from '@/lib/site/links.mjs';
 import { translator } from '@/lib/storefront/i18n.mjs';
+import Breadcrumbs from '@/components/site/breadcrumbs';
 
 /** What each listing page lists: the same sources the live pages list. */
 export const LISTINGS = {
@@ -32,11 +33,11 @@ export default function BlogIndex({ lang, site, page, h1 }) {
     <div className="pagev">
       <section className="bhero">
         <div className="wrap">
-          <nav className="bc" aria-label={t('Breadcrumb')}>
-            <Link href={site.links.home}>{t('Home')}</Link>
-            <span>/</span>
-            <b>{t(listing.label)}</b>
-          </nav>
+          <Breadcrumbs
+            label={t('Breadcrumb')}
+            url={(lang === 'es' ? page.es : page.en) || page.en}
+            items={[{ name: t('Home'), href: site.links.home }, { name: t(listing.label) }]}
+          />
           <h1>{h1}</h1>
           <p>{t(listing.lead)}</p>
           <ListFilter target="#postGrid .post" placeholder={t('Search articles')} />

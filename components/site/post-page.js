@@ -5,6 +5,12 @@ import ReadingProgress from '@/components/site/reading-progress';
 import { imageUrl } from '@/lib/images';
 import { pathHref } from '@/lib/site/links.mjs';
 import { translator } from '@/lib/storefront/i18n.mjs';
+import Breadcrumbs from '@/components/site/breadcrumbs';
+import JsonLd from '@/components/site/json-ld';
+import { SITE_URL } from '@/lib/indexing';
+import { seoForPath } from '@/lib/seo';
+import { articleNode } from '@/lib/site/structured-data.mjs';
+import ARTICLE_DATES from '@/data/site/article-dates.json';
 
 /**
  * The prototype's article view (`postHTML`) for every blog post, guide and
@@ -78,19 +84,32 @@ export default function PostPage({ lang, site, page, h1, related = [], section }
   const title = h1 || parts.h1 || page.head?.[`title_${lang}`] || '';
   const prods = namedCompounds(title, compounds);
   const lead = prods[0];
+  const url = (lang === 'es' ? page.es : page.en) || page.en;
+  const seo = seoForPath(url) || seoForPath(page.en);
+  const firstImage = parts.html.match(/<img[^>]+src="([^"]+)"/)?.[1];
 
   return (
     <>
+      <JsonLd
+        nodes={[articleNode({
+          base: SITE_URL,
+          url,
+          headline: title,
+          description: seo?.description,
+          image: seo?.openGraph?.['og:image'] || firstImage,
+          lang,
+          section: t(section.label),
+          dates: ARTICLE_DATES[page.en],
+        })]}
+      />
       <ReadingProgress />
       <article className="article">
         <div className="wrap">
-          <nav className="bc" aria-label={t('Breadcrumb')}>
-            <Link href={links.home}>{t('Home')}</Link>
-            <span>/</span>
-            <Link href={section.href}>{t(section.label)}</Link>
-            <span>/</span>
-            <b>{title}</b>
-          </nav>
+          <Breadcrumbs
+            label={t('Breadcrumb')}
+            url={url}
+            items={[{ name: t('Home'), href: links.home }, { name: t(section.label), href: section.href }, { name: title }]}
+          />
           <header className="ahead">
             <small className="acat">{t(section.label)}</small>
             <h1>{title}</h1>

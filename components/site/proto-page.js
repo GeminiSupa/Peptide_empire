@@ -14,6 +14,9 @@ import { CATEGORIES, CONTACT, categoryHref, pageHref, NEW_PAGES } from '@/lib/si
 import { localePath, routeGroup } from '@/lib/routes';
 import { imageUrl } from '@/lib/images';
 import { translator } from '@/lib/storefront/i18n.mjs';
+import JsonLd from '@/components/site/json-ld';
+import { SITE_URL } from '@/lib/indexing';
+import { breadcrumbNode, faqNode } from '@/lib/site/structured-data.mjs';
 
 /**
  * A page drawn from the prototype's own rendering (data/site/pages/*.json,
@@ -233,6 +236,56 @@ function render(node, ctx, key) {
   return kids ? createElement(tag, { ...props, key }, ...kids) : createElement(tag, { ...props, key });
 }
 
+/**
+ * A node's text exactly as render() shows it — translated, live figures
+ * filled in — leaving out icon glyphs (`.ms`) and live widgets.
+ */
+function shownText(node, ctx) {
+  if (node == null) return '';
+  if (typeof node === 'string') {
+    const trimmed = node.trim();
+    return trimmed ? ` ${liveFigures(ctx.t(trimmed), ctx.vars)} ` : ' ';
+  }
+  if (!Array.isArray(node) || String(node[0]).startsWith('$')) return '';
+  if (` ${node[1]?.class || ''} `.includes(' ms ')) return '';
+  return node.slice(2).map((child) => shownText(child, ctx)).join('');
+}
+
+const squash = (text) => text.replace(/\s+/g, ' ').trim();
+
+/**
+ * The structured data a snapshot shows: its breadcrumb (the first `.bc`
+ * nav) and the question/answer pairs of its `.acc` accordions, read from
+ * the same tree with the same text render() draws.
+ */
+function snapshotSchema(tree, ctx) {
+  let crumbs = null;
+  const faq = [];
+  const walk = (node) => {
+    if (!Array.isArray(node) || String(node[0]).startsWith('$')) return;
+    const [tag, attrs, ...children] = node;
+    const cls = ` ${attrs?.class || ''} `;
+    if (!crumbs && tag === 'nav' && cls.includes(' bc ')) {
+      crumbs = children
+        .filter((child) => Array.isArray(child) && (child[0] === 'a' || child[0] === 'b'))
+        .map((child) => ({
+          name: squash(shownText(child, ctx)),
+          href: child[0] === 'a' ? resolveKey(String(child[1]?.href || '#').slice(1), ctx.lang, ctx.ids) : undefined,
+        }));
+      return;
+    }
+    if (tag === 'div' && cls.includes(' acc ')) {
+      const button = children.find((child) => Array.isArray(child) && child[0] === 'button');
+      const body = children.find((child) => Array.isArray(child) && ` ${child[1]?.class || ''} `.includes(' body '));
+      if (button && body) faq.push([squash(shownText(button, ctx)), squash(shownText(body, ctx))]);
+      return;
+    }
+    children.forEach(walk);
+  };
+  walk(tree);
+  return { crumbs, faq };
+}
+
 /** The COA database: every compound with a published certificate, linked to it. */
 function CoaList({ compounds, t }) {
   return (
@@ -259,8 +312,10 @@ function CoaList({ compounds, t }) {
  * page's H1; `copy` its live copy, for any "copy migrates here" slot;
  * `replacements` swaps words in the snapshot's text, for a snapshot that
  * stands for a whole template (the Alajuela page draws every city).
+ * `url` is the page's own path, for its structured data; `extraFaq` adds
+ * question lists the caller draws below the snapshot (a city's live copy).
  */
-export default function ProtoPage({ tree, lang, site, h1, copy, replacements = [] }) {
+export default function ProtoPage({ tree, lang, site, h1, copy, replacements = [], url, extraFaq = [] }) {
   const t = translator(lang);
   const byName = (name) => site.compounds.find((compound) => compound.name === name);
   const byLabel = (label) => {
@@ -291,8 +346,19 @@ export default function ProtoPage({ tree, lang, site, h1, copy, replacements = [
   // When the design's headline already is the live H1, it stays the H1.
   const norm = (text) => String(text || '').toLowerCase().replace(/[^a-z0-9áéíóúñ]+/g, ' ').trim();
   ctx.swapKicker = Boolean(h1) && norm(textOf(findTag(tree, 'h1'))) !== norm(h1);
+  const { crumbs, faq } = snapshotSchema(tree, ctx);
+  // Live copy drawn inside the snapshot (its `$liveCopy` slot) shows its FAQs too.
+  const copyFaq = JSON.stringify(tree).includes('"$liveCopy"') ? (copy?.blocks || []).map((block) => block.faq || []) : [];
   return (
     <>
+      {url ? (
+        <JsonLd
+          nodes={[
+            crumbs ? breadcrumbNode({ base: SITE_URL, url, items: crumbs }) : null,
+            faqNode({ base: SITE_URL, url, lists: [faq, ...copyFaq, ...extraFaq] }),
+          ]}
+        />
+      ) : null}
       {render(tree, ctx, 'root')}
       <ProtoInteractions />
     </>

@@ -95,3 +95,8 @@ export default function CatalogDetails({ blocks = [], lang = 'en' }) {
     </section>
   );
 }
+
+/** The questions this section shows, for the page's FAQ structured data. */
+export function catalogFaq(lang) {
+  return (COPY[lang] || COPY.en).questions;
+}

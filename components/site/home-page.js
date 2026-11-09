@@ -7,7 +7,10 @@ import ReviewBar from '@/components/site/review-bar';
 import { dealPicks } from '@/lib/site/data';
 import { REVIEWS, Reviews, CategoryTiles, Section, Steps } from '@/components/site/blocks';
 import { translator } from '@/lib/storefront/i18n.mjs';
-import { CONTACT } from '@/lib/site/links.mjs';
+import { CONTACT, SOCIALS } from '@/lib/site/links.mjs';
+import JsonLd from '@/components/site/json-ld';
+import { SITE_URL } from '@/lib/indexing';
+import { faqNode, organizationNode, websiteNode } from '@/lib/site/structured-data.mjs';
 import WhatsAppGlyph from '@/components/storefront/whatsapp-glyph';
 
 const POPULAR_EXTRA = ['NAD+', 'BPC-157', 'Tesamorelin', 'Glutathione'];
@@ -40,9 +43,18 @@ export default function HomePage({ lang, h1, site }) {
   ].slice(0, 8);
   const latest = LATEST.map(byName).filter(Boolean);
   const picks = dealPicks(compounds);
+  const faq = HOME_FAQ.map(([q, a]) => [t(q), t(a)]);
+  const homeUrl = lang === 'es' ? '/es/' : '/';
 
   return (
     <>
+      <JsonLd
+        nodes={[
+          organizationNode({ base: SITE_URL, contact: site.contact, sameAs: SOCIALS.map(([, url]) => url) }),
+          websiteNode({ base: SITE_URL, lang }),
+          faqNode({ base: SITE_URL, url: homeUrl, lists: [faq] }),
+        ]}
+      />
       <section className="hhero">
         <div className="wrap">
           <div className="hcopy">
@@ -133,7 +145,7 @@ export default function HomePage({ lang, h1, site }) {
       </Section>
 
       <Section title={t('Frequently Asked Questions')} className="home-faq">
-        <Faq items={HOME_FAQ.map(([q, a]) => [t(q), t(a)])} />
+        <Faq items={faq} />
       </Section>
 
       <section className="band cta">

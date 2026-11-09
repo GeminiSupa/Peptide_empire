@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import SiteShell from '@/components/site/site-shell';
 import CatalogPage from '@/components/site/catalog-page';
 import ProtoPage from '@/components/site/proto-page';
@@ -21,18 +20,32 @@ import { liveH1 } from '@/lib/site/live-h1';
 import { NEW_PAGES } from '@/lib/site/links.mjs';
 import { alternates } from '@/lib/routes';
 import { translator } from '@/lib/storefront/i18n.mjs';
+import Breadcrumbs from '@/components/site/breadcrumbs';
+import JsonLd from '@/components/site/json-ld';
+import { SITE_URL } from '@/lib/indexing';
+import { collectionNodes } from '@/lib/site/structured-data.mjs';
 
 /** The prototype's "Shop by Category" page (`#shop`). */
-function ShopPage({ lang, site, h1 }) {
+function ShopPage({ lang, site, h1, page }) {
   const t = translator(lang);
+  const url = pageUrl(page, lang);
   return (
     <div className="pagev">
+      <JsonLd
+        nodes={[collectionNodes({
+          base: SITE_URL,
+          url,
+          name: h1,
+          lang,
+          products: site.categories.map((category) => ({ name: t(category.name), href: category.href })),
+        })]}
+      />
       <div className="wrap">
-        <nav className="bc" aria-label={t('Breadcrumb')}>
-          <Link href={site.links.home}>{t('Home')}</Link>
-          <span>/</span>
-          <b>{t('Shop by Category')}</b>
-        </nav>
+        <Breadcrumbs
+          label={t('Breadcrumb')}
+          url={url}
+          items={[{ name: t('Home'), href: site.links.home }, { name: t('Shop by Category') }]}
+        />
         <header className="phead">
           <h1>{h1}</h1>
           <p>{t('Browse research compounds by area of study.')}</p>
@@ -49,8 +62,16 @@ function ShopPage({ lang, site, h1 }) {
 function snapshot(key) {
   return async function SnapshotPage(props) {
     const { default: tree } = await import(`@/data/site/pages/${key}.json`);
-    return <ProtoPage tree={tree} {...props} />;
+    // A live page knows its path; a page the design adds takes it from NEW_PAGES.
+    const url = pageUrl(props.page, props.lang) || NEW_PAGES[key]?.[props.lang];
+    return <ProtoPage tree={tree} {...props} url={url} />;
   };
+}
+
+/** A harvested page's own path in `lang`. */
+function pageUrl(page, lang) {
+  if (!page) return undefined;
+  return (lang === 'es' ? page.es : page.en) || page.en;
 }
 
 /** Which new-design template draws a live page, by its English path. */
@@ -101,7 +122,15 @@ async function CityPage({ lang, site, page, h1, copy }) {
   const t = translator(lang);
   return (
     <>
-      <ProtoPage tree={tree} lang={lang} site={site} h1={cityH1(h1, page, lang)} replacements={[['Alajuela', town]]} />
+      <ProtoPage
+        tree={tree}
+        lang={lang}
+        site={site}
+        h1={cityH1(h1, page, lang)}
+        replacements={[['Alajuela', town]]}
+        url={pageUrl(page, lang)}
+        extraFaq={(copy?.blocks || []).map((block) => block.faq || [])}
+      />
       {copy?.blocks?.length ? (
         <div className="wrap">
           {copy.blocks.map((block) => <CopyBlock block={block} t={t} lang={lang} key={block.title || block.paras[0]} />)}

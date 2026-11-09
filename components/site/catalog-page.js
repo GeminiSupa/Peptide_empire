@@ -1,5 +1,8 @@
 import CatalogBrowser from '@/components/site/catalog-browser';
-import CatalogDetails from '@/components/site/catalog-details';
+import CatalogDetails, { catalogFaq } from '@/components/site/catalog-details';
+import JsonLd from '@/components/site/json-ld';
+import { SITE_URL } from '@/lib/indexing';
+import { collectionNodes, faqNode } from '@/lib/site/structured-data.mjs';
 import { DealCard } from '@/components/site/deal-bits';
 import { Reviews } from '@/components/site/blocks';
 import { ShopperRotating } from '@/components/site/review-widgets';
@@ -21,13 +24,21 @@ const PROMISES = [
  *
  * `h1` is the live page's H1; `copy` its text (lib/site/live-copy.mjs).
  */
-export default function CatalogPage({ lang, site, h1, copy }) {
+export default function CatalogPage({ lang, site, h1, copy, page }) {
   const t = translator(lang);
   const { compounds, links, dealView } = site;
   const blocks = copy?.blocks || [];
+  const url = (lang === 'es' ? page?.es : page?.en) || page?.en || '/all-peptide-products-costa-rica/';
 
   return (
     <div id="catalog">
+      <JsonLd
+        nodes={[
+          collectionNodes({ base: SITE_URL, url, name: h1, lang, products: compounds }),
+          // The questions section is drawn only beside the live copy.
+          blocks.length ? faqNode({ base: SITE_URL, url, lists: [catalogFaq(lang)] }) : null,
+        ]}
+      />
       <section className="chero">
         <div className="wrap">
           <div>

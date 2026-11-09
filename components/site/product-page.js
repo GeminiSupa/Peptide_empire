@@ -11,6 +11,10 @@ import { variantFor } from '@/lib/storefront/group-products.mjs';
 import { shelfLabel } from '@/lib/storefront/shelves.mjs';
 import { formatMoney, translator } from '@/lib/storefront/i18n.mjs';
 import { productSchema } from '@/lib/site/product-schema.mjs';
+import Breadcrumbs from '@/components/site/breadcrumbs';
+import JsonLd from '@/components/site/json-ld';
+import { faqNode, plainText } from '@/lib/site/structured-data.mjs';
+import { SITE_URL } from '@/lib/indexing';
 import FACTS from '@/data/site/compound-facts.json';
 
 const WHY = [
@@ -106,19 +110,27 @@ export default function ProductPage({ lang, site, compound, h1, copy, initialSiz
     links: intro.flatMap((block) => block.links),
   } : null;
 
-  const schema = productSchema({ compound, category, shelf, variant, schemaUrl, exchangeRate });
+  // The two accordions as shown, translated once for the page and its schema.
+  const shownQuestions = questions.map(([q, a]) => [t(q), t(a)]);
+  const shownFaq = ownFaq.map(([q, a]) => [t(q), t(a)]);
+  const descriptionText = plainText(description?.paras?.join(' ')).slice(0, 5000) || undefined;
+  const { '@context': _context, ...product } = productSchema({
+    compound, category, shelf, variant, schemaUrl, exchangeRate, description: descriptionText,
+  });
 
   return (
     <div id="pv" className={`pview${dealMode ? ' dealmode' : ''}`}>
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <JsonLd nodes={[product, faqNode({ base: SITE_URL, url: schemaUrl, lists: [shownQuestions, shownFaq] })]} />
       <div className="wrap">
-        <nav className="bc" aria-label={t('Breadcrumb')}>
-          <Link href={links.home}>{t('Home')}</Link>
-          <span>/</span>
-          {category ? <Link href={category.href}>{t(category.name)}</Link> : <Link href={links.catalog}>{t('Catalog')}</Link>}
-          <span>/</span>
-          <b>{compound.name}</b>
-        </nav>
+        <Breadcrumbs
+          label={t('Breadcrumb')}
+          url={schemaUrl}
+          items={[
+            { name: t('Home'), href: links.home },
+            category ? { name: t(category.name), href: category.href } : { name: t('Catalog'), href: links.catalog },
+            { name: compound.name },
+          ]}
+        />
 
         <ProductBuy compound={compound} initialSize={initialSize} h1={h1} bac={bac} companion={companion} reviews={site.reviews} />
 
@@ -140,7 +152,7 @@ export default function ProductPage({ lang, site, compound, h1, copy, initialSiz
           </section>
           <section className="psec">
             <h2>{t('Questions')}</h2>
-            <Faq items={questions.map(([q, a]) => [t(q), t(a)])} />
+            <Faq items={shownQuestions} />
           </section>
         </div>
 
@@ -185,7 +197,7 @@ export default function ProductPage({ lang, site, compound, h1, copy, initialSiz
 
         <section className="psec">
           <h2>{t(`${compound.name} FAQ`)}</h2>
-          <Faq items={ownFaq.map(([q, a]) => [t(q), t(a)])} />
+          <Faq items={shownFaq} />
         </section>
 
         <p className="more">

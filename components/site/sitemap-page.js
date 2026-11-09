@@ -11,6 +11,7 @@ import { posts } from '@/content/pages/posts';
 import { products } from '@/content/pages/products';
 import { NEW_PAGES } from '@/lib/site/links.mjs';
 import { translator } from '@/lib/storefront/i18n.mjs';
+import Breadcrumbs from '@/components/site/breadcrumbs';
 
 /**
  * The HTML sitemap in the prototype's layout (`sitemapHTML`), listing the
@@ -39,7 +40,7 @@ const NEW_TITLES = {
 
 const brandless = (title) => String(title || '').replace(/\s*[|–-]\s*P[ée]ptid(e|o)s Costa Rica\s*$/i, '').trim();
 
-export default function SitemapPage({ lang, site, h1 }) {
+export default function SitemapPage({ lang, site, h1, page }) {
   const t = translator(lang);
   const path = (page) => (lang === 'es' ? page.es || page.en : page.en);
   const groups = GROUPS.map(([title, pages]) => [title, pages().filter((page) => path(page))]);
@@ -51,11 +52,11 @@ export default function SitemapPage({ lang, site, h1 }) {
   return (
     <div className="pagev">
       <div className="wrap">
-        <nav className="bc" aria-label={t('Breadcrumb')}>
-          <Link href={site.links.home}>{t('Home')}</Link>
-          <span>/</span>
-          <b>{h1}</b>
-        </nav>
+        <Breadcrumbs
+          label={t('Breadcrumb')}
+          url={(lang === 'es' ? page?.es : page?.en) || page?.en || '/html-sitemap/'}
+          items={[{ name: t('Home'), href: site.links.home }, { name: h1 }]}
+        />
         <header className="phead">
           <h1>{h1}</h1>
           <p>{t('Every page on the site.')}</p>

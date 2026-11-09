@@ -6,6 +6,20 @@ import { BigClock, Bundles, DealViewed, Ladder } from '@/components/site/deal-li
 import { ShopperRotating } from '@/components/site/review-widgets';
 import ShopperApprovedLogo from '@/components/site/shopper-approved-logo';
 import { formatMoney, translator } from '@/lib/storefront/i18n.mjs';
+import Breadcrumbs from '@/components/site/breadcrumbs';
+import JsonLd from '@/components/site/json-ld';
+import { SITE_URL } from '@/lib/indexing';
+import { faqNode } from '@/lib/site/structured-data.mjs';
+import { NEW_PAGES } from '@/lib/site/links.mjs';
+
+const DEAL_FAQ = [
+  ['Which products are included?', 'All of them. Every compound and strength in the catalog counts toward your order total.'],
+  ['Does it stack with the 15% / 20% volume discount?', 'No. We compare both and automatically apply whichever saves you more on your order.'],
+  ['When does the deal end?', 'Sunday at 11:59 pm Costa Rica time. Orders placed before then keep the discount, even if they\'re delivered later.'],
+  ['Do I need a promo code?', 'No. The discount appears in your cart as soon as your order reaches a tier.'],
+  ['Can I order on WhatsApp and still get the deal?', 'Yes. The WhatsApp order message includes your discounted total, and we honour it when we confirm.'],
+  ['Is this for personal use?', 'No. All products are for laboratory research use only. We don\'t provide dosing or medical advice.'],
+];
 
 /**
  * The prototype's Deal of the Week page (`PAGES['deal-of-the-week']`), drawn
@@ -44,17 +58,21 @@ export default function DealPage({ lang, site }) {
     .filter((compound) => compound.shelf !== 'supplies' && compound.inStock)
     .slice(0, 8);
   const crc = (usd) => formatMoney(Math.round(usd * exchangeRate), usd, 'CRC');
+  const url = NEW_PAGES['deal-of-the-week'][lang === 'es' ? 'es' : 'en'];
+  const faq = DEAL_FAQ.map(([q, a]) => [t(q), t(a)]);
 
   return (
     <div className="pagev" id="page">
+      <JsonLd nodes={[faqNode({ base: SITE_URL, url, lists: [faq] })]} />
       <section className="dlhero">
         <div className="wrap">
           <div className="dlhc">
-            <nav className="bc dark" aria-label={t('Breadcrumb')}>
-              <Link href={links.home}>{t('Home')}</Link>
-              <span>/</span>
-              <b>{t('Deal of the Week')}</b>
-            </nav>
+            <Breadcrumbs
+              dark
+              label={t('Breadcrumb')}
+              url={url}
+              items={[{ name: t('Home'), href: links.home }, { name: t('Deal of the Week') }]}
+            />
             <span className="dleb">
               <Ms name="sell" />
               {live ? `${t('This week only · ends')} ${endLabel(deal.endsAt, lang)}` : t('This week\'s deal has ended')}
@@ -166,15 +184,7 @@ export default function DealPage({ lang, site }) {
       <section className="pb">
         <div className="wrap">
           <Head eyebrow={t('Questions')} title={t('Before you order')} />
-          <Faq items={[
-            ['Which products are included?', 'All of them. Every compound and strength in the catalog counts toward your order total.'],
-            ['Does it stack with the 15% / 20% volume discount?', 'No. We compare both and automatically apply whichever saves you more on your order.'],
-            ['When does the deal end?', 'Sunday at 11:59 pm Costa Rica time. Orders placed before then keep the discount, even if they\'re delivered later.'],
-            ['Do I need a promo code?', 'No. The discount appears in your cart as soon as your order reaches a tier.'],
-            ['Can I order on WhatsApp and still get the deal?', 'Yes. The WhatsApp order message includes your discounted total, and we honour it when we confirm.'],
-            ['Is this for personal use?', 'No. All products are for laboratory research use only. We don\'t provide dosing or medical advice.'],
-          ].map(([q, a]) => [t(q), t(a)])}
-          />
+          <Faq items={faq} />
         </div>
       </section>
 
