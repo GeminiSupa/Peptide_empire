@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Peptides Costa Rica — start here
 
-## Getting Started
+This one repo holds **two separate apps, one per branch**. Both are live
+production sites.
 
-First, run the development server:
+| Branch | App | Vercel project | Live at |
+| --- | --- | --- | --- |
+| `main` (this page) | The catalog / shop back end: catalog, cart, checkout, payments, admin portal, CRM, WhatsApp bot, cron jobs, DB migrations | `peptidecosta` | `catalog.peptidescostarica.net` |
+| [`website`](../../tree/website) | The main business site (new design, replaced WordPress on 9 Nov 2026) | `peptidecostarica-website` | `peptidescostarica.net` |
+
+- **Pushing `main` deploys the catalog. Pushing `website` deploys
+  `peptidescostarica.net`.** Both are production — get the owner's OK first.
+- **Never merge `website` into `main` or the reverse.** They are different
+  apps with different file layouts. Work on one branch at a time.
+- Both apps use the **same Supabase database**. The website posts its orders
+  to the catalog's `/api/orders/create`, and card/bank payments still finish
+  on the catalog — so a change on `main` can break the website.
+- **Every other branch** is an old feature or Codex branch. Nothing deploys
+  them to production. Don't start new work from them unless told to.
+- **Retired:** the separate GitHub repo `GeminiSupa/peptidecostarica-website`
+  stopped on 18 Oct 2026. Nothing builds from it — don't use it.
+- `new.peptidescostarica.net` is retired too; ignore it.
+
+## Read before changing code
+
+1. [`docs/workspace/workspace-AGENTS.md`](docs/workspace/workspace-AGENTS.md)
+   — the goal, current status, how the two apps connect, env vars, open items.
+2. `AGENTS.md` on the branch you work on — the detailed rules for that app
+   ([catalog](AGENTS.md), [website](../../blob/website/AGENTS.md)).
+
+Paths like `C:\Projects\...` or `C:\Users\Maaz\...` in those files are the
+owner's local folders. On your machine, just check out the branch you need:
 
 ```bash
+git clone https://github.com/GeminiSupa/peptidecosta.git
+cd peptidecosta
+git switch website   # or stay on main for the catalog
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Env vars live in each Vercel project (Settings → Environment Variables).
+Never commit an `.env` file.

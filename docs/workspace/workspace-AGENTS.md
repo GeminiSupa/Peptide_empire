@@ -11,11 +11,14 @@ one, copy it over the other.
 ## Where things stand (9 Nov 2026)
 
 - **`peptidescostarica.net` is the new site.** The owner moved the domain from
-  WordPress to Vercel on 9 Nov 2026. `peptidescostarica.net`,
-  `www.peptidescostarica.net` and `new.peptidescostarica.net` all serve the
-  same Vercel project (`peptidecostarica-website`, branch `website`). Every page
+  WordPress to Vercel on 9 Nov 2026. `peptidescostarica.net` (and
+  `www.peptidescostarica.net`, to be redirected to it) serve the
+  Vercel project (`peptidecostarica-website`, branch `website`). Every page
   declares `https://peptidescostarica.net/...` as its canonical. WordPress no
   longer serves the public domain.
+- **`new.peptidescostarica.net` is retired** (owner, 9 Nov 2026). It was the
+  pre-launch test address. Never link, configure or rely on it; it is being
+  removed from Vercel and DNS.
 - **`catalog.peptidescostarica.net` is still live and still needed.** Customers,
   ads, emails and WhatsApp links still send traffic there, and moving them
   takes time. Both sites run side by side for the foreseeable future; do not
@@ -59,7 +62,7 @@ checked out as sibling folders:
 | Folder | Branch | App | Vercel project | Domains |
 | --- | --- | --- | --- | --- |
 | `peptidecosta/` | `main` | The shop: catalog, cart, checkout, orders, payments, admin portal, CRM, WhatsApp bot, deals, pricing, 18 cron jobs, every DB migration | `peptidecosta` | `catalog.peptidescostarica.net` |
-| `peptidecosta-website/` | `website` | The main business site (new design, its own cart; replaced WordPress) | `peptidecostarica-website` | `peptidescostarica.net`, `www.`, `new.` |
+| `peptidecosta-website/` | `website` | The main business site (new design, its own cart; replaced WordPress) | `peptidecostarica-website` | `peptidescostarica.net` (+ `www.`) |
 
 `peptidecosta-website` is a git worktree of the same repo; `git` inside it
 operates on the `website` branch (named `clone-website` until 23 Oct 2026).
@@ -159,10 +162,16 @@ adding a project costs nothing.
 
 Owner (Omer) to do or decide:
 1. ~~Turn indexing on~~ — done 9 Nov 2026.
-2. In Vercel → Domains, make `www.` and `new.` redirect (308) to the apex so
-   one host serves the site.
-3. Submit the sitemap in Google Search Console for `peptidescostarica.net`.
-4. OK to push the website's switched-off checkout copy; get the 30 Sensitive
+2. Owner does not want `new.peptidescostarica.net` (9 Nov): remove it in
+   Vercel → `peptidecostarica-website` → Domains, and delete its `new` CNAME
+   at Namecheap (DNS for the domain is Namecheap, `registrar-servers.com`).
+   Nothing in code depends on it. Make `www.` redirect (308) to the apex.
+3. Submit `sitemap.xml` in Google Search Console. The existing property is
+   verified by the two `google-site-verification` meta tags kept from
+   WordPress (in `app/(en)/layout.js`); which Google account owns it is
+   unknown — check the owner's accounts, else ask the former WordPress
+   developer to add him as Owner, or verify a Domain property by DNS TXT.
+4. ~~Push the switched-off checkout copy~~ (pushed 9 Nov). Get the 30 Sensitive
    values from the other developer; then add keys + `NEXT_PUBLIC_OWN_CHECKOUT`
    and place one test order.
 5. OK to push the catalog fix that refuses orders for hidden products
@@ -184,3 +193,19 @@ Agents:
   (catalog RLS) — fix in the catalog.
 - Shopper Approved display, the catalog's landing-page setting and GA4
   `sign_up` are not on the website yet.
+- SEO, fixed 9 Nov 2026 on the website branch (commits a5b1e1db, fae69bca;
+  live once pushed). Rules for anyone touching SEO there:
+  - **Canonical and hreflang** come from `lib/seo-links.mjs` (route map),
+    never from WordPress's harvested `data/seo.json`: every page is its own
+    canonical; language pairs only when both pages name each other; the 25
+    `/product/lp-…/` ad copies canonicalise to the regular product and stay
+    out of the sitemap. `tests/seo-links.test.mjs` checks every page.
+  - **Structured data** comes from `lib/site/structured-data.mjs`, built from
+    what each page shows (breadcrumb component, FAQ accordions, live prices).
+    Never re-add WordPress's harvested JSON-LD (old prices, wrong URLs).
+    `node scripts/check-structured-data.mjs <base>` audits every sitemap page
+    (966/966 passed on a production build).
+  - Owner QA: `peptidecosta-website/docs/seo/structured-data-qa.md` (Google
+    Rich Results Test on 10 URLs, then Search Console → Enhancements).
+  - Not covered: ~30 old-layout pages (spec sheets, two leftover affiliate
+    pages, discontinued Pinealon/TB-4) carry no structured data.
