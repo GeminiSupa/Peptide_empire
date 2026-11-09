@@ -80,6 +80,22 @@ catalog, use a separate worktree from `origin/main`.
 builds from it, and its `.vercel` link still points at the live website
 project, so a `vercel` command there would overwrite the main site.
 
+## Context files and the people using them
+
+- **One context file per place: `AGENTS.md`.** Codex reads `AGENTS.md`;
+  Claude Code reads `CLAUDE.md`, which in every place is only `@AGENTS.md`.
+  So every rule goes in `AGENTS.md`, never in `CLAUDE.md`. Places: this
+  folder (not in Git; copied to `docs/workspace/workspace-AGENTS.md` on both
+  branches), and the root of each branch.
+- **Two developers, equals.** Both direct Claude Code and Codex, do QA,
+  decide what ships and push. One works in this folder; the other works
+  remotely from GitHub and Vercel only (sees the branches, not this folder).
+  Treat both the same; "the owner" in these files means whichever of them you
+  are working for.
+- **Feature branches** on GitHub (`codex/…`, `catalog-…`, etc.) are real,
+  unfinished catalog work. Don't delete, rebase or merge them unless the
+  developer you work for says so. Catalog branches merge into `main` only.
+
 ## Hard rules
 
 - **Work in one folder at a time.** Fixing a marketing page never means editing

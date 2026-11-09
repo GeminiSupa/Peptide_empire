@@ -1,8 +1,22 @@
-# Clone website branch
+# Website branch
 
-This branch contains the website for `peptidescostarica.net`. The `main`
-branch of this repository contains the separate live catalog application for
-`catalog.peptidescostarica.net`.
+This branch is the main business site, live at `peptidescostarica.net`. The
+`main` branch of this repository is the separate catalog application, live at
+`catalog.peptidescostarica.net`. **Pushing this branch deploys
+`peptidescostarica.net` at once** — push only when the developer you work
+for says to.
+
+## Context files and the people
+
+- This is the **only** context file for this branch. Codex reads `AGENTS.md`;
+  Claude Code reads `CLAUDE.md`, which only imports this file. Put every rule
+  here, never in `CLAUDE.md`, or one of the two agents won't see it.
+- Two developers work on this repo as equals, each directing Claude Code and
+  Codex, doing QA, deciding what ships and pushing. Treat both the same;
+  "the owner" in these files means whichever of them you are working for.
+- Shared status, goal, env vars and open items for both apps:
+  `docs/workspace/workspace-AGENTS.md`. Paths in it like `C:\Projects\…` are
+  the owner's local folders.
 
 ## THE GOAL (owner, 8 Nov 2026)
 
