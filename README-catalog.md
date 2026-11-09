@@ -1,4 +1,4 @@
-# Catalog app — branch `main`, Vercel project `peptidecosta`, catalog.peptidescostarica.net
+# Catalog app — branch `catalog`, Vercel project `peptidecosta`, catalog.peptidescostarica.net
 
 Shared context for both apps (goal, status, people, branches, env vars, open
 items) is in [`README.md`](README.md). Read that first. This file holds the
@@ -10,10 +10,10 @@ catalog's own rules.
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-# The website on the `website` branch depends on this app
+# The website on the `main` branch depends on this app
 
-This repository holds two applications. `main` (this branch) is the catalog,
-live at `catalog.peptidescostarica.net`. The `website` branch is **the main
+This repository holds two applications. `catalog` (this branch) is the catalog,
+live at `catalog.peptidescostarica.net`. The `main` branch is **the main
 business site, live at `peptidescostarica.net`** (Vercel project
 `peptidecostarica-website`; it replaced WordPress on that domain on
 9 Nov 2026). Both stay live side by side: customers still reach the catalog
@@ -49,15 +49,15 @@ any change on its branch:
   `src/lib` file they import, written by the website's
   `scripts/sync-catalog-checkout.mjs` (switched off until
   `NEXT_PUBLIC_OWN_CHECKOUT=true` there). After changing any of them here,
-  run that script on the `website` branch; its `--check` fails until the
-  copy matches `main`.
+  run that script on the `main` branch; its `--check` fails until the
+  copy matches `catalog`.
 - **Tracking**: the website uses this app's GTM container (`GTM-M2GVDQ44`)
   and the same event names and `ecommerce` shape as `src/lib/dataLayer.mjs`
   and `src/lib/ecommerceAnalytics.mjs`. Renaming an event here means renaming
   it there too, or the shared tags stop firing for one of the two sites.
 
 Rules for both branches: work in one application at a time, and never merge
-`website` into `main` or `main` into `website`.
+`main` into `catalog` or `catalog` into `main`.
 
 # Commit as the repo owner
 
@@ -183,7 +183,7 @@ The site is `https://catalog.peptidescostarica.net` (never a `*.vercel.app` URL
 in shipped code or instructions).
 
 1. **Check the deploy actually landed first.** `git fetch && git log --oneline -1
-   origin/main`, then hard-reload. A stale page will happily show you the old
+   origin/catalog`, then hard-reload. A stale page will happily show you the old
    behaviour and you will report the wrong conclusion — this happened.
 2. **Two gates block the catalog.** A "RESEARCH USE ONLY | 21+" dialog, then an
    "Acceso Exclusivo al Catálogo" lead-capture modal. Dismiss the second with its
@@ -243,7 +243,7 @@ module, run it against real rows, then delete the script. This is how the promo
 `$0` bug and the two-live-deals breakages were proven rather than guessed.
 
 Tests: `node --test tests/*.test.mjs` — the glob form; the bare directory form
-fakes a failure. **Five failures pre-exist on `main`** (catalog exchange rate,
+fakes a failure. **Five failures pre-exist on `catalog`** (catalog exchange rate,
 split revenue tiles, three product-save-guard grid tests). Confirm any failure
 also fails on a clean tree before blaming your change.
 

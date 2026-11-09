@@ -3,7 +3,7 @@
 **This file is the single source of project context** for every person and
 every agent (Claude Code, Codex, anything else). `AGENTS.md` and `CLAUDE.md`
 on every branch only point here. Never put context or rules in them, and
-never create another context file. Update this file (on branch `main`) when
+never create another context file. Update this file (on branch `catalog`) when
 something changes.
 
 This one repo holds **two apps, one per branch, each its own Vercel
@@ -11,22 +11,27 @@ project**. Each has its own README with that app's detailed rules:
 
 | Branch | App | Vercel project | Live at | Its README |
 | --- | --- | --- | --- | --- |
-| `main` | The catalog: shop, cart, checkout, orders, payments, admin portal, CRM, WhatsApp bot, deals, pricing, 18 cron jobs, every DB migration | `peptidecosta` | `catalog.peptidescostarica.net` | [`README-catalog.md`](README-catalog.md) |
-| `website` | The main business site (new design, its own cart; replaced WordPress on 9 Nov 2026) | `peptidecostarica-website` | `peptidescostarica.net` (+ `www.`) | [`README.md` on `website`](../../blob/website/README.md) |
+| `catalog` | The catalog: shop, cart, checkout, orders, payments, admin portal, CRM, WhatsApp bot, deals, pricing, 18 cron jobs, every DB migration | `peptidecosta` | `catalog.peptidescostarica.net` | [`README-catalog.md`](README-catalog.md) |
+| `main` | The main business site (new design, its own cart; replaced WordPress on 9 Nov 2026) | `peptidecostarica-website` | `peptidescostarica.net` (+ `www.`) | [`README.md` on `main`](../../blob/main/README.md) |
+
+Branches were renamed on 9 Nov 2026: `website` → `main`, and the old
+`main` → `catalog` (Vercel production branches changed to match). Older
+notes, commits and other people's copies may still use the old names.
 
 Read this file, then the README of the app you are changing.
 
-- Agents on the `website` branch: this file is not on your branch. Read it
-  with `git fetch origin main && git show origin/main:README.md`.
-- **Pushing `main` or `website` deploys to production at once.** Push only
+- Agents on the `main` branch (the website): this file is not on your
+  branch. Read it with
+  `git fetch origin catalog && git show origin/catalog:README.md`.
+- **Pushing `main` or `catalog` deploys to production at once.** Push only
   when the developer you work for says to.
-- **Never merge `website` and `main` into each other.** Different apps with
+- **Never merge `main` and `catalog` into each other.** Different apps with
   deliberately separate file layouts and histories.
 - **Feature branches** (`codex/…`, `catalog-…`, `affiliate-dashboard` and the
   rest) hold real, unfinished catalog work. Don't delete, rebase or merge one
   unless the developer you work for says so. Catalog branches merge into
-  `main` only. A branch made before 9 Nov 2026 has older context files; merge
-  `main` into it to bring this structure in.
+  `catalog` only. A branch made before 9 Nov 2026 has older context files; merge
+  `catalog` into it to bring this structure in.
 - **Retired, never use:** the separate repo
   `GeminiSupa/peptidecostarica-website` (stopped 18 Oct 2026; its local
   copies `C:\Users\Maaz\Projects\peptidecostarica-website` and
@@ -48,18 +53,18 @@ On a fresh machine, check out the branch you need:
 ```bash
 git clone https://github.com/GeminiSupa/peptidecosta.git
 cd peptidecosta
-git switch website   # or stay on main for the catalog
+git switch main      # the website; `git switch catalog` for the catalog
 npm install
 npm run dev
 ```
 
 One developer keeps both side by side in `C:\Projects\costa-website-catalog\`:
-`peptidecosta/` (branch `main`) and `peptidecosta-website/` (branch
-`website`, a git worktree). Paths like that in these files are that
+`peptidecosta/` (branch `catalog`) and `peptidecosta-website/` (branch
+`main`, a git worktree). Paths like that in these files are that
 developer's local folders. In that folder, the local `peptidecosta/` holds
-uncommitted edits from other people and is behind `origin/main`: do not
+uncommitted edits from other people and is behind `origin/catalog`: do not
 commit, reset or stash there; change the catalog from a separate worktree off
-`origin/main`.
+`origin/catalog`.
 
 Env vars live in each Vercel project (Settings → Environment Variables).
 
@@ -68,7 +73,7 @@ Env vars live in each Vercel project (Settings → Environment Variables).
 - **`peptidescostarica.net` is the new site.** The owner moved the domain from
   WordPress to Vercel on 9 Nov 2026. `peptidescostarica.net` (and
   `www.peptidescostarica.net`, to be redirected to it) serve the
-  Vercel project (`peptidecostarica-website`, branch `website`). Every page
+  Vercel project (`peptidecostarica-website`, branch `main`). Every page
   declares `https://peptidescostarica.net/...` as its canonical. WordPress no
   longer serves the public domain.
 - **`new.peptidescostarica.net` is retired** (owner, 9 Nov 2026). It was the
@@ -80,7 +85,7 @@ Env vars live in each Vercel project (Settings → Environment Variables).
   plan to switch the catalog off.
 - **Checkout today:** the new site's cart posts every order to the catalog's
   `/api/orders/create`, and card/bank payment and their confirmation pages run
-  on the catalog. A full copy of that code now exists in the website branch,
+  on the catalog. A full copy of that code now exists in the website (branch `main`),
   switched off (see "Own checkout" below).
 - **Indexing is on** (9 Nov 2026): `NEXT_PUBLIC_ALLOW_INDEXING=true` is set in
   the website's Vercel project (Production); `peptidescostarica.net` sends
@@ -144,7 +149,7 @@ Judge every change against those two rules.
 - GTM `GTM-M2GVDQ44` (GA4 `G-3B3PP5CKLE`, Google Ads `AW-18193858920`) loads
   on both sites, only on `peptidescostarica.net` hosts.
 
-### Own checkout (website branch, 8 Nov 2026 — committed, not yet pushed)
+### Own checkout (website, branch `main`, 8 Nov 2026 — pushed 9 Nov, switched off)
 
 The owner chose a **full copy** of the catalog's checkout and payments into the
 website, so the business survives without the catalog. Details in
@@ -181,7 +186,7 @@ on the website (its `/thank-you/` is the WhatsApp one).
 ## Deploying
 
 Two Vercel projects, both fed from this one repo. The catalog project builds
-`main`; the website project builds `website`. A `NEXT_PUBLIC_*` variable only
+`catalog`; the website project builds `main`. A `NEXT_PUBLIC_*` variable only
 takes effect after a redeploy. Vercel bills per team member and per usage —
 adding a project costs nothing.
 
@@ -220,7 +225,7 @@ Agents:
   (catalog RLS) — fix in the catalog.
 - Shopper Approved display, the catalog's landing-page setting and GA4
   `sign_up` are not on the website yet.
-- SEO, fixed 9 Nov 2026 on the website branch (commits a5b1e1db, fae69bca;
+- SEO, fixed 9 Nov 2026 on the website (branch `main`) (commits a5b1e1db, fae69bca;
   live once pushed). Rules for anyone touching SEO there:
   - **Canonical and hreflang** come from `lib/seo-links.mjs` (route map),
     never from WordPress's harvested `data/seo.json`: every page is its own
