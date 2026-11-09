@@ -1935,7 +1935,7 @@ export default function WhatsAppInbox({
                     <label>
                       <span>Visible WhatsApp number</span>
                       <input
-                        placeholder="+506 8404-6973"
+                        placeholder="+506 6060-4775"
                         value={channelForm.displayPhoneNumber}
                         onChange={(event) => setChannelForm({ ...channelForm, displayPhoneNumber: event.target.value })}
                       />

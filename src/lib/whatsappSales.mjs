@@ -6,7 +6,7 @@ import { CATALOG_ORIGIN } from './whatsappRecovery.js';
 
 // Where the bot sends anyone asking about deals, promos or discounts.
 export const DEAL_PAGE_URL = `${CATALOG_ORIGIN}/deal-of-the-week`;
-export const SUPPORT_PHONE = '+506 8404-6973';
+export const SUPPORT_PHONE = '+506 6060-4775';
 
 function percent(value) {
   const numeric = Number(value || 0);

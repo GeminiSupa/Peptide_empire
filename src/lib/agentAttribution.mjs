@@ -72,7 +72,7 @@ export function isClosedOrder(order) {
 /**
  * Last 8 digits, matching how the abandoned-cart cleanup already matches phones
  * in api/orders/create. Costa Rican numbers are 8 digits, so this treats
- * +506 8404 6973, 50684046973 and 8404-6973 as one person regardless of how
+ * +506 6060 4775, 50660604775 and 6060-4775 as one person regardless of how
  * each agent typed it. Shorter than 8 digits is too weak to own a customer on.
  */
 export function phoneKey(value) {

@@ -423,8 +423,8 @@ export async function POST(request) {
           ...(order.shipping !== undefined ? [`${orderLang === 'en' ? 'Shipping' : 'Envío'}: ${order.shipping === 0 ? 'FREE / GRATIS' : formatMoney(order.shipping, order.currency)}`] : []),
           '',
           orderLang === 'en' 
-            ? `Need help? Contact our support desk at +506 8404-6973 or reply to this email.`
-            : `Necesita ayuda? Contacte a soporte al +506 8404-6973 o responda a este correo.`
+            ? `Need help? Contact our support desk at +506 6060-4775 or reply to this email.`
+            : `Necesita ayuda? Contacte a soporte al +506 6060-4775 o responda a este correo.`
         ].join('\n');
 
         // No accounting CC: the accountant's copy is sent separately below, so

@@ -104,12 +104,12 @@ test('the context and the sales reply point to the deal page and support phone',
   const snapshot = buildWhatsAppSalesSnapshot({ now: NOW });
   const context = formatWhatsAppSalesContext(snapshot);
   assert.match(context, /https:\/\/catalog\.peptidescostarica\.net\/deal-of-the-week/);
-  assert.match(context, /\+506 8404-6973/);
+  assert.match(context, /\+506 6060-4775/);
 
   for (const lang of ['en', 'es']) {
     const reply = buildWhatsAppSalesReply(snapshot, lang);
     assert.match(reply, /https:\/\/catalog\.peptidescostarica\.net\/deal-of-the-week/);
-    assert.match(reply, /\+506 8404-6973/);
+    assert.match(reply, /\+506 6060-4775/);
   }
 });
 

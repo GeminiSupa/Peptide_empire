@@ -238,7 +238,7 @@ export async function POST(request) {
           }
 
           // ── Forward notification to the support team ──
-          const supportNotificationNumbers = ['50684046973', '50660604775', '18314715559'];
+          const supportNotificationNumbers = ['50660604775', '18314715559'];
           if (ACCESS_TOKEN && receivingPhoneNumberId && !supportNotificationNumbers.includes(waId)) {
             const ownerLabel = routedConversation?.assigned_to_name || routedConversation?.assigned_to_email || 'Unassigned';
             const adminNotificationText = `🚨 *New Inbound Message*\n\n*From:* ${displayName || 'Unknown'} (+${waId})\n*Owner:* ${ownerLabel}\n*Find it:* Sales WhatsApp → ${ownerLabel === 'Unassigned' ? 'Unassigned' : ownerLabel}\n*Message:* ${messageText}`;

@@ -5,8 +5,8 @@ INSERT INTO public.site_settings (id, value)
 VALUES (
   'business_links',
   '{
-    "whatsappNumber": "50684046973",
-    "whatsappDisplay": "+506 8404-6973",
+    "whatsappNumber": "50660604775",
+    "whatsappDisplay": "+506 6060-4775",
     "googleMapsUrl": "",
     "facebookUrl": "",
     "instagramUrl": "",

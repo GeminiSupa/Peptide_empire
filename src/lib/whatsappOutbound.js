@@ -50,7 +50,7 @@ export async function sendWhatsAppMessage({
     return {
       ok: false,
       status: 400,
-      error: `Invalid phone number: "${to}". WhatsApp numbers must be between 8 and 15 digits, including the country code (e.g. 50684046973 or 84046973).`,
+      error: `Invalid phone number: "${to}". WhatsApp numbers must be between 8 and 15 digits, including the country code (e.g. 50660604775 or 60604775).`,
     };
   }
 

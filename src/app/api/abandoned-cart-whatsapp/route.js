@@ -40,7 +40,7 @@ export async function POST(request) {
 
     if (!cleanPhone || cleanPhone.length < 8 || cleanPhone.length > 15) {
       return NextResponse.json({
-        error: `Invalid phone number: "${customer_phone}". WhatsApp numbers must be between 8 and 15 digits, including the country code (e.g. 50684046973 or 84046973).`
+        error: `Invalid phone number: "${customer_phone}". WhatsApp numbers must be between 8 and 15 digits, including the country code (e.g. 50660604775 or 60604775).`
       }, { status: 400 });
     }
 

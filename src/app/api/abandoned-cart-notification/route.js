@@ -277,8 +277,8 @@ export async function POST(request) {
       ...normalizedCartData.map(item => `• ${item.product} x${item.qty}`),
       '',
       isEn 
-        ? 'Need help? Contact support at +506 8404-6973 or reply to this email.'
-        : '¿Necesita ayuda? Contacte a soporte al +506 8404-6973 o responda a este correo.'
+        ? 'Need help? Contact support at +506 6060-4775 or reply to this email.'
+        : '¿Necesita ayuda? Contacte a soporte al +506 6060-4775 o responda a este correo.'
     ].join('\n');
 
     const sendWithSmtp = (smtpConfig) => {

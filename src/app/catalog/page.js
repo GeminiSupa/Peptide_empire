@@ -128,7 +128,7 @@ import { coaLinkLabel } from '@/lib/coaLinks.mjs';
 import { productCoaLinks, matchingCoaReports } from '@/lib/productCoas.mjs';
 import { buildUpsellRecommendations } from '@/lib/upsellRecommendations.mjs';
 
-// const WHATSAPP_NUMBER = '50684046973'; // Replaced with useBusinessLinks()
+// const WHATSAPP_NUMBER = '50660604775'; // Replaced with useBusinessLinks()
 const FREE_SHIPPING_USD_THRESHOLD = 200;
 const FLAT_SHIPPING_CRC = 2500;
 // The maintenance pause, read at module scope. Kept separate from
@@ -5793,7 +5793,7 @@ export default function CatalogPage() {
                       className="checkout-input checkout-phone-number"
                       autoComplete="tel-national"
                       inputMode="tel"
-                      placeholder={lang === 'en' ? 'e.g. 8404 6973' : 'ej. 8404 6973'}
+                      placeholder={lang === 'en' ? 'e.g. 6060 4775' : 'ej. 6060 4775'}
                       required
                       value={customerPhoneNational}
                       onChange={(e) => {
