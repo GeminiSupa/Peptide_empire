@@ -74,8 +74,9 @@ test('landing page static files are clean, asset-optimized and have tracking', (
 test('next.config.mjs keeps /lp on the lead page and adds /lp/glp-1 and /lp/bac-water', () => {
   const config = fs.readFileSync(path.join(rootDir, 'next.config.mjs'), 'utf8');
   assert.match(config, /source: '\/lp',\s*destination: '\/lp\/index\.html'/, '/lp stays the lead-form page');
-  assert.ok(config.includes("destination: '/lp/glp-1/index.html'"), 'Rewrites to glp-1');
-  assert.ok(config.includes("destination: '/lp/bac-water/index.html'"), 'Rewrites to bac-water');
+  assert.match(config, /source: '\/lp-testing\/glp-1',\s*destination: '\/lp\/glp-1\/index\.html'/, 'QA preview of glp-1');
+  assert.match(config, /source: '\/lp-testing\/bac-water',\s*destination: '\/lp\/bac-water\/index\.html'/, 'QA preview of bac-water');
+  assert.match(config, /source: '\/lp-testing\/:path\*',\s*headers: \[\{ key: 'X-Robots-Tag', value: 'noindex, nofollow' \}\]/, 'preview is not indexed');
 });
 
 test('live landing-page catalog endpoint hides administratively hidden products', () => {
@@ -96,5 +97,24 @@ test('WhatsApp orders are saved before the thank-you page, on the current number
     assert.ok(body.indexOf('go("thank-you")') > saved, `${page}: thank-you page only after the save`);
     assert.doesNotMatch(html, /8404|50684046973/, `${page}: retired WhatsApp number`);
     assert.match(html, /wa: "50660604775"/, page);
+    // The orders table has no `notes` or `lang` column: sending either failed every insert.
+    assert.doesNotMatch(body, /^\s*(notes|lang):/m, `${page}: no fields the orders table lacks`);
+    assert.match(body, /internal_notes: \[window\.LP_TESTING \? 'TEST: /, `${page}: preview orders are marked TEST`);
+    assert.match(body, /ad_attribution: window\.LP_TESTING \? null : googleClick/, page);
+  }
+});
+
+test('the /lp-testing preview loads no Tag Manager and keeps no ad click', () => {
+  for (const page of ['public/lp/glp-1/index.html', 'public/lp/bac-water/index.html']) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
+    const flag = html.match(/<script>(window\.LP_TESTING = [^<]+)<\/script>/);
+    assert.ok(flag && html.indexOf(flag[0]) < html.indexOf('GTM-M2GVDQ44'), `${page}: flag set before GTM`);
+    const isTesting = (pathname) => new Function('location', 'window', flag[1] + '; return window.LP_TESTING;')({ pathname }, {});
+    assert.equal(isTesting('/lp-testing'), true);
+    assert.equal(isTesting('/lp-testing/glp-1'), true);
+    assert.equal(isTesting('/lp/glp-1'), false);
+    assert.equal(isTesting('/lp-testingx'), false);
+    assert.match(html, /<script>if \(!window\.LP_TESTING\) \(function\(w,d,s,l,i\)\{/, `${page}: GTM skipped on the preview`);
+    assert.match(html, /function captureGoogleAdClick\(\)\{\n  if \(window\.LP_TESTING\) return;/, `${page}: no click saved on the preview`);
   }
 });

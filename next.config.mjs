@@ -83,13 +83,20 @@ const nextConfig = {
         source: '/lp',
         destination: '/lp/index.html',
       },
-      // New Google Ads shop landing pages (QA them before ads point here).
+      // New Google Ads shop pages, QA preview only (owner, 10 Nov 2026). On
+      // /lp-testing the pages load no Tag Manager, keep no ad click, and mark
+      // their orders TEST so the Google uploads skip them. Once approved, they
+      // move to their real /lp addresses and these three rules go.
       {
-        source: '/lp/glp-1',
+        source: '/lp-testing',
         destination: '/lp/glp-1/index.html',
       },
       {
-        source: '/lp/bac-water',
+        source: '/lp-testing/glp-1',
+        destination: '/lp/glp-1/index.html',
+      },
+      {
+        source: '/lp-testing/bac-water',
         destination: '/lp/bac-water/index.html',
       },
       // The landing page's confirmation, the destination URL Google Ads counts
@@ -136,6 +143,11 @@ const nextConfig = {
       // paths are listed because header rules match the URL as requested, before
       // the rewrite above resolves it. no-store keeps a back-button visit from
       // replaying a cached copy of someone else's confirmation.
+      // The QA preview of the new ad shop pages stays out of Google.
+      {
+        source: '/lp-testing/:path*',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
+      },
       {
         source: '/lp/thank-you',
         headers: [

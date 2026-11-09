@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+<script>window.LP_TESTING = /^\/lp-testing(\/|$)/.test(location.pathname);</script>
+<!-- Google Tag Manager (not on the /lp-testing preview) -->
+<script>if (!window.LP_TESTING) (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
@@ -9,6 +10,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <script>
 (function captureGoogleAdClick(){
+  if (window.LP_TESTING) return;
   try {
     var params = new URLSearchParams(window.location.search);
     var click = { clicked_at: Date.now() };
@@ -2691,10 +2693,9 @@ function placeOrder(method) {
         shipping_cost_usd: usd(sh),
         shipping_cost_crc: sh,
         items: orderItems,
-        notes: co.notes || '',
-        lang: PREF.lang === 'es' ? 'es' : 'en',
+        internal_notes: [window.LP_TESTING ? 'TEST: placed on the /lp-testing preview page' : '', co.notes ? 'Customer note: ' + co.notes : ''].filter(Boolean).join('\n'),
         research_ack: { accepted: true, version: '2026-09-research-only' },
-        ad_attribution: googleClick
+        ad_attribution: window.LP_TESTING ? null : googleClick
       }
     })
   })
