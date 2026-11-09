@@ -24,7 +24,8 @@ test('landing page product aliases resolve correctly in authoritative checkout',
   assert.equal(resolver('GLP-1 (TRZ) 20mg')?.product, 'Tirzepatide 20mg');
   assert.equal(resolver('GLP-1 (SEM) 10mg')?.product, 'Semaglutide 10mg');
   assert.equal(resolver('GLP-1 (RT) 20mg')?.product, 'Retatrutide 20mg');
-  assert.equal(resolver('GLP-1 20mg')?.product, 'Retatrutide 20mg');
+  assert.equal(resolver('GLP-1 (RT) 20 mg')?.product, 'Retatrutide 20mg', 'the size format the page sends');
+  assert.equal(resolver('GLP-1 20mg'), null, 'a bare GLP-1 name is not guessed');
   assert.equal(resolver('5-Amino-1MQ 50mg')?.product, '5-Amino-1MQ 50mg');
   assert.equal(resolver('BAC Water 3ml')?.product, 'BAC Water 3ml');
 });
@@ -70,8 +71,9 @@ test('landing page static files are clean, asset-optimized and have tracking', (
   assert.ok(fs.existsSync(path.join(rootDir, 'public/lp-assets/icons/logo-new.webp')), 'Logo icon exists');
 });
 
-test('next.config.mjs rewrites route /lp, /lp/glp-1 and /lp/bac-water', () => {
+test('next.config.mjs keeps /lp on the lead page and adds /lp/glp-1 and /lp/bac-water', () => {
   const config = fs.readFileSync(path.join(rootDir, 'next.config.mjs'), 'utf8');
+  assert.match(config, /source: '\/lp',\s*destination: '\/lp\/index\.html'/, '/lp stays the lead-form page');
   assert.ok(config.includes("destination: '/lp/glp-1/index.html'"), 'Rewrites to glp-1');
   assert.ok(config.includes("destination: '/lp/bac-water/index.html'"), 'Rewrites to bac-water');
 });
@@ -81,4 +83,18 @@ test('live landing-page catalog endpoint hides administratively hidden products'
   assert.ok(route.includes("eq('id', 'hidden_products')"));
   assert.ok(route.includes('if (hiddenResult.error) throw hiddenResult.error'));
   assert.ok(route.includes('!hiddenNames.has(product.product)'));
+});
+
+test('WhatsApp orders are saved before the thank-you page, on the current number', () => {
+  for (const page of ['public/lp/glp-1/index.html', 'public/lp/bac-water/index.html']) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
+    const body = html.slice(html.indexOf('function placeOrder(method)'), html.indexOf('/* ---------------- thank-you page'));
+    assert.equal((body.match(/fetch\('\/api\/orders\/create'/g) || []).length, 1, `${page}: one order request for both methods`);
+    assert.match(body, /payment_method: isCard \? 'card' : 'whatsapp'/, page);
+    const saved = body.indexOf('if (isCard) {');
+    assert.ok(saved > 0 && body.indexOf('event: "whatsapp_order"') > saved, `${page}: whatsapp_order fires only after the order is saved`);
+    assert.ok(body.indexOf('go("thank-you")') > saved, `${page}: thank-you page only after the save`);
+    assert.doesNotMatch(html, /8404|50684046973/, `${page}: retired WhatsApp number`);
+    assert.match(html, /wa: "50660604775"/, page);
+  }
 });

@@ -77,11 +77,13 @@ const nextConfig = {
   // itself and nothing else on the site is affected.
   async rewrites() {
     return [
-      // Google Ads landing pages: GLP-1 replaces /lp, and new /lp/bac-water
+      // The lead-form landing page. Google Ads counts leads on /lp/thank-you and
+      // the CRM gets the lead (with its click ID) from this form, so it stays.
       {
         source: '/lp',
-        destination: '/lp/glp-1/index.html',
+        destination: '/lp/index.html',
       },
+      // New Google Ads shop landing pages (QA them before ads point here).
       {
         source: '/lp/glp-1',
         destination: '/lp/glp-1/index.html',
