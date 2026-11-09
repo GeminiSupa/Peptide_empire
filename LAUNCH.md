@@ -1,6 +1,6 @@
 # Marketing website launch
 
-The marketing clone is on `website`. The catalog admin editor is on
+The marketing clone is on `main` (named `website` until 9 Nov 2026). The catalog admin editor is on
 `codex/website-admin` in the same repository. These are separate deployments:
 `peptidescostarica.net` serves the clone, while
 `catalog.peptidescostarica.net` keeps the existing catalog and checkout.
@@ -24,10 +24,10 @@ production cutover.
    copies without overwriting edits if rerun. Never commit the key.
 3. Deploy `codex/website-admin` to the catalog project. Merge it into the
    catalog's deployment branch using the normal review path; do not merge
-   `website` into catalog `main` because its history and application are
+   `main` into `catalog` because its history and application are
    intentionally separate.
 4. Connect the marketing Vercel project `peptidecostarica-website` to this
-   repository's `website` branch and deploy a preview. Set
+   repository's `main` branch and deploy a preview. Set
    `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to the same
    public project values used by the catalog. Keep `NEXT_PUBLIC_IMAGE_BASE`
    empty so mirrored assets load locally. The clone does not need a service key.

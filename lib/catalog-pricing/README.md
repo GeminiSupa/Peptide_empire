@@ -1,7 +1,7 @@
 # Vendored catalog pricing modules
 
 These files are **verbatim copies** from the catalog application
-(`main` branch, `src/lib/`):
+(`catalog` branch, `src/lib/`):
 
 | file                      | copied from                      |
 | ------------------------- | -------------------------------- |

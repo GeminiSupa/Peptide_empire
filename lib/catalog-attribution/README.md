@@ -1,6 +1,6 @@
 # Vendored catalog attribution code
 
-Verbatim copies of three files from the catalog (`main` branch, `src/lib/`):
+Verbatim copies of three files from the catalog (`catalog` branch, `src/lib/`):
 
 | here | catalog |
 | --- | --- |

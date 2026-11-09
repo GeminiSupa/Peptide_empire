@@ -1,9 +1,9 @@
-# Website app — branch `website`, Vercel project `peptidecostarica-website`, peptidescostarica.net
+# Website app — branch `main`, Vercel project `peptidecostarica-website`, peptidescostarica.net
 
 **Shared context for both apps** (the goal, current status, the people,
 branches and deploys, env vars, open items) is in `README.md` on branch
-`main`: https://github.com/GeminiSupa/peptidecosta/blob/main/README.md.
-Read it first; from this branch: `git fetch origin main && git show origin/main:README.md`.
+`catalog`: https://github.com/GeminiSupa/peptidecosta/blob/catalog/README.md.
+Read it first; from this branch: `git fetch origin catalog && git show origin/catalog:README.md`.
 This file holds the website's own rules. `AGENTS.md` and `CLAUDE.md` only
 point to these two files; never put context in them.
 
@@ -108,7 +108,7 @@ place both live.
 
 **The catalog is still live and still takes every real order.** Nothing on
 this branch may change it. Read its code freely; do not edit it, and do not
-merge into `main`.
+merge into `catalog`.
 
 ## How the storefront works
 
@@ -142,7 +142,7 @@ site's own `/thank-you/` is the WhatsApp one). Helpers live in `catalog/`;
 the pages in `app/(pay)/`, a separate root layout loading the catalog's CSS.
 
 - **Never hand-edit** anything listed in `catalog/.synced-files.json`. Fix the
-  catalog (branch `main`), then `node scripts/sync-catalog-checkout.mjs`.
+  catalog (branch `catalog`), then `node scripts/sync-catalog-checkout.mjs`.
   `--check` fails when the copy has drifted; run it before every push.
   The few deliberate differences are the `PATCHES` in that script.
 - It is **off** until `NEXT_PUBLIC_OWN_CHECKOUT=true` is set in the Vercel
@@ -292,7 +292,7 @@ To test deal mode while no deal runs, point `getLiveDeal` at a saved
   without being asked — the mixture is a known, staged state. Note that
   `globals.css` sets bare `h1`–`h6` and `body` rules that reach inside the
   scope; `storefront.css` ends with the handful of overrides that corrects.
-- Treat changes on `main` and `website` as independent. Do not merge
+- Treat changes on `catalog` and `main` (this site) as independent. Do not merge
   either branch into the other unless the owner explicitly requests it.
 - Before committing in this repository, use Git author
   `GeminiSupa <pgemini6780@gmail.com>` and retain the

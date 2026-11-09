@@ -5,7 +5,7 @@
  *   node scripts/sync-catalog-checkout.mjs           write the copy
  *   node scripts/sync-catalog-checkout.mjs --check   exit 1 if the copy has
  *                                                    drifted from the catalog
- *   --ref <git ref>                                  default origin/main
+ *   --ref <git ref>                                  default origin/catalog
  *
  * Why a copy: this site has to take orders and payments on its own, so the
  * business keeps running if catalog.peptidescostarica.net goes away (THE GOAL
@@ -21,7 +21,7 @@
  *      change upstream that touches one stops the sync instead of being lost.
  *
  * Never hand-edit a file under catalog/ or a route listed here: fix it in the
- * catalog (branch main) and re-run this script.
+ * catalog (branch catalog) and re-run this script.
  */
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -31,7 +31,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const args = process.argv.slice(2);
 const CHECK = args.includes('--check');
-const REF = args.includes('--ref') ? args[args.indexOf('--ref') + 1] : 'origin/main';
+const REF = args.includes('--ref') ? args[args.indexOf('--ref') + 1] : 'origin/catalog';
 
 /** catalog source → this site's path. Their imports are followed and copied. */
 export const ROUTES = {

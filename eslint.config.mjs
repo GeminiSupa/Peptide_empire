@@ -3,7 +3,7 @@ import nextVitals from 'eslint-config-next/core-web-vitals';
 
 /**
  * `npm run lint`. Next 16 removed `next lint`; this is the ESLint CLI with
- * Next's own rules, set up as the catalog (branch main) sets it up.
+ * Next's own rules, set up as the catalog (branch catalog) sets it up.
  */
 export default defineConfig([
   ...nextVitals,
