@@ -19,7 +19,10 @@ Full text: `docs/workspace/workspace-AGENTS.md`.
 
 - Repo `GeminiSupa/peptidecosta`, branch **`website`** (this folder). Vercel
   project `peptidecostarica-website` builds this branch as production and
-  serves `new.peptidescostarica.net`.
+  serves **`peptidescostarica.net`** (the main business domain since
+  9 Nov 2026, when it replaced WordPress), plus `www.` and `new.`. Every
+  page's canonical is the apex. **Pushing this branch deploys the live main
+  site.**
 - The catalog is branch `main` of the same repo → Vercel project
   `peptidecosta` → `catalog.peptidescostarica.net`.
 - **Retired, do not use:** the standalone repo
@@ -43,14 +46,16 @@ that matter most:
 - Work in one folder at a time. A change to this site never edits the
   catalog, and the reverse; if a change seems to need both, stop and say so.
 - Never merge `website` into `main` or the reverse.
-- The WordPress site is still live at `peptidescostarica.net`; nothing here
-  may point that domain at Vercel.
+- WordPress no longer serves `peptidescostarica.net` (moved to Vercel
+  9 Nov 2026). The catalog subdomain stays live alongside this site.
 
 ## Where this is going
 
 This site is becoming the shop. The owner's decision (23 Oct 2026) is to
-retire the catalog application and let this site be the catalog, under a new
-design. That is a change of direction: until then this branch was a marketing
+let this site be the catalog, under a new design. (Clarified 8 Nov 2026: the
+catalog app is not being switched off — customers still reach it directly, so
+both run side by side for a long time. This site must simply be able to run
+everything without it.) That is a change of direction: until then this branch was a marketing
 clone whose shop buttons linked out to the catalog, and an earlier version of
 this file told agents not to bring cart or checkout code here. It is now the
 place both live.
@@ -115,11 +120,13 @@ fetches from the catalog (`catalogUrl()` callers).
 or a `*.peptidescostarica.net` host. So **orders cannot be submitted from a
 `*.vercel.app` preview URL** — the catalog will refuse them, by design, as a
 CSRF control. To take real orders from a preview, give the Vercel project a
-company subdomain such as `new.peptidescostarica.net`.
+company subdomain such as `new.peptidescostarica.net`. The apex
+`peptidescostarica.net` is accepted too, so the live site takes orders.
 
-Pointing the bare `peptidescostarica.net` at Vercel is the owner's cutover
-decision and a separate step: the WordPress site is still live there, on
-157.245.213.33. `NEXT_PUBLIC_ALLOW_INDEXING` stays `false` until then.
+**Indexing:** `NEXT_PUBLIC_ALLOW_INDEXING` switches `robots.txt` and the
+robots meta. Now that the real domain is here it must be `true` in the
+Vercel project's Production environment (and only there). As of 9 Nov 2026 it
+was still unset, so the live site was sending `noindex`.
 
 ## The new design (build started 1 Nov 2026)
 
@@ -138,8 +145,9 @@ stock, the exchange rate and the Deal of the Week come from the catalog.
 **Owner decisions:** card payments keep going to the catalog's existing
 `/pay-card` (ChargX), unchanged — the catalog is not edited for this. GTM
 uses the catalog's container, `GTM-M2GVDQ44` (decided 2 Nov 2026), and loads
-only when `NEXT_PUBLIC_ALLOW_INDEXING=true`, i.e. once the real domain points
-here, so test traffic never reaches the reports.
+on any `peptidescostarica.net` host (or anywhere when
+`NEXT_PUBLIC_ALLOW_INDEXING=true`), never on localhost or `*.vercel.app`, so
+test traffic never reaches the reports (`components/site/site-tracking.js`).
 
 **How it is built:**
 
