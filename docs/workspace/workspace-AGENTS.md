@@ -24,10 +24,9 @@ one, copy it over the other.
   `/api/orders/create`, and card/bank payment and their confirmation pages run
   on the catalog. A full copy of that code now exists in the website branch,
   switched off (see "Own checkout" below).
-- **Indexing:** as of 9 Nov the main domain still sends `noindex` and
-  `robots.txt: Disallow: /`, because `NEXT_PUBLIC_ALLOW_INDEXING` is not set in
-  the website's Vercel project. On the real domain that tells Google to drop
-  the main business site, so it is the first open item below.
+- **Indexing is on** (9 Nov 2026): `NEXT_PUBLIC_ALLOW_INDEXING=true` is set in
+  the website's Vercel project (Production); `peptidescostarica.net` sends
+  `index, follow`, `robots.txt` allows all and points at `/sitemap.xml`.
 
 ## THE GOAL — read this before anything else (owner, 8 Nov 2026)
 
@@ -128,10 +127,9 @@ on the website (its `/thank-you/` is the WhatsApp one).
 
 ## Environment variables
 
-- **Website Vercel project (`peptidecostarica-website`):** had no variables as
-  of 8 Nov; it runs on built-in defaults (Supabase URL + anon key, catalog
-  origin, site URL). It needs `NEXT_PUBLIC_ALLOW_INDEXING=true` now that it is
-  on the real domain. To switch on its own checkout it also needs the
+- **Website Vercel project (`peptidecostarica-website`):** runs on built-in defaults (Supabase URL + anon key, catalog
+  origin, site URL), plus `NEXT_PUBLIC_ALLOW_INDEXING=true` (set 9 Nov,
+  Production only). To switch on its own checkout it also needs the
   catalog's server keys plus `NEXT_PUBLIC_OWN_CHECKOUT=true` — but **never**
   the catalog's `NEXT_PUBLIC_SITE_URL` / `NEXT_PUBLIC_BASE_URL`.
 - **Catalog Vercel project (`peptidecosta`):** 105 production variables. Most
@@ -160,9 +158,7 @@ adding a project costs nothing.
 ## Open items (keep this list current)
 
 Owner (Omer) to do or decide:
-1. **Urgent:** set `NEXT_PUBLIC_ALLOW_INDEXING=true` (Production) in
-   `peptidecostarica-website` and redeploy, then check `robots.txt` and the
-   robots meta on `peptidescostarica.net`.
+1. ~~Turn indexing on~~ — done 9 Nov 2026.
 2. In Vercel → Domains, make `www.` and `new.` redirect (308) to the apex so
    one host serves the site.
 3. Submit the sitemap in Google Search Console for `peptidescostarica.net`.
