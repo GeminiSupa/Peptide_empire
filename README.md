@@ -4,7 +4,7 @@
 > overrides anything older in this file. In short: this is the `website` branch
 > of `GeminiSupa/peptidecosta` (the catalog is the `main` branch of the same
 > repo). Vercel project `peptidecostarica-website` builds this branch and serves
-> **`peptidescostarica.net`** (since 9 Nov 2026; also `www.` and `new.`).
+> **`peptidescostarica.net`** (since 9 Nov 2026; `www.` redirects to it).
 > This is the main business site and must be able to run checkout, accounts,
 > admin and CRM on its own.
 >
@@ -39,7 +39,7 @@ npm run dev
 
 | | This branch (`website`) | Catalog (`main`) |
 |---|---|---|
-| Domain | `peptidescostarica.net` (+ `www.`, `new.`) | `catalog.peptidescostarica.net` |
+| Domain | `peptidescostarica.net` (+ `www.`) | `catalog.peptidescostarica.net` |
 | Vercel project | `peptidecostarica-website` | `peptidecosta` |
 | Role | The main business site (taking over shop, checkout, accounts, admin) | Still processes every order and payment today, and stays live |
 | Repo | `GeminiSupa/peptidecosta`, branch `website` | same repo, branch `main` |
@@ -81,7 +81,7 @@ real domain is here; robots and page metadata switch together.
 - [ ] Keep the existing Search Console property; do **not** use Change of Address
 - [ ] Run `node scripts/post-launch-check.mjs` against the production domain
 - [x] Point `peptidescostarica.net` at this Vercel project (9 Nov 2026)
-- [ ] Redirect `www.` and `new.` to the apex in Vercel → Domains
+- [ ] Redirect `www.` to the apex, and remove the retired `new.` subdomain (Vercel + Namecheap)
 - [ ] Keep WordPress running and reachable for 2 weeks after cutover (rollback)
 - [ ] After cutover, verify `catalog.peptidescostarica.net` still works
 

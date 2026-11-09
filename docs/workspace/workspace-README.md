@@ -4,7 +4,7 @@ Open **this** folder in your editor or agent. Both projects live inside it.
 
 | Folder | What it is | Live at |
 |---|---|---|
-| `peptidecosta-website` | **The main business site** (new design, its own cart). Replaced WordPress on 9 Nov 2026 | peptidescostarica.net (also www. and new.) |
+| `peptidecosta-website` | **The main business site** (new design, its own cart). Replaced WordPress on 9 Nov 2026 | peptidescostarica.net (www. redirects to it) |
 | `peptidecosta` | The shop app: checkout, payments, orders, admin portal, CRM, WhatsApp bot, scheduled jobs | catalog.peptidescostarica.net |
 
 Both are live production sites and both stay running: customers still reach

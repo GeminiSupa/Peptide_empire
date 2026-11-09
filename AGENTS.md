@@ -20,7 +20,9 @@ Full text: `docs/workspace/workspace-AGENTS.md`.
 - Repo `GeminiSupa/peptidecosta`, branch **`website`** (this folder). Vercel
   project `peptidecostarica-website` builds this branch as production and
   serves **`peptidescostarica.net`** (the main business domain since
-  9 Nov 2026, when it replaced WordPress), plus `www.` and `new.`. Every
+  9 Nov 2026, when it replaced WordPress), plus `www.`. `new.peptidescostarica.net`
+  was the pre-launch test address and is retired (owner, 9 Nov 2026): never
+  link, configure or rely on it. Every
   page's canonical is the apex. **Pushing this branch deploys the live main
   site.**
 - The catalog is branch `main` of the same repo → Vercel project
@@ -120,13 +122,13 @@ fetches from the catalog (`catalogUrl()` callers).
 or a `*.peptidescostarica.net` host. So **orders cannot be submitted from a
 `*.vercel.app` preview URL** — the catalog will refuse them, by design, as a
 CSRF control. To take real orders from a preview, give the Vercel project a
-company subdomain such as `new.peptidescostarica.net`. The apex
+company subdomain. The apex
 `peptidescostarica.net` is accepted too, so the live site takes orders.
 
 **Indexing:** `NEXT_PUBLIC_ALLOW_INDEXING` switches `robots.txt` and the
 robots meta. Now that the real domain is here it must be `true` in the
-Vercel project's Production environment (and only there). As of 9 Nov 2026 it
-was still unset, so the live site was sending `noindex`.
+Vercel project's Production environment (and only there). It was set on
+9 Nov 2026; the live site sends `index, follow`.
 
 ## The new design (build started 1 Nov 2026)
 

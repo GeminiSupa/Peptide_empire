@@ -11,11 +11,14 @@ one, copy it over the other.
 ## Where things stand (9 Nov 2026)
 
 - **`peptidescostarica.net` is the new site.** The owner moved the domain from
-  WordPress to Vercel on 9 Nov 2026. `peptidescostarica.net`,
-  `www.peptidescostarica.net` and `new.peptidescostarica.net` all serve the
-  same Vercel project (`peptidecostarica-website`, branch `website`). Every page
+  WordPress to Vercel on 9 Nov 2026. `peptidescostarica.net` (and
+  `www.peptidescostarica.net`, to be redirected to it) serve the
+  Vercel project (`peptidecostarica-website`, branch `website`). Every page
   declares `https://peptidescostarica.net/...` as its canonical. WordPress no
   longer serves the public domain.
+- **`new.peptidescostarica.net` is retired** (owner, 9 Nov 2026). It was the
+  pre-launch test address. Never link, configure or rely on it; it is being
+  removed from Vercel and DNS.
 - **`catalog.peptidescostarica.net` is still live and still needed.** Customers,
   ads, emails and WhatsApp links still send traffic there, and moving them
   takes time. Both sites run side by side for the foreseeable future; do not
@@ -59,7 +62,7 @@ checked out as sibling folders:
 | Folder | Branch | App | Vercel project | Domains |
 | --- | --- | --- | --- | --- |
 | `peptidecosta/` | `main` | The shop: catalog, cart, checkout, orders, payments, admin portal, CRM, WhatsApp bot, deals, pricing, 18 cron jobs, every DB migration | `peptidecosta` | `catalog.peptidescostarica.net` |
-| `peptidecosta-website/` | `website` | The main business site (new design, its own cart; replaced WordPress) | `peptidecostarica-website` | `peptidescostarica.net`, `www.`, `new.` |
+| `peptidecosta-website/` | `website` | The main business site (new design, its own cart; replaced WordPress) | `peptidecostarica-website` | `peptidescostarica.net` (+ `www.`) |
 
 `peptidecosta-website` is a git worktree of the same repo; `git` inside it
 operates on the `website` branch (named `clone-website` until 23 Oct 2026).
@@ -159,10 +162,16 @@ adding a project costs nothing.
 
 Owner (Omer) to do or decide:
 1. ~~Turn indexing on~~ — done 9 Nov 2026.
-2. In Vercel → Domains, make `www.` and `new.` redirect (308) to the apex so
-   one host serves the site.
-3. Submit the sitemap in Google Search Console for `peptidescostarica.net`.
-4. OK to push the website's switched-off checkout copy; get the 30 Sensitive
+2. Owner does not want `new.peptidescostarica.net` (9 Nov): remove it in
+   Vercel → `peptidecostarica-website` → Domains, and delete its `new` CNAME
+   at Namecheap (DNS for the domain is Namecheap, `registrar-servers.com`).
+   Nothing in code depends on it. Make `www.` redirect (308) to the apex.
+3. Submit `sitemap.xml` in Google Search Console. The existing property is
+   verified by the two `google-site-verification` meta tags kept from
+   WordPress (in `app/(en)/layout.js`); which Google account owns it is
+   unknown — check the owner's accounts, else ask the former WordPress
+   developer to add him as Owner, or verify a Domain property by DNS TXT.
+4. ~~Push the switched-off checkout copy~~ (pushed 9 Nov). Get the 30 Sensitive
    values from the other developer; then add keys + `NEXT_PUBLIC_OWN_CHECKOUT`
    and place one test order.
 5. OK to push the catalog fix that refuses orders for hidden products
@@ -184,3 +193,11 @@ Agents:
   (catalog RLS) — fix in the catalog.
 - Shopper Approved display, the catalog's landing-page setting and GA4
   `sign_up` are not on the website yet.
+- SEO found in the 9 Nov live check (all 991 sitemap URLs return 200, one H1,
+  no noindex): (a) structured data — WordPress had JSON-LD on 378 pages
+  (LocalBusiness, FAQPage, BreadcrumbList, Product); the new design emits it
+  only on product pages (`components/structured-data.js` is used only by the
+  old header). Do not restore the harvested Product schema: it carries old
+  WordPress prices. (b) 15 Spanish mixing guides (`/es/blog/guia/…`) carry
+  WordPress's canonical pointing at the English guide, so Google treats them
+  as duplicates; fix in `lib/seo.js` with self-canonicals for `/es/` pages.
