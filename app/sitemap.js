@@ -1,5 +1,10 @@
 import { allRoutes, harvestedAt, OMITTED_ROUTE_PATHS } from '@/lib/routes';
 import { SITE_URL } from '@/lib/indexing';
+import { buildRouteIndex, isSitemapPath } from '@/lib/seo-links.mjs';
+
+// Only pages that are their own canonical (lib/seo-links.mjs): the
+// /product/lp-…/ ad copies point Google at the regular product instead.
+const ROUTE_INDEX = buildRouteIndex(allRoutes, OMITTED_ROUTE_PATHS);
 
 const OMIT = new Set([
   'excludeCandidate',
@@ -19,7 +24,7 @@ export default function sitemap() {
   for (const route of allRoutes) {
     if (OMIT.has(route.group) || OMITTED_ROUTE_PATHS.has(route.en)) continue;
     for (const path of [route.en, route.es]) {
-      if (!path || seen.has(path) || OMIT_PATHS.has(path)) continue;
+      if (!path || seen.has(path) || OMIT_PATHS.has(path) || !isSitemapPath(path, ROUTE_INDEX)) continue;
       seen.add(path);
       entries.push({
         url: new URL(path, SITE_URL).toString(),
