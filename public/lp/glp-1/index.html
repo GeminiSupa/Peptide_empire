@@ -2612,7 +2612,7 @@ function syncLiveCatalogProducts(rows) {
       grouped[groupKey] = p;
       live.push(p);
     }
-    p.v.push({ s: parts.size, p: Math.round(catalogColones(row.priceCrc)), oos: Number(row.inventoryCount) === 0 || !/^(in stock|disponible)$/i.test(String(row.status || '').trim()) });
+    p.v.push({ s: parts.size, p: Math.round(catalogColones(row.priceCrc)), oos: (row.inventoryCount !== null && row.inventoryCount !== undefined && row.inventoryCount !== "" && Number(row.inventoryCount) <= 0) || !/^(in stock|disponible)$/i.test(String(row.status || '').trim()) });
     if (!p.def || !p.v.some(function (variant) { return catalogDoseKey(variant.s) === catalogDoseKey(p.def); })) p.def = parts.size;
   });
   if (!live.length) return;

@@ -133,3 +133,16 @@ test('the /lp-testing preview loads no Tag Manager and keeps no ad click', () =>
     assert.match(html, /function captureGoogleAdClick\(\)\{\n  if \(window\.LP_TESTING\) return;/, `${page}: no click saved on the preview`);
   }
 });
+
+test('a product with no stock count (null) is not shown as out of stock', () => {
+  for (const page of ['public/lp/glp-1/index.html', 'public/lp/bac-water/index.html']) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
+    const rule = html.match(/oos: (\(row\.inventoryCount !== null[\s\S]*?<= 0\)) \|\|/);
+    assert.ok(rule, `${page}: stock rule`);
+    const soldOut = (inventoryCount) => new Function('row', `return ${rule[1]};`)({ inventoryCount });
+    assert.equal(soldOut(null), false, 'BAC Water has no count and is in stock');
+    assert.equal(soldOut(undefined), false);
+    assert.equal(soldOut(0), true);
+    assert.equal(soldOut(5), false);
+  }
+});
