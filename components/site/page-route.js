@@ -144,12 +144,15 @@ function templateFor(page, site) {
   if (page.group === 'category' || page.group === 'wooCategory') {
     const slug = categorySlugFor(page.slug);
     if (site && !site.categories.some((entry) => entry.slug === slug)) return null;
-    return function CategoryTemplate(props) {
-      const category = props.site.categories.find((entry) => entry.slug === slug);
-      return <CategoryPage {...props} category={category} />;
-    };
+    return CategoryTemplate;
   }
   return null;
+}
+
+/** A category page; PageRoute passes the category's slug. */
+function CategoryTemplate({ categorySlug, ...props }) {
+  const category = props.site.categories.find((entry) => entry.slug === categorySlug);
+  return <CategoryPage {...props} category={category} />;
 }
 
 /** True when a page has moved to the new design. */
@@ -165,9 +168,10 @@ export default async function PageRoute({ page, lang }) {
   const site = await getSiteData(lang);
   const Template = templateFor(page, site);
   const alt = alternates(page.en);
+  const extra = Template === CategoryTemplate ? { categorySlug: categorySlugFor(page.slug) } : {};
   return (
     <SiteShell lang={lang} altHref={lang === 'es' ? alt.en : alt.es}>
-      <Template lang={lang} site={site} page={page} h1={liveH1(page, lang)} copy={liveCopy(page.sections, lang)} />
+      <Template lang={lang} site={site} page={page} h1={liveH1(page, lang)} copy={liveCopy(page.sections, lang)} {...extra} />
     </SiteShell>
   );
 }
