@@ -77,9 +77,18 @@ const nextConfig = {
   // itself and nothing else on the site is affected.
   async rewrites() {
     return [
+      // Google Ads landing pages: GLP-1 replaces /lp, and new /lp/bac-water
       {
         source: '/lp',
-        destination: '/lp/index.html',
+        destination: '/lp/glp-1/index.html',
+      },
+      {
+        source: '/lp/glp-1',
+        destination: '/lp/glp-1/index.html',
+      },
+      {
+        source: '/lp/bac-water',
+        destination: '/lp/bac-water/index.html',
       },
       // The landing page's confirmation, the destination URL Google Ads counts
       // a lead on. It is public/lp/thank-you.html, so it always answers on its

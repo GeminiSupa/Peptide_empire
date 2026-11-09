@@ -42,6 +42,26 @@ export function productNameResolver(products) {
     exact.set(normalize(name), product);
     const key = looseKey(name);
     loose.set(key, loose.has(key) ? null : product);
+
+    // Landing page approved aliases (on ad landing pages only):
+    if (/tirzepatide/i.test(name)) {
+      const alias = name.replace(/tirzepatide/i, 'GLP-1 (TRZ)');
+      exact.set(normalize(alias), product);
+      loose.set(looseKey(alias), product);
+    }
+    if (/semaglutide/i.test(name)) {
+      const alias = name.replace(/semaglutide/i, 'GLP-1 (SEM)');
+      exact.set(normalize(alias), product);
+      loose.set(looseKey(alias), product);
+    }
+    if (/retatrutide/i.test(name)) {
+      const alias1 = name.replace(/retatrutide/i, 'GLP-1 (RT)');
+      exact.set(normalize(alias1), product);
+      loose.set(looseKey(alias1), product);
+      const alias2 = name.replace(/retatrutide/i, 'GLP-1');
+      exact.set(normalize(alias2), product);
+      loose.set(looseKey(alias2), product);
+    }
   }
   return (name) => {
     if (!name) return null;
