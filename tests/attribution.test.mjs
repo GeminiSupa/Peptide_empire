@@ -162,3 +162,14 @@ test('the vendored attribution modules match the catalog\'s', async (t) => {
     assert.equal(digest(ours), digest(theirs), `lib/catalog-attribution/${name} has drifted from the catalog's. Re-copy it.`);
   }
 });
+
+test('a lead from an ad carries the Google click, so the CRM order can be credited to it', () => {
+  const win = fakeWindow('https://peptidescostarica.net/?gclid=Cj0KCQlead-1&utm_source=google&utm_medium=cpc');
+  captureAttribution(win, NOW);
+  assert.deepEqual(leadAttribution(win, NOW).ad_attribution, { clicked_at: NOW, gclid: 'Cj0KCQlead-1' });
+  // Expired after Google's 90 days, and absent when there was no ad click.
+  assert.equal(leadAttribution(win, NOW + 91 * 86400000).ad_attribution, undefined);
+  const organic = fakeWindow('https://peptidescostarica.net/');
+  captureAttribution(organic, NOW);
+  assert.equal('ad_attribution' in leadAttribution(organic, NOW), false);
+});
