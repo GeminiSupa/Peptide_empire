@@ -193,11 +193,19 @@ Agents:
   (catalog RLS) — fix in the catalog.
 - Shopper Approved display, the catalog's landing-page setting and GA4
   `sign_up` are not on the website yet.
-- SEO found in the 9 Nov live check (all 991 sitemap URLs return 200, one H1,
-  no noindex): (a) structured data — WordPress had JSON-LD on 378 pages
-  (LocalBusiness, FAQPage, BreadcrumbList, Product); the new design emits it
-  only on product pages (`components/structured-data.js` is used only by the
-  old header). Do not restore the harvested Product schema: it carries old
-  WordPress prices. (b) 15 Spanish mixing guides (`/es/blog/guia/…`) carry
-  WordPress's canonical pointing at the English guide, so Google treats them
-  as duplicates; fix in `lib/seo.js` with self-canonicals for `/es/` pages.
+- SEO, fixed 9 Nov 2026 on the website branch (commits a5b1e1db, fae69bca;
+  live once pushed). Rules for anyone touching SEO there:
+  - **Canonical and hreflang** come from `lib/seo-links.mjs` (route map),
+    never from WordPress's harvested `data/seo.json`: every page is its own
+    canonical; language pairs only when both pages name each other; the 25
+    `/product/lp-…/` ad copies canonicalise to the regular product and stay
+    out of the sitemap. `tests/seo-links.test.mjs` checks every page.
+  - **Structured data** comes from `lib/site/structured-data.mjs`, built from
+    what each page shows (breadcrumb component, FAQ accordions, live prices).
+    Never re-add WordPress's harvested JSON-LD (old prices, wrong URLs).
+    `node scripts/check-structured-data.mjs <base>` audits every sitemap page
+    (966/966 passed on a production build).
+  - Owner QA: `peptidecosta-website/docs/seo/structured-data-qa.md` (Google
+    Rich Results Test on 10 URLs, then Search Console → Enhancements).
+  - Not covered: ~30 old-layout pages (spec sheets, two leftover affiliate
+    pages, discontinued Pinealon/TB-4) carry no structured data.
