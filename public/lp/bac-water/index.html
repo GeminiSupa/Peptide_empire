@@ -3030,6 +3030,8 @@ body.lp header.top .wrap{gap:10px}
 body.lp .sfoot{display:none!important}
 .lpmini{background:var(--ink);color:#8d9abb;font-size:12.5px;text-align:center;padding:22px 16px 110px}
 .safb{display:grid;gap:14px;padding:6px}
+.sawrap.lpsa{position:relative}.sawrap.lpsa>.SA__wrapper{position:absolute!important;left:-10000px;top:0;width:900px;height:1px;overflow:hidden}
+.safb a.brand{text-decoration:none}
 .safb .hd{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
 .safb .sc{display:flex;align-items:center;gap:10px}.safb .sc b{font-size:30px;letter-spacing:-.03em}.safb .sc .st{color:#f5a623;font-size:18px;letter-spacing:1px}.safb .sc small{display:block;color:var(--soft);font-size:12.5px}
 .safb .brand{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:#0b7a3e;background:#e8f6ee;padding:6px 10px;border-radius:999px}
@@ -3568,17 +3570,39 @@ body.lp .sfoot{display:none!important}
     ["Juan A.", "San José", "La responsabilidad hoy en día es primordial, lo recomendaría por su responsabilidad con el cliente, agilidad y seguridad. La rapidez de entrega es excelente."],
     ["Verified buyer", "San José", "I was looking for high-quality products, excellent service, clear communication, and reliable shipping and I got all of that. The customer service was outstanding throughout the entire process."],
     ["Sue F.", "Limón", "Me encanta, estoy deseando poder volver a realizar otro pedido de sus productos."]];
-  function saFallback() {
-    $$("#page .SA__wrapper").forEach(function (w) {
-      if (w.children.length) return;
-      w.innerHTML = '<div class="safb"><div class="hd"><span class="sc"><b>4.8</b><span><span class="st">★★★★★</span><small>32 verified reviews</small></span></span><span class="brand"><span class="ms" style="font-size:16px">verified</span>Shopper Approved</span></div>' +
-        '<div class="vp"><div class="tr">' + SAR.map(function (r) { return '<figure class="it" style="margin:0"><span class="st">★★★★★</span><q>' + esc(r[2]) + "</q><small><b>" + esc(r[0]) + "</b> · " + esc(r[1]) + ' · <i>Verified buyer</i></small></figure>'; }).join("") + "</div></div>" +
-        '<div class="dots">' + SAR.map(function (r, i) { return '<button aria-label="Review ' + (i + 1) + '"' + (i ? "" : ' class="on"') + "></button>"; }).join("") + "</div></div>";
-      var tr = w.querySelector(".tr"), dots = $$(".dots button", w), k = 0;
-      function go2(i) { var per = innerWidth >= 860 ? 2 : 1, max = SAR.length - per; k = i > max ? 0 : i; tr.style.transform = "translateX(" + (-k * 100 / per) + "%)"; dots.forEach(function (d, j) { d.classList.toggle("on", j === k); }); }
-      dots.forEach(function (d, i) { d.onclick = function () { go2(i); }; });
-      if (!reduce) setInterval(function () { go2(k + 1); }, 5000);
+  /* Shopper Approved in the artifact's own design. The live widget still loads,
+     off screen, and its data (average, review count, latest reviews) fills this
+     card; the reviews above stay as a fallback if it cannot load. */
+  function saText(s) { var t = document.createElement("textarea"); t.innerHTML = String(s == null ? "" : s); t.innerHTML = t.value; return t.value; }
+  function saLive() {
+    var key = Object.keys(window).filter(function (k) { return /^saSliderData_/.test(k); })[0];
+    var data = key && window[key], head = document.querySelector('#page .SA__wrapper [aria-label^="Overall rating"]');
+    var m = head && head.getAttribute("aria-label").match(/rating ([\d.]+) out of 5 stars, based on (\d+) reviews/);
+    if (!data || !Array.isArray(data.reviews) || !m) return null;
+    var revs = data.reviews.filter(function (r) { return Number(r.Overall) >= 4 && saText(r.FeedbackComment).trim().length >= 25; }).slice(0, 6).map(function (r) {
+      var name = saText(r.CustomerName).trim(); if (name && name === name.toUpperCase()) name = name.toLowerCase().replace(/(^|[s.-])(S)/g, function (a, b, c) { return b + c.toUpperCase(); });
+      return [name || "Verified buyer", saText(r.address).trim().replace(/\b\w/g, function (c) { return c.toUpperCase(); }), saText(r.FeedbackComment).trim()];
     });
+    return revs.length ? { avg: m[1], count: m[2], revs: revs } : null;
+  }
+  function saDraw(d) {
+    $$("#page .SA__wrapper").forEach(function (w) {
+      var box = w.previousElementSibling && w.previousElementSibling.classList.contains("safb") ? w.previousElementSibling : null;
+      if (!box) { box = document.createElement("div"); box.className = "safb"; w.parentNode.insertBefore(box, w); w.parentNode.classList.add("lpsa"); }
+      if (box._timer) clearInterval(box._timer);
+      box.innerHTML = '<div class="hd"><span class="sc"><b>' + esc(d.avg) + '</b><span><span class="st">★★★★★</span><small>' + (d.count ? esc(d.count) + " verified reviews" : "Verified reviews") + '</small></span></span><a class="brand" href="https://www.shopperapproved.com/reviews/peptidescostarica.net/" target="_blank" rel="noopener"><span class="ms" style="font-size:16px">verified</span>Shopper Approved</a></div>' +
+        '<div class="vp"><div class="tr">' + d.revs.map(function (r) { return '<figure class="it" style="margin:0"><span class="st">★★★★★</span><q>' + esc(r[2]) + "</q><small><b>" + esc(r[0]) + "</b>" + (r[1] ? " · " + esc(r[1]) : "") + ' · <i>Verified buyer</i></small></figure>'; }).join("") + "</div></div>" +
+        '<div class="dots">' + d.revs.map(function (r, i) { return '<button aria-label="Review ' + (i + 1) + '"' + (i ? "" : ' class="on"') + "></button>"; }).join("") + "</div>";
+      var tr = box.querySelector(".tr"), dots = $$(".dots button", box), k = 0;
+      function go2(i) { var per = innerWidth >= 860 ? 2 : 1, max = Math.max(0, d.revs.length - per); k = i > max ? 0 : i; tr.style.transform = "translateX(" + (-k * 100 / per) + "%)"; dots.forEach(function (dt, j) { dt.classList.toggle("on", j === k); }); }
+      dots.forEach(function (dt, i) { dt.onclick = function () { go2(i); }; });
+      if (!reduce) box._timer = setInterval(function () { go2(k + 1); }, 5000);
+    });
+  }
+  function saFallback() {
+    saDraw({ avg: "4.8", count: "", revs: SAR });
+    var tries = 0;
+    (function wait() { var live = saLive(); if (live) return saDraw(live); if (++tries < 40) setTimeout(wait, 300); })();
   }
 
   /* ---------- wire up ---------- */
@@ -3588,8 +3612,8 @@ body.lp .sfoot{display:none!important}
       calcDraw();
       var io = "IntersectionObserver" in window ? new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); $$(".lprung", en.target).forEach(function (r, i) { setTimeout(function () { r.classList.add("in"); }, 200 + i * 180); }); var v = en.target.querySelector(".lpvials"); if (v) v.classList.add("in"); io.unobserve(en.target); } }); }, { threshold: .15 }) : null;
       $$("#page .rv").forEach(function (el) { if (io) io.observe(el); else el.classList.add("in"); });
-      $$("#page .shopperlink img").forEach(function (im) { im.onerror = function () { this.parentNode.innerHTML = '<span class="lpfall"><span class="st">★★★★★</span>Shopper Approved</span>'; }; });
-      setTimeout(mountWidgets, 0); setTimeout(saFallback, 3500);
+      $$("#page .shopperlink").forEach(function (a) { a.innerHTML = '<span class="lpfall"><span class="st">★★★★★</span>Shopper Approved</span>'; });
+      setTimeout(mountWidgets, 0); setTimeout(saFallback, 0);
     } };
   var _st = $("#lpstub"); if (_st) _st.remove();
   document.body.insertAdjacentHTML("beforeend", '<div class="lpfloat" id="lpfloat">' + floatHTML() + "</div>");

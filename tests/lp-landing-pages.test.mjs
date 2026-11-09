@@ -146,3 +146,14 @@ test('a product with no stock count (null) is not shown as out of stock', () => 
     assert.equal(soldOut(5), false);
   }
 });
+
+test('Shopper Approved shows in the artifact design, filled from the live widget data', () => {
+  for (const page of ['public/lp/glp-1/index.html', 'public/lp/bac-water/index.html']) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
+    assert.match(html, /function saLive\(\)/, `${page}: reads the live widget data`);
+    assert.ok(html.includes('based on (\\d+) reviews/'), `${page}: live review count, not a hardcoded one`);
+    assert.match(html, /\.sawrap\.lpsa>\.SA__wrapper\{position:absolute!important;left:-10000px/, `${page}: live widget kept off screen`);
+    assert.match(html, /\$\$\("#page \.shopperlink"\)\.forEach\(function \(a\) \{ a\.innerHTML = '<span class="lpfall">/, `${page}: hero shows the artifact pill`);
+    assert.doesNotMatch(html, /32 verified reviews/, `${page}: no stale count`);
+  }
+});
