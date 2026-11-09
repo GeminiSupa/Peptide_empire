@@ -10,7 +10,7 @@ test('the lead is posted to the catalog\'s CRM route in the shape it reads', asy
   };
 
   const result = await saveLead({
-    name: ' Ana Rojas ', email: 'ana@example.test', phone: '+506 8404 6973',
+    name: ' Ana Rojas ', email: 'ana@example.test', phone: '+506 6060 4775',
     source: LEAD_SOURCES.affiliate, lang: 'en', honeypot: '', formMs: 41000,
   }, { fetchImpl });
 
@@ -20,7 +20,7 @@ test('the lead is posted to the catalog\'s CRM route in the shape it reads', asy
   assert.deepEqual(posted.body, {
     name: 'Ana Rojas',
     email: 'ana@example.test',
-    phone: '+506 8404 6973',
+    phone: '+506 6060 4775',
     language: 'en',
     source: 'website_affiliate',
     [LEAD_HONEYPOT_FIELD]: '',

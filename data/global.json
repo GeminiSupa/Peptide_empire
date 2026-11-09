@@ -7,9 +7,9 @@
   },
   "headerContact": [
     {
-      "label_en": "CR: +506 8404-6973",
-      "label_es": "CR: +506 8404-6973",
-      "href": "https://wa.me/50684046973"
+      "label_en": "CR: +506 6060-4775",
+      "label_es": "CR: +506 6060-4775",
+      "href": "https://wa.me/50660604775"
     },
     {
       "label_en": "US: +1 (831) 471-5559",
@@ -21,7 +21,7 @@
     {
       "label_en": "Order on WhatsApp",
       "label_es": "Pedir por WhatsApp",
-      "href": "https://wa.me/50684046973",
+      "href": "https://wa.me/50660604775",
       "kind": "whatsapp"
     },
     {
@@ -533,9 +533,9 @@
         "href": "mailto:info@peptidescostarica.net"
       },
       {
-        "label_en": "Message on WhatsApp +506 8404-6973",
-        "label_es": "Escribir por WhatsApp +506 8404-6973",
-        "href": "https://wa.me/50684046973"
+        "label_en": "Message on WhatsApp +506 6060-4775",
+        "label_es": "Escribir por WhatsApp +506 6060-4775",
+        "href": "https://wa.me/50660604775"
       },
       {
         "label_en": "US +1 (831) 471-5559",
@@ -590,7 +590,7 @@
       ],
       "cta_en": "Message on WhatsApp",
       "cta_es": "Escribir por WhatsApp",
-      "cta_href": "https://wa.me/50684046973"
+      "cta_href": "https://wa.me/50660604775"
     },
     "reviews": [
       {

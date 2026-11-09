@@ -80,9 +80,13 @@ const LISTING_URLS_USED_AS_REVIEW_LINKS = new Set([
   ...LEGACY_GOOGLE_LISTING_URLS,
 ]);
 
+// Numbers the business may no longer use. +506 8404-6973 retired 9 Nov 2026
+// (owner: WhatsApp kept blocking it; no one may be contacted on it).
+const RETIRED_WHATSAPP_NUMBERS = new Set(['50684046973']);
+
 export const DEFAULT_BUSINESS_LINKS = {
-  whatsappNumber: '50684046973',
-  whatsappDisplay: '+506 8404-6973',
+  whatsappNumber: '50660604775',
+  whatsappDisplay: '+506 6060-4775',
   apiWhatsAppNumber: '18314715559',
   apiWhatsAppDisplay: '+1 (831) 471-5559',
   // Empty, not GOOGLE_LOCAL_LISTING_URL. A hardcoded URL here is what the
@@ -144,6 +148,15 @@ export function normalizeBusinessLinks(value) {
   merged.facebookUrl = String(merged.facebookUrl || '').trim();
   if (LEGACY_FACEBOOK_REVIEW_URLS.has(merged.facebookReviewUrl)) merged.facebookReviewUrl = '';
   if (LEGACY_FACEBOOK_REVIEW_URLS.has(merged.facebookUrl)) merged.facebookUrl = '';
+
+  // A retired number saved in the admin loses to the current default, the same
+  // way a retired Google listing does above.
+  if (RETIRED_WHATSAPP_NUMBERS.has(String(merged.whatsappNumber || '').replace(/\D/g, ''))) {
+    merged.whatsappNumber = DEFAULT_BUSINESS_LINKS.whatsappNumber;
+  }
+  if (RETIRED_WHATSAPP_NUMBERS.has(`506${String(merged.whatsappDisplay || '').replace(/\D/g, '').replace(/^506/, '')}`)) {
+    merged.whatsappDisplay = DEFAULT_BUSINESS_LINKS.whatsappDisplay;
+  }
 
   merged.trustpilotUrlEn = merged.trustpilotUrlEn || merged.trustpilotUrl || TRUSTPILOT_REVIEW_URLS.en;
   merged.trustpilotUrlEs = merged.trustpilotUrlEs || TRUSTPILOT_REVIEW_URLS.es;

@@ -74,6 +74,22 @@ const nextConfig = {
         destination: '/es/',
         permanent: true,
       },
+      // Short addresses people type or print (owner, 9 Nov 2026: /contact 404'd).
+      {
+        source: '/contact',
+        destination: '/contact-costa-rica/',
+        permanent: true,
+      },
+      {
+        source: '/es/contacto',
+        destination: '/es/contactar-costa-rica/',
+        permanent: true,
+      },
+      {
+        source: '/es/contact',
+        destination: '/es/contactar-costa-rica/',
+        permanent: true,
+      },
     ];
   },
 

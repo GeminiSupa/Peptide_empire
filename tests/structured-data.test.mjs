@@ -39,10 +39,10 @@ test('several accordions on one page become one FAQPage, de-duplicated, as plain
 });
 
 test('the organization uses the admin contact details and the site logo', () => {
-  const node = organizationNode({ base, contact: { phoneCr: '+506 8404-6973', phoneUs: '+1 831 471 5559', email: 'info@peptidescostarica.net' }, sameAs: ['https://x.com/a'] });
+  const node = organizationNode({ base, contact: { phoneCr: '+506 6060-4775', phoneUs: '+1 831 471 5559', email: 'info@peptidescostarica.net' }, sameAs: ['https://x.com/a'] });
   assert.equal(node['@id'], `${base}/#organization`);
   assert.equal(node.logo.url, `${base}/logo.png`);
-  assert.equal(node.telephone, '+506 8404-6973');
+  assert.equal(node.telephone, '+506 6060-4775');
   assert.equal(node.contactPoint.length, 2);
   assert.deepEqual(node.sameAs, ['https://x.com/a']);
   assert.equal(websiteNode({ base, lang: 'es' }).url, `${base}/es/`);

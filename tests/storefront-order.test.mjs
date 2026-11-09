@@ -27,7 +27,7 @@ function line(product, priceUsd, qty, extra = {}) {
 
 const CUSTOMER = {
   name: '  Ana   Rojas ',
-  phone: '8404 6973',
+  phone: '6060 4775',
   email: 'ana@example.test',
   address: '200 m norte de la iglesia, Granadilla, Curridabat, San José',
 };
@@ -110,7 +110,7 @@ test('the payload carries what checkout requires', () => {
     assert.ok(order[field], `${field} is required by checkout`);
   }
   assert.equal(order.customer_name, 'Ana Rojas', 'collapsed, as a phone keyboard adds spaces');
-  assert.equal(order.customer_phone, '84046973');
+  assert.equal(order.customer_phone, '60604775');
   assert.deepEqual(order.research_ack, { accepted: true, version: RESEARCH_ACK_VERSION });
   assert.ok(HONEYPOT_FIELD in order, 'the honeypot travels and checkout strips it');
   assert.equal(order.payment_method, 'whatsapp');

@@ -13,11 +13,19 @@ test('the admin\'s Business info replaces the design\'s contact details', () => 
   assert.deepEqual(contactFrom({}), CONTACT);
 });
 
+test('a retired number saved in the admin never reaches the page', () => {
+  const contact = contactFrom({ whatsappNumber: '50684046973', whatsappDisplay: '+506 8404-6973' });
+  assert.equal(contact.whatsapp, '50660604775');
+  assert.equal(contact.phoneCr, '+506 6060-4775');
+  assert.equal(contact.phoneCrHref, 'tel:+50660604775');
+  assert.deepEqual(contactReplacements(contact), []);
+});
+
 test('page text and links follow the admin\'s contact details only when they differ', () => {
   assert.deepEqual(contactReplacements(CONTACT), []);
   const pairs = contactReplacements(contactFrom({ whatsappNumber: '50611112222', whatsappDisplay: '+506 1111-2222' }));
-  assert.ok(pairs.some(([from, to]) => from === '+506 8404-6973' && to === '+506 1111-2222'));
-  assert.ok(pairs.some(([from, to]) => from === 'wa.me/50684046973' && to === 'wa.me/50611112222'));
+  assert.ok(pairs.some(([from, to]) => from === '+506 6060-4775' && to === '+506 1111-2222'));
+  assert.ok(pairs.some(([from, to]) => from === 'wa.me/50660604775' && to === 'wa.me/50611112222'));
 });
 
 test('review links come from the admin, per language', () => {

@@ -58,11 +58,11 @@ export const ui = {
  * Verified against the live site's footer on 2026-07-27.
  */
 export const CONTACT = {
-  crPhoneHref: 'tel:+50684046973',
+  crPhoneHref: 'tel:+50660604775',
   usPhoneHref: 'tel:+18314715559',
   email: 'info@peptidescostarica.net',
   emailHref: 'mailto:info@peptidescostarica.net',
-  whatsappHref: 'https://wa.me/50684046973',
+  whatsappHref: 'https://wa.me/50660604775',
 };
 
 /**
