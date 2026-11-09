@@ -1,6 +1,15 @@
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+/** Old WordPress ad landing page → this site's page for the same product. */
+export const OLD_AD_LANDING_PAGES = [
+  ['lp-klow-80mg', '/product/lp-klow-80mg/'],
+  ['lp-aicar-50mg', '/product/lp-aicar-50mg/'],
+  ['lp-oxytocin-acetate-5mg', '/product/lp-oxytocin-acetate-5mg/'],
+  ['lp-pt-141-10mg', '/product/lp-pt-141-10mg/'],
+  ['lp-bac-water-10ml', '/product/bac-water-10ml/'],
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /**
@@ -74,6 +83,18 @@ const nextConfig = {
         destination: '/es/',
         permanent: true,
       },
+      // Old WordPress ad landing pages that Google Ads still sends ~3,300
+      // clicks/week to (they 404'd after the 9 Nov 2026 domain move). Each
+      // goes to this site's own page for the same product, so the ad lands
+      // where it promised. Next.js keeps the query string, and every page
+      // here saves gclid/gbraid/wbraid (visitor-tracker → attribution.mjs)
+      // and sends it with the order. Listed one by one: /lp-glutathione/ is
+      // a live page on this site. Temporary, so they can be restored.
+      ...OLD_AD_LANDING_PAGES.map(([page, destination]) => ({
+        source: `/${page}`,
+        destination,
+        permanent: false,
+      })),
       // Short addresses people type or print (owner, 9 Nov 2026: /contact 404'd).
       {
         source: '/contact',
