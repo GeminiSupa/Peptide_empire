@@ -9,17 +9,25 @@ production sites.
 | [`website`](../../tree/website) | The main business site (new design, replaced WordPress on 9 Nov 2026) | `peptidecostarica-website` | `peptidescostarica.net` |
 
 - **Pushing `main` deploys the catalog. Pushing `website` deploys
-  `peptidescostarica.net`.** Both are production — get the owner's OK first.
+  `peptidescostarica.net`.** Both are production.
 - **Never merge `website` into `main` or the reverse.** They are different
   apps with different file layouts. Work on one branch at a time.
 - Both apps use the **same Supabase database**. The website posts its orders
   to the catalog's `/api/orders/create`, and card/bank payments still finish
   on the catalog — so a change on `main` can break the website.
-- **Every other branch** is an old feature or Codex branch. Nothing deploys
-  them to production. Don't start new work from them unless told to.
+- **Every other branch** is a catalog feature branch (some unfinished work in
+  progress). Nothing deploys them to production until they are merged into
+  `main`. Catalog feature branches merge into `main` only, never `website`.
 - **Retired:** the separate GitHub repo `GeminiSupa/peptidecostarica-website`
   stopped on 18 Oct 2026. Nothing builds from it — don't use it.
 - `new.peptidescostarica.net` is retired too; ignore it.
+
+## AI agents (Claude Code and Codex)
+
+Each branch has one context file: `AGENTS.md`. Codex reads it directly;
+`CLAUDE.md` is a one-line import of it, so Claude Code reads the same rules.
+Add rules to `AGENTS.md` only. A feature branch made before 9 Nov 2026 has
+older context files; merge `main` into it to bring them up to date.
 
 ## Read before changing code
 
