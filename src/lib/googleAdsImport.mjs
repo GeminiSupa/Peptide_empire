@@ -1,5 +1,17 @@
 import { offlineConversionEvent, googleRequestState } from './googleAdsConversions.mjs';
+import { leadClickForOrder, loadLeadClicks } from './leadAdClick.mjs';
 export async function runGoogleAdsImport(admin, google) {
+  // Read once per run, and only if an order without its own click needs it.
+  let leadClicks;
+  async function withLeadClick(order, paidAt) {
+    if (order.ad_attribution) return order;
+    leadClicks ??= await loadLeadClicks(admin);
+    const click = leadClickForOrder(order, leadClicks, paidAt);
+    if (!click) return order;
+    // Record it on the order too, never replacing one it already has.
+    try { await admin.from('orders').update({ ad_attribution: click }).eq('id', order.id).is('ad_attribution', null); } catch {}
+    return { ...order, ad_attribution: click };
+  }
   const deadline = Date.now() + 230000;
   const allowedDestinations = google.destinations || new Set([google.destination]);
   async function concurrent(rows, action) {
@@ -31,7 +43,7 @@ export async function runGoogleAdsImport(admin, google) {
       if (current.error) throw new Error('Could not read confirmed order.');
       const paymentMethod = String(current.data?.payment_method || '').toLowerCase();
       let event;
-      try { event = offlineConversionEvent(current.data || {}, row.paid_at); }
+      try { event = offlineConversionEvent(await withLeadClick(current.data || {}, row.paid_at), row.paid_at); }
       catch (error) { await update(row.id, { status: 'skipped', lease_until: null, last_error: error.message }); summary.skipped++; return; }
       const result = await google.upload(event, false, paymentMethod);
       if (!result.requestId) throw new Error('Google returned no request ID.');

@@ -212,7 +212,17 @@ Owner (Omer) to do or decide:
    Spanish translation files in the retired repo; Joey's page editor (Codex
    branch `codex/website-admin` vs fresh); card page opening ChargX in a new
    tab; cancel the 7 "Omer Test" orders (`W-MW7…` numbers).
-7. Later: send `catalog.peptidescostarica.net` traffic to the main site
+7. Google Ads click IDs on CRM orders (branch `catalog-lead-click-id`,
+   9 Nov 2026): 0 of 117 uploaded orders had a gclid because the `/lp` and
+   `/glp-1` lead forms never kept it and staff create those orders by hand.
+   Now the lead keeps the click (`catalog_leads.ad_attribution`) and the
+   Google Ads upload copies it onto the matching order (same email, or same
+   last 8 phone digits). To ship: run `add-lead-ad-attribution.sql` in the
+   Supabase SQL Editor, then merge the branch into `catalog` and push. Only new
+   leads get a click; orders already uploaded cannot be changed. Not covered:
+   the catalog's entry gate (`/api/leads/capture`) and the website's own
+   forms, which post to the catalog from another domain without the cookie.
+8. Later: send `catalog.peptidescostarica.net` traffic to the main site
    (Belhassen's request) — only once the website does everything the catalog
    does.
 

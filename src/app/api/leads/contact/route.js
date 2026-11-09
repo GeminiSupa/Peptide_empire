@@ -6,6 +6,7 @@ import { resolveLeadOwnerDetailed } from '@/lib/leadOwner';
 import { loadLandingLeadSettings, resolveCampaignAgent } from '@/lib/leadCampaignAgent';
 import { resolveRotationAgent } from '@/lib/leadRotation.mjs';
 import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
+import { readAdClick, sanitizeAdAttribution } from '@/lib/adClickAttribution.mjs';
 import { rateLimit } from '@/lib/rateLimit.mjs';
 import { classifyLeadSubmission, HONEYPOT_FIELD } from '@/lib/leadSpam.mjs';
 import nodemailer from 'nodemailer';
@@ -221,6 +222,9 @@ export async function POST(request) {
     const utmMedium = clean(body.utm_medium ?? body.utmMedium, 120);
     const utmCampaign = clean(body.utm_campaign ?? body.utmCampaign, 120);
     const referrer = clean(body.referrer, 500) || request.headers.get('referer') || '';
+    // Same order as /api/orders/create: the first-party cookie first, then the body.
+    const adClick = readAdClick({ cookie: request.headers.get('cookie') || '' })
+      || sanitizeAdAttribution(body.ad_attribution);
 
     // Before anything is written, queued or emailed. A submission that fails
     // here is answered with the same success body a real one gets: a script
@@ -434,6 +438,10 @@ export async function POST(request) {
       ...(utmMedium ? { utm_medium: utmMedium } : {}),
       ...(utmCampaign ? { utm_campaign: utmCampaign } : {}),
       ...(referrer ? { referrer } : {}),
+      // The Google ad click that brought them (from the landing page's cookie).
+      // Staff create most orders by hand later, so the Google Ads upload takes
+      // the click from here. Kept unless a newer click replaces it.
+      ...(adClick ? { ad_attribution: adClick } : {}),
     };
 
     // These arrive via their own hand-run migrations (or not at all). Dropping
@@ -445,6 +453,7 @@ export async function POST(request) {
       'lead_source', 'qualification_data', 'marketing_consent', 'consent_at', 'consent_source',
       'consent_text', 'consent_version', 'assigned_at', 'response_due_at',
       'ownership_updated_at', 'ownership_updated_by', 'last_enquiry_at',
+      'ad_attribution',
     ];
 
     const { data: saved, error } = await writeDroppingMissingColumns(payload, optional, (row) => (
