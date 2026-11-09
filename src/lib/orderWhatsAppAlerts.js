@@ -302,7 +302,7 @@ export async function sendCustomerOrderConfirmation(supabase, order, orderNumber
         to: cleanPhone,
         type: 'template',
         template: {
-          name: process.env.WHATSAPP_CUSTOMER_ORDER_TEMPLATE || 'confirmacion_pedido_cliente_v2',
+          name: process.env.WHATSAPP_CUSTOMER_ORDER_TEMPLATE || 'confirmacion_pedido_cliente_v3',
           language: { code: templateLanguage },
           components: [{
             type: 'body',
