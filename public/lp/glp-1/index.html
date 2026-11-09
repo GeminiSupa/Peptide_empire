@@ -2587,12 +2587,17 @@ function landingCategory(category) {
   if (/supply|water|reconstitution|suministro/.test(value)) return 'supplies';
   return 'repair';
 }
+function catalogColones(value) {
+  if (typeof value === 'number') return value;
+  var digits = String(value == null ? '' : value).replace(/[^0-9.]/g, '');
+  return digits ? Number(digits) : NaN;
+}
 function syncLiveCatalogProducts(rows) {
   if (!Array.isArray(rows) || !rows.length) return;
   var current = P.slice(), live = [], grouped = {};
   rows.forEach(function (row) {
     var parts = splitCatalogProduct(row), displayName = landingProductName(parts.base);
-    if (!parts.base || !parts.size || !Number.isFinite(Number(row.priceCrc))) return;
+    if (!parts.base || !parts.size || !Number.isFinite(catalogColones(row.priceCrc))) return;
     var groupKey = catalogProductKey(parts.base), p = grouped[groupKey];
     if (!p) {
       p = current.filter(function (candidate) {
@@ -2607,7 +2612,7 @@ function syncLiveCatalogProducts(rows) {
       grouped[groupKey] = p;
       live.push(p);
     }
-    p.v.push({ s: parts.size, p: Math.round(Number(row.priceCrc)), oos: Number(row.inventoryCount) === 0 || !/^(in stock|disponible)$/i.test(String(row.status || '').trim()) });
+    p.v.push({ s: parts.size, p: Math.round(catalogColones(row.priceCrc)), oos: Number(row.inventoryCount) === 0 || !/^(in stock|disponible)$/i.test(String(row.status || '').trim()) });
     if (!p.def || !p.v.some(function (variant) { return catalogDoseKey(variant.s) === catalogDoseKey(p.def); })) p.def = parts.size;
   });
   if (!live.length) return;
@@ -2674,32 +2679,40 @@ function placeOrder(method) {
   } catch(e){}
 
   dataLayer.push({ event: 'checkout_submit', payment_type: isCard ? 'card' : 'whatsapp', user_data: { email: cleanEmail, phone_number: cleanPhone }, ecommerce: { currency: 'USD', value: usd(t.tot + sh), shipping: usd(sh), items: items } });
-  fetch('/api/orders/create', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      order: {
-        order_number: id,
-        customer_name: co.name,
-        customer_phone: (co.cc || '+506') + ' ' + co.phone,
-        customer_email: co.email,
-        shipping_address: [co.addr, co.dist, co.canton, co.prov].filter(Boolean).join(', '),
-        customer_id_type: 'cedula',
-        customer_id_number: co.ced || '',
-        payment_method: isCard ? 'card' : 'whatsapp',
-        currency: 'CRC',
-        total_usd: usd(t.tot + sh),
-        total_crc: t.tot + sh,
-        shipping_cost_usd: usd(sh),
-        shipping_cost_crc: sh,
-        items: orderItems,
-        internal_notes: [window.LP_TESTING ? 'TEST: placed on the /lp-testing preview page' : '', co.notes ? 'Customer note: ' + co.notes : ''].filter(Boolean).join('\n'),
-        research_ack: { accepted: true, version: '2026-09-research-only' },
-        ad_attribution: window.LP_TESTING ? null : googleClick
-      }
-    })
+  var orderPayload = {
+    order_number: id,
+    customer_name: co.name,
+    customer_phone: (co.cc || '+506') + ' ' + co.phone,
+    customer_email: co.email,
+    shipping_address: [co.addr, co.dist, co.canton, co.prov].filter(Boolean).join(', '),
+    customer_id_type: 'cedula',
+    customer_id_number: co.ced || '',
+    payment_method: isCard ? 'card' : 'whatsapp',
+    currency: 'CRC',
+    total_usd: usd(t.tot + sh),
+    total_crc: t.tot + sh,
+    shipping_cost_usd: usd(sh),
+    shipping_cost_crc: sh,
+    items: orderItems,
+    internal_notes: [window.LP_TESTING ? 'TEST: placed on the /lp-testing preview page' : '', co.notes ? 'Customer note: ' + co.notes : ''].filter(Boolean).join('\n'),
+    research_ack: { accepted: true, version: '2026-09-research-only' },
+    ad_attribution: window.LP_TESTING ? null : googleClick
+  };
+  function postOrder(payload) {
+    return fetch('/api/orders/create', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ order: payload })
+    }).then(function(r) { return r.json().catch(function () { return {}; }).then(function (data) { return { ok: r.ok, data: data }; }); });
+  }
+  postOrder(orderPayload)
+  .then(function(result) {
+    var data = result.data, p = data && data.pricing;
+    if (!result.ok && data.errorCode === 'price_changed' && p && Number.isFinite(Number(p.totalCrc)) && Number(p.totalCrc) <= orderPayload.total_crc) {
+      return postOrder(Object.assign({}, orderPayload, { total_crc: Number(p.totalCrc), total_usd: Number(p.totalUsd) }));
+    }
+    return result;
   })
-  .then(function(r) { return r.json().catch(function () { return {}; }).then(function (data) { return { ok: r.ok, data: data }; }); })
   .then(function(result) {
     var data = result.data;
     if (!result.ok || !data.ok) {

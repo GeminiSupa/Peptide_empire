@@ -104,6 +104,21 @@ test('WhatsApp orders are saved before the thank-you page, on the current number
   }
 });
 
+test('live colón prices are read from the display text the API sends, and a price change re-posts once', () => {
+  for (const page of ['public/lp/glp-1/index.html', 'public/lp/bac-water/index.html']) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
+    const fn = html.match(/function catalogColones\(value\) \{[\s\S]*?\n\}/);
+    assert.ok(fn, `${page}: catalogColones`);
+    const catalogColones = new Function(`${fn[0]}; return catalogColones;`)();
+    assert.equal(catalogColones('₡45,027'), 45027);
+    assert.equal(catalogColones(45027), 45027);
+    assert.ok(Number.isNaN(catalogColones('')));
+    assert.match(html, /!Number\.isFinite\(catalogColones\(row\.priceCrc\)\)\) return;/);
+    assert.match(html, /p: Math\.round\(catalogColones\(row\.priceCrc\)\)/);
+    assert.match(html, /data\.errorCode === 'price_changed' && p && Number\.isFinite\(Number\(p\.totalCrc\)\) && Number\(p\.totalCrc\) <= orderPayload\.total_crc/, `${page}: never re-posts at a higher total`);
+  }
+});
+
 test('the /lp-testing preview loads no Tag Manager and keeps no ad click', () => {
   for (const page of ['public/lp/glp-1/index.html', 'public/lp/bac-water/index.html']) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
