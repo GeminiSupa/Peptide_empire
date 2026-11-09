@@ -7,12 +7,13 @@ This version has breaking changes — APIs, conventions, and file structure may 
 # The website on the `website` branch depends on this app
 
 This repository holds two applications. `main` (this branch) is the catalog,
-live at `catalog.peptidescostarica.net`. The `website` branch is the new
-public site that will replace the WordPress site at `peptidescostarica.net`
-and sell the catalog's products under a new design. It is not live yet; it
-deploys to the separate Vercel project `peptidecostarica-website`. The team
-checks both branches out side by side in one folder; see
-`docs/workspace/workspace-AGENTS.md` and `docs/workspace/HOW-TO-USE.md`.
+live at `catalog.peptidescostarica.net`. The `website` branch is **the main
+business site, live at `peptidescostarica.net`** (Vercel project
+`peptidecostarica-website`; it replaced WordPress on that domain on
+9 Nov 2026). Both stay live side by side: customers still reach the catalog
+directly. The team checks both branches out side by side in one folder; see
+`docs/workspace/workspace-AGENTS.md` (current status, the goal, env vars,
+open items) and `docs/workspace/HOW-TO-USE.md`.
 
 The website owns no prices, stock or orders. It relies on this app for all
 of them, so the following are a contract with it. Change them deliberately,
@@ -38,6 +39,14 @@ any change on its branch:
   its prices match checkout to the colón. When you change one, the website's
   copy in `lib/catalog-pricing/` must be updated to match; its parity test
   fails until it is.
+- **Checkout and payment code** (from 8 Nov 2026): the website also carries a
+  verbatim copy of `/api/orders/create`, the card/ChargX, bank and
+  order-notification routes, `/pay-card`, `/pay-bank`, `/thank-you` and every
+  `src/lib` file they import, written by the website's
+  `scripts/sync-catalog-checkout.mjs` (switched off until
+  `NEXT_PUBLIC_OWN_CHECKOUT=true` there). After changing any of them here,
+  run that script on the `website` branch; its `--check` fails until the
+  copy matches `main`.
 - **Tracking**: the website uses this app's GTM container (`GTM-M2GVDQ44`)
   and the same event names and `ecommerce` shape as `src/lib/dataLayer.mjs`
   and `src/lib/ecommerceAnalytics.mjs`. Renaming an event here means renaming
