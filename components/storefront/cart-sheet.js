@@ -234,7 +234,7 @@ export default function CartSheet({
       `Total: ${money(totals.total, totals.total)}`,
       details.name ? `Name: ${details.name}` : '',
       address ? `Address: ${address}` : '',
-      method === 'whatsapp' ? 'I will pay by SINPE / transfer / cash on delivery.' : '',
+      method === 'whatsapp' ? 'I will pay by SINPE / bank transfer.' : '',
     ].filter(Boolean).join('\n');
   };
 
@@ -755,7 +755,7 @@ export default function CartSheet({
                     >
                       <span className="wa-ic"><WhatsAppIcon /></span>
                       <b>WhatsApp</b>
-                      <small>{t('SINPE, transfer or cash on delivery')}</small>
+                      <small>{t('SINPE or bank transfer')}</small>
                     </button>
                     {[
                       { value: 'sinpe', icon: 'smartphone', title: 'SINPE Móvil', detail: t('From any participating bank · CRC'), off: !bankMethods.sinpe },

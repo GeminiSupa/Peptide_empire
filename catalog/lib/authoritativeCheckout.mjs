@@ -34,6 +34,12 @@ const looseKey = (value) => normalize(value).normalize('NFKC').replace(/[^\p{L}\
  * only when exactly one product has that shape, so two genuinely different
  * products are never merged.
  */
+const LANDING_PAGE_ALIASES = [
+  [/tirzepatide/i, 'GLP-1 (TRZ)'],
+  [/semaglutide/i, 'GLP-1 (SEM)'],
+  [/retatrutide/i, 'GLP-1 (RT)'],
+];
+
 export function productNameResolver(products) {
   const exact = new Map();
   const loose = new Map();
@@ -43,6 +49,17 @@ export function productNameResolver(products) {
     exact.set(normalize(name), product);
     const key = looseKey(name);
     loose.set(key, loose.has(key) ? null : product);
+
+    // Names used on the Google Ads shop pages (/lp/glp-1, /lp/bac-water):
+    // "GLP-1 (TRZ|SEM|RT)". A real product name always wins over an alias, and
+    // an alias shape shared by two products resolves to nothing.
+    for (const [pattern, label] of LANDING_PAGE_ALIASES) {
+      if (!pattern.test(name)) continue;
+      const alias = name.replace(pattern, label);
+      if (!exact.has(normalize(alias))) exact.set(normalize(alias), product);
+      const aliasKey = looseKey(alias);
+      loose.set(aliasKey, loose.has(aliasKey) ? null : product);
+    }
   }
   return (name) => {
     if (!name) return null;

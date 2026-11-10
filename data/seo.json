@@ -5411,7 +5411,7 @@
               "name": "How do I pay for my GLP-1 order?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "<p>We accept SINPE Móvil, Zelle, and cash on delivery within Costa Rica. All prices on the site are listed in CRC, but you can switch the currency toggle to view amounts in USD.</p>"
+                "text": "<p>We accept SINPE Móvil and Zelle within Costa Rica. All prices on the site are listed in CRC, but you can switch the currency toggle to view amounts in USD.</p>"
               }
             },
             {
@@ -5533,7 +5533,7 @@
               "name": "How do I pay for my SS-31 order?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "<p>We accept SINPE Móvil, Zelle, and cash on delivery within Costa Rica. Prices are listed in USD — use the currency toggle to view amounts in Costa Rican colones (CRC).</p>"
+                "text": "<p>We accept SINPE Móvil and Zelle within Costa Rica. Prices are listed in USD — use the currency toggle to view amounts in Costa Rican colones (CRC).</p>"
               }
             },
             {
@@ -5772,7 +5772,7 @@
               "name": "How do I pay for my Semaglutide order?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "<p>We accept SINPE Móvil, Zelle, and cash on delivery within Costa Rica. All prices on the site are listed in USD, but you can switch the currency toggle in the top corner to view amounts in Costa Rican colones (CRC).</p>"
+                "text": "<p>We accept SINPE Móvil and Zelle within Costa Rica. All prices on the site are listed in USD, but you can switch the currency toggle in the top corner to view amounts in Costa Rican colones (CRC).</p>"
               }
             },
             {
@@ -38920,7 +38920,7 @@
               "name": "¿Cómo pago por mi pedido de GLP-1?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "<p>Aceptamos SINPE Móvil, Zelle y pago contra entrega dentro de Costa Rica. Todos los precios en el sitio están en colones (CRC), pero puede cambiar el selector de moneda para ver los montos en dólares (USD).</p>"
+                "text": "<p>Aceptamos SINPE Móvil y Zelle dentro de Costa Rica. Todos los precios en el sitio están en colones (CRC), pero puede cambiar el selector de moneda para ver los montos en dólares (USD).</p>"
               }
             },
             {
@@ -39222,7 +39222,7 @@
               "name": "¿Cómo pago mi pedido SS-31?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "<p>Aceptamos SINPE Móvil, Zelle y pago contra entrega dentro de Costa Rica. Los precios están en USD; use el selector de moneda para ver los montos en colones costarricenses (CRC).</p>"
+                "text": "<p>Aceptamos SINPE Móvil y Zelle dentro de Costa Rica. Los precios están en USD; use el selector de moneda para ver los montos en colones costarricenses (CRC).</p>"
               }
             },
             {
@@ -39336,7 +39336,7 @@
               "name": "¿Cómo pago mi pedido de Semaglutida?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "<p>Aceptamos SINPE Móvil, Zelle y pago contra entrega dentro de Costa Rica. Todos los precios en el sitio se muestran en USD, pero puede cambiar el selector de moneda en la esquina superior para ver los montos en colones costarricenses (CRC).</p>"
+                "text": "<p>Aceptamos SINPE Móvil y Zelle dentro de Costa Rica. Todos los precios en el sitio se muestran en USD, pero puede cambiar el selector de moneda en la esquina superior para ver los montos en colones costarricenses (CRC).</p>"
               }
             },
             {
