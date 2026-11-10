@@ -13,7 +13,7 @@ const PROMISES = [
   ['verified', 'Batch COA', 'Third-party tested'],
   ['ac_unit', '2–8 °C', 'Cold storage on site'],
   ['local_shipping', '2–4 days', 'No customs'],
-  ['payments', 'Cash on delivery', 'Or SINPE, card'],
+  ['currency_exchange', 'Money-back guarantee', 'Not happy? Full refund'],
 ];
 
 /**

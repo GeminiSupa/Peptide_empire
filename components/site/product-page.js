@@ -26,7 +26,7 @@ const WHY = [
 
 const ORDER_STEPS = [
   ['Choose', 'Pick the strength and quantity. Bulk discounts apply automatically.'],
-  ['Checkout', 'Pay by card, or send the order on WhatsApp for SINPE, transfer or cash on delivery.'],
+  ['Checkout', 'Pay by card, or send the order on WhatsApp for SINPE or bank transfer.'],
   ['Receive', 'Delivered in 2–4 days with your batch COA.'],
 ];
 
@@ -79,7 +79,7 @@ export default function ProductPage({ lang, site, compound, h1, copy, initialSiz
   const questions = [
     ['What\'s in the vial?', 'The compound and amount on the label, as lyophilized powder (or ready-to-use liquid for blends and waters). Most products have a Certificate of Analysis confirming identity and purity.'],
     ['How fast is delivery?', '2–4 business days anywhere in Costa Rica, tracked, from our own cold storage. No customs or import fees.'],
-    ['How do I pay?', 'SINPE Móvil, bank transfer, card, or cash when it arrives.'],
+    ['How do I pay?', 'Card, SINPE Móvil or bank transfer.'],
     ['What discounts are there?', `15% off 5+ vials of the same product, 20% off 10+. The best discount applies automatically. Every order includes a free BAC Water 3 ml, and delivery is free over ${freeShippingLabel}.`],
     ['Is this for personal use?', 'No. All products are for laboratory research use only. We don\'t provide dosing or medical advice.'],
   ];

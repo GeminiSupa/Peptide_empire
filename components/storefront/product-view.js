@@ -250,7 +250,7 @@ export default function ProductView({
 
             <div className="assure">
               <span><Ms name="verified" />{t('Batch COA with every order')}</span>
-              <span><Ms name="payments" />{t('Pay cash on delivery')}</span>
+              <span><Ms name="currency_exchange" />{t('Money-back guarantee')}</span>
               <span><Ms name="schedule" />{t('2–4 day delivery')}</span>
             </div>
           </div>

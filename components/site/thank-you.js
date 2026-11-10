@@ -88,7 +88,7 @@ export default function ThankYou({ upsells, appHref, reviews }) {
                       <small>{order?.phone ? t(`An agent confirms stock, sends payment details to ${order.phone}.`) : t('An agent confirms stock and sends payment details.')}</small>
                     </div>
                   </li>
-                  <li><i><Ms name="payments" /></i><div><b>{t('You pay')}</b><small>{t('SINPE Móvil, bank transfer or cash on delivery.')}</small></div></li>
+                  <li><i><Ms name="payments" /></i><div><b>{t('You pay')}</b><small>{t('SINPE Móvil or bank transfer.')}</small></div></li>
                   <li><i><Ms name="local_shipping" /></i><div><b>{t('Delivered in 2–4 days')}</b><small>{t('Tracked, from our cold storage to your door.')}</small></div></li>
                 </ol>
                 <div className="tynote">

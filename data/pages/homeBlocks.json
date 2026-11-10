@@ -1948,8 +1948,8 @@
                           {
                             "q_en": "What payment methods do you accept?",
                             "q_es": "¿Qué métodos de pago aceptan?",
-                            "a_en": "We accept SINPE Móvil, bank transfer, cash on delivery, and card payment where available. Once we confirm your order is in stock, we’ll send payment instructions and the full total before you pay.",
-                            "a_es": "Aceptamos SINPE Móvil, transferencia bancaria, contra reembolso y pago con tarjeta cuando esté disponible. Una vez que confirmemos que su pedido está disponible, le enviaremos las instrucciones de pago y el total antes de que pague."
+                            "a_en": "We accept SINPE Móvil, bank transfer, and card payment where available. Once we confirm your order is in stock, we’ll send payment instructions and the full total before you pay.",
+                            "a_es": "Aceptamos SINPE Móvil, transferencia bancaria y pago con tarjeta cuando esté disponible. Una vez que confirmemos que su pedido está disponible, le enviaremos las instrucciones de pago y el total antes de que pague."
                           },
                           {
                             "q_en": "Is there a bulk discount?",

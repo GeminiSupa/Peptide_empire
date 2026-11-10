@@ -20,7 +20,7 @@ export const HOME_FAQ = [
   ['What are research peptides intended for?', 'Laboratory research only. They are not registered as pharmaceuticals in Costa Rica, and we don\'t provide dosing, protocols or medical advice.'],
   ['Do you ship outside Costa Rica?', 'No. We deliver within Costa Rica only.'],
   ['Do you offer online checkout?', 'Yes. Order on the website and pay by card, or send your order on WhatsApp.'],
-  ['What payment methods do you accept?', 'SINPE Móvil, bank transfer, card, or cash on delivery.'],
+  ['What payment methods do you accept?', 'SINPE Móvil, bank transfer or card.'],
   ['How do I confirm product availability?', 'Stock shows live in the catalog. We also confirm it before payment.'],
 ];
 

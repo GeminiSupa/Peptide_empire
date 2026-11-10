@@ -320,7 +320,7 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
 
         <div className="assure">
           <span><Ms name="verified" />{t('COA on most products')}</span>
-          <span><Ms name="payments" />{t('Pay cash on delivery')}</span>
+          <span><Ms name="currency_exchange" />{t('Money-back guarantee')}</span>
           <span><Ms name="schedule" />{t('2–4 day delivery')}</span>
         </div>
         <ReviewBar reviews={reviews} lang={lang} className="rb-buy" />
