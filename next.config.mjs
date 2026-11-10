@@ -66,6 +66,18 @@ const nextConfig = {
         destination: '/about',
         permanent: true,
       },
+      // The metabolic ad shop page moved off its "GLP" address (10 Nov 2026).
+      // Old QA and shared links follow it; the query string (gclid) is kept.
+      {
+        source: '/lp-testing/glp-1',
+        destination: '/lp-testing/metabolic-research-compound',
+        permanent: false,
+      },
+      {
+        source: '/lp/glp-1',
+        destination: '/lp/metabolic-research-compound',
+        permanent: false,
+      },
     ];
   },
 
@@ -87,16 +99,29 @@ const nextConfig = {
       // /lp-testing the pages load no Tag Manager, keep no ad click, and mark
       // their orders TEST so the Google uploads skip them. Once approved, they
       // move to their real /lp addresses and these three rules go.
+      // The metabolic page's address must not say "GLP" (Google Ads, 10 Nov
+      // 2026); it lives at /lp/metabolic-research-compound.
       {
         source: '/lp-testing',
-        destination: '/lp/glp-1/index.html',
+        destination: '/lp/metabolic-research-compound/index.html',
       },
       {
-        source: '/lp-testing/glp-1',
-        destination: '/lp/glp-1/index.html',
+        source: '/lp-testing/metabolic-research-compound',
+        destination: '/lp/metabolic-research-compound/index.html',
       },
       {
         source: '/lp-testing/bac-water',
+        destination: '/lp/bac-water/index.html',
+      },
+      // Their real addresses, for the ads once approved (tracking on). Vercel
+      // happens to serve a folder's index.html, but `next dev`/`next start` do
+      // not, so say it explicitly.
+      {
+        source: '/lp/metabolic-research-compound',
+        destination: '/lp/metabolic-research-compound/index.html',
+      },
+      {
+        source: '/lp/bac-water',
         destination: '/lp/bac-water/index.html',
       },
       // The landing page's confirmation, the destination URL Google Ads counts

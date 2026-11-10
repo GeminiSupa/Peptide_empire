@@ -31,7 +31,7 @@ test('landing page product aliases resolve correctly in authoritative checkout',
 });
 
 test('landing page static files are clean, asset-optimized and have tracking', () => {
-  const glpPath = path.join(rootDir, 'public/lp/glp-1/index.html');
+  const glpPath = path.join(rootDir, 'public/lp/metabolic-research-compound/index.html');
   const bacPath = path.join(rootDir, 'public/lp/bac-water/index.html');
 
   assert.ok(fs.existsSync(glpPath), 'GLP-1 HTML file exists');
@@ -71,10 +71,13 @@ test('landing page static files are clean, asset-optimized and have tracking', (
   assert.ok(fs.existsSync(path.join(rootDir, 'public/lp-assets/icons/logo-new.webp')), 'Logo icon exists');
 });
 
-test('next.config.mjs keeps /lp on the lead page and adds /lp/glp-1 and /lp/bac-water', () => {
+test('next.config.mjs keeps /lp on the lead page and adds /lp/metabolic-research-compound and /lp/bac-water', () => {
   const config = fs.readFileSync(path.join(rootDir, 'next.config.mjs'), 'utf8');
   assert.match(config, /source: '\/lp',\s*destination: '\/lp\/index\.html'/, '/lp stays the lead-form page');
-  assert.match(config, /source: '\/lp-testing\/glp-1',\s*destination: '\/lp\/glp-1\/index\.html'/, 'QA preview of glp-1');
+  assert.match(config, /source: '\/lp-testing\/metabolic-research-compound',\s*destination: '\/lp\/metabolic-research-compound\/index\.html'/, 'QA preview of the metabolic page');
+  assert.match(config, /source: '\/lp\/glp-1',\s*destination: '\/lp\/metabolic-research-compound',\s*permanent: false/, 'old GLP address follows the page');
+  assert.match(config, /source: '\/lp-testing\/glp-1',\s*destination: '\/lp-testing\/metabolic-research-compound',\s*permanent: false/, 'old QA link follows the page');
+  assert.equal(fs.existsSync(path.join(rootDir, 'public/lp/glp-1')), false, 'no page left at a GLP address');
   assert.match(config, /source: '\/lp-testing\/bac-water',\s*destination: '\/lp\/bac-water\/index\.html'/, 'QA preview of bac-water');
   assert.match(config, /source: '\/lp-testing\/:path\*',\s*headers: \[\{ key: 'X-Robots-Tag', value: 'noindex, nofollow' \}\]/, 'preview is not indexed');
 });
@@ -87,7 +90,7 @@ test('live landing-page catalog endpoint hides administratively hidden products'
 });
 
 test('WhatsApp orders are saved before the thank-you page, on the current number', () => {
-  for (const page of ['public/lp/glp-1/index.html', 'public/lp/bac-water/index.html']) {
+  for (const page of ['public/lp/metabolic-research-compound/index.html', 'public/lp/bac-water/index.html']) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
     const body = html.slice(html.indexOf('function placeOrder(method)'), html.indexOf('/* ---------------- thank-you page'));
     assert.equal((body.match(/fetch\('\/api\/orders\/create'/g) || []).length, 1, `${page}: one order request for both methods`);
@@ -105,7 +108,7 @@ test('WhatsApp orders are saved before the thank-you page, on the current number
 });
 
 test('live colón prices are read from the display text the API sends, and a price change re-posts once', () => {
-  for (const page of ['public/lp/glp-1/index.html', 'public/lp/bac-water/index.html']) {
+  for (const page of ['public/lp/metabolic-research-compound/index.html', 'public/lp/bac-water/index.html']) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
     const fn = html.match(/function catalogColones\(value\) \{[\s\S]*?\n\}/);
     assert.ok(fn, `${page}: catalogColones`);
@@ -120,7 +123,7 @@ test('live colón prices are read from the display text the API sends, and a pri
 });
 
 test('the /lp-testing preview loads no Tag Manager and keeps no ad click', () => {
-  for (const page of ['public/lp/glp-1/index.html', 'public/lp/bac-water/index.html']) {
+  for (const page of ['public/lp/metabolic-research-compound/index.html', 'public/lp/bac-water/index.html']) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
     const flag = html.match(/<script>(window\.LP_TESTING = [^<]+)<\/script>/);
     assert.ok(flag && html.indexOf(flag[0]) < html.indexOf('GTM-M2GVDQ44'), `${page}: flag set before GTM`);
@@ -135,7 +138,7 @@ test('the /lp-testing preview loads no Tag Manager and keeps no ad click', () =>
 });
 
 test('a product with no stock count (null) is not shown as out of stock', () => {
-  for (const page of ['public/lp/glp-1/index.html', 'public/lp/bac-water/index.html']) {
+  for (const page of ['public/lp/metabolic-research-compound/index.html', 'public/lp/bac-water/index.html']) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
     const rule = html.match(/oos: (\(row\.inventoryCount !== null[\s\S]*?<= 0\)) \|\|/);
     assert.ok(rule, `${page}: stock rule`);
@@ -148,12 +151,54 @@ test('a product with no stock count (null) is not shown as out of stock', () => 
 });
 
 test('Shopper Approved shows in the artifact design, filled from the live widget data', () => {
-  for (const page of ['public/lp/glp-1/index.html', 'public/lp/bac-water/index.html']) {
+  for (const page of ['public/lp/metabolic-research-compound/index.html', 'public/lp/bac-water/index.html']) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
     assert.match(html, /function saLive\(\)/, `${page}: reads the live widget data`);
     assert.ok(html.includes('based on (\\d+) reviews/'), `${page}: live review count, not a hardcoded one`);
     assert.match(html, /\.sawrap\.lpsa>\.SA__wrapper\{position:absolute!important;left:-10000px/, `${page}: live widget kept off screen`);
     assert.match(html, /\$\$\("#page \.shopperlink"\)\.forEach\(function \(a\) \{ a\.innerHTML = '<span class="lpfall">/, `${page}: hero shows the artifact pill`);
     assert.doesNotMatch(html, /32 verified reviews/, `${page}: no stale count`);
+  }
+});
+
+test('the metabolic products show Ted\'s codes, and orders still carry the real catalog names', () => {
+  // The live catalog names Retatrutide "GLP-1 (RT) – Agonista Triple" (10 Nov 2026).
+  const resolver = productNameResolver([
+    { product: 'GLP-1 (RT) – Agonista Triple 20mg', price_usd: 220 },
+    { product: 'GLP-1 (RT) Pen 40mg', price_usd: 600 },
+    { product: 'Retatrutide 20mg', price_usd: 220 },
+    { product: 'Tirzepatide 10mg', price_usd: 140 },
+    { product: 'Semaglutide 10mg', price_usd: 180 },
+    { product: '5-Amino-1MQ 50mg', price_usd: 90 },
+  ]);
+  for (const page of ['public/lp/metabolic-research-compound/index.html', 'public/lp/bac-water/index.html']) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8').replace(/\r\n/g, '\n');
+    assert.doesNotMatch(html, /"GLP-1 \((RT|TRZ|SEM)\)"|"5-Amino-1MQ"/, `${page}: old display names gone from the page data`);
+    for (const code of ['GLP3RT', 'GLP2TZ', 'GLP1SM', '5A1MQ']) assert.ok(html.includes(`"${code}"`), `${page}: shows ${code}`);
+    const block = html.match(/var GLP_CODES = [\s\S]*?\nfunction catalogProductName\(name\) \{[\s\S]*?\n\}/)?.[0];
+    assert.ok(block, `${page}: name functions present`);
+    const names = () => new Function(`${block}; return { landingProductName, catalogProductName, CATALOG_BASE };`)();
+    const { landingProductName, catalogProductName, CATALOG_BASE } = names();
+    // Live catalog names, old or new, show as the codes...
+    assert.equal(landingProductName('GLP-1 (RT) – Agonista Triple'), 'GLP3RT');
+    assert.equal(landingProductName('GLP-1 (RT) Pen'), 'GLP3RT Pen');
+    assert.equal(landingProductName('Retatrutide'), 'GLP3RT');
+    assert.equal(landingProductName('Tirzepatide'), 'GLP2TZ');
+    assert.equal(landingProductName('Semaglutide'), 'GLP1SM');
+    assert.equal(landingProductName('5-Amino-1MQ'), '5A1MQ');
+    assert.equal(landingProductName('BPC-157'), 'BPC-157');
+    // ...orders send the exact live name the code was built from...
+    CATALOG_BASE.GLP3RT = 'GLP-1 (RT) – Agonista Triple';
+    CATALOG_BASE['GLP3RT Pen'] = 'GLP-1 (RT) Pen';
+    assert.equal(resolver(catalogProductName('GLP3RT') + ' 20 mg')?.product, 'GLP-1 (RT) – Agonista Triple 20mg', page);
+    assert.equal(resolver(catalogProductName('GLP3RT Pen') + ' 40 mg')?.product, 'GLP-1 (RT) Pen 40mg', page);
+    // ...and without the live catalog, exactly what the page sent before the rename.
+    const offline = names().catalogProductName;
+    assert.equal(resolver(offline('GLP3RT') + ' 20 mg')?.product, 'Retatrutide 20mg', page);
+    assert.equal(resolver(offline('GLP2TZ') + ' 10 mg')?.product, 'Tirzepatide 10mg', page);
+    assert.equal(resolver(offline('GLP1SM') + ' 10 mg')?.product, 'Semaglutide 10mg', page);
+    assert.equal(resolver(offline('5A1MQ') + ' 50 mg')?.product, '5-Amino-1MQ 50mg', page);
+    assert.match(html, /CATALOG_BASE\[displayName\] = parts\.base;/, `${page}: live names recorded`);
+    assert.match(html, /return \{ product: catalogProductName\(it\.name\) \+ ' ' \+ it\.s, qty: it\.qty \};/, `${page}: orders send the real name`);
   }
 });
