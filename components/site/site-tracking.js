@@ -43,15 +43,51 @@ export default function SiteTracking({ enabled }) {
   // rather than through next/script: switched on after mount (the company
   // domain is known only in the browser), next/script's lazyOnload never
   // fired, so the tag silently never loaded.
+  //
+  // Held back until the visitor does something, or FALLBACK_MS passes.
+  // The container (GTM + the GA4 and Google Ads tags inside it, plus Clarity)
+  // is 519 KB and occupied the main thread for ~990 ms on a mid-range phone —
+  // essentially all of the page's 900 ms Total Blocking Time, while the site's
+  // own JavaScript was not the problem. Loading it a moment later costs
+  // nothing: events raised before it arrives sit in `dataLayer` and GTM
+  // processes the queue on load, so no `add_to_cart`, `begin_checkout` or
+  // conversion is lost — they all follow an interaction anyway.
+  //
+  // What it does cost: a visitor who opens a page and leaves within
+  // FALLBACK_MS without scrolling, tapping or typing is never counted in GA4.
+  // Scrolling counts, so this is a small slice of real traffic, but GA4's
+  // session and pageview totals may read slightly lower than before. Raise
+  // FALLBACK_MS to trade speed back for more of those visits, or set it to 0
+  // to load the container immediately as it used to.
   useEffect(() => {
-    if (!load || document.getElementById('gtm-loader')) return;
+    if (!load || document.getElementById('gtm-loader')) return undefined;
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
-    const script = document.createElement('script');
-    script.id = 'gtm-loader';
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`;
-    document.head.appendChild(script);
+
+    const FALLBACK_MS = 5000;
+    const WAKE = ['pointerdown', 'keydown', 'touchstart', 'scroll'];
+    let timer;
+    let started = false;
+
+    const stopWaiting = () => {
+      WAKE.forEach((name) => window.removeEventListener(name, startGtm));
+      window.clearTimeout(timer);
+    };
+
+    function startGtm() {
+      if (started) return;
+      started = true;
+      stopWaiting();
+      window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+      const script = document.createElement('script');
+      script.id = 'gtm-loader';
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`;
+      document.head.appendChild(script);
+    }
+
+    WAKE.forEach((name) => window.addEventListener(name, startGtm, { once: true, passive: true }));
+    timer = window.setTimeout(startGtm, FALLBACK_MS);
+    return stopWaiting;
   }, [load]);
 
   if (!load) return null;

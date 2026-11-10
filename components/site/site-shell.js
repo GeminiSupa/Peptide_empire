@@ -7,6 +7,7 @@ import VisitorTracker from '@/components/site/visitor-tracker';
 import { ALLOW_INDEXING } from '@/lib/indexing';
 import { getSiteData } from '@/lib/site/data';
 import { translator } from '@/lib/storefront/i18n.mjs';
+import { materialSymbolsHref } from '@/lib/site/icon-names.mjs';
 import '@/app/site.css';
 import '@/app/site-base.css';
 
@@ -24,13 +25,17 @@ export default async function SiteShell({ lang, altHref, children }) {
   return (
     <div className="pcr-site">
       {/* The design's icons are Material Symbols ligatures, sized with
-          font-size throughout site.css, so the font itself is loaded. */}
+          font-size throughout site.css, so the font itself is loaded — but only
+          the 73 glyphs the site actually draws (lib/site/icon-names.mjs).
+          Requesting the family with open axis ranges returned the entire
+          variable font: 3 MB, the largest download on the site, and
+          display=block held every icon blank until it arrived. Now 33 KB.
+          Shopper Approved's svg-seal/default.css used to be loaded here too; it
+          was a render-blocking cross-origin request for the single declaration
+          `a.new-sa-seals { display: inline-block }`, now in site-base.css. */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..600,0..1,0&display=block"
-      />
-      <link rel="stylesheet" href="https://www.shopperapproved.com/svg-seal/default.css" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="stylesheet" href={materialSymbolsHref()} />
       <SiteProvider lang={lang} exchangeRate={site.exchangeRate} deal={site.deal} dealView={site.dealView} contact={site.contact}>
         <SiteHeader
           links={site.links}

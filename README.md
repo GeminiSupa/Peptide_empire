@@ -277,6 +277,43 @@ deal of the week, core pages, legal, city, blog and guides, Spanish, GTM.
 To test deal mode while no deal runs, point `getLiveDeal` at a saved
 `/api/deals/current` body with a future `ends_at`, locally, and revert.
 
+## Page speed
+
+Mobile PageSpeed was 75 on 11 Nov 2026, and the loss was entirely third-party:
+paint and layout already scored full marks (FCP 1.1 s, LCP 1.1 s, CLS 0) while
+TBT was 900 ms and Speed Index 5.1 s. Two things caused it, both now fixed on
+this branch (not yet pushed).
+
+- **Icons are a subset, never the whole family.** The design draws icons as
+  Material Symbols ligatures. Asking fonts.googleapis.com for the family with
+  open axis ranges returned the entire variable font — **3 MB of a 5.1 MB
+  page**. `lib/site/icon-names.mjs` is **generated**: run
+  `node scripts/collect-icon-names.mjs` after adding an icon and commit the
+  result; `--check` and `tests/icon-names.test.mjs` fail when it drifts. Both
+  shells build the URL with `materialSymbolsHref()` so they share one cached
+  font (**33 KB**, 49 KB with every page's icons). Never paste a
+  `fonts.googleapis.com/css2?family=Material` URL into a component.
+  `data/material-symbols.txt` is Google's published name list, used only to
+  tell an icon name from an ordinary string while scanning.
+- **A ligature must reach the font untransformed.** `bolt` inside an uppercase
+  badge renders as the word "BOLT", which is what the Volume pricing badge was
+  doing. `app/site-base.css` sets `text-transform: none` on the icon classes.
+- **Tag Manager waits for the visitor.** The container (GTM, GA4, Google Ads
+  and Clarity) is 519 KB and held the main thread for ~990 ms — effectively the
+  whole TBT. `components/site/site-tracking.js` now loads it on the first
+  interaction, or after `FALLBACK_MS` (5 s), whichever comes first. Events
+  raised earlier queue in `dataLayer` and GTM replays them, so no order or
+  conversion is lost. The cost: a visitor who leaves without scrolling or
+  tapping inside that window is never counted, so GA4 pageviews may read
+  slightly lower. Change `FALLBACK_MS` in that file to trade back.
+- Clarity is loaded **by the GTM container**, not by this repo; removing or
+  deferring it further is a change in GTM, not in code.
+
+Still open: product images come from Supabase as PNGs outside `next/image`
+(667 KB on the home page, "improve image delivery" ≈ 228 KB) and carry no
+width/height. That needs the Supabase hostname in `next.config.mjs`
+`images.remotePatterns` and is not done.
+
 ## Rules
 
 - Read `README.md` and the relevant guide under `node_modules/next/dist/docs/`

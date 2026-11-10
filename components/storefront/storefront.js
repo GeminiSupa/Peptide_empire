@@ -18,6 +18,7 @@ import {
   totalsFor,
 } from '@/lib/storefront/cart-math.mjs';
 import { WHATSAPP_NUMBER } from '@/lib/storefront/content.mjs';
+import { materialSymbolsHref } from '@/lib/site/icon-names.mjs';
 import '@/app/storefront.css';
 
 // The catalog's own badge (catalog.peptidescostarica.net/logo.webp), copied
@@ -173,12 +174,11 @@ export default function Storefront({
     <div className="storefront" onClickCapture={onNavigate}>
       {/* The design's icons are Material Symbols ligatures; `.ms` sizes them
           with font-size in 39 rules, so the font is loaded rather than
-          swapped for an SVG set. */}
+          swapped for an SVG set — but only the glyphs the site draws. Same URL
+          as the new design's shell, so the two share one cached font. */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,400..600,0..1,0&display=block"
-      />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="stylesheet" href={materialSymbolsHref()} />
 
       <StoreHeader
         t={t}

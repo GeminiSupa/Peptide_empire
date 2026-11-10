@@ -70,6 +70,27 @@
   .pcr-site header.top .wab { display: none; }
 }
 
+/* The desktop header is at most 1240px wide, so what fits in it depends on
+   the language and on whether a deal is on, not on the screen width. The
+   screen-width rules in site.css hide items only below 1500px, so on wider
+   screens the Spanish menu ran off the right edge. These rules only hide.
+   `SiteHeader` measures it and sets `data-fit` to the fullest level that
+   fits: 0 everything, 1 no Info Center, 2 no App link, 3 WhatsApp as an icon,
+   4 the menu button instead of the nav. Before that runs (and without JS) the
+   header starts at level 3, which fits English and Spanish at 1240px. */
+@media (min-width: 901px) {
+  .pcr-site header.top .wrap:not([data-fit]) .mainnav .navinfo,
+  .pcr-site header.top .wrap:not([data-fit]) .mainnav .navapp { display: none; }
+  .pcr-site header.top .wrap:not([data-fit]) .wab span { display: none; }
+  .pcr-site header.top .wrap:not([data-fit]) .wab { padding: 0 13px; }
+}
+.pcr-site header.top .wrap:is([data-fit="1"], [data-fit="2"], [data-fit="3"], [data-fit="4"]) .mainnav .navinfo,
+.pcr-site header.top .wrap:is([data-fit="2"], [data-fit="3"], [data-fit="4"]) .mainnav .navapp { display: none; }
+.pcr-site header.top .wrap:is([data-fit="3"], [data-fit="4"]) .wab span { display: none; }
+.pcr-site header.top .wrap:is([data-fit="3"], [data-fit="4"]) .wab { padding: 0 13px; }
+.pcr-site header.top .wrap[data-fit="4"] .mainnav { display: none; }
+.pcr-site header.top .wrap[data-fit="4"] .menub { display: grid; }
+
 /* A card's in-order control is too narrow on a phone for "1 in order" on
    one line; the words go and the number stays. */
 @media (max-width: 559px) {
@@ -293,3 +314,19 @@
   font-size: 13px; font-weight: 600; color: var(--ink); text-decoration: none; cursor: pointer;
 }
 .pcr-site .seg a:hover, .pcr-site .seg button:not([aria-pressed=true]):hover { background: rgba(255, 255, 255, .6); }
+
+/* Shopper Approved's own seal stylesheet used to be a render-blocking
+   cross-origin <link> in site-shell.js. Its entire content is this one
+   declaration, so it is kept here instead of costing a round trip on every
+   page. Their rotating widget (review-widgets.js) injects links with this
+   class; the site's own seal is an <img>. */
+.pcr-site a.new-sa-seals { display: inline-block; }
+
+/* Icons are ligatures: the span's text ("bolt") is what the font turns into a
+   glyph, so any inherited text-transform breaks the lookup and the visitor
+   reads the word instead. The "Volume pricing" badge (.deal .dk, deal-bits.js)
+   uppercases its contents and had been showing "BOLT" in place of the icon.
+   Set on the icon itself, which beats an inherited value whatever its
+   specificity. */
+.pcr-site .ms,
+.pcr-site .ctile-go { text-transform: none; }
