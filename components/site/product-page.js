@@ -8,6 +8,7 @@ import CopyBlock from '@/components/site/copy-block';
 import CustomerReviews from '@/components/site/customer-reviews';
 import { fromPrice } from '@/lib/site/data';
 import { variantFor } from '@/lib/storefront/group-products.mjs';
+import { companionCompound, relatedCompounds, relatedSettingFor } from '@/lib/site/related-products.mjs';
 import { shelfLabel } from '@/lib/storefront/shelves.mjs';
 import { formatMoney, translator } from '@/lib/storefront/i18n.mjs';
 import { productSchema } from '@/lib/site/product-schema.mjs';
@@ -29,13 +30,6 @@ const ORDER_STEPS = [
   ['Checkout', 'Pay by card, or send the order on WhatsApp for SINPE or bank transfer.'],
   ['Receive', 'Delivered in 2–4 days with your batch COA.'],
 ];
-
-/** The compounds sold beside this one: same shelf, in stock. */
-function related(compound, compounds, n) {
-  return compounds
-    .filter((entry) => entry.slug !== compound.slug && entry.shelf === compound.shelf && entry.inStock)
-    .slice(0, n);
-}
 
 /**
  * The prototype's product view (`#pv`), for a lander or a vial page.
@@ -59,10 +53,12 @@ export default function ProductPage({ lang, site, compound, h1, copy, initialSiz
     variant: variantFor(bacCompound, '10 ml'),
     image: variantFor(bacCompound, '3 ml')?.image || bacCompound.image,
   } : null;
-  const near = related(compound, compounds, 10);
-  const pick = near.find((entry) => entry.best) || near[0];
+  // Which other products this page offers is the admin's choice per product
+  // (lib/site/related-products.mjs); automatic is the same shelf, in stock.
+  const relatedSetting = relatedSettingFor(site.relatedProducts, compound);
+  const pick = companionCompound(compound, compounds, site.relatedProducts);
   const companion = pick ? { compound: pick, variant: variantFor(pick, pick.defaultSize) } : null;
-  const more = related(compound, compounds, 4);
+  const more = relatedCompounds(compound, compounds, site.relatedProducts, 4);
 
   const sizes = compound.variants.map((entry) => entry.size).filter(Boolean);
   const specs = [
@@ -173,7 +169,7 @@ export default function ProductPage({ lang, site, compound, h1, copy, initialSiz
 
         {more.length ? (
           <section className="psec">
-            <h2>{t(`More in ${shelf}`)}</h2>
+            <h2>{relatedSetting.mode === 'pick' ? t('You may also like') : t(`More in ${shelf}`)}</h2>
             <ProductGrid compounds={more} className="related grid" />
           </section>
         ) : null}
