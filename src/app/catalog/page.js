@@ -6820,7 +6820,7 @@ export default function CatalogPage() {
                     <li style={{ marginBottom: '8px' }}>Open your cart, enter your Name and WhatsApp phone number.</li>
                     <li style={{ marginBottom: '8px' }}>Submit your order. It automatically formats an invoice receipt and launches WhatsApp to chat directly with our specialists.</li>
                   </ol>
-                  <p>Our Costa Rica coordination desk will coordinate stock confirmation, payment options (Sinpe Móvil or cash-on-delivery), and home dispatch coordinates.</p>
+                  <p>Our Costa Rica coordination desk will coordinate stock confirmation, payment options (Sinpe Móvil or bank transfer), and home dispatch coordinates.</p>
                 </>
               ) : (
                 <>
@@ -6830,7 +6830,7 @@ export default function CatalogPage() {
                     <li style={{ marginBottom: '8px' }}>Abra el Carrito de compras, ingrese su Nombre y número de WhatsApp.</li>
                     <li style={{ marginBottom: '8px' }}>Envíe el pedido. Se registrará la orden y se abrirá WhatsApp con el recibo detallado para coordinar directamente.</li>
                   </ol>
-                  <p>Nuestra mesa de ayuda coordinará la confirmación del stock, los métodos de pago (Sinpe Móvil o efectivo contra entrega) y los datos de envío a su domicilio.</p>
+                  <p>Nuestra mesa de ayuda coordinará la confirmación del stock, los métodos de pago (Sinpe Móvil o transferencia bancaria) y los datos de envío a su domicilio.</p>
                 </>
               )}
             </div>
