@@ -29,6 +29,9 @@ function validateJourney(body) {
     if (!CHANNELS.has(step.channel)) return 'Every step needs a supported channel';
     if (!String(step.message || '').trim() && !String(step.html_content || '').trim()) return 'Every step needs a message';
     if (step.channel === 'email' && !String(step.subject || '').trim()) return 'Email steps need a subject';
+    // Meta only delivers free-form WhatsApp text inside a 24h window the contact
+    // opened, so a marketing step without an approved template never arrives.
+    if (step.channel === 'whatsapp' && !String(step.template_name || '').trim()) return 'WhatsApp steps need an approved Meta template';
   }
   return null;
 }
@@ -56,6 +59,11 @@ function cleanJourney(body) {
         html_content: step.channel === 'email' && step.html_content ? String(step.html_content).slice(0, 300000) : null,
         template_campaign_id: step.template_campaign_id || null,
         template_campaign_title: step.template_campaign_title ? String(step.template_campaign_title).slice(0, 180) : null,
+        template_name: step.channel === 'whatsapp' ? String(step.template_name || '').trim().slice(0, 512) || null : null,
+        template_language: step.channel === 'whatsapp' ? String(step.template_language || 'es').trim().slice(0, 16) : null,
+        template_parameters: step.channel === 'whatsapp' && Array.isArray(step.template_parameters)
+          ? step.template_parameters.map(value => String(value || '').slice(0, 900))
+          : [],
       }),
       delay_hours: Math.max(0, Number(step.delay_hours || 0)),
     })),

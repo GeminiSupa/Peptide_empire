@@ -12,6 +12,12 @@ function contactKey(email, phone) {
   return cleanPhone.length >= 8 ? `phone:${cleanPhone}` : null;
 }
 
+function isPaidOrder(row) {
+  // Same test the reorder-reminders cron uses, so both agree on what a purchase is.
+  const status = String(row?.status || '').toLowerCase();
+  return status.includes('paid') || status.includes('complet');
+}
+
 function personalize(value, contact) {
   const firstName = contact.first_name || contact.name?.split(' ')[0] || 'there';
   return String(value || '').replace(/\[FIRST_NAME\]/g, firstName).replace(/\[NAME\]/g, contact.name || firstName);
@@ -64,7 +70,30 @@ async function triggerRows(supabase, journey) {
   }
   if (type === 'reorder_due') {
     const cutoff = new Date(Date.now() - Number(journey.trigger?.days || 30) * 86400000).toISOString();
-    return supabase.from('orders').select('*').lte('created_at', cutoff).order('created_at', { ascending: false }).limit(2000);
+    // Was: every order older than the cutoff, which enrolled anyone who had ANY
+    // old order -- so a customer who bought last week still got "time to restock"
+    // -- and counted pending/declined orders as purchases. Due now means: their
+    // LATEST paid order is older than the cutoff, and the reorder-reminders cron
+    // has not already written to them.
+    const [{ data: recent, error: recentError }, { data: older, error: olderError }] = await Promise.all([
+      supabase.from('orders').select('customer_email,customer_phone,status').gt('created_at', cutoff).limit(5000),
+      supabase.from('orders').select('*').lte('created_at', cutoff).order('created_at', { ascending: false }).limit(2000),
+    ]);
+    if (recentError || olderError) return { data: null, error: recentError || olderError };
+
+    const orderedSinceCutoff = new Set();
+    for (const row of recent || []) {
+      if (String(row.status || '').toLowerCase() === 'cancelled') continue;
+      const key = contactKey(row.customer_email, row.customer_phone);
+      if (key) orderedSinceCutoff.add(key);
+    }
+    const due = (older || []).filter(row => {
+      if (!isPaidOrder(row)) return false;
+      if (row.reorder_reminded_at) return false;
+      const key = contactKey(row.customer_email, row.customer_phone);
+      return Boolean(key) && !orderedSinceCutoff.has(key);
+    });
+    return { data: due, error: null };
   }
   return { data: [], error: null };
 }
@@ -82,12 +111,14 @@ async function enrollContacts(supabase, journeys) {
 
     const seen = new Set();
     const payload = [];
+    const claimedOrderIds = [];
     for (const row of rows || []) {
       if (String(row.status || '').toLowerCase() === 'cancelled') continue;
       const contact = toContact(row, journey.trigger?.type);
       const key = contactKey(contact.email, contact.phone);
       if (!key || seen.has(key)) continue;
       seen.add(key);
+      if (journey.trigger?.type === 'reorder_due' && row.id) claimedOrderIds.push(row.id);
       const firstDelay = Number(journey.steps?.[0]?.delay_hours || 0);
       payload.push({
         journey_id: journey.id,
@@ -104,8 +135,22 @@ async function enrollContacts(supabase, journeys) {
       .from('marketing_journey_enrollments')
       .upsert(payload, { onConflict: 'journey_id,contact_key', ignoreDuplicates: true })
       .select('id');
-    if (insertError) warnings.push(`${journey.name}: ${insertError.message}`);
-    else enrolled += data?.length || 0;
+    if (insertError) {
+      warnings.push(`${journey.name}: ${insertError.message}`);
+      continue;
+    }
+    enrolled += data?.length || 0;
+
+    // This journey now owns these customers' reorder message. Stamping the same
+    // column the reorder-reminders cron writes keeps that cron off them, so the
+    // customer gets one reminder instead of two.
+    if (claimedOrderIds.length) {
+      const { error: claimError } = await supabase
+        .from('orders')
+        .update({ reorder_reminded_at: new Date().toISOString() })
+        .in('id', claimedOrderIds);
+      if (claimError) warnings.push(`${journey.name}: could not claim reorder orders (${claimError.message})`);
+    }
   }
   return { enrolled, warnings };
 }
@@ -206,6 +251,22 @@ async function processDueSteps(supabase, journeyMap) {
   let queued = 0;
   let completed = 0;
 
+  // The abandoned-cart-recovery cron already sends its own WhatsApp to these
+  // carts. Read them once per run so a cart journey's WhatsApp step can stand
+  // aside instead of being the customer's second message.
+  const cartCronMessaged = new Set();
+  if (activeEnrollments.some(item => journeyMap.get(item.journey_id)?.trigger?.type === 'abandoned_cart')) {
+    const { data: messagedCarts } = await supabase
+      .from('abandoned_carts')
+      .select('customer_email,customer_phone')
+      .eq('recovery_whatsapp_sent', true)
+      .limit(5000);
+    for (const row of messagedCarts || []) {
+      const key = contactKey(row.customer_email, row.customer_phone);
+      if (key) cartCronMessaged.add(key);
+    }
+  }
+
   for (const enrollment of activeEnrollments) {
     if (stopped.has(enrollment.id)) continue;
     const journey = journeyMap.get(enrollment.journey_id);
@@ -231,8 +292,27 @@ async function processDueSteps(supabase, journeyMap) {
     const contact = enrollment.contact || {};
     const destination = [contact.phone, contact.email].filter(Boolean).join('|');
     const hasChannel = step.channel === 'email' ? Boolean(contact.email) : Boolean(contact.phone);
-    if (!destination || !hasChannel) {
-      await supabase.from('marketing_journey_enrollments').update({ status: 'failed', last_error: `Contact has no ${step.channel}`, updated_at: now }).eq('id', enrollment.id);
+    if (!destination) {
+      await supabase.from('marketing_journey_enrollments').update({ status: 'failed', last_error: 'Contact has no email or phone', updated_at: now }).eq('id', enrollment.id);
+      continue;
+    }
+
+    // Each of these skips the one step the contact cannot take and moves on.
+    // They used to mark the enrollment failed, which dropped the contact out of
+    // the rest of the journey -- a catalog lead leaves an email OR a number,
+    // never both, so one WhatsApp step killed every email-only lead.
+    let skipReason = null;
+    if (!hasChannel) {
+      skipReason = `Skipped ${step.channel} step: contact has no ${step.channel}`;
+    } else if (step.channel === 'whatsapp' && !String(step.template_name || '').trim()) {
+      // Meta only delivers free-form text inside a 24h window the contact opened,
+      // so a step with no approved template is rejected while looking sent.
+      skipReason = 'Skipped WhatsApp step: no approved Meta template chosen';
+    } else if (step.channel === 'whatsapp' && journey.trigger?.type === 'abandoned_cart' && cartCronMessaged.has(enrollment.contact_key)) {
+      skipReason = 'Skipped WhatsApp step: the cart recovery cron already messaged this cart';
+    }
+    if (skipReason) {
+      if (await advanceEnrollment(supabase, enrollment, journey, enrollment.current_step + 1, now, skipReason)) completed++;
       continue;
     }
 
@@ -243,7 +323,16 @@ async function processDueSteps(supabase, journeyMap) {
         emailSubject: personalize(step.subject, contact),
         emailHtmlContent: step.html_content ? personalize(step.html_content, contact) : null,
       }
-      : { email: false, whatsapp: true };
+      : {
+        email: false,
+        whatsapp: true,
+        whatsappTemplateName: step.template_name,
+        whatsappTemplateLanguage: step.template_language || 'es',
+        // 'custom' with an explicit list is the only mode that can send a
+        // template holding no {{1}} at all; Meta rejects a parameter mismatch.
+        whatsappTemplateParamMode: 'custom',
+        whatsappTemplateParameters: (step.template_parameters || []).map(value => personalize(value, contact)),
+      };
     const { error: queueError } = await supabase.from('scheduled_broadcasts').insert({
       audience: 'custom',
       custom_contacts: destination,

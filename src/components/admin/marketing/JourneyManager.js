@@ -52,6 +52,7 @@ export default function JourneyManager() {
   const { notify, confirm, feedback } = useMarketingFeedback();
   const [journeys, setJourneys] = useState([]);
   const [campaignTemplates, setCampaignTemplates] = useState([]);
+  const [waTemplates, setWaTemplates] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [setupRequired, setSetupRequired] = useState(false);
@@ -93,6 +94,32 @@ export default function JourneyManager() {
       console.error('Unable to load saved email templates:', templateError);
     }
   };
+
+  useEffect(() => {
+    let cancelled = false;
+    adminFetch('/api/admin/whatsapp-templates-list')
+      .then(async response => (response.ok ? response.json() : { details: [] }))
+      .then(payload => {
+        if (cancelled) return;
+        const seen = new Set();
+        const approved = [];
+        for (const template of payload.details || []) {
+          const key = `${template.name}:${template.language}`;
+          if (seen.has(key)) continue;
+          seen.add(key);
+          const body = (template.components || []).find(part => part.type === 'BODY')?.text || '';
+          approved.push({
+            name: template.name,
+            language: template.language,
+            body,
+            variableCount: new Set(body.match(/\{\{\s*\d+\s*\}\}/g) || []).size,
+          });
+        }
+        setWaTemplates(approved);
+      })
+      .catch(() => { if (!cancelled) setWaTemplates([]); });
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     let cancelled = false;
@@ -482,6 +509,44 @@ export default function JourneyManager() {
                         {step.html_content && <small className="mkt-muted">This step will send the saved drag-and-drop email layout.</small>}
                       </div>
                     )}
+                    {step.channel === 'whatsapp' && (() => {
+                      const chosen = waTemplates.find(item => item.name === step.template_name);
+                      return (
+                        <div className="mkt-editor-label">
+                          <span>Approved WhatsApp template</span>
+                          <select className="mkt-select" value={step.template_name || ''} onChange={event => {
+                            const picked = waTemplates.find(item => item.name === event.target.value);
+                            setEditor(current => ({ ...current, steps: current.steps.map((item, stepIndex) => stepIndex !== index ? item : {
+                              ...item,
+                              template_name: picked?.name || '',
+                              template_language: picked?.language || 'es',
+                              template_parameters: Array.from({ length: picked?.variableCount || 0 }, (unused, slot) => item.template_parameters?.[slot] || ''),
+                            }) }));
+                          }}>
+                            <option value="">Choose an approved template...</option>
+                            {waTemplates.map(template => (
+                              <option key={`${template.name}:${template.language}`} value={template.name}>{template.name} ({template.language})</option>
+                            ))}
+                          </select>
+                          {chosen
+                            ? <small className="mkt-muted">Sends: {chosen.body}</small>
+                            : <small className="mkt-muted">WhatsApp can only send an approved template. Without one this step is skipped.</small>}
+                          {chosen && Array.from({ length: chosen.variableCount }, (unused, slot) => (
+                            <input
+                              key={slot}
+                              className="mkt-input"
+                              value={step.template_parameters?.[slot] || ''}
+                              placeholder={`Value for {{${slot + 1}}} — [FIRST_NAME] works here`}
+                              onChange={event => {
+                                const next = Array.from({ length: chosen.variableCount }, (ignored, position) => step.template_parameters?.[position] || '');
+                                next[slot] = event.target.value;
+                                updateStep(index, 'template_parameters', next);
+                              }}
+                            />
+                          ))}
+                        </div>
+                      );
+                    })()}
                     {step.channel === 'email' && <label className="mkt-editor-label"><span>Subject</span><input className="mkt-input" value={step.subject || ''} onChange={event => updateStep(index, 'subject', event.target.value)} placeholder="Hi [FIRST_NAME], a quick follow-up" /></label>}
                     <label className="mkt-editor-label"><span>Message</span><textarea className="mkt-textarea" rows="5" value={step.message} onChange={event => updateStep(index, 'message', event.target.value)} placeholder="Write the message. Use [FIRST_NAME] for personalization." /></label>
                   </>}
