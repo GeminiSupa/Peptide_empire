@@ -18,7 +18,11 @@ export function offlineConversionEvent(order, paidAt) {
   if (click && new Date(paidAt).getTime() < click.clicked_at) throw new Error('Payment precedes the ad click.');
   const value = Number(order.total_usd) - Number(order.refunded_amount_usd || 0);
   if (!Number.isFinite(value) || value <= 0) throw new Error('Missing confirmed USD amount.');
-  const { clicked_at: _time, ...adIdentifiers } = click || {};
+  // One click ID per sale. A link often carries gclid and gbraid together;
+  // Google refuses a BRAID on a one-per-click action (e.g. "Converted lead"),
+  // which dropped real sales. gclid matches every click, so it wins.
+  const clickKey = ['gclid', 'gbraid', 'wbraid'].find(key => click?.[key]);
+  const adIdentifiers = clickKey ? { [clickKey]: click[clickKey] } : {};
   return { transactionId: order.order_number, eventTimestamp: costaRicaTimestamp(paidAt), eventSource: 'WEB', eventName: 'purchase', additionalEventParameters: [{ parameterName: 'payment_type', value: paymentMethod }], currency: 'USD', conversionValue: money(value), ...(click ? { adIdentifiers } : {}), ...(userIdentifiers.length ? { userData: { userIdentifiers } } : {}) };
 }
 export function googleAdsActionId(env, paymentMethod = 'whatsapp') {
@@ -39,4 +43,12 @@ export function googleRequestState(result) {
   const reasons = destinations.flatMap(row => row.errorInfo?.errorCounts || []).map(row => row.reason);
   if (reasons.length && reasons.every(reason => /DUPLICATE_TRANSACTION_ID/.test(reason))) return 'accepted';
   return 'failed';
+}
+/** Google's own reasons for a rejected upload, e.g. "PROCESSING_ERROR_REASON_INVALID_GCLID x1". */
+export function googleRequestErrors(result) {
+  const reasons = (result?.requestStatusPerDestination || [])
+    .flatMap(row => row.errorInfo?.errorCounts || [])
+    .filter(row => row?.reason)
+    .map(row => `${row.reason}${row.recordCount ? ` x${row.recordCount}` : ''}`);
+  return [...new Set(reasons)].join(', ').slice(0, 500);
 }

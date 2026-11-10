@@ -1,4 +1,4 @@
-import { offlineConversionEvent, googleRequestState } from './googleAdsConversions.mjs';
+import { offlineConversionEvent, googleRequestState, googleRequestErrors } from './googleAdsConversions.mjs';
 import { leadClickForOrder, loadLeadClicks } from './leadAdClick.mjs';
 export async function runGoogleAdsImport(admin, google) {
   // Read once per run, and only if an order without its own click needs it.
@@ -29,7 +29,7 @@ export async function runGoogleAdsImport(admin, google) {
     try {
       const result = await google.status(row.request_id); const state = googleRequestState(result);
       if (state === 'submitted') return;
-      await update(row.id, { status: state, ...(state === 'accepted' ? { accepted_at: new Date().toISOString(), last_error: null } : { last_error: 'Google rejected this request. Inspect Data Manager diagnostics using its request ID.', next_attempt_at: new Date(Date.now()+3600000).toISOString() }) });
+      await update(row.id, { status: state, ...(state === 'accepted' ? { accepted_at: new Date().toISOString(), last_error: null } : { last_error: `Google rejected this request${googleRequestErrors(result) ? `: ${googleRequestErrors(result)}` : '. Inspect Data Manager diagnostics using its request ID.'}`, next_attempt_at: new Date(Date.now()+3600000).toISOString() }) });
       summary[state]++;
     } catch { summary.failed++; }
   });

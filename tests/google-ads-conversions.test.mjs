@@ -55,3 +55,16 @@ test('worker does not mark a partially failed Google request accepted',async()=>
   f.admin.from=table=>{const q=original(table);q.limit=async()=>({data:[{id:'submitted2',request_id:'request2',destination:'unit'}]});return q;};
   const summary=await runGoogleAdsImport(f.admin,{destination:'unit',status:async()=>({requestStatusPerDestination:[{requestStatus:'PARTIAL_SUCCESS',errorInfo:{errorCounts:[{reason:'PROCESSING_ERROR_REASON_INVALID_GCLID'}]}}]})});assert.equal(summary.accepted,0);assert.equal(f.writes[0].status,'failed');assert.ok(f.writes[0].next_attempt_at);
 });
+test('one click ID per sale: gclid wins over gbraid/wbraid, else the braid alone',()=>{
+  const both=offlineConversionEvent({...order,ad_attribution:{gclid:'test-gclid',gbraid:'test-gbraid',clicked_at:now-100000}},paid);
+  assert.deepEqual(both.adIdentifiers,{gclid:'test-gclid'});
+  const braid=offlineConversionEvent({...order,ad_attribution:{gbraid:'test-gbraid',wbraid:'test-wbraid',clicked_at:now-100000}},paid);
+  assert.deepEqual(braid.adIdentifiers,{gbraid:'test-gbraid'});
+  assert.equal(offlineConversionEvent({...order,ad_attribution:null},paid).adIdentifiers,undefined);
+});
+test('a rejected upload keeps Google\'s own reason',async()=>{
+  const { googleRequestErrors } = await import('../src/lib/googleAdsConversions.mjs');
+  const result={requestStatusPerDestination:[{requestStatus:'FAILED',errorInfo:{errorCounts:[{reason:'PROCESSING_ERROR_REASON_ONE_PER_CLICK_CONVERSION_ACTION_NOT_PERMITTED_WITH_BRAID',recordCount:1}]}}]};
+  assert.equal(googleRequestErrors(result),'PROCESSING_ERROR_REASON_ONE_PER_CLICK_CONVERSION_ACTION_NOT_PERMITTED_WITH_BRAID x1');
+  assert.equal(googleRequestErrors({}),'');
+});
