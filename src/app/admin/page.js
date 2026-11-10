@@ -13,6 +13,7 @@ import 'jspdf-autotable';
 import { useRouter } from 'next/navigation';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { adminFetch } from '@/lib/adminApi';
+import { RELATED_SETTINGS_ID, normalizeRelatedSettings } from '@/lib/relatedProducts.mjs';
 import BankPaymentSettings from '@/components/admin/BankPaymentSettings';
 import SocialReviewsSettings from '@/components/admin/SocialReviewsSettings';
 import RequestsManager from '@/components/admin/RequestsManager';
@@ -416,6 +417,8 @@ export default function AdminPage() {
   // Spreadsheet product editor states
   const [products, setProducts] = useState([]);
   const [hiddenProductNames, setHiddenProductNames] = useState([]); // names of products hidden from the public catalog (not deleted)
+  // Per product, which other products the main website's product page offers (site_settings 'related_products').
+  const [relatedSettings, setRelatedSettings] = useState({ products: {} });
   const [orders, setOrders] = useState([]);
   const [abandonedCarts, setAbandonedCarts] = useState([]);
   const [cartSort, setCartSort] = useState('date_desc');
@@ -2645,6 +2648,13 @@ Core Rules:
           }
           setHiddenProductNames(hiddenNames);
 
+          try {
+            const { data: rp } = await supabase.from('site_settings').select('value').eq('id', RELATED_SETTINGS_ID).maybeSingle();
+            setRelatedSettings(normalizeRelatedSettings(rp?.value));
+          } catch (rpErr) {
+            console.warn('Could not load related products settings:', rpErr);
+          }
+
           loadedProducts = data.map(item => {
             const shown = splitStoredProductForAdmin(item.product || '', item.vial_size);
             return {
@@ -3314,6 +3324,26 @@ Core Rules:
         // Roll back optimistic update on failure
         setProducts(prev => prev.map(p => p.id === productId ? { ...p, hidden: target.hidden } : p));
       }
+    }
+  };
+
+  // "Related products" on one product's page (main website). Saved at once,
+  // like the hide switch; keyed by the product's name without its size.
+  const handleSaveRelated = async (compoundName, { mode, picks }) => {
+    try {
+      const res = await adminFetch('/api/admin/products', {
+        method: 'PATCH',
+        body: JSON.stringify({ relatedProducts: { compound: compoundName, mode, picks } }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) throw new Error(data.error || 'Failed to save related products');
+      setRelatedSettings(normalizeRelatedSettings(data.relatedProducts));
+      const label = mode === 'none' ? 'none' : mode === 'pick' ? `${picks.length} chosen` : 'automatic';
+      setSaveStatus(`Related products for "${compoundName}" saved: ${label}`);
+      return { ok: true };
+    } catch (err) {
+      console.error('Failed to save related products:', err);
+      return { error: err.message || 'Failed to save related products. Please try again.' };
     }
   };
 
@@ -5834,6 +5864,8 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
             setEditDescEs={setEditDescEs} setEditDescModalOpen={setEditDescModalOpen}
             handleMoveRow={handleMoveRow} handleDeleteRow={handleDeleteRow}
             handleToggleHidden={handleToggleHidden}
+            relatedSettings={relatedSettings}
+            handleSaveRelated={handleSaveRelated}
             changedProductIds={changedProductIds}
             orders={orders}
           />

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Search, X, Upload, Plus, Save, Download, AlertCircle, Check, ChevronUp, ChevronDown, ChevronsUp, ChevronsDown, Trash2, FileText, Eye, EyeOff, TrendingUp, AlertTriangle, Truck, Tag, DollarSign } from 'lucide-react';
+import { Search, X, Upload, Plus, Save, Download, AlertCircle, Check, ChevronUp, ChevronDown, ChevronsUp, ChevronsDown, Trash2, FileText, Eye, EyeOff, TrendingUp, AlertTriangle, Truck, Tag, DollarSign, Link2 } from 'lucide-react';
 
 import { CATALOG_CATEGORY_NAMES, cardOpeningItem, catalogCompoundAndSize, composeStoredProductName, groupCatalogCards, splitStoredProductForAdmin } from '@/lib/catalogCategories.mjs';
 import CoaUploadField from './CoaUploadField';
@@ -9,6 +9,8 @@ import {
   calculateStockoutForecast,
 } from '@/lib/inventoryForecasting.mjs';
 import { statusForInventory } from '@/lib/productSaveGuard.mjs';
+import { relatedKey, relatedSettingFor } from '@/lib/relatedProducts.mjs';
+import RelatedProductsModal from './RelatedProductsModal';
 
 /**
  * The compound a row belongs to, spelled the way the catalog groups cards.
@@ -55,8 +57,36 @@ export default function ProductsManager({
   setEditDescProduct, setEditDescEn, setEditDescEs, setEditDescModalOpen,
   handleMoveRow, handleDeleteRow,
   handleToggleHidden,
+  relatedSettings,
+  handleSaveRelated,
   changedProductIds,
 }) {
+  // "Related products" popup: the product name (without its size) being edited.
+  const [relatedFor, setRelatedFor] = useState(null);
+  // One entry per product name (every size of a product shares one setting),
+  // for the popup's list. Hidden only when every size is hidden.
+  const relatedChoices = useMemo(() => {
+    const byKey = new Map();
+    for (const p of products) {
+      const name = String(nameWithoutSize(p) || '').replace(/\s+/g, ' ').trim();
+      const key = relatedKey(name);
+      if (!key) continue;
+      const seen = byKey.get(key);
+      if (seen) seen.hidden = seen.hidden && Boolean(p.hidden);
+      else byKey.set(key, { name, hidden: Boolean(p.hidden) });
+    }
+    return [...byKey.values()].sort((a, b) => a.name.localeCompare(b.name));
+  }, [products]);
+  const relatedLabel = (p) => {
+    const setting = relatedSettingFor(relatedSettings, nameWithoutSize(p));
+    if (setting.mode === 'none') return 'None';
+    if (setting.mode === 'pick') return `${setting.picks.length} chosen`;
+    return 'Automatic';
+  };
+  const openRelated = (p) => {
+    const name = String(nameWithoutSize(p) || '').replace(/\s+/g, ' ').trim();
+    if (name) setRelatedFor(name);
+  };
   const [mobileEditProduct, setMobileEditProduct] = useState(null);
   const [mobileProductError, setMobileProductError] = useState('');
   const [saveConfirmOpen, setSaveConfirmOpen] = useState(false);
@@ -436,6 +466,10 @@ export default function ProductsManager({
                   {p.hidden ? <Eye size={14} /> : <EyeOff size={14} />}
                   {p.hidden ? 'Show' : 'Hide'}
                 </button>
+                <button type="button" className="admin-btn" onClick={() => openRelated(p)} title="Other products shown on this product's page on the website">
+                  <Link2 size={14} />
+                  Related: {relatedLabel(p)}
+                </button>
               </div>
             </article>
           ))}
@@ -472,6 +506,7 @@ export default function ProductsManager({
                 <th style={{ width: '120px', textAlign: 'center' }}>Info/Blog</th>
                 <th style={{ minWidth: '200px' }}>Free BAC Water Gift</th>
                 <th style={{ width: '110px', textAlign: 'center' }}>Catalog Visibility</th>
+                <th style={{ width: '130px', textAlign: 'center' }} title="Other products shown on this product's page on peptidescostarica.net">Related Products</th>
                 <th style={{ minWidth: '190px', textAlign: 'center' }}>Action</th>
               </tr>
             </thead>
@@ -1057,6 +1092,32 @@ export default function ProductsManager({
                     </button>
                   </td>
 
+                  {/* Related products on this product's website page (every size shares one choice) */}
+                  <td data-label="Related Products" style={{ textAlign: 'center' }}>
+                    <button
+                      type="button"
+                      onClick={() => openRelated(p)}
+                      title="Which other products the website shows on this product's page. Click to change."
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '5px',
+                        padding: '5px 10px',
+                        fontSize: '0.72rem',
+                        fontWeight: 700,
+                        cursor: 'pointer',
+                        borderRadius: '6px',
+                        border: relatedLabel(p) === 'Automatic' ? '1px solid rgba(148,163,184,0.35)' : '1px solid rgba(56,189,248,0.4)',
+                        background: relatedLabel(p) === 'Automatic' ? 'rgba(148,163,184,0.1)' : 'rgba(56,189,248,0.12)',
+                        color: relatedLabel(p) === 'Automatic' ? '#cbd5e1' : '#38bdf8',
+                        whiteSpace: 'nowrap'
+                      }}
+                    >
+                      <Link2 size={13} />
+                      <span>{relatedLabel(p)}</span>
+                    </button>
+                  </td>
+
                   {/* Actions */}
                   <td data-label="Action" style={{ textAlign: 'center' }}>
                     <div className="product-order-actions">
@@ -1406,6 +1467,17 @@ export default function ProductsManager({
           </div>
         </div>
       )}
+      {relatedFor && (
+        <RelatedProductsModal
+          key={relatedFor}
+          compoundName={relatedFor}
+          setting={relatedSettingFor(relatedSettings, relatedFor)}
+          compounds={relatedChoices}
+          onClose={() => setRelatedFor(null)}
+          onSave={handleSaveRelated}
+        />
+      )}
+
       {renamePrompt && (
         <div className="pm-confirm-overlay pm-confirm-overlay--top" onClick={() => setRenamePrompt(null)}>
           <div className="pm-confirm" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="pm-rename-title">
@@ -1587,6 +1659,37 @@ export default function ProductsManager({
           font-size: 0.68rem;
           font-weight: 800;
         }
+        .pm-related { max-width: 520px; }
+        .pm-related-choices { display: grid; gap: 8px; margin: 0 0 14px; }
+        .pm-related-choice {
+          display: flex; gap: 10px; align-items: flex-start; cursor: pointer;
+          padding: 10px 12px; border-radius: 10px;
+          border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.03);
+        }
+        .pm-related-choice.is-on { border-color: rgba(56, 189, 248, 0.5); background: rgba(56, 189, 248, 0.08); }
+        .pm-related-choice input { margin-top: 3px; }
+        .pm-related-choice span { display: grid; gap: 2px; font-size: 0.85rem; }
+        .pm-related-choice em, .pm-related-item em { color: #94a3b8; font-style: normal; font-size: 0.78rem; }
+        .pm-related-picker { margin: 0 0 12px; }
+        .pm-related-picker input[type="search"] { width: 100%; margin-bottom: 8px; }
+        .pm-related-list {
+          max-height: 240px; overflow-y: auto; border-radius: 10px;
+          border: 1px solid rgba(255, 255, 255, 0.1); padding: 4px 0;
+        }
+        .pm-related-item {
+          display: flex; align-items: center; gap: 10px; cursor: pointer;
+          padding: 6px 12px; font-size: 0.84rem;
+        }
+        .pm-related-item:hover { background: rgba(255, 255, 255, 0.04); }
+        .pm-related-item span { flex: 1; }
+        .pm-related-item b {
+          min-width: 20px; height: 20px; border-radius: 10px; display: inline-flex;
+          align-items: center; justify-content: center; font-size: 0.7rem;
+          background: rgba(56, 189, 248, 0.2); color: #38bdf8;
+        }
+        .pm-related .pm-related-hint, .pm-related .pm-related-empty { margin: 8px 0 0; font-size: 0.78rem; color: #94a3b8; }
+        .pm-related .pm-related-empty { padding: 8px 12px; }
+        .pm-related .pm-related-error { color: #f87171; font-weight: 600; }
         .pm-confirm-overlay--top {
           z-index: 2147483000 !important;
         }

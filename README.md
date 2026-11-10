@@ -225,6 +225,15 @@ Owner (Omer) to do or decide:
 8. Later: send `catalog.peptidescostarica.net` traffic to the main site
    (Belhassen's request) — only once the website does everything the catalog
    does.
+9. "Related products" per product (10 Nov 2026, Belhassen/Bumsoo, for Google
+   Ads compliance on the GLPTZ test page): admin → Products → "Related
+   Products" column (Automatic / None / Choose products), saved in
+   `site_settings` row `related_products`; the website's product page follows
+   it for "More in …" and "Frequently ordered together" (free BAC Water
+   stays). Branches `feat/related-products-setting` (catalog) and
+   `feat/related-products-website` (main); push in either order, nothing
+   changes until a product is set. No migration. Not covered: the catalog's
+   own cart "You might also like" and the website cart's suggestions.
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a

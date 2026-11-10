@@ -17,6 +17,14 @@ import {
 } from '@/lib/productSaveGuard.mjs';
 
 import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
+import {
+  RELATED_MODES,
+  RELATED_SETTINGS_ID,
+  compoundNameOfRow,
+  normalizeRelatedSettings,
+  remapRelatedSettings,
+  withRelatedSetting,
+} from '@/lib/relatedProducts.mjs';
 
 export const runtime = 'nodejs';
 
@@ -80,6 +88,48 @@ async function preserveHiddenProductNames(supabase, renames = [], deletedNames =
     .from('site_settings')
     .upsert({ id: 'hidden_products', value: { names: next } });
   if (writeError) throw writeError;
+}
+
+async function loadRelatedSettings(supabase) {
+  const { data, error } = await supabase
+    .from('site_settings')
+    .select('value')
+    .eq('id', RELATED_SETTINGS_ID)
+    .maybeSingle();
+  if (error) throw error;
+  return normalizeRelatedSettings(data?.value);
+}
+
+/**
+ * Renaming a product keeps its "Related products" choice (and keeps it picked
+ * on other products). The products are already saved by then, so a failure
+ * here is logged rather than reported as a failed save.
+ *
+ * @param {{from: object, to: object}[]} rowRenames database rows, before -> after
+ */
+async function preserveRelatedSettings(supabase, rowRenames = []) {
+  try {
+    const renames = rowRenames
+      .map(({ from, to }) => ({
+        from: compoundNameOfRow(from?.product, from?.vial_size),
+        to: compoundNameOfRow(to?.product, to?.vial_size),
+      }))
+      .filter(({ from, to }) => from && to && from !== to);
+    if (!renames.length) return;
+    const current = await loadRelatedSettings(supabase);
+    if (!Object.keys(current.products).length) return;
+    const { data: rows, error } = await supabase.from('products').select('product,vial_size');
+    if (error) throw error;
+    const existing = (rows || []).map((row) => compoundNameOfRow(row.product, row.vial_size));
+    const next = remapRelatedSettings(current, renames, existing);
+    if (JSON.stringify(next) === JSON.stringify(current)) return;
+    const { error: writeError } = await supabase
+      .from('site_settings')
+      .upsert({ id: RELATED_SETTINGS_ID, value: next });
+    if (writeError) throw writeError;
+  } catch (err) {
+    console.error('[admin/products] could not carry related-products settings across a rename:', err);
+  }
 }
 
 /**
@@ -208,6 +258,10 @@ export async function PUT(request) {
       .filter((row) => plan.toDelete.includes(String(row.id)))
       .map((row) => row.product);
     await preserveHiddenProductNames(supabase, hiddenRenames, deletedHiddenNames);
+    await preserveRelatedSettings(supabase, toUpdate.map((row) => ({
+      from: currentByIdForVisibility.get(String(row.id)),
+      to: row,
+    })));
 
     // Only rows this save actually wrote, and only their own old -> new name,
     // read from the database rather than from what the page claims.
@@ -280,6 +334,7 @@ async function saveOneProduct(supabase, { product, baseline, moveReviews }, { ac
   await preserveHiddenProductNames(supabase, [
     { from: currentRow.product, to: saved.product },
   ]);
+  await preserveRelatedSettings(supabase, [{ from: currentRow, to: saved }]);
 
   const movedReviews = moveReviews === true
     ? await moveReviewsToNewName(supabase, currentRow.product, saved.product)
@@ -317,6 +372,26 @@ export async function PATCH(request) {
 
     if (body?.product && typeof body.product === 'object') {
       return await saveOneProduct(supabase, body, { actor: auth.profile, request });
+    }
+
+    // "Related products" for one product, saved at once like the hide switch.
+    // Only that product's entry is replaced, so two people editing different
+    // products cannot overwrite each other.
+    if (body?.relatedProducts && typeof body.relatedProducts === 'object') {
+      const { compound, mode, picks } = body.relatedProducts;
+      const name = String(compound || '').trim();
+      if (!name) return NextResponse.json({ error: 'Give the product a name first.' }, { status: 400 });
+      if (!RELATED_MODES.includes(mode)) return NextResponse.json({ error: 'Unknown related-products choice.' }, { status: 400 });
+      if (mode === 'pick' && (!Array.isArray(picks) || picks.length === 0)) {
+        return NextResponse.json({ error: 'Choose at least one product, or pick "None".' }, { status: 400 });
+      }
+      const current = await loadRelatedSettings(supabase);
+      const next = withRelatedSetting(current, name, { mode, picks });
+      const { error } = await supabase
+        .from('site_settings')
+        .upsert({ id: RELATED_SETTINGS_ID, value: next });
+      if (error) throw error;
+      return NextResponse.json({ ok: true, relatedProducts: next });
     }
 
     const { hiddenNames } = body || {};
