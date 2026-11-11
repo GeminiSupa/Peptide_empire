@@ -15,7 +15,7 @@ import Papa from 'papaparse';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { buildWhatsAppLink, cleanPhoneNumber, logWhatsAppSource } from '@/lib/whatsapp';
 import { useBusinessLinks } from '@/hooks/useBusinessLinks';
-import { getFacebookReviewUrl, getTrustpilotReviewUrl, ORGANIZATION_PROFILES } from '@/lib/businessLinks';
+import { getFacebookReviewUrl, getOrganizationProfiles, getTrustpilotReviewUrl } from '@/lib/businessLinks';
 import { appStorefrontHref } from '@/lib/appStorefront';
 import { useTrustpilotRating } from '@/hooks/useTrustpilotRating';
 import { getPromoBadgeForProduct } from '@/lib/promoBadge.mjs';
@@ -6948,7 +6948,7 @@ export default function CatalogPage() {
             <a href="/admin">
               {lang === 'en' ? 'Admin login' : 'Acceso admin'}
             </a>
-            {ORGANIZATION_PROFILES.map((profile) => (
+            {getOrganizationProfiles(links).map((profile) => (
               <a key={profile.url} href={profile.url} target="_blank" rel="noopener noreferrer">
                 {profile.label}
               </a>

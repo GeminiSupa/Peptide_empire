@@ -6,7 +6,7 @@ import { ChevronDown, Globe, Menu, Search, ShoppingBag, X } from 'lucide-react';
 import { safeLocalStorage as localStorage } from '@/lib/storage';
 import { buildWhatsAppLink, logWhatsAppSource } from '@/lib/whatsapp';
 import { useBusinessLinks } from '@/hooks/useBusinessLinks';
-import { getFacebookReviewUrl, getTrustpilotReviewUrl, isExternalHttpUrl, ORGANIZATION_PROFILES } from '@/lib/businessLinks';
+import { getFacebookReviewUrl, getOrganizationProfiles, getTrustpilotReviewUrl, isExternalHttpUrl } from '@/lib/businessLinks';
 import { useTrustpilotRating } from '@/hooks/useTrustpilotRating';
 import { DEFAULT_LANDING_PAGE_SETTINGS } from '@/lib/landingContent';
 import { normalizeBannerCopy, replaceUsdPlaceholders, sanitizeBannerHref } from '@/lib/bannerText';
@@ -449,7 +449,7 @@ export function StorefrontFooter({ lang, settings, categories = [] }) {
           <button type="button" data-whatsapp-location="contact_page" onClick={openWhatsApp}>CR {links.whatsappDisplay}</button>
           <a href={`tel:+${links.apiWhatsAppNumber || '18314715559'}`}>US {links.apiWhatsAppDisplay || '+1 (831) 471-5559'}</a>
           {links.googleMapsUrl && <a href={links.googleMapsUrl} target="_blank" rel="noopener noreferrer">Open in Maps</a>}
-          {ORGANIZATION_PROFILES.map((profile) => (
+          {getOrganizationProfiles(links).map((profile) => (
             <a key={profile.url} href={profile.url} target="_blank" rel="noopener noreferrer">
               {profile.label}
             </a>

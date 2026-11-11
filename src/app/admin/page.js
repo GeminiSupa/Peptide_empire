@@ -5248,7 +5248,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
   // CMS Handlers
   const handleSaveBusinessLinks = async () => {
     const linksToSave = normalizeBusinessLinks(businessLinks);
-    const invalidFields = ['googleMapsUrl', 'facebookUrl', 'instagramUrl', 'trustpilotUrl', 'trustpilotUrlEn', 'trustpilotUrlEs', 'googleReviewUrl', 'facebookReviewUrl']
+    const invalidFields = ['googleMapsUrl', 'facebookUrl', 'instagramUrl', 'youtubeUrl', 'trustpilotUrl', 'trustpilotUrlEn', 'trustpilotUrlEs', 'googleReviewUrl', 'facebookReviewUrl']
       .filter(key => !isValidOptionalUrl(linksToSave?.[key]));
     if (invalidFields.length > 0) {
       setCmsSaveStatus(`error:Invalid URL in ${invalidFields.join(', ')}. Use full https:// links.`);
@@ -7295,9 +7295,13 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                         <label style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '4px' }}>Facebook URL (Optional)</label>
                         <input type="text" value={businessLinks.facebookUrl} onChange={e => setBusinessLinks({...businessLinks, facebookUrl: e.target.value})} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)', background: '#0e1626', color: '#f8fafc', fontSize: '0.85rem' }} />
                       </div>
-                      <div className="cms-field" data-cms-search="Instagram URL (Optional)">
+                      <div className="cms-field" data-cms-search="Instagram URL (Optional)" style={{ marginBottom: '8px' }}>
                         <label style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '4px' }}>Instagram URL (Optional)</label>
                         <input type="text" value={businessLinks.instagramUrl} onChange={e => setBusinessLinks({...businessLinks, instagramUrl: e.target.value})} style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)', background: '#0e1626', color: '#f8fafc', fontSize: '0.85rem' }} />
+                      </div>
+                      <div className="cms-field" data-cms-search="YouTube URL (Optional)">
+                        <label style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '4px' }}>YouTube URL (Optional)</label>
+                        <input type="text" value={businessLinks.youtubeUrl || ''} onChange={e => setBusinessLinks({...businessLinks, youtubeUrl: e.target.value})} placeholder="https://www.youtube.com/@PeptidesCostaRica-g9k" style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)', background: '#0e1626', color: '#f8fafc', fontSize: '0.85rem' }} />
                       </div>
                       <div className="cms-field" data-cms-search="Trustpilot Review URL - English" style={{ marginTop: '8px' }}>
                         <label style={{ display: 'block', fontSize: '0.75rem', color: '#94a3b8', marginBottom: '4px' }}>Trustpilot Review URL - English</label>

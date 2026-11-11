@@ -96,6 +96,9 @@ export const DEFAULT_BUSINESS_LINKS = {
   googleMapsUrl: '',
   facebookUrl: '',
   instagramUrl: '',
+  // Empty by default so the canonical YOUTUBE_CHANNEL_URL wins until staff set
+  // a different channel in the admin's Business info CMS (see getYoutubeUrl).
+  youtubeUrl: '',
   trustpilotUrl: TRUSTPILOT_REVIEW_URLS.en,
   trustpilotUrlEn: TRUSTPILOT_REVIEW_URLS.en,
   trustpilotUrlEs: TRUSTPILOT_REVIEW_URLS.es,
@@ -189,6 +192,30 @@ export function getFacebookReviewUrl(links = {}) {
   return usableFacebookUrl(links.facebookReviewUrl)
     || usableFacebookUrl(links.facebookUrl)
     || FACEBOOK_REVIEW_URL;
+}
+
+/**
+ * The YouTube channel every storefront footer links to. A URL staff type in
+ * the admin's Business info CMS wins; an empty field falls back to the
+ * canonical channel, so an unconfigured row is unchanged.
+ */
+export function getYoutubeUrl(links = {}) {
+  return String(links.youtubeUrl || '').trim() || YOUTUBE_CHANNEL_URL;
+}
+
+/**
+ * The public profiles shown in the storefront footers, each with the URL staff
+ * set in the admin's Business info CMS taking over the built-in default. Empty
+ * fields fall back to the canonical profiles, so the links are unchanged until
+ * someone edits them from the dashboard. Order matches ORGANIZATION_PROFILES.
+ */
+export function getOrganizationProfiles(links = {}) {
+  return [
+    { label: 'Instagram', url: String(links.instagramUrl || '').trim() || INSTAGRAM_PROFILE_URL },
+    { label: 'Facebook', url: getFacebookReviewUrl(links) },
+    { label: 'LinkedIn', url: LINKEDIN_PROFILE_URL },
+    { label: 'YouTube', url: getYoutubeUrl(links) },
+  ];
 }
 
 export function isExternalHttpUrl(href = '') {
