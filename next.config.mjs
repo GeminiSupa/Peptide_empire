@@ -98,7 +98,7 @@ const nextConfig = {
       // New Google Ads shop pages, QA preview only (owner, 10 Nov 2026). On
       // /lp-testing the pages load no Tag Manager, keep no ad click, and mark
       // their orders TEST so the Google uploads skip them. Once approved, they
-      // move to their real /lp addresses and these three rules go.
+      // move to their real /lp addresses and these preview rules go.
       // The metabolic page's address must not say "GLP" (Google Ads, 10 Nov
       // 2026); it lives at /lp/metabolic-research-compound.
       {
@@ -113,6 +113,16 @@ const nextConfig = {
         source: '/lp-testing/bac-water',
         destination: '/lp/bac-water/index.html',
       },
+      // The single-product pages (marketing, 11 Nov 2026): one page each for
+      // the two compounds Google Ads allows by name.
+      {
+        source: '/lp-testing/glutathione-1500mg',
+        destination: '/lp/glutathione-1500mg/index.html',
+      },
+      {
+        source: '/lp-testing/nad-plus',
+        destination: '/lp/nad-plus/index.html',
+      },
       // Their real addresses, for the ads once approved (tracking on). Vercel
       // happens to serve a folder's index.html, but `next dev`/`next start` do
       // not, so say it explicitly.
@@ -123,6 +133,14 @@ const nextConfig = {
       {
         source: '/lp/bac-water',
         destination: '/lp/bac-water/index.html',
+      },
+      {
+        source: '/lp/glutathione-1500mg',
+        destination: '/lp/glutathione-1500mg/index.html',
+      },
+      {
+        source: '/lp/nad-plus',
+        destination: '/lp/nad-plus/index.html',
       },
       // The landing page's confirmation, the destination URL Google Ads counts
       // a lead on. It is public/lp/thank-you.html, so it always answers on its

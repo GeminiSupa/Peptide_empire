@@ -8,6 +8,16 @@ import { productNameResolver } from '../src/lib/authoritativeCheckout.mjs';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const rootDir = path.resolve(__dirname, '..');
 
+// Every Google Ads shop page. They are one page template: the shop, cart,
+// checkout and tracking below are identical in all of them, so each check runs
+// over the whole list.
+const AD_PAGES = [
+  'public/lp/metabolic-research-compound/index.html',
+  'public/lp/bac-water/index.html',
+  'public/lp/glutathione-1500mg/index.html',
+  'public/lp/nad-plus/index.html',
+];
+
 test('landing page product aliases resolve correctly in authoritative checkout', () => {
   const catalogProducts = [
     { product: 'Tirzepatide 10mg', price_usd: 140 },
@@ -31,44 +41,92 @@ test('landing page product aliases resolve correctly in authoritative checkout',
 });
 
 test('landing page static files are clean, asset-optimized and have tracking', () => {
-  const glpPath = path.join(rootDir, 'public/lp/metabolic-research-compound/index.html');
-  const bacPath = path.join(rootDir, 'public/lp/bac-water/index.html');
+  for (const page of AD_PAGES) {
+    const file = path.join(rootDir, page);
+    assert.ok(fs.existsSync(file), `${page} exists`);
+    const html = fs.readFileSync(file, 'utf8');
 
-  assert.ok(fs.existsSync(glpPath), 'GLP-1 HTML file exists');
-  assert.ok(fs.existsSync(bacPath), 'BAC Water HTML file exists');
+    // Tracking
+    assert.ok(html.includes('GTM-M2GVDQ44'), `${page} includes GTM`);
+    assert.ok(html.includes('captureGoogleAdClick'), `${page} includes gclid capture`);
 
-  const glpHtml = fs.readFileSync(glpPath, 'utf8');
-  const bacHtml = fs.readFileSync(bacPath, 'utf8');
+    // Checkout connection
+    assert.ok(html.includes('/api/orders/create'), `${page} connects to /api/orders/create`);
+    assert.ok(html.includes('/pay-card?order='), `${page} redirects to /pay-card`);
+    assert.ok(html.includes('research_ack'), `${page} sends the required research acknowledgement`);
+    assert.ok(html.includes('checkout_submit') && html.includes('user_data'), `${page} sends enhanced checkout tracking`);
 
-  // Tracking
-  assert.ok(glpHtml.includes('GTM-M2GVDQ44'), 'GLP-1 includes GTM');
-  assert.ok(bacHtml.includes('GTM-M2GVDQ44'), 'BAC Water includes GTM');
-  assert.ok(glpHtml.includes('captureGoogleAdClick'), 'GLP-1 includes gclid capture');
-  assert.ok(bacHtml.includes('captureGoogleAdClick'), 'BAC Water includes gclid capture');
+    // Live product sync
+    assert.ok(html.includes('/api/lp/products'), `${page} syncs products from /api/lp/products`);
 
-  // Checkout connection
-  assert.ok(glpHtml.includes('/api/orders/create'), 'GLP-1 connects to /api/orders/create');
-  assert.ok(bacHtml.includes('/api/orders/create'), 'BAC Water connects to /api/orders/create');
-  assert.ok(glpHtml.includes('/pay-card?order='), 'GLP-1 redirects to /pay-card');
-  assert.ok(bacHtml.includes('/pay-card?order='), 'BAC Water redirects to /pay-card');
-  assert.ok(glpHtml.includes('research_ack'), 'GLP-1 sends the required research acknowledgement');
-  assert.ok(bacHtml.includes('research_ack'), 'BAC Water sends the required research acknowledgement');
-  assert.ok(glpHtml.includes('checkout_submit') && glpHtml.includes('user_data'), 'GLP-1 sends enhanced checkout tracking');
-  assert.ok(bacHtml.includes('checkout_submit') && bacHtml.includes('user_data'), 'BAC Water sends enhanced checkout tracking');
-
-  // Live product sync
-  assert.ok(glpHtml.includes('/api/lp/products'), 'GLP-1 syncs products from /api/lp/products');
-  assert.ok(bacHtml.includes('/api/lp/products'), 'BAC Water syncs products from /api/lp/products');
-
-  // File size optimization: under 800 KB (down from 3.95 MB)
-  assert.ok(glpHtml.length < 800000, `GLP-1 HTML is optimized (${glpHtml.length} bytes)`);
-  assert.ok(bacHtml.length < 800000, `BAC Water HTML is optimized (${bacHtml.length} bytes)`);
-  assert.equal(glpHtml.includes('data:image/webp;base64'), false, 'GLP-1 has no embedded WebP images');
-  assert.equal(bacHtml.includes('data:image/webp;base64'), false, 'BAC Water has no embedded WebP images');
+    // File size optimization: under 800 KB (down from 3.95 MB)
+    assert.ok(html.length < 800000, `${page} is optimized (${html.length} bytes)`);
+    assert.equal(html.includes('data:image/webp;base64'), false, `${page} has no embedded WebP images`);
+    assert.equal(html.includes('data:image/png;base64'), false, `${page} has no embedded PNG images`);
+  }
 
   // Assets exist
   assert.ok(fs.existsSync(path.join(rootDir, 'public/lp-assets/heroes/metabolic-hero.jpg')), 'Hero image exists');
   assert.ok(fs.existsSync(path.join(rootDir, 'public/lp-assets/icons/logo-new.webp')), 'Logo icon exists');
+});
+
+test('the single-product pages each show their own compound, from one shared template', () => {
+  const pages = [
+    ['public/lp/glutathione-1500mg/index.html', 'glutathione', 'Glutathione 1500 mg, Reduced Form | Peptides Costa Rica'],
+    ['public/lp/nad-plus/index.html', 'nadplus', 'NAD+ 500 mg and 1000 mg | Peptides Costa Rica'],
+  ];
+  const bodies = [];
+  for (const [page, prod, title] of pages) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
+    assert.ok(html.includes(`<title>${title}</title>`), `${page}: its own title`);
+    assert.ok(html.includes(`window.LP_MODE="prod";window.LP_PROD="${prod}"`), `${page}: shows ${prod}`);
+    // The product it is built around must exist in the page's own catalog data.
+    assert.match(html, new RegExp(`"slug": "${prod}"`), `${page}: ${prod} is in the product list`);
+    // The compounds it offers alongside, which must exist too.
+    const pairs = html.match(new RegExp(`${prod}: \\{[\\s\\S]*?pairs: \\[([^\\]]+)\\]`))?.[1];
+    assert.ok(pairs, `${page}: pairing list`);
+    for (const slug of pairs.match(/"([a-z0-9-]+)"/g).map((s) => s.slice(1, -1))) {
+      assert.match(html, new RegExp(`"slug": "${slug}"`), `${page}: pairs with ${slug}, which must be a product`);
+    }
+    bodies.push(html.replace(`<title>${title}</title>`, '').replace(`window.LP_PROD="${prod}"`, ''));
+  }
+  const [glutathione, nadPlus] = bodies;
+  const meta = /<meta name="description"[^>]*>/;
+  assert.equal(glutathione.replace(meta, ''), nadPlus.replace(meta, ''), 'the two pages stay one template');
+});
+
+// The metabolic and bac-water pages still carry the old payment wording and the
+// old NAD+ default; changing them is its own job, so these two checks cover the
+// pages built after that was decided.
+const NEW_AD_PAGES = ['public/lp/glutathione-1500mg/index.html', 'public/lp/nad-plus/index.html'];
+
+test('the single-product pages do not promise cash on delivery', () => {
+  // We don't take it (owner, 10 Nov 2026); checkout takes card, SINPE Móvil and
+  // bank transfer. Same wording as the website's product page.
+  for (const page of NEW_AD_PAGES) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
+    assert.doesNotMatch(html, /cash on delivery|contra entrega|cash when it arrives|efectivo al recibir/i, page);
+    assert.ok(html.includes('Money-back guarantee'), `${page}: the badge that replaced it`);
+    assert.ok(html.includes('"Money-back guarantee":"Garantía de reembolso"'), `${page}: in Spanish too`);
+  }
+});
+
+test('the NAD+ page opens on its 1000 mg vial, the size the page recommends', () => {
+  // Marketing, 6 Nov 2026: "default size 1000 mg, not 500". The shared product
+  // list takes its default sizes from the live catalog feed, so this one is the
+  // page's own: it is used when that size is in stock, and ignored otherwise.
+  for (const page of NEW_AD_PAGES) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
+    assert.match(html, /key: "nad-plus", size: "1000 mg"/, `${page}: the size the NAD\\+ page leads with`);
+    assert.match(
+      html,
+      /return \(PC\.size && PROD\.v\.some\(function \(x\) \{ return x\.s === PC\.size && !x\.oos; \}\)\) \? PC\.size : PROD\.def;/,
+      `${page}: falls back to the catalog's default when that size is sold out`,
+    );
+    // The photo, the chooser and the price all follow that one size.
+    assert.match(html, /Q\.size = prodSize\(\);/, `${page}: the chooser opens on it`);
+    assert.match(html, /pimg\(PROD, prodSize\(\)\)/, `${page}: the hero shows that vial`);
+  }
 });
 
 test('next.config.mjs keeps /lp on the lead page and adds /lp/metabolic-research-compound and /lp/bac-water', () => {
@@ -79,6 +137,10 @@ test('next.config.mjs keeps /lp on the lead page and adds /lp/metabolic-research
   assert.match(config, /source: '\/lp-testing\/glp-1',\s*destination: '\/lp-testing\/metabolic-research-compound',\s*permanent: false/, 'old QA link follows the page');
   assert.equal(fs.existsSync(path.join(rootDir, 'public/lp/glp-1')), false, 'no page left at a GLP address');
   assert.match(config, /source: '\/lp-testing\/bac-water',\s*destination: '\/lp\/bac-water\/index\.html'/, 'QA preview of bac-water');
+  for (const slug of ['glutathione-1500mg', 'nad-plus']) {
+    assert.match(config, new RegExp(`source: '/lp-testing/${slug}',\\s*destination: '/lp/${slug}/index\\.html'`), `QA preview of ${slug}`);
+    assert.match(config, new RegExp(`source: '/lp/${slug}',\\s*destination: '/lp/${slug}/index\\.html'`), `real address of ${slug}`);
+  }
   assert.match(config, /source: '\/lp-testing\/:path\*',\s*headers: \[\{ key: 'X-Robots-Tag', value: 'noindex, nofollow' \}\]/, 'preview is not indexed');
 });
 
@@ -90,7 +152,7 @@ test('live landing-page catalog endpoint hides administratively hidden products'
 });
 
 test('WhatsApp orders are saved before the thank-you page, on the current number', () => {
-  for (const page of ['public/lp/metabolic-research-compound/index.html', 'public/lp/bac-water/index.html']) {
+  for (const page of AD_PAGES) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
     const body = html.slice(html.indexOf('function placeOrder(method)'), html.indexOf('/* ---------------- thank-you page'));
     assert.equal((body.match(/fetch\('\/api\/orders\/create'/g) || []).length, 1, `${page}: one order request for both methods`);
@@ -108,7 +170,7 @@ test('WhatsApp orders are saved before the thank-you page, on the current number
 });
 
 test('live colón prices are read from the display text the API sends, and a price change re-posts once', () => {
-  for (const page of ['public/lp/metabolic-research-compound/index.html', 'public/lp/bac-water/index.html']) {
+  for (const page of AD_PAGES) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
     const fn = html.match(/function catalogColones\(value\) \{[\s\S]*?\n\}/);
     assert.ok(fn, `${page}: catalogColones`);
@@ -123,7 +185,7 @@ test('live colón prices are read from the display text the API sends, and a pri
 });
 
 test('the /lp-testing preview loads no Tag Manager and keeps no ad click', () => {
-  for (const page of ['public/lp/metabolic-research-compound/index.html', 'public/lp/bac-water/index.html']) {
+  for (const page of AD_PAGES) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
     const flag = html.match(/<script>(window\.LP_TESTING = [^<]+)<\/script>/);
     assert.ok(flag && html.indexOf(flag[0]) < html.indexOf('GTM-M2GVDQ44'), `${page}: flag set before GTM`);
@@ -133,12 +195,13 @@ test('the /lp-testing preview loads no Tag Manager and keeps no ad click', () =>
     assert.equal(isTesting('/lp/glp-1'), false);
     assert.equal(isTesting('/lp-testingx'), false);
     assert.match(html, /<script>if \(!window\.LP_TESTING\) \(function\(w,d,s,l,i\)\{/, `${page}: GTM skipped on the preview`);
-    assert.match(html, /function captureGoogleAdClick\(\)\{\n  if \(window\.LP_TESTING\) return;/, `${page}: no click saved on the preview`);
+    // The pages are saved with Windows line endings, so match either.
+    assert.match(html, /function captureGoogleAdClick\(\)\{\r?\n  if \(window\.LP_TESTING\) return;/, `${page}: no click saved on the preview`);
   }
 });
 
 test('a product with no stock count (null) is not shown as out of stock', () => {
-  for (const page of ['public/lp/metabolic-research-compound/index.html', 'public/lp/bac-water/index.html']) {
+  for (const page of AD_PAGES) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
     const rule = html.match(/oos: (\(row\.inventoryCount !== null[\s\S]*?<= 0\)) \|\|/);
     assert.ok(rule, `${page}: stock rule`);
@@ -151,7 +214,7 @@ test('a product with no stock count (null) is not shown as out of stock', () => 
 });
 
 test('Shopper Approved shows in the artifact design, filled from the live widget data', () => {
-  for (const page of ['public/lp/metabolic-research-compound/index.html', 'public/lp/bac-water/index.html']) {
+  for (const page of AD_PAGES) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
     assert.match(html, /function saLive\(\)/, `${page}: reads the live widget data`);
     assert.ok(html.includes('based on (\\d+) reviews/'), `${page}: live review count, not a hardcoded one`);
@@ -171,7 +234,7 @@ test('the metabolic products show Ted\'s codes, and orders still carry the real 
     { product: 'Semaglutide 10mg', price_usd: 180 },
     { product: '5-Amino-1MQ 50mg', price_usd: 90 },
   ]);
-  for (const page of ['public/lp/metabolic-research-compound/index.html', 'public/lp/bac-water/index.html']) {
+  for (const page of AD_PAGES) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8').replace(/\r\n/g, '\n');
     assert.doesNotMatch(html, /"GLP-1 \((RT|TRZ|SEM)\)"|"5-Amino-1MQ"/, `${page}: old display names gone from the page data`);
     for (const code of ['GLP3RT', 'GLP2TZ', 'GLP1SM', '5A1MQ']) assert.ok(html.includes(`"${code}"`), `${page}: shows ${code}`);
