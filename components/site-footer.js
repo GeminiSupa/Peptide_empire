@@ -4,6 +4,7 @@ import Container from '@/components/ui/container';
 import Logo from '@/components/logo';
 import WhatsAppIcon from '@/components/whatsapp-icon';
 import { getPublishedGlobal } from '@/lib/site-cms';
+import { getAdminSettings, socialWithYoutube, youtubeUrlFrom } from '@/lib/site/admin-settings';
 import { imageSource } from '@/lib/images';
 import { label, t } from '@/lib/i18n';
 import { localePath, DEFAULT_LANG } from '@/lib/routes';
@@ -135,8 +136,11 @@ function SocialIcon({ name }) {
 }
 
 export default async function SiteFooter({ lang = DEFAULT_LANG }) {
-  const { footer } = await getPublishedGlobal();
+  const [{ footer }, admin] = await Promise.all([getPublishedGlobal(), getAdminSettings()]);
   const headings = HEADINGS[lang] || HEADINGS[DEFAULT_LANG];
+  // The YouTube link follows the catalog admin's Business info CMS, like the
+  // site's other contact details do; an unset field keeps the canonical channel.
+  const social = socialWithYoutube(footer.social, youtubeUrlFrom(admin.businessLinks));
 
   return (
     <footer className="mt-auto border-t border-slate-200 bg-slate-50 text-primary">
@@ -192,16 +196,16 @@ export default async function SiteFooter({ lang = DEFAULT_LANG }) {
               })}
             </ul>
             <ul className="mt-5 flex flex-wrap gap-2">
-              {footer.social.map((social) => (
-                <li key={social.href}>
+              {social.map((item) => (
+                <li key={item.href}>
                   <a
-                    aria-label={social.name}
+                    aria-label={item.name}
                     className="flex h-9 w-9 items-center justify-center rounded-full bg-[#c90008] text-white transition hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#c90008]"
-                    href={social.href}
+                    href={item.href}
                     rel="noopener noreferrer"
                     target="_blank"
                   >
-                    <SocialIcon name={social.name} />
+                    <SocialIcon name={item.name} />
                   </a>
                 </li>
               ))}

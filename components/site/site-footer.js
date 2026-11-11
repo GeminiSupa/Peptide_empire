@@ -26,8 +26,11 @@ const POLICY_LINKS = [
 ];
 
 /** The prototype's footer. Server-rendered: every link is in the page source. */
-export default function SiteFooter({ t, links, categories, contact = CONTACT }) {
+export default function SiteFooter({ t, links, categories, contact = CONTACT, youtube }) {
   const whatsapp = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(t("Hi! I'd like to order."))}`;
+  // The YouTube channel follows the catalog admin's Business info CMS; appended
+  // here because the design's SOCIALS list has no YouTube of its own.
+  const socials = youtube ? [...SOCIALS, ['YouTube', youtube]] : SOCIALS;
   return (
     <footer className="sfoot">
       <div className="wrap">
@@ -81,7 +84,7 @@ export default function SiteFooter({ t, links, categories, contact = CONTACT }) 
               }}
             />
             <div className="socials">
-              {SOCIALS.map(([name, href]) => (
+              {socials.map(([name, href]) => (
                 <a key={name} href={href} target="_blank" rel="noopener noreferrer">{name}</a>
               ))}
             </div>
