@@ -194,6 +194,18 @@ const nextConfig = {
         source: '/lp-testing/:path*',
         headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow' }],
       },
+      // The two single-product ad pages stay out of Google (12 Nov 2026). The
+      // main site already has its own pages for these compounds, and two of our
+      // own pages competing for the same search is the one thing we don't want.
+      // Google Ads does not read this, so the ads are unaffected.
+      {
+        source: '/lp/glutathione-1500mg',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }],
+      },
+      {
+        source: '/lp/nad-plus',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }],
+      },
       {
         source: '/lp/thank-you',
         headers: [

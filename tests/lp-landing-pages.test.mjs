@@ -111,6 +111,19 @@ test('the single-product pages do not promise cash on delivery', () => {
   }
 });
 
+test('the single-product pages report one page view per page, not one per re-render', () => {
+  // The router runs again when the live catalog arrives and when language or
+  // currency changes. Each run used to push its own page_view_virtual, so
+  // Analytics counted two or three views for one visit (12 Nov 2026).
+  for (const page of NEW_AD_PAGES) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
+    const pushes = html.match(/dataLayer\.push\(\{ event: "page_view_virtual"/g) || [];
+    assert.equal(pushes.length, 1, `${page}: one place reports a page view`);
+    assert.match(html, /if \(path === _pvPath && now - _pvAt < 2000\) return;/, `${page}: a repeat of the same path is dropped`);
+    assert.equal((html.match(/pageView\(k\);/g) || []).length, 2, `${page}: both routers go through it`);
+  }
+});
+
 test('the NAD+ page opens on its 1000 mg vial, the size the page recommends', () => {
   // Marketing, 6 Nov 2026: "default size 1000 mg, not 500". The shared product
   // list takes its default sizes from the live catalog feed, so this one is the
@@ -146,6 +159,11 @@ test('next.config.mjs keeps /lp on the lead page and adds /lp/metabolic-research
     assert.match(config, new RegExp(`source: '/lp-testing/${slug}',\\s*destination: '/lp/${slug}',\\s*permanent: false`), `old QA link of ${slug} follows the page`);
   }
   assert.match(config, /source: '\/lp-testing\/:path\*',\s*headers: \[\{ key: 'X-Robots-Tag', value: 'noindex, nofollow' \}\]/, 'preview is not indexed');
+  // The main site has its own glutathione and NAD+ pages; these ad pages must
+  // not compete with them in Google (12 Nov 2026).
+  for (const slug of ['glutathione-1500mg', 'nad-plus']) {
+    assert.match(config, new RegExp(`source: '/lp/${slug}',\\s*headers: \\[\\{ key: 'X-Robots-Tag', value: 'noindex, follow' \\}\\]`), `${slug} stays out of Google`);
+  }
 });
 
 test('live landing-page catalog endpoint hides administratively hidden products', () => {
