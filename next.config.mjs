@@ -78,6 +78,19 @@ const nextConfig = {
         destination: '/lp/metabolic-research-compound',
         permanent: false,
       },
+      // The two single-product pages were approved on 12 Nov 2026, so their
+      // preview addresses are gone. The QA links already shared keep working
+      // by landing on the real page, which is also what the ads use.
+      {
+        source: '/lp-testing/glutathione-1500mg',
+        destination: '/lp/glutathione-1500mg',
+        permanent: false,
+      },
+      {
+        source: '/lp-testing/nad-plus',
+        destination: '/lp/nad-plus',
+        permanent: false,
+      },
     ];
   },
 
@@ -112,16 +125,6 @@ const nextConfig = {
       {
         source: '/lp-testing/bac-water',
         destination: '/lp/bac-water/index.html',
-      },
-      // The single-product pages (marketing, 11 Nov 2026): one page each for
-      // the two compounds Google Ads allows by name.
-      {
-        source: '/lp-testing/glutathione-1500mg',
-        destination: '/lp/glutathione-1500mg/index.html',
-      },
-      {
-        source: '/lp-testing/nad-plus',
-        destination: '/lp/nad-plus/index.html',
       },
       // Their real addresses, for the ads once approved (tracking on). Vercel
       // happens to serve a folder's index.html, but `next dev`/`next start` do

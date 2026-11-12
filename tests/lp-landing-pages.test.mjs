@@ -137,9 +137,13 @@ test('next.config.mjs keeps /lp on the lead page and adds /lp/metabolic-research
   assert.match(config, /source: '\/lp-testing\/glp-1',\s*destination: '\/lp-testing\/metabolic-research-compound',\s*permanent: false/, 'old QA link follows the page');
   assert.equal(fs.existsSync(path.join(rootDir, 'public/lp/glp-1')), false, 'no page left at a GLP address');
   assert.match(config, /source: '\/lp-testing\/bac-water',\s*destination: '\/lp\/bac-water\/index\.html'/, 'QA preview of bac-water');
+  // The single-product pages were approved on 12 Nov 2026: they have no
+  // preview address any more, and the QA links already shared redirect to the
+  // real page rather than 404.
   for (const slug of ['glutathione-1500mg', 'nad-plus']) {
-    assert.match(config, new RegExp(`source: '/lp-testing/${slug}',\\s*destination: '/lp/${slug}/index\\.html'`), `QA preview of ${slug}`);
     assert.match(config, new RegExp(`source: '/lp/${slug}',\\s*destination: '/lp/${slug}/index\\.html'`), `real address of ${slug}`);
+    assert.doesNotMatch(config, new RegExp(`source: '/lp-testing/${slug}',\\s*destination: '/lp/${slug}/index\\.html'`), `no preview left for ${slug}`);
+    assert.match(config, new RegExp(`source: '/lp-testing/${slug}',\\s*destination: '/lp/${slug}',\\s*permanent: false`), `old QA link of ${slug} follows the page`);
   }
   assert.match(config, /source: '\/lp-testing\/:path\*',\s*headers: \[\{ key: 'X-Robots-Tag', value: 'noindex, nofollow' \}\]/, 'preview is not indexed');
 });
