@@ -330,3 +330,17 @@
    specificity. */
 .pcr-site .ms,
 .pcr-site .ctile-go { text-transform: none; }
+/* CMS articles: visible answer and FAQ blocks also back their structured data. */
+.pcr-site .cms-answer-summary {
+  margin: 0 0 28px;
+  padding: 18px 20px;
+  border-left: 4px solid #00a884;
+  border-radius: 10px;
+  background: #eefbf7;
+}
+.pcr-site .cms-answer-summary strong { color: #08765f; }
+.pcr-site .cms-answer-summary p { margin: 6px 0 0; }
+.pcr-site .cms-article-faq { margin-top: 36px; }
+.pcr-site .cms-article-faq details { padding: 14px 0; border-top: 1px solid #dce7e3; }
+.pcr-site .cms-article-faq summary { cursor: pointer; font-weight: 700; }
+.pcr-site .cms-article-faq details p { margin: 10px 0 0; }

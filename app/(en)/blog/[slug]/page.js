@@ -8,9 +8,10 @@ import { byEnglishSlug, englishParams } from '@/content/pages/posts';
 import { alternates } from '@/lib/routes';
 import { metaTitle } from '@/lib/page-title';
 import { metadataForPath } from '@/lib/seo';
+import { blogToPage, getPublishedBlogBySlug, metadataForBlog } from '@/lib/blog-cms.mjs';
 
 /** English blog posts at `/blog/<slug>/`. */
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return englishParams();
@@ -18,6 +19,8 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
+  const cmsBlog = await getPublishedBlogBySlug(slug, 'en');
+  if (cmsBlog) return metadataForBlog(cmsBlog, 'en');
   const page = await getPublishedPage(byEnglishSlug(slug));
   if (!page) return {};
   const alt = alternates(page.en);
@@ -31,7 +34,8 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogPostEn({ params }) {
   const { slug } = await params;
-  const page = await getPublishedPage(byEnglishSlug(slug));
+  const cmsBlog = await getPublishedBlogBySlug(slug, 'en');
+  const page = cmsBlog ? blogToPage(cmsBlog) : await getPublishedPage(byEnglishSlug(slug));
   if (!page) notFound();
 
   // The new design's article view, around the live article.

@@ -196,7 +196,7 @@ export function hasNewDesign(page) {
 export default async function PageRoute({ page, lang }) {
   const site = await getSiteData(lang);
   const Template = templateFor(page, site);
-  const alt = alternates(page.en);
+  const alt = page.cms ? { en: page.en, es: page.es } : alternates(page.en);
   const extra = Template === CategoryTemplate ? { categorySlug: categorySlugFor(page.slug) } : {};
   return (
     <SiteShell lang={lang} altHref={lang === 'es' ? alt.en : alt.es}>

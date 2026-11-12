@@ -8,9 +8,10 @@ import { bySpanishSlug, spanishParams } from '@/content/pages/posts';
 import { alternates } from '@/lib/routes';
 import { metaTitle } from '@/lib/page-title';
 import { metadataForPath } from '@/lib/seo';
+import { blogToPage, getPublishedBlogBySlug, metadataForBlog } from '@/lib/blog-cms.mjs';
 
 /** Spanish blog posts. The `/blog/` segment is kept but the post slug is translated. */
-export const dynamicParams = false;
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return spanishParams();
@@ -18,6 +19,8 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
+  const cmsBlog = await getPublishedBlogBySlug(slug, 'es');
+  if (cmsBlog) return metadataForBlog(cmsBlog, 'es');
   const page = await getPublishedPage(bySpanishSlug(slug));
   if (!page) return {};
   const alt = alternates(page.en);
@@ -31,7 +34,8 @@ export async function generateMetadata({ params }) {
 
 export default async function BlogPostEs({ params }) {
   const { slug } = await params;
-  const page = await getPublishedPage(bySpanishSlug(slug));
+  const cmsBlog = await getPublishedBlogBySlug(slug, 'es');
+  const page = cmsBlog ? blogToPage(cmsBlog) : await getPublishedPage(bySpanishSlug(slug));
   if (!page) notFound();
 
   // The new design's article view, around the live article.

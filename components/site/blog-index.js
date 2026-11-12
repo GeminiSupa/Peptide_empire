@@ -3,9 +3,9 @@ import Ms from '@/components/storefront/icon';
 import ListFilter from '@/components/site/list-filter';
 import { posts } from '@/content/pages/posts';
 import { mixingGuides } from '@/content/pages/mixing-guides';
-import { pathHref } from '@/lib/site/links.mjs';
 import { translator } from '@/lib/storefront/i18n.mjs';
 import Breadcrumbs from '@/components/site/breadcrumbs';
+import { blogToPage, getPublishedBlogs } from '@/lib/blog-cms.mjs';
 
 /** What each listing page lists: the same sources the live pages list. */
 export const LISTINGS = {
@@ -16,17 +16,19 @@ export const LISTINGS = {
 /** One listed article, for the index and the "keep reading" row. */
 export function listed(page, lang) {
   const title = page.head?.[`title_${lang}`] || page.head?.title_en || '';
-  return { en: page.en, title: title.replace(/\s*[|–-]\s*P[ée]ptid(e|o)s Costa Rica\s*$/i, '').trim() };
+  return { en: page.en, es: page.es, href: (lang === 'es' ? page.es : page.en) || page.en, title: title.replace(/\s*[|–-]\s*P[ée]ptid(e|o)s Costa Rica\s*$/i, '').trim() };
 }
 
 /**
  * The prototype's blog index (`PAGES.blog`): hero with search, the newest
  * article featured, then every article. Each card links the live article URL.
  */
-export default function BlogIndex({ lang, site, page, h1 }) {
+export default async function BlogIndex({ lang, site, page, h1 }) {
   const t = translator(lang);
   const listing = LISTINGS[page.en];
-  const items = listing.pages().map((entry) => listed(entry, lang)).filter((entry) => entry.title);
+  const cmsPages = page.en === '/blog/' ? (await getPublishedBlogs()).map(blogToPage).filter(Boolean) : [];
+  const merged = [...cmsPages, ...listing.pages()].filter((entry, index, all) => all.findIndex((other) => other.en === entry.en) === index);
+  const items = merged.map((entry) => listed(entry, lang)).filter((entry) => entry.title);
   const [first, ...rest] = items;
 
   return (
@@ -47,7 +49,7 @@ export default function BlogIndex({ lang, site, page, h1 }) {
       <section className="pb">
         <div className="wrap">
           {first ? (
-            <Link className="feat-post" href={pathHref(first.en, lang)}>
+            <Link className="feat-post" href={first.href}>
               <div className="pimg big"><Ms name="article" /><em>{t('Featured')}</em></div>
               <div>
                 <small>{t(listing.label)}</small>
@@ -58,7 +60,7 @@ export default function BlogIndex({ lang, site, page, h1 }) {
           ) : null}
           <div className="posts" id="postGrid">
             {rest.map((entry) => (
-              <Link className="post" href={pathHref(entry.en, lang)} key={entry.en}>
+              <Link className="post" href={entry.href} key={entry.en}>
                 <div className="pimg"><Ms name="article" /></div>
                 <small>{t(listing.label)}</small>
                 <b>{entry.title}</b>

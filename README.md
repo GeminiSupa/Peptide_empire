@@ -78,6 +78,17 @@ orders to the catalog's `/api/orders/create`. Current decisions are under
 **The blog is CMS-backed** (Supabase), per `docs/data-model.md` — not MDX files,
 not headless WordPress.
 
+The working editor is Admin → CMS → Blog on the `catalog` app. It writes the
+shared `blogs` table; this website reads published rows every 30 seconds and
+merges them above the harvested WordPress articles. English uses `/blog/<slug>/`
+and Spanish uses `/es/blog/<slug_es>/`. This website owns the canonical URL,
+metadata, BlogPosting/FAQ structured data and sitemap entries; the catalog's
+copy canonicalises here so the two sites do not compete in search. The extra
+fields require `add-blog-seo-fields.sql` from the `catalog` branch. Existing
+blog rows still render if that migration has not run, but the enhanced editor
+must not deploy before it. No extra env var is needed because both apps already
+use the same Supabase URL and anon key.
+
 ## Open: the WordPress handover
 
 The live WordPress is maintained by a different developer. What to request from

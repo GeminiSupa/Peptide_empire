@@ -9,7 +9,7 @@ import Breadcrumbs from '@/components/site/breadcrumbs';
 import JsonLd from '@/components/site/json-ld';
 import { SITE_URL } from '@/lib/indexing';
 import { seoForPath } from '@/lib/seo';
-import { articleNode } from '@/lib/site/structured-data.mjs';
+import { articleNode, faqNode } from '@/lib/site/structured-data.mjs';
 import ARTICLE_DATES from '@/data/site/article-dates.json';
 
 /**
@@ -86,7 +86,11 @@ export default function PostPage({ lang, site, page, h1, related = [], section }
   const lead = prods[0];
   const url = (lang === 'es' ? page.es : page.en) || page.en;
   const seo = seoForPath(url) || seoForPath(page.en);
-  const firstImage = parts.html.match(/<img[^>]+src="([^"]+)"/)?.[1];
+  const firstImage = page.cms?.image || parts.html.match(/<img[^>]+src="([^"]+)"/)?.[1];
+  const summary = page.cms?.[`summary_${lang}`];
+  const faqs = page.cms?.[`faq_${lang}`] || [];
+  const description = page.cms ? page.head?.[`description_${lang}`] : seo?.description;
+  const dates = page.cms ? { published: page.cms.published, modified: page.cms.modified } : ARTICLE_DATES[page.en];
 
   return (
     <>
@@ -95,12 +99,12 @@ export default function PostPage({ lang, site, page, h1, related = [], section }
           base: SITE_URL,
           url,
           headline: title,
-          description: seo?.description,
+          description,
           image: seo?.openGraph?.['og:image'] || firstImage,
           lang,
-          section: t(section.label),
-          dates: ARTICLE_DATES[page.en],
-        })]}
+          section: page.cms?.category || t(section.label),
+          dates,
+        }), faqNode({ base: SITE_URL, url, lists: [faqs.map((entry) => [entry.question, entry.answer])] })]}
       />
       <ReadingProgress />
       <article className="article">
@@ -111,12 +115,12 @@ export default function PostPage({ lang, site, page, h1, related = [], section }
             items={[{ name: t('Home'), href: links.home }, { name: t(section.label), href: section.href }, { name: title }]}
           />
           <header className="ahead">
-            <small className="acat">{t(section.label)}</small>
+            <small className="acat">{page.cms?.category || t(section.label)}</small>
             <h1>{title}</h1>
             <div className="byl">
               <span className="av">PC</span>
               <div>
-                <b>Peptides Costa Rica</b>
+                <b>{page.cms?.author || 'Peptides Costa Rica'}</b>
                 <small>{t(`${parts.minutes} min read`)}</small>
               </div>
             </div>
@@ -142,6 +146,7 @@ export default function PostPage({ lang, site, page, h1, related = [], section }
               ) : null}
             </aside>
             <div className="abody prose">
+              {summary ? <div className="cms-answer-summary"><strong>{lang === 'es' ? 'Respuesta rápida' : 'Quick answer'}</strong><p>{summary}</p></div> : null}
               {/* eslint-disable-next-line react/no-danger -- sanitised at harvest time */}
               <div className="pcr-article" lang={lang} dangerouslySetInnerHTML={{ __html: parts.html }} />
               <div className="midcta">
@@ -153,6 +158,7 @@ export default function PostPage({ lang, site, page, h1, related = [], section }
                 <Link className="btn sm" href={lead ? lead.href : links.catalog}>{t('Shop now')}</Link>
               </div>
               <p className="disc">{t('For laboratory research only. This article is educational and is not medical advice. We don\'t provide dosing or treatment guidance.')}</p>
+              {faqs.length ? <section className="cms-article-faq"><h2>{lang === 'es' ? 'Preguntas frecuentes' : 'Frequently asked questions'}</h2>{faqs.map((entry) => <details key={entry.question}><summary>{entry.question}</summary><p>{entry.answer}</p></details>)}</section> : null}
             </div>
           </div>
         </div>
@@ -173,7 +179,7 @@ export default function PostPage({ lang, site, page, h1, related = [], section }
             <div className="hh"><h2>{t('Keep reading')}</h2></div>
             <div className="posts">
               {related.map((post) => (
-                <Link className="post" href={pathHref(post.en, lang)} key={post.en}>
+                <Link className="post" href={post.href || pathHref(post.en, lang)} key={post.en}>
                   <div className="pimg"><Ms name="article" /></div>
                   <small>{t(section.label)}</small>
                   <b>{post.title}</b>
