@@ -6137,8 +6137,8 @@ export default function CatalogPage() {
                   <div className="card-payment-fields">
                     <p className="card-payment-security-note">
                       {lang === 'en'
-                        ? 'The next page is Chargex, our card processor. You enter the card there. We never see the card number.'
-                        : 'La siguiente página es Chargex, nuestro procesador de tarjetas. Ahí escribe la tarjeta. Nosotros nunca vemos el número.'}
+                        ? 'The next page is our card processor. You enter the card there. We never see the card number.'
+                        : 'La siguiente página es la de nuestro procesador de tarjetas. Ahí escribe la tarjeta. Nosotros nunca vemos el número.'}
                     </p>
                   </div>
                   <p className="card-payment-fee-note">
@@ -6156,8 +6156,8 @@ export default function CatalogPage() {
                       <ul className="card-payment-statement-notice__list">
                         <li>
                           {lang === 'en'
-                            ? <>The card is charged in <strong>US dollars</strong> by Chargex. Your order stays with us in Costa Rica.</>
-                            : <>La tarjeta se cobra en <strong>dólares</strong> a través de Chargex. Tu pedido sigue con nosotros en Costa Rica.</>}
+                            ? <>The card is charged in <strong>US dollars</strong> by our card processor. Your order stays with us in Costa Rica.</>
+                            : <>La tarjeta se cobra en <strong>dólares</strong> a través de nuestro procesador de tarjetas. Tu pedido sigue con nosotros en Costa Rica.</>}
                         </li>
                         <li>
                           {lang === 'en'
@@ -6276,11 +6276,11 @@ export default function CatalogPage() {
                     <p className="card-payment-security-note">
                       {paymentMethod === 'ach'
                         ? (lang === 'en'
-                          ? 'The next page is Chargex, our payment processor. You enter your US bank account details there. We never see them.'
-                          : 'La siguiente página es Chargex, nuestro procesador de pagos. Ahí escribe los datos de su cuenta bancaria de EE. UU. Nosotros nunca los vemos.')
+                          ? 'The next page is our payment processor. You enter your US bank account details there. We never see them.'
+                          : 'La siguiente página es la de nuestro procesador de pagos. Ahí escribe los datos de su cuenta bancaria de EE. UU. Nosotros nunca los vemos.')
                         : (lang === 'en'
-                          ? 'The next page is Chargex, our payment processor. You send the crypto payment from there. We never handle your wallet.'
-                          : 'La siguiente página es Chargex, nuestro procesador de pagos. Desde ahí envía el pago en cripto. Nosotros nunca manejamos su billetera.')}
+                          ? 'The next page is our payment processor. You send the crypto payment from there. We never handle your wallet.'
+                          : 'La siguiente página es la de nuestro procesador de pagos. Desde ahí envía el pago en cripto. Nosotros nunca manejamos su billetera.')}
                     </p>
                   </div>
                   <p className="card-payment-fee-note">
@@ -6290,8 +6290,8 @@ export default function CatalogPage() {
                         ? 'Bank payments can take a few business days to confirm. ACH is for US bank accounts only.'
                         : 'Los pagos bancarios pueden tardar unos días hábiles en confirmarse. ACH es solo para cuentas bancarias de EE. UU.')
                       : (lang === 'en'
-                        ? 'Your total is priced in US dollars. Chargex shows you what to send on the next page.'
-                        : 'Su total está en dólares estadounidenses. Chargex le muestra qué enviar en la siguiente página.')}
+                        ? 'Your total is priced in US dollars. The next page shows you what to send.'
+                        : 'Su total está en dólares estadounidenses. La siguiente página le muestra qué enviar.')}
                   </p>
                 </div>
                 <div className="cart-sticky-submit">

@@ -1,6 +1,6 @@
 import { NextResponse, after } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
-import { isChargxConfigured, createChargxCardCheckout, withChargxCheckoutDetails, normalizeChargxPaymentType } from '@/lib/chargxPay.mjs';
+import { isChargxConfigured, createChargxCardCheckout, withChargxCheckoutDetails, normalizeChargxPaymentType, gatewayLabelForPaymentType } from '@/lib/chargxPay.mjs';
 import { claimOrderForPayment, releaseOrderClaim, describeOrderPaymentState } from '@/lib/cardPaymentLock';
 import { classifyPaymentOutcome, declineReasonFrom, gatewayStatusToOrderStatus, ORDER_STATUS } from '@/lib/paymentOutcome.mjs';
 import { sendCardHandoffReceipt, sendPaymentResultEmails } from '@/lib/paymentResultEmail.mjs';
@@ -58,7 +58,7 @@ async function updateOrderStatus(orderNumber, status, transaction, orderContact 
     const patch = withPaymentStatusActivity(
       existingOrder,
       buildPaymentPatch(status, transaction),
-      { by: transaction?.free_order ? 'Checkout' : 'Chargex' },
+      { by: transaction?.free_order ? 'Checkout' : (transaction?.descriptor_text || 'Chargex') },
     );
     const { error } = await supabase
       .from('orders')
@@ -142,10 +142,12 @@ export async function POST(req) {
     }
 
     // Checked after the body is read so the customer is answered in their own
-    // language rather than a default one.
-    if (!isChargxConfigured()) {
+    // language rather than a default one — and for the gateway this payment
+    // type actually goes to, which is not the same store for card and ACH.
+    const payType = normalizeChargxPaymentType(body?.payType);
+    if (!isChargxConfigured('live', payType)) {
       return stopCheckout('unavailable', customerLang, 500,
-        'Chargex credentials are not configured');
+        `${gatewayLabelForPaymentType(payType)} credentials are not configured`);
     }
 
     const {
@@ -271,9 +273,10 @@ export async function POST(req) {
       transaction = { id: null, status: 'Approved', descriptor_text: 'No charge ($0 order)', free_order: true };
     } else {
       try {
-        // card (default), ach or crypto. The order itself stays a Chargex order
-        // either way, so the webhook, stock and receipts below need no change.
-        const payType = normalizeChargxPaymentType(body?.payType);
+        // payType (card by default, or ach or crypto) was read with the other
+        // checks above. It also decides the gateway (CARD_GATEWAY /
+        // ACH_GATEWAY), and both gateways answer the same webhook, so the
+        // stock and receipts below need no change either way.
         const page = await createChargxCardCheckout({
           amount: formattedAmount,
           type: payType,
@@ -282,7 +285,7 @@ export async function POST(req) {
         });
         transaction = {
           ...page,
-          descriptor_text: 'Chargex',
+          descriptor_text: page.gateway_label || 'Chargex',
           redirect_url: withChargxCheckoutDetails(page.redirect_url, {
             orderNumber,
             email: customerEmail,

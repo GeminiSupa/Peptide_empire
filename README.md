@@ -137,9 +137,18 @@ Judge every change against those two rules.
   which re-prices every order and is the only thing that decides what is
   charged. It accepts browser orders only from a `peptidescostarica.net` host
   (apex or any subdomain), so the main domain can take orders.
-- Card / ACH / crypto payment continues on the catalog's `/pay-card` (ChargX);
-  SINPE and bank transfer on the catalog's `/pay-bank`; ChargX's webhook calls
-  the catalog.
+- Card / ACH / crypto payment continues on the catalog's `/pay-card`;
+  SINPE and bank transfer on the catalog's `/pay-bank`; the gateway's webhook
+  calls the catalog.
+- **Two card gateways since 12 Nov 2026.** Givver and ChargX are the same
+  platform with different stores and rates, so the catalog picks one per
+  payment type: `CARD_GATEWAY=givver` takes card and crypto (11% instead of
+  12%), `ACH_GATEWAY=chargx` keeps bank transfer where it works, because
+  Givver has not turned ACH on yet. Dropping `ACH_GATEWAY` moves everything
+  to Givver; setting neither keeps everything on ChargX. Both webhooks land in
+  one handler (`/api/chargx/webhook`, also served at `/api/givver/webhook`),
+  and each order's Descriptor says which store took it — that is where a
+  refund has to be made.
 - Still fetched from the catalog by the website: the deal of the week, the
   exchange rate, visitor analytics, lead forms, and the relayed CRM endpoints
   (promo validation, abandoned-cart save/clear, newsletter, referral scans,
@@ -170,6 +179,12 @@ on the website (its `/thank-you/` is the WhatsApp one).
 - **Catalog Vercel project (`peptidecosta`):** 105 production variables. Most
   are marked **Sensitive**: Vercel never shows or downloads their values, so
   they cannot be copied project-to-project from the dashboard.
+- **Givver (12 Nov 2026), catalog project:** `CARD_GATEWAY=givver`,
+  `ACH_GATEWAY=chargx`, `GIVVER_PUBLISHABLE_API_KEY`,
+  `GIVVER_WEBHOOK_SECRET` (shown once when the webhook is created in Givver →
+  Settings → Webhooks), optionally `GIVVER_TEST_PUBLISHABLE_API_KEY` and
+  `GIVVER_API_BASE_URL`. The ChargX names stay as they are: bank transfer
+  still uses them, and so does the admin sandbox test tool.
 - **Local files (gitignored):**
   - `peptidecosta/.env.local` — the owner's working copy (63 names).
   - `peptidecosta/.env.production.local` — merged 9 Nov from Vercel + the
@@ -234,6 +249,23 @@ Owner (Omer) to do or decide:
    `feat/related-products-website` (main); push in either order, nothing
    changes until a product is set. No migration. Not covered: the catalog's
    own cart "You might also like" and the website cart's suggestions.
+10. Givver on the catalog (12 Nov 2026, branch `feat/givver-gateway`). Done
+    already: the Givver webhook ("Catalog payment notifications",
+    `https://catalog.peptidescostarica.net/api/givver/webhook`,
+    payment.succeeded + payment.failed, enabled), and all four variables in
+    the catalog's Vercel project (Production) and in `peptidecosta/.env.local`
+    and `.env.production.local`. They do nothing until this branch is merged
+    into `catalog` and pushed, because the deployed code does not read them.
+    Checked against the live store: card and crypto pages open, ACH says
+    "payments are unavailable" (hence `ACH_GATEWAY=chargx`), and our own
+    `createChargxCardCheckout` produced a Givver page with the real key.
+    After pushing: use Givver → Settings → Webhooks → Edit → **Send test
+    event** to prove the endpoint answers, then check a first real card order
+    reads "Givver" as its Descriptor in the admin order panel. Not covered:
+    no real payment yet, and the website's synced copy of the checkout
+    (`scripts/sync-catalog-checkout.mjs` on `main` must be re-run, and the new
+    `src/app/api/givver/webhook/route.js` added to its file list) — only
+    matters once the website's own checkout is switched on.
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a

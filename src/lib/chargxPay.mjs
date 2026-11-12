@@ -1,15 +1,73 @@
 import crypto from 'crypto';
 
-const CHARGX_BASE_URL = process.env.CHARGX_API_BASE_URL || 'https://api.chargx.io';
+/**
+ * Two gateways, one API.
+ *
+ * Givver (Nov 2026) is the same platform as Chargex — same endpoints, same
+ * key header, same hosted payment form, same webhook signature — with its own
+ * store, its own keys and a lower card rate. So nothing here is rewritten per
+ * gateway: a payment only has to go to the right store.
+ *
+ * `CARD_GATEWAY` picks the store for card and crypto, `ACH_GATEWAY` the one
+ * for bank transfer. ACH falls back to the card gateway, so the day Givver
+ * turns bank transfer on, dropping `ACH_GATEWAY` sends everything to Givver.
+ * Both unset keeps every payment on Chargex, as before.
+ */
+export const PAYMENT_GATEWAY_IDS = ['chargx', 'givver'];
 
-function publishableKey(mode = 'live') {
-  return mode === 'test'
-    ? process.env.CHARGX_TEST_PUBLISHABLE_API_KEY
-    : process.env.CHARGX_PUBLISHABLE_API_KEY;
+function gatewayConfig(id) {
+  if (id === 'givver') {
+    return {
+      id: 'givver',
+      label: 'Givver',
+      baseUrl: process.env.GIVVER_API_BASE_URL || 'https://api.givver.cards',
+      key: (mode) => (mode === 'test'
+        ? process.env.GIVVER_TEST_PUBLISHABLE_API_KEY
+        : process.env.GIVVER_PUBLISHABLE_API_KEY),
+      webhookSecret: () => process.env.GIVVER_WEBHOOK_SECRET,
+    };
+  }
+  return {
+    id: 'chargx',
+    label: 'Chargex',
+    baseUrl: process.env.CHARGX_API_BASE_URL || 'https://api.chargx.io',
+    key: (mode) => (mode === 'test'
+      ? process.env.CHARGX_TEST_PUBLISHABLE_API_KEY
+      : process.env.CHARGX_PUBLISHABLE_API_KEY),
+    webhookSecret: () => process.env.CHARGX_WEBHOOK_SECRET,
+  };
 }
 
-export function isChargxConfigured(mode = 'live') {
-  return Boolean(publishableKey(mode));
+function namedGateway(value) {
+  const id = String(value || '').trim().toLowerCase();
+  return PAYMENT_GATEWAY_IDS.includes(id) ? id : null;
+}
+
+/** Which store takes this payment type. An unknown name means Chargex. */
+export function gatewayIdForPaymentType(type = 'card') {
+  const cardGateway = namedGateway(process.env.CARD_GATEWAY) || 'chargx';
+  if (normalizeChargxPaymentType(type) === 'ach') {
+    return namedGateway(process.env.ACH_GATEWAY) || cardGateway;
+  }
+  return cardGateway;
+}
+
+/** "Givver" or "Chargex" — what the order, the CRM and the staff see. */
+export function gatewayLabelForPaymentType(type = 'card') {
+  return gatewayConfig(gatewayIdForPaymentType(type)).label;
+}
+
+function publishableKey(mode = 'live', type = 'card') {
+  return gatewayConfig(gatewayIdForPaymentType(type)).key(mode);
+}
+
+export function isChargxConfigured(mode = 'live', type = 'card') {
+  return Boolean(publishableKey(mode, type));
+}
+
+/** One named store, whatever the payment type is pointed at today. */
+export function isGatewayConfigured(gatewayId, mode = 'live') {
+  return Boolean(gatewayConfig(namedGateway(gatewayId) || 'chargx').key(mode));
 }
 
 function parseJson(text) {
@@ -22,11 +80,12 @@ function parseJson(text) {
   }
 }
 
-async function chargxRequest(path, { mode = 'live', method = 'GET', body } = {}) {
-  const key = publishableKey(mode);
-  if (!key) throw new Error('Chargex credentials are not configured');
+async function chargxRequest(path, { mode = 'live', method = 'GET', body, type = 'card', gatewayId } = {}) {
+  const gateway = gatewayConfig(gatewayId || gatewayIdForPaymentType(type));
+  const key = gateway.key(mode);
+  if (!key) throw new Error(`${gateway.label} credentials are not configured`);
 
-  const response = await fetch(`${CHARGX_BASE_URL}${path}`, {
+  const response = await fetch(`${gateway.baseUrl}${path}`, {
     method,
     headers: {
       Accept: 'application/json',
@@ -139,6 +198,9 @@ function billingAddressForChargx(billing = {}, phone = '') {
  * It is not written to the order, and it is not included in the error text.
  *
  * mode 'test' refuses to continue when that key belongs to a live store.
+ *
+ * Chargex only: this is the admin sandbox tool, which charges the Chargex test
+ * store. `CARD_GATEWAY` does not move it, so a live card is never typed here.
  */
 export async function processChargxCardPayment({
   amount,
@@ -147,11 +209,11 @@ export async function processChargxCardPayment({
   billing = {},
   card = {},
 }, { mode = 'live' } = {}) {
-  if (!isChargxConfigured(mode)) {
+  if (!isGatewayConfigured('chargx', mode)) {
     throw new Error('Chargex credentials are not configured');
   }
 
-  const pre = await chargxRequest('/pretransact', { mode });
+  const pre = await chargxRequest('/pretransact', { mode, gatewayId: 'chargx' });
   if (!pre.ok || !pre.data?.cardTokenRequestUrl || !pre.data?.cardTokenRequestParams) {
     throw new Error(`Chargex pretransact failed (${pre.status})`);
   }
@@ -181,6 +243,7 @@ export async function processChargxCardPayment({
 
   const charged = await chargxRequest('/transact', {
     mode,
+    gatewayId: 'chargx',
     method: 'POST',
     body: {
       currency: 'USD',
@@ -215,9 +278,11 @@ export function normalizeChargxPaymentType(value) {
 }
 
 /**
- * Open Chargex's own payment page. This store refuses a card typed on our site.
- * Amount is dollars, as a number. The returned page says whether the key is live.
- * `type` picks card, ach or crypto; the name stays because other code imports it.
+ * Open the gateway's own payment page. The store refuses a card typed on our
+ * site. Amount is dollars, as a number. The returned page says whether the key
+ * is live. `type` picks card, ach or crypto — and with it the gateway, so a
+ * card and a bank transfer can sit on two different stores at the same time.
+ * The name stays because other code imports it.
  */
 export async function createChargxCardCheckout({
   amount,
@@ -225,16 +290,17 @@ export async function createChargxCardCheckout({
   cancelUrl,
   type = 'card',
 }, { mode = 'live' } = {}) {
-  if (!isChargxConfigured(mode)) {
-    throw new Error('Chargex credentials are not configured');
+  const paymentType = normalizeChargxPaymentType(type);
+  const gateway = gatewayConfig(gatewayIdForPaymentType(paymentType));
+  if (!gateway.key(mode)) {
+    throw new Error(`${gateway.label} credentials are not configured`);
   }
 
   const dollars = Number(Number(amount).toFixed(2));
   if (!Number.isFinite(dollars) || dollars <= 0) {
-    throw new Error('Chargex payment amount is not usable');
+    throw new Error(`${gateway.label} payment amount is not usable`);
   }
 
-  const paymentType = normalizeChargxPaymentType(type);
   const body = {
     amount: dollars,
     currency: 'usd',
@@ -243,18 +309,19 @@ export async function createChargxCardCheckout({
   };
   if (cancelUrl) body.cancel_url = cancelUrl;
 
-  let created = await chargxRequest('/v1/payment-request', { mode, method: 'POST', body });
+  const request = { mode, method: 'POST', body, gatewayId: gateway.id };
+  let created = await chargxRequest('/v1/payment-request', request);
   if (!created.ok && cancelUrl && /cancel_url/i.test(String(created.data?.message || ''))) {
     delete body.cancel_url;
-    created = await chargxRequest('/v1/payment-request', { mode, method: 'POST', body });
+    created = await chargxRequest('/v1/payment-request', request);
   }
 
   const page = created.data?.payment_request;
   if (!created.ok || !page?.checkout_url) {
-    throw new Error(created.data?.message || `Chargex payment page failed (${created.status})`);
+    throw new Error(created.data?.message || `${gateway.label} payment page failed (${created.status})`);
   }
   if (mode === 'test' && page.isProduction === true) {
-    throw new Error('Chargex test key belongs to a live store. Refusing the charge.');
+    throw new Error(`${gateway.label} test key belongs to a live store. Refusing the charge.`);
   }
 
   return {
@@ -263,6 +330,10 @@ export async function createChargxCardCheckout({
     redirect_url: String(page.checkout_url),
     isProduction: page.isProduction === true,
     payment_type: paymentType,
+    // Which store this payment is on. Written to the order as the descriptor,
+    // so a refund, a dispute or a reconciliation goes to the right dashboard.
+    gateway: gateway.id,
+    gateway_label: gateway.label,
   };
 }
 
@@ -286,6 +357,30 @@ export function withChargxCheckoutDetails(checkoutUrl, {
   if (billing.postal_code) url.searchParams.set('zip-code', String(billing.postal_code));
   url.searchParams.set('country', String(billing.country || 'CR').toUpperCase() === 'USA' ? 'US' : 'CR');
   return url.toString();
+}
+
+/**
+ * Which gateway signed this webhook, by trying every secret we hold.
+ *
+ * Both gateways sign the same way, and both deliver to the same handler, so
+ * the secret that verifies is also the answer to "who is telling us this".
+ * Returns `{ id, label }`, or null when nothing matched.
+ */
+export function gatewayForWebhookSignature({ timestamp, signatureHeader, rawBody }) {
+  for (const id of PAYMENT_GATEWAY_IDS) {
+    const gateway = gatewayConfig(id);
+    const secret = gateway.webhookSecret();
+    if (!secret) continue;
+    if (verifyChargxWebhookSignature({ secret, timestamp, signatureHeader, rawBody })) {
+      return { id: gateway.id, label: gateway.label };
+    }
+  }
+  return null;
+}
+
+/** The gateways whose webhook secret is set, for "verification unavailable". */
+export function webhookGatewayIds() {
+  return PAYMENT_GATEWAY_IDS.filter((id) => Boolean(gatewayConfig(id).webhookSecret()));
 }
 
 /** HMAC of `{timestamp}.{rawBody}`, matching the Chargex webhook signature header. */

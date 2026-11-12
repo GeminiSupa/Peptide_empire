@@ -5,7 +5,7 @@ import {
   getPublicBaseUrl,
   verifyCardPaymentAccessToken,
 } from '@/lib/cardPaymentLink';
-import { isChargxConfigured, createChargxCardCheckout, normalizeChargxPaymentType, withChargxCheckoutDetails } from '@/lib/chargxPay.mjs';
+import { isChargxConfigured, createChargxCardCheckout, normalizeChargxPaymentType, withChargxCheckoutDetails, gatewayLabelForPaymentType } from '@/lib/chargxPay.mjs';
 import { claimOrderForPayment, releaseOrderClaim, describeOrderPaymentState } from '@/lib/cardPaymentLock';
 import { markActiveAbandonedCartsConvertedForOrder } from '@/lib/abandonedCartRecovery.mjs';
 import { classifyPaymentOutcome, declineReasonFrom, gatewayStatusToOrderStatus, ORDER_STATUS } from '@/lib/paymentOutcome.mjs';
@@ -56,7 +56,7 @@ export async function POST(request) {
   try {
     const body = await request.json();
     const { orderNumber, token, customerEmail, lang = 'es' } = body;
-    // card (default), ach or crypto: which Chargex page to open, exactly as
+    // card (default), ach or crypto: which gateway page to open, exactly as
     // /api/chargx/process-card takes it from the catalog checkout. The order
     // stays a card order either way, so the claim below still allows only
     // one payment at a time.
@@ -72,8 +72,9 @@ export async function POST(request) {
     }
 
     // Checked after the body is read so the reply is in their language.
-    if (!isChargxConfigured()) {
-      return stopPayment('unavailable', customerLang, 500, 'Chargex credentials are not configured');
+    if (!isChargxConfigured('live', payType)) {
+      return stopPayment('unavailable', customerLang, 500,
+        `${gatewayLabelForPaymentType(payType)} credentials are not configured`);
     }
 
     if (!orderNumber || !token) {
@@ -144,7 +145,7 @@ export async function POST(request) {
       });
       transaction = {
         ...page,
-        descriptor_text: 'Chargex',
+        descriptor_text: page.gateway_label || 'Chargex',
         redirect_url: withChargxCheckoutDetails(page.redirect_url, {
           orderNumber: order.order_number,
           email,
@@ -163,7 +164,7 @@ export async function POST(request) {
     const patch = withPaymentStatusActivity(
       order,
       buildPaymentPatch(orderStatus, transaction, email),
-      { by: 'Chargex' },
+      { by: transaction?.descriptor_text || 'Chargex' },
     );
     const { error: updateError } = await supabase
       .from('orders')
@@ -200,7 +201,7 @@ export async function POST(request) {
       await supabase.from('admin_notifications').insert({
         type: 'payment_received',
         title: `Card payment approved: ${order.order_number}`,
-        body: `Chargex approved transaction ${transaction?.id || ''}. Verify the amount before fulfilling.`,
+        body: `${transaction?.descriptor_text || 'The gateway'} approved transaction ${transaction?.id || ''}. Verify the amount before fulfilling.`,
         link_tab: 'orders',
         link_ref: order.order_number,
       });

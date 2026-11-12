@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
-import { isChargxConfigured, normalizeCardHolderName, processChargxCardPayment } from '@/lib/chargxPay.mjs';
+import { isGatewayConfigured, normalizeCardHolderName, processChargxCardPayment } from '@/lib/chargxPay.mjs';
 import { claimOrderForPayment, releaseOrderClaim, describeOrderPaymentState } from '@/lib/cardPaymentLock';
 import { getPublicSiteUrl } from '@/lib/publicUrl';
 import { classifyPaymentOutcome, declineReasonFrom, gatewayStatusToOrderStatus } from '@/lib/paymentOutcome.mjs';
@@ -101,7 +101,7 @@ export async function POST(request) {
   if (auth.error) return auth.error;
 
   try {
-    if (!isChargxConfigured('test')) {
+    if (!isGatewayConfigured('chargx', 'test')) {
       return NextResponse.json(
         { error: 'Sandbox credentials are not configured (CHARGX_TEST_PUBLISHABLE_API_KEY).' },
         { status: 500 },

@@ -13,7 +13,7 @@ import { classifyPaymentOutcome, declineReasonFrom, gatewayStatusToOrderStatus, 
 import { cardCheckoutMessage } from '../src/lib/cardCheckoutMessages.mjs';
 import { isFreeCardOrder, hasNothingToPay } from '../src/lib/freeOrder.mjs';
 import { withPaymentStatusActivity } from '../src/lib/paymentStatusActivity.mjs';
-import { normalizeChargxPaymentType } from '../src/lib/chargxPay.mjs';
+import { normalizeChargxPaymentType, gatewayLabelForPaymentType } from '../src/lib/chargxPay.mjs';
 
 const person = {
   customer_name: 'Test Buyer', customer_phone: '+50688888888',
@@ -42,6 +42,7 @@ function loadRoute() {
     createChargxCardCheckout: async (args) => { calls.gateway.push(args); return { id: 'tx1', status: 'Redirect', redirect_url: 'https://pay.test/x' }; },
     withChargxCheckoutDetails: (url) => url,
     normalizeChargxPaymentType,
+    gatewayLabelForPaymentType,
     claimOrderForPayment: async () => ({ claimed: true, order: row }),
     releaseOrderClaim: async (_s, number) => { calls.released.push(number); },
     describeOrderPaymentState: async () => 'processing',
