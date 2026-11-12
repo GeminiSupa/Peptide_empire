@@ -285,6 +285,7 @@ ON CONFLICT (id) DO NOTHING;
 CREATE TABLE IF NOT EXISTS public.blogs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     slug TEXT UNIQUE NOT NULL,
+    slug_es TEXT,
     title_en TEXT NOT NULL,
     title_es TEXT NOT NULL,
     excerpt_en TEXT,
@@ -292,10 +293,27 @@ CREATE TABLE IF NOT EXISTS public.blogs (
     content_en TEXT,
     content_es TEXT,
     image_url TEXT,
+    seo_title_en TEXT,
+    seo_title_es TEXT,
+    seo_description_en TEXT,
+    seo_description_es TEXT,
+    focus_keyword_en TEXT,
+    focus_keyword_es TEXT,
+    ai_summary_en TEXT,
+    ai_summary_es TEXT,
+    author_name TEXT DEFAULT 'Peptides Costa Rica',
+    category TEXT DEFAULT 'Research journal',
+    tags TEXT[] DEFAULT '{}',
+    faq_en JSONB DEFAULT '[]'::jsonb,
+    faq_es JSONB DEFAULT '[]'::jsonb,
     published BOOLEAN DEFAULT false,
+    published_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ DEFAULT now(),
     updated_at TIMESTAMPTZ DEFAULT now()
 );
+
+CREATE UNIQUE INDEX IF NOT EXISTS blogs_slug_es_unique
+ON public.blogs (slug_es) WHERE slug_es IS NOT NULL AND slug_es <> '';
 
 -- Enable RLS
 ALTER TABLE public.blogs ENABLE ROW LEVEL SECURITY;

@@ -101,6 +101,8 @@ import {
 } from '@/lib/landingContent';
 import dynamic from 'next/dynamic';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import BlogEditorModal from '@/components/admin/BlogEditorModal';
+import { blogPayload, emptyBlog } from '@/lib/blogCms.mjs';
 
 // Keep this in sync with the admin upload endpoints and the product-pics
 // bucket. Checking in the browser gives staff an answer before any upload is
@@ -5495,17 +5497,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
     if (isSupabaseConfigured && supabase) {
       try {
         const isNew = !editingBlog.id;
-        const payload = {
-          slug: editingBlog.slug,
-          title_en: editingBlog.title_en,
-          title_es: editingBlog.title_es,
-          excerpt_en: editingBlog.excerpt_en,
-          excerpt_es: editingBlog.excerpt_es,
-          content_en: editingBlog.content_en,
-          content_es: editingBlog.content_es,
-          image_url: editingBlog.image_url,
-          published: editingBlog.published
-        };
+        const payload = blogPayload(editingBlog);
         
         let error;
         if (isNew) {
@@ -5519,7 +5511,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
         }
         
         if (error) throw error;
-        setCmsSaveStatus('success:Blog post saved successfully.');
+        setCmsSaveStatus(`success:${payload.published ? 'Article published on both websites.' : 'Draft saved.'}`);
         setEditingBlog(null);
       } catch (err) {
         console.error("Failed to save blog:", err);
@@ -7334,7 +7326,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                   <h3 style={{ fontSize: '1.1rem', color: '#f8fafc', margin: 0 }}>
                     {cmsSectionHeading(<LayoutDashboard size={18} color="#10b981" />, 'Blog posts')}
                   </h3>
-                  <button className="admin-btn admin-btn-accent" onClick={() => setEditingBlog({ slug: '', title_en: '', title_es: '', excerpt_en: '', excerpt_es: '', content_en: '', content_es: '', image_url: '', published: false })}>
+                  <button className="admin-btn admin-btn-accent" onClick={() => setEditingBlog(emptyBlog())}>
                     <Plus size={16} /> New Post
                   </button>
                 </div>
@@ -7352,7 +7344,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                            <div style={{ color: '#94a3b8', fontSize: '0.8rem' }}>/{b.slug} &bull; {b.published ? <span style={{ color: '#4ade80' }}>Published</span> : <span style={{ color: '#f59e0b' }}>Draft</span>}</div>
                          </div>
                          <div style={{ display: 'flex', gap: '8px' }}>
-                           <button onClick={() => setEditingBlog(b)} className="admin-btn" style={{ padding: '6px 10px', fontSize: '0.8rem' }}>Edit</button>
+                           <button onClick={() => setEditingBlog({ ...emptyBlog(), ...b, tags: Array.isArray(b.tags) ? b.tags : [], faq_en: Array.isArray(b.faq_en) ? b.faq_en : [], faq_es: Array.isArray(b.faq_es) ? b.faq_es : [], _slugAuto: false, _slugEsAuto: false })} className="admin-btn" style={{ padding: '6px 10px', fontSize: '0.8rem' }}>Edit</button>
                            <button onClick={() => handleDeleteBlog(b.id)} className="admin-btn" style={{ padding: '6px 10px', fontSize: '0.8rem', color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.2)' }}><Trash2 size={14}/></button>
                          </div>
                        </div>
@@ -8375,143 +8367,15 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
 
       {/* Blog Editor Modal */}
       {editingBlog && (
-        <div className="modal active" onClick={() => setEditingBlog(null)} style={{ zIndex: 200 }}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()} style={{ maxWidth: '800px', width: '90%', maxHeight: '90vh', overflowY: 'auto', background: '#0e1626', color: '#f8fafc' }}>
-            <button className="close-modal" onClick={() => setEditingBlog(null)} style={{ color: '#94a3b8' }}>&times;</button>
-            <h2 style={{ fontSize: '1.3rem', fontWeight: '900', color: '#f8fafc', marginBottom: '20px' }}>{editingBlog.id ? 'Edit Blog Post' : 'New Blog Post'}</h2>
-            
-            <form onSubmit={handleSaveBlog} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              <div style={{ display: 'flex', gap: '16px' }}>
-                <div style={{ flex: 1 }}>
-                  <label style={{ fontSize: '0.75rem', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>Slug (URL path)</label>
-                  <input required type="text" value={editingBlog.slug} onChange={e => setEditingBlog({...editingBlog, slug: e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-')})} placeholder="e.g. what-are-peptides" style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: '#172237', color: '#f8fafc', fontSize: '0.9rem', outline: 'none' }} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <label style={{ fontSize: '0.75rem', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>Cover Image</label>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    <div style={{ display: 'flex', gap: '8px' }}>
-                      <input 
-                        type="text" 
-                        value={editingBlog.image_url} 
-                        onChange={e => setEditingBlog({...editingBlog, image_url: e.target.value})} 
-                        placeholder="Image URL (https://...)" 
-                        style={{ flexGrow: 1, padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: '#172237', color: '#f8fafc', fontSize: '0.9rem', outline: 'none' }} 
-                      />
-                      <input 
-                        type="file"
-                        accept="image/*"
-                        style={{ display: 'none' }}
-                        id="blogImageUpload"
-                        onChange={handleBlogImageUpload}
-                      />
-                      <button 
-                        type="button"
-                        onClick={() => document.getElementById('blogImageUpload').click()}
-                        style={{
-                          padding: '10px 16px',
-                          borderRadius: '8px',
-                          border: '1px solid rgba(255,255,255,0.1)',
-                          background: '#2563eb',
-                          color: '#ffffff',
-                          fontSize: '0.85rem',
-                          fontWeight: '600',
-                          cursor: 'pointer',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          whiteSpace: 'nowrap'
-                        }}
-                      >
-                        <Upload size={14} /> Upload
-                      </button>
-                    </div>
-                    
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      <span style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase', fontWeight: '700' }}>Or select from Bucket:</span>
-                      <select
-                        value={bucketImages.find(img => img.url === editingBlog.image_url)?.url || (editingBlog.image_url ? 'custom' : '')}
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          if (val === 'custom') return;
-                          setEditingBlog({ ...editingBlog, image_url: val });
-                        }}
-                        style={{
-                          flexGrow: 1,
-                          padding: '6px 12px',
-                          borderRadius: '6px',
-                          border: '1px solid rgba(255,255,255,0.1)',
-                          background: '#172237',
-                          color: '#f8fafc',
-                          fontSize: '0.8rem',
-                          outline: 'none',
-                          cursor: 'pointer'
-                        }}
-                      >
-                        <option value="">-- Select from Supabase Bucket --</option>
-                        {editingBlog.image_url && !bucketImages.some(img => img.url === editingBlog.image_url) && (
-                          <option value="custom">Custom / Manually Entered URL</option>
-                        )}
-                        {bucketImages.map((img) => (
-                          <option key={img.name} value={img.url}>
-                            {img.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', gap: '16px' }}>
-                <div style={{ flex: 1 }}>
-                  <label style={{ fontSize: '0.75rem', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>Title (EN)</label>
-                  <input required type="text" value={editingBlog.title_en} onChange={e => setEditingBlog({...editingBlog, title_en: e.target.value})} style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: '#172237', color: '#f8fafc', fontSize: '0.9rem', outline: 'none' }} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <label style={{ fontSize: '0.75rem', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>Title (ES)</label>
-                  <input required type="text" value={editingBlog.title_es} onChange={e => setEditingBlog({...editingBlog, title_es: e.target.value})} style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: '#172237', color: '#f8fafc', fontSize: '0.9rem', outline: 'none' }} />
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', gap: '16px' }}>
-                <div style={{ flex: 1 }}>
-                  <label style={{ fontSize: '0.75rem', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>Excerpt (EN)</label>
-                  <textarea required value={editingBlog.excerpt_en} onChange={e => setEditingBlog({...editingBlog, excerpt_en: e.target.value})} style={{ width: '100%', height: '80px', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: '#172237', color: '#f8fafc', fontSize: '0.9rem', outline: 'none', resize: 'vertical' }} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <label style={{ fontSize: '0.75rem', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>Excerpt (ES)</label>
-                  <textarea required value={editingBlog.excerpt_es} onChange={e => setEditingBlog({...editingBlog, excerpt_es: e.target.value})} style={{ width: '100%', height: '80px', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: '#172237', color: '#f8fafc', fontSize: '0.9rem', outline: 'none', resize: 'vertical' }} />
-                </div>
-              </div>
-
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>Content (EN) - HTML/Markdown</label>
-                <textarea required value={editingBlog.content_en} onChange={e => setEditingBlog({...editingBlog, content_en: e.target.value})} style={{ width: '100%', height: '200px', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: '#172237', color: '#f8fafc', fontSize: '0.9rem', outline: 'none', resize: 'vertical' }} />
-              </div>
-              
-              <div>
-                <label style={{ fontSize: '0.75rem', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', marginBottom: '6px', display: 'block' }}>Content (ES) - HTML/Markdown</label>
-                <textarea required value={editingBlog.content_es} onChange={e => setEditingBlog({...editingBlog, content_es: e.target.value})} style={{ width: '100%', height: '200px', padding: '10px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: '#172237', color: '#f8fafc', fontSize: '0.9rem', outline: 'none', resize: 'vertical' }} />
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '12px' }}>
-                <label style={{ display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer', background: 'rgba(255,255,255,0.05)', padding: '10px 16px', borderRadius: '8px' }}>
-                  <input type="checkbox" checked={editingBlog.published} onChange={e => setEditingBlog({...editingBlog, published: e.target.checked})} style={{ transform: 'scale(1.2)' }} />
-                  <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: editingBlog.published ? '#4ade80' : '#94a3b8' }}>
-                    {editingBlog.published ? 'Published (Live)' : 'Draft (Hidden)'}
-                  </span>
-                </label>
-                
-                <div style={{ display: 'flex', gap: '12px' }}>
-                  <button type="button" className="admin-btn" onClick={() => setEditingBlog(null)}>Cancel</button>
-                  <button type="submit" disabled={cmsSaveLoading} className="admin-btn admin-btn-primary">
-                    {cmsSaveLoading ? 'Saving...' : <><Save size={16} /> Save Blog Post</>}
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
+        <BlogEditorModal
+          blog={editingBlog}
+          setBlog={setEditingBlog}
+          onClose={() => setEditingBlog(null)}
+          onSave={handleSaveBlog}
+          saving={cmsSaveLoading}
+          bucketImages={bucketImages}
+          onImageUpload={handleBlogImageUpload}
+        />
       )}
 
       {/* Product photo refused: tells whoever uploaded it exactly what to change.

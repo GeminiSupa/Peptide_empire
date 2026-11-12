@@ -308,6 +308,17 @@ in `writeDroppingMissingColumns` — but never let a *new* feature silently writ
 the wrong row that way (`launchFlashSale` probes for `kind` and refuses with the
 migration name instead).
 
+## Shared blog CMS
+
+Admin → CMS → Blog writes the shared `blogs` table. Published rows appear on
+both sites; `peptidescostarica.net` is always the canonical SEO version and the
+catalog copy points search engines there. Run `add-blog-seo-fields.sql` before
+deploying the enhanced editor. It adds bilingual URL slugs, search titles and
+descriptions, focus phrases, answer summaries, author/category/tags, FAQs and
+the original publish time. The website reads with the anon key under the
+existing published-only RLS policy; drafts remain private. No extra env var or
+AI API is required.
+
 # Session log
 
 ## Sun 20 – Mon 21 Sep 2026
