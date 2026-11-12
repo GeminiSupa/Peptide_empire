@@ -3134,7 +3134,7 @@ body.lp .sfoot{display:none!important}
 .lpgrid{display:grid;gap:14px}
 @media(min-width:760px){.lpgrid.c2{grid-template-columns:1fr 1fr}.lpgrid.c3{grid-template-columns:repeat(3,1fr)}.lpgrid.c4{grid-template-columns:repeat(2,1fr)}}
 @media(min-width:1080px){.lpgrid.c4{grid-template-columns:repeat(4,1fr)}}
-.lpcard{background:#fff;border-radius:22px;padding:22px;box-shadow:0 0 0 1px var(--line);transition:transform .25s,box-shadow .25s}
+.lpcard{background:#fff;border-radius:22px;padding:22px;box-shadow:0 0 0 1px var(--line);transition:transform .25s,box-shadow .25s}.lpfact{display:grid;gap:3px;background:#fff;border-radius:14px;padding:11px 13px;box-shadow:0 0 0 1px var(--line)}.lpfact small{font-size:11.5px;text-transform:uppercase;letter-spacing:.04em}.lpfact b{font-size:14px;line-height:1.35;word-break:break-word}
 .lpcard:hover{transform:translateY(-3px);box-shadow:0 22px 44px -26px rgba(11,21,51,.35),0 0 0 1px var(--line)}
 .lpcard .ms.big{font-size:30px;color:var(--navy)}
 .lpcard h3{font-size:18px;letter-spacing:-.02em;margin:10px 0 6px}.lpcard p{color:var(--ink2);font-size:14.5px}
@@ -3489,7 +3489,7 @@ body.lp .sfoot{display:none!important}
   function tile(t, dark) { return '<div class="lpcard rv" style="display:grid;gap:6px"><span class="ms" style="font-size:26px;color:' + (dark ? "var(--sky,#66c0fd)" : "var(--brand,#1d4293)") + '">' + t[0] + "</span><b>" + t[1] + "</b><small class=\"muted\">" + t[2] + "</small></div>"; }
   function prodHTML() {
     var lo = Math.min.apply(null, PROD.v.filter(function (x) { return !x.oos; }).map(function (x) { return x.p; })), sizesTxt = PROD.v.filter(function (x) { return !x.oos; }).map(function (x) { return x.s; }).join(" · ");
-    var facts = (PROD.facts || []).map(function (f) { return "<div><small class=\"muted\">" + esc(f[0]) + "</small><b>" + esc(f[1]) + "</b></div>"; }).join("");
+    var facts = (PROD.facts || []).map(function (f) { return "<div class=\"lpfact\"><small class=\"muted\">" + esc(f[0]) + "</small><b>" + esc(f[1]) + "</b></div>"; }).join("");
     return '<section class="lph"><div class="lpw lphg"><div class="lpbac rv"><div class="lpbacimg"><img src="' + pimg(PROD, prodSize()) + '" alt="' + esc(PROD.name) + ' vial">' +
       '<span class="lpbadge" style="left:16px;top:16px"><span class="ms">' + PC.badge[0] + "</span>" + PC.badge[1] + "</span>" +
       '<span class="lpbadge" style="right:16px;bottom:16px"><span class="ms">verified</span>COA on request</span></div></div>' +
