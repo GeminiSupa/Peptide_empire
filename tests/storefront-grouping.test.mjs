@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import {
+  coaUrl,
   compoundName,
   formatSize,
   groupRows,
@@ -77,6 +78,13 @@ test('a row with no parseable price is not put on the shelf', () => {
   // A ₡0 card with a working Add button is worse than no card.
   assert.deepEqual(groupRows([row({ price_usd: '' })], RATE), []);
   assert.deepEqual(groupRows([row({ price_usd: '$0' })], RATE), []);
+});
+
+test('a COA field with multiple links uses the first valid URL', () => {
+  const first = 'https://peptidescostarica.net/report.pdf';
+  const second = 'https://verify.example.test/report';
+  assert.equal(coaUrl(`${first} ${second}`), first);
+  assert.equal(groupRows([row({ coa: `${first}\n${second}` })], RATE)[0].coa, first);
 });
 
 test('hand-typed sizes are normalised, and a sizeless row gets no chip', () => {
