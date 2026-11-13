@@ -17,7 +17,7 @@ import { applyFilters, shelfChips } from '@/lib/storefront/filter.mjs';
  * fills the search box on arrival.
  */
 export default function CatalogBrowser({ compounds }) {
-  const { t, lang, money, cart, addToCart, setQty, whatsapp } = useSite();
+  const { t, lang, money, cart, addToCart, setQty, whatsapp, flashPriceFor } = useSite();
   const [filters, setFilters] = useState({ shelf: 'all', query: '', sort: 'pop', inStockOnly: false });
   const [sizes, setSizes] = useState({});
   const [narrow, setNarrow] = useState(false);
@@ -123,6 +123,7 @@ export default function CatalogBrowser({ compounds }) {
                 lang={lang}
                 href={compound.href}
                 whatsappFor={whatsapp}
+                flashPrice={flashPriceFor(compound, variant)}
               />
             );
           }) : (

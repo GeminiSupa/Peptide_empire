@@ -39,7 +39,8 @@ function FlashCountdown({ endsAt, lang }) {
       <Ms name="schedule" />
       <span className="pfcl">{es ? 'Termina en' : 'Ends in'}</span>
       {units.map(([value, unit]) => (
-        <span className="pfcu" key={unit}><b>{value}</b>{unit}</span>
+        // The server renders a second earlier than the browser hydrates.
+        <span className="pfcu" key={unit}><b suppressHydrationWarning>{value}</b>{unit}</span>
       ))}
     </div>
   );
@@ -267,19 +268,33 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
               </button>
             ))}
           </div>
-          <div className="pdeal">
+          <div className={`pdeal${flashHere ? ' flash' : ''}`}>
+            {/* Belhassen's flash card: one bold red card in place of the
+                presets — the %, a live countdown, and this order's price
+                before and after (both from the pooled quote above). */}
             {flashHere ? (
               <div className="pflash">
                 <div className="pfh">
-                  <Ms name="bolt" />
-                  <b>{flashView.name}</b>
-                  <span>{`${flashView.pct}% `}{t('off')}</span>
+                  <span className="pfbadge"><Ms name="bolt" />{flashView.name}</span>
+                  <FlashCountdown endsAt={flashView.endsAt} lang={lang} />
                 </div>
-                <FlashCountdown endsAt={flashView.endsAt} lang={lang} />
+                <div className="pfbig">
+                  <b>{`${flashView.pct}%`}</b>
+                  <span>
+                    {lang === 'es' ? `de descuento en ${flashView.scopeLabel || 'productos seleccionados'}` : `off ${flashView.scopeLabel || 'selected products'}`}
+                    <small>
+                      {lang === 'es'
+                        ? 'Desde 1 vial · se aplica automáticamente'
+                        : 'From 1 vial · applied automatically'}
+                    </small>
+                  </span>
+                </div>
                 <p className="pfm">
+                  {qty > 1 ? `${qty} ${lang === 'es' ? 'viales' : 'vials'}: ` : ''}
+                  {pct ? <><s className="num">{m(full)}</s>{' '}<b className="num">{m(tot)}</b>{' · '}</> : null}
                   {lang === 'es'
-                    ? 'El precio relámpago se aplica solo — ya supera el precio por volumen.'
-                    : 'The flash price applies on its own — it already beats volume pricing.'}
+                    ? 'Supera nuestro precio por volumen del 15% y 20%. No se combina.'
+                    : 'Beats our 15% and 20% volume pricing. Not combined.'}
                 </p>
               </div>
             ) : null}

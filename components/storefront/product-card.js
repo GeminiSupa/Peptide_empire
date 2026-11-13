@@ -24,6 +24,8 @@ export default function ProductCard({
   lang,
   href,
   whatsappFor,
+  // During a flash sale: this vial's price as checkout charges it.
+  flashPrice = null,
 }) {
   const variant = variantFor(compound, selectedSize);
   if (!variant) return null;
@@ -45,7 +47,9 @@ export default function ProductCard({
       <a className="ph" href={href} aria-label={`${t('View')} ${compound.name}`}>
         <div className="tags">
           {/* The admin's sale ribbon leads; otherwise the best-seller tag. */}
-          {variant.ribbon
+          {flashPrice
+            ? <span className="tg flash"><Ms name="bolt" />{lang === 'es' ? 'Oferta Relámpago' : 'Flash Sale'}</span>
+            : variant.ribbon
             ? <span className="tg promo">{variant.ribbon}</span>
             : compound.best ? <span className="tg best">{t('Best seller')}</span> : <span />}
           {compound.inStock ? null : <span className="tg oos">{t('Out of stock')}</span>}
@@ -97,9 +101,18 @@ export default function ProductCard({
         </div>
 
         <div className="pr">
-          <b className="num">{money(variant.priceCrc, variant.priceUsd)}</b>
-          {/* A sale set in the admin: the price before it, struck through. */}
-          {variant.wasUsd ? <s className="was num">{money(variant.wasCrc, variant.wasUsd)}</s> : null}
+          {flashPrice ? (
+            <>
+              <b className="num flashp">{flashPrice}</b>
+              <s className="was num">{money(variant.priceCrc, variant.priceUsd)}</s>
+            </>
+          ) : (
+            <>
+              <b className="num">{money(variant.priceCrc, variant.priceUsd)}</b>
+              {/* A sale set in the admin: the price before it, struck through. */}
+              {variant.wasUsd ? <s className="was num">{money(variant.wasCrc, variant.wasUsd)}</s> : null}
+            </>
+          )}
           <small>
             {t('per vial')}
             {variant.inStock ? '' : ` · ${t('out of stock')}`}

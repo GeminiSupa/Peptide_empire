@@ -39,7 +39,13 @@ function Head({ eyebrow, title, sub }) {
 
 function endLabel(endsAt, lang) {
   try {
-    return new Date(Date.parse(endsAt) - 60000).toLocaleString(lang === 'es' ? 'es-CR' : 'en-US', {
+    // A deal saved to end on the hour ("midnight") reads as 11:59 pm the day
+    // before; one saved for 11:59 pm keeps its minute. Costa Rica is a whole
+    // number of hours off UTC, so its minutes are UTC's.
+    const end = Date.parse(endsAt);
+    const at = new Date(end);
+    const onTheHour = at.getUTCMinutes() === 0 && at.getUTCSeconds() === 0;
+    return new Date(onTheHour ? end - 60000 : end).toLocaleString(lang === 'es' ? 'es-CR' : 'en-US', {
       weekday: 'long', hour: 'numeric', minute: '2-digit', timeZone: 'America/Costa_Rica',
     });
   } catch {
@@ -113,7 +119,7 @@ export default function DealPage({ lang, site }) {
               {live
                 ? `${t('This week only · ends')} ${endLabel(deal.endsAt, lang)}`
                 : flashOnly
-                  ? `${t('Flash sale · ends')} ${endLabel(flash.endsAt, lang)}`
+                  ? `${t('Flash sale · ends')} ${endLabel(flash.endsAt, lang)} ${es ? '(hora CR)' : '(CR time)'}`
                   : t('This week\'s deal has ended')}
             </span>
             {live ? (

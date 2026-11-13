@@ -9,7 +9,7 @@ import { useSite } from '@/components/site/site-provider';
  * the prototype's home, category and catalog views.
  */
 export default function ProductGrid({ compounds, id, className = 'grid' }) {
-  const { t, lang, money, cart, addToCart, setQty, whatsapp } = useSite();
+  const { t, lang, money, cart, addToCart, setQty, whatsapp, flashPriceFor } = useSite();
   const [sizes, setSizes] = useState({});
   const onSelectSize = useCallback((slug, size) => setSizes((current) => ({ ...current, [slug]: size })), []);
 
@@ -33,6 +33,7 @@ export default function ProductGrid({ compounds, id, className = 'grid' }) {
             lang={lang}
             href={compound.href}
             whatsappFor={whatsapp}
+            flashPrice={flashPriceFor(compound, variant)}
           />
         );
       })}

@@ -3,7 +3,8 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { formatMoney, translator } from '@/lib/storefront/i18n.mjs';
 import { useCart, useCurrency } from '@/lib/storefront/use-cart';
-import { quoteCart } from '@/lib/site/quote.mjs';
+import { lineFor, quoteCart } from '@/lib/site/quote.mjs';
+import { flashCoversProduct } from '@/lib/site/deal-view.mjs';
 import { CONTACT } from '@/lib/site/links.mjs';
 import { ecommerceData, pushEvent } from '@/lib/site/analytics.mjs';
 import { promoFromReply, promoFromUrl, readPromo, validatePromo, writePromo } from '@/lib/site/promo.mjs';
@@ -106,6 +107,19 @@ export default function SiteProvider({ lang, exchangeRate, deal, dealView = null
   );
   const quote = useMemo(() => quoteFor(cart), [quoteFor, cart]);
 
+  /**
+   * One vial's price during a flash sale, as checkout charges it, formatted in
+   * the shopper's currency — for product cards, which otherwise show the shelf
+   * price. Null when no flash covers the vial or checkout gives it no deal.
+   */
+  const flashPriceFor = useCallback((compound, variant) => {
+    if (!variant || !flashCoversProduct(flashView, [variant.product])) return null;
+    const single = quoteFor([lineFor(compound, variant, 1)]);
+    if (!single?.dealApplied || !(single.savings > 0)) return null;
+    const charged = single.subtotal - single.savings;
+    return formatMoney(charged, charged, currency);
+  }, [flashView, quoteFor, currency]);
+
   const whatsapp = useCallback(
     (message) => `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(message)}`,
     [contact.whatsapp],
@@ -141,14 +155,14 @@ export default function SiteProvider({ lang, exchangeRate, deal, dealView = null
 
   const value = useMemo(() => ({
     lang, t, currency, setCurrency, exchangeRate, deal, dealView, flashView,
-    cart, hydrated, addToCart, setQty, remove, clear, quote, quoteFor,
+    cart, hydrated, addToCart, setQty, remove, clear, quote, quoteFor, flashPriceFor,
     promo, applyPromo, removePromo, contact,
     money, moneyCrc, whatsapp,
     sheetOpen, setSheetOpen, drawerOpen, setDrawerOpen, searchOpen, setSearchOpen,
     toast, setToast,
   }), [
     lang, t, currency, setCurrency, exchangeRate, deal, dealView, flashView,
-    cart, hydrated, addToCart, setQty, remove, clear, quote, quoteFor,
+    cart, hydrated, addToCart, setQty, remove, clear, quote, quoteFor, flashPriceFor,
     promo, applyPromo, removePromo, contact,
     money, moneyCrc, whatsapp, sheetOpen, drawerOpen, searchOpen, toast,
   ]);
