@@ -23,4 +23,5 @@ test('website rejects corrupt same-id banner text instead of hiding the fallback
     readFile(new URL('../lib/site/data.js', import.meta.url), 'utf8')
   ));
   assert.match(source, /banner\.text \|\| ''\)\.trim\(\)\.length >= 10/);
+  assert.match(source, /flash \|\| \(!weekly \? deal : null\)/);
 });
