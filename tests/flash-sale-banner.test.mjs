@@ -17,3 +17,10 @@ test('website does not invent a banner without a valid sale percentage', () => {
   assert.equal(flashSaleBanner(null), null);
   assert.equal(flashSaleBanner({ id: 'x', offers: { items: [] } }), null);
 });
+
+test('website rejects corrupt same-id banner text instead of hiding the fallback', async () => {
+  const source = await import('node:fs/promises').then(({ readFile }) => (
+    readFile(new URL('../lib/site/data.js', import.meta.url), 'utf8')
+  ));
+  assert.match(source, /banner\.text \|\| ''\)\.trim\(\)\.length >= 10/);
+});
