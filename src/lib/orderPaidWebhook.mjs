@@ -16,9 +16,8 @@
 // and any failure (bad URL, timeout, non-2xx) is logged, never thrown — a down
 // receiver must never break a payment confirmation.
 //
-// NOTE: the exact payload field names below are the PROPOSED shape, pending the
-// owner's confirmation. Change buildOrderPaidWebhookPayload once he replies;
-// nothing else needs to move.
+// The payload shape below was approved by the owner on 2026-11-13. To change a
+// field later, only buildOrderPaidWebhookPayload moves; the callers are untouched.
 
 import { isFirstPaidTransition } from './orderStatusEmails.mjs';
 
