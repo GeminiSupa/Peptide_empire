@@ -14,6 +14,7 @@ import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { appStorefrontHref } from '@/lib/appStorefront';
 import PromoTicker from '@/components/PromoTicker';
 import ShopperApprovedSeal from '@/components/ShopperApprovedSeal';
+import { flashSaleBanner } from '@/lib/flashSaleBanner.mjs';
 
 function parseBannerText(text = '') {
   return replaceUsdPlaceholders(text, (amount) => `$${amount}`);
@@ -37,19 +38,30 @@ export function CatalogPromoBanner({ lang = 'es', settings, className = '', forc
     let cancelled = false;
 
     async function loadBanners() {
-      if (!isSupabaseConfigured || !supabase) return;
-      const { data } = await supabase
-        .from('site_settings')
-        .select('value')
-        .eq('id', 'announcement_banners')
-        .maybeSingle();
-      if (cancelled || !Array.isArray(data?.value)) return;
-      setPromoBanners(data.value.filter((banner) => banner?.isActive));
+      const [bannerResult, dealResult] = await Promise.allSettled([
+        isSupabaseConfigured && supabase
+          ? supabase.from('site_settings').select('value').eq('id', 'announcement_banners').maybeSingle()
+          : Promise.resolve({ data: null }),
+        fetch('/api/deals/current', { cache: 'no-store' }).then((response) => (
+          response.ok ? response.json() : { flash: null }
+        )),
+      ]);
+      if (cancelled) return;
+      const saved = bannerResult.status === 'fulfilled' && Array.isArray(bannerResult.value?.data?.value)
+        ? bannerResult.value.data.value.filter((banner) => banner?.isActive)
+        : [];
+      const flash = dealResult.status === 'fulfilled'
+        ? flashSaleBanner(dealResult.value?.flash, lang, `/catalog?lang=${lang}`)
+        : null;
+      const hasDealBanner = flash && saved.some((banner) => (
+        banner?.dealId === flash.dealId || banner?.id === flash.id
+      ));
+      setPromoBanners(flash && !hasDealBanner ? [flash, ...saved] : saved);
     }
 
     loadBanners().catch((err) => console.error('Promo banner load failed:', err));
     return () => { cancelled = true; };
-  }, []);
+  }, [lang]);
 
   if (!active) return null;
 
