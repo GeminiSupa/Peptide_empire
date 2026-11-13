@@ -5,6 +5,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, BadgeCheck, Building2, Check, CircleAlert, Clock3, Copy, LoaderCircle, RefreshCw, Send, ShieldCheck, Smartphone } from 'lucide-react';
 import styles from './pay-bank.module.css';
+import { safeSessionStorage } from '@/lib/storage';
+import { SA_STORAGE_KEY, buildShopperApprovedRecord } from '@/lib/shopperApproved.mjs';
 
 function formatMoney(amount, currency) {
   return `${currency === 'USD' ? '$' : '₡'}${Number(amount).toLocaleString(currency === 'USD' ? 'en-US' : 'es-CR', { minimumFractionDigits: currency === 'USD' ? 2 : 0, maximumFractionDigits: 2 })}`;
@@ -24,6 +26,15 @@ export default function BankPaymentPage() {
   const [payer, setPayer] = useState('');
   const [busy, setBusy] = useState(false);
   const [copied, setCopied] = useState('');
+
+  function stashShopperApprovedReview(result = data) {
+    if (!result?.review) return;
+    try {
+      safeSessionStorage.setItem(SA_STORAGE_KEY, JSON.stringify(buildShopperApprovedRecord(result.review)));
+    } catch {
+      // A missing survey is not a reason to block payment or confirmation.
+    }
+  }
 
   async function load(paymentToken, action, fields = {}) {
     setBusy(true);
@@ -61,7 +72,10 @@ export default function BankPaymentPage() {
   async function reportPayment(event) {
     event.preventDefault();
     const result = await load(token, 'report', { reference, payer });
-    if (result?.reported) window.location.href = `/thank-you?lang=${en ? 'en' : 'es'}&order=${encodeURIComponent(result.payment.reference)}&payment=bank_reported`;
+    if (result?.reported) {
+      stashShopperApprovedReview(result);
+      window.location.href = `/thank-you?lang=${en ? 'en' : 'es'}&order=${encodeURIComponent(result.payment.reference)}&payment=bank_reported`;
+    }
   }
 
   const payment = data?.payment;
@@ -106,7 +120,7 @@ export default function BankPaymentPage() {
               <div className={styles.amountHero}><span>{en ? 'Amount to send' : 'Monto a enviar'}</span><strong>{formatMoney(payment.amount, payment.currency)}</strong><small>{payment.currency} · {isSinpe ? 'SINPE Móvil' : 'BAC'}</small></div>
               <p className={styles.instruction}>{en ? `Send the exact amount in ${payment.currency === 'USD' ? 'US dollars' : 'colones'} and use the order number as the payment description.` : `Envíe el monto exacto en ${payment.currency === 'USD' ? 'dólares' : 'colones'} y use el número de pedido como detalle del pago.`}</p>
               <dl className={styles.details}>{copyRows.map((row) => <div key={row.key} className={row.featured ? styles.featuredRow : ''}><dt>{row.label}</dt><dd><span>{row.display}</span><button type="button" onClick={() => copy(row.value, row.key)} aria-label={`${en ? 'Copy' : 'Copiar'} ${row.label}`}>{copied === row.key ? <Check size={17} /> : <Copy size={17} />}<em>{copied === row.key ? (en ? 'Copied' : 'Copiado') : (en ? 'Copy' : 'Copiar')}</em></button></dd></div>)}</dl>
-              {data.reported ? <div className={styles.reported}><BadgeCheck size={35} /><div><strong>{en ? 'Payment already reported' : 'Pago ya reportado'}</strong><p>{en ? 'We are checking the receiving account. Please do not send another payment.' : 'Estamos verificando la cuenta receptora. No envíe otro pago.'}</p></div><Link href={`/thank-you?lang=${en ? 'en' : 'es'}&order=${encodeURIComponent(payment.reference)}&payment=bank_reported`}>{en ? 'Continue' : 'Continuar'}</Link></div> :
+              {data.reported ? <div className={styles.reported}><BadgeCheck size={35} /><div><strong>{en ? 'Payment already reported' : 'Pago ya reportado'}</strong><p>{en ? 'We are checking the receiving account. Please do not send another payment.' : 'Estamos verificando la cuenta receptora. No envíe otro pago.'}</p></div><Link onClick={() => stashShopperApprovedReview()} href={`/thank-you?lang=${en ? 'en' : 'es'}&order=${encodeURIComponent(payment.reference)}&payment=bank_reported`}>{en ? 'Continue' : 'Continuar'}</Link></div> :
                 <form className={styles.form} onSubmit={reportPayment}>
                   <div className={styles.formTitle}><BadgeCheck size={22} /><div><strong>{en ? 'I made the payment' : 'Ya realicé el pago'}</strong><p>{en ? 'Enter the details from your receipt.' : 'Ingrese los datos de su comprobante.'}</p></div></div>
                   <label>{en ? 'Name of the person who paid' : 'Nombre de quien realizó el pago'}<input required autoComplete="name" maxLength={120} value={payer} onChange={(event) => setPayer(event.target.value)} placeholder={en ? 'Full name' : 'Nombre completo'} /></label>
@@ -115,7 +129,7 @@ export default function BankPaymentPage() {
                   <p className={styles.privacy}><ShieldCheck size={14} />{en ? 'We only use these details to match your payment.' : 'Solo usamos estos datos para identificar su pago.'}</p>
                 </form>}
               <button className={styles.refresh} disabled={busy} onClick={() => load(token)}><RefreshCw size={15} />{en ? 'Refresh payment status' : 'Actualizar estado del pago'}</button>
-            </> : <div className={styles.reported}><BadgeCheck size={35} /><div><strong>{en ? 'Payment status updated' : 'Estado de pago actualizado'}</strong><p>{en ? 'Continue to your order confirmation.' : 'Continúe a la confirmación de su pedido.'}</p></div><Link href={`/thank-you?lang=${en ? 'en' : 'es'}&order=${encodeURIComponent(payment.reference)}`}>{en ? 'View confirmation' : 'Ver confirmación'}</Link></div>}
+            </> : <div className={styles.reported}><BadgeCheck size={35} /><div><strong>{en ? 'Payment status updated' : 'Estado de pago actualizado'}</strong><p>{en ? 'Continue to your order confirmation.' : 'Continúe a la confirmación de su pedido.'}</p></div><Link onClick={() => stashShopperApprovedReview()} href={`/thank-you?lang=${en ? 'en' : 'es'}&order=${encodeURIComponent(payment.reference)}`}>{en ? 'View confirmation' : 'Ver confirmación'}</Link></div>}
           </>}
         </section>
       </div>

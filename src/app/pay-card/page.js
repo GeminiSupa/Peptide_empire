@@ -42,6 +42,23 @@ function CardPaymentContent() {
   const submitLockRef = useRef(false);
   const [form, setForm] = useState({ email: '' });
 
+  const stashShopperApprovedReview = () => {
+    if (!order) return;
+    try {
+      safeSessionStorage.setItem(SA_STORAGE_KEY, JSON.stringify(buildShopperApprovedRecord({
+        orderId: order.orderNumber,
+        email: order.customerEmail || form.email,
+        name: order.customerName,
+        // Paid lines only: free items are not products to review.
+        products: (order.items || [])
+          .filter((item) => Number(item.price) > 0)
+          .map((item) => item.product),
+      })));
+    } catch {
+      // A missing survey is not a reason to block payment or confirmation.
+    }
+  };
+
   const lang = useMemo(() => (order?.currency === 'CRC' ? 'es' : 'en'), [order?.currency]);
   const isEn = lang === 'en';
 
@@ -127,6 +144,9 @@ function CardPaymentContent() {
       const data = await res.json();
 
       if (data.paymentUrl) {
+        // The gateway returns straight to /thank-you. Leave the review record
+        // in this tab before it departs, just as the catalog checkout does.
+        stashShopperApprovedReview();
         if (hostedPaymentWindow && !hostedPaymentWindow.closed) {
           hostedPaymentWindow.opener = null;
           hostedPaymentWindow.location.href = data.paymentUrl;
@@ -226,22 +246,7 @@ function CardPaymentContent() {
             </p>
             <Link
               href={`/thank-you?lang=${lang}&order=${encodeURIComponent(order.orderNumber)}`}
-              onClick={() => {
-                try {
-                  safeSessionStorage.setItem(SA_STORAGE_KEY, JSON.stringify(buildShopperApprovedRecord({
-                    orderId: order.orderNumber,
-                    email: order.customerEmail || form.email,
-                    name: order.customerName,
-                    // Paid lines only: the free BAC water and free vials are
-                    // saved at a price of 0 and are not products to review.
-                    products: (order.items || [])
-                      .filter((item) => Number(item.price) > 0)
-                      .map((item) => item.product),
-                  })));
-                } catch {
-                  // A missing survey is not a reason to block the confirmation page.
-                }
-              }}
+              onClick={stashShopperApprovedReview}
             >
               {isEn ? 'View confirmation' : 'Ver confirmación'}
             </Link>

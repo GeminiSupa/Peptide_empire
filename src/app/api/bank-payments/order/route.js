@@ -9,7 +9,7 @@ export async function POST(request) {
     const claims = verifyBankPaymentToken(body?.token);
     if (!claims) return Response.json({ error: 'Invalid or expired payment link / Enlace inválido o vencido' }, { status: 401 });
     const db = getSupabaseAdmin();
-    const { data: order, error } = await db.from('orders').select('id,order_number,status,payment_method,currency,total_crc,total_usd,activity_log').eq('id', claims.id).single();
+    const { data: order, error } = await db.from('orders').select('id,order_number,status,payment_method,currency,total_crc,total_usd,activity_log,customer_name,customer_email,items').eq('id', claims.id).single();
     if (error || !order) return Response.json({ error: 'Order unavailable' }, { status: 404 });
     const log = Array.isArray(order.activity_log) ? order.activity_log : [];
     const payment = log.find(e => e.type === 'bank_payment_instructions')?.payment;
@@ -30,6 +30,15 @@ export async function POST(request) {
         reported = true;
       }
     }
-    return Response.json({ payment, status: order.status, reported, awaitingPayment: isAwaitingPayment(order.status) }, { headers: { 'Cache-Control': 'no-store' } });
+    const review = {
+      orderId: order.order_number,
+      email: order.customer_email || '',
+      name: order.customer_name || '',
+      products: (Array.isArray(order.items) ? order.items : [])
+        .filter(item => Number(item?.price) > 0)
+        .map(item => item?.product)
+        .filter(Boolean),
+    };
+    return Response.json({ payment, status: order.status, reported, awaitingPayment: isAwaitingPayment(order.status), review }, { headers: { 'Cache-Control': 'no-store' } });
   } catch { return Response.json({ error: 'Could not load payment. Please try again.' }, { status: 503 }); }
 }

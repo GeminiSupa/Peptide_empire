@@ -175,12 +175,18 @@ test('feed ids match the thank-you ids, and every field is safe CSV', () => {
   assert.match(lines[3], /"HGH 50 IU \(Pfizer, Genotropin\)"/);
 });
 
-test('both checkout paths hand the products to the thank-you page', async () => {
+test('all catalog payment paths hand the products to the thank-you page', async () => {
   const catalog = await readFile(new URL('../src/app/catalog/page.js', import.meta.url), 'utf8');
   const payCard = await readFile(new URL('../src/app/pay-card/page.js', import.meta.url), 'utf8');
+  const payBank = await readFile(new URL('../src/app/pay-bank/page.js', import.meta.url), 'utf8');
+  const bankApi = await readFile(new URL('../src/app/api/bank-payments/order/route.js', import.meta.url), 'utf8');
   const survey = await readFile(new URL('../src/components/ShopperApprovedSurvey.js', import.meta.url), 'utf8');
   assert.match(catalog, /products: cart\.map\(\(item\) => item\.product\)/);
   assert.match(payCard, /products: \(order\.items \|\| \[\]\)/);
+  assert.ok(payCard.indexOf('stashShopperApprovedReview();') < payCard.indexOf('hostedPaymentWindow.location.href = data.paymentUrl'));
+  assert.match(payBank, /buildShopperApprovedRecord\(result\.review\)/);
+  assert.match(bankApi, /customer_name,customer_email,items/);
+  assert.match(bankApi, /filter\(item => Number\(item\?\.price\) > 0\)/);
   // Set before their script is added, which is what their guide requires.
   assert.ok(survey.indexOf('window.sa_products') < survey.indexOf('document.head.appendChild(script)'));
 });
