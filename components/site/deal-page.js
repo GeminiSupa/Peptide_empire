@@ -11,6 +11,7 @@ import JsonLd from '@/components/site/json-ld';
 import { SITE_URL } from '@/lib/indexing';
 import { faqNode } from '@/lib/site/structured-data.mjs';
 import { NEW_PAGES } from '@/lib/site/links.mjs';
+import { flashCoversProduct } from '@/lib/site/deal-view.mjs';
 
 const DEAL_FAQ = [
   ['Which products are included?', 'All of them. Every compound and strength in the catalog counts toward your order total.'],
@@ -58,7 +59,12 @@ export default function DealPage({ lang, site }) {
   const tiers = live ? deal.tiers : [];
   const top = tiers[tiers.length - 1];
   const leadNames = flashOnly ? (flash.productNames || []) : (deal?.productNames || []);
-  const named = leadNames.map((name) => compounds.find((compound) => compound.storedName === name || compound.name === name)).filter(Boolean);
+  // A flash lists sized product names ("Tirzepatide 10mg"), so match them
+  // against each compound's variant products — matching the compound name left
+  // the grid empty. The weekly deal names whole compounds, so it keeps its match.
+  const named = flashOnly
+    ? compounds.filter((compound) => flashCoversProduct(flash, (compound.variants || []).map((variant) => variant.product)))
+    : leadNames.map((name) => compounds.find((compound) => compound.storedName === name || compound.name === name)).filter(Boolean);
   const picks = (flashOnly ? named : [...named, ...compounds.filter((compound) => compound.best && !named.includes(compound))])
     .filter((compound) => compound.shelf !== 'supplies' && compound.inStock)
     .slice(0, 8);
@@ -101,7 +107,7 @@ export default function DealPage({ lang, site }) {
               dark
               label={t('Breadcrumb')}
               url={url}
-              items={[{ name: t('Home'), href: links.home }, { name: t('Deal of the Week') }]}
+              items={[{ name: t('Home'), href: links.home }, { name: flashOnly ? flash.name : t('Deal of the Week') }]}
             />
             <span className={`dleb${flashOnly ? ' flash' : ''}`}>
               <Ms name={flashOnly ? 'bolt' : 'sell'} />
@@ -189,11 +195,21 @@ export default function DealPage({ lang, site }) {
         <div className="wrap">
           <Head eyebrow={t('How it works')} title={t('Three steps. Nothing to remember.')} />
           <div className="dlhow">
-            {[
+            {(flashOnly ? [
+              ['bolt', es ? 'Elige los productos en oferta' : 'Pick the sale products',
+                es ? 'Los productos de la oferta relámpago, marcados abajo, llevan el descuento. El resto del catálogo mantiene su precio.'
+                  : 'The products in the flash sale, shown below, carry the discount. The rest of the catalog keeps its usual price.'],
+              ['sell', es ? 'El precio relámpago se aplica solo' : 'The flash price applies itself',
+                es ? 'Al pagar cobramos el precio relámpago en esos productos — sin código, y ya supera el precio por volumen.'
+                  : 'At checkout we charge the flash price on those products — no code, and it already beats volume pricing.'],
+              ['local_shipping', es ? 'Entrega en 2–4 días' : 'Delivered in 2–4 days',
+                es ? `Desde nuestra cadena de frío en Costa Rica, con envío gratis desde ${freeShippingLabel}.`
+                  : `From our cold storage in Costa Rica, with free delivery over ${freeShippingLabel}.`],
+            ] : [
               ['add_shopping_cart', 'Add anything', 'Mix any compounds and strengths. All of it counts toward your total.'],
               ['sell', 'The discount applies itself', 'At checkout we apply the best discount automatically: this week\'s deal or volume pricing, whichever saves you more.'],
               ['local_shipping', 'Delivered in 2–4 days', `From our cold storage in Costa Rica, with free delivery over ${freeShippingLabel}.`],
-            ].map(([icon, title, body], index) => (
+            ]).map(([icon, title, body], index) => (
               <div key={title}>
                 <span className="dlhn">{index + 1}</span>
                 <span className="ms">{icon}</span>
