@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   ClipboardList, ShoppingCart, Target, DollarSign, Package,
   AlertTriangle, Inbox, MessageSquare, ChevronRight, Star, CheckCircle,
@@ -13,17 +13,7 @@ import { isAwaitingPayment } from '@/lib/orderAwaitingPayment.mjs';
 import { FALLBACK_EXCHANGE_RATE } from '@/lib/pricing';
 import ExchangeRateSettings from './ExchangeRateSettings';
 import { calculateExpandedSalesMetrics } from '@/lib/salesAnalytics.mjs';
-
-// Trustpilot's FREE plan sends 50 verified review invitations per month.
-// If the account is upgraded, change this (Starter = 100, Plus = 300).
-const TRUSTPILOT_MONTHLY_LIMIT = 50;
-// The order-complete email (which BCCs Trustpilot to trigger an invitation) only
-// fires for these statuses, so we count these to estimate invitations used.
-const INVITE_TRIGGER_STATUSES = new Set(['Completed', 'Order Complete']);
-// The Trustpilot AFS integration went live on this date (CR midnight). Orders
-// completed BEFORE this never BCC'd Trustpilot, so counting them would wildly
-// over-report the first month — we only count completions from here onward.
-const TRUSTPILOT_GO_LIVE = new Date('2026-07-14T06:00:00Z');
+import { adminFetch } from '@/lib/adminApi';
 
 function isOutOfStock(status) {
   const s = (status || '').toLowerCase();
@@ -54,15 +44,6 @@ function startOfWeek(d = new Date()) {
   const day = cr.getUTCDay();                        // 0 = Sunday, in CR time
   const diff = day === 0 ? 6 : day - 1;
   cr.setUTCDate(cr.getUTCDate() - diff);
-  return new Date(cr.getTime() + CR_OFFSET_MS);
-}
-
-// Start of the current month in Costa Rica, as an absolute instant. Used for the
-// monthly Trustpilot invitation quota, which resets on the 1st.
-function startOfMonth(d = new Date()) {
-  const cr = new Date(d.getTime() - CR_OFFSET_MS);
-  cr.setUTCHours(0, 0, 0, 0);
-  cr.setUTCDate(1);
   return new Date(cr.getTime() + CR_OFFSET_MS);
 }
 
@@ -163,6 +144,21 @@ export default function DashboardHome({
   const [kpiRange, setKpiRange] = useState('today');
   const [customStart, setCustomStart] = useState('');
   const [customEnd, setCustomEnd] = useState('');
+  const [trustpilotStatus, setTrustpilotStatus] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    adminFetch('/api/admin/reviews/stats')
+      .then(async (response) => {
+        const body = await response.json();
+        if (!response.ok) throw new Error(body?.error || 'Could not load Trustpilot status');
+        if (!cancelled) setTrustpilotStatus(body?.available ? body : { unavailable: true });
+      })
+      .catch(() => {
+        if (!cancelled) setTrustpilotStatus({ unavailable: true });
+      });
+    return () => { cancelled = true; };
+  }, []);
 
   const activeKpiRange = KPI_RANGE_BY_ID.get(kpiRange) || KPI_RANGES[0];
   const customWindow = useMemo(
@@ -241,19 +237,6 @@ export default function DashboardHome({
       .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
       .slice(0, 6);
 
-    // Trustpilot invitations used this month (estimate): every order marked
-    // complete with a customer email triggers one verified invitation via the
-    // order-complete email BCC. Dated by completion (CR time), like revenue.
-    // Deliberately outside the row's window: it is a monthly quota, so showing
-    // a week of it against a limit of 50 would misread as five times the room.
-    const monthStart = startOfMonth(now);
-    // Count from the later of "start of month" and "integration go-live" so the
-    // first month isn't inflated by completions that predate the Trustpilot BCC.
-    const countFrom = monthStart > TRUSTPILOT_GO_LIVE ? monthStart : TRUSTPILOT_GO_LIVE;
-    const trustpilotUsed = orders.filter((o) =>
-      INVITE_TRIGGER_STATUSES.has(o.status) && o.customer_email && getRevenueDate(o) >= countFrom
-    ).length;
-
     return {
       pendingOrders,
       revenue,
@@ -262,7 +245,6 @@ export default function DashboardHome({
       hotLeads,
       stockAlerts,
       recentOrders,
-      trustpilotUsed,
     };
   }, [orders, abandonedCarts, leads, products, exchangeRate, kpiRangeStart, kpiRangeEnd, customIncomplete]);
 
@@ -329,9 +311,17 @@ export default function DashboardHome({
     await onOverrideStats(changes, reason);
   };
 
-  // Remaining invitations + a color that warns as the monthly quota runs low.
-  const trustpilotRemaining = Math.max(0, TRUSTPILOT_MONTHLY_LIMIT - stats.trustpilotUsed);
-  const trustpilotColor = trustpilotRemaining === 0 ? '#f87171' : trustpilotRemaining <= 10 ? '#fbbf24' : '#34d399';
+  // Read from the same saved setting and accepted-invitation history that the
+  // Social Reviews screen uses. Completed-order counts were only a guess and
+  // the old hardcoded 50 stayed wrong after a plan change.
+  const trustpilotCap = Number(trustpilotStatus?.trustpilotCap);
+  const trustpilotUsed = Number(trustpilotStatus?.trustpilotThisMonth);
+  const trustpilotReady = Number.isFinite(trustpilotCap) && Number.isFinite(trustpilotUsed);
+  const trustpilotRemaining = trustpilotReady ? Math.max(0, trustpilotCap - trustpilotUsed) : null;
+  const trustpilotPaused = trustpilotReady && trustpilotCap === 0;
+  const trustpilotColor = !trustpilotReady || trustpilotPaused
+    ? '#94a3b8'
+    : trustpilotRemaining === 0 ? '#f87171' : trustpilotRemaining <= 10 ? '#fbbf24' : '#34d399';
 
   const attention = [
     stats.pendingOrders.length > 0 && {
@@ -642,14 +632,22 @@ export default function DashboardHome({
         <div className="dashboard-section-heading-row">
           <h3 className="dashboard-section-title">Health</h3>
         </div>
-        <div className="dashboard-health-card" title={`Estimate (~${trustpilotRemaining} left): ${stats.trustpilotUsed} of ${TRUSTPILOT_MONTHLY_LIMIT} invitations approx. sent this month. Free plan has no Trustpilot API, so this is not the exact count.`}>
+        <div className="dashboard-health-card" title={trustpilotReady ? `${trustpilotUsed} of ${trustpilotCap} recorded Trustpilot invitations used this month.` : 'Trustpilot invitation history is unavailable.'}>
           <div className="dashboard-kpi-icon" style={{ background: 'rgba(52, 211, 153, 0.15)', color: trustpilotColor }}>
             <Star size={20} />
           </div>
           <div>
-            <div className="dashboard-health-title" style={{ color: trustpilotColor }}>~{trustpilotRemaining} Trustpilot invites left</div>
+            <div className="dashboard-health-title" style={{ color: trustpilotColor }}>
+              {!trustpilotReady
+                ? 'Trustpilot status unavailable'
+                : trustpilotPaused
+                  ? 'Trustpilot invitations paused'
+                  : `${trustpilotRemaining} Trustpilot invites left`}
+            </div>
             <div className="dashboard-health-copy">
-              Estimate only from completed orders this month. Used {stats.trustpilotUsed}/{TRUSTPILOT_MONTHLY_LIMIT}.
+              {trustpilotReady
+                ? `Recorded ${trustpilotUsed}/${trustpilotCap} this month. Limit comes from Social Reviews settings.`
+                : 'Open Reviews → Social Reviews to check the history and settings.'}
             </div>
           </div>
         </div>
