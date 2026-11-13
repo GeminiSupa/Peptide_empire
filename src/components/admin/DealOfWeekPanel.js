@@ -820,8 +820,27 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
               </div>
             )}
 
-            <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginBottom: '6px' }}>
-              Products on sale &mdash; {flashProducts.length} selected
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap', fontSize: '0.78rem', color: '#94a3b8', marginBottom: '6px' }}>
+              <span>Products on sale &mdash; {flashProducts.length} selected</span>
+              <div style={{ display: 'flex', gap: '6px', marginLeft: 'auto' }}>
+                <button
+                  type="button"
+                  className="admin-btn"
+                  style={{ padding: '3px 9px', fontSize: '0.72rem' }}
+                  onClick={() => setFlashProducts(availableOfferProductNames(products))}
+                >
+                  Select all available
+                </button>
+                <button
+                  type="button"
+                  className="admin-btn"
+                  style={{ padding: '3px 9px', fontSize: '0.72rem' }}
+                  onClick={() => setFlashProducts([])}
+                  disabled={flashProducts.length === 0}
+                >
+                  Clear
+                </button>
+              </div>
             </div>
             <div className="weekly-deal-product-search">
               <Search size={15} />
