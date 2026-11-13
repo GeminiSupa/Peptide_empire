@@ -18,6 +18,7 @@ const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const AI_MODE_PERMISSIONS = {
   translate: ['spreadsheet', 'cms', 'marketing', 'broadcasts'],
   generate_info: ['spreadsheet', 'cms'],
+  blog_assist: ['cms', 'marketing'],
   chat: ['home'],
   cross_sell: ['customers', 'carts', 'whatsapp_ai'],
   draft_inquiry_reply: ['inquiries'],
@@ -528,6 +529,71 @@ Rules:
 
 Agent's question:
 ${userQuestion}`;
+    } else if (mode === 'blog_assist') {
+      // One mode, several writing tasks for the blog CMS editor. The task is
+      // chosen in the editor; every prompt follows the house writing guide
+      // (clear search intent, active voice, layman definitions, no medical or
+      // human-use claims because the products are research-use-only).
+      const task = String(context.task || '').trim();
+      const langName = context.lang === 'es' ? 'Spanish' : 'English';
+      const title = String(context.title || '').slice(0, 240);
+      const keyword = String(context.keyword || '').slice(0, 120);
+      const topic = String(context.topic || '').slice(0, 400);
+      const caption = String(context.caption || '').slice(0, 200);
+      const selection = String(context.selection || '').slice(0, 4000);
+      const content = String(context.content || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 6000);
+      const guard = 'The products are research-use-only peptides. Never make medical, therapeutic, diagnostic, dosage, weight-loss, or human/veterinary-use claims, and never invent prices, stock, or certifications.';
+
+      if (task === 'seo') {
+        finalPrompt = `You are an SEO editor for a research-peptide catalog. Write search metadata in ${langName} for this article.
+Title: "${title}"
+Focus phrase (if given): "${keyword}"
+Article (plain text):
+${content || topic}
+
+Return ONLY a strict, raw JSON object (no markdown fences, no commentary) with exactly these keys:
+{
+  "focus_keyword": "the single primary search phrase, 2-5 words",
+  "seo_title": "48-62 characters, 8-12 words, includes the focus phrase, clear search intent, no excessive punctuation",
+  "seo_description": "under 160 characters, includes the focus phrase, active voice, a soft hook such as 'Learn how', 'Explore', or 'Here is why', minimal punctuation",
+  "ai_summary": "2-3 factual sentences that directly answer what the article is about, for readers and AI search engines"
+}
+${guard}`;
+      } else if (task === 'faq') {
+        finalPrompt = `You are an SEO editor. Write 5 frequently asked questions and concise factual answers in ${langName} for this research-peptide article.
+Title: "${title}"
+Focus phrase: "${keyword}"
+Article (plain text):
+${content || topic}
+
+Rules: questions must be ones real people search for about this topic; answers 1-3 sentences, plain language, active voice. ${guard}
+Return ONLY a strict, raw JSON array (no markdown fences, no commentary), e.g.:
+[{"question":"...","answer":"..."},{"question":"...","answer":"..."}]`;
+      } else if (task === 'outline') {
+        finalPrompt = `You are a scientific copywriter for a research-peptide catalog. Write a complete, original article draft in ${langName} as clean HTML.
+Topic / working title: "${title || topic}"
+Focus search phrase: "${keyword}"
+
+Structure to follow exactly:
+- An opening <p> intro of about 100 words that includes the focus phrase and gives a direct answer/overview first.
+- 4-5 <h2> section headings written as questions, in a logical order.
+- Under each heading, short <p> paragraphs with layman-term definitions and concrete examples; use <ul><li> bullet lists where it helps.
+- A final <h2>Conclusion</h2> with a brief point of view.
+Write mostly in active voice (passive under ~10%). Cite nothing you cannot support. Output ONLY the HTML (starting with <p>), no <html>/<body> wrapper, no markdown fences, no commentary. ${guard}`;
+      } else if (task === 'improve') {
+        if (!selection) return NextResponse.json({ error: 'Nothing selected to improve' }, { status: 400 });
+        finalPrompt = `Rewrite the following ${langName} passage to be clearer and mostly active voice, keeping the same meaning, facts, and any HTML tags intact. Do not add new claims. ${guard}
+Output ONLY the rewritten passage, nothing else.
+
+Passage:
+${selection}`;
+      } else if (task === 'alt') {
+        finalPrompt = `Write one specific image alt-text in ${langName} for an image in an article about "${title || topic}" (focus phrase "${keyword}").
+Editor's note about the image: "${caption || topic}"
+Rules: be specific, not generic; under 125 characters; if the image clearly contains text, include that text; no words like "image of". Output ONLY the alt text on a single line, no quotes.`;
+      } else {
+        return NextResponse.json({ error: 'Unknown blog task' }, { status: 400 });
+      }
     } else {
       // Default fallback
       finalPrompt = prompt || text;

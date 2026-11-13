@@ -103,6 +103,7 @@ import dynamic from 'next/dynamic';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import BlogEditorModal from '@/components/admin/BlogEditorModal';
 import { blogPayload, emptyBlog } from '@/lib/blogCms.mjs';
+import { compressImage } from '@/lib/imageCompress.mjs';
 
 // Keep this in sync with the admin upload endpoints and the product-pics
 // bucket. Checking in the browser gives staff an answer before any upload is
@@ -3564,52 +3565,85 @@ Core Rules:
     }
   };
 
+  // Uploads one blog image to the shared product-pics bucket and returns its
+  // public URL. Used by both the cover-image picker and the "insert image in
+  // the body" button. Shrinks/compresses first so big phone photos don't bloat
+  // the page. Returns '' on failure (callers show their own message).
+  const uploadBlogImageFile = async (rawFile) => {
+    if (!rawFile) return '';
+    const file = await compressImage(rawFile);
+    if (file.size > PRODUCT_IMAGE_MAX_BYTES) {
+      alert(imageSizeTooLargeMessage(file));
+      return '';
+    }
+    if (!(isSupabaseConfigured && supabase)) {
+      alert('Connect Supabase to upload images permanently.');
+      return '';
+    }
+    const response = await adminFetch('/api/admin/upload-image/sign', {
+      method: 'POST',
+      body: JSON.stringify({ name: file.name, type: file.type, size: file.size, kind: 'blog' }),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(data.error || `Upload could not be prepared (HTTP ${response.status}).`);
+    const { error: uploadError } = await supabase.storage
+      .from('product-pics')
+      .uploadToSignedUrl(data.path, data.token, file, {
+        contentType: file.type || 'image/jpeg',
+        cacheControl: '31536000',
+        upsert: false,
+      });
+    if (uploadError) throw new Error(uploadError.message || 'Supabase could not store that image.');
+    fetchBucketImages();
+    return data.url;
+  };
+
   // Image Upload handler for Blog Cover
   const handleBlogImageUpload = async (e) => {
     if (!e.target.files || !e.target.files[0]) return;
     const file = e.target.files[0];
-
-    if (file.size > PRODUCT_IMAGE_MAX_BYTES) {
-      alert(imageSizeTooLargeMessage(file));
-      e.target.value = '';
-      return;
-    }
-
-    // Show uploading indicator in the field
+    const previousUrl = editingBlog?.image_url || '';
     setEditingBlog(prev => ({ ...prev, image_url: 'Uploading...' }));
-
-    if (isSupabaseConfigured && supabase) {
-      // Same server route as the product images, for the same reason.
-      const previousUrl = editingBlog?.image_url || '';
-      try {
-        const response = await adminFetch('/api/admin/upload-image/sign', {
-          method: 'POST',
-          body: JSON.stringify({ name: file.name, type: file.type, size: file.size, kind: 'blog' }),
-        });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) throw new Error(data.error || `Upload could not be prepared (HTTP ${response.status}).`);
-
-        const { error: uploadError } = await supabase.storage
-          .from('product-pics')
-          .uploadToSignedUrl(data.path, data.token, file, {
-            contentType: file.type || 'image/jpeg',
-            cacheControl: '31536000',
-            upsert: false,
-          });
-        if (uploadError) throw new Error(uploadError.message || 'Supabase could not store that image.');
-
-        setEditingBlog(prev => ({ ...prev, image_url: data.url }));
-        fetchBucketImages(); // Refresh the list of images so it appears in dropdowns
-      } catch (err) {
-        console.error("Blog storage upload error:", err);
-        setEditingBlog(prev => ({ ...prev, image_url: previousUrl }));
-        alert(`Image upload failed. ${err.message}`);
-      }
-    } else {
-      const dummyUrl = URL.createObjectURL(file);
-      setEditingBlog(prev => ({ ...prev, image_url: dummyUrl }));
-      alert("Local Simulation: Image loaded inside browser memory. To upload permanently, connect Supabase!");
+    try {
+      const url = await uploadBlogImageFile(file);
+      setEditingBlog(prev => ({ ...prev, image_url: url || previousUrl }));
+    } catch (err) {
+      console.error("Blog storage upload error:", err);
+      setEditingBlog(prev => ({ ...prev, image_url: previousUrl }));
+      alert(`Image upload failed. ${err.message}`);
+    } finally {
+      e.target.value = '';
     }
+  };
+
+  // Called by the editor's "insert image" button. Returns the stored URL so the
+  // modal can drop a <figure> into the article body at the cursor.
+  const handleBlogBodyImageUpload = async (file) => {
+    try {
+      return await uploadBlogImageFile(file);
+    } catch (err) {
+      console.error("Blog body image upload error:", err);
+      alert(`Image upload failed. ${err.message}`);
+      return '';
+    }
+  };
+
+  // AI helper for the blog editor. One call, task chosen in the editor; returns
+  // the raw model text (the modal parses JSON for the SEO/FAQ tasks).
+  const handleBlogAi = async (task, context = {}) => {
+    // Translation reuses the dedicated, well-tuned translate mode; every other
+    // task goes through blog_assist.
+    const body = task === 'translate'
+      ? { mode: 'translate', text: context.text || '', sourceLang: context.sourceLang || 'en', targetLang: context.targetLang || 'es' }
+      : { mode: 'blog_assist', context: { task, ...context } };
+    const res = await adminFetch('/api/ai', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.success) throw new Error(data.error || 'AI request failed');
+    return String(data.text || '').trim();
   };
 
   const sendOrderCompletionNotification = async (order, { quiet = false, accountingOnly = false } = {}) => {
@@ -8375,6 +8409,8 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
           saving={cmsSaveLoading}
           bucketImages={bucketImages}
           onImageUpload={handleBlogImageUpload}
+          onBodyImageUpload={handleBlogBodyImageUpload}
+          onAi={handleBlogAi}
         />
       )}
 
