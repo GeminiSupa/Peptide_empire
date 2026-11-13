@@ -49,12 +49,17 @@ function endLabel(endsAt, lang) {
 
 export default function DealPage({ lang, site }) {
   const t = translator(lang);
-  const { dealView: deal, compounds, links, exchangeRate, freeShippingLabel } = site;
+  const { dealView: deal, flashView: flash, compounds, links, exchangeRate, freeShippingLabel } = site;
   const live = Boolean(deal?.tiers?.length);
+  // With no Deal of the Week running, a live flash sale is what the page leads
+  // with — titled "Flash Sale", with a red countdown, over the products it
+  // covers. A weekly deal always keeps the page's identity when both run.
+  const flashOnly = !deal && Boolean(flash);
   const tiers = live ? deal.tiers : [];
   const top = tiers[tiers.length - 1];
-  const named = (deal?.productNames || []).map((name) => compounds.find((compound) => compound.storedName === name || compound.name === name)).filter(Boolean);
-  const picks = [...named, ...compounds.filter((compound) => compound.best && !named.includes(compound))]
+  const leadNames = flashOnly ? (flash.productNames || []) : (deal?.productNames || []);
+  const named = leadNames.map((name) => compounds.find((compound) => compound.storedName === name || compound.name === name)).filter(Boolean);
+  const picks = (flashOnly ? named : [...named, ...compounds.filter((compound) => compound.best && !named.includes(compound))])
     .filter((compound) => compound.shelf !== 'supplies' && compound.inStock)
     .slice(0, 8);
   const crc = (usd) => formatMoney(Math.round(usd * exchangeRate), usd, 'CRC');
@@ -73,21 +78,29 @@ export default function DealPage({ lang, site }) {
               url={url}
               items={[{ name: t('Home'), href: links.home }, { name: t('Deal of the Week') }]}
             />
-            <span className="dleb">
-              <Ms name="sell" />
-              {live ? `${t('This week only · ends')} ${endLabel(deal.endsAt, lang)}` : t('This week\'s deal has ended')}
+            <span className={`dleb${flashOnly ? ' flash' : ''}`}>
+              <Ms name={flashOnly ? 'bolt' : 'sell'} />
+              {live
+                ? `${t('This week only · ends')} ${endLabel(deal.endsAt, lang)}`
+                : flashOnly
+                  ? `${t('Flash sale · ends')} ${endLabel(flash.endsAt, lang)}`
+                  : t('This week\'s deal has ended')}
             </span>
             {live ? (
               <h1>{`${deal.name}:`}<br /><em>{t(`up to ${top.pct}% off`)}</em>{` ${t('your whole order.')}`}</h1>
+            ) : flashOnly ? (
+              <h1>{`${flash.name}:`}<br /><em>{t(`up to ${flash.pct}% off`)}</em>{` ${t('selected products.')}`}</h1>
             ) : (
               <h1>{t('Deal of the Week')}<br /><em>{t('Volume pricing all week:')}</em>{` ${t('15% off 5+ vials, 20% off 10+.')}`}</h1>
             )}
             <p className="dllead">
               {live
                 ? t('Every compound in the catalog counts. The more you stock up, the bigger the discount, applied automatically at checkout. No code needed.')
-                : t('A new deal is announced every week. Until then, volume pricing applies to every order automatically.')}
+                : flashOnly
+                  ? t('A limited-time flash sale on the products below. The discount is applied automatically at checkout — no code needed, and it already beats volume pricing.')
+                  : t('A new deal is announced every week. Until then, volume pricing applies to every order automatically.')}
             </p>
-            {live && deal.endsAt ? <BigClock endsAt={deal.endsAt} /> : null}
+            {live && deal.endsAt ? <BigClock endsAt={deal.endsAt} /> : flashOnly && flash.endsAt ? <BigClock endsAt={flash.endsAt} red /> : null}
             <div className="hctas">
               <a className="btn" href="#dlshop">{t('Shop the deal')}<Ms name="arrow_downward" /></a>
               <a className="btn ghost on-dark" href="#dlhow">{t('How it works')}</a>
@@ -134,9 +147,11 @@ export default function DealPage({ lang, site }) {
       <section className="pb alt" id="dlshop">
         <div className="wrap">
           <Head
-            eyebrow={t('Shop the deal')}
-            title={t('Most ordered this week.')}
-            sub={t('Every product below, and every product in the catalog, counts toward your discount.')}
+            eyebrow={flashOnly ? t('On sale now') : t('Shop the deal')}
+            title={flashOnly ? t('In the flash sale.') : t('Most ordered this week.')}
+            sub={flashOnly
+              ? t('These products are discounted while the flash sale runs. The price below is what checkout charges.')
+              : t('Every product below, and every product in the catalog, counts toward your discount.')}
           />
           <ProductGrid compounds={picks} id="dlGrid" />
           <p className="dlmore">
@@ -190,9 +205,9 @@ export default function DealPage({ lang, site }) {
 
       <section className="dlfinal">
         <div className="wrap">
-          <h2>{live ? t('Don\'t miss it. The deal ends in') : t('New deal every week')}</h2>
-          {live && deal.endsAt ? <BigClock endsAt={deal.endsAt} /> : null}
-          <a className="btn" href="#dlshop">{live ? t(`Shop the ${deal.name}`) : t('Shop the catalog')}<Ms name="arrow_upward" /></a>
+          <h2>{live ? t('Don\'t miss it. The deal ends in') : flashOnly ? t('Don\'t miss it. The flash sale ends in') : t('New deal every week')}</h2>
+          {live && deal.endsAt ? <BigClock endsAt={deal.endsAt} /> : flashOnly && flash.endsAt ? <BigClock endsAt={flash.endsAt} red /> : null}
+          <a className="btn" href="#dlshop">{live ? t(`Shop the ${deal.name}`) : flashOnly ? t(`Shop the ${flash.name}`) : t('Shop the catalog')}<Ms name="arrow_upward" /></a>
           <p className="legal">{t('For laboratory research use only. Not for human or veterinary use.')}</p>
         </div>
       </section>

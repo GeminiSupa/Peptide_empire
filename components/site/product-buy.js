@@ -12,6 +12,38 @@ import { freeShippingThreshold } from '@/lib/storefront/cart-math.mjs';
 import { deliveryProgress, lineFor, withLine } from '@/lib/site/quote.mjs';
 import { ecommerceData, pushEvent } from '@/lib/site/analytics.mjs';
 import { STANDARD_FIVE_PLUS_PCT, tenPlusDiscountPct } from '@/lib/catalog-pricing/bulkDeal.mjs';
+import { flashCoversProduct } from '@/lib/site/deal-view.mjs';
+
+/** A live countdown to the flash sale's end, ticking every second. */
+function FlashCountdown({ endsAt, lang }) {
+  const es = lang === 'es';
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (!endsAt) return undefined;
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [endsAt]);
+  const end = endsAt ? Date.parse(endsAt) : NaN;
+  if (!Number.isFinite(end)) return null;
+  const left = Math.max(0, Math.floor((end - now) / 1000));
+  const pad = (value) => String(value).padStart(2, '0');
+  const days = Math.floor(left / 86400);
+  const hours = Math.floor((left % 86400) / 3600);
+  const mins = Math.floor((left % 3600) / 60);
+  const secs = left % 60;
+  const units = days > 0
+    ? [[days, es ? 'días' : 'days'], [pad(hours), 'h'], [pad(mins), 'min']]
+    : [[pad(hours), 'h'], [pad(mins), 'min'], [pad(secs), es ? 'seg' : 'sec']];
+  return (
+    <div className="pfct" role="timer" aria-label={es ? 'Tiempo restante de la oferta' : 'Time left in this flash sale'}>
+      <Ms name="schedule" />
+      <span className="pfcl">{es ? 'Termina en' : 'Ends in'}</span>
+      {units.map(([value, unit]) => (
+        <span className="pfcu" key={unit}><b>{value}</b>{unit}</span>
+      ))}
+    </div>
+  );
+}
 
 /** Up to four strengths show as chips; more put all but three in a menu. */
 function strengthChips(compound, selected) {
@@ -39,16 +71,22 @@ function strengthChips(compound, selected) {
  */
 export default function ProductBuy({ compound, initialSize, h1, bac, companion, reviews }) {
   const {
-    t, lang, currency, exchangeRate, cart, quoteFor, money, dealView,
+    t, lang, currency, exchangeRate, cart, quoteFor, money, dealView, flashView,
     addToCart, setQty, setSheetOpen, whatsapp, setToast,
   } = useSite();
 
   const dealMode = Boolean(dealView?.tiers?.length);
   const supplies = compound.shelf === 'supplies';
   const [size, setSize] = useState(initialSize || compound.defaultSize);
-  const [qty, setQ] = useState(dealMode ? 1 : 5);
-  const [fbtOn, setFbtOn] = useState({ bac: true, comp: false });
   const variant = variantFor(compound, size);
+  // A flash sale beats volume pricing, so a covered vial hides the 1/3/5/10
+  // presets and shows a red flash card instead. The price itself still comes
+  // from the pooled quote below — this only changes what the buy box offers.
+  const flashHere = flashCoversProduct(flashView, [variant.product]);
+  const [qty, setQ] = useState(
+    dealMode || flashCoversProduct(flashView, [variantFor(compound, initialSize || compound.defaultSize)?.product]) ? 1 : 5,
+  );
+  const [fbtOn, setFbtOn] = useState({ bac: true, comp: false });
   const setQtyClamped = (value) => setQ(Math.max(1, Math.min(99, Math.trunc(Number(value)) || 1)));
 
   useEffect(() => {
@@ -88,7 +126,7 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
 
   // The volume nudge: the next tier, if reaching it would beat today's discount.
   const nextQty = qty < 5 ? 5 : qty < 10 ? 10 : 0;
-  const nextQuote = !dealMode && nextQty && !supplies ? priced.at(nextQty) : null;
+  const nextQuote = !dealMode && !flashHere && nextQty && !supplies ? priced.at(nextQty) : null;
   const nudge = nextQuote && nextQuote.discountPct > pct ? {
     to: nextQty,
     pct: Math.round(nextQuote.discountPct * 100),
@@ -175,7 +213,7 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
           {/* A sale set in the admin: the price before it, struck through. */}
           {variant.wasUsd ? <><s className="was num">{m(currency === 'USD' ? variant.wasUsd : variant.wasCrc)}</s>{' '}</> : null}
           {`${qty} × ${m(unit)}`}
-          {pct ? ` · ${quote?.dealApplied ? `${pctLabel}% ${t('off')} · ${dealView?.name || ''}` : `${pctLabel}% ${t('bulk discount')}`}` : ''}
+          {pct ? ` · ${quote?.dealApplied ? `${pctLabel}% ${t('off')} · ${(flashHere ? flashView?.name : dealView?.name) || ''}` : `${pctLabel}% ${t('bulk discount')}`}` : ''}
           {supplies ? '' : ` · ${t('+ free BAC Water')}`}
         </div>
 
@@ -216,9 +254,10 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
         </div>
 
         <div className="blk">
-          <div className="lab qlab">{t('Quantity')} <span>{t('Best discount applies automatically')}</span></div>
-          {/* Hidden by the design's own `#pv.dealmode` rule while a deal runs. */}
-          <div className="tiers">
+          <div className="lab qlab" hidden={flashHere}>{t('Quantity')} <span>{t('Best discount applies automatically')}</span></div>
+          {/* Hidden by the design's own `#pv.dealmode` rule while a spend deal
+              runs, and by `hidden` on a product the flash sale covers. */}
+          <div className="tiers" hidden={flashHere}>
             {tiers.map((tier) => (
               <button className="tier" type="button" key={tier.q} aria-pressed={qty === tier.q} onClick={() => setQtyClamped(tier.q)}>
                 {tier.flag ? <span className="flag">{t(tier.flag)}</span> : null}
@@ -229,6 +268,21 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
             ))}
           </div>
           <div className="pdeal">
+            {flashHere ? (
+              <div className="pflash">
+                <div className="pfh">
+                  <Ms name="bolt" />
+                  <b>{flashView.name}</b>
+                  <span>{`${flashView.pct}% `}{t('off')}</span>
+                </div>
+                <FlashCountdown endsAt={flashView.endsAt} lang={lang} />
+                <p className="pfm">
+                  {lang === 'es'
+                    ? 'El precio relámpago se aplica solo — ya supera el precio por volumen.'
+                    : 'The flash price applies on its own — it already beats volume pricing.'}
+                </p>
+              </div>
+            ) : null}
             {dealMode ? (
               <>
                 <div className="pdh">
@@ -260,7 +314,7 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
             ) : null}
           </div>
           <div className="qline">
-            <span>{t(dealMode ? 'Quantity' : 'Custom quantity')}</span>
+            <span>{t(dealMode || flashHere ? 'Quantity' : 'Custom quantity')}</span>
             <div className="step">
               <button type="button" aria-label={t('One less')} onClick={() => setQtyClamped(qty - 1)}><Ms name="remove" /></button>
               <input

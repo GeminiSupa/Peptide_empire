@@ -36,7 +36,7 @@ export default async function SiteShell({ lang, altHref, children }) {
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link rel="stylesheet" href={materialSymbolsHref()} />
-      <SiteProvider lang={lang} exchangeRate={site.exchangeRate} deal={site.deal} dealView={site.dealView} contact={site.contact}>
+      <SiteProvider lang={lang} exchangeRate={site.exchangeRate} deal={site.deal} dealView={site.dealView} flashView={site.flashView} contact={site.contact}>
         <SiteHeader
           links={site.links}
           products={site.products}

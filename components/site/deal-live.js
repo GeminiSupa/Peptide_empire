@@ -6,7 +6,7 @@ import ProductImage from '@/components/storefront/product-image';
 import { useSite } from '@/components/site/site-provider';
 
 /** The deal page's days / hours / minutes / seconds countdown. */
-export function BigClock({ endsAt }) {
+export function BigClock({ endsAt, red = false }) {
   const { t } = useSite();
   const [left, setLeft] = useState(null);
   useEffect(() => {
@@ -18,7 +18,7 @@ export function BigClock({ endsAt }) {
   const s = left ?? 0;
   const values = [Math.floor(s / 86400), Math.floor((s % 86400) / 3600), Math.floor((s % 3600) / 60), s % 60];
   return (
-    <div className="dlclock" aria-label={t('Time left')}>
+    <div className={`dlclock${red ? ' red' : ''}`} aria-label={t('Time left')}>
       {['Days', 'Hrs', 'Min', 'Sec'].map((label, index) => (
         <span key={label}><b className="num">{left == null ? '00' : String(values[index]).padStart(2, '0')}</b><small>{t(label)}</small></span>
       ))}
