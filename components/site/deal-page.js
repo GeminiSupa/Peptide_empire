@@ -64,7 +64,32 @@ export default function DealPage({ lang, site }) {
     .slice(0, 8);
   const crc = (usd) => formatMoney(Math.round(usd * exchangeRate), usd, 'CRC');
   const url = NEW_PAGES['deal-of-the-week'][lang === 'es' ? 'es' : 'en'];
-  const faq = DEAL_FAQ.map(([q, a]) => [t(q), t(a)]);
+  // A flash sale answers differently from the weekly deal: it covers only the
+  // products it names, ends at its own time (not Sunday), and has no spend
+  // tier. These answers are bilingual inline so Spanish never falls back to
+  // English, and they also back the page's FAQ structured data.
+  const es = lang === 'es';
+  const flashFaq = flash ? [
+    [es ? '¿Qué productos están incluidos?' : 'Which products are included?',
+      es ? 'Solo los productos de la oferta relámpago, que se muestran abajo. El resto del catálogo mantiene su precio habitual.'
+        : 'Only the products in the flash sale, shown below. The rest of the catalog stays at its usual price.'],
+    [es ? '¿Se combina con el descuento por volumen (15 % / 20 %)?' : 'Does it stack with the 15% / 20% volume discount?',
+      es ? 'No. Comparamos ambos y aplicamos automáticamente el que más te ahorre. La oferta relámpago ya supera el precio por volumen.'
+        : 'No. We compare both and apply whichever saves you more automatically. The flash price already beats volume pricing.'],
+    [es ? '¿Cuándo termina la oferta relámpago?' : 'When does the flash sale end?',
+      es ? `El ${endLabel(flash.endsAt, lang)}, hora de Costa Rica. Los pedidos hechos antes conservan el descuento.`
+        : `${endLabel(flash.endsAt, lang)} Costa Rica time. Orders placed before then keep the discount.`],
+    [es ? '¿Necesito un código?' : 'Do I need a promo code?',
+      es ? 'No. El precio relámpago aparece solo en tu carrito, en los productos de la oferta.'
+        : 'No. The flash price appears in your cart automatically, on the products in the sale.'],
+    [es ? '¿Puedo pedir por WhatsApp y recibir el descuento?' : 'Can I order on WhatsApp and still get the discount?',
+      es ? 'Sí. El mensaje de pedido por WhatsApp incluye tu total con descuento y lo respetamos al confirmar.'
+        : 'Yes. The WhatsApp order message includes your discounted total, and we honour it when we confirm.'],
+    [es ? '¿Es para uso personal?' : 'Is this for personal use?',
+      es ? 'No. Todos los productos son solo para uso en investigación de laboratorio. No damos asesoría de dosis ni médica.'
+        : 'No. All products are for laboratory research use only. We don\'t provide dosing or medical advice.'],
+  ] : null;
+  const faq = (flashOnly && flashFaq) ? flashFaq : DEAL_FAQ.map(([q, a]) => [t(q), t(a)]);
 
   return (
     <div className="pagev" id="page">
