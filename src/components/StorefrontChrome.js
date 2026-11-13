@@ -53,9 +53,11 @@ export function CatalogPromoBanner({ lang = 'es', settings, className = '', forc
       const flash = dealResult.status === 'fulfilled'
         ? flashSaleBanner(dealResult.value?.flash, lang, `/catalog?lang=${lang}`)
         : null;
-      const hasDealBanner = flash && saved.some((banner) => (
-        banner?.dealId === flash.dealId || banner?.id === flash.id
-      ));
+      const hasDealBanner = flash && saved.some((banner) => {
+        const sameDeal = banner?.dealId === flash.dealId || banner?.id === flash.id;
+        const copy = String(banner?.textEn || banner?.textEs || banner?.text || '').trim();
+        return sameDeal && copy.length >= 10;
+      });
       setPromoBanners(flash && !hasDealBanner ? [flash, ...saved] : saved);
     }
 

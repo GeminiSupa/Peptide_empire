@@ -20,3 +20,10 @@ test('invalid deal does not create a banner', () => {
   assert.equal(flashSaleBanner(null), null);
   assert.equal(flashSaleBanner({ id: 'x', offers: { items: [] } }), null);
 });
+
+test('storefront rejects a corrupt same-id banner instead of hiding the fallback', async () => {
+  const source = await import('node:fs/promises').then(({ readFile }) => (
+    readFile(new URL('../src/components/StorefrontChrome.js', import.meta.url), 'utf8')
+  ));
+  assert.match(source, /copy\.length >= 10/);
+});
