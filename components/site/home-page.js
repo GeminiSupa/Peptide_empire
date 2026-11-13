@@ -34,7 +34,7 @@ const OPS = [
 /** The prototype's home page (`#home`), in the page source. */
 export default function HomePage({ lang, h1, site }) {
   const t = translator(lang);
-  const { compounds, categories, links, dealView } = site;
+  const { compounds, categories, links, dealView, flashView } = site;
   const byName = (name) => compounds.find((compound) => compound.name === name);
 
   const popular = [
@@ -63,10 +63,10 @@ export default function HomePage({ lang, h1, site }) {
             <p>{t('Third-party tested, with a Certificate of Analysis on most products, stored at 2–8 °C on site, and delivered anywhere in Costa Rica in 2–4 days.')}</p>
             <div className="hctas">
               <Link className="btn" href={links.catalog}>{t('Browse the catalog')}<Ms name="arrow_forward" /></Link>
-              {dealView ? (
+              {(dealView || flashView) ? (
                 <Link className="btn ghost on-dark" href={links['deal-of-the-week']} data-deal="" data-cta="home-hero-deal">
-                  <Ms name="sell" />
-                  {t('See this week\'s deals')}
+                  <Ms name={flashView && !dealView ? 'bolt' : 'sell'} />
+                  {flashView && !dealView ? (lang === 'es' ? 'Ver la oferta relámpago' : 'See the flash sale') : t('See this week\'s deals')}
                 </Link>
               ) : (
                 <a

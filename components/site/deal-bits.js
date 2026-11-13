@@ -30,8 +30,25 @@ export function DealClock({ endsAt }) {
  * dollars and shown in the shopper's currency at the catalog's rate.
  */
 export function DealCard({ deal, picks, dealHref, id }) {
-  const { t, money } = useSite();
-  const { exchangeRate } = useSite();
+  const { t, money, exchangeRate, flashView } = useSite();
+
+  // A live flash sale takes the card over when there is no weekly deal, in its
+  // own red livery with a live countdown — the hero's lead, same as the banner.
+  if (!deal && flashView) {
+    return (
+      <Link className="deal deal-flash" id={id} href={dealHref} data-flash="" data-cta="deal-card-flash">
+        <div className="dh">
+          <span className="dk dk-flash"><Ms name="bolt" filled />{t('Flash Sale')}</span>
+          {flashView.endsAt ? (
+            <span className="dt" data-dealclock="">{t('Ends in')} <b className="num"><DealClock endsAt={flashView.endsAt} /></b></span>
+          ) : null}
+        </div>
+        <b className="dtitle">{`${flashView.pct}% ${t('off')} ${flashView.scopeLabel || t('selected products')}`}</b>
+        <p className="dsub">{t('Applied automatically at checkout — no code, and it beats volume pricing.')}</p>
+        <span className="btn block dcta">{t('Shop the sale')}<Ms name="arrow_forward" /></span>
+      </Link>
+    );
+  }
 
   if (!deal) {
     return (
