@@ -225,7 +225,12 @@ export default function DealPage({ lang, site }) {
         <div className="wrap">
           <div className="dlwhy">
             <div>
-              <Head eyebrow={t('Why researchers stock up here')} title={t('Same lab standards. Lower price this week.')} />
+              <Head
+                eyebrow={t('Why researchers stock up here')}
+                title={flashOnly
+                  ? (es ? 'El mismo estándar de laboratorio. Precio más bajo ahora.' : 'Same lab standards. Lower price right now.')
+                  : t('Same lab standards. Lower price this week.')}
+              />
               <ul className="dlchk">
                 {['Third-party tested, with a Certificate of Analysis on most products', 'Stored at 2–8 °C on site until it ships', 'Local stock: no customs, no import fees', 'Pay by card, SINPE or bank transfer'].map((line) => (
                   <li key={line}><Ms name="check_circle" />{t(line)}</li>

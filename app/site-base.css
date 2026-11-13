@@ -385,3 +385,14 @@
   border-color: rgba(255, 120, 120, 0.34);
 }
 .pcr-site .dlclock.red b { color: #ff7a7a; }
+
+/* "Why researchers stock up here" section. The Shopper Approved review carousel
+   has a wide intrinsic width that blew out the 1fr/1fr grid: the heading column
+   collapsed to one word per line and the carousel ran off the right of the page
+   (horizontal scroll on mobile too). Give the heading a readable fixed column,
+   let the review column shrink, clip the carousel to its box, and top-align. */
+.pcr-site .wrap .dlwhy { grid-template-columns: minmax(0, 360px) minmax(0, 1fr); align-items: start; gap: 40px; }
+.pcr-site .dlwhy > div { min-width: 0; }
+.pcr-site .dlwhy .hh h2 { font-size: clamp(22px, 2.2vw, 27px); line-height: 1.18; }
+.pcr-site .dlrev { min-width: 0; overflow: hidden; }
+@media (max-width: 1000px) { .pcr-site .wrap .dlwhy { grid-template-columns: 1fr; } }
