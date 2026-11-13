@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Ms from '@/components/storefront/icon';
 import WhatsAppGlyph from '@/components/storefront/whatsapp-glyph';
 import NewsletterForm from '@/components/site/newsletter-form';
-import { CONTACT, SOCIALS } from '@/lib/site/links.mjs';
+import { CONTACT } from '@/lib/site/links.mjs';
 
 const QUICK_LINKS = [
   ['home', 'Home'],
@@ -26,11 +26,8 @@ const POLICY_LINKS = [
 ];
 
 /** The prototype's footer. Server-rendered: every link is in the page source. */
-export default function SiteFooter({ t, links, categories, contact = CONTACT, youtube }) {
+export default function SiteFooter({ t, links, categories, contact = CONTACT, socials = [] }) {
   const whatsapp = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(t("Hi! I'd like to order."))}`;
-  // The YouTube channel follows the catalog admin's Business info CMS; appended
-  // here because the design's SOCIALS list has no YouTube of its own.
-  const socials = youtube ? [...SOCIALS, ['YouTube', youtube]] : SOCIALS;
   return (
     <footer className="sfoot">
       <div className="wrap">

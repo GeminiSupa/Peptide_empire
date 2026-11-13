@@ -49,7 +49,7 @@ export default async function SiteShell({ lang, altHref, children }) {
           banners={site.banners}
         />
         <main>{children}</main>
-        <SiteFooter t={t} lang={lang} links={site.links} categories={site.categories} reviews={site.reviews} contact={site.contact} youtube={site.youtube} />
+        <SiteFooter t={t} lang={lang} links={site.links} categories={site.categories} reviews={site.reviews} contact={site.contact} socials={site.socials} />
         <SiteOverlays
           compounds={site.compounds}
           categories={site.categories}

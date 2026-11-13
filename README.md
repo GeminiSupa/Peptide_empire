@@ -89,6 +89,10 @@ blog rows still render if that migration has not run, but the enhanced editor
 must not deploy before it. No extra env var is needed because both apps already
 use the same Supabase URL and anon key.
 
+The new-design footer reads Facebook and Instagram from the catalog CMS
+Business info fields. Clearing either field hides that profile on the website;
+there is deliberately no hardcoded fallback for those two links.
+
 ## Open: the WordPress handover
 
 The live WordPress is maintained by a different developer. What to request from

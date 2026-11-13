@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { bannersFrom, contactFrom, contactReplacements, reviewLinksFrom, ribbonFor } from '../lib/site/admin-settings.mjs';
+import { bannersFrom, contactFrom, contactReplacements, reviewLinksFrom, ribbonFor, socialLinksFrom } from '../lib/site/admin-settings.mjs';
 import { salePrice } from '../lib/storefront/sale-price.mjs';
 import { CONTACT } from '../lib/site/contact.mjs';
 
@@ -32,6 +32,16 @@ test('review links come from the admin, per language', () => {
   const links = { trustpilotUrlEn: 'https://en.tp', trustpilotUrlEs: 'https://es.tp', googleReviewUrl: '' };
   assert.deepEqual(reviewLinksFrom(links, 'es'), { trustpilot: 'https://es.tp' });
   assert.deepEqual(reviewLinksFrom(links, 'en'), { trustpilot: 'https://en.tp' });
+});
+
+test('blank CMS social fields remove Facebook and Instagram from the main website', () => {
+  const hidden = socialLinksFrom({ facebookUrl: '', instagramUrl: '' });
+  assert.equal(hidden.some(([name]) => name === 'Facebook' || name === 'Instagram'), false);
+  const visible = socialLinksFrom({ facebookUrl: 'https://facebook.example/page', instagramUrl: 'https://instagram.example/page' });
+  assert.deepEqual(visible.filter(([name]) => name === 'Facebook' || name === 'Instagram'), [
+    ['Facebook', 'https://facebook.example/page'],
+    ['Instagram', 'https://instagram.example/page'],
+  ]);
 });
 
 test('only active banners show, written as the catalog writes them', () => {
