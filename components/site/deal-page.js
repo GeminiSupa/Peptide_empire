@@ -120,7 +120,7 @@ export default function DealPage({ lang, site }) {
             {live ? (
               <h1>{`${deal.name}:`}<br /><em>{t(`up to ${top.pct}% off`)}</em>{` ${t('your whole order.')}`}</h1>
             ) : flashOnly ? (
-              <h1>{`${flash.name}:`}<br /><em>{t(`up to ${flash.pct}% off`)}</em>{` ${t('selected products.')}`}</h1>
+              <h1>{`${flash.name}:`}<br /><em>{`${flash.pct}% ${es ? 'de descuento' : 'off'}`}</em>{` ${es ? `en ${flash.scopeLabel || 'productos seleccionados'}` : (flash.scopeLabel || 'selected products')}.`}</h1>
             ) : (
               <h1>{t('Deal of the Week')}<br /><em>{t('Volume pricing all week:')}</em>{` ${t('15% off 5+ vials, 20% off 10+.')}`}</h1>
             )}
@@ -133,7 +133,7 @@ export default function DealPage({ lang, site }) {
             </p>
             {live && deal.endsAt ? <BigClock endsAt={deal.endsAt} /> : flashOnly && flash.endsAt ? <BigClock endsAt={flash.endsAt} red /> : null}
             <div className="hctas">
-              <a className="btn" href="#dlshop">{t('Shop the deal')}<Ms name="arrow_downward" /></a>
+              <a className="btn" href="#dlshop">{flashOnly ? (es ? 'Comprar la oferta' : 'Shop the sale') : t('Shop the deal')}<Ms name="arrow_downward" /></a>
               <a className="btn ghost on-dark" href="#dlhow">{t('How it works')}</a>
             </div>
             <div className="dltrust">

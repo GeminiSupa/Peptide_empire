@@ -34,6 +34,24 @@ const DRAWER_LINKS = [
   ['explore-our-app', 'Our app', 'smartphone'],
 ];
 
+/** The flash banner's live "Ends in" value: "2d 05h" or "15h 00m". */
+function FlashCountdownBar({ endsAt }) {
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    if (!endsAt) return undefined;
+    const id = setInterval(() => setNow(Date.now()), 1000);
+    return () => clearInterval(id);
+  }, [endsAt]);
+  const end = endsAt ? Date.parse(endsAt) : NaN;
+  if (!Number.isFinite(end)) return null;
+  const left = Math.max(0, Math.floor((end - now) / 1000));
+  const pad = (value) => String(value).padStart(2, '0');
+  const days = Math.floor(left / 86400);
+  const hours = Math.floor((left % 86400) / 3600);
+  const mins = Math.floor((left % 3600) / 60);
+  return <b>{days > 0 ? `${days}d ${pad(hours)}h` : `${pad(hours)}h ${pad(mins)}m`}</b>;
+}
+
 /**
  * The announcement bar, sticky header, desktop menus, mobile deal bar and the
  * mobile drawer — the prototype's chrome, with every `#key` link resolved to
@@ -136,19 +154,40 @@ export default function SiteHeader({
 
   return (
     <>
-      <div className={`announce${banners.length ? ' ticking' : ''}`}>
-        <div className="wrap">
-          {banners.length ? (
-            // Admin banners are long, so the strip scrolls like the catalog's
-            // ticker: the items twice over, moved left by one copy's width,
-            // so the loop never shows a gap. Pauses under the pointer.
-            <div className="ann-move" style={{ '--ann-s': `${Math.max(25, Math.round(banners.reduce((n, banner) => n + banner.text.length, 0) / 6))}s` }}>
-              <div className="ann-set">{announceItems(false)}</div>
-              <div className="ann-set" aria-hidden="true">{announceItems(true)}</div>
-            </div>
-          ) : announceItems(false)}
+      {flashView ? (
+        // The flash sale's own banner: a red card with a live countdown, shown
+        // on every width (the plain announcement strip is hidden on phones).
+        <Link href={dealHref} className="flashbar" data-flash="" aria-label={`${flashView.name}: ${flashView.pct}% ${t('off')}`}>
+          <div className="wrap">
+            <span className="fb-ic"><Ms name="sell" /></span>
+            <span className="fb-txt">
+              <b>{flashView.name}</b>
+              <span>{`${flashView.pct}% ${t('off')} ${flashView.scopeLabel || t('selected products')}`}</span>
+            </span>
+            {flashView.endsAt ? (
+              <span className="fb-end">
+                <small>{t('Ends in')}</small>
+                <FlashCountdownBar endsAt={flashView.endsAt} />
+              </span>
+            ) : null}
+            <Ms name="chevron_right" />
+          </div>
+        </Link>
+      ) : (
+        <div className={`announce${banners.length ? ' ticking' : ''}`}>
+          <div className="wrap">
+            {banners.length ? (
+              // Admin banners are long, so the strip scrolls like the catalog's
+              // ticker: the items twice over, moved left by one copy's width,
+              // so the loop never shows a gap. Pauses under the pointer.
+              <div className="ann-move" style={{ '--ann-s': `${Math.max(25, Math.round(banners.reduce((n, banner) => n + banner.text.length, 0) / 6))}s` }}>
+                <div className="ann-set">{announceItems(false)}</div>
+                <div className="ann-set" aria-hidden="true">{announceItems(true)}</div>
+              </div>
+            ) : announceItems(false)}
+          </div>
         </div>
-      </div>
+      )}
 
       <header className="top">
         <div className="wrap">
