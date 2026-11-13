@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
-import { CalendarClock, Check, Minus, PackageCheck, Plus, RefreshCw, ShieldCheck, ShoppingCart, Tag, X } from 'lucide-react';
+import { CalendarClock, Check, Minus, PackageCheck, Plus, RefreshCw, ShieldCheck, ShoppingCart, Tag, X, Zap } from 'lucide-react';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { useBusinessLinks } from '@/hooks/useBusinessLinks';
 import { usePublicPageContent } from '@/hooks/usePublicPageContent';
@@ -106,7 +106,9 @@ export default function DealOfTheWeekPage() {
   const [rateReady, setRateReady] = useState(false);
   const viewRecorded = useRef(false);
   const en = lang === 'en';
-  const timeLeft = useTimeLeft(variant === 'b' ? deal?.ends_at : null);
+  // The countdown shows on version B, and always for a flash sale — its whole
+  // point is the clock running down, whichever version the visitor sees.
+  const timeLeft = useTimeLeft((variant === 'b' || flashOnly) ? deal?.ends_at : null);
   const { cart, qtyOf, setQty, removeItem } = useSharedCart();
   const [cartOpen, setCartOpen] = useState(false);
   const [stockNotice, setStockNotice] = useState('');
@@ -435,7 +437,37 @@ export default function DealOfTheWeekPage() {
   );
 
   const limitedBadge = <p className={styles.badge}><PackageCheck aria-hidden="true" />{en ? 'Limited stock' : 'Inventario limitado'}</p>;
-  const eyebrow = <p className={styles.eyebrow}><RefreshCw size={14} aria-hidden="true" />{en ? 'Deal of the Week' : 'Oferta de la Semana'}</p>;
+  const eyebrow = (
+    <p className={styles.eyebrow} style={flashOnly ? { color: 'var(--urgent)' } : undefined}>
+      {flashOnly ? <Zap size={14} aria-hidden="true" /> : <RefreshCw size={14} aria-hidden="true" />}
+      {flashOnly ? (en ? 'Flash Sale' : 'Oferta Relámpago') : (en ? 'Deal of the Week' : 'Oferta de la Semana')}
+    </p>
+  );
+
+  // The red countdown. Shown on version B, and on any version for a flash sale,
+  // where the clock is the whole point. Labelled for the promotion it times.
+  const countdownBlock = timeLeft && !timeLeft.done ? (
+    <div className={styles.countdown} role="timer" aria-label={en ? 'Time left in this deal' : 'Tiempo restante de la oferta'}>
+      <span className={styles.countdownLabel}>
+        <CalendarClock aria-hidden="true" />
+        {flashOnly
+          ? (en ? 'Flash sale ends in' : 'La oferta relámpago termina en')
+          : (en ? 'Deal ends in' : 'La oferta termina en')}
+      </span>
+      <span className={styles.countdownDigits}>
+        {[
+          [timeLeft.days, en ? 'days' : 'días'],
+          [pad2(timeLeft.hours), en ? 'hrs' : 'hrs'],
+          [pad2(timeLeft.minutes), en ? 'min' : 'min'],
+          [pad2(timeLeft.seconds), en ? 'sec' : 'seg'],
+        ].map(([value, unit]) => (
+          <span key={unit} className={styles.countdownUnit}><strong>{value}</strong>{unit}</span>
+        ))}
+      </span>
+    </div>
+  ) : (timeLeft?.done ? (
+    <p className={styles.countdownLabel}>{en ? 'This deal is ending now.' : 'Esta oferta está terminando.'}</p>
+  ) : null);
 
   return (
     <div className="clone-home">
@@ -488,6 +520,7 @@ export default function DealOfTheWeekPage() {
                   <span><PackageCheck aria-hidden="true" />{en ? 'Limited stock' : 'Inventario limitado'}</span>
                 </div>
               ) : limitedBadge}
+              {flashOnly ? countdownBlock : null}
               <div><button type="button" className={styles.cta} onClick={() => scrollToProducts('hero')}>{en ? 'Shop the deal' : 'Comprar la oferta'}</button></div>
             </section>
             {productGrid}
@@ -505,22 +538,7 @@ export default function DealOfTheWeekPage() {
                 {!offersDeal && <span><Tag aria-hidden="true" />{bulk ? (en ? `${pct}% off ${minUnits}+ vials` : `${pct}% desc. en ${minUnits}+ viales`) : (en ? `${pct}% off` : `${pct}% de descuento`)}</span>}
                 <span><PackageCheck aria-hidden="true" />{en ? 'Limited stock' : 'Inventario limitado'}</span>
               </p>
-              {timeLeft && !timeLeft.done && (
-                <div className={styles.countdown} role="timer" aria-label={en ? 'Time left in this deal' : 'Tiempo restante de la oferta'}>
-                  <span className={styles.countdownLabel}><CalendarClock aria-hidden="true" />{en ? 'Deal ends in' : 'La oferta termina en'}</span>
-                  <span className={styles.countdownDigits}>
-                    {[
-                      [timeLeft.days, en ? 'days' : 'días'],
-                      [pad2(timeLeft.hours), en ? 'hrs' : 'hrs'],
-                      [pad2(timeLeft.minutes), en ? 'min' : 'min'],
-                      [pad2(timeLeft.seconds), en ? 'sec' : 'seg'],
-                    ].map(([value, unit]) => (
-                      <span key={unit} className={styles.countdownUnit}><strong>{value}</strong>{unit}</span>
-                    ))}
-                  </span>
-                </div>
-              )}
-              {timeLeft?.done && <p className={styles.countdownLabel}>{en ? 'This deal is ending now.' : 'Esta oferta está terminando.'}</p>}
+              {countdownBlock}
               <button type="button" className={styles.cta} onClick={() => scrollToProducts('hero')}>{en ? 'Start my order' : 'Empezar mi pedido'}</button>
             </section>
             {productGrid}
