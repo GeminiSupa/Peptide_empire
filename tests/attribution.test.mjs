@@ -95,7 +95,7 @@ test('orders carry only fields the catalog checkout already writes', () => {
   // /api/orders/create inserts the order as sent; an unknown column fails it.
   const allowed = new Set([
     'sales_agent', 'journey_id', 'journey_enrollment_id', 'journey_step_id', 'campaign_id',
-    'utm_campaign', 'ad_attribution', 'ga_client_id', 'ga_session_id',
+    'utm_campaign', 'ad_attribution', 'ga_client_id', 'ga_session_id', 'landing_ref',
   ]);
   const win = fakeWindow(`https://new.peptidescostarica.net/?sales_agent=a&gclid=x1&utm_source=google&utm_medium=cpc&utm_campaign=${UUID}&fbclid=zz&ref=bob`, {
     cookie: '_ga=GA1.1.123456789.1700000000',
@@ -104,6 +104,21 @@ test('orders carry only fields the catalog checkout already writes', () => {
   for (const key of Object.keys(orderAttribution(win, NOW))) {
     assert.ok(allowed.has(key), `${key} is not a field the catalog checkout sends`);
   }
+});
+
+test('a paid-ad landing ?ref= reaches the order as landing_ref', () => {
+  const win = fakeWindow('https://peptidescostarica.net/glptz/?ref=glptz_fb_oct');
+  captureAttribution(win, NOW);
+  assert.equal(win.data.get(ATTRIBUTION_KEYS.landingRef), 'glptz_fb_oct');
+  assert.equal(orderAttribution(win, NOW).landing_ref, 'glptz_fb_oct');
+  // An over-long value is capped on arrival, as the catalog caps it.
+  const long = fakeWindow(`https://peptidescostarica.net/?ref=${'x'.repeat(500)}`);
+  captureAttribution(long, NOW);
+  assert.equal(orderAttribution(long, NOW).landing_ref.length, 200);
+  // Organic visits send nothing.
+  const organic = fakeWindow('https://peptidescostarica.net/shop/');
+  captureAttribution(organic, NOW);
+  assert.equal('landing_ref' in orderAttribution(organic, NOW), false);
 });
 
 test('leads carry their campaign tags and referrer', () => {
