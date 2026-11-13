@@ -51,7 +51,7 @@ export default function SiteHeader({
   banners = [],
 }) {
   const {
-    lang, t, currency, setCurrency, cart, whatsapp, contact,
+    lang, t, currency, setCurrency, cart, whatsapp, contact, flashView,
     setSheetOpen, drawerOpen, setDrawerOpen, setSearchOpen,
   } = useSite();
   const [openMenu, setOpenMenu] = useState('');
@@ -94,6 +94,12 @@ export default function SiteHeader({
           <Link href={links['deal-of-the-week']} data-deal="" {...tab}>
             <Ms name="local_offer" />
             {t('Deal of the Week')}
+          </Link>
+        ) : null}
+        {flashView ? (
+          <Link href={links['deal-of-the-week']} data-flash="" {...tab}>
+            <Ms name="bolt" />
+            {flashView.name}
           </Link>
         ) : null}
         {/* The banners switched on in the catalog admin take the place of
@@ -167,6 +173,12 @@ export default function SiteHeader({
               <Link href={dealHref} data-deal="" className="navdeal" data-cta="nav-deal">
                 <Ms name="sell" />
                 {t('Deal of the Week')}
+              </Link>
+            ) : null}
+            {flashView ? (
+              <Link href={dealHref} data-flash="" className="navdeal navflash" data-cta="nav-flash">
+                <Ms name="bolt" />
+                {flashView.name}
               </Link>
             ) : null}
             {menu('about', 'About', 'sm', ABOUT_LINKS.map(([key, label, icon]) => (
