@@ -797,6 +797,14 @@ export default function OrderDetailPanel({
             {order.source === 'admin_manual' && (
               <span className="order-detail-badge">Manual entry</span>
             )}
+            {order.landing_ref && (
+              <span
+                className="order-detail-badge"
+                title="Paid-ad landing page this order came through (?ref=)"
+              >
+                Ref: {order.landing_ref}
+              </span>
+            )}
           </div>
         </div>
 

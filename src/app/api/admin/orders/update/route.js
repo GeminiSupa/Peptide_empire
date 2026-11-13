@@ -17,6 +17,7 @@ import { cleanReason, decideOwnerChange, sameOwner } from '@/lib/orderOwnership.
 import { missingColumnFrom, ORDER_ATTRIBUTION_COLUMNS, ORDER_FULFILLMENT_COLUMNS, ORDER_INVENTORY_COLUMNS, ORDER_VOLUME_DISCOUNT_PCT_COLUMNS, writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 import { recordReadyToPrepareNotification, sendAffiliateOrderWhatsApp, sendFulfillmentReadyWhatsApp } from '@/lib/orderWhatsAppAlerts';
 import { isFirstPaidTransition, shouldSendPaidConfirmation } from '@/lib/orderStatusEmails.mjs';
+import { fireOrderPaidWebhook } from '@/lib/orderPaidWebhook.mjs';
 import { shouldRestoreForStatus } from '@/lib/inventoryRestore.mjs';
 import { restoreInventoryForOrder } from '@/lib/inventoryRestoreServer';
 import { notifyLowInventory, prepareInventoryReservation } from '@/lib/orderInventoryServer';
@@ -589,6 +590,11 @@ export async function PATCH(request) {
     // Trigger Customer Receipt if status changed to Paid/Completed
     if (patch.status && currentOrder) {
       if (isFirstPaidTransition(currentOrder.status, patch.status)) {
+        // A staff "mark as paid" (and bank/SINPE verification) settles the order
+        // here. Fired from the saved row so the landing ref rides along; the
+        // helper itself only fires on the real move into paid.
+        await fireOrderPaidWebhook(data, { previousStatus: currentOrder.status, logPrefix: '[admin/orders/update]' });
+
         const { error: cartCleanupError } = await markActiveAbandonedCartsConvertedForOrder(supabase, data);
         if (cartCleanupError) {
           console.warn('[admin/orders/update] Paid cart cleanup failed:', cartCleanupError.message);

@@ -16,6 +16,7 @@ import { businessMinimumError,mergeBusinessProductPrices } from '@/lib/businessS
 import { getDatabaseBackedUsdToCrcRate } from '@/lib/exchangeRate';
 import { mergeOrderWhatsAppDestinations, selectWithOptionalPreferences } from '@/lib/notificationPreferences.mjs';
 import { sanitizeOrderAttribution } from '@/lib/orderAttribution.mjs';
+import { sanitizeLandingRef } from '@/lib/landingRef.mjs';
 import { affiliateCommissionPatch, affiliateHandlingAgentName, partnerReferralAffiliate } from '@/lib/affiliateCommission.mjs';
 import { checkoutOrderStatus } from '@/lib/checkoutOrderStatus.mjs';
 import { ORDER_RESEARCH_ACK_COLUMNS, writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
@@ -587,6 +588,15 @@ async function createOrder(request) {
       || sanitizeAdAttribution(order.ad_attribution);
     delete order.analytics_snapshot; delete order.ads_paid_at;
     order.ad_attribution = googleAttribution;
+    // Which paid-ad landing page produced this sale. The browser sends the
+    // ?ref= it saw on the landing URL (the main website posts it the same way
+    // from its own domain). A stray key here would be an unknown column and
+    // fail the whole insert, so the raw value is taken off and only our cleaned
+    // copy is written — dropped harmlessly below if the migration is unrun.
+    const landingRef = sanitizeLandingRef(order.ref ?? order.landing_ref);
+    delete order.ref;
+    delete order.landing_ref;
+    if (landingRef) order.landing_ref = landingRef;
     // The visitor's GA4 cookie IDs, kept only if shaped like real ones. They let a
     // WhatsApp sale confirmed later be sent to GA4 as part of this same visit.
     Object.assign(order, sanitizeGaIdentity(order));
@@ -848,6 +858,10 @@ async function createOrder(request) {
       [
         'ad_attribution', 'analytics_snapshot', 'ga_client_id', 'ga_session_id',
         'utm_campaign',
+        // add-order-landing-ref.sql. Same principle as utm_campaign above: an
+        // order is worth more than the landing tag that won it, so a database
+        // without this column saves the order and only loses the ref.
+        'landing_ref',
         'deal_id',
         'inventory_deducted',
         'volume_discount_pct',

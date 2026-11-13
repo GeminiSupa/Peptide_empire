@@ -24,6 +24,7 @@ import { activeDealForOrder } from '@/lib/authoritativeCheckout.mjs';
 import { combineLiveDeals } from '@/lib/dealOfWeek.mjs';
 import { affiliateCommissionPatch } from '@/lib/affiliateCommission.mjs';
 import { sendAdminOrderEmail } from '@/lib/adminOrderEmail.mjs';
+import { fireOrderPaidWebhook } from '@/lib/orderPaidWebhook.mjs';
 import { applyCustomerHistoryAttribution } from '@/lib/customerHistoryAttributionServer';
 import { CUSTOMER_HISTORY_SOURCE } from '@/lib/agentAttribution.mjs';
 import { profileOwnerName, resolveManualOrderOwner } from '@/lib/orderOwnership.mjs';
@@ -464,6 +465,13 @@ export async function POST(request) {
     } catch (notifyError) {
       console.error('[admin/orders/create] low inventory alert failed:', notifyError.message);
     }
+
+    // An order typed in already settled (bank transfer paid, a backfilled sale)
+    // is a paid order from the moment it exists, so it fires the webhook too.
+    // previousStatus is null — there was no prior state — which the helper reads
+    // as the move into paid. Card orders open at "Payment Pending" and never
+    // reach here paid, so they are covered by the gateway paths instead.
+    await fireOrderPaidWebhook(data, { previousStatus: null, logPrefix: '[admin/orders/create]' });
 
     const housekeeping = [];
     if (row.customer_phone) {

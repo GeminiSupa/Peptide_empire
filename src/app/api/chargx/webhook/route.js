@@ -7,6 +7,7 @@ import { declineReasonFrom, gatewayStatusToOrderStatus } from '@/lib/paymentOutc
 import { sendPaymentResultEmails, shouldSendPaymentResultEmail } from '@/lib/paymentResultEmail.mjs';
 import { getPublicSiteUrl } from '@/lib/publicUrl';
 import { withPaymentStatusActivity } from '@/lib/paymentStatusActivity.mjs';
+import { fireOrderPaidWebhook } from '@/lib/orderPaidWebhook.mjs';
 
 export const runtime = 'nodejs';
 
@@ -157,6 +158,10 @@ export async function POST(req) {
       // webhook — which left every card sale deducting nothing at all. Safe to
       // reach twice: a row that already carries a reservation is skipped.
       if (orderRow) {
+        // The paid transition for card/crypto that settles asynchronously (3DS).
+        // existing.status is the status before this update, so the helper fires
+        // once and stands down on a duplicate "Paid" delivery.
+        await fireOrderPaidWebhook(orderRow, { previousStatus: existing.status, logPrefix });
         await reservePaidOrderInventory(supabase, orderRow, { logPrefix });
       } else {
         console.error(`${logPrefix} Could not re-read`, existing.order_number, '; stock NOT reserved');

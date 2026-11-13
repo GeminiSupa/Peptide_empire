@@ -1291,6 +1291,12 @@ export default function CatalogPage() {
       if (utmSource) localStorage.setItem('lead_utm_source', utmSource);
       if (utmMedium) localStorage.setItem('lead_utm_medium', utmMedium);
       if (utmCampaign) localStorage.setItem('lead_utm_campaign', utmCampaign);
+      // Which paid-ad landing page produced this visit. Read straight from
+      // ?ref= (not the affiliate `referralParam` above, which also matches
+      // ?referral= / ?affiliate=): this only records the landing page, and the
+      // order carries it as landing_ref so a sale can be traced back to it.
+      const landingRefParam = urlParams.get('ref');
+      if (landingRefParam) localStorage.setItem('landing_ref', String(landingRefParam).slice(0, 200));
       if (ref && !ref.includes(window.location.hostname)) {
         localStorage.setItem('lead_referrer', ref);
       }
@@ -3213,6 +3219,9 @@ export default function CatalogPage() {
       const orderPayload = {
         ...applyStoredAttribution(orderRow),
         ad_attribution: readAdClick(document),
+        // The paid-ad landing page's ?ref=, saved on arrival. Null for organic
+        // visits; the server cleans and stores it as landing_ref.
+        landing_ref: (typeof localStorage !== 'undefined' && localStorage.getItem('landing_ref')) || null,
         ...readGaIdentity(document),
         ...(businessCheckoutQuote?{business_quote_id:businessCheckoutQuote.id}:{}),
         research_ack: { accepted: true, version: RESEARCH_ACK_VERSION },

@@ -15,6 +15,7 @@ import { withPaymentStatusActivity } from '@/lib/paymentStatusActivity.mjs';
 import { buildPaymentRecoveryPath } from '@/lib/paymentRecovery.mjs';
 import { sendPaymentRecoveryWhatsApp } from '@/lib/paymentRecoveryWhatsApp.mjs';
 import { reservePaidOrderInventory } from '@/lib/orderInventoryServer';
+import { fireOrderPaidWebhook } from '@/lib/orderPaidWebhook.mjs';
 import { isFreeCardOrder } from '@/lib/freeOrder.mjs';
 import { verifyCardCheckoutToken } from '@/lib/cardPaymentLink';
 import {
@@ -338,6 +339,13 @@ export async function POST(req) {
         .maybeSingle();
 
       if (orderRow) {
+        // A direct (non-3DS) approval settles the order right here, so this is
+        // the paid transition for it. Fired from the full row so the landing
+        // ref and totals are on the payload; the helper no-ops unless the
+        // status actually moved into paid.
+        if (outcome === 'paid') {
+          await fireOrderPaidWebhook(orderRow, { previousStatus: claim.order?.status, logPrefix: '[Chargex]' });
+        }
         // /api/orders/create held the team's alert for this order, so this
         // one mail is both the new-order alert and the payment outcome.
         const emailResult = await sendPaymentResultEmails(baseUrl, orderRow, orderNumber, {
