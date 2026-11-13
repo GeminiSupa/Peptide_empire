@@ -155,8 +155,8 @@ export default function SiteHeader({
   return (
     <>
       {flashView ? (
-        // The flash sale's own banner: a red card with a live countdown, shown
-        // on every width (the plain announcement strip is hidden on phones).
+        // On phones the flash sale leads with its compact countdown card.
+        // Desktop keeps the full moving announcement ticker rendered below.
         <Link href={dealHref} className="flashbar" data-flash="" aria-label={`${flashView.name}: ${flashView.pct}% ${t('off')}`}>
           <div className="wrap">
             <span className="fb-ic"><Ms name="sell" /></span>
@@ -173,21 +173,20 @@ export default function SiteHeader({
             <Ms name="chevron_right" />
           </div>
         </Link>
-      ) : (
-        <div className={`announce${banners.length ? ' ticking' : ''}`}>
-          <div className="wrap">
-            {banners.length ? (
-              // Admin banners are long, so the strip scrolls like the catalog's
-              // ticker: the items twice over, moved left by one copy's width,
-              // so the loop never shows a gap. Pauses under the pointer.
-              <div className="ann-move" style={{ '--ann-s': `${Math.max(25, Math.round(banners.reduce((n, banner) => n + banner.text.length, 0) / 6))}s` }}>
-                <div className="ann-set">{announceItems(false)}</div>
-                <div className="ann-set" aria-hidden="true">{announceItems(true)}</div>
-              </div>
-            ) : announceItems(false)}
-          </div>
+      ) : null}
+      <div className={`announce${banners.length ? ' ticking' : ''}`}>
+        <div className="wrap">
+          {banners.length ? (
+            // Admin banners are long, so the strip scrolls like the catalog's
+            // ticker: the items twice over, moved left by one copy's width,
+            // so the loop never shows a gap. Pauses under the pointer.
+            <div className="ann-move" style={{ '--ann-s': `${Math.max(25, Math.round(banners.reduce((n, banner) => n + banner.text.length, 0) / 6))}s` }}>
+              <div className="ann-set">{announceItems(false)}</div>
+              <div className="ann-set" aria-hidden="true">{announceItems(true)}</div>
+            </div>
+          ) : announceItems(false)}
         </div>
-      )}
+      </div>
 
       <header className="top">
         <div className="wrap">

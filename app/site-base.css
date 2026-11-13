@@ -397,10 +397,10 @@
 .pcr-site .dlrev { min-width: 0; overflow: hidden; }
 @media (max-width: 1000px) { .pcr-site .wrap .dlwhy { grid-template-columns: 1fr; } }
 
-/* The flash sale's own announcement bar: a red card with the sale, a live
-   countdown and a chevron, linking to the deal page. Unlike the plain .announce
-   strip (hidden on phones) this shows on every width — the flash is the lead. */
-.pcr-site .flashbar { display: block; color: #fff; text-decoration: none;
+/* The flash sale's own mobile announcement card. Desktop retains the moving
+   admin announcement ticker; at the phone breakpoint that ticker is hidden and
+   this compact sale/countdown card takes its place. */
+.pcr-site .flashbar { display: none; color: #fff; text-decoration: none;
   background: linear-gradient(110deg, #ff2e4d, #ff5b5b, #ff7a45, #ff3d5e, #ff2e4d);
   background-size: 300% 300%; animation: redflow 6s ease-in-out infinite; }
 .pcr-site .flashbar .wrap { display: flex; align-items: center; gap: 12px; min-height: 54px; padding-top: 8px; padding-bottom: 8px; }
@@ -414,6 +414,7 @@
 .pcr-site .flashbar .fb-end b { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
 .pcr-site .flashbar .wrap > .ms { flex: 0 0 auto; font-size: 22px; opacity: .9; }
 .pcr-site .flashbar:hover { filter: brightness(1.04); }
+@media (max-width: 900px) { .pcr-site .flashbar { display: block; } }
 @media (prefers-reduced-motion: reduce) { .pcr-site .flashbar { animation: none; } }
 
 /* The hero deal card when a flash sale leads instead of the weekly deal: red
