@@ -49,7 +49,8 @@ function FlashCountdownBar({ endsAt }) {
   const days = Math.floor(left / 86400);
   const hours = Math.floor((left % 86400) / 3600);
   const mins = Math.floor((left % 3600) / 60);
-  return <b>{days > 0 ? `${days}d ${pad(hours)}h` : `${pad(hours)}h ${pad(mins)}m`}</b>;
+  // The page is cached, so the server's minute can trail the visitor's.
+  return <b suppressHydrationWarning>{days > 0 ? `${days}d ${pad(hours)}h` : `${pad(hours)}h ${pad(mins)}m`}</b>;
 }
 
 /**
