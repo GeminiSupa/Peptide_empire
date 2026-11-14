@@ -26,6 +26,8 @@ import {
 import { classifySmtpFailure } from '@/lib/marketingDelivery.mjs';
 import { getCampaignSafetyConfig } from '@/lib/campaignSafety.mjs';
 import { isSlowDomain, orderFastFirst } from '@/lib/campaignDomainThrottle.mjs';
+import { isQuotaExhausted, resolveCampaignFallbackChain } from '@/lib/campaignProviders.mjs';
+import { sendCampaignEmailViaResend } from '@/lib/resendCampaignSender.mjs';
 import { buildCampaignDestination } from '@/lib/campaignLinks.mjs';
 import { nextWindowOpening, readSendWindow, withinSendWindow } from '@/lib/broadcastPacing.mjs';
 import { formatCrInstant } from '@/lib/crTime.mjs';
@@ -117,6 +119,90 @@ async function closeTransporter(transporter) {
   } catch {
     // Nodemailer close is best-effort; send errors are handled separately.
   }
+}
+
+// Thrown when Elastic has hit its quota AND every configured fallback is used
+// up (Resend quota reached, Rackspace cap reached). The send loop catches this
+// to stop the batch cleanly and back off, rather than hammering dead providers.
+class AllSendersExhaustedError extends Error {}
+
+/**
+ * Sends one campaign message, rolling over to the next provider only when the
+ * current one says its quota is used up. With no fallback chain (the default)
+ * it is exactly `elasticTransporter.sendMail` — the live path is unchanged
+ * unless EMAIL_CAMPAIGN_FALLBACK_ENABLED turns the chain on.
+ */
+function createCampaignSender({ smtp, safety, fallbackChain }) {
+  const elastic = createCampaignTransporter(smtp, safety);
+  const smtpTransporters = new Map(); // provider name -> nodemailer transporter
+  const sentByProvider = new Map();   // provider name -> count sent this run
+  let index = -1;                     // -1 = Elastic (primary); 0.. = fallbackChain
+
+  const nameAt = i => (i < 0 ? 'Elastic Email' : fallbackChain[i].provider);
+
+  const transporterFor = descriptor => {
+    let transporter = smtpTransporters.get(descriptor.provider);
+    if (!transporter) {
+      transporter = nodemailer.createTransport({
+        pool: true,
+        maxConnections: 1,
+        host: descriptor.config.host,
+        port: descriptor.config.port,
+        secure: descriptor.config.secure,
+        auth: { user: descriptor.config.user, pass: descriptor.config.pass },
+      });
+      smtpTransporters.set(descriptor.provider, transporter);
+    }
+    return transporter;
+  };
+
+  const deliver = async (mail, i) => {
+    if (i < 0) return elastic.sendMail(mail);
+    const descriptor = fallbackChain[i];
+    if (descriptor.kind === 'resend') {
+      return sendCampaignEmailViaResend(descriptor.config, mail);
+    }
+    // SMTP fallback (Rackspace) sends from its own mailbox address.
+    return transporterFor(descriptor).sendMail({ ...mail, from: descriptor.config.from || mail.from });
+  };
+
+  return {
+    get currentProvider() { return nameAt(index); },
+    get fallbackUsed() { return index >= 0; },
+    async send(mail) {
+      for (;;) {
+        const descriptor = index < 0 ? null : fallbackChain[index];
+        // A capped provider (Rackspace) steps aside once it has sent its limit.
+        if (descriptor && Number.isFinite(descriptor.cap)
+          && (sentByProvider.get(descriptor.provider) || 0) >= descriptor.cap) {
+          if (index + 1 >= fallbackChain.length) throw new AllSendersExhaustedError(`${nameAt(index)} cap reached`);
+          index += 1;
+          continue;
+        }
+        try {
+          await deliver(mail, index);
+          const provider = nameAt(index);
+          sentByProvider.set(provider, (sentByProvider.get(provider) || 0) + 1);
+          return { provider, fallbackUsed: index >= 0 };
+        } catch (error) {
+          // Only a configured fallback chain changes anything here. With no
+          // chain (the default), a quota error propagates unchanged and the
+          // per-recipient handler treats it as the soft failure it always was.
+          if (isQuotaExhausted(error) && fallbackChain.length > 0) {
+            if (index + 1 >= fallbackChain.length) throw new AllSendersExhaustedError(`${nameAt(index)} out of quota`);
+            console.warn('[Campaign delivery] Provider quota reached, rolling over', { from: nameAt(index), to: fallbackChain[index + 1].provider });
+            index += 1;
+            continue; // retry THIS recipient on the next provider
+          }
+          throw error; // ordinary send failure — leave it to the per-recipient handler
+        }
+      }
+    },
+    async close() {
+      await closeTransporter(elastic);
+      for (const transporter of smtpTransporters.values()) await closeTransporter(transporter);
+    },
+  };
 }
 
 export class CampaignDeliveryError extends Error {
@@ -762,12 +848,19 @@ export async function deliverCampaign(campaignId, options = {}) {
     fallback_host: null,
   });
 
-  const transporter = createCampaignTransporter(smtp, safety);
+  // Elastic primary, rolling over to Resend then a capped Rackspace valve only
+  // when a provider reports its quota is used up. Empty chain (the default) =
+  // Elastic only, unchanged.
+  const fallbackChain = resolveCampaignFallbackChain();
+  const sender = createCampaignSender({ smtp, safety, fallbackChain });
   let sent = 0;
   let failed = 0;
   let bounced = 0;
   let lastError = null;
   let stoppedOnTimeBudget = false;
+  let stoppedOnProvidersExhausted = false;
+  let fallbackUsed = false;
+  let fallbackProviderUsed = null;
   const providerErrors = [];
   const sendDeadlineAt = Date.now() + safety.sendBudgetMs;
 
@@ -798,20 +891,28 @@ export async function deliverCampaign(campaignId, options = {}) {
             'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
           },
         };
-        try {
-          await transporter.sendMail(mail);
-        } catch (primaryError) {
-          providerErrors.push({
-            provider: primaryProvider,
-            message: truncateError(primaryError, 220),
-            at: new Date().toISOString(),
-          });
-          throw primaryError;
+        const result = await sender.send(mail);
+        if (result.fallbackUsed) {
+          fallbackUsed = true;
+          fallbackProviderUsed = result.provider;
         }
         const { error } = await supabase.from('campaign_sends').insert({ campaign_id: campaign.id, subscriber_id: subscriber.id, subject_variant: variant });
         if (error) throw error;
         sent += 1;
       } catch (error) {
+        // Every sender is out of quota: stop the batch and leave the rest for a
+        // later run rather than failing each remaining recipient in a loop.
+        if (error instanceof AllSendersExhaustedError) {
+          stoppedOnProvidersExhausted = true;
+          lastError = truncateError(error);
+          console.error('[Campaign delivery] All senders exhausted; stopping batch', { campaignId: campaign.id, sentSoFar: sent });
+          break;
+        }
+        providerErrors.push({
+          provider: sender.currentProvider,
+          message: truncateError(error, 220),
+          at: new Date().toISOString(),
+        });
         if (classifySmtpFailure(error) === 'hard') {
           bounced += 1;
           await retireBouncedRecipient(supabase, subscriber, error);
@@ -827,7 +928,7 @@ export async function deliverCampaign(campaignId, options = {}) {
       }
     }
   } finally {
-    await closeTransporter(transporter);
+    await sender.close();
   }
 
   // Retired addresses are gone for good, so they leave the denominator rather
@@ -836,7 +937,9 @@ export async function deliverCampaign(campaignId, options = {}) {
   const sentTotal = alreadySent + sent;
   const remaining = Math.max(reachableEligible - sentTotal, 0);
   const madeNoProgress = sent === 0 && bounced === 0 && failed > 0;
-  const nextBatchMinutes = madeNoProgress
+  // Back off (don't chain straight on) when nothing got through, or when every
+  // sender was out of quota — give the providers time to reset before retrying.
+  const nextBatchMinutes = madeNoProgress || stoppedOnProvidersExhausted
     ? Math.max(safety.batchIntervalMinutes, NO_PROGRESS_RETRY_MINUTES)
     : safety.batchIntervalMinutes;
   const nextBatchAt = !isTestBatch && remaining > 0
@@ -856,7 +959,8 @@ export async function deliverCampaign(campaignId, options = {}) {
     failed,
     bounced,
     remaining_after_batch: remaining,
-    fallback_used: false,
+    fallback_used: fallbackUsed,
+    fallback_provider: fallbackUsed ? fallbackProviderUsed : null,
     error_message: lastError,
     provider_errors: providerErrors.length ? providerErrors.slice(-10) : null,
   });
@@ -864,8 +968,8 @@ export async function deliverCampaign(campaignId, options = {}) {
   return {
     campaignId,
     provider: primaryProvider,
-    fallbackProvider,
-    fallbackUsed: false,
+    fallbackProvider: fallbackUsed ? fallbackProviderUsed : fallbackProvider,
+    fallbackUsed,
     batchSize: safety.batchSize,
     batchIntervalMinutes: safety.batchIntervalMinutes,
     fallbackSendDelayMs: safety.fallbackSendDelayMs,
