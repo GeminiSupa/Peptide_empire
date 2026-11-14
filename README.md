@@ -266,6 +266,28 @@ Owner (Omer) to do or decide:
     (`scripts/sync-catalog-checkout.mjs` on `main` must be re-run, and the new
     `src/app/api/givver/webhook/route.js` added to its file list) — only
     matters once the website's own checkout is switched on.
+11. Email campaign send speed (14 Nov 2026, catalog `899adf5d`, `c5f96021`,
+    `c487d499`). A ~1,800-person send took ~8h. **Live now:** campaigns drain
+    continuously instead of parking 30 min between batches, a started campaign
+    finishes past the 20:00 window instead of rolling to next morning, and
+    slow-reputation providers (Hotmail/Outlook/Live/MSN, iCloud/me/mac) send on
+    a slow clock (~300/hr) while Gmail/rest go full speed — ~2,000 in <30 min.
+    Pacing knobs (all server env, no deploy): `EMAIL_CAMPAIGN_BATCH_SIZE` (120),
+    `EMAIL_CAMPAIGN_BATCH_INTERVAL_MINUTES` (0 — any value >0 re-adds the park),
+    `EMAIL_CAMPAIGN_SEND_DELAY_MS` (800), `EMAIL_CAMPAIGN_SLOW_DOMAINS` (""=off),
+    `EMAIL_CAMPAIGN_SLOW_SEND_DELAY_MS` (12000). **Shipped but OFF:** Elastic→
+    Resend→Rackspace quota failover. To turn on: make a Resend account, verify
+    peptidescostarica.net on it (add Resend's SPF include + DKIM at Namecheap),
+    then set `EMAIL_CAMPAIGN_FALLBACK_ENABLED=true` + `RESEND_API_KEY` in Vercel
+    (Rackspace valve reuses `OWN_DOMAIN_SMTP_*`, cap `EMAIL_CAMPAIGN_RACKSPACE_CAP`
+    =200). Unproven: no live Resend account or real quota event tested; Elastic's
+    quota-error wording is a best guess in `isQuotaExhausted`. **DNS (checked
+    14 Nov):** peptidescostarica.net meets Gmail/Yahoo bulk rules (SPF has
+    Elastic+Rackspace+Brevo, Elastic DKIM at `api._domainkey`, DMARC exists);
+    owner to decide — add DMARC `rua` reporting then raise `p=none`→`quarantine`,
+    and drop Brevo from SPF if unused. **Not done — Phase 3:** Resend *batch* API
+    as the main send path (speed headroom + placement comparison), deferred to
+    after Black Friday; the failover above is overflow-only, not Phase 3.
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a
