@@ -1,13 +1,47 @@
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-/** Old WordPress ad landing page → this site's page for the same product. */
+/**
+ * Old WordPress ad landing page → this site's page for the same product.
+ *
+ * WordPress served each ad copy twice: at `/lp-<slug>/` and at
+ * `/product/lp-<slug>/`. Only the second survived the 9 Nov 2026 move, so
+ * every ad still pointing at the short address 404s and the click is paid for
+ * and lost. The first five were found one at a time as Google Ads reported
+ * them; on 13 Nov 2026 the ads team reported two more, so the rest of the
+ * family was checked against the live site in one go and every one that was
+ * still 404ing is listed here. Each destination was confirmed to answer 200.
+ */
 export const OLD_AD_LANDING_PAGES = [
   ['lp-klow-80mg', '/product/lp-klow-80mg/'],
   ['lp-aicar-50mg', '/product/lp-aicar-50mg/'],
   ['lp-oxytocin-acetate-5mg', '/product/lp-oxytocin-acetate-5mg/'],
   ['lp-pt-141-10mg', '/product/lp-pt-141-10mg/'],
   ['lp-bac-water-10ml', '/product/bac-water-10ml/'],
+  // Reported by the ads team, 13 Nov 2026.
+  ['lp-ghk-cu-100mg', '/product/lp-ghk-cu-100mg/'],
+  ['lp-ipamorelin-10mg', '/product/lp-ipamorelin-10mg/'],
+  // The rest of the same family, all 404ing on the same day.
+  ['lp-5-amino-1mq-50mg', '/product/lp-5-amino-1mq-50mg/'],
+  ['lp-5-amino-1mq-5mg', '/product/lp-5-amino-1mq-5mg/'],
+  ['lp-cartalax-20mg', '/product/lp-cartalax-20mg/'],
+  ['lp-ghk-cu-50mg', '/product/lp-ghk-cu-50mg/'],
+  ['lp-glow-50mg', '/product/lp-glow-50mg/'],
+  ['lp-glow-70mg', '/product/lp-glow-70mg/'],
+  ['lp-glutathione-1500mg', '/product/lp-glutathione-1500mg/'],
+  ['lp-igf-1lr3-1mg', '/product/lp-igf-1lr3-1mg/'],
+  ['lp-kisspeptin-10-10mg', '/product/lp-kisspeptin-10-10mg/'],
+  ['lp-kpv-10mg', '/product/lp-kpv-10mg/'],
+  ['lp-nad-1000mg', '/product/lp-nad-1000mg/'],
+  ['lp-pinealon-20mg', '/product/lp-pinealon-20mg/'],
+  ['lp-selank-10mg', '/product/lp-selank-10mg/'],
+  ['lp-sermorelin-10mg', '/product/lp-sermorelin-10mg/'],
+  ['lp-slu-pp-332-5mg', '/product/lp-slu-pp-332-5mg/'],
+  ['lp-ss-31-10mg', '/product/lp-ss-31-10mg/'],
+  ['lp-super-human-blend-10ml', '/product/lp-super-human-blend-10ml/'],
+  ['lp-tb-4-10mg', '/product/lp-tb-4-10mg/'],
+  ['lp-thymalin-10mg', '/product/lp-thymalin-10mg/'],
+  ['lp-thymosin-alpha-1-10mg', '/product/lp-thymosin-alpha-1-10mg/'],
 ];
 
 /** @type {import('next').NextConfig} */
