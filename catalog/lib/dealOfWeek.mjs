@@ -117,6 +117,23 @@ export function scheduledWindow(startsAt, { now = new Date(), liveEndsAt = null 
   return { window: weekWindow(new Date(start)) };
 }
 
+/**
+ * Do two deal windows share any moment?
+ *
+ * Several weeks can be queued at once, but the cron runs one weekly deal at a
+ * time, so two whose [start, end] ranges touch would leave the later one
+ * waiting and starting late. Scheduling checks this to refuse an overlap up
+ * front. Pure so it can be tested without a database.
+ */
+export function dealWindowsOverlap(aStartsAt, aEndsAt, bStartsAt, bEndsAt) {
+  const aStart = Date.parse(aStartsAt);
+  const aEnd = Date.parse(aEndsAt);
+  const bStart = Date.parse(bStartsAt);
+  const bEnd = Date.parse(bEndsAt);
+  if (![aStart, aEnd, bStart, bEnd].every(Number.isFinite)) return false;
+  return aStart <= bEnd && bStart <= aEnd;
+}
+
 /** Strip currency symbols and separators from a stored price string. */
 export function parsePriceNumber(value) {
   if (value === null || value === undefined) return 0;

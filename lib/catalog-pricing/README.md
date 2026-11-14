@@ -48,7 +48,8 @@ See the reprice path there.
 
 They are pure functions with no server dependencies, which is what makes
 copying safe. Do not edit them here. If the catalog changes its pricing rules,
-re-copy them all and re-run `npm test` — `tests/pricing-parity.test.mjs`
+run `node scripts/sync-catalog-pricing.mjs` and re-run `npm test` —
+`tests/pricing-parity.test.mjs`
 asserts these files are byte-identical to the catalog's when that checkout is
 present on disk, so a drift shows up as a failing test rather than as a
 mispriced cart.

@@ -1,7 +1,7 @@
 // Copied from the catalog (src/app/api/chargx/process-card/route.js) by scripts/sync-catalog-checkout.mjs. Do not edit.
 import { NextResponse, after } from 'next/server';
 import { getSupabaseAdmin } from '@/catalog/lib/supabaseAdmin';
-import { isChargxConfigured, createChargxCardCheckout, withChargxCheckoutDetails, normalizeChargxPaymentType } from '@/catalog/lib/chargxPay.mjs';
+import { isChargxConfigured, createChargxCardCheckout, withChargxCheckoutDetails, normalizeChargxPaymentType, gatewayLabelForPaymentType } from '@/catalog/lib/chargxPay.mjs';
 import { claimOrderForPayment, releaseOrderClaim, describeOrderPaymentState } from '@/catalog/lib/cardPaymentLock';
 import { classifyPaymentOutcome, declineReasonFrom, gatewayStatusToOrderStatus, ORDER_STATUS } from '@/catalog/lib/paymentOutcome.mjs';
 import { sendCardHandoffReceipt, sendPaymentResultEmails } from '@/catalog/lib/paymentResultEmail.mjs';
@@ -16,6 +16,7 @@ import { withPaymentStatusActivity } from '@/catalog/lib/paymentStatusActivity.m
 import { buildPaymentRecoveryPath } from '@/catalog/lib/paymentRecovery.mjs';
 import { sendPaymentRecoveryWhatsApp } from '@/catalog/lib/paymentRecoveryWhatsApp.mjs';
 import { reservePaidOrderInventory } from '@/catalog/lib/orderInventoryServer';
+import { fireOrderPaidWebhook } from '@/catalog/lib/orderPaidWebhook.mjs';
 import { isFreeCardOrder } from '@/catalog/lib/freeOrder.mjs';
 import { verifyCardCheckoutToken } from '@/catalog/lib/cardPaymentLink';
 import {
@@ -59,7 +60,7 @@ async function updateOrderStatus(orderNumber, status, transaction, orderContact 
     const patch = withPaymentStatusActivity(
       existingOrder,
       buildPaymentPatch(status, transaction),
-      { by: transaction?.free_order ? 'Checkout' : 'Chargex' },
+      { by: transaction?.free_order ? 'Checkout' : (transaction?.descriptor_text || 'Chargex') },
     );
     const { error } = await supabase
       .from('orders')
@@ -143,10 +144,12 @@ export async function POST(req) {
     }
 
     // Checked after the body is read so the customer is answered in their own
-    // language rather than a default one.
-    if (!isChargxConfigured()) {
+    // language rather than a default one — and for the gateway this payment
+    // type actually goes to, which is not the same store for card and ACH.
+    const payType = normalizeChargxPaymentType(body?.payType);
+    if (!isChargxConfigured('live', payType)) {
       return stopCheckout('unavailable', customerLang, 500,
-        'Chargex credentials are not configured');
+        `${gatewayLabelForPaymentType(payType)} credentials are not configured`);
     }
 
     const {
@@ -272,9 +275,10 @@ export async function POST(req) {
       transaction = { id: null, status: 'Approved', descriptor_text: 'No charge ($0 order)', free_order: true };
     } else {
       try {
-        // card (default), ach or crypto. The order itself stays a Chargex order
-        // either way, so the webhook, stock and receipts below need no change.
-        const payType = normalizeChargxPaymentType(body?.payType);
+        // payType (card by default, or ach or crypto) was read with the other
+        // checks above. It also decides the gateway (CARD_GATEWAY /
+        // ACH_GATEWAY), and both gateways answer the same webhook, so the
+        // stock and receipts below need no change either way.
         const page = await createChargxCardCheckout({
           amount: formattedAmount,
           type: payType,
@@ -283,7 +287,7 @@ export async function POST(req) {
         });
         transaction = {
           ...page,
-          descriptor_text: 'Chargex',
+          descriptor_text: page.gateway_label || 'Chargex',
           redirect_url: withChargxCheckoutDetails(page.redirect_url, {
             orderNumber,
             email: customerEmail,
@@ -336,6 +340,13 @@ export async function POST(req) {
         .maybeSingle();
 
       if (orderRow) {
+        // A direct (non-3DS) approval settles the order right here, so this is
+        // the paid transition for it. Fired from the full row so the landing
+        // ref and totals are on the payload; the helper no-ops unless the
+        // status actually moved into paid.
+        if (outcome === 'paid') {
+          await fireOrderPaidWebhook(orderRow, { previousStatus: claim.order?.status, logPrefix: '[Chargex]' });
+        }
         // /api/orders/create held the team's alert for this order, so this
         // one mail is both the new-order alert and the payment outcome.
         const emailResult = await sendPaymentResultEmails(baseUrl, orderRow, orderNumber, {

@@ -1,13 +1,14 @@
 // Copied from the catalog (src/app/api/chargx/webhook/route.js) by scripts/sync-catalog-checkout.mjs. Do not edit.
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/catalog/lib/supabaseAdmin';
-import { verifyChargxWebhookSignature } from '@/catalog/lib/chargxPay.mjs';
+import { gatewayForWebhookSignature, webhookGatewayIds } from '@/catalog/lib/chargxPay.mjs';
 import { markActiveAbandonedCartsConvertedForOrder } from '@/catalog/lib/abandonedCartRecovery.mjs';
 import { reservePaidOrderInventory } from '@/catalog/lib/orderInventoryServer';
 import { declineReasonFrom, gatewayStatusToOrderStatus } from '@/catalog/lib/paymentOutcome.mjs';
 import { sendPaymentResultEmails, shouldSendPaymentResultEmail } from '@/catalog/lib/paymentResultEmail.mjs';
 import { getPublicSiteUrl } from '@/catalog/lib/publicUrl';
 import { withPaymentStatusActivity } from '@/catalog/lib/paymentStatusActivity.mjs';
+import { fireOrderPaidWebhook } from '@/catalog/lib/orderPaidWebhook.mjs';
 
 export const runtime = 'nodejs';
 
@@ -39,9 +40,11 @@ function collectRefs(payload) {
 
 export async function POST(req) {
   try {
-    const secret = process.env.CHARGX_WEBHOOK_SECRET;
-    if (!secret) {
-      console.error('[Chargex webhook] CHARGX_WEBHOOK_SECRET is not set.');
+    // Chargex and Givver both deliver here, sign the same way and may be live
+    // at the same time (card on one, bank transfer on the other), so the
+    // secret that verifies is also which gateway is reporting.
+    if (!webhookGatewayIds().length) {
+      console.error('[Payment webhook] No gateway webhook secret is set (CHARGX_WEBHOOK_SECRET / GIVVER_WEBHOOK_SECRET).');
       return NextResponse.json({ error: 'Webhook verification unavailable' }, { status: 500 });
     }
 
@@ -52,9 +55,11 @@ export async function POST(req) {
     if (!Number.isFinite(age) || age > MAX_SKEW_SECONDS) {
       return NextResponse.json({ error: 'Webhook timestamp is not current' }, { status: 400 });
     }
-    if (!verifyChargxWebhookSignature({ secret, timestamp, signatureHeader: signature, rawBody })) {
+    const gateway = gatewayForWebhookSignature({ timestamp, signatureHeader: signature, rawBody });
+    if (!gateway) {
       return NextResponse.json({ error: 'Invalid webhook signature' }, { status: 400 });
     }
+    const logPrefix = `[${gateway.label} webhook]`;
 
     const payload = JSON.parse(rawBody);
     const name = eventName(payload);
@@ -66,7 +71,7 @@ export async function POST(req) {
     const statusText = gatewayStatusToOrderStatus(gatewayStatus);
     const refs = collectRefs(payload);
     if (!refs.length) {
-      console.warn('[Chargex webhook] Signed event had no order reference:', name);
+      console.warn(`${logPrefix} Signed event had no order reference:`, name);
       return NextResponse.json({ received: true, ignored: 'no_reference' });
     }
 
@@ -94,7 +99,7 @@ export async function POST(req) {
     }
 
     if (!existing) {
-      console.warn('[Chargex webhook] No order matched', refs.join(', '));
+      console.warn(`${logPrefix} No order matched`, refs.join(', '));
       return NextResponse.json({ received: true, ignored: 'unknown_order' });
     }
 
@@ -103,19 +108,22 @@ export async function POST(req) {
     }
 
     const statusChanged = existing.status !== statusText;
-    const theirId = refs.find((ref) => ref.startsWith('order_')) || null;
+    // Chargex writes `order_…`; Givver's docs show both `order_…` and `ord_…`.
+    // Missing it only costs us their id on the order, but that id is what a
+    // refund is looked up by, so take either spelling.
+    const theirId = refs.find((ref) => /^ord(er)?_/.test(ref)) || null;
 
     if (statusChanged) {
       const paymentPatch = withPaymentStatusActivity(existing, {
         status: statusText,
         ...(theirId ? { payment_transaction_id: theirId } : {}),
         payment_provider_status: gatewayStatus,
-        payment_descriptor: 'Chargex',
+        payment_descriptor: gateway.label,
         payment_provider_response: { event: name, refs },
-      }, { by: 'Chargex' });
+      }, { by: gateway.label });
       const { error } = await supabase.from('orders').update(paymentPatch).eq('id', existing.id);
       if (error) {
-        console.error('[Chargex webhook] Update failed:', error.message);
+        console.error(`${logPrefix} Update failed:`, error.message);
         return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
       }
     }
@@ -133,12 +141,12 @@ export async function POST(req) {
         await sendPaymentResultEmails(getPublicSiteUrl(req.url), orderRow, existing.order_number, {
           declineReason: declineReasonFrom({ message: payload?.error?.[0]?.errorText || payload?.message }),
           // The team's first sight of a card order is now the alert sent when
-          // the customer is handed to Chargex, so this mail is the outcome.
+          // the customer is handed to the gateway, so this mail is the outcome.
           firstTeamAlert: false,
-          logPrefix: '[Chargex webhook]',
+          logPrefix,
         });
       } else {
-        console.error('[Chargex webhook] Could not re-read', existing.order_number, '; result email not sent');
+        console.error(`${logPrefix} Could not re-read`, existing.order_number, '; result email not sent');
       }
     }
 
@@ -151,9 +159,13 @@ export async function POST(req) {
       // webhook — which left every card sale deducting nothing at all. Safe to
       // reach twice: a row that already carries a reservation is skipped.
       if (orderRow) {
-        await reservePaidOrderInventory(supabase, orderRow, { logPrefix: '[Chargex webhook]' });
+        // The paid transition for card/crypto that settles asynchronously (3DS).
+        // existing.status is the status before this update, so the helper fires
+        // once and stands down on a duplicate "Paid" delivery.
+        await fireOrderPaidWebhook(orderRow, { previousStatus: existing.status, logPrefix });
+        await reservePaidOrderInventory(supabase, orderRow, { logPrefix });
       } else {
-        console.error('[Chargex webhook] Could not re-read', existing.order_number, '; stock NOT reserved');
+        console.error(`${logPrefix} Could not re-read`, existing.order_number, '; stock NOT reserved');
       }
 
       const { error: cartCleanupError } = await markActiveAbandonedCartsConvertedForOrder(supabase, {
@@ -161,13 +173,13 @@ export async function POST(req) {
         status: statusText,
       });
       if (cartCleanupError) {
-        console.warn('[Chargex webhook] Paid cart cleanup failed:', cartCleanupError.message);
+        console.warn(`${logPrefix} Paid cart cleanup failed:`, cartCleanupError.message);
       }
       try {
         await supabase.from('admin_notifications').insert({
           type: 'payment_received',
           title: `Card payment approved: ${existing.order_number}`,
-          body: `Chargex reported this order as Paid. Verify it in the Chargex dashboard before fulfilling.`,
+          body: `${gateway.label} reported this order as Paid. Verify it in the ${gateway.label} dashboard before fulfilling.`,
           link_tab: 'orders',
           link_ref: existing.order_number,
         });
@@ -178,7 +190,8 @@ export async function POST(req) {
 
     return NextResponse.json({ received: true });
   } catch (error) {
-    console.error('[Chargex webhook] Error:', error.message);
+    // Outside the block that knows which gateway signed, so unnamed on purpose.
+    console.error('[Payment webhook] Error:', error.message);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

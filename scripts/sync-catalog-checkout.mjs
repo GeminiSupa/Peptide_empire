@@ -42,6 +42,7 @@ export const ROUTES = {
   'src/app/api/card-payment-link/pay/route.js': 'app/api/card-payment-link/pay/route.js',
   'src/app/api/chargx/process-card/route.js': 'app/api/chargx/process-card/route.js',
   'src/app/api/chargx/webhook/route.js': 'app/api/chargx/webhook/route.js',
+  'src/app/api/givver/webhook/route.js': 'app/api/givver/webhook/route.js',
   // SINPE Móvil and bank transfer.
   'src/app/api/bank-payments/order/route.js': 'app/api/bank-payments/order/route.js',
   'src/app/api/bank-payments/settings/route.js': 'app/api/bank-payments/settings/route.js',
