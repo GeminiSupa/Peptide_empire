@@ -1300,6 +1300,14 @@ export default function CatalogPage() {
       // order carries it as landing_ref so a sale can be traced back to it.
       const landingRefParam = urlParams.get('ref');
       if (landingRefParam) localStorage.setItem('landing_ref', String(landingRefParam).slice(0, 200));
+      // The click ids that come with that landing URL: ?cid= is the ad
+      // tracker's own click id and ?ttclid= is TikTok's. Saved the same way as
+      // the ref, so a sale placed later in the visit still carries the click it
+      // came from. Overwritten on a new ad click, never cleared by a reload.
+      const landingCidParam = urlParams.get('cid');
+      if (landingCidParam) localStorage.setItem('landing_cid', String(landingCidParam).slice(0, 300));
+      const landingTtclidParam = urlParams.get('ttclid');
+      if (landingTtclidParam) localStorage.setItem('landing_ttclid', String(landingTtclidParam).slice(0, 300));
       if (ref && !ref.includes(window.location.hostname)) {
         localStorage.setItem('lead_referrer', ref);
       }
@@ -3244,6 +3252,10 @@ export default function CatalogPage() {
         // The paid-ad landing page's ?ref=, saved on arrival. Null for organic
         // visits; the server cleans and stores it as landing_ref.
         landing_ref: (typeof localStorage !== 'undefined' && localStorage.getItem('landing_ref')) || null,
+        // The click ids saved alongside it, so the outbound paid webhook can
+        // tie this sale to the ad click that produced it.
+        landing_cid: (typeof localStorage !== 'undefined' && localStorage.getItem('landing_cid')) || null,
+        landing_ttclid: (typeof localStorage !== 'undefined' && localStorage.getItem('landing_ttclid')) || null,
         ...readGaIdentity(document),
         ...(businessCheckoutQuote?{business_quote_id:businessCheckoutQuote.id}:{}),
         research_ack: { accepted: true, version: RESEARCH_ACK_VERSION },

@@ -17,7 +17,11 @@ import { cleanReason, decideOwnerChange, sameOwner } from '@/lib/orderOwnership.
 import { missingColumnFrom, ORDER_ATTRIBUTION_COLUMNS, ORDER_FULFILLMENT_COLUMNS, ORDER_INVENTORY_COLUMNS, ORDER_VOLUME_DISCOUNT_PCT_COLUMNS, writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 import { recordReadyToPrepareNotification, sendAffiliateOrderWhatsApp, sendFulfillmentReadyWhatsApp } from '@/lib/orderWhatsAppAlerts';
 import { isFirstPaidTransition, shouldSendPaidConfirmation } from '@/lib/orderStatusEmails.mjs';
-import { fireOrderPaidWebhook } from '@/lib/orderPaidWebhook.mjs';
+import {
+  fireOrderPaidWebhook,
+  fireOrderClosedWebhook,
+  ORDER_WEBHOOK_EVENT_CANCELLED,
+} from '@/lib/orderPaidWebhook.mjs';
 import { shouldRestoreForStatus } from '@/lib/inventoryRestore.mjs';
 import { restoreInventoryForOrder } from '@/lib/inventoryRestoreServer';
 import { notifyLowInventory, prepareInventoryReservation } from '@/lib/orderInventoryServer';
@@ -568,6 +572,14 @@ export async function PATCH(request) {
     if (patch.status && shouldRestoreForStatus(patch.status)) {
       await restoreInventoryForOrder(supabase, data, {
         reason: `status set to ${patch.status}`,
+      });
+      // The sale is off. If it had already been reported as paid, tell the
+      // outbound webhook so the other side can take it out of revenue; the
+      // helper itself stands down when the order never paid.
+      await fireOrderClosedWebhook(data, {
+        event: ORDER_WEBHOOK_EVENT_CANCELLED,
+        previousStatus: currentOrder?.status,
+        logPrefix: '[admin/orders/update]',
       });
     }
 

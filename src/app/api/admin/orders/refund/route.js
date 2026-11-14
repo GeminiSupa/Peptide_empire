@@ -13,6 +13,7 @@ import { stripOwnerAddress, ORDER_NOTIFICATION_OWNER_BCC } from '@/lib/orderEmai
 import { restoreInventoryForOrder, restoreSelectedQuantities } from '@/lib/inventoryRestoreServer';
 import { planPartialRestock } from '@/lib/inventoryRestore.mjs';
 import { commissionClawback, planRefund } from '@/lib/orderRefund.mjs';
+import { fireOrderClosedWebhook, ORDER_WEBHOOK_EVENT_REFUNDED } from '@/lib/orderPaidWebhook.mjs';
 import { affiliateCommissionPatch } from '@/lib/affiliateCommission.mjs';
 import {additionalCommissionClawbacks} from '@/lib/additionalCommission.mjs';
 import {PAYOUT_RESERVED_STATUSES} from '@/lib/payoutSettlement.mjs';
@@ -197,6 +198,16 @@ export async function POST(request) {
           : updateError.message,
       }, { status: 500 });
     }
+
+    // Money has gone back. The sale was reported as paid when it settled, so
+    // the outbound webhook is told now and the other side can drop it (or the
+    // refunded part of it) out of revenue. Best-effort: never fails a refund
+    // that has already been written.
+    await fireOrderClosedWebhook(updated, {
+      event: ORDER_WEBHOOK_EVENT_REFUNDED,
+      previousStatus: order.status,
+      logPrefix: '[admin/orders/refund]',
+    });
 
     // --- record the debt ----------------------------------------------------
     // After the order is written, never before: a debt for a refund that failed

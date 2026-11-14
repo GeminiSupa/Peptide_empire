@@ -289,6 +289,36 @@ Owner (Omer) to do or decide:
     and drop Brevo from SPF if unused. **Not done — Phase 3:** Resend *batch* API
     as the main send path (speed headroom + placement comparison), deferred to
     after Black Friday; the failover above is overflow-only, not Phase 3.
+12. Order webhook for the media buyer (14 Nov 2026, branch
+    `catalog-order-webhook-fields`, worktree `catalog-webhook`). He asked for a
+    product slug, a plain `amount` + `currency`, the `cid` / `ttclid` click ids,
+    an HMAC header and cancel/refund events; his receiver answers **422 when
+    `cid` is missing**, so without the click ids no CR sale can be attributed at
+    all. Built: `?cid=` / `?ttclid=` saved on the order like the landing ref, the
+    new payload shape, `X-Webhook-Signature` (HMAC-SHA256 hex of the raw body),
+    retries for network errors and 5xx (no retry on a 4xx — the refusal is
+    logged with his own wording), and `order.cancelled` / `order.refunded` for
+    orders that had already been reported as paid. Full contract to hand him:
+    `docs/order-paid-webhook.md`. The website half is branch `main-click-ids`
+    (worktree of the same name): `lib/site/attribution.mjs` saves `?cid=` /
+    `?ttclid=` and sends them to checkout, and the synced checkout copy is
+    re-synced from the catalog branch — so **`sync-catalog-checkout.mjs --check`
+    on `main` reports drift until the catalog branch is pushed**, then passes.
+    He confirmed on 15 Nov: Costa Rica posts to the same endpoint
+    (`https://usapeptidedepot.site/order_webhook.php`) with the same secret as
+    the US, and his receiver now accepts a sale with no `cid` as long as
+    `ref`/`lp` or `ttclid` is there. **To ship, in this order:** run
+    `add-order-click-ids.sql` in the Supabase SQL Editor; merge
+    `catalog-order-webhook-fields` into `catalog` and push; merge
+    `main-click-ids` into `main` and push; then set `ORDER_WEBHOOK_URL` and
+    `ORDER_WEBHOOK_SECRET` in the catalog's Vercel project (Production) and
+    redeploy — **neither variable exists there today, so this webhook has never
+    fired once**, and 0 of 1,990 orders carry a landing ref. Not covered:
+    WhatsApp sales, where no landing URL is ever loaded so there is no click id
+    to send; the catalog's lead forms, which still keep Google clicks only; and
+    the website's legacy-layout pages (blog, guides, legal), which are outside
+    the new design's shell and so capture no attribution at all — an ad must
+    land on the home page, a product page or a category page.
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a
