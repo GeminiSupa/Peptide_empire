@@ -20,11 +20,11 @@ const browserVolumePct = (offer, tierPct) => (
 );
 const browserPromoDiscount = (offer, currency, discountableSubtotal, bacCharge = 0) => {
   if (!offer) return 0;
-  if (offer.kind === 'flat' || offer.kind === 'pair') {
+  if (offer.kind === 'flat' || offer.kind === 'pair' || offer.kind === 'spend') {
     const flat = Math.max(0, Number(offer.savings) || 0);
     return currency === 'USD' ? Math.round(flat * 100) / 100 : Math.round(flat);
   }
-  if (offer.kind !== 'mix' && offer.kind !== 'spend') return 0;
+  if (offer.kind !== 'mix') return 0;
   const winningPct = Number(offer.offer?.discount_pct ?? offer.mix.discountPct) || 0;
   const base = (discountableSubtotal + bacCharge) * winningPct;
   return currency === 'USD' ? Math.round(base * 100) / 100 : Math.round(base);
@@ -306,4 +306,33 @@ for (const currency of ['USD', 'CRC']) {
       assert.equal(Math.round(shown * 100) / 100, server.total);
     });
   }
+}
+
+const fixedSpendOffers = { items: [
+  { id: 'f150', type: 'spend', enabled: true, product_names: HALLOWEEN_NAMES, min_total_usd: 150, discount_usd: 30 },
+  { id: 'f500', type: 'spend', enabled: true, product_names: HALLOWEEN_NAMES, min_total_usd: 500, discount_usd: 90 },
+] };
+
+for (const currency of ['USD', 'CRC']) {
+  test(`browser and server agree on fixed-dollar Spend & Save — ${currency}`, () => {
+    const items = [{ product: TIRZ, qty: 3 }];
+    const server = authoritativeCheckout({
+      postedOrder: { currency, items, lang: 'en' }, products: halloweenProducts,
+      exchangeRate: 448.67, dealOffers: fixedSpendOffers,
+    });
+    assert.equal(server.ok, true);
+    const lines = items.map((item) => {
+      const row = halloweenProducts.find((product) => product.product === item.product);
+      return {
+        ...item,
+        unitPrice: currency === 'USD' ? 200 : 89734,
+        inventoryCount: row.inventory_count,
+      };
+    });
+    const offer = chooseDealOffer(fixedSpendOffers, lines, { currency, exchangeRate: 448.67 });
+    const subtotal = lines.reduce((sum, line) => sum + line.unitPrice * line.qty, 0);
+    assert.equal(offer.offerId, 'f500');
+    assert.equal(browserPromoDiscount(offer, currency, subtotal), server.promoDiscount);
+    assert.equal(server.promoDiscount, currency === 'USD' ? 90 : Math.round(90 * 448.67));
+  });
 }

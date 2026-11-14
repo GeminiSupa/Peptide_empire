@@ -429,6 +429,7 @@ export default function OrderDetailPanel({
     products,
     currency: orderCurrency,
     exchangeRate,
+    shippingCharge: shipping,
     volumePctOverride: storedVolumePct,
   });
   // An offer only replaces the figure already on the order when there is no
@@ -438,7 +439,8 @@ export default function OrderDetailPanel({
   const offerBeatsTier = !isSettledOrder && !order.promo_code
     && autoDiscount.kind !== 'none'
     && autoDiscount.kind !== 'volume'
-    && (autoDiscount.offerDiscount > 0 || autoDiscount.freeLines.length > 0);
+    && (autoDiscount.offerDiscount > 0 || autoDiscount.freeLines.length > 0 || autoDiscount.freeShipping);
+  const pricedShipping = offerBeatsTier && autoDiscount.freeShipping ? 0 : shipping;
 
   const {
     itemsSubtotal,
@@ -447,7 +449,7 @@ export default function OrderDetailPanel({
     promoDiscountAmount,
     manualDiscountAmount,
     total: orderTotal,
-  } = isSettledOrder ? singleDiscountOrderTotals(order) : calculateAdminOrderTotals(editItems, shipping, {
+  } = isSettledOrder ? singleDiscountOrderTotals(order) : calculateAdminOrderTotals(editItems, pricedShipping, {
     promoDiscountAmount: offerBeatsTier ? autoDiscount.offerDiscount : promoDiscount,
     manualDiscountType,
     manualDiscountValue,

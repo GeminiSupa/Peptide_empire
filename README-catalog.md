@@ -271,7 +271,10 @@ Any new surface must pick the right one deliberately.
 (`src/lib/dealOffers.mjs`) scores every offer plus the volume tier and awards the
 single best one. Offer types: `mix` (N+ vials → % off the whole order), `bundle`
 (buy X get Y free), `flat` (% off just these products, no minimum — this is what
-a flash sale is made of). A promo code causes the deal to stand aside entirely
+a flash sale is made of), `pair` (the cheaper vial discounted once), `spend`
+(a percentage or fixed dollar amount off after a dollar minimum),
+`free_shipping` (shipping removed after a vial minimum), and `gift` (a specific
+in-stock product added free after a vial minimum). A promo code causes the deal to stand aside entirely
 (`dealOffers = !resolvedPromo && …`), so they cannot combine.
 
 Only a **shelf**-mode deal can genuinely stack with a promo code, because it

@@ -181,16 +181,18 @@ export default function ManualOrderModal({
     products,
     currency: form.currency,
     exchangeRate: liveExchangeRate,
+    shippingCharge: shipping,
   });
   const autoApplies = discountMode === DISCOUNT_MODE_AUTO
-    && (autoDiscount.offerDiscount > 0 || autoDiscount.freeLines.length > 0);
+    && (autoDiscount.offerDiscount > 0 || autoDiscount.freeLines.length > 0 || autoDiscount.freeShipping);
+  const pricedShipping = autoApplies && autoDiscount.freeShipping ? 0 : shipping;
 
   const {
     itemsSubtotal,
     promoDiscountAmount: autoOfferAmount,
     manualDiscountAmount,
     total,
-  } = calculateAdminOrderTotals(form.items, shipping, {
+  } = calculateAdminOrderTotals(form.items, pricedShipping, {
     manualDiscountType,
     manualDiscountValue: form.manual_discount_value,
     // previewAutomaticDiscount has already picked between the running offers
@@ -665,7 +667,7 @@ export default function ManualOrderModal({
                 <span>-{money(manualDiscountAmount)}</span>
               </div>
             )}
-            <div><span>Shipping</span><span>{shipping > 0 ? money(shipping) : 'FREE'}</span></div>
+            <div><span>Shipping</span><span>{pricedShipping > 0 ? money(pricedShipping) : 'FREE'}</span></div>
             <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#38bdf8' }}>
               <span>Total</span><span>{money(total)}</span>
             </div>

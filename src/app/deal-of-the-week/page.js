@@ -13,7 +13,7 @@ import { catalogNameKey, dealProductNamesMatch, resolveDealProductName, sortCata
 import { dealMaxUnits, dealMinUnits, dealPricingMode } from '@/lib/dealOfWeek.mjs';
 import { OFFERS_PRICING_MODE, chooseDealOffer, dealOfferCartMessage, dealOfferRuleSummaries, dealOfferSummaries, normalizeDealOffers } from '@/lib/dealOffers.mjs';
 import { isBacWater } from '@/lib/bacWater.mjs';
-import { getVolumeDiscountPct } from '@/lib/pricing';
+import { FALLBACK_EXCHANGE_RATE, FLAT_SHIPPING_CRC, FREE_SHIPPING_USD_THRESHOLD, getVolumeDiscountPct } from '@/lib/pricing';
 import { StorefrontFooter, StorefrontHeader } from '@/components/StorefrontChrome';
 import MobileActionBar from '@/components/MobileActionBar';
 import EvenProductImage from '@/components/EvenProductImage';
@@ -98,6 +98,7 @@ export default function DealOfTheWeekPage() {
   const [pricingDeal, setPricingDeal] = useState(null);
   const [flashOnly, setFlashOnly] = useState(false);
   const [products, setProducts] = useState([]);
+  const [catalogProducts, setCatalogProducts] = useState([]);
   // Version A's headline is built from the product prices, so the page waits
   // for them rather than showing one headline and swapping it a moment later.
   const [productsReady, setProductsReady] = useState(false);
@@ -145,6 +146,7 @@ export default function DealOfTheWeekPage() {
       .order('priority', { ascending: true })
       .then(({ data }) => {
         const catalog = data || [];
+        setCatalogProducts(catalog);
         const catalogNames = catalog.map((row) => row.product);
         const rows = [];
         const seen = new Set();
@@ -217,12 +219,28 @@ export default function DealOfTheWeekPage() {
       // A dollar minimum, not a vial count: "Buy undefined+ vials" otherwise.
       // Stated in dollars in both languages, as the sale itself is advertised.
       const minimum = `$${Number(offer.min_total_usd).toLocaleString('en-US', { maximumFractionDigits: 2 })}`;
+      // The reward is a flat dollar amount when set, otherwise a percentage.
+      const reward = Number(offer.discount_usd) > 0
+        ? `$${Number(offer.discount_usd).toLocaleString('en-US', { maximumFractionDigits: 2 })}`
+        : `${Math.round(offer.discount_pct * 100)}%`;
       return {
         id: offer.id,
-        value: en
-          ? `${Math.round(offer.discount_pct * 100)}% off your order`
-          : `${Math.round(offer.discount_pct * 100)}% de descuento`,
+        value: en ? `${reward} off your order` : `${reward} de descuento`,
         condition: en ? `Orders ${minimum}+` : `Pedidos de ${minimum}+`,
+      };
+    }
+    if (offer.type === 'free_shipping') {
+      return {
+        id: offer.id,
+        value: en ? 'Free shipping' : 'Envío gratis',
+        condition: en ? `Buy ${offer.min_units}+ qualifying vials` : `Compra ${offer.min_units}+ viales participantes`,
+      };
+    }
+    if (offer.type === 'gift') {
+      return {
+        id: offer.id,
+        value: en ? `${offer.gift_qty} × ${offer.gift_product_name} free` : `${offer.gift_qty} × ${offer.gift_product_name} gratis`,
+        condition: en ? `Buy ${offer.min_units}+ qualifying vials` : `Compra ${offer.min_units}+ viales participantes`,
       };
     }
     return {
@@ -317,9 +335,17 @@ export default function DealOfTheWeekPage() {
       volumePct: getVolumeDiscountPct(cart.reduce((sum, item) => sum + (isBacWater(item.product) ? 0 : Number(item.qty) || 0), 0)),
       // The lines above are priced from price_usd, so they are dollars.
       currency: 'USD',
+      exchangeRate: rate || FALLBACK_EXCHANGE_RATE,
+      shippingCharge: cart.reduce((sum, item) => {
+        const row = catalogProducts.find((product) => nameKey(product.product) === nameKey(item.product));
+        return sum + priceNumber(row?.price_usd ?? item.price_usd ?? item.priceUsd) * (Number(item.qty) || 0);
+      }, 0) < FREE_SHIPPING_USD_THRESHOLD ? FLAT_SHIPPING_CRC / (rate || FALLBACK_EXCHANGE_RATE) : 0,
+      giftProducts: catalogProducts
+        .filter((product) => product.status === 'In Stock' && !isBacWater(product.product))
+        .map((product) => ({ product: product.product, unitPrice: priceNumber(product.price_usd), inventoryCount: product.inventory_count })),
     })
     : null;
-  const offerEarned = offerChoice && (offerChoice.kind === 'mix' || offerChoice.kind === 'bundle' || offerChoice.kind === 'pair' || offerChoice.kind === 'spend');
+  const offerEarned = offerChoice && (offerChoice.kind === 'mix' || offerChoice.kind === 'bundle' || offerChoice.kind === 'pair' || offerChoice.kind === 'spend' || offerChoice.kind === 'free_shipping' || offerChoice.kind === 'gift');
 
   const progressText = offersDeal
     ? dealOfferCartMessage(offerChoice, pricingDeal || deal, lang)

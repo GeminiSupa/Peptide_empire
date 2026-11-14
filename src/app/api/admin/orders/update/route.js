@@ -275,6 +275,7 @@ export async function PATCH(request) {
         promo,
         exchangeRate: rateResult.rate,
         suppressVolumeDiscount: replaceVolumeDiscount,
+        shippingChargeOverride: shipping,
         volumeDiscountPctOverride: resolvedVolumePct,
         businessDiscountPct: replaceVolumeDiscount ? 0 : Number(currentOrder.business_snapshot?.discount_pct || 0),
         businessProductPrices: replaceVolumeDiscount ? [] : (currentOrder.business_snapshot?.product_prices || []),
@@ -287,7 +288,8 @@ export async function PATCH(request) {
       }
 
       patch.items = authoritative.items;
-      const normalizedShipping = getAdminCurrencyPair(shipping, currency, rateResult.rate);
+      const chargedShipping = authoritative.dealOffer === 'free_shipping' ? 0 : shipping;
+      const normalizedShipping = getAdminCurrencyPair(chargedShipping, currency, rateResult.rate);
       patch.shipping_cost_crc = normalizedShipping.crc;
       patch.shipping_cost_usd = normalizedShipping.usd;
       const promoDiscountPair = getAdminCurrencyPair(authoritative.promoDiscount, currency, rateResult.rate);
@@ -298,7 +300,7 @@ export async function PATCH(request) {
       const dealIdForOrder = authoritative.dealOfferDealId || (liveDealOffers ? matchedDealId : null);
       if (dealIdForOrder) patch.deal_id = dealIdForOrder;
 
-      const totals = calculateAdminOrderTotals(authoritative.items, shipping, {
+      const totals = calculateAdminOrderTotals(authoritative.items, chargedShipping, {
         promoDiscountAmount: authoritative.promoDiscount,
         manualDiscountType: nextManualType,
         manualDiscountValue: nextManualValue,

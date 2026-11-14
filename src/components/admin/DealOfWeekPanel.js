@@ -113,7 +113,13 @@ function newOffer(type = 'mix', id = `${type}-${Date.now()}`) {
     return { id, type, enabled: true, scope: OFFER_SCOPE_AVAILABLE, selected: [], name_en: '', name_es: '', discount_pct: 50 };
   }
   if (type === 'spend') {
-    return { id, type, enabled: true, scope: OFFER_SCOPE_AVAILABLE, selected: [], name_en: '', name_es: '', min_total_usd: 150, discount_pct: 10 };
+    return { id, type, enabled: true, scope: OFFER_SCOPE_AVAILABLE, selected: [], name_en: '', name_es: '', reward: 'pct', min_total_usd: 150, discount_pct: 10, discount_usd: 0 };
+  }
+  if (type === 'free_shipping') {
+    return { id, type, enabled: true, scope: OFFER_SCOPE_AVAILABLE, selected: [], name_en: '', name_es: '', min_units: 1 };
+  }
+  if (type === 'gift') {
+    return { id, type, enabled: true, scope: OFFER_SCOPE_AVAILABLE, selected: [], name_en: '', name_es: '', min_units: 1, gift_product_name: '', gift_qty: 1 };
   }
   return { id, type: 'mix', enabled: true, scope: OFFER_SCOPE_AVAILABLE, selected: [], name_en: '', name_es: '', min_units: 2, discount_pct: 10 };
 }
@@ -321,7 +327,13 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
         : offer.type === 'pair'
           ? { ...shared, discount_pct: Number(offer.discount_pct) / 100 }
           : offer.type === 'spend'
-            ? { ...shared, min_total_usd: Number(offer.min_total_usd), discount_pct: Number(offer.discount_pct) / 100 }
+            ? (offer.reward === 'usd'
+              ? { ...shared, min_total_usd: Number(offer.min_total_usd), discount_usd: Number(offer.discount_usd) || 0 }
+              : { ...shared, min_total_usd: Number(offer.min_total_usd), discount_pct: Number(offer.discount_pct) / 100 })
+            : offer.type === 'free_shipping'
+              ? { ...shared, min_units: Number(offer.min_units) }
+              : offer.type === 'gift'
+                ? { ...shared, min_units: Number(offer.min_units), gift_product_name: offer.gift_product_name, gift_qty: Number(offer.gift_qty) }
             : { ...shared, min_units: Number(offer.min_units), discount_pct: Number(offer.discount_pct) / 100 };
     });
   }, [offerDrafts, availableProducts]);
@@ -609,15 +621,27 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
     const items = normalizeDealOffers(deal.offers).items;
     if (items.length > 0) {
       setDealType('offers');
-      setOfferDrafts(items.map((offer, index) => ({
-        ...newOffer(offer.type, offer.id || `${offer.type || 'mix'}-${index + 1}`),
-        ...offer,
-        selected: offer.product_names,
-        discount_pct: ['mix', 'pair', 'spend'].includes(offer.type)
-          ? Math.round((Number(offer.discount_pct) || 0) * 100)
-          : undefined,
-        scope: OFFER_SCOPE_CUSTOM,
-      })));
+      setOfferDrafts(items.map((offer, index) => {
+        const base = {
+          ...newOffer(offer.type, offer.id || `${offer.type || 'mix'}-${index + 1}`),
+          ...offer,
+          selected: offer.product_names,
+          scope: OFFER_SCOPE_CUSTOM,
+        };
+        if (offer.type === 'spend') {
+          const usd = Number(offer.discount_usd) > 0;
+          return {
+            ...base,
+            reward: usd ? 'usd' : 'pct',
+            discount_usd: Number(offer.discount_usd) || 0,
+            discount_pct: usd ? 0 : Math.round((Number(offer.discount_pct) || 0) * 100),
+          };
+        }
+        if (offer.type === 'mix' || offer.type === 'pair') {
+          return { ...base, discount_pct: Math.round((Number(offer.discount_pct) || 0) * 100) };
+        }
+        return base;
+      }));
       setSelected(deal.product_names || []);
     } else {
       setDealType('single');
@@ -1274,7 +1298,7 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
             <>
               <div className="weekly-deal-offer-builder">
                 {offerDrafts.map((offer, index) => {
-                  const accent = offer.type === 'bundle' ? '#34d399' : offer.type === 'pair' ? '#38bdf8' : offer.type === 'spend' ? '#f97316' : '#fbbf24';
+                  const accent = offer.type === 'bundle' || offer.type === 'gift' ? '#34d399' : offer.type === 'free_shipping' ? '#a78bfa' : offer.type === 'pair' ? '#38bdf8' : offer.type === 'spend' ? '#f97316' : '#fbbf24';
                   const resolved = resolvedOffers[index];
                   const defaultName = offer.type === 'bundle'
                     ? 'Buy & Get Free'
@@ -1282,6 +1306,10 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
                       ? '2nd vial half off'
                       : offer.type === 'spend'
                         ? 'Spend & Save'
+                      : offer.type === 'free_shipping'
+                        ? 'Free Shipping'
+                      : offer.type === 'gift'
+                        ? 'Free Gift'
                         : 'Mix & Match Savings';
                   return (
                     <section
@@ -1329,6 +1357,8 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
                             <option value="spend">Minimum spend ($) → percentage off</option>
                             <option value="pair">Buy 1 → 2nd vial a percentage off</option>
                             <option value="bundle">Buy a quantity → get free vials</option>
+                            <option value="free_shipping">Buy a quantity → get free shipping</option>
+                            <option value="gift">Buy a quantity → get a specific free gift</option>
                           </select>
                         </div>
                         <div className="weekly-deal-offer-names">
@@ -1338,7 +1368,7 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
                           </div>
                           <div>
                             <label style={labelStyle}>Customer name — Spanish (optional)</label>
-                            <input className="admin-input" value={offer.name_es} onChange={(event) => updateOffer(offer.id, { name_es: event.target.value })} placeholder={offer.type === 'bundle' ? 'Compra y recibe gratis' : offer.type === 'pair' ? '2.º vial a mitad de precio' : offer.type === 'spend' ? 'Gasta y ahorra' : 'Ahorros combinados'} />
+                            <input className="admin-input" value={offer.name_es} onChange={(event) => updateOffer(offer.id, { name_es: event.target.value })} placeholder={offer.type === 'bundle' ? 'Compra y recibe gratis' : offer.type === 'gift' ? 'Regalo gratis' : offer.type === 'free_shipping' ? 'Envío gratis' : offer.type === 'pair' ? '2.º vial a mitad de precio' : offer.type === 'spend' ? 'Gasta y ahorra' : 'Ahorros combinados'} />
                           </div>
                         </div>
                       </div>
@@ -1382,22 +1412,77 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
                                 : ' With no limit set, a cart holding several qualifying products earns a free vial for each of them.')}
                           </p>
                         </>
+                      ) : offer.type === 'free_shipping' ? (
+                        <>
+                          <div className="weekly-deal-offer-terms">
+                            <div>
+                              <label style={labelStyle}>Buy at least (vials)</label>
+                              <input className="admin-input" type="number" min="1" value={offer.min_units} onChange={(event) => updateOffer(offer.id, { min_units: event.target.value })} disabled={!offer.enabled} />
+                            </div>
+                          </div>
+                          <p className="weekly-deal-offer-explanation">
+                            {offer.min_units || '?'}+ qualifying peptide vials remove the shipping fee. If another offer or the normal volume tier saves more, checkout uses that instead.
+                          </p>
+                        </>
+                      ) : offer.type === 'gift' ? (
+                        <>
+                          <div className="weekly-deal-offer-terms">
+                            <div>
+                              <label style={labelStyle}>Buy at least (vials)</label>
+                              <input className="admin-input" type="number" min="1" value={offer.min_units} onChange={(event) => updateOffer(offer.id, { min_units: event.target.value })} disabled={!offer.enabled} />
+                            </div>
+                            <div>
+                              <label style={labelStyle}>Gift quantity</label>
+                              <input className="admin-input" type="number" min="1" value={offer.gift_qty} onChange={(event) => updateOffer(offer.id, { gift_qty: event.target.value })} disabled={!offer.enabled} />
+                            </div>
+                            <div style={{ gridColumn: '1 / -1' }}>
+                              <label style={labelStyle}>Product given free</label>
+                              <select className="admin-input" value={offer.gift_product_name || ''} onChange={(event) => updateOffer(offer.id, { gift_product_name: event.target.value })} disabled={!offer.enabled}>
+                                <option value="">Choose a gift product</option>
+                                {availableProducts.map((name) => <option key={name} value={name}>{name}</option>)}
+                              </select>
+                            </div>
+                          </div>
+                          <p className="weekly-deal-offer-explanation">
+                            {offer.min_units || '?'}+ qualifying peptide vials add {offer.gift_qty || '?'} × {offer.gift_product_name || 'the selected gift'} free. Checkout checks live stock before promising it.
+                          </p>
+                        </>
                       ) : offer.type === 'spend' ? (
                         <>
+                          <div style={{ marginBottom: '10px' }}>
+                            <label style={labelStyle}>Reward</label>
+                            <select
+                              className="admin-input"
+                              value={offer.reward === 'usd' ? 'usd' : 'pct'}
+                              onChange={(event) => updateOffer(offer.id, { reward: event.target.value })}
+                              disabled={!offer.enabled}
+                            >
+                              <option value="pct">Percentage off the whole order</option>
+                              <option value="usd">Dollar amount off the whole order</option>
+                            </select>
+                          </div>
                           <div className="weekly-deal-offer-terms">
                             <div>
                               <label style={labelStyle}>Spend at least (USD $)</label>
                               <input className="admin-input" type="number" min="1" step="0.01" value={offer.min_total_usd} onChange={(event) => updateOffer(offer.id, { min_total_usd: event.target.value })} disabled={!offer.enabled} />
                             </div>
-                            <div>
-                              <label style={labelStyle}>Discount on whole order (%)</label>
-                              <input className="admin-input" type="number" min="1" max="99" value={offer.discount_pct} onChange={(event) => updateOffer(offer.id, { discount_pct: event.target.value })} disabled={!offer.enabled} />
-                            </div>
+                            {offer.reward === 'usd' ? (
+                              <div>
+                                <label style={labelStyle}>Dollars off (USD $)</label>
+                                <input className="admin-input" type="number" min="1" step="0.01" value={offer.discount_usd} onChange={(event) => updateOffer(offer.id, { discount_usd: event.target.value })} disabled={!offer.enabled} />
+                              </div>
+                            ) : (
+                              <div>
+                                <label style={labelStyle}>Discount on whole order (%)</label>
+                                <input className="admin-input" type="number" min="1" max="99" value={offer.discount_pct} onChange={(event) => updateOffer(offer.id, { discount_pct: event.target.value })} disabled={!offer.enabled} />
+                              </div>
+                            )}
                           </div>
                           <p className="weekly-deal-offer-explanation">
-                            Spending ${offer.min_total_usd || '?'}+ on qualifying products unlocks {offer.discount_pct || '?'}% off the entire order.
-                            Colón carts are measured at the live rate. BAC Water and shipping never count toward the amount.
-                            Add one of these per tier ($150, $250, …) — the highest tier reached wins.
+                            {offer.reward === 'usd'
+                              ? <>Spending ${offer.min_total_usd || '?'}+ on qualifying products takes ${offer.discount_usd || '?'} off the entire order. Add one per tier ($300 → $30, $600 → $70, …) — the highest tier reached wins.</>
+                              : <>Spending ${offer.min_total_usd || '?'}+ on qualifying products unlocks {offer.discount_pct || '?'}% off the entire order. Add one per tier ($150, $250, …) — the highest tier reached wins.</>}
+                            {' '}Colón carts are measured at the live rate. BAC Water and shipping never count toward the amount.
                           </p>
                         </>
                       ) : offer.type === 'pair' ? (

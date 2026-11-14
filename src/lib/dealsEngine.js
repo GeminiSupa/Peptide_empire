@@ -60,7 +60,7 @@ function dealTerms({ discountPct, pricingMode, minUnits, maxUnits, offers }) {
       if (!item.enabled) return maximum;
       const pct = item.type === 'bundle'
         ? item.free_qty / (item.buy_qty + item.free_qty)
-        : item.discount_pct;
+        : Number(item.discount_pct) || 0;
       return Math.max(maximum, pct);
     }, 0);
     return { pct: maximumEffectivePct, mode: OFFERS_PRICING_MODE, minimum: 0, maximum: 0, offers: clean };

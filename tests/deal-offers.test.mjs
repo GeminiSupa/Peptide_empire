@@ -448,8 +448,84 @@ test('spend tiers: customer copy never says undefined', () => {
 test('spend tiers: a launch is refused without a minimum or a discount', () => {
   assert.equal(dealOffersError(SPEND_TIERS), '');
   assert.match(dealOffersError({ items: [{ ...SPEND_TIERS.items[0], min_total_usd: 0 }] }), /minimum spend/);
-  assert.match(dealOffersError({ items: [{ ...SPEND_TIERS.items[0], discount_pct: 0 }] }), /between 1% and 99%/);
+  assert.match(dealOffersError({ items: [{ ...SPEND_TIERS.items[0], discount_pct: 0 }] }), /set a discount/);
   assert.equal(normalizeDealOffers(SPEND_TIERS).items[3].min_total_usd, 500);
+});
+
+// --- Spend & Save with a FIXED dollar amount off, e.g. $30 off $300+.
+const FIXED_SPEND = { items: [
+  { id: 'f300', type: 'spend', enabled: true, product_names: SPEND_NAMES, min_total_usd: 300, discount_usd: 30 },
+  { id: 'f600', type: 'spend', enabled: true, product_names: SPEND_NAMES, min_total_usd: 600, discount_usd: 70 },
+  { id: 'f1000', type: 'spend', enabled: true, product_names: SPEND_NAMES, min_total_usd: 1000, discount_usd: 150 },
+] };
+
+test('fixed spend: a flat dollar amount comes off the whole order, highest tier reached wins', () => {
+  const usd = chooseDealOffer(FIXED_SPEND, [{ product: 'Retatrutide 12mg', qty: 1, unitPrice: 650 }], { currency: 'USD' });
+  assert.equal(usd.offerId, 'f600');
+  assert.equal(usd.savings, 70);
+  // CRC: $70 off at ₡500 is ₡35,000 off the whole order.
+  const crc = chooseDealOffer(FIXED_SPEND, [{ product: 'Retatrutide 12mg', qty: 1, unitPrice: 325000 }], { currency: 'CRC', exchangeRate: 500 });
+  assert.equal(crc.offerId, 'f600');
+  assert.equal(crc.savings, 35000);
+});
+
+test('fixed spend: the discount never exceeds the order and the copy reads in dollars', () => {
+  // The fixed amount is capped at the order's own value, never negative.
+  const tiny = chooseDealOffer({ items: [{ id: 'f', type: 'spend', enabled: true, product_names: SPEND_NAMES, min_total_usd: 10, discount_usd: 9 }] },
+    [{ product: 'BPC-157 10mg', qty: 1, unitPrice: 10 }], { currency: 'USD' });
+  assert.equal(tiny.savings, 9);
+  assert.equal(dealOfferSummaries(FIXED_SPEND, 'en')[0], 'Spend $300+, get $30 off your whole order');
+  // The top tier has no higher tier to nudge toward, so the "applied" copy shows.
+  const top = chooseDealOffer(FIXED_SPEND, [{ product: 'Retatrutide 12mg', qty: 1, unitPrice: 1200 }], { currency: 'USD' });
+  assert.match(dealOfferCartMessage(top, { pricing_mode: 'offers', offers: FIXED_SPEND }, 'en'), /\$150 off your whole order is applied/);
+  // Below the top, the cart nudges toward the next dollar tier.
+  const nudge = chooseDealOffer(FIXED_SPEND, [{ product: 'Retatrutide 12mg', qty: 1, unitPrice: 320 }], { currency: 'USD' });
+  assert.equal(dealOfferNextTierNudge(nudge, 'en'), 'Add $280 more to unlock $70 off your whole order.');
+});
+
+test('fixed spend: percentage and dollar cannot both be set, and dollar must be under the minimum', () => {
+  assert.equal(dealOffersError(FIXED_SPEND), '');
+  assert.match(dealOffersError({ items: [{ ...FIXED_SPEND.items[0], discount_pct: 0.1 }] }), /not both/);
+  assert.match(dealOffersError({ items: [{ ...FIXED_SPEND.items[0], discount_usd: 300 }] }), /less than the minimum spend/);
+});
+
+test('free shipping: a qualifying cart removes the fee, but still competes with volume savings', () => {
+  const freeShipping = { items: [{ id: 'ship', type: 'free_shipping', enabled: true, product_names: ['BPC-157 10mg'], min_units: 1 }] };
+  const result = authoritativeCheckout({
+    postedOrder: { currency: 'USD', lang: 'en', items: [{ product: 'BPC-157 10mg', qty: 1 }], total_usd: 0 },
+    products: PRODUCTS, exchangeRate: 500, dealOffers: freeShipping,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.dealOffer, 'free_shipping');
+  assert.equal(result.shipping, 0);
+  assert.equal(dealOffersError(freeShipping), '');
+  assert.match(dealOfferSummaries(freeShipping, 'en')[0], /free shipping/i);
+});
+
+test('specific free gift: checkout adds the configured in-stock product and never trusts the browser', () => {
+  const products = [...PRODUCTS, { product: 'KPV 10mg', price_usd: '60', price_crc: '30000', status: 'In Stock', inventory_count: 2 }];
+  const gift = { items: [{ id: 'gift', type: 'gift', enabled: true, product_names: ['BPC-157 10mg'], min_units: 2, gift_product_name: 'KPV 10mg', gift_qty: 1 }] };
+  const result = authoritativeCheckout({
+    postedOrder: { currency: 'USD', lang: 'en', items: [{ product: 'BPC-157 10mg', qty: 2 }], total_usd: 0 },
+    products, exchangeRate: 500, dealOffers: gift,
+  });
+  assert.equal(result.ok, true);
+  assert.equal(result.dealOffer, 'gift');
+  assert.deepEqual(result.items.filter((item) => item.price === 0 && /KPV/.test(item.product)), [
+    { product: 'KPV 10mg (Free Gift)', qty: 1, price: 0 },
+  ]);
+  assert.match(dealOfferCartMessage(result.dealOffer ? chooseDealOffer(gift, [line('BPC-157 10mg', 2, 100)], {
+    giftProducts: [{ product: 'KPV 10mg', unitPrice: 60, inventoryCount: 2 }],
+  }) : null, { offers: gift }, 'en'), /KPV 10mg FREE/);
+});
+
+test('specific free gift: no stock means no promised gift', () => {
+  const gift = { items: [{ id: 'gift', type: 'gift', enabled: true, product_names: ['BPC-157 10mg'], min_units: 1, gift_product_name: 'KPV 10mg', gift_qty: 1 }] };
+  const choice = chooseDealOffer(gift, [line('BPC-157 10mg', 1, 100)], {
+    giftProducts: [{ product: 'KPV 10mg', unitPrice: 60, inventoryCount: 0 }],
+  });
+  assert.equal(choice.kind, 'none');
+  assert.equal(choice.gift.freeLines.length, 0);
 });
 
 test('spend tiers: the invoice breakdown shows the winning tier', () => {

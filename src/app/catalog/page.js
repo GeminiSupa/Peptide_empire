@@ -2739,6 +2739,14 @@ export default function CatalogPage() {
 
   const getAutomaticDealDiscount = () => automaticDealPromo(getMatchedWeeklyDeal(), cart);
 
+  const getShippingChargeWithoutDiscount = () => {
+    if (cart.length === 0) return 0;
+    const itemsTotal = applyBacAwareDiscount(getDiscountableSubtotal(), getBacSummary().charge, 0).itemsTotal;
+    const itemsTotalUsd = currency === 'USD' ? itemsTotal : itemsTotal / exchangeRate;
+    if (itemsTotalUsd >= FREE_SHIPPING_USD_THRESHOLD) return 0;
+    return currency === 'CRC' ? FLAT_SHIPPING_CRC : parseFloat((FLAT_SHIPPING_CRC / exchangeRate).toFixed(2));
+  };
+
   // Two-offer deal (Mix & Match / Buy X Get Y): which one this cart gets.
   // chooseDealOffer is the same function the server charges with, fed the
   // same lines, so the total shown here is the total that is charged.
@@ -2757,6 +2765,14 @@ export default function CatalogPage() {
       bacCharge: getBacSummary().charge,
       currency,
       exchangeRate,
+      shippingCharge: getShippingChargeWithoutDiscount(),
+      giftProducts: products
+        .filter((product) => product.status === 'In Stock' && !isBacWater(product.product))
+        .map((product) => ({
+          product: product.product,
+          unitPrice: getPriceAsNumber(product, currency),
+          inventoryCount: product.inventoryCount ?? null,
+        })),
     });
   };
   const getCheckoutBreakdown = () => buildCheckoutBreakdown({
@@ -2836,8 +2852,9 @@ export default function CatalogPage() {
     // Free vials from Buy X Get Y ship with the order. The server works these
     // out again itself and ignores any free line the browser sends.
     const offer = getDealOfferChoice();
-    if (offer?.kind === 'bundle') {
-      for (const free of offer.bundle.freeLines) items.push(freeVialLine(free.product, free.qty, lang));
+    if (offer?.kind === 'bundle' || offer?.kind === 'gift') {
+      const freeLines = offer.kind === 'bundle' ? offer.bundle.freeLines : offer.gift.freeLines;
+      for (const free of freeLines) items.push(freeVialLine(free.product, free.qty, lang));
     }
     return items;
   };
@@ -2881,6 +2898,7 @@ export default function CatalogPage() {
     if (isFullOrderPromo(getAppliedPromoData())) return 0;
     const businessQuote = getBusinessQuote();
     if (businessQuote) return businessQuote.shipping;
+    if (getDealWinner()?.kind === 'free_shipping') return 0;
     if (cart.length === 0) return 0;
     const itemsTotal = getDiscountedTotal();
     const itemsTotalUsd = currency === 'USD' ? itemsTotal : (itemsTotal / exchangeRate);
@@ -2943,18 +2961,19 @@ export default function CatalogPage() {
     // before the deal became live; the server enforces the same rule again.
     const offer = getDealWinner();
     if (offer) {
-      if (offer.kind === 'flat' || offer.kind === 'pair') {
-        // A flash sale discounts only its own products. A "2nd vial" offer
-        // discounts only the lower-priced vial in each pair. chooseDealOffer
-        // has already measured that against these exact lines, so its figure
-        // is the discount - matching authoritativeCheckout, which the server
+      if (offer.kind === 'flat' || offer.kind === 'pair' || offer.kind === 'spend') {
+        // A flash sale discounts only its own products; a "2nd vial" offer
+        // only the lower-priced vial in each pair; a Spend & Save step takes a
+        // percentage or a flat dollar amount off the whole order. chooseDealOffer
+        // has already measured each against these exact lines, so its figure is
+        // the discount - matching authoritativeCheckout, which the server
         // charges from.
         const flat = Math.max(0, Number(offer.savings) || 0);
         return currency === 'USD' ? Math.round(flat * 100) / 100 : Math.round(flat);
       }
-      if (offer.kind !== 'mix' && offer.kind !== 'spend') return 0;
+      if (offer.kind !== 'mix') return 0;
       // "10% off your entire order": paid BAC water included. Rounded exactly
-      // as authoritativeCheckout rounds it. Spend & Save uses the same base.
+      // as authoritativeCheckout rounds it.
       const winningPct = Number(offer.offer?.discount_pct ?? offer.mix.discountPct) || 0;
       const base = (getDiscountableSubtotal() + getBacSummary().charge) * winningPct;
       return currency === 'USD' ? Math.round(base * 100) / 100 : Math.round(base);
@@ -4044,7 +4063,7 @@ export default function CatalogPage() {
 
   const renderOrderSummary = ({ showHeading = false, compact = false } = {}) => {
     const shipFee = getShippingFee();
-    const isFreeShip = qualifiesForFreeShipping();
+    const isFreeShip = qualifiesForFreeShipping() || getDealWinner()?.kind === 'free_shipping';
     const volumePct = getEffectiveVolumePct();
     const businessQuote = getBusinessQuote();
     const appliedPromo = businessQuote && !businessQuote.promoApplied ? null : getAppliedPromoData();
@@ -4061,7 +4080,7 @@ export default function CatalogPage() {
     const isSecondVial = dealChoice?.kind === 'pair';
     const isSpendTier = dealChoice?.kind === 'spend';
     const hasWeeklyDealDiscount = Boolean(automaticDeal) || dealChoice?.kind === 'mix' || isFlashSale || isSecondVial || isSpendTier;
-    const hasWeeklyBundle = dealChoice?.kind === 'bundle' && breakdown.weeklyGiftLines.length > 0;
+    const hasWeeklyBundle = (dealChoice?.kind === 'bundle' || dealChoice?.kind === 'gift') && breakdown.weeklyGiftLines.length > 0;
     const weeklyPct = dealChoice?.kind === 'mix' || isFlashSale || isSecondVial || isSpendTier
       ? breakdown.discountPct
       : Number(automaticDeal?.discount_pct) || 0;

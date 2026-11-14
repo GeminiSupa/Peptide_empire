@@ -248,12 +248,16 @@ export async function POST(request) {
       }
     }
 
+    const primaryShipping = Math.max(0, Number(
+      currency === 'USD' ? order.shipping_cost_usd : order.shipping_cost_crc,
+    ) || 0);
     const authoritative = authoritativeCheckout({
       postedOrder: { ...order, currency },
       products: products || [],
       promo,
       exchangeRate: liveExchangeRate,
       suppressVolumeDiscount: replaceVolumeDiscount,
+      shippingChargeOverride: primaryShipping,
       dealOffers: liveDealOffers,
       // Staff may give a free vial by hand ("X (Free Gift)" at 0).
       keepPostedGifts: true,
@@ -262,9 +266,7 @@ export async function POST(request) {
       return NextResponse.json({ error: authoritative.error, errorCode: 'cart_invalid' }, { status: 409 });
     }
 
-    const primaryShipping = Math.max(0, Number(
-      currency === 'USD' ? order.shipping_cost_usd : order.shipping_cost_crc,
-    ) || 0);
+    const chargedShipping = authoritative.dealOffer === 'free_shipping' ? 0 : primaryShipping;
 
     // Applied to what is left after the volume and promo discounts the
     // authoritative rebuild already worked out, and before shipping — the same
@@ -281,9 +283,9 @@ export async function POST(request) {
       ? Number(rawManualDiscount.toFixed(2))
       : Math.round(rawManualDiscount);
 
-    const primaryTotal = subtotalAfterCatalogDiscounts - manualDiscountAmount + primaryShipping;
+    const primaryTotal = subtotalAfterCatalogDiscounts - manualDiscountAmount + chargedShipping;
     const totals = getAdminCurrencyPair(primaryTotal, currency, liveExchangeRate);
-    const shipping = getAdminCurrencyPair(primaryShipping, currency, liveExchangeRate);
+    const shipping = getAdminCurrencyPair(chargedShipping, currency, liveExchangeRate);
     const promoDiscount = getAdminCurrencyPair(authoritative.promoDiscount, currency, liveExchangeRate);
     const manualDiscount = getAdminCurrencyPair(manualDiscountAmount, currency, liveExchangeRate);
     const paymentMethod = String(order.payment_method || 'whatsapp').trim().toLowerCase();

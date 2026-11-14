@@ -123,6 +123,7 @@ export function previewAutomaticDiscount({
   // Colones per dollar, so a Spend & Save minimum (set in dollars) can be
   // measured against a colón order. The server uses its own live rate.
   exchangeRate = null,
+  shippingCharge = 0,
   // An order being edited keeps the tier it was priced at, so a deal-week
   // order does not drop to the standing rate just because it was reopened.
   // The offers are weighed against that same rate, exactly as the server
@@ -135,7 +136,7 @@ export function previewAutomaticDiscount({
     ? Math.max(0, overridden)
     : getAdminVolumeDiscountPct(lines);
   const offers = dealOffersForPricing(deal);
-  const empty = { kind: 'none', label: '', nudge: '', volumePct: 0, offerDiscount: 0, freeLines: [], choice: null };
+  const empty = { kind: 'none', label: '', nudge: '', volumePct: 0, offerDiscount: 0, freeLines: [], freeShipping: false, choice: null };
 
   if (!lines.length) return empty;
 
@@ -163,7 +164,13 @@ export function previewAutomaticDiscount({
     };
   }
 
-  const choice = chooseDealOffer(offers, lines, { volumePct, bacCharge, currency, exchangeRate });
+  const giftProducts = (products || []).filter((product) => !isBacWater(product?.product ?? product?.name)).map((product) => {
+    const usd = Number(String(product?.price_usd ?? product?.priceUsd ?? '').replace(/[^0-9.]/g, '')) || 0;
+    const crc = Number(String(product?.price_crc ?? product?.priceCrc ?? '').replace(/[^0-9.]/g, '')) || 0;
+    const unitPrice = currency === 'USD' ? usd : (crc || (usd * Number(exchangeRate || 0)));
+    return { product: product?.product ?? product?.name, unitPrice, inventoryCount: inventoryOf(products, product?.product ?? product?.name) };
+  });
+  const choice = chooseDealOffer(offers, lines, { volumePct, bacCharge, currency, exchangeRate, shippingCharge, giftProducts });
   const offer = choice.offer;
 
   let label = '';
@@ -174,9 +181,14 @@ export function previewAutomaticDiscount({
     offerDiscount = roundCurrency((discountableSubtotal + bacCharge) * (Number(offer?.discount_pct) || 0), currency);
     label = `Mix & Match \u2014 ${pct(offer?.discount_pct)}% off the whole order`;
   } else if (choice.kind === 'spend') {
-    // Same whole-order base as Mix & Match, unlocked by an amount, not a count.
-    offerDiscount = roundCurrency((discountableSubtotal + bacCharge) * (Number(offer?.discount_pct) || 0), currency);
-    label = `Spend $${Number(offer?.min_total_usd) || 0}+ \u2014 ${pct(offer?.discount_pct)}% off the whole order`;
+    // Unlocked by an amount, not a count. The reward is a percentage of the
+    // whole order OR a flat dollar amount; chooseDealOffer measured whichever
+    // against these lines, so its figure is the discount.
+    offerDiscount = roundCurrency(choice.savings, currency);
+    const reward = Number(offer?.discount_usd) > 0
+      ? `$${Number(offer.discount_usd)} off`
+      : `${pct(offer?.discount_pct)}% off`;
+    label = `Spend $${Number(offer?.min_total_usd) || 0}+ \u2014 ${reward} the whole order`;
   } else if (choice.kind === 'flat') {
     offerDiscount = roundCurrency(choice.savings, currency);
     const what = (offer?.product_names || []).join(', ');
@@ -189,6 +201,12 @@ export function previewAutomaticDiscount({
     freeLines = choice.bundle?.freeLines || [];
     const what = freeLines.map((line) => `${line.qty} \u00d7 ${line.product}`).join(', ');
     label = `Buy ${offer?.buy_qty} get ${offer?.free_qty} free \u2014 ${what} added free`;
+  } else if (choice.kind === 'gift') {
+    freeLines = choice.gift?.freeLines || [];
+    const what = freeLines.map((line) => `${line.qty} \u00d7 ${line.product}`).join(', ');
+    label = `Free gift \u2014 ${what} added free`;
+  } else if (choice.kind === 'free_shipping') {
+    label = 'Free shipping';
   } else if (choice.kind === 'volume') {
     offerDiscount = volumeAmount();
     label = `Volume discount \u2014 ${volumePct}% off (beats this week's offers)`;
@@ -207,6 +225,7 @@ export function previewAutomaticDiscount({
     volumePct: choice.kind === 'volume' ? volumePct : 0,
     offerDiscount,
     freeLines,
+    freeShipping: choice.kind === 'free_shipping',
     choice,
   };
 }
