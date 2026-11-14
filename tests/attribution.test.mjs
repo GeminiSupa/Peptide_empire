@@ -96,6 +96,7 @@ test('orders carry only fields the catalog checkout already writes', () => {
   const allowed = new Set([
     'sales_agent', 'journey_id', 'journey_enrollment_id', 'journey_step_id', 'campaign_id',
     'utm_campaign', 'ad_attribution', 'ga_client_id', 'ga_session_id', 'landing_ref',
+    'landing_cid', 'landing_ttclid',
   ]);
   const win = fakeWindow(`https://new.peptidescostarica.net/?sales_agent=a&gclid=x1&utm_source=google&utm_medium=cpc&utm_campaign=${UUID}&fbclid=zz&ref=bob`, {
     cookie: '_ga=GA1.1.123456789.1700000000',
@@ -119,6 +120,47 @@ test('a paid-ad landing ?ref= reaches the order as landing_ref', () => {
   const organic = fakeWindow('https://peptidescostarica.net/shop/');
   captureAttribution(organic, NOW);
   assert.equal('landing_ref' in orderAttribution(organic, NOW), false);
+});
+
+test('the ?cid= and ?ttclid= click ids reach the order too', () => {
+  // The ref says which landing page; these say which click, which is the only
+  // thing that ties the sale to one ad. The catalog stores them as
+  // orders.landing_cid / landing_ttclid.
+  const win = fakeWindow('https://peptidescostarica.net/glptz/?ref=tiktok-glp1-a&cid=abc123&ttclid=E.C.P2_ABC');
+  captureAttribution(win, NOW);
+  assert.equal(win.data.get(ATTRIBUTION_KEYS.landingCid), 'abc123');
+  assert.equal(win.data.get(ATTRIBUTION_KEYS.landingTtclid), 'E.C.P2_ABC');
+  const order = orderAttribution(win, NOW);
+  assert.equal(order.landing_cid, 'abc123');
+  assert.equal(order.landing_ttclid, 'E.C.P2_ABC');
+  assert.equal(order.landing_ref, 'tiktok-glp1-a');
+
+  // Over-long values are capped on arrival, as the catalog caps them.
+  const long = fakeWindow(`https://peptidescostarica.net/?cid=${'x'.repeat(900)}&ttclid=${'y'.repeat(900)}`);
+  captureAttribution(long, NOW);
+  const capped = orderAttribution(long, NOW);
+  assert.equal(capped.landing_cid.length, 300);
+  assert.equal(capped.landing_ttclid.length, 300);
+
+  // Organic visits send neither.
+  const organic = fakeWindow('https://peptidescostarica.net/shop/');
+  captureAttribution(organic, NOW);
+  const plain = orderAttribution(organic, NOW);
+  assert.equal('landing_cid' in plain, false);
+  assert.equal('landing_ttclid' in plain, false);
+});
+
+test('a click id survives a later page of the same visit', () => {
+  // The ad click lands on one page and the order is placed from another, so
+  // the ids must come out of storage, not the current URL.
+  const win = fakeWindow('https://peptidescostarica.net/glptz/?ref=tiktok-glp1-a&cid=abc123&ttclid=E.C.P2_ABC');
+  captureAttribution(win, NOW);
+  // Same visitor, same storage, a later page with a clean URL.
+  win.location.search = '';
+  captureAttribution(win, NOW);
+  const order = orderAttribution(win, NOW);
+  assert.equal(order.landing_cid, 'abc123');
+  assert.equal(order.landing_ttclid, 'E.C.P2_ABC');
 });
 
 test('leads carry their campaign tags and referrer', () => {

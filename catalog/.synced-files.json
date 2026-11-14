@@ -109,6 +109,7 @@
     "catalog/lib/orderStatusEmails.mjs",
     "catalog/lib/orderWhatsAppAlerts.js",
     "catalog/lib/ownDomainSmtp.mjs",
+    "catalog/lib/paidClickIds.mjs",
     "catalog/lib/paymentOutcome.mjs",
     "catalog/lib/paymentRecovery.mjs",
     "catalog/lib/paymentRecoveryWhatsApp.mjs",

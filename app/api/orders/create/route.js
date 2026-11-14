@@ -18,6 +18,7 @@ import { getDatabaseBackedUsdToCrcRate } from '@/catalog/lib/exchangeRate';
 import { mergeOrderWhatsAppDestinations, selectWithOptionalPreferences } from '@/catalog/lib/notificationPreferences.mjs';
 import { sanitizeOrderAttribution } from '@/catalog/lib/orderAttribution.mjs';
 import { sanitizeLandingRef } from '@/catalog/lib/landingRef.mjs';
+import { sanitizeClickId } from '@/catalog/lib/paidClickIds.mjs';
 import { affiliateCommissionPatch, affiliateHandlingAgentName, partnerReferralAffiliate } from '@/catalog/lib/affiliateCommission.mjs';
 import { checkoutOrderStatus } from '@/catalog/lib/checkoutOrderStatus.mjs';
 import { ORDER_RESEARCH_ACK_COLUMNS, writeDroppingMissingColumns } from '@/catalog/lib/optionalColumns.mjs';
@@ -598,6 +599,18 @@ async function createOrder(request) {
     delete order.ref;
     delete order.landing_ref;
     if (landingRef) order.landing_ref = landingRef;
+    // The click ids that came with that landing URL (?cid= and ?ttclid=).
+    // Same handling as the ref above, for the same reason: the raw keys are
+    // taken off and only our cleaned copies are written, so an unknown column
+    // can never fail the insert, and a missing migration only loses the tag.
+    const landingCid = sanitizeClickId(order.cid ?? order.landing_cid);
+    const landingTtclid = sanitizeClickId(order.ttclid ?? order.landing_ttclid);
+    delete order.cid;
+    delete order.ttclid;
+    delete order.landing_cid;
+    delete order.landing_ttclid;
+    if (landingCid) order.landing_cid = landingCid;
+    if (landingTtclid) order.landing_ttclid = landingTtclid;
     // The visitor's GA4 cookie IDs, kept only if shaped like real ones. They let a
     // WhatsApp sale confirmed later be sent to GA4 as part of this same visit.
     Object.assign(order, sanitizeGaIdentity(order));
@@ -863,6 +876,10 @@ async function createOrder(request) {
         // order is worth more than the landing tag that won it, so a database
         // without this column saves the order and only loses the ref.
         'landing_ref',
+        // add-order-click-ids.sql, same principle: the sale matters more than
+        // the click id that won it.
+        'landing_cid',
+        'landing_ttclid',
         'deal_id',
         'inventory_deducted',
         'volume_discount_pct',
