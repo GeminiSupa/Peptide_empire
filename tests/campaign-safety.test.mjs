@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import { getCampaignSafetyConfig } from '../src/lib/campaignSafety.mjs';
+import { DEFAULT_SLOW_DOMAINS } from '../src/lib/campaignDomainThrottle.mjs';
 import { nextWindowOpening, readSendWindow, withinSendWindow } from '../src/lib/broadcastPacing.mjs';
 
 test('campaigns default to continuous draining (no park between batches)', () => {
@@ -9,6 +10,8 @@ test('campaigns default to continuous draining (no park between batches)', () =>
     batchSize: 120,
     batchIntervalMinutes: 0,
     sendDelayMs: 800,
+    slowSendDelayMs: 12000,
+    slowDomains: [...DEFAULT_SLOW_DOMAINS],
     fallbackSendDelayMs: 2500,
     maxConnections: 1,
     sendBudgetMs: 240000,
@@ -31,12 +34,27 @@ test('campaign pacing remains controllable through server environment settings',
     batchSize: 25,
     batchIntervalMinutes: 60,
     sendDelayMs: 2000,
+    slowSendDelayMs: 12000,
+    slowDomains: [...DEFAULT_SLOW_DOMAINS],
     fallbackSendDelayMs: 3000,
     maxConnections: 1,
     sendBudgetMs: 180000,
     sendWindowStartHour: 8,
     sendWindowEndHour: 20,
   });
+});
+
+test('the slow-domain throttle is controllable and can be switched off', () => {
+  const custom = getCampaignSafetyConfig({
+    EMAIL_CAMPAIGN_SLOW_SEND_DELAY_MS: '20000',
+    EMAIL_CAMPAIGN_SLOW_DOMAINS: 'hotmail.com, outlook.com',
+  });
+  assert.equal(custom.slowSendDelayMs, 20000);
+  assert.deepEqual(custom.slowDomains, ['hotmail.com', 'outlook.com']);
+
+  // An explicit empty string turns the throttle off: no domain is slow.
+  const off = getCampaignSafetyConfig({ EMAIL_CAMPAIGN_SLOW_DOMAINS: '' });
+  assert.deepEqual(off.slowDomains, []);
 });
 
 test('invalid pacing values fall back to safe defaults', () => {

@@ -1,3 +1,5 @@
+import { parseSlowDomains } from './campaignDomainThrottle.mjs';
+
 export const DEFAULT_CAMPAIGN_SAFETY = Object.freeze({
   batchSize: 120,
   // 0 = chain straight into the next batch (the cron self-triggers) instead of
@@ -6,6 +8,10 @@ export const DEFAULT_CAMPAIGN_SAFETY = Object.freeze({
   // deliberate gap between batches.
   batchIntervalMinutes: 0,
   sendDelayMs: 800,
+  // Delay after a send to a slow-reputation provider (Hotmail/Outlook/iCloud).
+  // ~12s works out to roughly 300 of those an hour, spread by the chaining; see
+  // campaignDomainThrottle.mjs. Gmail and everyone else use sendDelayMs.
+  slowSendDelayMs: 12000,
   fallbackSendDelayMs: 2500,
   maxConnections: 1,
   sendBudgetMs: 240000,
@@ -46,6 +52,13 @@ export function getCampaignSafetyConfig(env = process.env) {
       env.EMAIL_CAMPAIGN_SEND_DELAY_MS,
       DEFAULT_CAMPAIGN_SAFETY.sendDelayMs,
     ),
+    slowSendDelayMs: nonNegativeInteger(
+      env.EMAIL_CAMPAIGN_SLOW_SEND_DELAY_MS,
+      DEFAULT_CAMPAIGN_SAFETY.slowSendDelayMs,
+    ),
+    // Which providers get the slow clock. Empty (EMAIL_CAMPAIGN_SLOW_DOMAINS="")
+    // turns the throttle off and everyone sends at sendDelayMs.
+    slowDomains: parseSlowDomains(env.EMAIL_CAMPAIGN_SLOW_DOMAINS),
     fallbackSendDelayMs: nonNegativeInteger(
       env.EMAIL_CAMPAIGN_FALLBACK_SEND_DELAY_MS,
       DEFAULT_CAMPAIGN_SAFETY.fallbackSendDelayMs,

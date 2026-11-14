@@ -25,6 +25,7 @@ import {
 } from '@/lib/campaignAudience.mjs';
 import { classifySmtpFailure } from '@/lib/marketingDelivery.mjs';
 import { getCampaignSafetyConfig } from '@/lib/campaignSafety.mjs';
+import { isSlowDomain, orderFastFirst } from '@/lib/campaignDomainThrottle.mjs';
 import { buildCampaignDestination } from '@/lib/campaignLinks.mjs';
 import { nextWindowOpening, readSendWindow, withinSendWindow } from '@/lib/broadcastPacing.mjs';
 import { formatCrInstant } from '@/lib/crTime.mjs';
@@ -720,6 +721,10 @@ export async function deliverCampaign(campaignId, options = {}) {
   const safety = getCampaignSafetyConfig();
   const primaryProvider = identifyCampaignSmtpProvider(smtp.host);
   const fallbackProvider = null;
+  // Slow-reputation providers (Hotmail/Outlook/iCloud) go to the back of the
+  // queue, so the fast majority drains first and the slow tail trickles out on
+  // its own clock. No-op when the throttle is switched off.
+  targets = orderFastFirst(targets, safety.slowDomains);
   const remainingBeforeBatch = targets.length;
   const batchTargets = targets.slice(0, safety.batchSize);
 
@@ -817,7 +822,8 @@ export async function deliverCampaign(campaignId, options = {}) {
         console.error('[Campaign delivery] Subscriber send failed', { campaignId: campaign.id, subscriberId: subscriber.id, error: error.message });
       }
       if (index < batchTargets.length - 1) {
-        await wait(safety.sendDelayMs);
+        // Slow-reputation providers get the slow clock; everyone else full speed.
+        await wait(isSlowDomain(subscriber.email, safety.slowDomains) ? safety.slowSendDelayMs : safety.sendDelayMs);
       }
     }
   } finally {
