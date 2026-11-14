@@ -48,5 +48,27 @@ export async function GET(request) {
       results.push({ campaignId: campaign.id, error: deliveryError.message });
     }
   }
-  return NextResponse.json({ success: true, recovered, processed: results.length, results });
+
+  // Drain a campaign continuously instead of waiting for the next 5-minute cron
+  // tick. A batch that finished with work still owed and no deliberate gap
+  // (nextBatchAt already due) self-triggers one more run, exactly as the
+  // broadcast sender does. If this fetch is dropped the campaign is still parked
+  // as `scheduled_for = now`, so the ordinary cron picks it up within 5 minutes —
+  // the chain only makes it faster, it is never the only thing moving the send.
+  const hasImmediateContinuation = results.some(result =>
+    result && !result.error && !result.held && result.completed === false
+    && result.nextBatchAt && Date.parse(result.nextBatchAt) <= Date.now());
+  if (hasImmediateContinuation) {
+    const host = request.headers.get('host') || 'localhost:3000';
+    const protocol = host.includes('localhost') ? 'http' : 'https';
+    // Fire-and-forget: this run returns now, the next batch runs in the
+    // triggered invocation. Never awaited, so a slow continuation cannot push
+    // this function past its time limit.
+    fetch(`${protocol}://${host}/api/cron/process-campaigns`, {
+      method: 'GET',
+      headers: { authorization: `Bearer ${process.env.CRON_SECRET}` },
+    }).catch(() => {});
+  }
+
+  return NextResponse.json({ success: true, recovered, processed: results.length, chained: hasImmediateContinuation, results });
 }

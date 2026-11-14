@@ -1,7 +1,11 @@
 export const DEFAULT_CAMPAIGN_SAFETY = Object.freeze({
-  batchSize: 50,
-  batchIntervalMinutes: 30,
-  sendDelayMs: 1500,
+  batchSize: 120,
+  // 0 = chain straight into the next batch (the cron self-triggers) instead of
+  // parking between batches. The 30-minute park used to be the whole reason an
+  // 1,800-person send took ~8 hours. Set a positive value to re-introduce a
+  // deliberate gap between batches.
+  batchIntervalMinutes: 0,
+  sendDelayMs: 800,
   fallbackSendDelayMs: 2500,
   maxConnections: 1,
   sendBudgetMs: 240000,
@@ -23,8 +27,11 @@ function nonNegativeInteger(value, fallback) {
 }
 
 // These server-only environment controls make campaign pacing adjustable
-// without a deploy. The defaults intentionally favor mailbox reputation over
-// throughput while Hotmail/iCloud reputation recovers.
+// without a deploy. The defaults now drain a campaign continuously (no park
+// between batches); slow mailbox providers such as Hotmail/iCloud are meant to
+// be protected by a per-domain throttle, not by making the whole list crawl.
+// To pace the whole list more slowly again, raise EMAIL_CAMPAIGN_SEND_DELAY_MS
+// or set EMAIL_CAMPAIGN_BATCH_INTERVAL_MINUTES above 0.
 export function getCampaignSafetyConfig(env = process.env) {
   return {
     batchSize: positiveInteger(

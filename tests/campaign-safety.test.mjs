@@ -4,11 +4,11 @@ import assert from 'node:assert/strict';
 import { getCampaignSafetyConfig } from '../src/lib/campaignSafety.mjs';
 import { nextWindowOpening, readSendWindow, withinSendWindow } from '../src/lib/broadcastPacing.mjs';
 
-test('campaigns default to reputation-recovery pacing', () => {
+test('campaigns default to continuous draining (no park between batches)', () => {
   assert.deepEqual(getCampaignSafetyConfig({}), {
-    batchSize: 50,
-    batchIntervalMinutes: 30,
-    sendDelayMs: 1500,
+    batchSize: 120,
+    batchIntervalMinutes: 0,
+    sendDelayMs: 800,
     fallbackSendDelayMs: 2500,
     maxConnections: 1,
     sendBudgetMs: 240000,
@@ -47,9 +47,9 @@ test('invalid pacing values fall back to safe defaults', () => {
     EMAIL_CAMPAIGN_SMTP_CONNECTIONS: '0',
   });
 
-  assert.equal(config.batchSize, 50);
-  assert.equal(config.batchIntervalMinutes, 30);
-  assert.equal(config.sendDelayMs, 1500);
+  assert.equal(config.batchSize, 120);
+  assert.equal(config.batchIntervalMinutes, 0);
+  assert.equal(config.sendDelayMs, 800);
   assert.equal(config.maxConnections, 1);
 });
 

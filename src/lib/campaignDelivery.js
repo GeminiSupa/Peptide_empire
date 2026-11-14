@@ -606,17 +606,22 @@ export async function deliverCampaign(campaignId, options = {}) {
 
   if (audience && !sendWinner) campaign = await applyAudienceSelection(supabase, campaign, audience);
 
-  // Outside Costa Rica sending hours nothing goes out. A normal send is parked
-  // as scheduled for the next opening and the cron carries on from there. A
-  // test batch or winner send cannot be parked that way — the cron would resume
-  // it as an ordinary full send — so those are refused with the time to retry.
+  // Outside Costa Rica sending hours a campaign that has NOT started yet is
+  // parked as scheduled for the next opening, and the cron carries on from
+  // there. A campaign already in progress (sent_at stamped on its first batch)
+  // is NOT held: once it has begun it runs to the end even if that crosses the
+  // window close, so a flash-sale blast finishes tonight instead of leaving half
+  // the list for tomorrow morning. A test batch or winner send cannot be parked
+  // that way — the cron would resume it as an ordinary full send — so a brand
+  // new one of those is refused with the time to retry.
   const safetyConfig = getCampaignSafetyConfig();
   const sendWindow = readSendWindow({
     send_window_start_hour: safetyConfig.sendWindowStartHour,
     send_window_end_hour: safetyConfig.sendWindowEndHour,
   });
   const nowMs = Date.now();
-  if (!withinSendWindow(sendWindow, nowMs)) {
+  const campaignAlreadyStarted = Boolean(campaign.sent_at);
+  if (!campaignAlreadyStarted && !withinSendWindow(sendWindow, nowMs)) {
     const opensAt = new Date(nextWindowOpening(sendWindow, nowMs)).toISOString();
     const hours = `${sendWindow.start}:00–${sendWindow.end}:00 Costa Rica time`;
     if (isTestBatch || sendWinner) {
