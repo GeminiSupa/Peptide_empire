@@ -145,11 +145,17 @@ test('the NAD+ page opens on its 1000 mg vial, the size the page recommends', ()
 test('next.config.mjs keeps /lp on the lead page and adds /lp/metabolic-research-compound and /lp/bac-water', () => {
   const config = fs.readFileSync(path.join(rootDir, 'next.config.mjs'), 'utf8');
   assert.match(config, /source: '\/lp',\s*destination: '\/lp\/index\.html'/, '/lp stays the lead-form page');
-  assert.match(config, /source: '\/lp-testing\/metabolic-research-compound',\s*destination: '\/lp\/metabolic-research-compound\/index\.html'/, 'QA preview of the metabolic page');
   assert.match(config, /source: '\/lp\/glp-1',\s*destination: '\/lp\/metabolic-research-compound',\s*permanent: false/, 'old GLP address follows the page');
-  assert.match(config, /source: '\/lp-testing\/glp-1',\s*destination: '\/lp-testing\/metabolic-research-compound',\s*permanent: false/, 'old QA link follows the page');
   assert.equal(fs.existsSync(path.join(rootDir, 'public/lp/glp-1')), false, 'no page left at a GLP address');
-  assert.match(config, /source: '\/lp-testing\/bac-water',\s*destination: '\/lp\/bac-water\/index\.html'/, 'QA preview of bac-water');
+  // No ad page is served on /lp-testing any more (13 Nov 2026). That address
+  // loads no Tag Manager, so an ad pointed at it recorded nothing; the shared
+  // preview links redirect to the tracked page instead of serving an untracked
+  // copy of it. The bare /lp-testing and the old GLP link go straight to the
+  // real metabolic page, with no second hop.
+  assert.doesNotMatch(config, /source: '\/lp-testing[^']*',\s*destination: '[^']*\.html'/, 'nothing is served on a preview address');
+  for (const [preview, real] of [['/lp-testing', '/lp/metabolic-research-compound'], ['/lp-testing/glp-1', '/lp/metabolic-research-compound'], ['/lp-testing/metabolic-research-compound', '/lp/metabolic-research-compound'], ['/lp-testing/bac-water', '/lp/bac-water']]) {
+    assert.match(config, new RegExp(`source: '${preview}',\\s*destination: '${real}',\\s*permanent: false`), `${preview} lands on ${real}`);
+  }
   // The single-product pages were approved on 12 Nov 2026: they have no
   // preview address any more, and the QA links already shared redirect to the
   // real page rather than 404.
@@ -159,9 +165,10 @@ test('next.config.mjs keeps /lp on the lead page and adds /lp/metabolic-research
     assert.match(config, new RegExp(`source: '/lp-testing/${slug}',\\s*destination: '/lp/${slug}',\\s*permanent: false`), `old QA link of ${slug} follows the page`);
   }
   assert.match(config, /source: '\/lp-testing\/:path\*',\s*headers: \[\{ key: 'X-Robots-Tag', value: 'noindex, nofollow' \}\]/, 'preview is not indexed');
-  // The main site has its own glutathione and NAD+ pages; these ad pages must
-  // not compete with them in Google (12 Nov 2026).
-  for (const slug of ['glutathione-1500mg', 'nad-plus']) {
+  // The main site has its own pages for these compounds; the ad pages must not
+  // compete with them in Google (12 Nov 2026; the other two added 13 Nov, when
+  // their noindex preview address went away).
+  for (const slug of ['glutathione-1500mg', 'nad-plus', 'metabolic-research-compound', 'bac-water']) {
     assert.match(config, new RegExp(`source: '/lp/${slug}',\\s*headers: \\[\\{ key: 'X-Robots-Tag', value: 'noindex, follow' \\}\\]`), `${slug} stays out of Google`);
   }
 });

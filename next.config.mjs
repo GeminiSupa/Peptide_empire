@@ -69,13 +69,33 @@ const nextConfig = {
       // The metabolic ad shop page moved off its "GLP" address (10 Nov 2026).
       // Old QA and shared links follow it; the query string (gclid) is kept.
       {
-        source: '/lp-testing/glp-1',
-        destination: '/lp-testing/metabolic-research-compound',
+        source: '/lp/glp-1',
+        destination: '/lp/metabolic-research-compound',
+        permanent: false,
+      },
+      // The last two preview addresses go as well (Belhassen, 13 Nov 2026).
+      // /lp-testing deliberately loads no Tag Manager, so ads pointed at it
+      // recorded no conversions; every preview link now lands on the real page,
+      // which is the one with tracking. The query string (gclid) is kept, so a
+      // click arriving on an old link is still attributed.
+      {
+        source: '/lp-testing',
+        destination: '/lp/metabolic-research-compound',
         permanent: false,
       },
       {
-        source: '/lp/glp-1',
+        source: '/lp-testing/glp-1',
         destination: '/lp/metabolic-research-compound',
+        permanent: false,
+      },
+      {
+        source: '/lp-testing/metabolic-research-compound',
+        destination: '/lp/metabolic-research-compound',
+        permanent: false,
+      },
+      {
+        source: '/lp-testing/bac-water',
+        destination: '/lp/bac-water',
         permanent: false,
       },
       // The two single-product pages were approved on 12 Nov 2026, so their
@@ -108,25 +128,13 @@ const nextConfig = {
         source: '/lp',
         destination: '/lp/index.html',
       },
-      // New Google Ads shop pages, QA preview only (owner, 10 Nov 2026). On
-      // /lp-testing the pages load no Tag Manager, keep no ad click, and mark
-      // their orders TEST so the Google uploads skip them. Once approved, they
-      // move to their real /lp addresses and these preview rules go.
+      // The Google Ads shop pages. There is no /lp-testing address left: on it
+      // the pages loaded no Tag Manager, kept no ad click and marked their
+      // orders TEST, which is exactly why ads pointed there reported nothing
+      // (Belhassen, 13 Nov 2026). The preview paths redirect here instead.
       // The metabolic page's address must not say "GLP" (Google Ads, 10 Nov
       // 2026); it lives at /lp/metabolic-research-compound.
-      {
-        source: '/lp-testing',
-        destination: '/lp/metabolic-research-compound/index.html',
-      },
-      {
-        source: '/lp-testing/metabolic-research-compound',
-        destination: '/lp/metabolic-research-compound/index.html',
-      },
-      {
-        source: '/lp-testing/bac-water',
-        destination: '/lp/bac-water/index.html',
-      },
-      // Their real addresses, for the ads once approved (tracking on). Vercel
+      // Their real addresses, for the ads (tracking on). Vercel
       // happens to serve a folder's index.html, but `next dev`/`next start` do
       // not, so say it explicitly.
       {
@@ -204,6 +212,18 @@ const nextConfig = {
       },
       {
         source: '/lp/nad-plus',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }],
+      },
+      // The other two ad pages keep the same rule now that they answer on /lp
+      // only (13 Nov 2026). On /lp-testing they were noindex; without this,
+      // retiring the preview address would newly offer them to Google, to
+      // compete with the main site's own pages for the same compounds.
+      {
+        source: '/lp/metabolic-research-compound',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }],
+      },
+      {
+        source: '/lp/bac-water',
         headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }],
       },
       {
