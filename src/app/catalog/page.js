@@ -148,7 +148,10 @@ const CARD_CHECKOUT_LIVE = process.env.NEXT_PUBLIC_CARD_CHECKOUT_MODE === 'live'
 // its button, its mention in the Card option's subtitle and its mention in the
 // caption under the pay button all come back together — every surface reads
 // these flags, so neither can be switched on by half.
-const APPLE_PAY_LIVE = false;
+// Apple Pay confirmed live on the Givver/Chargex hosted checkout (owner,
+// 14 Nov 2026), so the button, its subtitle mention and the pay-button caption
+// all come on. Google Pay stays off until that wallet is confirmed too.
+const APPLE_PAY_LIVE = true;
 const GOOGLE_PAY_LIVE = false;
 const GATE_BYPASS_VALUES = new Set(['1', 'true', 'yes', 'skip', 'bypass']);
 const USER_SELECTED_LANG_KEY = 'lang_user_selected';
