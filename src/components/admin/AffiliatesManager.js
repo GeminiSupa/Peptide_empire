@@ -1238,6 +1238,19 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                 )}
               </div>
 
+              <div>
+                <label style={{ display: 'block', fontSize: '0.85rem', color: '#94a3b8', marginBottom: '6px' }}>Affiliate owner (who earns commission)</label>
+                <select
+                  value={editingPromo.affiliate_id || ''}
+                  onChange={e => setEditingPromo({ ...editingPromo, affiliate_id: e.target.value || null })}
+                  className="admin-input"
+                  style={{ width: '100%' }}
+                >
+                  <option value="">General Code (no affiliate — pays no commission)</option>
+                  {affiliates.map(a => <option key={a.id} value={a.id}>{a.name}</option>)}
+                </select>
+              </div>
+
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                 <div>
                   <label style={{ display: 'block', fontSize: '0.85rem', color: '#94a3b8', marginBottom: '6px' }}>Min units</label>
