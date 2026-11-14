@@ -249,23 +249,24 @@ Owner (Omer) to do or decide:
    `feat/related-products-website` (main); push in either order, nothing
    changes until a product is set. No migration. Not covered: the catalog's
    own cart "You might also like" and the website cart's suggestions.
-10. Givver on the catalog (12 Nov 2026, branch `feat/givver-gateway`). Done
-    already: the Givver webhook ("Catalog payment notifications",
+10. Givver on the catalog — **live since 12 Nov 2026** (`f4798089`, merged into
+    `catalog` and deployed). Card and crypto are taken by Givver at 11%; bank
+    transfer stayed on ChargX because Givver has not turned ACH on. All four
+    variables are in the catalog's Vercel project (Production) and in
+    `peptidecosta/.env.local` and `.env.production.local`. The Givver webhook
+    ("Catalog payment notifications",
     `https://catalog.peptidescostarica.net/api/givver/webhook`,
-    payment.succeeded + payment.failed, enabled), and all four variables in
-    the catalog's Vercel project (Production) and in `peptidecosta/.env.local`
-    and `.env.production.local`. They do nothing until this branch is merged
-    into `catalog` and pushed, because the deployed code does not read them.
-    Checked against the live store: card and crypto pages open, ACH says
-    "payments are unavailable" (hence `ACH_GATEWAY=chargx`), and our own
-    `createChargxCardCheckout` produced a Givver page with the real key.
-    After pushing: use Givver → Settings → Webhooks → Edit → **Send test
-    event** to prove the endpoint answers, then check a first real card order
-    reads "Givver" as its Descriptor in the admin order panel. Not covered:
-    no real payment yet, and the website's synced copy of the checkout
-    (`scripts/sync-catalog-checkout.mjs` on `main` must be re-run, and the new
-    `src/app/api/givver/webhook/route.js` added to its file list) — only
-    matters once the website's own checkout is switched on.
+    payment.succeeded + payment.failed, enabled) answered its **Send test
+    event** with 200, and both webhook addresses refuse an unsigned request
+    (400, re-checked 14 Nov). The website's synced copy of the checkout carries
+    the new route too (`e372697a` on `main`), so nothing is left to do there.
+    Checked against the live store before shipping: card and crypto pages open,
+    ACH says "payments are unavailable" (hence `ACH_GATEWAY=chargx`), and our
+    own `createChargxCardCheckout` produced a Givver page with the real key.
+    **Still unproven: no real payment has gone through Givver.** The first real
+    card order should read "Givver" as its Descriptor in the admin order panel;
+    that store is also where its refund has to be made. The day Givver turns
+    ACH on, drop the `ACH_GATEWAY` line and change nothing else.
 11. Email campaign send speed (14 Nov 2026, catalog `899adf5d`, `c5f96021`,
     `c487d499`). A ~1,800-person send took ~8h. **Live now:** campaigns drain
     continuously instead of parking 30 min between batches, a started campaign
