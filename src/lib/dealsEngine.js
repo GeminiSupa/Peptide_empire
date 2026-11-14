@@ -871,6 +871,99 @@ export async function cancelScheduledDeal(supabase, id = null) {
 }
 
 /**
+ * Change a queued week in place, rather than cancel-and-recreate.
+ *
+ * Runs every launch check again (safety, stock, promo overlap) at the new start
+ * time, exactly as scheduleDeal does, and refuses an overlap with the OTHER
+ * queued weeks — this one may keep its own slot. The row must still be an
+ * unstarted draft: once the cron has launched it there is nothing to edit here,
+ * and the end button / a direct ends_at change is how a running deal is moved.
+ */
+export async function editScheduledDeal({
+  id,
+  productNames,
+  discountPct,
+  titleEn,
+  titleEs,
+  confirmedHighDiscount = false,
+  allowUntrackedStock = false,
+  pricingMode = 'shelf',
+  minUnits = 0,
+  maxUnits = 0,
+  offers = null,
+  startsAt,
+  now = new Date(),
+}) {
+  const supabase = getSupabaseAdmin();
+  if (!id) throw new Error('No scheduled deal to edit.');
+
+  const { pct, mode, minimum, maximum, offers: dealOffers } = dealTerms({ discountPct, pricingMode, minUnits, maxUnits, offers });
+  if (dealOffers) productNames = dealOfferProductNames(dealOffers);
+  const safety = dealSafety(pct, { confirmedHighDiscount });
+  if (!safety.ok) throw new Error(safety.error);
+
+  const { data: existing, error: existingError } = await supabase
+    .from('deals')
+    .select('id,status')
+    .eq('id', id)
+    .eq('status', 'draft')
+    .maybeSingle();
+  if (existingError) throw new Error(`Could not read the scheduled deal: ${existingError.message}`);
+  if (!existing) throw new Error('That deal is no longer scheduled — it may have started or been cancelled. Reload and try again.');
+
+  const live = await getLiveDeal(supabase);
+  const { window, error: windowError } = scheduledWindow(startsAt, { now, liveEndsAt: live?.ends_at });
+  if (windowError) throw new Error(windowError);
+
+  // Overlap is checked against the OTHER queued weeks only: a deal always
+  // overlaps the slot it is already sitting in.
+  const queued = (await getScheduledDeals(supabase)).filter((deal) => deal.id !== id);
+  const clash = queued.find((deal) => dealWindowsOverlap(window.startsAt, window.endsAt, deal.starts_at, deal.ends_at));
+  if (clash) {
+    throw new Error(`Another week is already scheduled from ${formatCrInstant(clash.starts_at)} to ${formatCrInstant(clash.ends_at)}. Pick a start after it ends.`);
+  }
+
+  const products = await resolveProducts(supabase, productNames);
+  const unavailable = products.filter(isUnavailableForDeal);
+  if (unavailable.length > 0) {
+    throw new Error(`These products cannot be promoted because they are not available: ${unavailable.map((p) => p.product).join(', ')}`);
+  }
+  const untracked = products.filter(hasUntrackedStock);
+  if (untracked.length > 0 && !allowUntrackedStock) {
+    throw new Error(`Confirm untracked stock before saving: ${untracked.map((p) => p.product).join(', ')}`);
+  }
+  const promoConflict = await findBulkPromoConflictForDeal(
+    supabase,
+    products.map((product) => product.product),
+    new Date(window.startsAt),
+    { pricingMode: mode },
+  );
+  if (promoConflict) throw new Error(`${dealPromoConflictMessage(promoConflict)} (checked at the scheduled start time)`);
+
+  const { data: deal, error } = await supabase
+    .from('deals')
+    .update({
+      title_en: String(titleEn || '').trim() || null,
+      title_es: String(titleEs || '').trim() || null,
+      product_names: products.map((p) => p.product),
+      discount_pct: pct,
+      starts_at: window.startsAt,
+      ends_at: window.endsAt,
+      pricing_mode: mode,
+      min_units: minimum,
+      max_units: maximum || null,
+      offers: dealOffers || null,
+    })
+    .eq('id', id)
+    .eq('status', 'draft')
+    .select('*')
+    .single();
+
+  if (error) throw new Error(`Could not update the scheduled deal: ${error.message}${offersMigrationHint(error)}`);
+  return { deal, window };
+}
+
+/**
  * What would stop the scheduled deal from starting, checked against the
  * storefront as it is right now. Shown on the admin screen before the start
  * time, so an out-of-stock product or a clashing promo can be fixed while

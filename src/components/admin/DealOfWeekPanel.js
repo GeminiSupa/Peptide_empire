@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Zap, Loader, AlertTriangle, CheckCircle, Megaphone, RotateCcw, Clock, Search, X, CalendarClock } from 'lucide-react';
+import { Zap, Loader, AlertTriangle, CheckCircle, Megaphone, RotateCcw, Clock, Search, X, CalendarClock, Edit2 } from 'lucide-react';
 import { adminFetch } from '@/lib/adminApi';
 import { formatCrInstant, formatCrDate, crWallToIso, isoToCrWall } from '@/lib/crTime.mjs';
 import { toPercent, hasUntrackedStock, isUnavailableForDeal } from '@/lib/dealOfWeek.mjs';
@@ -281,6 +281,8 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
   const [confirmedHighDiscount, setConfirmedHighDiscount] = useState(false);
   const [allowUntrackedStock, setAllowUntrackedStock] = useState(false);
   const [showLaunchReview, setShowLaunchReview] = useState(false);
+  // The id of the queued week being edited in place, or null for a new deal.
+  const [editingId, setEditingId] = useState(null);
 
   const isScheduling = startMode === 'later';
   const startsAtIso = isScheduling ? crWallToIso(startWall) : null;
@@ -516,12 +518,17 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
     if (!preview) return;
     setShowLaunchReview(false);
 
+    // Editing a queued week updates it in place; otherwise it is a new deal,
+    // scheduled for later or launched now.
+    const action = editingId ? 'edit_schedule' : (isScheduling ? 'schedule' : 'launch');
+    const verb = editingId ? 'save the changes' : (isScheduling ? 'schedule' : 'launch');
     try {
       setIsLaunching(true);
       const res = await adminFetch('/api/admin/deals', {
         method: 'POST',
         body: JSON.stringify({
-          action: isScheduling ? 'schedule' : 'launch',
+          action,
+          ...(editingId ? { id: editingId } : {}),
           starts_at: startsAtIso,
           product_names: dealProducts,
           offers: isOffers ? offersPayload : null,
@@ -536,16 +543,21 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
         }),
       });
       const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.error || (isScheduling ? 'Scheduling failed' : 'Launch failed'));
+      if (!res.ok || !data.ok) throw new Error(data.error || `Could not ${verb}`);
 
-      // A scheduled deal has not touched the storefront, so there is no
-      // announcement to hand over yet.
-      if (!isScheduling) setLaunched(data);
+      // A scheduled or edited deal has not touched the storefront, so there is
+      // no announcement to hand over yet.
+      if (action === 'launch') setLaunched(data);
+      setEditingId(null);
       setStartWall('');
       setSelected([]);
       setOfferDrafts([newOffer('mix', 'mix-1'), newOffer('bundle', 'bundle-1')]);
       setTitleEn('');
       setTitleEs('');
+      setDealType('single');
+      setPercent(15);
+      setMinUnits(20);
+      setMaxUnits('');
       setPreview(null);
       setConfirmedHighDiscount(false);
       setAllowUntrackedStock(false);
@@ -557,7 +569,7 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
         console.warn('[weekly-deal] Product refresh after launch failed:', refreshError);
       }
     } catch (err) {
-      alert(`Could not ${isScheduling ? 'schedule' : 'launch'} the deal: ${err.message}`);
+      alert(`Could not ${verb}: ${err.message}`);
     } finally {
       setIsLaunching(false);
     }
@@ -579,6 +591,61 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
     } finally {
       setCancellingId(null);
     }
+  };
+
+  // Load a queued week back into the builder so it can be changed in place.
+  // Offers-mode deals (the common case) restore their whole ordered offer list;
+  // a one-percentage deal restores its percent, minimum and products.
+  const loadDealForEdit = (deal) => {
+    if (!deal) return;
+    setEditingId(deal.id);
+    setLaunched(null);
+    setConfirmedHighDiscount(false);
+    setAllowUntrackedStock(false);
+    setStartMode('later');
+    setStartWall(isoToCrWall(deal.starts_at));
+    setTitleEn(deal.title_en || '');
+    setTitleEs(deal.title_es || '');
+    const items = normalizeDealOffers(deal.offers).items;
+    if (items.length > 0) {
+      setDealType('offers');
+      setOfferDrafts(items.map((offer, index) => ({
+        ...newOffer(offer.type, offer.id || `${offer.type || 'mix'}-${index + 1}`),
+        ...offer,
+        selected: offer.product_names,
+        discount_pct: ['mix', 'pair', 'spend'].includes(offer.type)
+          ? Math.round((Number(offer.discount_pct) || 0) * 100)
+          : undefined,
+        scope: OFFER_SCOPE_CUSTOM,
+      })));
+      setSelected(deal.product_names || []);
+    } else {
+      setDealType('single');
+      setPercent(Math.round((Number(deal.discount_pct) || 0) * 100) || 15);
+      setMinUnits(Number(deal.min_units) > 0 ? Number(deal.min_units) : 1);
+      setMaxUnits(deal.max_units || '');
+      setSelected(deal.product_names || []);
+    }
+    if (typeof window !== 'undefined') {
+      requestAnimationFrame(() => document.getElementById('weekly-deal-setup')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+    }
+  };
+
+  // Leave edit mode without saving, back to a blank new-deal form.
+  const cancelEdit = () => {
+    setEditingId(null);
+    setStartWall('');
+    setSelected([]);
+    setOfferDrafts([newOffer('mix', 'mix-1'), newOffer('bundle', 'bundle-1')]);
+    setTitleEn('');
+    setTitleEs('');
+    setDealType('single');
+    setPercent(15);
+    setMinUnits(20);
+    setMaxUnits('');
+    setPreview(null);
+    setConfirmedHighDiscount(false);
+    setAllowUntrackedStock(false);
   };
 
   const handleEnd = async () => {
@@ -1052,15 +1119,24 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
                     {dealModeLine(item)} · no code · no stacking
                   </div>
                 </div>
-                <button
-                  className="admin-btn"
-                  onClick={() => handleCancelSchedule(item.id)}
-                  disabled={cancellingId === item.id}
-                  style={{ alignSelf: 'flex-start', display: 'flex', alignItems: 'center', gap: '6px' }}
-                >
-                  {cancellingId === item.id ? <Loader size={14} className="spin" /> : <X size={14} />}
-                  Cancel schedule
-                </button>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignSelf: 'flex-start' }}>
+                  <button
+                    className={`admin-btn${editingId === item.id ? ' primary' : ''}`}
+                    onClick={() => loadDealForEdit(item)}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                  >
+                    <Edit2 size={14} /> {editingId === item.id ? 'Editing…' : 'Edit'}
+                  </button>
+                  <button
+                    className="admin-btn"
+                    onClick={() => handleCancelSchedule(item.id)}
+                    disabled={cancellingId === item.id}
+                    style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
+                  >
+                    {cancellingId === item.id ? <Loader size={14} className="spin" /> : <X size={14} />}
+                    Cancel schedule
+                  </button>
+                </div>
               </div>
               {(item.problems || []).length > 0 ? (
                 <div className="weekly-deal-inline-alert is-danger">
@@ -1085,10 +1161,21 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
 
       {/* ---------- Set up the next deal ---------- */}
       {!loading && (
-        <div style={card}>
-          <h4 style={{ margin: '0 0 14px', color: '#f8fafc', fontSize: '0.95rem' }}>
-            {live || scheduled.length > 0 ? 'Schedule the next deal' : 'Set up this week’s deal'}
-          </h4>
+        <div id="weekly-deal-setup" style={editingId ? { ...card, borderColor: 'rgba(56,189,248,0.6)', background: 'rgba(56,189,248,0.06)' } : card}>
+          {editingId ? (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '14px' }}>
+              <h4 style={{ margin: 0, color: '#38bdf8', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Edit2 size={15} /> Editing a scheduled week — change anything below, then Save changes.
+              </h4>
+              <button className="admin-btn" onClick={cancelEdit} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <X size={14} /> Cancel edit
+              </button>
+            </div>
+          ) : (
+            <h4 style={{ margin: '0 0 14px', color: '#f8fafc', fontSize: '0.95rem' }}>
+              {live || scheduled.length > 0 ? 'Schedule the next deal' : 'Set up this week’s deal'}
+            </h4>
+          )}
 
           <div className="weekly-deal-setup-progress" aria-label="Deal setup progress">
             {setupSteps.map((step, index) => (
@@ -1656,8 +1743,8 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
             disabled={Boolean(launchBlocker) || isLaunching || isPreviewing}
             style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
           >
-            {isLaunching ? <Loader size={15} className="spin" /> : (isScheduling ? <CalendarClock size={15} /> : <Zap size={15} />)}
-            {isScheduling ? 'Schedule deal' : 'Launch deal'}
+            {isLaunching ? <Loader size={15} className="spin" /> : (editingId || isScheduling ? <CalendarClock size={15} /> : <Zap size={15} />)}
+            {editingId ? 'Review changes' : (isScheduling ? 'Schedule deal' : 'Launch deal')}
           </button>
           <div className={`weekly-deal-launch-readiness${launchBlocker ? '' : ' is-ready'}`} role="status">
             {launchBlocker ? <><AlertTriangle size={14} /> Before you can continue: {launchBlocker}</> : <><CheckCircle size={14} /> Ready for final review. Nothing goes live until you confirm.</>}
@@ -1710,7 +1797,7 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
               <div>
                 <span>Final review</span>
                 <h4 id="weekly-deal-review-title">
-                  {isScheduling ? 'Schedule' : 'Launch'} {preview.offers ? `${preview.offers.en.length} offer${preview.offers.en.length === 1 ? '' : 's'}` : `${preview.safety?.pct}% weekly deal`}?
+                  {editingId ? 'Save changes to' : (isScheduling ? 'Schedule' : 'Launch')} {preview.offers ? `${preview.offers.en.length} offer${preview.offers.en.length === 1 ? '' : 's'}` : `${preview.safety?.pct}% weekly deal`}?
                 </h4>
               </div>
               <button type="button" onClick={() => setShowLaunchReview(false)} aria-label="Close launch review">
@@ -1754,8 +1841,8 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
             <div className="weekly-deal-modal-actions">
               <button type="button" className="admin-btn" onClick={() => setShowLaunchReview(false)}>Go back</button>
               <button type="button" className="admin-btn primary" onClick={confirmLaunch} disabled={isLaunching}>
-                {isLaunching ? <Loader size={15} className="spin" /> : (isScheduling ? <CalendarClock size={15} /> : <Zap size={15} />)}
-                {isScheduling ? 'Confirm & schedule' : <>Confirm &amp; launch</>}
+                {isLaunching ? <Loader size={15} className="spin" /> : (editingId || isScheduling ? <CalendarClock size={15} /> : <Zap size={15} />)}
+                {editingId ? <>Confirm &amp; save</> : (isScheduling ? 'Confirm & schedule' : <>Confirm &amp; launch</>)}
               </button>
             </div>
           </section>
