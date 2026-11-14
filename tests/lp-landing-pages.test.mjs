@@ -111,11 +111,14 @@ test('the single-product pages do not promise cash on delivery', () => {
   }
 });
 
-test('the single-product pages report one page view per page, not one per re-render', () => {
+test('every ad page reports one page view per page, not one per re-render', () => {
   // The router runs again when the live catalog arrives and when language or
   // currency changes. Each run used to push its own page_view_virtual, so
-  // Analytics counted two or three views for one visit (12 Nov 2026).
-  for (const page of NEW_AD_PAGES) {
+  // Analytics counted two or three views for one visit (12 Nov 2026). The
+  // metabolic and bac-water pages were still counting three on 13 Nov; it
+  // reached nobody only because their advertised address loaded no Tag
+  // Manager. Publishing them on /lp would have started inflating the figures.
+  for (const page of AD_PAGES) {
     const html = fs.readFileSync(path.join(rootDir, page), 'utf8');
     const pushes = html.match(/dataLayer\.push\(\{ event: "page_view_virtual"/g) || [];
     assert.equal(pushes.length, 1, `${page}: one place reports a page view`);
