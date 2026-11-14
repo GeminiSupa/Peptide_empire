@@ -24,22 +24,26 @@ test('every ad copy is reachable at its old short address too', () => {
   }
 });
 
-test('each old ad landing page redirects to a page that exists', async () => {
-  const rules = await config.redirects();
+test('each old ad address serves its product page itself, and never redirects', async () => {
+  // The ads team's rule (13 Nov 2026): the address in the ad should be the
+  // page, not bounce to one. So these are internal aliases answering 200,
+  // like the sitemap aliases, and no redirect may creep back in.
+  const rewrites = await config.rewrites();
+  const redirects = await config.redirects();
   for (const [page, destination] of OLD_AD_LANDING_PAGES) {
     assert.ok(paths.has(destination), `${page}: ${destination} is not a page on this site`);
-    const rule = rules.find((r) => r.source === `/${page}`);
-    assert.ok(rule, `${page}: redirect rule missing`);
+    const rule = rewrites.find((r) => r.source === `/${page}`);
+    assert.ok(rule, `${page}: alias missing`);
     assert.equal(rule.destination, destination, page);
-    assert.equal(rule.permanent, false, `${page}: temporary, so the old page can come back`);
+    assert.ok(!redirects.some((r) => r.source === `/${page}`), `${page}: must answer 200, not redirect`);
   }
   // Not every old address has an ad copy of its own: this one goes to the
   // regular product, and that is deliberate.
   assert.equal(redirected.get('lp-bac-water-10ml'), '/product/bac-water-10ml/');
 });
 
-test('live pages are not caught by the old ad redirects', async () => {
-  const rules = await config.redirects();
+test('live pages are not caught by the old ad aliases', async () => {
+  const rules = [...(await config.redirects()), ...(await config.rewrites())];
   for (const live of ['/lp-glutathione', '/product/lp-klow-80mg']) {
     assert.ok(!rules.some((r) => r.source === live), live);
   }

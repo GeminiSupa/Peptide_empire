@@ -117,18 +117,6 @@ const nextConfig = {
         destination: '/es/',
         permanent: true,
       },
-      // Old WordPress ad landing pages that Google Ads still sends ~3,300
-      // clicks/week to (they 404'd after the 9 Nov 2026 domain move). Each
-      // goes to this site's own page for the same product, so the ad lands
-      // where it promised. Next.js keeps the query string, and every page
-      // here saves gclid/gbraid/wbraid (visitor-tracker → attribution.mjs)
-      // and sends it with the order. Listed one by one: /lp-glutathione/ is
-      // a live page on this site. Temporary, so they can be restored.
-      ...OLD_AD_LANDING_PAGES.map(([page, destination]) => ({
-        source: `/${page}`,
-        destination,
-        permanent: false,
-      })),
       // Short addresses people type or print (owner, 9 Nov 2026: /contact 404'd).
       {
         source: '/contact',
@@ -156,14 +144,36 @@ const nextConfig = {
    */
   async rewrites() {
     return [
-      '/sitemap_index.xml',
-      '/sitemap-xag.xml',
-      '/sitemap-xagio-post.xml',
-      '/sitemap-xagio-page.xml',
-      '/sitemap-xagio-product.xml',
-      '/sitemap-xagio-product_cat.xml',
-      '/wp-sitemap.xml',
-    ].map((source) => ({ source, destination: '/sitemap.xml' }));
+      // Old WordPress ad landing pages that Google Ads still sends ~3,300
+      // clicks/week to (they 404'd after the 9 Nov 2026 domain move).
+      //
+      // These were 307 redirects for two days. The ads team's answer was that
+      // the address should BE the page, not bounce to one (13 Nov 2026), and
+      // they are right: the URL in the ad is what Google reviews and reports
+      // on, and a redirect puts a hop between the click and the landing.
+      // So each old address now serves this site's page for the same product
+      // itself, HTTP 200, exactly like the sitemap aliases below.
+      //
+      // Safe against duplicate content: the page states its canonical from its
+      // own route (lib/seo-links.mjs), so a page served here still names
+      // /product/<slug>/ as the original, and none of these addresses is in
+      // the sitemap. The query string rides along, so gclid/gbraid/wbraid
+      // still reach the order (visitor-tracker → attribution.mjs).
+      // /lp-glutathione/ is a real page on this site and is not in the list.
+      ...OLD_AD_LANDING_PAGES.map(([page, destination]) => ({
+        source: `/${page}`,
+        destination,
+      })),
+      ...[
+        '/sitemap_index.xml',
+        '/sitemap-xag.xml',
+        '/sitemap-xagio-post.xml',
+        '/sitemap-xagio-page.xml',
+        '/sitemap-xagio-product.xml',
+        '/sitemap-xagio-product_cat.xml',
+        '/wp-sitemap.xml',
+      ].map((source) => ({ source, destination: '/sitemap.xml' })),
+    ];
   },
 };
 
