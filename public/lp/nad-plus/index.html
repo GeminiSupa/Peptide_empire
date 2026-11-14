@@ -2644,6 +2644,12 @@ function syncLiveCatalogProducts(rows) {
       if (!p) {
         p = { name: displayName, cat: landingCategory(row.category), slug: displayName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''), best: false, liquid: /ml$/i.test(parts.size), def: parts.size, facts: [], v: [] };
       }
+      // The photo map is keyed by the name this file shipped with, and the
+      // live catalog spells some of them differently ("GHK-Cu" there is
+      // "GHK-CU" here), which left those products with no image at all.
+      // Keep the original name for the photo lookup; the label still follows
+      // the catalog.
+      if (!p._n && p.name) p._n = p.name;
       p.name = displayName;
       p.cat = landingCategory(row.category);
       p.v = [];
