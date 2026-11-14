@@ -19,6 +19,10 @@
 // so it can take them out of revenue. Cancelling an order that never paid
 // sends nothing, because nothing was ever counted.
 //
+// Only orders that came through a paid ad are sent (see isPaidAdOrder): the
+// receiver matches sales to ad clicks, so an organic or WhatsApp sale carries
+// nothing for it to match on. ORDER_WEBHOOK_ALL_ORDERS=true sends every one.
+//
 // It is best-effort by contract: with no ORDER_WEBHOOK_URL set it does nothing,
 // and any failure (bad URL, timeout, non-2xx) is logged, never thrown — a down
 // receiver must never break a payment confirmation. A network error or a 5xx is
@@ -44,6 +48,25 @@ const MAX_ATTEMPTS = 3;
 /** Backoff before the 2nd and 3rd attempt. Short: this runs inside a payment
  *  confirmation request, which must not be held up. */
 const RETRY_DELAY_MS = [400, 1200];
+
+/**
+ * Whether this order came through a paid ad, and so is the receiver's business.
+ *
+ * The receiver exists to match sales to ad clicks; an organic or WhatsApp sale
+ * carries nothing for it to match on and would only be rejected, so it is not
+ * sent at all (owner's call, 15 Nov 2026). Any one of the three tags is enough:
+ * the ref names the landing page, and either click id names the click.
+ *
+ * Set ORDER_WEBHOOK_ALL_ORDERS=true to send every paid order instead.
+ */
+export function isPaidAdOrder(order) {
+  return Boolean(order?.landing_ref || order?.landing_cid || order?.landing_ttclid);
+}
+
+function shouldSendOrder(order) {
+  if (String(process.env.ORDER_WEBHOOK_ALL_ORDERS || '').toLowerCase() === 'true') return true;
+  return isPaidAdOrder(order);
+}
 
 export const ORDER_WEBHOOK_EVENT_PAID = 'order.paid';
 export const ORDER_WEBHOOK_EVENT_CANCELLED = 'order.cancelled';
@@ -243,6 +266,9 @@ export async function fireOrderPaidWebhook(order, { previousStatus, logPrefix = 
     if (!isFirstPaidTransition(previousStatus, order?.status)) {
       return { fired: false, reason: 'not_paid_transition' };
     }
+    if (!shouldSendOrder(order)) {
+      return { fired: false, reason: 'not_an_ad_order' };
+    }
 
     const url = process.env.ORDER_WEBHOOK_URL;
     if (!url) return { fired: false, reason: 'not_configured' };
@@ -274,6 +300,11 @@ export async function fireOrderClosedWebhook(order, { event, previousStatus, log
     }
     if (!isPaidLike(previousStatus)) {
       return { fired: false, reason: 'was_never_paid' };
+    }
+    // Same gate as the paid event, so the receiver is never told to take back
+    // a sale it was never told about.
+    if (!shouldSendOrder(order)) {
+      return { fired: false, reason: 'not_an_ad_order' };
     }
 
     const url = process.env.ORDER_WEBHOOK_URL;

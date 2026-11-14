@@ -16,6 +16,7 @@ One URL, set per environment, nothing hard-coded:
 | `ORDER_WEBHOOK_SECRET` | Shared secret. Sent as a header and used for the signature. Unset = neither header is sent. |
 | `ORDER_WEBHOOK_SIGNATURE_HEADER` | Name of the signature header. Default `X-Webhook-Signature`. |
 | `ORDER_WEBHOOK_TIMEOUT_MS` | Per-attempt timeout. Default 5000. |
+| `ORDER_WEBHOOK_ALL_ORDERS` | `true` sends every paid order. Unset = only orders that came through a paid ad. |
 
 Headers on every call:
 
@@ -37,6 +38,12 @@ The signature covers the raw bytes we send, so verify it before parsing.
 
 Cancelling or refusing an order that never paid sends nothing — nothing was
 ever reported, so there is nothing to take back.
+
+**Only paid-ad orders are sent** (owner, 15 Nov 2026): an order must carry at
+least one of `ref`, `cid` or `ttclid`. An organic, direct or WhatsApp sale has
+none of them, so there is nothing for the receiver to match and it is not sent
+at all. The cancel and refund events follow the same rule, so the receiver is
+never told to take back a sale it was never told about.
 
 ## Body
 

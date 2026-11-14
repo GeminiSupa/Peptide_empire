@@ -302,18 +302,20 @@ Owner (Omer) to do or decide:
     `docs/order-paid-webhook.md`. The website half is branch `main-click-ids`
     (worktree of the same name): `lib/site/attribution.mjs` saves `?cid=` /
     `?ttclid=` and sends them to checkout, and the synced checkout copy is
-    re-synced from the catalog branch — so **`sync-catalog-checkout.mjs --check`
-    on `main` reports drift until the catalog branch is pushed**, then passes.
-    He confirmed on 15 Nov: Costa Rica posts to the same endpoint
-    (`https://usapeptidedepot.site/order_webhook.php`) with the same secret as
-    the US, and his receiver now accepts a sale with no `cid` as long as
-    `ref`/`lp` or `ttclid` is there. **To ship, in this order:** run
-    `add-order-click-ids.sql` in the Supabase SQL Editor; merge
-    `catalog-order-webhook-fields` into `catalog` and push; merge
-    `main-click-ids` into `main` and push; then set `ORDER_WEBHOOK_URL` and
-    `ORDER_WEBHOOK_SECRET` in the catalog's Vercel project (Production) and
-    redeploy — **neither variable exists there today, so this webhook has never
-    fired once**, and 0 of 1,990 orders carry a landing ref. Not covered:
+    re-synced from the catalog branch. He confirmed on 15 Nov: Costa Rica posts
+    to the same endpoint (`https://usapeptidedepot.site/order_webhook.php`) with
+    the same secret as the US, and his receiver now accepts a sale with no `cid`
+    as long as `ref`/`lp` or `ttclid` is there. **Live since 15 Nov 2026:**
+    `add-order-click-ids.sql` run by the owner, both branches pushed
+    (`catalog` `77107e0a`, `main` `b209728b`, each a fast-forward of its own
+    branch), and `ORDER_WEBHOOK_URL` + `ORDER_WEBHOOK_SECRET` set in the
+    catalog's Vercel project (Production) — before that the webhook had never
+    fired once. **Only paid-ad orders are sent** (owner, 15 Nov): an order must
+    carry `ref`, `cid` or `ttclid`, so organic and WhatsApp sales never reach
+    him; `ORDER_WEBHOOK_ALL_ORDERS=true` would send every one. Unproven: no real
+    paid order has gone to his endpoint yet — the first one is the proof, and
+    its result is in the catalog's Vercel logs under `[order-paid-webhook]`.
+    Not covered:
     WhatsApp sales, where no landing URL is ever loaded so there is no click id
     to send; the catalog's lead forms, which still keep Google clicks only; and
     the website's legacy-layout pages (blog, guides, legal), which are outside

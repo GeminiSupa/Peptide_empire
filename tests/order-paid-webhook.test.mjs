@@ -6,6 +6,7 @@ import {
   buildOrderWebhookPayload,
   fireOrderPaidWebhook,
   fireOrderClosedWebhook,
+  isPaidAdOrder,
   productSlug,
   ORDER_WEBHOOK_EVENT_CANCELLED,
   ORDER_WEBHOOK_EVENT_REFUNDED,
@@ -237,6 +238,57 @@ test('a fresh order born paid (no previous status) fires once', async () => {
       const result = await fireOrderPaidWebhook(paidOrder, { previousStatus: null });
       assert.equal(result.fired, true);
       assert.equal(calls, 1);
+    });
+  });
+});
+
+test('an organic sale is not sent at all', async () => {
+  // The receiver matches sales to ad clicks. A sale with no ref and no click
+  // ids has nothing to match on, so it is never sent (owner, 15 Nov 2026).
+  await withEnv({ ORDER_WEBHOOK_URL: 'https://example.test/hook' }, async () => {
+    let called = false;
+    await withFetch(async () => { called = true; return { ok: true, status: 200 }; }, async () => {
+      const organic = { ...paidOrder, landing_ref: null, landing_cid: null, landing_ttclid: null };
+      const result = await fireOrderPaidWebhook(organic, { previousStatus: 'Pending' });
+      assert.equal(result.fired, false);
+      assert.equal(result.reason, 'not_an_ad_order');
+      assert.equal(called, false);
+    });
+  });
+});
+
+test('any one of the three tags is enough to count as an ad order', () => {
+  assert.equal(isPaidAdOrder({ landing_ref: 'tiktok-glp1-a' }), true);
+  assert.equal(isPaidAdOrder({ landing_cid: 'abc123' }), true);
+  assert.equal(isPaidAdOrder({ landing_ttclid: 'E.C.P2_ABC' }), true);
+  assert.equal(isPaidAdOrder({ landing_ref: null, landing_cid: null, landing_ttclid: null }), false);
+  assert.equal(isPaidAdOrder({}), false);
+  assert.equal(isPaidAdOrder(null), false);
+});
+
+test('ORDER_WEBHOOK_ALL_ORDERS=true sends organic sales too', async () => {
+  await withEnv({ ORDER_WEBHOOK_URL: 'https://example.test/hook', ORDER_WEBHOOK_ALL_ORDERS: 'true' }, async () => {
+    let calls = 0;
+    await withFetch(async () => { calls += 1; return { ok: true, status: 200 }; }, async () => {
+      const organic = { ...paidOrder, landing_ref: null, landing_cid: null, landing_ttclid: null };
+      const result = await fireOrderPaidWebhook(organic, { previousStatus: 'Pending' });
+      assert.equal(result.ok, true);
+      assert.equal(calls, 1);
+    });
+  });
+});
+
+test('an organic sale that is cancelled is not reported either', async () => {
+  await withEnv({ ORDER_WEBHOOK_URL: 'https://example.test/hook' }, async () => {
+    let called = false;
+    await withFetch(async () => { called = true; return { ok: true, status: 200 }; }, async () => {
+      const result = await fireOrderClosedWebhook(
+        { ...paidOrder, status: 'Cancelled', landing_ref: null, landing_cid: null, landing_ttclid: null },
+        { event: ORDER_WEBHOOK_EVENT_CANCELLED, previousStatus: 'Paid' },
+      );
+      assert.equal(result.fired, false);
+      assert.equal(result.reason, 'not_an_ad_order');
+      assert.equal(called, false);
     });
   });
 });
