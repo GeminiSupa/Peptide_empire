@@ -31,6 +31,7 @@ import {
   isUnavailableForDeal,
   dealPricingMode,
   scheduledWindow,
+  dealWindowsOverlap,
 } from '@/lib/dealOfWeek.mjs';
 import { formatCrInstant } from '@/lib/crTime.mjs';
 import {
@@ -738,6 +739,26 @@ export async function getScheduledDeal(supabase) {
 }
 
 /**
+ * Every queued deal of one kind, earliest first.
+ *
+ * A queue: the admin can line up several future weeks at once, and the
+ * expire-deals cron starts each one when its start time comes and the week
+ * before it has ended. Drafts are invisible to customers until the cron
+ * switches them on. Filtering by kind keeps a flash draft (there are none
+ * today) out of the weekly queue.
+ */
+export async function getScheduledDeals(supabase, kind = WEEKLY_KIND) {
+  const { data, error } = await supabase
+    .from('deals')
+    .select('*')
+    .eq('status', 'draft')
+    .order('starts_at', { ascending: true });
+
+  if (error) throw new Error(`Could not read the scheduled deals: ${error.message}`);
+  return (data || []).filter((deal) => dealKind(deal) === kind);
+}
+
+/**
  * Save a deal to start later. Runs every launch check now, so a mistake shows
  * up while the admin is still at the screen, and launchDeal runs them all again
  * at the start time because stock and promos can change in between.
@@ -765,14 +786,18 @@ export async function scheduleDeal({
   const safety = dealSafety(pct, { confirmedHighDiscount });
   if (!safety.ok) throw new Error(safety.error);
 
-  const existing = await getScheduledDeal(supabase);
-  if (existing) {
-    throw new Error(`A deal is already scheduled to start ${formatCrInstant(existing.starts_at)}. Cancel it before scheduling another.`);
-  }
-
   const live = await getLiveDeal(supabase);
   const { window, error: windowError } = scheduledWindow(startsAt, { now, liveEndsAt: live?.ends_at });
   if (windowError) throw new Error(windowError);
+
+  // Several weeks may be queued at once, but their windows may not overlap:
+  // the cron runs one weekly deal at a time, so two that share any moment
+  // would leave the later one waiting and starting late.
+  const queued = await getScheduledDeals(supabase);
+  const clash = queued.find((deal) => dealWindowsOverlap(window.startsAt, window.endsAt, deal.starts_at, deal.ends_at));
+  if (clash) {
+    throw new Error(`Another week is already scheduled from ${formatCrInstant(clash.starts_at)} to ${formatCrInstant(clash.ends_at)}. Pick a start after it ends.`);
+  }
 
   const products = await resolveProducts(supabase, productNames);
   const unavailable = products.filter(isUnavailableForDeal);
@@ -822,8 +847,17 @@ export async function scheduleDeal({
  * keeps it (its ended_at falls before its starts_at, which is how the screen
  * tells a cancelled schedule from a deal that ran).
  */
-export async function cancelScheduledDeal(supabase) {
-  const scheduled = await getScheduledDeal(supabase);
+export async function cancelScheduledDeal(supabase, id = null) {
+  // Read every draft, not just the earliest, so a specific queued week can be
+  // cancelled by id. Falls back to the earliest when no id is given.
+  const { data, error: readError } = await supabase
+    .from('deals')
+    .select('*')
+    .eq('status', 'draft')
+    .order('starts_at', { ascending: true });
+  if (readError) throw new Error(`Could not read the scheduled deals: ${readError.message}`);
+  const drafts = data || [];
+  const scheduled = id ? drafts.find((deal) => deal.id === id) : drafts[0];
   if (!scheduled) throw new Error('No deal is scheduled.');
 
   const { error } = await supabase

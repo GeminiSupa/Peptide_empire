@@ -252,10 +252,10 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
   const [flashQuery, setFlashQuery] = useState('');
   const [flashBusy, setFlashBusy] = useState(false);
   const [flashError, setFlashError] = useState('');
-  const [scheduled, setScheduled] = useState(null);
+  const [scheduled, setScheduled] = useState([]);
   const [startMode, setStartMode] = useState('now');
   const [startWall, setStartWall] = useState('');
-  const [isCancelling, setIsCancelling] = useState(false);
+  const [cancellingId, setCancellingId] = useState(null);
   const [recent, setRecent] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -384,13 +384,20 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
       if (!res.ok) throw new Error(data.error || 'Could not load deals');
       setLive(data.live || null);
       setFlash(data.flash || null);
-      setScheduled(data.scheduled || null);
+      const scheduledList = Array.isArray(data.scheduled)
+        ? data.scheduled
+        : (data.scheduled ? [data.scheduled] : []);
+      setScheduled(scheduledList);
       setRecent(data.recent || []);
-      // With a deal live, the only option is to schedule the next one, and
-      // the natural start is the moment the live one ends.
-      if (data.live) {
+      // With a deal live or weeks already queued, the next one naturally starts
+      // the moment the last of them ends.
+      const lastEnd = [data.live?.ends_at, ...scheduledList.map((deal) => deal.ends_at)]
+        .filter(Boolean)
+        .sort()
+        .pop();
+      if (lastEnd) {
         setStartMode('later');
-        setStartWall((current) => current || crWallAtOrAfter(data.live.ends_at));
+        setStartWall((current) => current || crWallAtOrAfter(lastEnd));
       }
     } catch (err) {
       setPreviewError(err.message);
@@ -556,13 +563,13 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
     }
   };
 
-  const handleCancelSchedule = async () => {
-    if (!window.confirm('Cancel the scheduled deal? It will not start. Nothing on the site changes.')) return;
+  const handleCancelSchedule = async (id) => {
+    if (!window.confirm('Cancel this scheduled deal? It will not start. Nothing on the site changes.')) return;
     try {
-      setIsCancelling(true);
+      setCancellingId(id);
       const res = await adminFetch('/api/admin/deals', {
         method: 'POST',
-        body: JSON.stringify({ action: 'cancel_schedule' }),
+        body: JSON.stringify({ action: 'cancel_schedule', id }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || 'Could not cancel the scheduled deal');
@@ -570,7 +577,7 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
     } catch (err) {
       alert('Could not cancel the scheduled deal: ' + err.message);
     } finally {
-      setIsCancelling(false);
+      setCancellingId(null);
     }
   };
 
@@ -1017,62 +1024,70 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
         </div>
       )}
 
-      {/* ---------- The scheduled deal ---------- */}
-      {!loading && scheduled && (
-        <div style={{ ...card, borderColor: 'rgba(96,165,250,0.45)', background: 'rgba(96,165,250,0.06)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '14px', flexWrap: 'wrap' }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#93c5fd', fontWeight: 800, fontSize: '0.9rem' }}>
-                <CalendarClock size={15} /> SCHEDULED — {dealHeadline(scheduled)}
-              </div>
-              <div style={{ color: '#f8fafc', fontSize: '0.95rem', fontWeight: 700, marginTop: '6px' }}>
-                <DealProductsLine deal={scheduled} />
-              </div>
-              <div style={{ color: '#cbd5e1', fontSize: '0.82rem', marginTop: '6px' }}>
-                Starts <DealTime iso={scheduled.starts_at} />
-              </div>
-              <div style={{ color: '#cbd5e1', fontSize: '0.82rem', marginTop: '4px' }}>
-                Ends <DealTime iso={scheduled.ends_at} />
-              </div>
-              <div style={{ color: '#93c5fd', fontSize: '0.78rem', marginTop: '6px' }}>
-                {dealModeLine(scheduled)} · no code · no stacking
-              </div>
-            </div>
-            <button
-              className="admin-btn"
-              onClick={handleCancelSchedule}
-              disabled={isCancelling}
-              style={{ alignSelf: 'flex-start', display: 'flex', alignItems: 'center', gap: '6px' }}
-            >
-              {isCancelling ? <Loader size={14} className="spin" /> : <X size={14} />}
-              Cancel schedule
-            </button>
-          </div>
-          <div style={{ marginTop: '12px', fontSize: '0.78rem', color: '#94a3b8' }}>
-            It starts on its own within 5 minutes of the start time: banner, discount and prices, the same as pressing Launch.
-            The A/B test on the Deal of the Week page carries on by itself. The announcement is not sent automatically —
-            come back after it starts to review and send it.
-          </div>
-          {(scheduled.problems || []).length > 0 ? (
-            <div className="weekly-deal-inline-alert is-danger">
-              <AlertTriangle size={16} />
-              <span>
-                {scheduled.problems.map((problem) => <span key={problem} style={{ display: 'block' }}>{problem}</span>)}
-              </span>
-            </div>
-          ) : (
-            <div className="weekly-deal-inline-alert">
-              <CheckCircle size={16} /> Ready to start — no problems found right now.
+      {/* ---------- The scheduled queue ---------- */}
+      {!loading && scheduled.length > 0 && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          {scheduled.length > 1 && (
+            <div style={{ color: '#93c5fd', fontWeight: 800, fontSize: '0.82rem', letterSpacing: '0.03em' }}>
+              {scheduled.length} WEEKS QUEUED — each starts within 5 minutes of the one before it ending.
             </div>
           )}
+          {scheduled.map((item, index) => (
+            <div key={item.id} style={{ ...card, borderColor: 'rgba(96,165,250,0.45)', background: 'rgba(96,165,250,0.06)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: '14px', flexWrap: 'wrap' }}>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#93c5fd', fontWeight: 800, fontSize: '0.9rem' }}>
+                    <CalendarClock size={15} /> SCHEDULED{scheduled.length > 1 ? ` #${index + 1}` : ''} — {dealHeadline(item)}
+                  </div>
+                  <div style={{ color: '#f8fafc', fontSize: '0.95rem', fontWeight: 700, marginTop: '6px' }}>
+                    <DealProductsLine deal={item} />
+                  </div>
+                  <div style={{ color: '#cbd5e1', fontSize: '0.82rem', marginTop: '6px' }}>
+                    Starts <DealTime iso={item.starts_at} />
+                  </div>
+                  <div style={{ color: '#cbd5e1', fontSize: '0.82rem', marginTop: '4px' }}>
+                    Ends <DealTime iso={item.ends_at} />
+                  </div>
+                  <div style={{ color: '#93c5fd', fontSize: '0.78rem', marginTop: '6px' }}>
+                    {dealModeLine(item)} · no code · no stacking
+                  </div>
+                </div>
+                <button
+                  className="admin-btn"
+                  onClick={() => handleCancelSchedule(item.id)}
+                  disabled={cancellingId === item.id}
+                  style={{ alignSelf: 'flex-start', display: 'flex', alignItems: 'center', gap: '6px' }}
+                >
+                  {cancellingId === item.id ? <Loader size={14} className="spin" /> : <X size={14} />}
+                  Cancel schedule
+                </button>
+              </div>
+              {(item.problems || []).length > 0 ? (
+                <div className="weekly-deal-inline-alert is-danger">
+                  <AlertTriangle size={16} />
+                  <span>
+                    {item.problems.map((problem) => <span key={problem} style={{ display: 'block' }}>{problem}</span>)}
+                  </span>
+                </div>
+              ) : (
+                <div className="weekly-deal-inline-alert">
+                  <CheckCircle size={16} /> Ready to start — no problems found right now.
+                </div>
+              )}
+            </div>
+          ))}
+          <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+            Each week starts on its own within 5 minutes of its start time: banner, discount and prices, the same as pressing Launch.
+            The announcement is not sent automatically — come back after a week starts to review and send it.
+          </div>
         </div>
       )}
 
       {/* ---------- Set up the next deal ---------- */}
-      {!loading && !scheduled && (
+      {!loading && (
         <div style={card}>
           <h4 style={{ margin: '0 0 14px', color: '#f8fafc', fontSize: '0.95rem' }}>
-            {live ? 'Schedule the next deal' : 'Set up this week’s deal'}
+            {live || scheduled.length > 0 ? 'Schedule the next deal' : 'Set up this week’s deal'}
           </h4>
 
           <div className="weekly-deal-setup-progress" aria-label="Deal setup progress">
@@ -1133,6 +1148,16 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
                     onClick={() => setStartWall(crWallAtOrAfter(live.ends_at))}
                   >
                     Start when the current deal ends
+                  </button>
+                )}
+                {scheduled.length > 0 && (
+                  <button
+                    type="button"
+                    className="admin-btn"
+                    style={{ justifySelf: 'start', padding: '3px 9px', fontSize: '0.72rem' }}
+                    onClick={() => setStartWall(crWallAtOrAfter(scheduled[scheduled.length - 1].ends_at))}
+                  >
+                    Start after the last queued week
                   </button>
                 )}
               </div>

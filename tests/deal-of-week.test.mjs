@@ -21,6 +21,7 @@ import {
   hasUntrackedStock,
   isUnavailableForDeal,
   scheduledWindow,
+  dealWindowsOverlap,
 } from '../src/lib/dealOfWeek.mjs';
 
 // Costa Rica is UTC-6, so 23:59:59.999 CR is 05:59:59.999 UTC the NEXT day.
@@ -367,4 +368,19 @@ test('a Sunday-evening scheduled start rolls to the following Sunday', () => {
   const { window } = scheduledWindow('2026-09-28T02:00:00.000Z', { now: new Date('2026-09-21T06:00:00Z') });
   assert.equal(window.endsAt, '2026-10-05T05:59:59.999Z');
   assert.equal(window.rolledForward, true);
+});
+
+test('dealWindowsOverlap: contiguous weeks do not overlap, but any shared moment does', () => {
+  const week1Start = '2026-11-16T06:00:00.000Z'; // Mon 16 Nov 00:00 CR
+  const week1End = '2026-11-23T05:59:59.999Z';   // Sun 22 Nov 23:59 CR
+  const week2Start = '2026-11-23T06:00:00.000Z'; // Mon 23 Nov 00:00 CR
+  const week2End = '2026-11-30T05:59:59.999Z';
+  // Back-to-back Mon–Sun weeks: week 2 begins 1ms after week 1 ends.
+  assert.equal(dealWindowsOverlap(week1Start, week1End, week2Start, week2End), false);
+  // A week that starts inside another clashes.
+  assert.equal(dealWindowsOverlap(week1Start, week1End, '2026-11-20T06:00:00.000Z', week2End), true);
+  // Order of the two windows does not matter.
+  assert.equal(dealWindowsOverlap(week2Start, week2End, week1Start, week1End), false);
+  // An unparseable instant is treated as "no overlap" rather than throwing.
+  assert.equal(dealWindowsOverlap('not-a-date', week1End, week2Start, week2End), false);
 });

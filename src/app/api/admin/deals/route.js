@@ -12,7 +12,7 @@ import {
   previewDeal,
   launchDeal,
   endDeal,
-  getScheduledDeal,
+  getScheduledDeals,
   scheduleDeal,
   cancelScheduledDeal,
   scheduledDealProblems,
@@ -33,15 +33,20 @@ export async function GET(request) {
       // rather than competing for the same "the live deal" slot.
       getLiveDeal(supabase, FLASH_KIND).catch(() => null),
       listDeals(supabase),
-      getScheduledDeal(supabase),
+      getScheduledDeals(supabase),
     ]);
-    const [operations, problems] = await Promise.all([
+    const [operations, scheduledWithProblems] = await Promise.all([
       live ? getDealOperations(supabase, live) : null,
-      scheduled ? scheduledDealProblems(supabase, scheduled) : null,
+      // Each queued week carries its own readiness check, so the panel can flag
+      // one with an out-of-stock product without affecting the others.
+      Promise.all((scheduled || []).map(async (deal) => ({
+        ...deal,
+        problems: await scheduledDealProblems(supabase, deal),
+      }))),
     ]);
     return NextResponse.json({
       live: live && operations ? { ...live, ...operations } : live,
-      scheduled: scheduled ? { ...scheduled, problems } : null,
+      scheduled: scheduledWithProblems,
       flash,
       recent,
     });
@@ -102,7 +107,7 @@ export async function POST(request) {
     }
 
     if (action === 'cancel_schedule') {
-      const cancelled = await cancelScheduledDeal(getSupabaseAdmin());
+      const cancelled = await cancelScheduledDeal(getSupabaseAdmin(), body.id || null);
       return NextResponse.json({ ok: true, cancelled: cancelled.id });
     }
 
