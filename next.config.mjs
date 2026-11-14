@@ -153,6 +153,18 @@ const nextConfig = {
         source: '/lp/nad-plus',
         destination: '/lp/nad-plus/index.html',
       },
+      // Two more single-product pages (ads team, 15 Nov 2026). Ted was running
+      // ads at /lp-ghk-cu-100mg/ and /lp-ipamorelin-10mg/ on the main site,
+      // which only ever had product pages at those addresses; these are the
+      // real landing pages, built from the same template as the two above.
+      {
+        source: '/lp/ghk-cu-100mg',
+        destination: '/lp/ghk-cu-100mg/index.html',
+      },
+      {
+        source: '/lp/ipamorelin-10mg',
+        destination: '/lp/ipamorelin-10mg/index.html',
+      },
       // The landing page's confirmation, the destination URL Google Ads counts
       // a lead on. It is public/lp/thank-you.html, so it always answers on its
       // own exact path; this is only what gives it the tidy URL the ad account
@@ -224,6 +236,14 @@ const nextConfig = {
       },
       {
         source: '/lp/bac-water',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }],
+      },
+      {
+        source: '/lp/ghk-cu-100mg',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }],
+      },
+      {
+        source: '/lp/ipamorelin-10mg',
         headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }],
       },
       {

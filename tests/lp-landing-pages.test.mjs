@@ -16,6 +16,8 @@ const AD_PAGES = [
   'public/lp/bac-water/index.html',
   'public/lp/glutathione-1500mg/index.html',
   'public/lp/nad-plus/index.html',
+  'public/lp/ghk-cu-100mg/index.html',
+  'public/lp/ipamorelin-10mg/index.html',
 ];
 
 test('landing page product aliases resolve correctly in authoritative checkout', () => {
@@ -74,6 +76,8 @@ test('the single-product pages each show their own compound, from one shared tem
   const pages = [
     ['public/lp/glutathione-1500mg/index.html', 'glutathione', 'Glutathione 1500 mg, Reduced Form | Peptides Costa Rica'],
     ['public/lp/nad-plus/index.html', 'nadplus', 'NAD+ 500 mg and 1000 mg | Peptides Costa Rica'],
+    ['public/lp/ghk-cu-100mg/index.html', 'ghk-cu', 'GHK-Cu 100 mg | Peptides Costa Rica'],
+    ['public/lp/ipamorelin-10mg/index.html', 'ipamorelin', 'Ipamorelin 10 mg | Peptides Costa Rica'],
   ];
   const bodies = [];
   for (const [page, prod, title] of pages) {
@@ -83,22 +87,23 @@ test('the single-product pages each show their own compound, from one shared tem
     // The product it is built around must exist in the page's own catalog data.
     assert.match(html, new RegExp(`"slug": "${prod}"`), `${page}: ${prod} is in the product list`);
     // The compounds it offers alongside, which must exist too.
-    const pairs = html.match(new RegExp(`${prod}: \\{[\\s\\S]*?pairs: \\[([^\\]]+)\\]`))?.[1];
+    const pairs = html.match(new RegExp(`"?${prod}"?: \\{[\\s\\S]*?pairs: \\[([^\\]]+)\\]`))?.[1];
     assert.ok(pairs, `${page}: pairing list`);
     for (const slug of pairs.match(/"([a-z0-9-]+)"/g).map((s) => s.slice(1, -1))) {
       assert.match(html, new RegExp(`"slug": "${slug}"`), `${page}: pairs with ${slug}, which must be a product`);
     }
     bodies.push(html.replace(`<title>${title}</title>`, '').replace(`window.LP_PROD="${prod}"`, ''));
   }
-  const [glutathione, nadPlus] = bodies;
   const meta = /<meta name="description"[^>]*>/;
-  assert.equal(glutathione.replace(meta, ''), nadPlus.replace(meta, ''), 'the two pages stay one template');
+  const stripped = bodies.map((body) => body.replace(meta, ''));
+  for (const body of stripped) assert.equal(body, stripped[0], 'the single-product pages stay one template');
 });
 
 // The metabolic and bac-water pages still carry the old payment wording and the
 // old NAD+ default; changing them is its own job, so these two checks cover the
 // pages built after that was decided.
-const NEW_AD_PAGES = ['public/lp/glutathione-1500mg/index.html', 'public/lp/nad-plus/index.html'];
+const NEW_AD_PAGES = ['public/lp/glutathione-1500mg/index.html', 'public/lp/nad-plus/index.html',
+  'public/lp/ghk-cu-100mg/index.html', 'public/lp/ipamorelin-10mg/index.html'];
 
 test('the single-product pages do not promise cash on delivery', () => {
   // We don't take it (owner, 10 Nov 2026); checkout takes card, SINPE Móvil and
@@ -171,8 +176,13 @@ test('next.config.mjs keeps /lp on the lead page and adds /lp/metabolic-research
   // The main site has its own pages for these compounds; the ad pages must not
   // compete with them in Google (12 Nov 2026; the other two added 13 Nov, when
   // their noindex preview address went away).
-  for (const slug of ['glutathione-1500mg', 'nad-plus', 'metabolic-research-compound', 'bac-water']) {
+  for (const slug of ['glutathione-1500mg', 'nad-plus', 'metabolic-research-compound', 'bac-water', 'ghk-cu-100mg', 'ipamorelin-10mg']) {
     assert.match(config, new RegExp(`source: '/lp/${slug}',\\s*headers: \\[\\{ key: 'X-Robots-Tag', value: 'noindex, follow' \\}\\]`), `${slug} stays out of Google`);
+  }
+  // The two pages the ads team asked for (15 Nov 2026) answer on their own
+  // address, the one their ads will point at.
+  for (const slug of ['ghk-cu-100mg', 'ipamorelin-10mg']) {
+    assert.match(config, new RegExp(`source: '/lp/${slug}',\\s*destination: '/lp/${slug}/index\\.html'`), `real address of ${slug}`);
   }
 });
 
