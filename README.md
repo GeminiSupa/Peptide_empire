@@ -312,7 +312,12 @@ Owner (Omer) to do or decide:
     catalog's Vercel project (Production) — before that the webhook had never
     fired once. **Only paid-ad orders are sent** (owner, 15 Nov): an order must
     carry `ref`, `cid` or `ttclid`, so organic and WhatsApp sales never reach
-    him; `ORDER_WEBHOOK_ALL_ORDERS=true` would send every one. Unproven: no real
+    him; `ORDER_WEBHOOK_ALL_ORDERS=true` would send every one. **End-to-end proved
+    15 Nov:** a hand-made test order `OMERTEST1` (₡100), signed with the live
+    secret by the real code path, was first refused `401 bad signature`; he
+    changed his verifier and the same POST was then accepted `200`. So our URL,
+    secret and `X-Webhook-Signature` (HMAC-SHA256 hex of the raw body) are what
+    he reads. Still unproven: no real
     paid order has gone to his endpoint yet — the first one is the proof, and
     its result is in the catalog's Vercel logs under `[order-paid-webhook]`.
     Not covered:
