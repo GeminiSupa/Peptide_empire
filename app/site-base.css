@@ -32,6 +32,14 @@
   height: auto;
 }
 
+/* The install page's iPhone / Android tabs (proto-interactions.js) hide the
+   panel that isn't selected. site.css gives .ospanel no display of its own, so
+   the hidden attribute already hides it; this states it so a later style can't
+   quietly leave both panels showing. */
+.pcr-site .ospanel[hidden] {
+  display: none;
+}
+
 /* The prototype slides the cart sheet and order bar in with Motion, in
    script; site.css only parks them off-screen. Here React toggles the
    classes, so the open states state the transform. */

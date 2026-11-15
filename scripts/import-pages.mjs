@@ -40,7 +40,7 @@ const KEEP = new Set([
   'inputmode', 'autocomplete', 'target', 'rel', 'style', 'role', 'for',
   'tabindex', 'loading', 'open', 'colspan', 'rowspan', 'lang',
   'data-wa', 'data-t', 'data-step', 'data-jump', 'data-k', 'data-v', 'data-q',
-  'data-cta', 'data-deal',
+  'data-cta', 'data-deal', 'data-os', 'data-p',
 ]);
 const INLINE = new Set([
   'a', 'b', 'strong', 'em', 'i', 'small', 'span', 'label', 'q', 'code', 'sup', 'sub', 'u', 's',

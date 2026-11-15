@@ -14,6 +14,19 @@ export default function ProtoInteractions() {
     if (!root) return undefined;
 
     const onClick = (event) => {
+      // The install page's iPhone / Android tabs: select the clicked tab and
+      // show its matching panel (data-os on the tab, data-p on the panel).
+      const tab = event.target.closest('.ostabs [role="tab"]');
+      if (tab && root.contains(tab)) {
+        const tablist = tab.closest('.ostabs');
+        tablist.querySelectorAll('[role="tab"]').forEach((other) => {
+          other.setAttribute('aria-selected', String(other === tab));
+        });
+        tablist.parentElement.querySelectorAll('.ospanel').forEach((panel) => {
+          panel.hidden = panel.dataset.p !== tab.dataset.os;
+        });
+        return;
+      }
       const button = event.target.closest('.acc > button');
       if (button && root.contains(button)) {
         const item = button.parentElement;
