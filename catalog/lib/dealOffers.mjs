@@ -510,6 +510,26 @@ function cartMoney(amount, currency) {
   return dollars(Math.ceil((Number(amount) || 0) * 100) / 100);
 }
 
+/**
+ * Product names for a one-line summary: a few of them, then a count.
+ *
+ * A flash sale across the whole shop names every vial it covers, which turned
+ * the announcement banner and the broadcast drafts into a 68-product sentence
+ * nobody reads. The full list still lives in the deal itself and on the
+ * product cards; a banner only has to say what the offer is.
+ */
+const SUMMARY_NAMES_SHOWN = 3;
+
+function summaryNames(names, isEn) {
+  const list = (names || []).map((name) => String(name || '').trim()).filter(Boolean);
+  if (list.length <= SUMMARY_NAMES_SHOWN) return list.join(', ');
+  const shown = list.slice(0, SUMMARY_NAMES_SHOWN).join(', ');
+  const rest = list.length - SUMMARY_NAMES_SHOWN;
+  return isEn
+    ? `${shown} and ${rest} more products`
+    : `${shown} y ${rest} productos más`;
+}
+
 function offerSummary(item, lang = 'en') {
   const isEn = String(lang).toLowerCase().startsWith('en');
   const customName = offerDisplayName(item, lang);
@@ -528,8 +548,8 @@ function offerSummary(item, lang = 'en') {
       : `Compra ${item.min_units}+ viales participantes y recibe ${item.gift_qty} × ${item.gift_product_name} gratis`)
     : item.type === FLAT_OFFER_TYPE
     ? (isEn
-      ? `${pct}% off ${item.product_names.join(', ')}`
-      : `${pct}% de descuento en ${item.product_names.join(', ')}`)
+      ? `${pct}% off ${summaryNames(item.product_names, true)}`
+      : `${pct}% de descuento en ${summaryNames(item.product_names, false)}`)
     : item.type === PAIR_OFFER_TYPE
     ? (isEn
       ? `Buy 1, get your 2nd vial ${pct}% off — the cheaper one, once per order`
