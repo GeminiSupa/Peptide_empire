@@ -326,6 +326,21 @@ Owner (Omer) to do or decide:
     the website's legacy-layout pages (blog, guides, legal), which are outside
     the new design's shell and so capture no attribution at all — an ad must
     land on the home page, a product page or a category page.
+13. Flash sale naming (16 Nov 2026, Joey: "change this long offer name to
+    simply Flash Sale"). Launching a flash sale saved its name as the whole
+    product list — the live sitewide sale was called "20% off " plus 68 vials,
+    which is what the dashboard, the activity log, the launch email subject and
+    the announcement ticker all printed. Now the name is "Flash Sale" /
+    "Oferta Relámpago", `dealBannerText` writes a flash banner from the offer
+    instead of echoing the name (so it still states the discount and the real
+    end time), and a one-line offer summary names three products and counts the
+    rest. **Two branches, push both:** `fix/flash-sale-name` (catalog,
+    worktree `catalog-flash-name`) and `fix/flash-sale-name-website` (main,
+    worktree `main-flash-name`, the re-synced copy — it also carries the
+    `orderPaidWebhook.mjs` paid-ad change from `9a1f1cff`, which had never been
+    synced). No migration. The name of the sale running now does not change;
+    only the next one launched. Not exercised: no flash sale has been launched
+    from the admin with this code.
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a
