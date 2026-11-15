@@ -775,7 +775,9 @@ export default function DealOfWeekPanel({ products: adminProducts = [], onSendAn
 
   const startFlashSale = async () => {
     if (flashBlocker) return;
-    const names = flashProducts.join(', ');
+    const names = flashProducts.length > 4
+      ? `${flashProducts.length} products`
+      : flashProducts.join(', ');
     if (!window.confirm(`Start a ${Math.round(Number(flashPercent))}% flash sale on ${names}?
 
 It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
@@ -789,8 +791,13 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
           product_names: flashProducts,
           discount_pct: Number(flashPercent) / 100,
           ends_at: flashEndsIso,
-          title_en: `${Math.round(Number(flashPercent))}% off ${names}`,
-          title_es: `${Math.round(Number(flashPercent))}% de descuento en ${names}`,
+          // The name only labels the sale in the dashboard, the activity log
+          // and the launch email's subject. It used to be built from every
+          // selected product, which made a 68-product sentence wherever a
+          // name was shown. The customer-facing banner is written from the
+          // offer itself (dealBannerText), so nothing is lost here.
+          title_en: 'Flash Sale',
+          title_es: 'Oferta Relámpago',
           // A flash sale is deliberately deep and deliberately short; the
           // high-discount review exists for week-long markdowns.
           confirm_high_discount: true,

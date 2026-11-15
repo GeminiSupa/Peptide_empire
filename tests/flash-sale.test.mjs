@@ -159,6 +159,30 @@ test('the weekly deal still says Sunday', () => {
   assert.match(drafts.message, /DEAL OF THE WEEK \/ OFERTA DE LA SEMANA/);
 });
 
+test('a sitewide flash sale does not put every product name in the banner', () => {
+  const names = Array.from({ length: 68 }, (_, i) => `Peptide ${i + 1} 10mg`);
+  const sitewide = {
+    ...flashDeal,
+    // What the admin used to save as the title: the whole product list.
+    title_en: `20% off ${names.join(', ')}`,
+    title_es: `20% de descuento en ${names.join(', ')}`,
+    product_names: names,
+    discount_pct: 0.20,
+    offers: { items: [{ id: 'flash-1', type: 'flat', enabled: true, product_names: names, discount_pct: 0.20 }] },
+  };
+  const en = dealBannerText(sitewide, 'en');
+  assert.match(en, /FLASH SALE/, 'the banner still says what it is');
+  assert.match(en, /20% off/, 'and what the discount is');
+  assert.match(en, /and 65 more products/, 'the rest are counted, not listed');
+  assert.doesNotMatch(en, /Peptide 10 10mg/, 'the tenth product is not named');
+  assert.match(dealBannerText(sitewide, 'es'), /y 65 productos más/);
+});
+
+test('a weekly deal keeps the title someone wrote by hand', () => {
+  const named = { ...weeklyDeal, title_en: 'Copper week — 15% off GHK-Cu' };
+  assert.equal(dealBannerText(named, 'en'), 'Copper week — 15% off GHK-Cu');
+});
+
 test('a single offer is not numbered "Offer #1"', () => {
   const drafts = dealBroadcastDrafts({ ...flashDeal, title_en: '', title_es: '' });
   assert.doesNotMatch(drafts.message, /Offer #1/);

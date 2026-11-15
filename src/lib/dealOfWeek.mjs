@@ -441,7 +441,14 @@ export function dealBannerText(deal, lang = 'en') {
   if (!pct) return '';
   const isEn = String(lang).toLowerCase().startsWith('en');
   if (dealPricingMode(deal) === OFFERS_PRICING_MODE) {
-    const custom = String((isEn ? deal?.title_en : deal?.title_es) || '').trim();
+    // A flash sale's title is a label for the dashboard and the activity log
+    // ("Flash Sale"), not banner copy: launching one never asks for banner
+    // text, so echoing the title here printed the whole product list in the
+    // ticker and left out the discount and the end time. A weekly deal's
+    // title is written by hand in the admin, so it still wins.
+    const custom = dealKindOf(deal) === 'flash'
+      ? ''
+      : String((isEn ? deal?.title_en : deal?.title_es) || '').trim();
     if (custom) return custom;
     const offers = dealOfferSummaries(deal?.offers, lang).join(isEn ? ' — or — ' : ' — o — ');
     const voice = dealVoice(deal, isEn);
