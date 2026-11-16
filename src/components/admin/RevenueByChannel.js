@@ -39,6 +39,7 @@ const CAPTURE_LABELS = {
 };
 
 const pct = (value) => `${Math.round((value || 0) * 100)}%`;
+const plural = (count, word) => `${count} ${word}${count === 1 ? '' : 's'}`;
 const fmtDay = (day) => new Date(`${day}T12:00:00Z`).toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', timeZone: 'UTC' });
 const fmtPaid = (ms) => new Date(ms - 6 * 3600000).toLocaleString('en-US', {
   month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC',
@@ -142,6 +143,10 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
   const [error, setError] = useState('');
   const [drill, setDrill] = useState(null);
   const [light, setLight] = useState(false);
+  // Orders from before tracking started have no source, and right after
+  // go-live they are nearly all of it: shown, they flatten paid and organic
+  // into a sliver. Hidden by default; the Unknown card still shows the share.
+  const [showUnknown, setShowUnknown] = useState(false);
 
   useEffect(() => {
     setLight(document.documentElement.getAttribute('data-theme') === 'light');
@@ -195,6 +200,27 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
 
   const t = report?.totals;
   const unknownShare = report ? report.byType.unknown.share : 0;
+  const unknown = report?.byType.unknown || { orders: 0, usd: 0 };
+  const knownUsd = t ? t.usd - unknown.usd : 0;
+  const knownOrders = t ? t.orders - unknown.orders : 0;
+  const tableRows = !report ? [] : showUnknown
+    ? report.channels
+    : report.channels
+      .filter((row) => row.key !== 'unknown')
+      .map((row) => ({ ...row, share: knownUsd > 0 ? row.usd / knownUsd : 0 }));
+  const chartDays = !report ? [] : showUnknown ? report.days : report.days.map((day) => ({ ...day, unknown: 0 }));
+  const totalRow = !t ? null : showUnknown
+    ? { label: 'Total', orders: t.orders, usd: t.usd, avgUsd: t.avgUsd, newCustomers: t.newCustomers }
+    : {
+      label: 'Total (known source)',
+      orders: knownOrders,
+      usd: knownUsd,
+      avgUsd: knownOrders ? knownUsd / knownOrders : 0,
+      newCustomers: tableRows.reduce((sum, row) => sum + row.newCustomers, 0),
+    };
+  const hiddenNote = !showUnknown && unknown.orders > 0
+    ? `Hiding ${plural(unknown.orders, 'order')} (${money(unknown.usd)}) with no known source — mostly orders from before tracking started. Choose "Show unknown" to include them.`
+    : '';
   const drillRows = report && drill ? report.orders.filter((row) => row.channel === drill) : [];
 
   return (
@@ -235,6 +261,7 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
         <Segmented label="Credit" value={view} onChange={setView} options={[['last', 'Last touch'], ['first', 'First touch']]} />
         <Segmented label="Customers" value={customers} onChange={setCustomers} options={[['all', 'All customers'], ['new', 'New'], ['returning', 'Returning']]} />
         <Segmented label="Currency" value={currency} onChange={setCurrency} options={[['USD', 'USD'], ['CRC', 'CRC']]} />
+        <Segmented label="Unknown source" value={showUnknown ? 'show' : 'hide'} onChange={(value) => setShowUnknown(value === 'show')} options={[['hide', 'Hide unknown'], ['show', 'Show unknown']]} />
         <label className="rbc-agent">Agent
           <select value={agent} onChange={(e) => setAgent(e.target.value)}>
             <option value="">All agents</option>
@@ -262,12 +289,12 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
             <div className="rbc-card kpi">
               <span><i className="dot p" />Paid channels</span>
               <b>{money(report.byType.paid.usd)}</b>
-              <small>{pct(report.byType.paid.share)} of revenue · {report.byType.paid.orders} orders</small>
+              <small>{pct(report.byType.paid.share)} of revenue · {plural(report.byType.paid.orders, 'order')}</small>
             </div>
             <div className="rbc-card kpi">
               <span><i className="dot o" />Organic channels</span>
               <b>{money(report.byType.organic.usd)}</b>
-              <small>{pct(report.byType.organic.share)} of revenue · {report.byType.organic.orders} orders</small>
+              <small>{pct(report.byType.organic.share)} of revenue · {plural(report.byType.organic.orders, 'order')}</small>
             </div>
             <div className="rbc-card kpi">
               <span>Orders · Avg order</span>
@@ -277,16 +304,18 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
             <div className={`rbc-card kpi${unknownShare > 0.05 ? ' alert' : ''}`}>
               <span><i className="dot u" />Unknown source</span>
               <b>{pct(unknownShare)}</b>
-              <small>{money(report.byType.unknown.usd)} · {report.byType.unknown.orders} orders{unknownShare > 0.05 ? ' · keep under 5%' : ''}</small>
+              <small>{money(report.byType.unknown.usd)} · {plural(report.byType.unknown.orders, 'order')}{unknownShare > 0.05 ? ' · keep under 5%' : ''}</small>
             </div>
           </div>
 
           <section className="rbc-card">
             <div className="rbc-row">
               <h2>Paid vs organic, by {report.days[0]?.week ? 'week' : 'day'}</h2>
-              <div className="rbc-legend"><span><i className="dot p" />Paid</span><span><i className="dot o" />Organic</span><span><i className="dot u" />Unknown</span></div>
+              <div className="rbc-legend"><span><i className="dot p" />Paid</span><span><i className="dot o" />Organic</span>{showUnknown ? <span><i className="dot u" />Unknown</span> : null}</div>
             </div>
-            <StackedBars days={report.days} money={money} />
+            <StackedBars days={chartDays} money={money} />
+            {!showUnknown && knownOrders === 0 ? <p className="rbc-sub">No orders with a known source in this period yet.</p> : null}
+            {hiddenNote ? <p className="rbc-sub">{hiddenNote}</p> : null}
             {report.tracking?.goLive ? <p className="rbc-sub">Channel tracking started {report.tracking.goLive.slice(0, 10)}. Orders before that are mostly Unknown.</p> : null}
           </section>
 
@@ -302,7 +331,7 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
                   </tr>
                 </thead>
                 <tbody>
-                  {report.channels.map((row) => (
+                  {tableRows.map((row) => (
                     <tr key={row.key} className={`click${drill === row.key ? ' sel' : ''}`} onClick={() => setDrill(drill === row.key ? null : row.key)}>
                       <td><b>{row.label}</b></td>
                       <td><span className={`rbc-pill ${row.type}`}>{row.type === 'paid' ? 'Paid' : row.type === 'organic' ? 'Organic' : 'Unknown'}</span></td>
@@ -317,13 +346,14 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
                     </tr>
                   ))}
                   <tr className="total">
-                    <td><b>Total</b></td><td /><td className="r">{t.orders}</td><td className="r">{money(t.usd)}</td><td>100%</td>
-                    <td className="r">{money(t.avgUsd)}</td><td className="r">{t.newCustomers}</td><td />
+                    <td><b>{totalRow.label}</b></td><td /><td className="r">{totalRow.orders}</td><td className="r">{money(totalRow.usd)}</td><td>100%</td>
+                    <td className="r">{money(totalRow.avgUsd)}</td><td className="r">{totalRow.newCustomers}</td><td />
                     <td className="r">{t.spendUsd ? money(t.spendUsd) : '–'}</td><td className="r">{t.roas ?? '–'}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
+            {hiddenNote ? <p className="rbc-sub">{hiddenNote}</p> : null}
             <p className="rbc-sub">Assisted = orders where this channel was the first touch but another channel got the credit. ROAS = paid revenue ÷ ad spend.</p>
           </section>
 
