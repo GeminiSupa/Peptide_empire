@@ -489,17 +489,41 @@ test('fixed spend: percentage and dollar cannot both be set, and dollar must be 
   assert.match(dealOffersError({ items: [{ ...FIXED_SPEND.items[0], discount_usd: 300 }] }), /less than the minimum spend/);
 });
 
-test('free shipping: a qualifying cart removes the fee, but still competes with volume savings', () => {
+test('free shipping on its own removes the fee without becoming the winning discount', () => {
   const freeShipping = { items: [{ id: 'ship', type: 'free_shipping', enabled: true, product_names: ['BPC-157 10mg'], min_units: 1 }] };
-  const result = authoritativeCheckout({
-    postedOrder: { currency: 'USD', lang: 'en', items: [{ product: 'BPC-157 10mg', qty: 1 }], total_usd: 0 },
-    products: PRODUCTS, exchangeRate: 500, dealOffers: freeShipping,
-  });
+  const result = checkout([{ product: 'BPC-157 10mg', qty: 1 }], { dealOffers: freeShipping });
   assert.equal(result.ok, true);
-  assert.equal(result.dealOffer, 'free_shipping');
+  // Free shipping is a perk, not a competing offer: no discount kind won.
+  assert.equal(result.dealOffer, 'none');
+  assert.equal(result.freeShipping, true);
   assert.equal(result.shipping, 0);
   assert.equal(dealOffersError(freeShipping), '');
   assert.match(dealOfferSummaries(freeShipping, 'en')[0], /free shipping/i);
+});
+
+test('free shipping STACKS on top of a product discount (Cyber Week)', () => {
+  // A flat 20% off BPC-157 plus free shipping from a single vial. Before, free
+  // shipping competed and the 20% off always beat it, so the fee stayed. Now
+  // the customer gets both: 20% off AND no shipping.
+  const cyberWeek = { items: [
+    { id: 'flat', type: 'flat', enabled: true, product_names: ['BPC-157 10mg'], discount_pct: 0.20 },
+    { id: 'ship', type: 'free_shipping', enabled: true, product_names: ['BPC-157 10mg'], min_units: 1 },
+  ] };
+  // Engine: the flat offer wins the discount, free shipping rides alongside.
+  const choice = chooseDealOffer(cyberWeek, [line('BPC-157 10mg', 1, 100)], { shippingCharge: 5 });
+  assert.equal(choice.kind, 'flat');
+  assert.equal(choice.freeShipping, true);
+  // Server: $100 vial, under the $200 free-ship threshold so a $5 fee applies;
+  // the deal takes 20% off AND waives the fee -> $80, shipping 0.
+  const result = checkout([{ product: 'BPC-157 10mg', qty: 1 }], { dealOffers: cyberWeek });
+  assert.equal(result.ok, true);
+  assert.equal(result.dealOffer, 'flat');
+  assert.equal(result.freeShipping, true);
+  assert.equal(result.shipping, 0);
+  assert.equal(result.promoDiscount, 20);
+  assert.equal(result.total, 80);
+  // The cart line names the discount and then the stacked perk.
+  assert.match(dealOfferCartMessage(choice, { offers: cyberWeek }, 'en'), /Plus free shipping/i);
 });
 
 test('specific free gift: checkout adds the configured in-stock product and never trusts the browser', () => {

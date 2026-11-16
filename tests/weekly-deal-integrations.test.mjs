@@ -95,7 +95,9 @@ test('bulk threshold controls live in Deal of the Week and checkout enforces exc
   // the running offer saves more - the two still never combine.
   assert.doesNotMatch(catalog, /!getMatchedWeeklyDeal\(\) && <div/);
   assert.match(catalog, /const getDealWinner = \(\) =>/);
-  assert.match(catalog, /offer\.savings >= promoSaving \? offer : null/);
+  // dealSaving credits any free shipping the deal waives, so this matches the
+  // server, which compares full totals. It still decides deal-vs-code the same way.
+  assert.match(catalog, /dealSaving >= promoSaving \? offer : null/);
 });
 
 test('flexible offer setup guides non-technical admins and derives its rules from saved settings', () => {

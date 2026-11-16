@@ -345,7 +345,7 @@ export default function DealOfTheWeekPage() {
         .map((product) => ({ product: product.product, unitPrice: priceNumber(product.price_usd), inventoryCount: product.inventory_count })),
     })
     : null;
-  const offerEarned = offerChoice && (offerChoice.kind === 'mix' || offerChoice.kind === 'bundle' || offerChoice.kind === 'pair' || offerChoice.kind === 'spend' || offerChoice.kind === 'free_shipping' || offerChoice.kind === 'gift');
+  const offerEarned = offerChoice && (offerChoice.kind === 'mix' || offerChoice.kind === 'bundle' || offerChoice.kind === 'pair' || offerChoice.kind === 'spend' || offerChoice.kind === 'gift' || offerChoice.freeShipping);
 
   const progressText = offersDeal
     ? dealOfferCartMessage(offerChoice, pricingDeal || deal, lang)

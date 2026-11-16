@@ -205,15 +205,23 @@ export function previewAutomaticDiscount({
     freeLines = choice.gift?.freeLines || [];
     const what = freeLines.map((line) => `${line.qty} \u00d7 ${line.product}`).join(', ');
     label = `Free gift \u2014 ${what} added free`;
-  } else if (choice.kind === 'free_shipping') {
-    label = 'Free shipping';
   } else if (choice.kind === 'volume') {
     offerDiscount = volumeAmount();
     label = `Volume discount \u2014 ${volumePct}% off (beats this week's offers)`;
   }
 
+  // Free shipping stacks on top of whichever discount (if any) won above. On
+  // its own it reports as kind 'free_shipping', so the order screens zero the
+  // shipping fee exactly as they did when it was still a competing offer.
+  const freeShipping = Boolean(choice.freeShipping);
+  let kind = choice.kind;
+  if (freeShipping) {
+    if (label) label = `${label} + free shipping`;
+    else { label = 'Free shipping'; kind = 'free_shipping'; }
+  }
+
   return {
-    kind: choice.kind,
+    kind,
     label,
     // "Add 1 more vial for Mix & Match" - the mistake worth catching before the
     // order is saved, not after the customer has been quoted a price.
@@ -225,7 +233,7 @@ export function previewAutomaticDiscount({
     volumePct: choice.kind === 'volume' ? volumePct : 0,
     offerDiscount,
     freeLines,
-    freeShipping: choice.kind === 'free_shipping',
+    freeShipping,
     choice,
   };
 }

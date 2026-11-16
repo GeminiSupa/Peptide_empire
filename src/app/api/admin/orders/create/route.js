@@ -266,7 +266,7 @@ export async function POST(request) {
       return NextResponse.json({ error: authoritative.error, errorCode: 'cart_invalid' }, { status: 409 });
     }
 
-    const chargedShipping = authoritative.dealOffer === 'free_shipping' ? 0 : primaryShipping;
+    const chargedShipping = authoritative.freeShipping ? 0 : primaryShipping;
 
     // Applied to what is left after the volume and promo discounts the
     // authoritative rebuild already worked out, and before shipping — the same

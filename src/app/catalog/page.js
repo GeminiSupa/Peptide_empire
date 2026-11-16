@@ -2909,7 +2909,7 @@ export default function CatalogPage() {
     if (isFullOrderPromo(getAppliedPromoData())) return 0;
     const businessQuote = getBusinessQuote();
     if (businessQuote) return businessQuote.shipping;
-    if (getDealWinner()?.kind === 'free_shipping') return 0;
+    if (getDealWinner()?.freeShipping) return 0;
     if (cart.length === 0) return 0;
     const itemsTotal = getDiscountedTotal();
     const itemsTotalUsd = currency === 'USD' ? itemsTotal : (itemsTotal / exchangeRate);
@@ -2958,8 +2958,13 @@ export default function CatalogPage() {
     if (isFullOrderPromo(promo)) return null;
     const base = getDiscountableSubtotal();
     const promoSaving = base * (Number(promo.discount_pct) || 0);
+    // Credit the shipping free shipping waives, so this matches the server,
+    // which compares full totals (and zeroes the deal's shipping) not just the
+    // discount. Without it the browser could pick the code while the server
+    // keeps the deal, and the order would be refused for a total mismatch.
+    const dealSaving = offer.savings + (offer.freeShipping ? getShippingChargeWithoutDiscount() : 0);
     // Ties stay with the deal: it needs no code.
-    return offer.savings >= promoSaving ? offer : null;
+    return dealSaving >= promoSaving ? offer : null;
   };
 
   const getPromoDiscountAmount = () => {
@@ -4078,7 +4083,7 @@ export default function CatalogPage() {
 
   const renderOrderSummary = ({ showHeading = false, compact = false } = {}) => {
     const shipFee = getShippingFee();
-    const isFreeShip = qualifiesForFreeShipping() || getDealWinner()?.kind === 'free_shipping';
+    const isFreeShip = qualifiesForFreeShipping() || Boolean(getDealWinner()?.freeShipping);
     const volumePct = getEffectiveVolumePct();
     const businessQuote = getBusinessQuote();
     const appliedPromo = businessQuote && !businessQuote.promoApplied ? null : getAppliedPromoData();

@@ -292,7 +292,7 @@ export async function PATCH(request) {
       }
 
       patch.items = authoritative.items;
-      const chargedShipping = authoritative.dealOffer === 'free_shipping' ? 0 : shipping;
+      const chargedShipping = authoritative.freeShipping ? 0 : shipping;
       const normalizedShipping = getAdminCurrencyPair(chargedShipping, currency, rateResult.rate);
       patch.shipping_cost_crc = normalizedShipping.crc;
       patch.shipping_cost_usd = normalizedShipping.usd;
