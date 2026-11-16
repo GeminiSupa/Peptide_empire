@@ -268,5 +268,53 @@ export function orderAttributionColumns(state, capturedBy = 'website') {
   };
 }
 
+/**
+ * The source columns for a lead form: the shared cookie, else the copy a form
+ * on the main site sends as `touch`, else a touch built from the UTM tags and
+ * Google click the form already posts.
+ */
+export function leadAttributionColumns({ cookie = '', touch = null, utmSource = '', utmMedium = '', utmCampaign = '', referrer = '', adClick = null } = {}, now = Date.now()) {
+  const state = readTouchCookie(cookie, now) || sanitizeTouchState(touch, now);
+  if (state) return orderAttributionColumns(state, 'website');
+  const built = sanitizeTouch({
+    at: now,
+    src: lower(utmSource),
+    med: lower(utmMedium),
+    cmp: utmCampaign,
+    ref: isIgnoredReferrer(referrerHost(referrer)) ? '' : referrerHost(referrer),
+    gclid: adClick?.gclid,
+    gbraid: adClick?.gbraid,
+    wbraid: adClick?.wbraid,
+  }, now);
+  if (!built || built.ch === 'direct') return {};
+  return orderAttributionColumns({ ft: built, lt: built }, 'website');
+}
+
+/**
+ * "Where did this customer come from?" on an order staff create by hand.
+ * The channel list, plus the two answers a person can honestly give.
+ */
+export const AGENT_SOURCE_OPTIONS = [
+  ...CHANNELS.filter((channel) => channel.key !== 'unknown').map(({ key, label }) => ({ key, label })),
+  { key: 'returning', label: 'Returning customer, no new ad or link' },
+  { key: 'not_sure', label: 'Not sure' },
+];
+const AGENT_SOURCE_KEYS = new Set(AGENT_SOURCE_OPTIONS.map((option) => option.key));
+
+/**
+ * The columns an agent's answer gives an order. A tracked WhatsApp tap or lead
+ * form for the same phone replaces them in the database (the order trigger in
+ * add-order-channel-attribution.sql), because a click is better evidence.
+ */
+export function agentSourceColumns(choice, note = '', now = Date.now()) {
+  const key = String(choice || '').trim();
+  if (!AGENT_SOURCE_KEYS.has(key)) return {};
+  const detail = clip(note, 160);
+  const base = { agent_source: key, ...(detail ? { source_note: detail } : {}) };
+  if (key === 'not_sure') return base;
+  const touch = sanitizeTouch({ at: now, via: key === 'returning' ? 'direct' : key, ...(detail ? { detail } : {}) }, now);
+  return { ...base, ...orderAttributionColumns({ ft: touch, lt: touch }, 'agent') };
+}
+
 /** The columns orders/leads gain; dropped (not failed) on a database without the migration. */
 export const ORDER_CHANNEL_COLUMNS = ['visitor_id', 'first_touch', 'last_touch', 'ft_channel', 'lt_channel', 'captured_by'];

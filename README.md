@@ -341,6 +341,27 @@ Owner (Omer) to do or decide:
     synced). No migration. The name of the sale running now does not change;
     only the next one launched. Not exercised: no flash sale has been launched
     from the admin with this code.
+14. Revenue by channel (16 Nov 2026, Belhassen's brief + design; Joey's
+    "source on every order"). Admin → Operations → **Revenue by channel**
+    (module `revenue_channel`, grant it per person in Team Management). Every
+    paid order counts once, in one of 13 channels (`src/lib/channelAttribution.mjs`),
+    paid vs organic, last or first touch, new vs returning, ad spend + ROAS,
+    tracking coverage, per-channel order list, CSV. Revenue rules are
+    `orderRevenue.mjs`'s (checked on real orders: 9–15 Nov = $37,646.37, the
+    same as the plain sum). How orders get a source: a `pcr_touch` cookie on
+    .peptidescostarica.net (first + last non-direct visit, 90 days) read at
+    checkout; a `Ref: PCR-…` on every tracked WhatsApp tap, copied onto the
+    order staff later create for that phone by a DB trigger; the lead forms
+    (and TikTok API leads) copied the same way; and a required "Where did this
+    customer come from?" dropdown on hand-made orders. Branches
+    `feat/revenue-by-channel` (catalog, worktree `catalog-revenue-channel`) and
+    the website half (sends its `pcr_touch` with orders and forms). **To ship:**
+    run `add-order-channel-attribution.sql` in Supabase, push the catalog
+    branch, then the website branch (re-synced checkout copy). Orders before
+    that stay Unknown — no backfill is possible. Not done: Google Ads upload
+    still sends only the click on `ad_attribution`; Meta Conversions API; a
+    real CRM-wide light mode (the sidebar sun only flips this report — the rest
+    of the admin is hard-coded dark).
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a

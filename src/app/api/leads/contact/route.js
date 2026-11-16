@@ -7,6 +7,7 @@ import { loadLandingLeadSettings, resolveCampaignAgent } from '@/lib/leadCampaig
 import { resolveRotationAgent } from '@/lib/leadRotation.mjs';
 import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 import { readAdClick, sanitizeAdAttribution } from '@/lib/adClickAttribution.mjs';
+import { ORDER_CHANNEL_COLUMNS, leadAttributionColumns } from '@/lib/channelAttribution.mjs';
 import { rateLimit } from '@/lib/rateLimit.mjs';
 import { classifyLeadSubmission, HONEYPOT_FIELD } from '@/lib/leadSpam.mjs';
 import nodemailer from 'nodemailer';
@@ -225,6 +226,14 @@ export async function POST(request) {
     // Same order as /api/orders/create: the first-party cookie first, then the body.
     const adClick = readAdClick({ cookie: request.headers.get('cookie') || '' })
       || sanitizeAdAttribution(body.ad_attribution);
+    // Where they came from (revenue by channel): the shared cookie, else the
+    // copy a form on the main site sends, else the UTM tags above. Copied onto
+    // the order when staff create it from this lead.
+    const leadTouch = leadAttributionColumns({
+      cookie: request.headers.get('cookie') || '',
+      touch: body.touch,
+      utmSource, utmMedium, utmCampaign, referrer, adClick,
+    });
 
     // Before anything is written, queued or emailed. A submission that fails
     // here is answered with the same success body a real one gets: a script
@@ -442,6 +451,9 @@ export async function POST(request) {
       // Staff create most orders by hand later, so the Google Ads upload takes
       // the click from here. Kept unless a newer click replaces it.
       ...(adClick ? { ad_attribution: adClick } : {}),
+      // Same rule as the UTM tags: only a visit that came from somewhere
+      // replaces the source already on the lead.
+      ...(leadTouch.lt_channel && (!existing?.lt_channel || leadTouch.lt_channel !== 'direct') ? leadTouch : {}),
     };
 
     // These arrive via their own hand-run migrations (or not at all). Dropping
@@ -453,6 +465,8 @@ export async function POST(request) {
       'lead_source', 'qualification_data', 'marketing_consent', 'consent_at', 'consent_source',
       'consent_text', 'consent_version', 'assigned_at', 'response_due_at',
       'ownership_updated_at', 'ownership_updated_by', 'last_enquiry_at',
+      // add-order-channel-attribution.sql
+      ...ORDER_CHANNEL_COLUMNS,
       'ad_attribution',
     ];
 

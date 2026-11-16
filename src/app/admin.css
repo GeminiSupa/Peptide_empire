@@ -13020,3 +13020,111 @@
 /* The account score uses the inline bar width as a compact radial-style fill. */
 .bi-score{isolation:isolate;overflow:hidden;background:#23324b}
 .bi-score i{position:absolute;inset:0 auto 0 0;z-index:-1;display:block;background:linear-gradient(90deg,#2563eb,#22d3ee);opacity:.65}
+
+/* --------------------------------------------------------------------------
+   Reports - Revenue by channel (components/admin/RevenueByChannel.js)
+   Colours from Belhassen's design, dark by default. Unlike the rest of the
+   admin shell this screen really does go light: the page's own switch (and
+   the sidebar sun) set html[data-theme="light"].
+   -------------------------------------------------------------------------- */
+.rbc {
+  --rbc-bg: #0b1120; --rbc-card: #111a2e; --rbc-line: #1e293b; --rbc-line2: #263248;
+  --rbc-text: #e5e9f2; --rbc-muted: #94a3b8; --rbc-unk: #cbd5e1;
+  --rbc-sel-bg: #1e3a5f; --rbc-sel-text: #e0f2fe; --rbc-org-bg: #0c3047; --rbc-org-text: #7dd3fc;
+  --rbc-link: #7dd3fc; --rbc-paid-bg: #3f2a0b; --rbc-warn: #fbbf24; --rbc-warn-line: #3f2d12;
+  --rbc-up: #4ade80; --rbc-down: #fca5a5; --rbc-paid: #f59e0b; --rbc-organic: #38bdf8;
+  background: var(--rbc-bg); color: var(--rbc-text);
+  font-family: Inter, system-ui, sans-serif; font-variant-numeric: tabular-nums;
+  margin: -8px; padding: 16px 20px 40px; border-radius: 14px; display: grid; gap: 18px;
+}
+html[data-theme="light"] .rbc {
+  --rbc-bg: #f6f7fb; --rbc-card: #ffffff; --rbc-line: #e3e7f0; --rbc-line2: #cfd6e4;
+  --rbc-text: #0b1533; --rbc-muted: #55607a; --rbc-unk: #36425f;
+  --rbc-sel-bg: #dbeafe; --rbc-sel-text: #1d4293; --rbc-org-bg: #e0f2fe; --rbc-org-text: #075985;
+  --rbc-link: #075985; --rbc-paid-bg: #fef3c7; --rbc-warn: #92400e; --rbc-warn-line: #f5d28a;
+  --rbc-up: #15803d; --rbc-down: #b91c1c; --rbc-paid: #d97706; --rbc-organic: #0284c7;
+}
+.rbc h1 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -.02em; color: var(--rbc-text); }
+.rbc h2 { margin: 0 0 4px; font-size: 16px; font-weight: 700; color: var(--rbc-text); }
+.rbc-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--rbc-line); font-size: 14px; font-weight: 600; }
+.rbc-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.rbc-eyebrow { margin: 0 0 6px; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--rbc-muted); }
+.rbc-sub { margin: 6px 0 0; font-size: 13px; color: var(--rbc-muted); }
+.rbc-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.rbc-btn {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px;
+  border-radius: 10px; border: 1px solid var(--rbc-line2); background: var(--rbc-card); color: var(--rbc-text);
+  font: inherit; font-size: 14px; cursor: pointer;
+}
+.rbc-btn.primary { background: var(--rbc-organic); border-color: var(--rbc-organic); color: #04121f; font-weight: 600; }
+.rbc-btn:disabled { opacity: .5; cursor: default; }
+.rbc-card { background: var(--rbc-card); border: 1px solid var(--rbc-line); border-radius: 14px; padding: 16px 18px; }
+.rbc-filters { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.rbc-seg { display: inline-flex; padding: 4px; gap: 2px; border-radius: 12px; border: 1px solid var(--rbc-line2); }
+.rbc-seg button { min-height: 36px; padding: 0 14px; border: 0; border-radius: 9px; background: none; color: var(--rbc-muted); font: inherit; font-size: 13px; cursor: pointer; }
+.rbc-seg button[aria-pressed="true"] { background: var(--rbc-sel-bg); color: var(--rbc-sel-text); font-weight: 600; }
+.rbc-agent { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--rbc-muted); }
+.rbc select, .rbc input { color-scheme: dark; }
+html[data-theme="light"] .rbc select, html[data-theme="light"] .rbc input { color-scheme: light; }
+.rbc-agent select, .rbc-spend select, .rbc-spend input {
+  min-height: 36px; padding: 0 10px; border-radius: 9px; border: 1px solid var(--rbc-line2);
+  background: var(--rbc-card); color: var(--rbc-text); font: inherit; font-size: 13px;
+}
+.rbc-warn { margin: 0; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--rbc-warn-line); color: var(--rbc-warn); font-size: 13px; }
+.rbc-body { display: grid; gap: 18px; transition: opacity .2s; }
+.rbc-body.busy { opacity: .55; }
+.rbc-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.rbc-card.kpi { display: grid; gap: 6px; }
+.rbc-card.kpi span { font-size: 13px; color: var(--rbc-muted); display: inline-flex; align-items: center; gap: 6px; }
+.rbc-card.kpi b { font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
+.rbc-card.kpi small { font-size: 12.5px; color: var(--rbc-muted); }
+.rbc-card.kpi.alert { border-color: var(--rbc-warn-line); }
+.rbc-card.kpi.alert b { color: var(--rbc-warn); }
+.rbc .up { color: var(--rbc-up); }
+.rbc .down { color: var(--rbc-down); }
+.rbc .dot { display: inline-block; width: 9px; height: 9px; border-radius: 3px; }
+.rbc .dot.p { background: var(--rbc-paid); }
+.rbc .dot.o { background: var(--rbc-organic); }
+.rbc .dot.u { background: var(--rbc-unk); opacity: .6; }
+.rbc-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.rbc-legend { display: flex; gap: 14px; font-size: 12.5px; color: var(--rbc-muted); }
+.rbc-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.rbc-chart { display: grid; grid-template-columns: auto 1fr; gap: 10px; margin-top: 14px; height: 220px; }
+.rbc-axis { display: flex; flex-direction: column; justify-content: space-between; font-size: 11px; color: var(--rbc-muted); padding-bottom: 20px; text-align: right; }
+.rbc-bars { display: flex; align-items: stretch; gap: 6px; border-bottom: 1px solid var(--rbc-line); overflow-x: auto; }
+.rbc-col { flex: 1 1 0; min-width: 18px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.rbc-stack { flex: 1; width: 100%; max-width: 46px; display: flex; flex-direction: column-reverse; }
+.rbc-stack i { display: block; width: 100%; }
+.rbc-stack i.p { background: var(--rbc-paid); border-radius: 5px 5px 0 0; }
+.rbc-stack i.o { background: var(--rbc-organic); }
+.rbc-stack i.u { background: var(--rbc-unk); opacity: .45; }
+.rbc-col small { font-size: 10.5px; color: var(--rbc-muted); white-space: nowrap; }
+.rbc-scroll { overflow-x: auto; margin-top: 10px; }
+.rbc-table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 13px; }
+.rbc-table.compact { min-width: 0; margin-top: 10px; }
+.rbc-table th { padding: 8px; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--rbc-muted); text-align: left; }
+.rbc-table td { padding: 10px 8px; border-top: 1px solid var(--rbc-line); color: var(--rbc-text); }
+.rbc-table .r { text-align: right; }
+.rbc-table tr.click { cursor: pointer; }
+.rbc-table tr.click:hover td, .rbc-table tr.sel td { background: var(--rbc-sel-bg); }
+.rbc-table tr.total td { font-weight: 700; border-top: 2px solid var(--rbc-line2); }
+.rbc-pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.rbc-pill.paid { background: var(--rbc-paid-bg); color: var(--rbc-paid); }
+.rbc-pill.organic { background: var(--rbc-org-bg); color: var(--rbc-org-text); }
+.rbc-pill.unknown { background: var(--rbc-line); color: var(--rbc-unk); }
+.rbc-share { display: flex; align-items: center; gap: 8px; min-width: 120px; }
+.rbc-share i { display: block; height: 8px; border-radius: 4px; min-width: 2px; }
+.rbc-share i.paid { background: var(--rbc-paid); }
+.rbc-share i.organic { background: var(--rbc-organic); }
+.rbc-share i.unknown { background: var(--rbc-unk); opacity: .5; }
+.rbc-share span { font-size: 12px; color: var(--rbc-muted); }
+.rbc-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+.rbc-cov { display: grid; grid-template-columns: minmax(0, 1fr) 160px; gap: 10px; align-items: center; padding: 8px 0; font-size: 13px; border-top: 1px solid var(--rbc-line); }
+.rbc-link { border: 0; background: none; padding: 0; color: var(--rbc-link); font: inherit; text-decoration: underline; cursor: pointer; }
+.rbc-spend { display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end; margin-top: 12px; }
+.rbc-spend label { display: grid; gap: 4px; font-size: 12.5px; color: var(--rbc-muted); }
+@media (max-width: 640px) {
+  .rbc { padding: 12px; }
+  .rbc h1 { font-size: 22px; }
+  .rbc-cov { grid-template-columns: 1fr; }
+}

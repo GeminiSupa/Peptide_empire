@@ -19,6 +19,7 @@ import { resolveNextTikTokAgent } from '@/lib/tiktokRoundRobin.mjs';
 import { sendLandingLeadWhatsAppAlerts } from '@/lib/leadWhatsAppAlert';
 import { chatwootLeadColumns, loadChatwootLeadEnabled, sendAdLeadToChatwoot } from '@/lib/chatwootLead.mjs';
 import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
+import { ORDER_CHANNEL_COLUMNS, orderAttributionColumns, sanitizeTouch } from '@/lib/channelAttribution.mjs';
 import { resolveLeadOwnerDetailed } from '@/lib/leadOwner';
 import { loadLandingLeadSettings, resolveCampaignAgent } from '@/lib/leadCampaignAgent';
 import { resolveRotationAgent } from '@/lib/leadRotation.mjs';
@@ -312,6 +313,12 @@ export async function POST(request) {
       utm_medium: 'lead_form',
       utm_campaign: lead.campaign || null,
       referrer: submissionRef,
+      // Revenue by channel: a TikTok lead form is a paid TikTok lead, posted to
+      // us by API. Copied onto the order staff later create from this lead.
+      ...orderAttributionColumns((() => {
+        const touch = sanitizeTouch({ at: Date.now(), via: 'tiktok_ads', src: 'tiktok', med: 'lead_form', cmp: lead.campaign || '' });
+        return { ft: existing?.first_touch || touch, lt: touch };
+      })(), 'partner_api'),
       // Absence of consent on this form is not a revocation of consent already
       // captured from the same person elsewhere.
       marketing_consent: lead.marketingConsent || Boolean(existing?.marketing_consent),
@@ -324,10 +331,13 @@ export async function POST(request) {
         : existing?.consent_source || null,
     };
 
-    const query = existing
-      ? supabase.from('catalog_leads').update(payload).eq('id', existing.id)
-      : supabase.from('catalog_leads').insert({ ...payload, created_at: nowIso });
-    const { data: saved, error: saveError } = await query.select('*').single();
+    // The source columns arrive with add-order-channel-attribution.sql; until
+    // it is run they are dropped and the lead saves exactly as before.
+    const { data: saved, error: saveError } = await writeDroppingMissingColumns(payload, ORDER_CHANNEL_COLUMNS, (row) => (
+      existing
+        ? supabase.from('catalog_leads').update(row).eq('id', existing.id).select('*').single()
+        : supabase.from('catalog_leads').insert({ ...row, created_at: nowIso }).select('*').single()
+    ));
     if (saveError) throw saveError;
 
     if (!existing || ownerChanged) {

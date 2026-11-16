@@ -27,6 +27,7 @@ import { sendAdminOrderEmail } from '@/lib/adminOrderEmail.mjs';
 import { fireOrderPaidWebhook } from '@/lib/orderPaidWebhook.mjs';
 import { applyCustomerHistoryAttribution } from '@/lib/customerHistoryAttributionServer';
 import { CUSTOMER_HISTORY_SOURCE } from '@/lib/agentAttribution.mjs';
+import { ORDER_CHANNEL_COLUMNS, agentSourceColumns } from '@/lib/channelAttribution.mjs';
 import { profileOwnerName, resolveManualOrderOwner } from '@/lib/orderOwnership.mjs';
 import { customerOwnerFor, loadTeamProfiles } from '@/lib/orderOwnershipServer';
 import { notifyLowInventory, prepareInventoryReservation } from '@/lib/orderInventoryServer';
@@ -325,6 +326,10 @@ export async function POST(request) {
       volume_discount_pct: authoritative.volumeDiscountPct ?? 0,
       sales_agent: String(order.sales_agent || '').trim() || null,
       internal_notes: String(order.internal_notes || '').trim() || null,
+      // Where the customer came from, as the agent knows it (revenue by
+      // channel). A tracked WhatsApp tap for this phone overrides it in the
+      // database, because a click is better evidence than a memory.
+      ...agentSourceColumns(order.agent_source, order.source_note),
     };
 
     // Credit the promotion whose offer actually discounted this order, exactly
@@ -426,6 +431,8 @@ export async function POST(request) {
       // an order must still save without them — the same list the edit route
       // already tolerates.
       ...ORDER_ATTRIBUTION_COLUMNS,
+      // add-order-channel-attribution.sql
+      ...ORDER_CHANNEL_COLUMNS, 'agent_source', 'source_note',
       ...ORDER_VOLUME_DISCOUNT_COLUMNS,
       ...ORDER_VOLUME_DISCOUNT_PCT_COLUMNS,
       // Deal attribution arrives with the deals migrations; an order is worth

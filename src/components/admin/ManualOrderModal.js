@@ -21,6 +21,7 @@ import {
 } from '@/lib/manualOrderCustomer.mjs';
 import { confirmCustomerEmail } from '@/lib/confirmCustomerEmail.mjs';
 import { isSalesAgentAffiliate } from '@/lib/salesAgentAffiliate.mjs';
+import { AGENT_SOURCE_OPTIONS } from '@/lib/channelAttribution.mjs';
 import ManualCustomerCombobox from './ManualCustomerCombobox';
 import ProductCombobox from './ProductCombobox';
 import { storedOrderProductName } from '@/lib/productOptions.mjs';
@@ -37,6 +38,8 @@ const emptyForm = () => ({
   // step out of it, but never by accident.
   discount_mode: DISCOUNT_MODE_AUTO,
   internal_notes: '', sales_agent: '', notify_customer: true,
+  // Where the customer came from (Reports → Revenue by channel).
+  agent_source: '', source_note: '',
   affiliate_id: '', commission_mode: 'default', commission_override_pct: 20,
   apply_volume_discount: true,
 });
@@ -291,6 +294,13 @@ export default function ManualOrderModal({
       return;
     }
 
+    // Without it, every hand-made order shows as Unknown in Revenue by channel.
+    if (!form.agent_source) {
+      setError('Choose where this customer came from (pick "Not sure" if you do not know).');
+      setSaving(false);
+      return;
+    }
+
     if (isSuperadmin && form.commission_mode !== 'default' && (!form.sales_agent.trim() || form.sales_agent === HOUSE_SALE)) {
       setError('Choose a credited agent before setting a commission override.');
       setSaving(false);
@@ -336,6 +346,8 @@ export default function ManualOrderModal({
             shipping_cost_usd: shippingCosts.usd,
             shipping_cost_crc: shippingCosts.crc,
             internal_notes: form.internal_notes.trim() || null,
+            agent_source: form.agent_source,
+            source_note: form.source_note.trim() || null,
             notify_customer: form.notify_customer,
             apply_volume_discount: form.apply_volume_discount,
             // Which of the three discounts this order asked for. The server
@@ -798,6 +810,27 @@ export default function ManualOrderModal({
               )}
             </div>
           )}
+          <div className="manual-order-grid">
+            <select
+              className="admin-select"
+              aria-label="Where did this customer come from?"
+              value={form.agent_source}
+              onChange={(e) => setForm({ ...form, agent_source: e.target.value })}
+              required
+            >
+              <option value="">Where did this customer come from? *</option>
+              {AGENT_SOURCE_OPTIONS.map((option) => (
+                <option key={option.key} value={option.key}>{option.label}</option>
+              ))}
+            </select>
+            <input
+              className="admin-input"
+              placeholder="How did they hear about us? (optional)"
+              maxLength={160}
+              value={form.source_note}
+              onChange={(e) => setForm({ ...form, source_note: e.target.value })}
+            />
+          </div>
           <textarea
             className="admin-input"
             placeholder="Internal notes (never shown to the customer)"

@@ -72,6 +72,8 @@ export const ADMIN_MODULES = [
   { id: 'broadcasts', label: 'Announcements', title: 'Announcements', group: 'Sales & Marketing' },
   { id: 'twilio', label: 'Twilio Hub', title: 'Twilio Hub (SMS, Calls & WA)', group: 'Sales & Marketing' },
   { id: 'analytics', label: 'Analytics', title: 'Analytics & Attribution', group: 'Analytics & Content' },
+  // Belhassen's brief (9 Nov 2026): paid vs organic revenue from CRM orders.
+  { id: 'revenue_channel', label: 'Revenue by channel', title: 'Reports · Revenue by channel', group: 'Analytics & Content' },
   { id: 'cms', label: 'CMS', title: 'CMS Drafts & Preview', group: 'Analytics & Content' },
   // The marketing site at peptidescostarica.net, rebuilt in the separate
   // peptidecostarica-website repo. Read-only status today: it links out and

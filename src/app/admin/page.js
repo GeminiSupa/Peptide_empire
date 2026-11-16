@@ -39,6 +39,7 @@ import {
   PanelLeftClose, PanelLeftOpen, Wallet, MapPinned, ChevronDown, Package
 } from 'lucide-react';
 import AnalyticsDashboard from '@/components/admin/AnalyticsDashboard';
+import RevenueByChannel from '@/components/admin/RevenueByChannel';
 import CustomersCRM from '@/components/admin/CustomersCRM';
 import CustomerAccountsPanel from '@/components/admin/CustomerAccountsPanel';
 import BusinessAccountsPanel from '@/components/admin/BusinessAccountsPanel';
@@ -1902,6 +1903,10 @@ Core Rules:
       label: 'Analytics',
       icon: <BarChart2 size={iconSize} />,
     },
+    revenue_channel: {
+      label: 'Revenue by channel',
+      icon: <TrendingUp size={iconSize} />,
+    },
     cms: {
       label: 'CMS',
       icon: <FileText size={iconSize} />,
@@ -1968,7 +1973,7 @@ Core Rules:
   const desktopSecondaryGroups = [
     { title: 'Customer workspace', tabs: ['customers', 'customer_accounts', 'business_accounts', 'inquiries', 'prospects'] },
     { title: 'Growth', tabs: ['share', 'reviews', 'marketing', 'affiliates', 'deals', 'broadcasts', 'twilio', 'my_qr', 'my_team'] },
-    { title: 'Operations', tabs: ['spreadsheet', 'offsite_inventory', 'lab_batches', 'analytics', 'cms', 'wa_session', 'team', 'requests', 'recycle_bin', 'team_chat', 'payment_test', 'activity_log'] },
+    { title: 'Operations', tabs: ['spreadsheet', 'offsite_inventory', 'lab_batches', 'analytics', 'revenue_channel', 'cms', 'wa_session', 'team', 'requests', 'recycle_bin', 'team_chat', 'payment_test', 'activity_log'] },
   ].map((group) => ({
     ...group,
     tabs: group.tabs.filter((tabId) => hasAccess(tabId) && !desktopPrimaryTabIds.includes(tabId)),
@@ -7412,6 +7417,21 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
               </ErrorBoundary>
             )}
 
+          </div>
+        )}
+
+        {/* TAB: REVENUE BY CHANNEL */}
+        {activeTab === 'revenue_channel' && (
+          <div className="admin-orders-tab admin-tab-panel">
+            <ErrorBoundary>
+              <RevenueByChannel
+                onOpenOrder={(orderId) => {
+                  const order = orders.find((row) => row.id === orderId);
+                  navigateToTab('orders');
+                  if (order) setSelectedOrderDetails(order);
+                }}
+              />
+            </ErrorBoundary>
           </div>
         )}
 

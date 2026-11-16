@@ -9,6 +9,8 @@ import {
   orderAttributionColumns,
   readTouchCookie,
   touchFromVisit,
+  agentSourceColumns,
+  leadAttributionColumns,
 } from '../src/lib/channelAttribution.mjs';
 
 const now = Date.parse('2026-11-16T18:00:00Z');
@@ -91,4 +93,24 @@ test('order columns from a visitor state', () => {
   assert.equal(cols.captured_by, 'website');
   assert.equal(cols.visitor_id, 'visitor-1234');
   assert.deepEqual(orderAttributionColumns(null), {});
+});
+
+test('the Source dropdown on a hand-made order', () => {
+  const cols = agentSourceColumns('meta_ads', 'saw it on Instagram', now);
+  assert.equal(cols.lt_channel, 'meta_ads');
+  assert.equal(cols.captured_by, 'agent');
+  assert.equal(cols.agent_source, 'meta_ads');
+  assert.equal(cols.source_note, 'saw it on Instagram');
+  assert.equal(agentSourceColumns('returning', '', now).lt_channel, 'direct');
+  assert.deepEqual(agentSourceColumns('not_sure', '', now), { agent_source: 'not_sure' });
+  assert.deepEqual(agentSourceColumns('made_up', '', now), {});
+});
+
+test('a lead form keeps its source from the cookie, the posted touch, or its UTM tags', () => {
+  const state = mergeTouch({ v: 'visitor-1234' }, visit('https://peptidescostarica.net/lp?gclid=abc'), now);
+  assert.equal(leadAttributionColumns({ cookie: 'pcr_touch=' + encodeTouchState(state) }, now).lt_channel, 'google_ads');
+  assert.equal(leadAttributionColumns({ touch: state }, now).lt_channel, 'google_ads');
+  assert.equal(leadAttributionColumns({ utmSource: 'facebook', utmMedium: 'paid' }, now).lt_channel, 'meta_ads');
+  assert.equal(leadAttributionColumns({ adClick: { gclid: 'x' } }, now).lt_channel, 'google_ads');
+  assert.deepEqual(leadAttributionColumns({ referrer: 'https://peptidescostarica.net/lp' }, now), {}, 'our own page is not a source');
 });
