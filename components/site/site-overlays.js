@@ -104,7 +104,8 @@ export default function SiteOverlays({ compounds, categories, freeShippingLabel,
         freeShippingLabel={freeShippingLabel}
         quote={quote}
         dealName={dealView?.name || ''}
-        dealRunning={Boolean(dealView?.tiers?.length)}
+        dealNote={dealView?.headline || ''}
+        dealRunning={Boolean(dealView)}
         onPlaced={onPlaced}
         track={track}
         promo={promo}

@@ -9,6 +9,7 @@ import { cantonsIn, formatAddress, PROVINCES } from '@/lib/storefront/cr-regions
 import { freeBacWaterImage } from '@/lib/storefront/cart-display.mjs';
 import { freeDeliveryProgress, freeShippingThreshold, nextTier, totalsFor } from '@/lib/storefront/cart-math.mjs';
 import { deliveryProgress, usablePromo } from '@/lib/site/quote.mjs';
+import { isBacWater, isGiftLine, stripGiftSuffix } from '@/lib/catalog-pricing/bacWater.mjs';
 import { promoOrderFields } from '@/lib/site/promo.mjs';
 import { clearAbandonedCart, saveAbandonedCart, whatsappOptIn } from '@/lib/site/crm.mjs';
 import { countPromoEligibleUnits, minUnitsMessage } from '@/lib/catalog-pricing/promoEligibility.mjs';
@@ -82,6 +83,7 @@ export default function CartSheet({
   freeShippingLabel,
   quote = null,
   dealName = '',
+  dealNote = '',
   dealRunning = false,
   onPlaced = null,
   track = null,
@@ -208,6 +210,13 @@ export default function CartSheet({
   // While a deal runs the order total decides the discount, so the per-line
   // "+N for 15% off" nudge would promise a discount that never combines.
   const tier = useMemo(() => (dealRunning ? null : nextTier(cart)), [cart, dealRunning]);
+
+  // Vials a deal adds free (buy X get Y, or a free gift). Checkout works these
+  // out and returns them on the quote's canonical items, tagged "(Free Gift)"
+  // / "(Regalo)"; BAC Water is its own always-free line, shown separately.
+  const dealFreeLines = useMemo(() => (quote?.items || [])
+    .filter((item) => isGiftLine(item?.product) && !isBacWater(item?.product))
+    .map((item) => ({ product: stripGiftSuffix(item.product), qty: Number(item.qty) || 1 })), [quote]);
 
   // An empty cart has no later steps to be on.
   useEffect(() => {
@@ -425,6 +434,16 @@ export default function CartSheet({
                     </div>
                   </div>
 
+                  {dealRunning && (dealNote || dealName) ? (
+                    <div className="deal-note box" style={{ padding: '12px 14px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                      <Ms name="sell" filled />
+                      <span>
+                        <b>{dealName || t('Deal of the Week')}</b>
+                        {dealNote ? ` · ${dealNote}` : ''}
+                      </span>
+                    </div>
+                  ) : null}
+
                   <div className="box">
                     {cart.map((line) => (
                       <div className="line" key={line.product}>
@@ -471,6 +490,17 @@ export default function CartSheet({
                             </button>
                           </div>
                         </div>
+                      </div>
+                    ))}
+
+                    {dealFreeLines.map((free) => (
+                      <div className="line gift" key={`dealfree-${free.product}`}>
+                        <span className="im"><Ms name="redeem" /></span>
+                        <div className="n">
+                          <b>{`${free.qty} × ${free.product}`}</b>
+                          <small>{dealName ? `${dealName} · ${t('free with this deal')}` : t('free with this deal')}</small>
+                        </div>
+                        <div className="rt"><b>{t('Free')}</b></div>
                       </div>
                     ))}
 

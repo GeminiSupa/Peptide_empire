@@ -454,3 +454,13 @@
 .pcr-site .deal.deal-flash .dk.dk-flash { color: #ffc9bd; }
 .pcr-site .deal.deal-flash .dcta { background: #fff; color: #e11d2a; }
 .pcr-site .deal.deal-flash .dcta .ms { color: #e11d2a; }
+
+/* The hero's offer list when the weekly deal has no spend ladder (buy X get Y,
+   free gift, 2nd-vial, free shipping): one glass chip per rule, in the column
+   the tier grid would otherwise fill. */
+.pcr-site .dlrules { display: flex; flex-direction: column; gap: 10px; align-content: start; }
+.pcr-site .dlrule { display: flex; gap: 10px; align-items: flex-start;
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16);
+  border-radius: 14px; padding: 14px 16px; }
+.pcr-site .dlrule .ms { flex: 0 0 auto; font-size: 20px; opacity: .9; }
+.pcr-site .dlrule span { font-size: 14px; line-height: 1.4; }

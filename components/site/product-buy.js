@@ -327,6 +327,16 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
                 </p>
               </>
             ) : null}
+            {/* A weekly deal that is neither a flash nor a spend ladder (buy X
+                get Y, free gift, 2nd-vial, free shipping): name it so the deal
+                is visible on the product page. The reward lands in the cart. */}
+            {!flashHere && !dealMode && dealView ? (
+              <div className="pdh">
+                <Ms name="sell" />
+                <b>{dealView.name}</b>
+                <span>{dealView.headline}</span>
+              </div>
+            ) : null}
           </div>
           <div className="qline">
             <span>{t(dealMode || flashHere ? 'Quantity' : 'Custom quantity')}</span>

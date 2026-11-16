@@ -56,12 +56,17 @@ function endLabel(endsAt, lang) {
 export default function DealPage({ lang, site }) {
   const t = translator(lang);
   const { dealView: deal, flashView: flash, compounds, links, exchangeRate, freeShippingLabel } = site;
-  const live = Boolean(deal?.tiers?.length);
+  // `live` is any Deal of the Week running (a bundle, free gift, 2nd-vial or
+  // free-shipping deal just as much as a Spend & Save). `tiered` is the narrower
+  // case of a spend ladder, which alone draws the tier grid, the sticky ladder
+  // and the ready-made bundles. A non-tiered deal shows its plain-English rules.
+  const live = Boolean(deal);
+  const tiered = Boolean(deal?.tiers?.length);
   // With no Deal of the Week running, a live flash sale is what the page leads
   // with — titled "Flash Sale", with a red countdown, over the products it
   // covers. A weekly deal always keeps the page's identity when both run.
   const flashOnly = !deal && Boolean(flash);
-  const tiers = live ? deal.tiers : [];
+  const tiers = tiered ? deal.tiers : [];
   const top = tiers[tiers.length - 1];
   const leadNames = flashOnly ? (flash.productNames || []) : (deal?.productNames || []);
   // A flash lists sized product names ("Tirzepatide 10mg"), so match them
@@ -122,19 +127,23 @@ export default function DealPage({ lang, site }) {
                   ? `${t('Flash sale · ends')} ${endLabel(flash.endsAt, lang)} ${es ? '(hora CR)' : '(CR time)'}`
                   : t('This week\'s deal has ended')}
             </span>
-            {live ? (
+            {tiered ? (
               <h1>{`${deal.name}:`}<br /><em>{t(`up to ${top.pct}% off`)}</em>{` ${t('your whole order.')}`}</h1>
+            ) : live ? (
+              <h1>{`${deal.name}:`}<br /><em>{deal.headline}</em></h1>
             ) : flashOnly ? (
               <h1>{`${flash.name}:`}<br /><em>{`${flash.pct}% ${es ? 'de descuento' : 'off'}`}</em>{` ${es ? `en ${flash.scopeLabel || 'productos seleccionados'}` : (flash.scopeLabel || 'selected products')}.`}</h1>
             ) : (
               <h1>{t('Deal of the Week')}<br /><em>{t('Volume pricing all week:')}</em>{` ${t('15% off 5+ vials, 20% off 10+.')}`}</h1>
             )}
             <p className="dllead">
-              {live
+              {tiered
                 ? t('Every compound in the catalog counts. The more you stock up, the bigger the discount, applied automatically at checkout. No code needed.')
-                : flashOnly
-                  ? t('A limited-time flash sale on the products below. The discount is applied automatically at checkout — no code needed, and it already beats volume pricing.')
-                  : t('A new deal is announced every week. Until then, volume pricing applies to every order automatically.')}
+                : live
+                  ? t('This week\'s deal is applied automatically at checkout — no code needed. It never stacks with volume pricing; you always get whichever saves you more.')
+                  : flashOnly
+                    ? t('A limited-time flash sale on the products below. The discount is applied automatically at checkout — no code needed, and it already beats volume pricing.')
+                    : t('A new deal is announced every week. Until then, volume pricing applies to every order automatically.')}
             </p>
             {live && deal.endsAt ? <BigClock endsAt={deal.endsAt} /> : flashOnly && flash.endsAt ? <BigClock endsAt={flash.endsAt} red /> : null}
             <div className="hctas">
@@ -148,7 +157,7 @@ export default function DealPage({ lang, site }) {
               <span>{`${t('Delivered in')} `}<b>{t('2–4 days')}</b></span>
             </div>
           </div>
-          {live ? (
+          {tiered ? (
             <div className="dltiers">
               {tiers.map((tier, index) => (
                 <div className={`dlt${index === tiers.length - 1 ? ' best' : ''}`} key={tier.minUsd}>
@@ -159,11 +168,20 @@ export default function DealPage({ lang, site }) {
                 </div>
               ))}
             </div>
+          ) : live && deal.rules?.length ? (
+            <div className="dlrules">
+              {deal.rules.map((rule) => (
+                <div className="dlrule" key={rule}>
+                  <Ms name="sell" />
+                  <span>{rule}</span>
+                </div>
+              ))}
+            </div>
           ) : null}
         </div>
       </section>
 
-      {live ? (
+      {tiered ? (
         <>
           <div className="dlstick"><Ladder tiers={tiers} /></div>
           <section className="pb dlb" id="dlbundles">
@@ -176,9 +194,9 @@ export default function DealPage({ lang, site }) {
               <Bundles tiers={tiers} pool={picks} dealName={deal.name} />
             </div>
           </section>
-          <DealViewed name={deal.name} />
         </>
       ) : null}
+      {live ? <DealViewed name={deal.name} /> : null}
 
       <section className="pb alt" id="dlshop">
         <div className="wrap">
