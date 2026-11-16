@@ -165,6 +165,20 @@ const nextConfig = {
         source: '/lp/ipamorelin-10mg',
         destination: '/lp/ipamorelin-10mg/index.html',
       },
+      // Three more single-product pages from the designer (17 Nov 2026), same
+      // template, each with its own conversion tactic under the hero.
+      {
+        source: '/lp/tesa-compound',
+        destination: '/lp/tesa-compound/index.html',
+      },
+      {
+        source: '/lp/klow-80mg',
+        destination: '/lp/klow-80mg/index.html',
+      },
+      {
+        source: '/lp/glow-70mg',
+        destination: '/lp/glow-70mg/index.html',
+      },
       // The landing page's confirmation, the destination URL Google Ads counts
       // a lead on. It is public/lp/thank-you.html, so it always answers on its
       // own exact path; this is only what gives it the tidy URL the ad account
@@ -244,6 +258,18 @@ const nextConfig = {
       },
       {
         source: '/lp/ipamorelin-10mg',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }],
+      },
+      {
+        source: '/lp/tesa-compound',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }],
+      },
+      {
+        source: '/lp/klow-80mg',
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }],
+      },
+      {
+        source: '/lp/glow-70mg',
         headers: [{ key: 'X-Robots-Tag', value: 'noindex, follow' }],
       },
       {
