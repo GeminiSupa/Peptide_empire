@@ -1545,6 +1545,7 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
                 <button type="button" className="admin-btn" onClick={() => addOffer('spend')}>+ Add spend-amount offer</button>
                 <button type="button" className="admin-btn" onClick={() => addOffer('pair')}>+ Add 2nd-vial offer</button>
                 <button type="button" className="admin-btn" onClick={() => addOffer('bundle')}>+ Add Buy/Get-Free offer</button>
+                <button type="button" className="admin-btn" onClick={() => addOffer('free_shipping')}>+ Add free-shipping offer</button>
                 <span>{offerDrafts.length} offer{offerDrafts.length === 1 ? '' : 's'} in this deal</span>
               </div>
               <section className="weekly-deal-rules-card" aria-labelledby="weekly-deal-rules-title">
