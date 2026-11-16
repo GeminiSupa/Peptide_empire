@@ -4,6 +4,7 @@ import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { getDatabaseBackedUsdToCrcRate } from '@/lib/exchangeRate';
 import { CHANNELS, CHANNEL_KEYS } from '@/lib/channelAttribution.mjs';
 import { buildRevenueByChannel, revenueByChannelCsv } from '@/lib/revenueByChannel.mjs';
+import { FALLBACK_USD_CRC_RATE } from '@/lib/orderRevenue.mjs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -84,11 +85,14 @@ export async function GET(request) {
     const agent = String(url.searchParams.get('agent') || '').slice(0, 120);
 
     const supabase = getSupabaseAdmin();
-    const [{ rows: orders, tracked }, spend, rate] = await Promise.all([
+    const [{ rows: orders, tracked }, spend, rateInfo] = await Promise.all([
       loadOrders(supabase),
       loadAdSpend(supabase),
       getDatabaseBackedUsdToCrcRate().catch(() => null),
     ]);
+    // The helper answers with a record ({ rate, source, … }); the report and the
+    // colón view need the number. The shared fallback if the rate is unreadable.
+    const rate = Number(rateInfo?.rate) > 0 ? Number(rateInfo.rate) : FALLBACK_USD_CRC_RATE;
 
     const report = buildRevenueByChannel(orders, { from, to, view, customers, agent, rate, adSpend: spend.rows });
 

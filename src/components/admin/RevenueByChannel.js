@@ -194,6 +194,7 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
   const money = useCallback((usd, short = false) => {
     const value = currency === 'CRC' && rate ? usd * rate : usd;
     const symbol = currency === 'CRC' ? '₡' : '$';
+    if (short && value >= 1000000) return `${symbol}${Math.round(value / 100000) / 10}M`;
     if (short && value >= 1000) return `${symbol}${Math.round(value / 100) / 10}k`;
     return `${symbol}${Math.round(value).toLocaleString('en-US')}`;
   }, [currency, rate]);
