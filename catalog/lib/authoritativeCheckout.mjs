@@ -296,10 +296,14 @@ export function authoritativeCheckout({
     } else {
       discount = promoDiscountAmount(requested, lineTotals, usePromo ? promo : null, currency);
     }
-    const freeShipping = offer?.kind === 'free_shipping';
+    // Free shipping now stacks on top of the winning discount, so it is read
+    // from its own flag rather than from the offer kind (which never equals
+    // 'free_shipping' any more).
+    const freeShipping = offer?.freeShipping === true;
     const pricedTotals = fullOrderPromo || freeShipping ? { ...lineTotals, shipping: 0 } : lineTotals;
     return {
       dealOffer: offer,
+      freeShipping,
       volumeDiscountPct: tierPct,
       totals: pricedTotals,
       promoDiscount: discount,
@@ -387,6 +391,9 @@ export function authoritativeCheckout({
     // Which deal's offer won, when the weekly deal and a flash sale were both
     // in the running. Null when the winner came from a single unpooled deal.
     dealOfferDealId: dealOffer?.dealId || null,
+    // Whether the deal waived shipping. Separate from dealOffer (the winning
+    // discount kind) because free shipping stacks on top of it.
+    freeShipping: Boolean(chosen.freeShipping),
     shipping: totals.shipping,
     total: finalTotal,
     totalUsd: currency === 'USD' ? finalTotal : round2(finalTotal / exchangeRate),
