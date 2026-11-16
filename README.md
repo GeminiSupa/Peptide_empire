@@ -355,10 +355,16 @@ Owner (Omer) to do or decide:
     (and TikTok API leads) copied the same way; and a required "Where did this
     customer come from?" dropdown on hand-made orders. Branches
     `feat/revenue-by-channel` (catalog, worktree `catalog-revenue-channel`) and
-    the website half (sends its `pcr_touch` with orders and forms). **To ship:**
-    run `add-order-channel-attribution.sql` in Supabase, push the catalog
-    branch, then the website branch (re-synced checkout copy). Orders before
-    that stay Unknown — no backfill is possible. Not done: Google Ads upload
+    `feat/revenue-by-channel-website` (main, worktree `main-revenue-channel`:
+    records visits into `pcr_touch`, sends it with orders and forms, re-synced
+    checkout copy). **To ship, in this order:** run
+    `add-order-channel-attribution.sql` in Supabase, push the catalog branch,
+    then the website branch — never the website first: the old checkout saves
+    an order as posted and would fail on the unknown `touch` key. Orders before
+    that stay Unknown — no backfill is possible. Not done: the main site's
+    WhatsApp buttons open wa.me directly, so its taps get no `Ref: PCR-…` (needs
+    the website's own ref endpoint, or routing through the catalog's
+    `/api/whatsapp/open`); Google Ads upload
     still sends only the click on `ad_attribution`; Meta Conversions API; a
     real CRM-wide light mode (the sidebar sun only flips this report — the rest
     of the admin is hard-coded dark).
