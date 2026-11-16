@@ -12,10 +12,18 @@ import { freeShippingThreshold } from '@/lib/storefront/cart-math.mjs';
 import { deliveryProgress, lineFor, withLine } from '@/lib/site/quote.mjs';
 import { ecommerceData, pushEvent } from '@/lib/site/analytics.mjs';
 import { STANDARD_FIVE_PLUS_PCT, tenPlusDiscountPct } from '@/lib/catalog-pricing/bulkDeal.mjs';
-import { flashCoversProduct } from '@/lib/site/deal-view.mjs';
+import { dealHidesVolumePresets, dealOfferForProduct, flashCoversProduct } from '@/lib/site/deal-view.mjs';
+import { isBacWater, isGiftLine, stripGiftSuffix } from '@/lib/catalog-pricing/bacWater.mjs';
+
+/** Free vials a deal adds to this quote (BAC Water, free with every order, aside). */
+function freeVials(quote) {
+  return (quote?.items || [])
+    .filter((item) => isGiftLine(item) && !isBacWater(stripGiftSuffix(item?.product)))
+    .reduce((sum, item) => sum + (Number(item.qty) || 0), 0);
+}
 
 /** A live countdown to the flash sale's end, ticking every second. */
-function FlashCountdown({ endsAt, lang }) {
+function FlashCountdown({ endsAt, lang, label }) {
   const es = lang === 'es';
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
@@ -35,7 +43,7 @@ function FlashCountdown({ endsAt, lang }) {
     ? [[days, es ? 'días' : 'days'], [pad(hours), 'h'], [pad(mins), 'min']]
     : [[pad(hours), 'h'], [pad(mins), 'min'], [pad(secs), es ? 'seg' : 'sec']];
   return (
-    <div className="pfct" role="timer" aria-label={es ? 'Tiempo restante de la oferta' : 'Time left in this flash sale'}>
+    <div className="pfct" role="timer" aria-label={label || (es ? 'Tiempo restante de la oferta' : 'Time left in this flash sale')}>
       <Ms name="schedule" />
       <span className="pfcl">{es ? 'Termina en' : 'Ends in'}</span>
       {units.map(([value, unit]) => (
@@ -84,9 +92,20 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
   // presets and shows a red flash card instead. The price itself still comes
   // from the pooled quote below — this only changes what the buy box offers.
   const flashHere = flashCoversProduct(flashView, [variant.product]);
-  const [qty, setQ] = useState(
-    dealMode || flashCoversProduct(flashView, [variantFor(compound, initialSize || compound.defaultSize)?.product]) ? 1 : 5,
-  );
+  // A weekly deal that discounts this vial (Black Friday's buy 4 get 1, a
+  // flat %, a 2nd-vial or gift offer) gets the same red card. A buy X get Y or
+  // flat % also hides the presets: their volume labels would promise a
+  // discount the order does not get, since checkout applies only the bigger.
+  const dealOffer = !dealMode && !flashHere ? dealOfferForProduct(dealView, [variant.product]) : null;
+  const hidePresets = flashHere || dealHidesVolumePresets(dealOffer);
+  const [qty, setQ] = useState(() => {
+    const first = variantFor(compound, initialSize || compound.defaultSize)?.product;
+    if (dealMode || flashCoversProduct(flashView, [first])) return 1;
+    const offer = dealOfferForProduct(dealView, [first]);
+    // Open on the quantity that earns the free vial.
+    if (offer?.type === 'bundle') return offer.buyQty;
+    return dealHidesVolumePresets(offer) ? 1 : 5;
+  });
   const [fbtOn, setFbtOn] = useState({ bac: true, comp: false });
   const setQtyClamped = (value) => setQ(Math.max(1, Math.min(99, Math.trunc(Number(value)) || 1)));
 
@@ -127,12 +146,26 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
 
   // The volume nudge: the next tier, if reaching it would beat today's discount.
   const nextQty = qty < 5 ? 5 : qty < 10 ? 10 : 0;
-  const nextQuote = !dealMode && !flashHere && nextQty && !supplies ? priced.at(nextQty) : null;
+  const nextQuote = !dealMode && !flashHere && !dealOffer && nextQty && !supplies ? priced.at(nextQty) : null;
   const nudge = nextQuote && nextQuote.discountPct > pct ? {
     to: nextQty,
     pct: Math.round(nextQuote.discountPct * 100),
     save: unit * nextQty * nextQuote.discountPct,
   } : null;
+
+  // Buy X get Y: the free vials this order earns, and how many more vials
+  // would earn the next one — both read off checkout's own quote.
+  const free = dealOffer?.type === 'bundle' ? freeVials(quote) : 0;
+  let nextFree = null;
+  if (dealOffer?.type === 'bundle') {
+    for (let add = 1; add <= dealOffer.buyQty && qty + add <= 99; add += 1) {
+      const more = freeVials(priced.at(qty + add));
+      if (more > free) {
+        nextFree = { add, to: qty + add, free: more - free };
+        break;
+      }
+    }
+  }
 
   // The deal ladder: where this order sits, and what the next step needs.
   const ladder = dealMode ? dealView.tiers.map((tier) => ({ ...tier, at: tier.minUsd * rate })) : [];
@@ -214,6 +247,7 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
           {/* A sale set in the admin: the price before it, struck through. */}
           {variant.wasUsd ? <><s className="was num">{m(currency === 'USD' ? variant.wasUsd : variant.wasCrc)}</s>{' '}</> : null}
           {`${qty} × ${m(unit)}`}
+          {free ? ` · + ${free} ${lang === 'es' ? 'gratis' : 'free'}` : ''}
           {pct ? ` · ${quote?.dealApplied ? `${pctLabel}% ${t('off')} · ${(flashHere ? flashView?.name : dealView?.name) || ''}` : `${pctLabel}% ${t('bulk discount')}`}` : ''}
           {supplies ? '' : ` · ${t('+ free BAC Water')}`}
         </div>
@@ -255,10 +289,11 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
         </div>
 
         <div className="blk">
-          <div className="lab qlab" hidden={flashHere}>{t('Quantity')} <span>{t('Best discount applies automatically')}</span></div>
+          <div className="lab qlab" hidden={hidePresets}>{t('Quantity')} <span>{t('Best discount applies automatically')}</span></div>
           {/* Hidden by the design's own `#pv.dealmode` rule while a spend deal
-              runs, and by `hidden` on a product the flash sale covers. */}
-          <div className="tiers" hidden={flashHere}>
+              runs, and by `hidden` on a product a flash sale, buy X get Y or
+              flat % deal covers. */}
+          <div className="tiers" hidden={hidePresets}>
             {tiers.map((tier) => (
               <button className="tier" type="button" key={tier.q} aria-pressed={qty === tier.q} onClick={() => setQtyClamped(tier.q)}>
                 {tier.flag ? <span className="flag">{t(tier.flag)}</span> : null}
@@ -268,7 +303,7 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
               </button>
             ))}
           </div>
-          <div className={`pdeal${flashHere ? ' flash' : ''}`}>
+          <div className={`pdeal${flashHere || dealOffer ? ' flash' : ''}`}>
             {/* Belhassen's flash card: one bold red card in place of the
                 presets — the %, a live countdown, and this order's price
                 before and after (both from the pooled quote above). */}
@@ -330,7 +365,68 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
             {/* A weekly deal that is neither a flash nor a spend ladder (buy X
                 get Y, free gift, 2nd-vial, free shipping): name it so the deal
                 is visible on the product page. The reward lands in the cart. */}
-            {!flashHere && !dealMode && dealView ? (
+            {/* The weekly deal on a vial it discounts: the flash card's red
+                look, the deal's name and countdown, and what this quantity
+                gets, read off the pooled quote. */}
+            {dealOffer ? (
+              <div className="pflash">
+                <div className="pfh">
+                  <span className="pfbadge"><Ms name="redeem" />{dealView.name}</span>
+                  <FlashCountdown
+                    endsAt={dealView.endsAt}
+                    lang={lang}
+                    label={lang === 'es' ? 'Tiempo restante de la oferta' : 'Time left in this deal'}
+                  />
+                </div>
+                <div className="pfbig">
+                  {dealOffer.type === 'bundle' ? <b>{`${dealOffer.buyQty}+${dealOffer.freeQty}`}</b> : null}
+                  {dealOffer.type === 'flat' || dealOffer.type === 'pair' ? <b>{`${dealOffer.pct}%`}</b> : null}
+                  <span>
+                    {dealOffer.type === 'pair'
+                      ? (lang === 'es' ? 'de descuento en tu 2.º vial' : 'off your 2nd vial')
+                      : dealOffer.type === 'flat'
+                        ? (lang === 'es' ? 'de descuento' : 'off')
+                        : dealView.headline}
+                    <small>
+                      {dealOffer.type === 'bundle'
+                        ? (dealOffer.anyMix
+                          ? (lang === 'es' ? 'Combina viales de la oferta como quieras · se aplica solo' : 'Mix any deal vials · applied automatically')
+                          : (lang === 'es' ? 'Del mismo vial · se aplica solo' : 'Same vial · applied automatically'))
+                        : (lang === 'es' ? 'Se aplica automáticamente' : 'Applied automatically')}
+                    </small>
+                  </span>
+                </div>
+                <p className="pfm">
+                  {free ? (
+                    <>
+                      {lang === 'es'
+                        ? `${qty} ${qty === 1 ? 'vial' : 'viales'} + ${free} gratis: `
+                        : `${qty} ${qty === 1 ? 'vial' : 'vials'} + ${free} free: `}
+                      <b className="num">{m(tot)}</b>
+                      {lang === 'es' ? ` por ${qty + free}. ` : ` for ${qty + free}. `}
+                    </>
+                  ) : (
+                    <>
+                      {qty > 1 ? `${qty} ${lang === 'es' ? 'viales' : 'vials'}: ` : ''}
+                      {pct ? <><s className="num">{m(full)}</s>{' '}</> : null}
+                      <b className="num">{m(tot)}</b>{'. '}
+                    </>
+                  )}
+                  {lang === 'es'
+                    ? 'Se aplica el mayor descuento; no se combina con el precio por volumen.'
+                    : 'The bigger discount applies; not combined with volume pricing.'}
+                </p>
+                {nextFree ? (
+                  <button type="button" className="pfgo" onClick={() => setQtyClamped(nextFree.to)}>
+                    <Ms name="add" />
+                    {lang === 'es'
+                      ? `Agrega ${nextFree.add} más y llévate ${nextFree.free} gratis`
+                      : `Add ${nextFree.add} more, get ${nextFree.free} free`}
+                  </button>
+                ) : null}
+              </div>
+            ) : null}
+            {!flashHere && !dealMode && !dealOffer && dealView ? (
               <div className="pdh">
                 <Ms name="sell" />
                 <b>{dealView.name}</b>
@@ -339,7 +435,7 @@ export default function ProductBuy({ compound, initialSize, h1, bac, companion, 
             ) : null}
           </div>
           <div className="qline">
-            <span>{t(dealMode || flashHere ? 'Quantity' : 'Custom quantity')}</span>
+            <span>{t(dealMode || hidePresets ? 'Quantity' : 'Custom quantity')}</span>
             <div className="step">
               <button type="button" aria-label={t('One less')} onClick={() => setQtyClamped(qty - 1)}><Ms name="remove" /></button>
               <input

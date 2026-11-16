@@ -399,6 +399,15 @@
 }
 .pcr-site .pflash .pfm s { opacity: .75; }
 .pcr-site .pflash .pfm b { font-size: 15px; }
+/* The weekly deal reuses this card (buy X get Y, flat %): a white pill that
+   sets the quantity earning the next free vial. */
+.pcr-site .pflash .pfgo {
+  display: inline-flex; align-items: center; gap: 4px; margin-top: 10px;
+  border: 0; border-radius: 999px; padding: 7px 14px 7px 10px; cursor: pointer;
+  background: #fff; color: #e01b3c; font: inherit; font-size: 13px; font-weight: 800;
+}
+.pcr-site .pflash .pfgo .ms { font-size: 17px; }
+.pcr-site .pflash .pfgo:hover { background: #fff3f0; }
 
 /* Product cards during a flash sale: a red "Flash Sale" tag and the flash
    price (checkout's own quote, see flashPriceFor) over the shelf price. */
