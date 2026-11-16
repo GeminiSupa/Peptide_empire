@@ -39,7 +39,52 @@ const CAPTURE_LABELS = {
 };
 
 const pct = (value) => `${Math.round((value || 0) * 100)}%`;
+const dayLabel = (date, year = false) => new Date(`${date}T12:00:00Z`).toLocaleDateString('en-GB', {
+  day: 'numeric', month: 'short', ...(year ? { year: 'numeric' } : {}), timeZone: 'UTC',
+});
+/** "10–16 Nov 2026", or one day on its own. */
+const rangeLabel = ([from, to = from]) => (from === to ? dayLabel(from, true) : `${dayLabel(from)} – ${dayLabel(to, true)}`);
+/** The same number of days just before, which is what the % change compares with. */
+const previousRange = ([from, to]) => {
+  const span = Math.round((Date.parse(`${to}T12:00:00Z`) - Date.parse(`${from}T12:00:00Z`)) / DAY_MS) + 1;
+  return [shiftDate(from, -span), shiftDate(from, -1)];
+};
 const plural = (count, word) => `${count} ${word}${count === 1 ? '' : 's'}`;
+
+/**
+ * The report in colones: every figure is the colones the orders were actually
+ * charged (worked out on the server), not dollars times today's rate. Only ad
+ * spend, which is typed in dollars, is converted. Shares are of colón revenue.
+ */
+function inColones(report) {
+  if (!report) return report;
+  const rate = Number(report.rate) || 0;
+  const t = report.totals;
+  const share = (crc) => (t.crc > 0 ? crc / t.crc : 0);
+  return {
+    ...report,
+    totals: {
+      ...t,
+      usd: t.crc,
+      avgUsd: t.avgCrc,
+      previousUsd: t.previousCrc,
+      changePct: t.previousCrc > 0 ? (t.crc - t.previousCrc) / t.previousCrc : null,
+      spendUsd: t.spendUsd * rate,
+    },
+    byType: Object.fromEntries(Object.entries(report.byType).map(([key, value]) => [key, { ...value, usd: value.crc, share: share(value.crc) }])),
+    channels: report.channels.map((row) => ({
+      ...row,
+      usd: row.crc,
+      share: share(row.crc),
+      avgUsd: row.avgCrc,
+      firstUsd: row.firstCrc,
+      lastUsd: row.lastCrc,
+      spendUsd: row.spendUsd * rate,
+    })),
+    days: report.days.map((day) => ({ ...day, paid: day.paidCrc, organic: day.organicCrc, unknown: day.unknownCrc })),
+    orders: report.orders.map((row) => ({ ...row, usd: row.crc })),
+  };
+}
 const fmtDay = (day) => new Date(`${day}T12:00:00Z`).toLocaleDateString('en-US', { weekday: 'short', day: 'numeric', timeZone: 'UTC' });
 const fmtPaid = (ms) => new Date(ms - 6 * 3600000).toLocaleString('en-US', {
   month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC',
@@ -56,10 +101,12 @@ function Segmented({ value, options, onChange, label }) {
 }
 
 function StackedBars({ days, money }) {
-  const max = Math.max(1, ...days.map((d) => d.paid + d.organic + d.unknown));
-  const step = max > 4 ? Math.pow(10, Math.floor(Math.log10(max))) : 1;
-  const top = Math.ceil(max / step) * step;
-  const ticks = [top, top * 0.66, top * 0.33, 0];
+  const max = Math.max(3, ...days.map((d) => d.paid + d.organic + d.unknown));
+  const raw = max / 3;
+  const magnitude = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 2.5, 5, 10].map((m) => m * magnitude).find((value) => value >= raw) || 10 * magnitude;
+  const top = step * 3;
+  const ticks = [top, step * 2, step, 0];
   return (
     <div className="rbc-chart" role="img" aria-label="Paid, organic and unknown revenue by day">
       <div className="rbc-axis">{ticks.map((tick) => <span key={tick}>{money(tick, true)}</span>)}</div>
@@ -138,7 +185,7 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
   const [customers, setCustomers] = useState('all');
   const [agent, setAgent] = useState('');
   const [currency, setCurrency] = useState('USD');
-  const [report, setReport] = useState(null);
+  const [loaded, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [drill, setDrill] = useState(null);
@@ -190,14 +237,15 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
     URL.revokeObjectURL(url);
   };
 
-  const rate = Number(report?.rate) || 0;
-  const money = useCallback((usd, short = false) => {
-    const value = currency === 'CRC' && rate ? usd * rate : usd;
+  // Every figure below reads report.*; in CRC that is the colón copy.
+  const report = useMemo(() => (currency === 'CRC' ? inColones(loaded) : loaded), [currency, loaded]);
+  const money = useCallback((value, short = false) => {
     const symbol = currency === 'CRC' ? '₡' : '$';
-    if (short && value >= 1000000) return `${symbol}${Math.round(value / 100000) / 10}M`;
-    if (short && value >= 1000) return `${symbol}${Math.round(value / 100) / 10}k`;
-    return `${symbol}${Math.round(value).toLocaleString('en-US')}`;
-  }, [currency, rate]);
+    const amount = Number(value) || 0;
+    if (short && amount >= 1000000) return `${symbol}${Math.round(amount / 100000) / 10}M`;
+    if (short && amount >= 1000) return `${symbol}${Math.round(amount / 100) / 10}k`;
+    return `${symbol}${Math.round(amount).toLocaleString('en-US')}`;
+  }, [currency]);
 
   const t = report?.totals;
   const unknownShare = report ? report.byType.unknown.share : 0;
@@ -226,18 +274,11 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
 
   return (
     <div className="rbc">
-      <div className="rbc-top">
-        <span>PCR Admin · Reports</span>
-        <button type="button" className="rbc-btn" onClick={toggleTheme} aria-label="Switch between light and dark">
-          {light ? <Moon size={16} /> : <Sun size={16} />}{light ? 'Dark mode' : 'Light mode'}
-        </button>
-      </div>
-
       <header className="rbc-head">
         <div>
-          <p className="rbc-eyebrow">Reports</p>
           <h1>Revenue by channel</h1>
           <p className="rbc-sub">Paid orders only, from the CRM. Each order counts once, in one channel.</p>
+          <p className="rbc-range">{rangeLabel(range)} · Costa Rica time · compared with {rangeLabel(previousRange(range))}</p>
         </div>
         <div className="rbc-actions">
           <select className="rbc-btn" value={preset} onChange={(e) => {
@@ -254,6 +295,9 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
             </>
           ) : null}
           <button type="button" className="rbc-btn" onClick={load} aria-label="Refresh"><RefreshCw size={16} /></button>
+          <button type="button" className="rbc-btn" onClick={toggleTheme} aria-label="Switch between light and dark">
+            {light ? <Moon size={16} /> : <Sun size={16} />}{light ? 'Dark' : 'Light'}
+          </button>
           <button type="button" className="rbc-btn primary" onClick={exportCsv}><Download size={16} />Export CSV</button>
         </div>
       </header>
@@ -317,7 +361,7 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
             <StackedBars days={chartDays} money={money} />
             {!showUnknown && knownOrders === 0 ? <p className="rbc-sub">No orders with a known source in this period yet.</p> : null}
             {hiddenNote ? <p className="rbc-sub">{hiddenNote}</p> : null}
-            {report.tracking?.goLive ? <p className="rbc-sub">Channel tracking started {report.tracking.goLive.slice(0, 10)}. Orders before that are mostly Unknown.</p> : null}
+            {report.tracking?.goLive ? <p className="rbc-sub">Source tracking started {rangeLabel([report.tracking.goLive.slice(0, 10)])}; orders before that have no source.</p> : null}
           </section>
 
           <section className="rbc-card">
@@ -354,7 +398,6 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
                 </tbody>
               </table>
             </div>
-            {hiddenNote ? <p className="rbc-sub">{hiddenNote}</p> : null}
             <p className="rbc-sub">Assisted = orders where this channel was the first touch but another channel got the credit. ROAS = paid revenue ÷ ad spend.</p>
           </section>
 

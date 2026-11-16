@@ -13035,8 +13035,12 @@
   --rbc-up: #4ade80; --rbc-down: #fca5a5; --rbc-paid: #f59e0b; --rbc-organic: #38bdf8;
   background: var(--rbc-bg); color: var(--rbc-text);
   font-family: Inter, system-ui, sans-serif; font-variant-numeric: tabular-nums;
-  margin: -8px; padding: 16px 20px 40px; border-radius: 14px; display: grid; gap: 18px;
+  margin: 0; padding: 20px 20px 40px; border-radius: 14px; display: grid; gap: 18px;
+  grid-template-columns: minmax(0, 1fr); box-sizing: border-box;
 }
+/* A wide table must scroll inside its card, never stretch the page. */
+.rbc > *, .rbc-body > *, .rbc-two > * { min-width: 0; }
+.rbc-range { margin: 4px 0 0; font-size: 12.5px; font-weight: 600; color: var(--rbc-text); opacity: .85; }
 html[data-theme="light"] .rbc {
   --rbc-bg: #f6f7fb; --rbc-card: #ffffff; --rbc-line: #e3e7f0; --rbc-line2: #cfd6e4;
   --rbc-text: #0b1533; --rbc-muted: #55607a; --rbc-unk: #36425f;
@@ -13071,9 +13075,10 @@ html[data-theme="light"] .rbc select, html[data-theme="light"] .rbc input { colo
   background: var(--rbc-card); color: var(--rbc-text); font: inherit; font-size: 13px;
 }
 .rbc-warn { margin: 0; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--rbc-warn-line); color: var(--rbc-warn); font-size: 13px; }
-.rbc-body { display: grid; gap: 18px; transition: opacity .2s; }
+.rbc-body { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); transition: opacity .2s; }
 .rbc-body.busy { opacity: .55; }
-.rbc-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
+.rbc-kpis { display: flex; flex-wrap: wrap; gap: 12px; }
+.rbc-kpis > .rbc-card { flex: 1 1 170px; }
 .rbc-card.kpi { display: grid; gap: 6px; }
 .rbc-card.kpi span { font-size: 13px; color: var(--rbc-muted); display: inline-flex; align-items: center; gap: 6px; }
 .rbc-card.kpi b { font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
@@ -13102,6 +13107,7 @@ html[data-theme="light"] .rbc select, html[data-theme="light"] .rbc input { colo
 .rbc-scroll { overflow-x: auto; margin-top: 10px; }
 .rbc-table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 13px; }
 .rbc-table.compact { min-width: 0; margin-top: 10px; }
+.rbc-table th, .rbc-table td { white-space: nowrap; }
 .rbc-table th { padding: 8px; font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--rbc-muted); text-align: left; }
 .rbc-table td { padding: 10px 8px; border-top: 1px solid var(--rbc-line); color: var(--rbc-text); }
 .rbc-table .r { text-align: right; }

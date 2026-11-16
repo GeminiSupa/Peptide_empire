@@ -99,7 +99,10 @@ export function countableOrders(orders, rate) {
     if (!(money.usd > 0)) continue;
     const paidAt = orderPaidAt(order);
     if (!Number.isFinite(paidAt)) continue;
-    sales.push({ order, paidAt, usd: money.usd, crc: money.crc });
+    // The colones the order was charged. A dollar-only row (no colón figure)
+    // is read at the given rate, the same fallback orderRevenue uses the other way.
+    const crc = money.crc > 0 ? money.crc : Math.round(money.usd * (Number(rate) > 0 ? Number(rate) : 0));
+    sales.push({ order, paidAt, usd: money.usd, crc });
   }
   sales.sort((a, b) => a.paidAt - b.paidAt);
   const kept = [];
@@ -138,6 +141,8 @@ export function firstOrderByCustomer(sales) {
 
 const emptyTotals = () => ({ orders: 0, usd: 0, crc: 0 });
 const round2 = (value) => Math.round(value * 100) / 100;
+const emptyDay = (day) => ({ day, paid: 0, organic: 0, unknown: 0, paidCrc: 0, organicCrc: 0, unknownCrc: 0 });
+const DAY_FIELDS = ['paid', 'organic', 'unknown', 'paidCrc', 'organicCrc', 'unknownCrc'];
 
 /**
  * The whole report for one window.
@@ -171,7 +176,7 @@ export function buildRevenueByChannel(allOrders, opts = {}) {
   const previous = sales.filter((sale) => inWindow(sale, from - span, from) && matchesFilters(sale));
 
   const rows = new Map(CHANNELS.map((channel) => [channel.key, {
-    ...channel, ...emptyTotals(), newCustomers: 0, assisted: 0, spendUsd: 0, firstUsd: 0, lastUsd: 0,
+    ...channel, ...emptyTotals(), newCustomers: 0, assisted: 0, spendUsd: 0, firstUsd: 0, lastUsd: 0, firstCrc: 0, lastCrc: 0,
   }]));
   const totals = { ...emptyTotals(), newCustomers: 0, returning: 0 };
   const byType = { paid: emptyTotals(), organic: emptyTotals(), unknown: emptyTotals() };
@@ -195,6 +200,8 @@ export function buildRevenueByChannel(allOrders, opts = {}) {
 
     rows.get(channels.first).firstUsd += sale.usd;
     rows.get(channels.last).lastUsd += sale.usd;
+    rows.get(channels.first).firstCrc += sale.crc;
+    rows.get(channels.last).lastCrc += sale.crc;
     if (channels.first !== channels.last && channels.first !== 'unknown') rows.get(channels.first).assisted += 1;
 
     coverage[channels.capturedBy] = (coverage[channels.capturedBy] || 0) + 1;
@@ -210,8 +217,9 @@ export function buildRevenueByChannel(allOrders, opts = {}) {
     }
 
     const day = crDayKey(sale.paidAt);
-    const bucket = days.get(day) || { day, paid: 0, organic: 0, unknown: 0 };
+    const bucket = days.get(day) || emptyDay(day);
     bucket[row.type] = (bucket[row.type] || 0) + sale.usd;
+    bucket[`${row.type}Crc`] = (bucket[`${row.type}Crc`] || 0) + sale.crc;
     days.set(day, bucket);
 
     drill.push({
@@ -239,6 +247,7 @@ export function buildRevenueByChannel(allOrders, opts = {}) {
   }
 
   const previousUsd = previous.reduce((sum, sale) => sum + sale.usd, 0);
+  const previousCrc = previous.reduce((sum, sale) => sum + sale.crc, 0);
   const channels = [...rows.values()]
     .map((row) => ({
       key: row.key,
@@ -249,12 +258,15 @@ export function buildRevenueByChannel(allOrders, opts = {}) {
       crc: row.crc,
       share: totals.usd > 0 ? row.usd / totals.usd : 0,
       avgUsd: row.orders ? round2(row.usd / row.orders) : 0,
+      avgCrc: row.orders ? Math.round(row.crc / row.orders) : 0,
       newCustomers: row.newCustomers,
       assisted: row.assisted,
       spendUsd: round2(row.spendUsd),
       roas: row.type === 'paid' && row.spendUsd > 0 ? round2(row.usd / row.spendUsd) : null,
       firstUsd: round2(row.firstUsd),
       lastUsd: round2(row.lastUsd),
+      firstCrc: row.firstCrc,
+      lastCrc: row.lastCrc,
     }))
     .filter((row) => row.orders > 0 || row.spendUsd > 0 || row.firstUsd > 0)
     .sort((a, b) => b.usd - a.usd);
@@ -269,9 +281,11 @@ export function buildRevenueByChannel(allOrders, opts = {}) {
       usd: round2(totals.usd),
       crc: totals.crc,
       avgUsd: totals.orders ? round2(totals.usd / totals.orders) : 0,
+      avgCrc: totals.orders ? Math.round(totals.crc / totals.orders) : 0,
       newCustomers: totals.newCustomers,
       returning: totals.returning,
       previousUsd: round2(previousUsd),
+      previousCrc,
       changePct: previousUsd > 0 ? (totals.usd - previousUsd) / previousUsd : null,
       spendUsd: round2(spendTotal),
       roas: spendTotal > 0 ? round2(paidUsd / spendTotal) : null,
@@ -297,20 +311,23 @@ function dailySeries(days, from, to) {
   const out = [];
   for (let t = from; t < to; t += DAY_MS) {
     const day = crDayKey(t);
-    const bucket = days.get(day) || { day, paid: 0, organic: 0, unknown: 0 };
-    out.push({ day, paid: round2(bucket.paid), organic: round2(bucket.organic), unknown: round2(bucket.unknown) });
+    const bucket = days.get(day) || emptyDay(day);
+    out.push({
+      day,
+      paid: round2(bucket.paid), organic: round2(bucket.organic), unknown: round2(bucket.unknown),
+      paidCrc: bucket.paidCrc, organicCrc: bucket.organicCrc, unknownCrc: bucket.unknownCrc,
+    });
   }
   if (out.length <= 31) return out;
   const weeks = [];
   for (let i = 0; i < out.length; i += 7) {
     const slice = out.slice(i, i + 7);
-    weeks.push({
-      day: slice[0].day,
-      week: true,
-      paid: round2(slice.reduce((s, d) => s + d.paid, 0)),
-      organic: round2(slice.reduce((s, d) => s + d.organic, 0)),
-      unknown: round2(slice.reduce((s, d) => s + d.unknown, 0)),
-    });
+    const week = { day: slice[0].day, week: true };
+    for (const field of DAY_FIELDS) {
+      const sum = slice.reduce((s, d) => s + d[field], 0);
+      week[field] = field.endsWith('Crc') ? sum : round2(sum);
+    }
+    weeks.push(week);
   }
   return weeks;
 }

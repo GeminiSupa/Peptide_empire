@@ -130,3 +130,15 @@ test('CSV export has one row per order', () => {
   assert.equal(csv.length, 2);
   assert.match(csv[1], /"bf, week 1"/);
 });
+
+test('colones are what each order was charged, not dollars times the current rate', () => {
+  const orders = [
+    order({ lt_channel: 'google_ads', total_usd: 100, total_crc: 45000 }),
+    order({ lt_channel: 'email', total_usd: 50, total_crc: 0 }),
+  ];
+  const report = buildRevenueByChannel(orders, { ...window, rate: 450 });
+  assert.equal(report.totals.crc, 45000 + 22500, 'a dollar-only order is read at the given rate');
+  assert.equal(report.channels.find((row) => row.key === 'google_ads').crc, 45000);
+  assert.equal(report.days.reduce((sum, d) => sum + d.paidCrc + d.organicCrc + d.unknownCrc, 0), 67500);
+  assert.equal(report.totals.avgCrc, 33750);
+});
