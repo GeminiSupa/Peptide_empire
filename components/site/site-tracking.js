@@ -7,7 +7,9 @@ import { onCompanyDomain } from '@/lib/site/crm.mjs';
 /** The Google Tag Manager container the catalog already reports to. */
 export const GTM_ID = 'GTM-M2GVDQ44';
 
-const WHATSAPP_LINK = /^(?:https?:\/\/(wa\.me|wa\.link|api\.whatsapp\.com|web\.whatsapp\.com)\/|whatsapp:\/\/)/i;
+// Includes our own /api/whatsapp/open, which every WhatsApp button now goes
+// through (lib/site/whatsapp-link.mjs) before landing on wa.me.
+const WHATSAPP_LINK = /^(?:https?:\/\/(wa\.me|wa\.link|api\.whatsapp\.com|web\.whatsapp\.com)\/|whatsapp:\/\/|\/api\/whatsapp\/open\/?(?:\?|$))/i;
 
 /**
  * Google Tag Manager, and the catalog's `whatsapp_click` event.

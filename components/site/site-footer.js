@@ -3,6 +3,7 @@ import Ms from '@/components/storefront/icon';
 import WhatsAppGlyph from '@/components/storefront/whatsapp-glyph';
 import NewsletterForm from '@/components/site/newsletter-form';
 import { CONTACT } from '@/lib/site/links.mjs';
+import { whatsappHref } from '@/lib/site/whatsapp-link.mjs';
 
 const QUICK_LINKS = [
   ['home', 'Home'],
@@ -27,7 +28,7 @@ const POLICY_LINKS = [
 
 /** The prototype's footer. Server-rendered: every link is in the page source. */
 export default function SiteFooter({ t, links, categories, contact = CONTACT, socials = [] }) {
-  const whatsapp = `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(t("Hi! I'd like to order."))}`;
+  const whatsapp = whatsappHref(contact.whatsapp, t("Hi! I'd like to order."));
   return (
     <footer className="sfoot">
       <div className="wrap">

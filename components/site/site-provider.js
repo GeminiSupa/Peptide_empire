@@ -8,6 +8,7 @@ import { flashCoversProduct } from '@/lib/site/deal-view.mjs';
 import { CONTACT } from '@/lib/site/links.mjs';
 import { ecommerceData, pushEvent } from '@/lib/site/analytics.mjs';
 import { promoFromReply, promoFromUrl, readPromo, validatePromo, writePromo } from '@/lib/site/promo.mjs';
+import { whatsappHref } from '@/lib/site/whatsapp-link.mjs';
 
 const SiteContext = createContext(null);
 
@@ -121,7 +122,7 @@ export default function SiteProvider({ lang, exchangeRate, deal, dealView = null
   }, [flashView, quoteFor, currency]);
 
   const whatsapp = useCallback(
-    (message) => `https://wa.me/${contact.whatsapp}?text=${encodeURIComponent(message)}`,
+    (message) => whatsappHref(contact.whatsapp, message),
     [contact.whatsapp],
   );
 

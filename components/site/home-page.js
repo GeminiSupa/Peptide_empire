@@ -12,6 +12,7 @@ import JsonLd from '@/components/site/json-ld';
 import { SITE_URL } from '@/lib/indexing';
 import { faqNode, organizationNode, websiteNode } from '@/lib/site/structured-data.mjs';
 import WhatsAppGlyph from '@/components/storefront/whatsapp-glyph';
+import { whatsappHref } from '@/lib/site/whatsapp-link.mjs';
 
 const POPULAR_EXTRA = ['NAD+', 'BPC-157', 'Tesamorelin', 'Glutathione'];
 const LATEST = ['Amino Acid Blend', 'AHK-Cu', 'VIP', 'SS-31'];
@@ -71,7 +72,7 @@ export default function HomePage({ lang, h1, site }) {
               ) : (
                 <a
                   className="btn ghost on-dark"
-                  href={`https://wa.me/${(site.contact || CONTACT).whatsapp}?text=${encodeURIComponent(t('Hi! I have a question before ordering.'))}`}
+                  href={whatsappHref((site.contact || CONTACT).whatsapp, t('Hi! I have a question before ordering.'))}
                   target="_blank"
                   rel="noopener noreferrer"
                   data-cta="home-hero"

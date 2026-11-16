@@ -17,6 +17,7 @@ import { translator } from '@/lib/storefront/i18n.mjs';
 import JsonLd from '@/components/site/json-ld';
 import { SITE_URL } from '@/lib/indexing';
 import { breadcrumbNode, faqNode } from '@/lib/site/structured-data.mjs';
+import { whatsappHref } from '@/lib/site/whatsapp-link.mjs';
 
 /**
  * A page drawn from the prototype's own rendering (data/site/pages/*.json,
@@ -218,7 +219,7 @@ function render(node, ctx, key) {
   }
 
   if (tag === 'a' && attrs?.['data-wa'] != null) {
-    props.href = `https://wa.me/${(ctx.site.contact || CONTACT).whatsapp}?text=${encodeURIComponent(ctx.t(attrs['data-wa']))}`;
+    props.href = whatsappHref((ctx.site.contact || CONTACT).whatsapp, ctx.t(attrs['data-wa']));
     props.target = '_blank';
     props.rel = 'noopener noreferrer';
   }
