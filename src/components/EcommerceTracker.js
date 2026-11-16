@@ -2,10 +2,19 @@
 import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { captureAdClick } from '@/lib/adClickAttribution.mjs';
+import { captureTouch } from '@/lib/touchTracker.mjs';
 import { pushEvent, whatsappLocation, WHATSAPP_LOCATIONS } from '@/lib/dataLayer.mjs';
+// Where this visitor came from (revenue by channel): once per page load, not
+// on every in-app navigation, which carries the same referrer and tags.
+let touchCaptured = false;
 export default function EcommerceTracker() {
   const path = usePathname();
   useEffect(() => { if (!/^\/(admin|embed)(\/|$)/.test(path || '')) captureAdClick(window.location, document); }, [path]);
+  useEffect(() => {
+    if (touchCaptured || /^\/(admin|embed)(\/|$)/.test(window.location.pathname)) return;
+    touchCaptured = true;
+    captureTouch(window.location, document);
+  }, []);
   useEffect(() => {
     function click(event) {
       if (/^\/(admin|embed)(\/|$)/.test(window.location.pathname)) return;

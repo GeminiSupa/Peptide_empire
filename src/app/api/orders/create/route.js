@@ -1,6 +1,13 @@
 import { createAnalyticsReceiptToken } from '@/lib/analyticsReceiptToken';
 import { orderEcommerceSnapshot } from '@/lib/ecommerceAnalytics.mjs';
 import { readAdClick, sanitizeAdAttribution } from '@/lib/adClickAttribution.mjs';
+import {
+  ORDER_CHANNEL_COLUMNS,
+  gclidFromConversionLinker,
+  orderAttributionColumns,
+  readTouchCookie,
+  sanitizeTouchState,
+} from '@/lib/channelAttribution.mjs';
 import { sanitizeGaIdentity } from '@/lib/gaIdentity.mjs';
 import { isBankMethod, bankAvailability, readBankSettings, bankPaymentSnapshot } from '@/lib/bankPayments.mjs';
 import { createBankPaymentToken } from '@/lib/bankPaymentToken.mjs';
@@ -586,7 +593,10 @@ async function createOrder(request) {
     // a stale client bundle prevented the checkout payload from carrying the
     // click even though the landing page had already saved it.
     const googleAttribution = readAdClick({ cookie: request.headers.get('cookie') || '' })
-      || sanitizeAdAttribution(order.ad_attribution);
+      || sanitizeAdAttribution(order.ad_attribution)
+      // Google's Conversion Linker keeps the click in _gcl_aw even when the
+      // landing URL's gclid never reached our own cookie.
+      || gclidFromConversionLinker(request.headers.get('cookie') || '');
     delete order.analytics_snapshot; delete order.ads_paid_at;
     order.ad_attribution = googleAttribution;
     // Which paid-ad landing page produced this sale. The browser sends the
@@ -610,6 +620,18 @@ async function createOrder(request) {
     delete order.landing_ttclid;
     if (landingCid) order.landing_cid = landingCid;
     if (landingTtclid) order.landing_ttclid = landingTtclid;
+    // Where the customer came from, for the revenue-by-channel report: their
+    // first and last visit from somewhere (src/lib/channelAttribution.mjs).
+    // The shared cookie comes with a catalog order; the main site sends its
+    // copy as `touch`. Only our cleaned columns reach the row, never raw keys.
+    const touchState = readTouchCookie(request.headers.get('cookie') || '')
+      || sanitizeTouchState(order.touch);
+    delete order.touch;
+    for (const column of ORDER_CHANNEL_COLUMNS) delete order[column];
+    delete order.whatsapp_ref;
+    delete order.agent_source;
+    delete order.source_note;
+    Object.assign(order, orderAttributionColumns(touchState, 'website'));
     // The visitor's GA4 cookie IDs, kept only if shaped like real ones. They let a
     // WhatsApp sale confirmed later be sent to GA4 as part of this same visit.
     Object.assign(order, sanitizeGaIdentity(order));
@@ -879,6 +901,8 @@ async function createOrder(request) {
         // the click id that won it.
         'landing_cid',
         'landing_ttclid',
+        // add-order-channel-attribution.sql, same principle again.
+        ...ORDER_CHANNEL_COLUMNS,
         'deal_id',
         'inventory_deducted',
         'volume_discount_pct',
