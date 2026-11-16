@@ -215,7 +215,7 @@ export default function CartSheet({
   // out and returns them on the quote's canonical items, tagged "(Free Gift)"
   // / "(Regalo)"; BAC Water is its own always-free line, shown separately.
   const dealFreeLines = useMemo(() => (quote?.items || [])
-    .filter((item) => isGiftLine(item?.product) && !isBacWater(item?.product))
+    .filter((item) => isGiftLine(item) && !isBacWater(stripGiftSuffix(item?.product)))
     .map((item) => ({ product: stripGiftSuffix(item.product), qty: Number(item.qty) || 1 })), [quote]);
 
   // An empty cart has no later steps to be on.
