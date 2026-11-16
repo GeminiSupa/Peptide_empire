@@ -280,6 +280,21 @@ test('weekly deal safety reviews large final discounts without compounding', () 
   assert.match(dealSafety(0.51, { confirmedHighDiscount: true }).error, /cannot exceed 50%/);
 });
 
+test('dealSafety: a 0% effective markdown is rejected for a shelf deal but allowed for offers', () => {
+  // A shelf/bulk deal with no percentage is a forgotten discount.
+  assert.equal(dealSafety(0).ok, false);
+  assert.match(dealSafety(0).error, /between 1% and 99%/);
+  // An offers-mode deal made only of free shipping, a gift, or a modest
+  // dollar-amount spend (Green Monday: $30 off $300 = 10%, $150 off $1,000 =
+  // 15%) has a low or zero effective markdown and must still schedule.
+  assert.equal(dealSafety(0, { allowZero: true }).ok, true);
+  assert.equal(dealSafety(0.15, { allowZero: true }).ok, true);
+  // Upper bounds still apply to offers: a steep fixed-dollar reward whose
+  // worst-case percentage is high still triggers the review / hard limit.
+  assert.equal(dealSafety(0.3, { allowZero: true }).needsConfirmation, true);
+  assert.match(dealSafety(0.6, { allowZero: true, confirmedHighDiscount: true }).error, /cannot exceed 50%/);
+});
+
 test('expiry restores only when the product still matches what launch applied', () => {
   const applied = buildMarkdown(snapshotBaseline(GHK), 0.15, WINDOW, RATE);
   assert.equal(canSafelyRestoreProduct(applied, applied), true);

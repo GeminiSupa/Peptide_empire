@@ -60,7 +60,13 @@ function dealTerms({ discountPct, pricingMode, minUnits, maxUnits, offers }) {
       if (!item.enabled) return maximum;
       const pct = item.type === 'bundle'
         ? item.free_qty / (item.buy_qty + item.free_qty)
-        : Number(item.discount_pct) || 0;
+        // A dollar-amount spend offer has no percentage. Its steepest possible
+        // markdown is at the minimum spend (e.g. $150 off a $1,000 order = 15%);
+        // above that the percentage only falls. Crediting that ratio keeps the
+        // safety review meaningful for a big fixed-dollar reward.
+        : item.type === 'spend' && Number(item.discount_usd) > 0
+          ? (Number(item.min_total_usd) > 0 ? Number(item.discount_usd) / Number(item.min_total_usd) : 0)
+          : Number(item.discount_pct) || 0;
       return Math.max(maximum, pct);
     }, 0);
     return { pct: maximumEffectivePct, mode: OFFERS_PRICING_MODE, minimum: 0, maximum: 0, offers: clean };
@@ -371,7 +377,7 @@ export async function launchDeal({
   const { pct, mode, minimum, maximum, offers: dealOffers } = dealTerms({ discountPct, pricingMode, minUnits, maxUnits, offers });
   // A two-offer deal covers whatever products its offers name.
   if (dealOffers) productNames = dealOfferProductNames(dealOffers);
-  const safety = dealSafety(pct, { confirmedHighDiscount });
+  const safety = dealSafety(pct, { confirmedHighDiscount, allowZero: mode === OFFERS_PRICING_MODE });
   if (!safety.ok) throw new Error(safety.error);
 
   // Scoped to the kind: a flash sale and the Deal of the Week may run at the
@@ -783,7 +789,7 @@ export async function scheduleDeal({
   const { pct, mode, minimum, maximum, offers: dealOffers } = dealTerms({ discountPct, pricingMode, minUnits, maxUnits, offers });
   // A two-offer deal covers whatever products its offers name.
   if (dealOffers) productNames = dealOfferProductNames(dealOffers);
-  const safety = dealSafety(pct, { confirmedHighDiscount });
+  const safety = dealSafety(pct, { confirmedHighDiscount, allowZero: mode === OFFERS_PRICING_MODE });
   if (!safety.ok) throw new Error(safety.error);
 
   const live = await getLiveDeal(supabase);
@@ -899,7 +905,7 @@ export async function editScheduledDeal({
 
   const { pct, mode, minimum, maximum, offers: dealOffers } = dealTerms({ discountPct, pricingMode, minUnits, maxUnits, offers });
   if (dealOffers) productNames = dealOfferProductNames(dealOffers);
-  const safety = dealSafety(pct, { confirmedHighDiscount });
+  const safety = dealSafety(pct, { confirmedHighDiscount, allowZero: mode === OFFERS_PRICING_MODE });
   if (!safety.ok) throw new Error(safety.error);
 
   const { data: existing, error: existingError } = await supabase
@@ -1074,7 +1080,7 @@ export async function previewDeal({ productNames, discountPct, titleEn, titleEs,
   const { pct, mode, minimum, maximum, offers: dealOffers } = dealTerms({ discountPct, pricingMode, minUnits, maxUnits, offers });
   // A two-offer deal covers whatever products its offers name.
   if (dealOffers) productNames = dealOfferProductNames(dealOffers);
-  const safety = dealSafety(pct, { confirmedHighDiscount });
+  const safety = dealSafety(pct, { confirmedHighDiscount, allowZero: mode === OFFERS_PRICING_MODE });
   if (!safety.ok && !safety.needsConfirmation) throw new Error(safety.error);
 
   const products = await resolveProducts(supabase, productNames);
