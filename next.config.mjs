@@ -44,6 +44,21 @@ export const OLD_AD_LANDING_PAGES = [
   ['lp-thymosin-alpha-1-10mg', '/product/lp-thymosin-alpha-1-10mg/'],
 ];
 
+/**
+ * The Google Ads landing pages, served here at `/lp/<slug>/`.
+ *
+ * Each is a standalone 600 KB file copied from the catalog into
+ * `public/lp/<slug>/index.html` by `scripts/sync-landing-pages.mjs`, which is
+ * where the why lives. They ran at `catalog.peptidescostarica.net/lp/<slug>`
+ * until the owner asked (17 Nov 2026) for the ads to land on the main domain.
+ *
+ * A static file only answers on its exact path, so without the rewrites below
+ * `/lp/ghk-cu-100mg/` would 404 and the paid click would be lost. Vercel
+ * happens to serve a folder's `index.html`; `next dev` and `next start` do not,
+ * so say it explicitly — the catalog's config does the same for its copies.
+ */
+export const AD_LANDING_PAGES = ['ghk-cu-100mg', 'ipamorelin-10mg'];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   /**
@@ -163,6 +178,11 @@ const nextConfig = {
       ...OLD_AD_LANDING_PAGES.map(([page, destination]) => ({
         source: `/${page}`,
         destination,
+      })),
+      // The ad landing pages copied from the catalog (AD_LANDING_PAGES above).
+      ...AD_LANDING_PAGES.map((slug) => ({
+        source: `/lp/${slug}`,
+        destination: `/lp/${slug}/index.html`,
       })),
       ...[
         '/sitemap_index.xml',

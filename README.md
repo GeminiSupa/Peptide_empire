@@ -175,6 +175,34 @@ affiliate dashboards, cron jobs and every migration, plus deals, the
 exchange rate, analytics tracking and the lead endpoints this site still
 fetches from the catalog (`catalogUrl()` callers).
 
+### The Google Ads landing pages (`/lp/<slug>/`, 17 Nov 2026)
+
+Ted's ads for GHK-Cu 100 mg and Ipamorelin 10 mg ran on
+`catalog.peptidescostarica.net/lp/<slug>`. The owner asked for them on the main
+domain, so each is served here at `peptidescostarica.net/lp/<slug>/` — the
+address in the ad **is** the page, HTTP 200, no hop, the ads team's rule.
+
+- Each page is a standalone 600 KB file the catalog owns and rebuilds.
+  **Never hand-edit one, or anything under `public/lp-assets/`**: fix it in the
+  catalog (branch `catalog`), then `node scripts/sync-landing-pages.mjs`.
+  `--check` fails when the copy has drifted; run it before every website push,
+  like the checkout one. Every file it writes is listed in
+  `data/lp/.synced-files.json`.
+- The copy differs from the catalog's in four places, all in that script's
+  `PATCHES`: a "copied from" comment, a canonical naming this site (both
+  domains serve the file and the catalog has no `robots.txt`, so one page must
+  be the original), and the order POST and card redirect pointed at the
+  catalog — where every public order from this site goes today. **When
+  `NEXT_PUBLIC_OWN_CHECKOUT=true` is set, make those two relative again.**
+- `/lp/<slug>` has to be rewritten to `/lp/<slug>/index.html`
+  (`AD_LANDING_PAGES` in `next.config.mjs`): a static file only answers on its
+  exact path, and a 404 there is a paid click thrown away.
+- Live prices and stock come from this site's own `/api/lp/products`
+  (`getLandingPageProducts()` in `lib/storefront/feed.js`), not the catalog's,
+  so a page here needs nothing from the catalog subdomain to render.
+- The catalog still serves its own copies at its own addresses. Nothing was
+  changed there, so any ad still pointing at the catalog keeps working.
+
 ### The order-submission constraint
 
 `/api/orders/create` accepts a browser POST only from the catalog's own origin
