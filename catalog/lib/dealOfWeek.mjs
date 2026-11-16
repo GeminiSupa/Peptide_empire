@@ -218,12 +218,16 @@ export function isUnavailableForDeal(product) {
  * only after an explicit review, while a commercially dangerous combined
  * markdown is refused outright.
  */
-export function dealSafety(discountPct, { confirmedHighDiscount = false } = {}) {
+export function dealSafety(discountPct, { confirmedHighDiscount = false, allowZero = false } = {}) {
   const pct = toPercent(discountPct);
   const stackedAtFive = pct;
   const stackedAtTen = pct;
 
-  if (pct <= 0 || pct >= 100) {
+  // allowZero is for offers-mode deals: the offers are already validated by
+  // dealOffersError, and a deal whose savings are free shipping, a gift or a
+  // modest dollar-amount spend has a 0% effective markdown, which is fine — it
+  // is not a forgotten percentage the way a 0% shelf deal is.
+  if ((!allowZero && pct <= 0) || pct < 0 || pct >= 100) {
     return { ok: false, error: 'The discount must be between 1% and 99%.', pct, stackedAtFive, stackedAtTen };
   }
   if (pct > DEAL_HARD_LIMIT_PCT) {
