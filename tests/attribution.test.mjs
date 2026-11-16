@@ -195,7 +195,7 @@ test('a visit with nothing to record records nothing and never throws', () => {
 const here = dirname(fileURLToPath(import.meta.url));
 const CATALOG_LIB = join(here, '..', '..', 'peptidecosta', 'src', 'lib');
 const VENDORED = join(here, '..', 'lib', 'catalog-attribution');
-const COPIES = ['adClickAttribution.mjs', 'gaIdentity.mjs', 'orderAttribution.mjs'];
+const COPIES = ['adClickAttribution.mjs', 'gaIdentity.mjs', 'orderAttribution.mjs', 'channelAttribution.mjs', 'touchTracker.mjs'];
 
 async function readOrNull(path) {
   try {
@@ -215,6 +215,12 @@ test('the vendored attribution modules match the catalog\'s', async (t) => {
   for (const name of COPIES) {
     const ours = await readOrNull(join(VENDORED, name));
     const theirs = await readOrNull(join(CATALOG_LIB, name));
+    // A file this checkout of the catalog does not have yet (it is older than
+    // the branch that added it) has nothing to compare against.
+    if (ours !== null && theirs === null) {
+      t.diagnostic(`${name}: not in the local catalog checkout yet`);
+      continue;
+    }
     assert.ok(ours !== null && theirs !== null, `${name} is missing on one side`);
     assert.equal(digest(ours), digest(theirs), `lib/catalog-attribution/${name} has drifted from the catalog's. Re-copy it.`);
   }
@@ -229,4 +235,19 @@ test('a lead from an ad carries the Google click, so the CRM order can be credit
   const organic = fakeWindow('https://peptidescostarica.net/');
   captureAttribution(organic, NOW);
   assert.equal('ad_attribution' in leadAttribution(organic, NOW), false);
+});
+
+test('a visit is saved as first and last touch, and travels with the order and the lead', () => {
+  const win = fakeWindow('https://peptidescostarica.net/?gclid=Cj0touch', { referrer: 'https://www.google.com/' });
+  win.location.href = 'https://peptidescostarica.net/?gclid=Cj0touch';
+  captureAttribution(win, NOW);
+  assert.match(win.document.cookie, /pcr_touch=/);
+  const touch = orderAttribution(win, NOW).touch;
+  assert.equal(touch.ft.ch, 'google_ads');
+  assert.equal(touch.lt.ch, 'google_ads');
+  assert.equal(leadAttribution(win, NOW).touch.lt.ch, 'google_ads');
+  // Moving to another page of the site is the same visit, not a new arrival.
+  win.location.href = 'https://peptidescostarica.net/bpc-157-costa-rica/';
+  captureAttribution(win, NOW + 1000);
+  assert.equal(orderAttribution(win, NOW + 1000).touch.lt.at, NOW);
 });

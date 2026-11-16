@@ -60,6 +60,7 @@
     "catalog/lib/cardPaymentsPaused.mjs",
     "catalog/lib/catalogCategories.mjs",
     "catalog/lib/catalogFilters.mjs",
+    "catalog/lib/channelAttribution.mjs",
     "catalog/lib/chargxPay.mjs",
     "catalog/lib/checkoutIdentity.mjs",
     "catalog/lib/checkoutJunkGuard.mjs",

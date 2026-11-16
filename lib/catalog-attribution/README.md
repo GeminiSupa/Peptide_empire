@@ -1,16 +1,20 @@
 # Vendored catalog attribution code
 
-Verbatim copies of three files from the catalog (`catalog` branch, `src/lib/`):
+Verbatim copies of five files from the catalog (`catalog` branch, `src/lib/`):
 
 | here | catalog |
 | --- | --- |
 | `adClickAttribution.mjs` | `src/lib/adClickAttribution.mjs` |
 | `gaIdentity.mjs` | `src/lib/gaIdentity.mjs` |
 | `orderAttribution.mjs` | `src/lib/orderAttribution.mjs` |
+| `channelAttribution.mjs` | `src/lib/channelAttribution.mjs` |
+| `touchTracker.mjs` | `src/lib/touchTracker.mjs` |
 
 The catalog's `/api/orders/create` reads the Google Ads click
 (`ad_attribution`) and the GA4 client/session IDs off every order, and
-re-checks them with these same functions. Using the catalog's own code to
+re-checks them with these same functions. The last two record where a visitor
+came from (first and last visit, the shared `pcr_touch` cookie) for the CRM's
+revenue-by-channel report. Using the catalog's own code to
 capture and read them means the site sends exactly what checkout accepts.
 
 **Do not edit these files.** Re-copy them when the catalog changes them;
