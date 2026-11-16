@@ -361,10 +361,11 @@ Owner (Omer) to do or decide:
     `add-order-channel-attribution.sql` in Supabase, push the catalog branch,
     then the website branch — never the website first: the old checkout saves
     an order as posted and would fail on the unknown `touch` key. Orders before
-    that stay Unknown — no backfill is possible. Not done: the main site's
-    WhatsApp buttons open wa.me directly, so its taps get no `Ref: PCR-…` (needs
-    the website's own ref endpoint, or routing through the catalog's
-    `/api/whatsapp/open`); Google Ads upload
+    that stay Unknown — no backfill is possible. The main site's WhatsApp
+    buttons go through its own synced `/api/whatsapp/open/` (Ref + source,
+    no catalog in the path); it saves only once the website's Vercel project
+    has `NEXT_PUBLIC_SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY`, and until then
+    just redirects to wa.me unchanged. Not done: Google Ads upload
     still sends only the click on `ad_attribution`; Meta Conversions API; a
     real CRM-wide light mode (the sidebar sun only flips this report — the rest
     of the admin is hard-coded dark).
