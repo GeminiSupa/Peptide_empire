@@ -18,6 +18,9 @@ const AD_PAGES = [
   'public/lp/nad-plus/index.html',
   'public/lp/ghk-cu-100mg/index.html',
   'public/lp/ipamorelin-10mg/index.html',
+  'public/lp/tesa-compound/index.html',
+  'public/lp/klow-80mg/index.html',
+  'public/lp/glow-70mg/index.html',
 ];
 
 test('landing page product aliases resolve correctly in authoritative checkout', () => {
@@ -78,6 +81,9 @@ test('the single-product pages each show their own compound, from one shared tem
     ['public/lp/nad-plus/index.html', 'nadplus', 'NAD+ 500 mg and 1000 mg | Peptides Costa Rica'],
     ['public/lp/ghk-cu-100mg/index.html', 'ghk-cu', 'GHK-Cu 100 mg | Peptides Costa Rica'],
     ['public/lp/ipamorelin-10mg/index.html', 'ipamorelin', 'Ipamorelin 10 mg | Peptides Costa Rica'],
+    ['public/lp/tesa-compound/index.html', 'tesamorelin', 'TESA-Compound 10 mg and 20 mg | Peptides Costa Rica'],
+    ['public/lp/klow-80mg/index.html', 'klow', 'KLOW 80 mg | Peptides Costa Rica'],
+    ['public/lp/glow-70mg/index.html', 'glow', 'GLOW 70 mg | Peptides Costa Rica'],
   ];
   const bodies = [];
   for (const [page, prod, title] of pages) {
@@ -103,7 +109,8 @@ test('the single-product pages each show their own compound, from one shared tem
 // old NAD+ default; changing them is its own job, so these two checks cover the
 // pages built after that was decided.
 const NEW_AD_PAGES = ['public/lp/glutathione-1500mg/index.html', 'public/lp/nad-plus/index.html',
-  'public/lp/ghk-cu-100mg/index.html', 'public/lp/ipamorelin-10mg/index.html'];
+  'public/lp/ghk-cu-100mg/index.html', 'public/lp/ipamorelin-10mg/index.html',
+  'public/lp/tesa-compound/index.html', 'public/lp/klow-80mg/index.html', 'public/lp/glow-70mg/index.html'];
 
 test('the single-product pages do not promise cash on delivery', () => {
   // We don't take it (owner, 10 Nov 2026); checkout takes card, SINPE Móvil and
@@ -176,12 +183,12 @@ test('next.config.mjs keeps /lp on the lead page and adds /lp/metabolic-research
   // The main site has its own pages for these compounds; the ad pages must not
   // compete with them in Google (12 Nov 2026; the other two added 13 Nov, when
   // their noindex preview address went away).
-  for (const slug of ['glutathione-1500mg', 'nad-plus', 'metabolic-research-compound', 'bac-water', 'ghk-cu-100mg', 'ipamorelin-10mg']) {
+  for (const slug of ['glutathione-1500mg', 'nad-plus', 'metabolic-research-compound', 'bac-water', 'ghk-cu-100mg', 'ipamorelin-10mg', 'tesa-compound', 'klow-80mg', 'glow-70mg']) {
     assert.match(config, new RegExp(`source: '/lp/${slug}',\\s*headers: \\[\\{ key: 'X-Robots-Tag', value: 'noindex, follow' \\}\\]`), `${slug} stays out of Google`);
   }
   // The two pages the ads team asked for (15 Nov 2026) answer on their own
   // address, the one their ads will point at.
-  for (const slug of ['ghk-cu-100mg', 'ipamorelin-10mg']) {
+  for (const slug of ['ghk-cu-100mg', 'ipamorelin-10mg', 'tesa-compound', 'klow-80mg', 'glow-70mg']) {
     assert.match(config, new RegExp(`source: '/lp/${slug}',\\s*destination: '/lp/${slug}/index\\.html'`), `real address of ${slug}`);
   }
 });
@@ -305,5 +312,86 @@ test('the metabolic products show Ted\'s codes, and orders still carry the real 
     assert.equal(resolver(offline('5A1MQ') + ' 50 mg')?.product, '5-Amino-1MQ 50mg', page);
     assert.match(html, /CATALOG_BASE\[displayName\] = parts\.base;/, `${page}: live names recorded`);
     assert.match(html, /return \{ product: catalogProductName\(it\.name\) \+ ' ' \+ it\.s, qty: it\.qty \};/, `${page}: orders send the real name`);
+  }
+});
+
+test('Tesamorelin shows as TESA-Compound with its own photo, and orders still send Tesamorelin', () => {
+  // Designer's ad pages, 17 Nov 2026. The bottle photo is a new file, never an
+  // overwrite: /lp-assets is cached for a year.
+  const resolver = productNameResolver([
+    { product: 'Tesamorelin 10mg', price_usd: 100 },
+    { product: 'Tesamorelin 20mg', price_usd: 150 },
+  ]);
+  for (const page of NEW_AD_PAGES) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8').replace(/\r\n/g, '\n');
+    assert.doesNotMatch(html, /"Tesamorelin"/, `${page}: old display name gone from the page data`);
+    assert.match(html, /"name": "TESA-Compound", "cat": "gh", "slug": "tesamorelin"/, page);
+    assert.ok(html.includes('"TESA-Compound":"tesa-compound-10mg"'), `${page}: photo key`);
+    assert.ok(html.includes('"tesa-compound-10mg":"/lp-assets/products/tesa-compound-10mg.webp"'), `${page}: photo file`);
+    const block = html.match(/var GLP_CODES = [\s\S]*?\nfunction catalogProductName\(name\) \{[\s\S]*?\n\}/)?.[0];
+    const { landingProductName, catalogProductName } = new Function(`${block}; return { landingProductName, catalogProductName };`)();
+    assert.equal(landingProductName('Tesamorelin'), 'TESA-Compound');
+    assert.equal(resolver(catalogProductName('TESA-Compound') + ' 10 mg')?.product, 'Tesamorelin 10mg', page);
+  }
+  assert.ok(fs.existsSync(path.join(rootDir, 'public/lp-assets/products/tesa-compound-10mg.webp')));
+});
+
+test('each designer page carries its own tactic under the hero, priced from the live list and the tiers', () => {
+  const html = fs.readFileSync(path.join(rootDir, 'public/lp/klow-80mg/index.html'), 'utf8').replace(/\r\n/g, '\n');
+  for (const [prod, tactic] of [['tesamorelin', 'tacticCoaFirst'], ['ipamorelin', 'tacticFifthVial'], ['klow', 'tacticUnbundle'], ['glow', 'tacticOneTap']]) {
+    const block = html.match(new RegExp(`\\n    ${prod}: \\{[\\s\\S]*?\\n    \\}`))?.[0] || '';
+    assert.ok(block.includes(`extra: function () { return ${tactic}(); }`), `${prod} uses ${tactic}`);
+  }
+  assert.ok(html.includes('"</div></div></section>" + (PC.extra ? PC.extra() : "") +'), 'shown under the hero');
+  const fifth = html.slice(html.indexOf('function tacticFifthVial'), html.indexOf('function tacticUnbundle'));
+  assert.ok(fifth.includes('disc(5)') && fifth.includes('disc(10)'), 'discounts come from CFG.tiers, not hard-coded');
+  assert.ok(html.includes('dataLayer.push({ event: "whatsapp_click", ref: ref(), cta: a.dataset.txwa });'), 'tactic WhatsApp taps are counted');
+});
+
+test('every ad page carries the TikTok pixel, the paid click ids, the visit source and tracked WhatsApp taps', async () => {
+  // These are static files, so the app's layout (TikTok pixel) and
+  // EcommerceTracker (pcr_touch) never ran on them, and the order carried no
+  // ref / cid / ttclid — the order-paid webhook only reports orders that do.
+  const { getTikTokPixelBootstrapScript } = await import('../src/lib/tiktokPixel.mjs');
+  for (const page of AD_PAGES) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8').replace(/\r\n/g, '\n');
+    assert.ok(html.includes(`<script>if (!window.LP_TESTING) ${getTikTokPixelBootstrapScript()}</script>`), `${page}: the app's TikTok pixel`);
+    for (const [param, key] of [['ref', 'landing_ref'], ['cid', 'landing_cid'], ['ttclid', 'landing_ttclid']]) {
+      assert.ok(html.includes(`["${param}", "${key}",`), `${page}: keeps ?${param}=`);
+      assert.ok(html.includes(`    ${key}: window.LP_TESTING ? null : window.lpLanding("${key}")`), `${page}: sends ${key} with the order`);
+    }
+    assert.ok(html.includes('fetch("/api/lp/touch", { method: "POST"'), `${page}: records the visit's source`);
+    // On the main site the order goes to the catalog's address with no cookie, so the source rides in the order.
+    assert.ok(html.includes('    touch: window.LP_TESTING ? null : (window.lpTouchState || null)'), `${page}: sends the visit source with the order`);
+    assert.ok(html.includes('function wa(msg) { return "/api/whatsapp/open?phone=" + CFG.wa'), `${page}: WhatsApp taps go through the tracked redirect`);
+    assert.doesNotMatch(html, /https:\/\/wa\.me\//, `${page}: no untracked WhatsApp link left`);
+  }
+  const route = fs.readFileSync(path.join(rootDir, 'src/app/api/lp/touch/route.js'), 'utf8');
+  assert.ok(route.includes("import { captureTouch } from '@/lib/touchTracker.mjs';"), 'the app\'s own touch logic, not a copy');
+  assert.ok(route.includes('if (page.host !== host)'), 'only for the page the request came from');
+  assert.ok(route.includes('NextResponse.json({ touch: state || null }'), 'hands the source back to the page');
+});
+
+test('the ad pages read in Spanish: their own copy is in the dictionary', () => {
+  for (const page of AD_PAGES) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8').replace(/\r\n/g, '\n');
+    const block = html.slice(html.indexOf('/* Spanish for the ad pages'), html.indexOf('\nfunction tr(s) {'));
+    assert.ok(block.startsWith('/* Spanish for the ad pages'), `${page}: Spanish block before tr()`);
+    const ES = {}, ESR = [];
+    new Function('ES', 'ESR', block)(ES, ESR);
+    // Every product's own copy on the single-product pages has a translation.
+    // A string the page already translated in its main dictionary counts too.
+    const known = (text) => ES[text] || html.includes(`${JSON.stringify(text)}:`);
+    const prods = html.match(/var PRODS = \{[\s\S]*?\n {2}\};/)?.[0];
+    if (prods) {
+      for (const [, text] of prods.matchAll(/(?:sub|plain|plainH): "([^"]+)"/g)) assert.ok(known(text), `${page}: "${text.slice(0, 50)}…" in Spanish`);
+      for (const [, q, a] of prods.matchAll(/\["([^"]+\?)", "([^"]+)"\]/g)) {
+        assert.ok(known(q), `${page}: FAQ "${q}" in Spanish`);
+        assert.ok(known(a), `${page}: answer to "${q}" in Spanish`);
+      }
+    }
+    const tr = (s) => ES[s] ?? ESR.reduce((out, [re, to]) => (out === null && re.test(s) ? s.replace(re, to) : out), null) ?? s;
+    assert.equal(tr('Order KLOW for your research'), 'Pida KLOW para su investigación');
+    assert.equal(tr('15% unlocked. Add 5 more for 20% off.'), '15% desbloqueado. Agregue 5 más para 20% de descuento.');
   }
 });

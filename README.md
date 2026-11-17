@@ -402,7 +402,20 @@ Owner (Omer) to do or decide:
     var. Not exercised: the price-change path (localhost cannot submit
     orders), a real `order.created` reaching his endpoint, and the in-app
     browsers themselves.
-17. Crypto off the checkout, Apple Pay its own option (17 Nov 2026, Joey:
+17. Ad pages TESA-Compound, KLOW 80 mg, GLOW 70 mg and a new Ipamorelin copy
+    (17 Nov 2026, designer's files), at `/lp/tesa-compound`, `/lp/klow-80mg`,
+    `/lp/glow-70mg` on both domains. Each has one sales block under the hero
+    (COA before paying, the 5th vial, the four bought separately, one-tap
+    WhatsApp). Tesamorelin shows as "TESA-Compound"; orders still send
+    Tesamorelin. Same day, every ad page got what the app's layout never gave
+    a static file: Spanish for its own copy, `?ref=`/`?cid=`/`?ttclid=` sent
+    with the order, the visit's source (`/api/lp/touch`, also returned so the
+    main site's cross-site order carries it as `touch`), WhatsApp through
+    `/api/whatsapp/open`, and the TikTok pixel on the catalog's copies only
+    (owner: the main site's pages are for Google Ads). Not exercised: a real
+    order or WhatsApp tap from these pages, and the TikTok pixel firing. The
+    TESA title says 10 and 20 mg while 20 mg is sold out.
+18. Crypto off the checkout, Apple Pay its own option (17 Nov 2026, Joey:
     "crypto worthless, nobody uses", "separate cards and Apple Pay"). Both
     checkouts: the Crypto tile is gone, and Apple Pay is a new tile right
     after Card, shown on every device (Omer, 18 Nov 2026 — see the Givver
@@ -410,8 +423,9 @@ Owner (Omer) to do or decide:
     which hid it from the desktop customers who can pay with it). It is a card
     order (same gateway page, `payment_method: 'card'`); Apple Pay is tapped on
     Givver's page.
-    The Card tile no longer shows the Apple Pay logo or name. The six `/lp`
-    ad pages got the same tile (their checkout only had Card and WhatsApp).
+    The Card tile no longer shows the Apple Pay logo or name. All nine `/lp`
+    ad pages got the same tile (their checkout only had Card and WhatsApp),
+    the three added on 17 Nov included.
     `/pay-card?type=crypto` still works for links already sent. Branches
     `feat/apple-pay-tile` (catalog, worktree `catalog-apple-pay`) and
     `feat/apple-pay-tile-website` (main, worktree `main-apple-pay`, re-synced
