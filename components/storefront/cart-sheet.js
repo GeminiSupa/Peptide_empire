@@ -123,18 +123,10 @@ export default function CartSheet({
   // SINPE and bank transfer, as switched on in the catalog admin. Off until
   // confirmed, as in the catalog.
   const [bankMethods, setBankMethods] = useState({ sinpe: false, bank_transfer: false });
-  // Apple Pay gets its own option only on a device that can pay with it
-  // (Apple's own test; false on Android, Windows, or a Mac with no paired
-  // iPhone or Watch), as on the catalog's checkout.
-  const [applePayDevice, setApplePayDevice] = useState(false);
-  useEffect(() => {
-    try {
-      setApplePayDevice(typeof window.ApplePaySession !== 'undefined'
-        && window.ApplePaySession.canMakePayments?.() === true);
-    } catch {
-      setApplePayDevice(false);
-    }
-  }, []);
+  // Apple Pay's tile is shown to everyone, as on the catalog's checkout: the
+  // wallet belongs to the gateway's page, which offers it in Chrome on Windows
+  // (pay by scanning the code with an iPhone) and on Apple devices, and hides
+  // it on Android. Nothing here can detect that for it (Omer, 18 Nov 2026).
   // Blocks a second click the instant the first lands: `busy` is React state
   // and updates too late to stop a fast double click placing two orders.
   const placingRef = useRef(false);
@@ -847,18 +839,16 @@ export default function CartSheet({
                     </button>
                     {/* Apple Pay is its own option, right after Card (Joey,
                         15 Nov 2026). Same gateway page as Card. */}
-                    {applePayDevice ? (
-                      <button
-                        className="method"
-                        type="button"
-                        aria-pressed={method === 'apple_pay'}
-                        onClick={() => { setMethod('apple_pay'); setError(''); track?.('add_payment_info', { payment_type: 'apple_pay' }); }}
-                      >
-                        <ApplePayMark />
-                        <b>Apple Pay</b>
-                        <small>{t('Face ID or Touch ID')}</small>
-                      </button>
-                    ) : null}
+                    <button
+                      className="method"
+                      type="button"
+                      aria-pressed={method === 'apple_pay'}
+                      onClick={() => { setMethod('apple_pay'); setError(''); track?.('add_payment_info', { payment_type: 'apple_pay' }); }}
+                    >
+                      <ApplePayMark />
+                      <b>Apple Pay</b>
+                      <small>{t('Face ID or Touch ID')}</small>
+                    </button>
                     <button
                       className="method"
                       type="button"

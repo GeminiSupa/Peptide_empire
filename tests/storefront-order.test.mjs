@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import { afterEach, test } from 'node:test';
 import {
   HONEYPOT_FIELD,
@@ -57,6 +58,13 @@ test('an order number satisfies checkout\'s own pattern', () => {
 test('only the payment methods checkout stores', () => {
   // catalog /api/orders/create refuses anything else.
   assert.deepEqual(PAYMENT_METHODS, ['card', 'whatsapp', 'sinpe', 'bank_transfer']);
+});
+
+test('the Apple Pay tile is offered to every device', () => {
+  // No device test here: the gateway's page decides (Omer, 18 Nov 2026).
+  const cart = fs.readFileSync('components/storefront/cart-sheet.js', 'utf8');
+  assert.doesNotMatch(cart, /ApplePaySession/);
+  assert.match(cart, /aria-pressed=\{method === 'apple_pay'\}/);
 });
 
 test('the six checkout options, saved the way the catalog saves them', () => {
