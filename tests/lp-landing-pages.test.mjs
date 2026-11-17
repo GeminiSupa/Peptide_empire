@@ -361,12 +361,15 @@ test('every ad page carries the TikTok pixel, the paid click ids, the visit sour
       assert.ok(html.includes(`    ${key}: window.LP_TESTING ? null : window.lpLanding("${key}")`), `${page}: sends ${key} with the order`);
     }
     assert.ok(html.includes('fetch("/api/lp/touch", { method: "POST"'), `${page}: records the visit's source`);
+    // On the main site the order goes to the catalog's address with no cookie, so the source rides in the order.
+    assert.ok(html.includes('    touch: window.LP_TESTING ? null : (window.lpTouchState || null)'), `${page}: sends the visit source with the order`);
     assert.ok(html.includes('function wa(msg) { return "/api/whatsapp/open?phone=" + CFG.wa'), `${page}: WhatsApp taps go through the tracked redirect`);
     assert.doesNotMatch(html, /https:\/\/wa\.me\//, `${page}: no untracked WhatsApp link left`);
   }
   const route = fs.readFileSync(path.join(rootDir, 'src/app/api/lp/touch/route.js'), 'utf8');
   assert.ok(route.includes("import { captureTouch } from '@/lib/touchTracker.mjs';"), 'the app\'s own touch logic, not a copy');
   assert.ok(route.includes('if (page.host !== host)'), 'only for the page the request came from');
+  assert.ok(route.includes('NextResponse.json({ touch: state || null }'), 'hands the source back to the page');
 });
 
 test('the ad pages read in Spanish: their own copy is in the dictionary', () => {

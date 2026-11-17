@@ -38,9 +38,12 @@ export async function POST(request) {
     get cookie() { return request.headers.get('cookie') || ''; },
     set cookie(value) { written = String(value || ''); },
   };
-  captureTouch({ href: page.href, hostname: page.hostname, protocol: `${protocol}:` }, document);
+  const state = captureTouch({ href: page.href, hostname: page.hostname, protocol: `${protocol}:` }, document);
 
-  const response = new NextResponse(null, { status: 204, headers: { 'Cache-Control': 'no-store' } });
+  // The state goes back to the page too: on the main site the order is posted
+  // to the catalog's address, where the browser sends no cookie, so the page
+  // carries it in the order as `touch` (the order route accepts that).
+  const response = NextResponse.json({ touch: state || null }, { headers: { 'Cache-Control': 'no-store' } });
   if (written) response.headers.append('Set-Cookie', written);
   return response;
 }

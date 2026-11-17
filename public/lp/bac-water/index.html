@@ -59,7 +59,10 @@ window.lpLanding = function (key) { try { return localStorage.getItem(key) || nu
   } catch (e) {}
   try {
     fetch("/api/lp/touch", { method: "POST", credentials: "same-origin", keepalive: true, headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ href: window.location.href, referrer: document.referrer || "" }) }).catch(function () {});
+      body: JSON.stringify({ href: window.location.href, referrer: document.referrer || "" }) })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) { if (d && d.touch) window.lpTouchState = d.touch; })
+      .catch(function () {});
   } catch (e) {}
 })();
 </script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -3097,7 +3100,8 @@ function placeOrder(method) {
     ad_attribution: window.LP_TESTING ? null : googleClick,
     landing_ref: window.LP_TESTING ? null : window.lpLanding("landing_ref"),
     landing_cid: window.LP_TESTING ? null : window.lpLanding("landing_cid"),
-    landing_ttclid: window.LP_TESTING ? null : window.lpLanding("landing_ttclid")
+    landing_ttclid: window.LP_TESTING ? null : window.lpLanding("landing_ttclid"),
+    touch: window.LP_TESTING ? null : (window.lpTouchState || null)
   };
   function postOrder(payload) {
     return fetch('/api/orders/create', {
