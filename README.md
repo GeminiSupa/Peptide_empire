@@ -408,17 +408,25 @@ Owner (Omer) to do or decide:
     after Card, shown only on a device that can pay with it
     (`ApplePaySession.canMakePayments()`). It is a card order (same gateway
     page, `payment_method: 'card'`); Apple Pay is tapped on Givver's page.
-    The Card tile no longer shows the Apple Pay logo or name.
+    The Card tile no longer shows the Apple Pay logo or name. The six `/lp`
+    ad pages got the same tile (their checkout only had Card and WhatsApp).
     `/pay-card?type=crypto` still works for links already sent. Branches
     `feat/apple-pay-tile` (catalog, worktree `catalog-apple-pay`) and
     `feat/apple-pay-tile-website` (main, worktree `main-apple-pay`, re-synced
-    `catalog/globals.css`); push the catalog first. No migration, no env var.
-    **Depends on Givver:** on 15 Nov Joey's Apple Pay tap landed on a plain
-    card form because Givver's page did not offer Apple Pay; Givver said a fix
-    ("Apple/Google Pay buttons at the top of the form on mobile") was local
-    and coming. Until it ships, the Apple Pay tile leads to the card form. Not
-    exercised: a real iPhone (tested with a faked device check) and a real
-    payment.
+    `catalog/globals.css` and the two ad pages); push the catalog first. No
+    migration, no env var.
+    **Givver, checked 17 Nov:** its API still has only `type` card / crypto /
+    ach — no wallet page and no way to open Apple Pay directly, so the tile
+    has to open the card page. The live page shows one method, "Card
+    Payment"; Apple Pay is coded in it but appears only on an Apple device
+    (Joey's 15 Nov tap still got a plain card form), and Google Pay is not in
+    the live code at all. Givver's update (wallet buttons at the top of the
+    form on mobile, 3 declines on the same card = card blocked 3 hours) was
+    "local only" on 17 Nov. When it ships: our decline notice says the card
+    is blocked **1 hour** (`cardDeclineRules.mjs`), which will understate
+    Givver's 3 hours; and the main site's Card tile already says "Google Pay"
+    while the catalog hides it (`GOOGLE_PAY_LIVE = false`). Not exercised: a
+    real iPhone (tested with a faked device check) and a real payment.
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a
