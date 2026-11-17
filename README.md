@@ -428,9 +428,14 @@ Owner (Omer) to do or decide:
     the three added on 17 Nov included.
     `/pay-card?type=crypto` still works for links already sent. Branches
     `feat/apple-pay-tile` (catalog, worktree `catalog-apple-pay`) and
-    `feat/apple-pay-tile-website` (main, worktree `main-apple-pay`, re-synced
-    `catalog/globals.css` and the two ad pages); push the catalog first. No
-    migration, no env var.
+    `feat/apple-pay-tile-website` (main, worktree `main-apple-pay`, the same
+    change in `catalog/globals.css` and its five ad pages); push the catalog
+    first. No migration, no env var. Both branches were brought up to date with
+    their own branch on 18 Nov, so the ad-page work of 17 Nov is in them; the
+    website copies then matched the catalog branch exactly
+    (`sync-landing-pages.mjs --check --ref feat/apple-pay-tile`: 74 files,
+    `sync-catalog-checkout.mjs` the same: 141 files), so both `--check` runs
+    pass once the catalog is pushed.
     **Givver, checked 17 Nov:** its API still has only `type` card / crypto /
     ach — no wallet page and no way to open Apple Pay directly, so the tile
     has to open the card page. The live page shows one method, "Card
