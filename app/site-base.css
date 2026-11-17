@@ -497,3 +497,12 @@
 @media (prefers-reduced-motion: reduce) {
   :is(.pcr-site, .storefront) .sh-f .ack.need.need { animation: none; }
 }
+
+/* Apple Pay's own option in the cart: the pay button turns black, as Apple
+ asks for an Apple Pay button. */
+:is(.pcr-site, .storefront) .btn.applepay {
+  background: #000;
+  color: #fff;
+  box-shadow: 0 10px 22px -12px rgba(0, 0, 0, .6);
+}
+:is(.pcr-site, .storefront) .btn.applepay:hover { background: #1f1f1f; }

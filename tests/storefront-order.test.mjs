@@ -59,19 +59,20 @@ test('only the payment methods checkout stores', () => {
   assert.deepEqual(PAYMENT_METHODS, ['card', 'whatsapp', 'sinpe', 'bank_transfer']);
 });
 
-test('the six catalog options, saved the way the catalog saves them', () => {
-  assert.deepEqual(CHECKOUT_CHOICES, ['card', 'whatsapp', 'sinpe', 'bank_transfer', 'ach', 'crypto']);
-  // ACH and crypto are Chargex card orders, so the card's double-charge lock covers them.
-  for (const choice of ['card', 'ach', 'crypto']) {
+test('the six checkout options, saved the way the catalog saves them', () => {
+  // Apple Pay right after Card; crypto removed (Joey, 15 Nov 2026).
+  assert.deepEqual(CHECKOUT_CHOICES, ['card', 'apple_pay', 'whatsapp', 'sinpe', 'bank_transfer', 'ach']);
+  // Apple Pay and ACH are gateway card orders, so the card's double-charge lock covers them.
+  for (const choice of ['card', 'apple_pay', 'ach']) {
     const order = payload({ paymentMethod: choice });
     assert.equal(order.payment_method, 'card', choice);
     assert.equal(order.status, 'Pending - Card', choice);
   }
   assert.equal(chargexTypeFor('ach'), 'ach');
-  assert.equal(chargexTypeFor('crypto'), 'crypto');
+  assert.equal(chargexTypeFor('apple_pay'), 'card');
   assert.equal(chargexTypeFor('card'), 'card');
   assert.match(payload({ paymentMethod: 'ach' }).internal_notes, /ACH/);
-  assert.match(payload({ paymentMethod: 'crypto' }).internal_notes, /Crypto/);
+  assert.match(payload({ paymentMethod: 'apple_pay' }).internal_notes, /Apple Pay/);
   for (const choice of ['sinpe', 'bank_transfer', 'whatsapp']) {
     const order = payload({ paymentMethod: choice });
     assert.equal(order.payment_method, choice);

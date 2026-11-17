@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import Ms from '@/components/storefront/icon';
-import CardBrandMarks from '@/components/storefront/payment-brand-marks';
+import CardBrandMarks, { ApplePayMark } from '@/components/storefront/payment-brand-marks';
 import ProductImage from '@/components/storefront/product-image';
 import WhatsAppIcon from '@/components/storefront/whatsapp-glyph';
 import { cantonsIn, formatAddress, PROVINCES } from '@/lib/storefront/cr-regions.mjs';
@@ -54,9 +54,11 @@ function readDetails() {
  * thing that decides what is charged. The six payment options are the
  * catalog checkout's own, and each continues where the catalog's does:
  *
- * - Card, Bank (ACH), Crypto: the catalog's `/pay-card` page, which opens
- *   Chargex. All three are saved as card orders, as the catalog saves them,
- *   so the catalog's "one payment at a time" lock stops a second charge.
+ * - Card, Apple Pay, Bank (ACH): the catalog's `/pay-card` page, which opens
+ *   the card gateway (Apple Pay is picked on its card page). All three are
+ *   saved as card orders, as the catalog saves them, so the catalog's "one
+ *   payment at a time" lock stops a second charge. Crypto was taken off the
+ *   checkout (Joey, 15 Nov 2026).
  * - SINPE Móvil, bank transfer: the catalog's `/pay-bank` page, with the
  *   account to pay into. Shown as coming soon when staff have them off.
  * - WhatsApp: a prepared message.
@@ -121,12 +123,24 @@ export default function CartSheet({
   // SINPE and bank transfer, as switched on in the catalog admin. Off until
   // confirmed, as in the catalog.
   const [bankMethods, setBankMethods] = useState({ sinpe: false, bank_transfer: false });
+  // Apple Pay gets its own option only on a device that can pay with it
+  // (Apple's own test; false on Android, Windows, or a Mac with no paired
+  // iPhone or Watch), as on the catalog's checkout.
+  const [applePayDevice, setApplePayDevice] = useState(false);
+  useEffect(() => {
+    try {
+      setApplePayDevice(typeof window.ApplePaySession !== 'undefined'
+        && window.ApplePaySession.canMakePayments?.() === true);
+    } catch {
+      setApplePayDevice(false);
+    }
+  }, []);
   // Blocks a second click the instant the first lands: `busy` is React state
   // and updates too late to stop a fast double click placing two orders.
   const placingRef = useRef(false);
   const upsellsRef = useRef(null);
 
-  // Card, ACH, crypto, SINPE and bank transfer leave this page with the order
+  // Card, Apple Pay, ACH, SINPE and bank transfer leave this page with the order
   // lock still held, so nothing can place a second order while the browser is
   // navigating. Pressing Back can restore this page from the back/forward
   // cache exactly as it was left — lock included — and then every Pay button
@@ -829,8 +843,22 @@ export default function CartSheet({
                     >
                       <CardBrandMarks />
                       <b>{t('Card')}</b>
-                      <small>{t('Credit/Debit · Apple Pay · Google Pay')}</small>
+                      <small>{t('Credit/Debit · Google Pay')}</small>
                     </button>
+                    {/* Apple Pay is its own option, right after Card (Joey,
+                        15 Nov 2026). Same gateway page as Card. */}
+                    {applePayDevice ? (
+                      <button
+                        className="method"
+                        type="button"
+                        aria-pressed={method === 'apple_pay'}
+                        onClick={() => { setMethod('apple_pay'); setError(''); track?.('add_payment_info', { payment_type: 'apple_pay' }); }}
+                      >
+                        <ApplePayMark />
+                        <b>Apple Pay</b>
+                        <small>{t('Face ID or Touch ID')}</small>
+                      </button>
+                    ) : null}
                     <button
                       className="method"
                       type="button"
@@ -845,7 +873,6 @@ export default function CartSheet({
                       { value: 'sinpe', icon: 'smartphone', title: 'SINPE Móvil', detail: t('From any participating bank · CRC'), off: !bankMethods.sinpe },
                       { value: 'bank_transfer', icon: 'account_balance', title: t('Bank transfer'), detail: t('Any Costa Rican bank · CRC or USD'), off: !bankMethods.bank_transfer },
                       { value: 'ach', icon: 'account_balance_wallet', title: 'ACH', detail: t('US bank account · USD'), off: false },
-                      { value: 'crypto', icon: 'currency_bitcoin', title: t('Crypto'), detail: t('Cryptocurrency · USD value'), off: false },
                     ].map((option) => (
                       <button
                         key={option.value}
@@ -918,19 +945,23 @@ export default function CartSheet({
                     </div>
                   ) : null}
 
-                  {method === 'card' ? (
+                  {method === 'card' || method === 'apple_pay' ? (
                     <div className="cardinfo">
                       <div className="ci-h">
                         <Ms name="lock" filled />
                         <span>
-                          <b>{t('Secure card payment')}</b>
+                          <b>{method === 'apple_pay' ? t('Secure Apple Pay payment') : t('Secure card payment')}</b>
                           <small>{`${t('Processed by')} ${CARD_NOTICE.processor}`}</small>
                         </span>
                       </div>
                       <ul>
                         <li>
                           <Ms name="shield_lock" />
-                          <span>{t('The next page is Chargex, our card processor. You enter the card there. We never see the card number.')}</span>
+                          <span>
+                            {method === 'apple_pay'
+                              ? t('The next page is our payment processor. Tap Apple Pay there and confirm with Face ID or Touch ID. We never see your card.')
+                              : t('The next page is Chargex, our card processor. You enter the card there. We never see the card number.')}
+                          </span>
                         </li>
                         <li>
                           <Ms name="currency_exchange" />
@@ -969,31 +1000,23 @@ export default function CartSheet({
                         </ul>
                       </div>
                     </div>
-                  ) : method === 'ach' || method === 'crypto' ? (
+                  ) : method === 'ach' ? (
                     <div className="cardinfo">
                       <div className="ci-h">
                         <Ms name="lock" filled />
                         <span>
-                          <b>{method === 'ach' ? t('Bank (ACH) payment') : t('Crypto payment')}</b>
+                          <b>{t('Bank (ACH) payment')}</b>
                           <small>{`${t('Processed by')} ${CARD_NOTICE.processor}`}</small>
                         </span>
                       </div>
                       <ul>
                         <li>
                           <Ms name="shield_lock" />
-                          <span>
-                            {method === 'ach'
-                              ? t('The next page is Chargex, our payment processor. You enter your US bank account details there. We never see them.')
-                              : t('The next page is Chargex, our payment processor. You send the crypto payment from there. We never handle your wallet.')}
-                          </span>
+                          <span>{t('The next page is Chargex, our payment processor. You enter your US bank account details there. We never see them.')}</span>
                         </li>
                         <li>
                           <Ms name="info" />
-                          <span>
-                            {method === 'ach'
-                              ? t('Bank payments can take a few business days to confirm. ACH is for US bank accounts only.')
-                              : t('Your total is priced in US dollars. Chargex shows you what to send on the next page.')}
-                          </span>
+                          <span>{t('Bank payments can take a few business days to confirm. ACH is for US bank accounts only.')}</span>
                         </li>
                       </ul>
                     </div>
@@ -1113,17 +1136,17 @@ export default function CartSheet({
                 </button>
               ) : (
                 <button
-                  className="btn block"
+                  className={`btn block${method === 'apple_pay' ? ' applepay' : ''}`}
                   type="button"
                   disabled={!method || busy || !canSubmit || (BANK_CHOICES.includes(method) && !bankMethods[method])}
                   onClick={() => place(method)}
                 >
                   {busy ? t('Working…') : method === 'card'
                     ? `${t('Pay')} ${money(shownTotal, shownTotal)} ${t('by Card')}`
-                    : method === 'ach'
-                      ? `${t('Pay')} ${money(shownTotal, shownTotal)} ${t('by Bank (ACH)')}`
-                      : method === 'crypto'
-                        ? `${t('Pay')} ${money(shownTotal, shownTotal)} ${t('with Crypto')}`
+                    : method === 'apple_pay'
+                      ? `${t('Pay')} ${money(shownTotal, shownTotal)} ${t('with Apple Pay')}`
+                      : method === 'ach'
+                        ? `${t('Pay')} ${money(shownTotal, shownTotal)} ${t('by Bank (ACH)')}`
                         : BANK_CHOICES.includes(method)
                           ? `${t('Place order')} · ${money(shownTotal, shownTotal)}`
                           : t('Send on WhatsApp')}
