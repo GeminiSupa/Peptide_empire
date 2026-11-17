@@ -369,6 +369,16 @@ Owner (Omer) to do or decide:
     still sends only the click on `ad_attribution`; Meta Conversions API; a
     real CRM-wide light mode (the sidebar sun only flips this report — the rest
     of the admin is hard-coded dark).
+15. Card decline rules shown to customers (17 Nov 2026): "3 tries, call your
+    bank after the first decline, then card payment is blocked for 1 hour". On
+    the catalog's checkout card panel, `/pay-card`, `/payment-help` and the
+    "all 3 tries used" stop, and in the website cart's card option. The block
+    itself was already there (`card-attempt-order`, 3 per order per hour) and
+    is unchanged; the wording lives in `src/lib/cardDeclineRules.mjs` and a test
+    fails if it drifts from the route. Branches `feat/card-decline-notice`
+    (catalog) and `feat/card-decline-notice-website` (main, re-synced copy);
+    push the catalog first. No migration. Not covered: the gateway's own card
+    page (we cannot change it), the decline email and WhatsApp message.
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a
