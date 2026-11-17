@@ -119,6 +119,7 @@ import {
   catalogLeadRank,
 } from '@/lib/catalogFilters.mjs';
 import { cardCheckoutMessage } from '@/lib/cardCheckoutMessages.mjs';
+import { cardDeclineRules } from '@/lib/cardDeclineRules.mjs';
 import { areCardPaymentsPausedForClient } from '@/lib/cardPaymentsPaused.mjs';
 // Band-checked before this page will price anything in it: a rate handed back
 // by the API is still a number from off this machine.
@@ -6212,6 +6213,19 @@ export default function CatalogPage() {
                             ? <>It will appear on your statement as <strong>&ldquo;Agile disruptive tech&rdquo;</strong> (our payment processor&apos;s name). Do <strong>not</strong> dispute this charge — it is us.</>
                             : <>Aparecerá en tu estado de cuenta como <strong>&ldquo;Agile disruptive tech&rdquo;</strong> (el nombre de nuestro procesador de pagos). <strong>No</strong> disputes este cargo — somos nosotros.</>}
                         </li>
+                      </ul>
+                    </div>
+                  </div>
+                  {/* Bank declines: 3 tries, call the bank after the first,
+                      then a 1-hour block (cardDeclineRules.mjs). */}
+                  <div className="card-payment-statement-notice card-decline-rules">
+                    <span className="card-payment-statement-notice__icon">⚠️</span>
+                    <div>
+                      <strong className="card-payment-statement-notice__heading">
+                        {cardDeclineRules(lang).title}
+                      </strong>
+                      <ul className="card-payment-statement-notice__list">
+                        {cardDeclineRules(lang).lines.map((line) => <li key={line}>{line}</li>)}
                       </ul>
                     </div>
                   </div>

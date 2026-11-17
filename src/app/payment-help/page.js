@@ -4,6 +4,7 @@ import { AlertTriangle, Building2, CheckCircle2, MessageCircle, RefreshCw, Shiel
 import { buildPaymentRetryPath } from '@/lib/paymentRecovery.mjs';
 import { getBusinessLinks } from '@/lib/settings';
 import { buildWhatsAppLink } from '@/lib/whatsappLink.mjs';
+import { cardDeclineRules } from '@/lib/cardDeclineRules.mjs';
 import PaymentConfirmationWatcher from './PaymentConfirmationWatcher';
 import styles from './payment-help.module.css';
 
@@ -42,6 +43,15 @@ export default async function PaymentHelpPage({ searchParams }) {
             <article><span>1</span><Building2 size={22} /><div><strong>{en ? 'Open your bank app' : 'Abra la app de su banco'}</strong><p>{en ? 'Look for a pending card or security approval and approve it.' : 'Busque una aprobación pendiente de tarjeta o seguridad y autorícela.'}</p></div></article>
             <article><span>2</span><ShieldCheck size={22} /><div><strong>{en ? 'Still blocked? Call the bank' : '¿Sigue bloqueada? Llame al banco'}</strong><p>{en ? 'Ask them to allow this online purchase, then return here.' : 'Pídales autorizar esta compra en línea y luego vuelva aquí.'}</p></div></article>
             <article><span>3</span><CheckCircle2 size={22} /><div><strong>{en ? 'Try the payment again' : 'Intente el pago nuevamente'}</strong><p>{en ? 'Your order is waiting; you do not need to rebuild your cart.' : 'Su pedido está guardado; no necesita volver a armar el carrito.'}</p></div></article>
+          </div>
+
+          {/* Bank declines: 3 tries, call the bank after the first, then a
+              1-hour block (cardDeclineRules.mjs). */}
+          <div className={styles.rules}>
+            <strong>{cardDeclineRules(lang).title}</strong>
+            <ul>
+              {cardDeclineRules(lang).lines.map((line) => <li key={line}>{line}</li>)}
+            </ul>
           </div>
 
           <div className={styles.actions}>

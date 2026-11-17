@@ -183,6 +183,8 @@ export async function POST(req) {
         bucket: 'card-attempt-ip', key: requestIp, limit: 8, windowSeconds: 60 * 60,
       }),
       consumeDurableRateLimit(supabase, {
+        // Customers are told "3 tries, then blocked 1 hour" (cardDeclineRules.mjs);
+        // tests/card-decline-rules.test.mjs fails if these two numbers drift.
         bucket: 'card-attempt-order', key: orderNumber, limit: 3, windowSeconds: 60 * 60,
       }),
     ]);

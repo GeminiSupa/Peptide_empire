@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { CreditCard, Lock, AlertCircle, CheckCircle2, Wrench } from 'lucide-react';
 import { cardCheckoutMessage } from '@/lib/cardCheckoutMessages.mjs';
+import { cardDeclineRules } from '@/lib/cardDeclineRules.mjs';
 import { areCardPaymentsPausedForClient } from '@/lib/cardPaymentsPaused.mjs';
 import { buildWhatsAppLink } from '@/lib/whatsappLink.mjs';
 import { useBusinessLinks } from '@/hooks/useBusinessLinks';
@@ -300,6 +301,16 @@ function CardPaymentContent() {
                       ? <>Statement name: <strong>&ldquo;Agile disruptive tech&rdquo;</strong> — this is our payment processor. <strong>Do not dispute</strong> this charge.</>
                       : <>Nombre en el estado de cuenta: <strong>&ldquo;Agile disruptive tech&rdquo;</strong> — este es nuestro procesador de pagos. <strong>No disputes</strong> este cargo.</>}
                   </li>
+                </ul>
+              </div>
+              {/* Bank declines: 3 tries, call the bank after the first, then
+                  a 1-hour block (cardDeclineRules.mjs). */}
+              <div className="card-pay-statement-notice card-decline-rules">
+                <p className="card-pay-statement-notice__heading">
+                  ⚠️ {cardDeclineRules(lang).title}
+                </p>
+                <ul className="card-pay-statement-notice__list">
+                  {cardDeclineRules(lang).lines.map((line) => <li key={line}>{line}</li>)}
                 </ul>
               </div>
               </>)}
