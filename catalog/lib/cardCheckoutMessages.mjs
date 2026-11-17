@@ -85,8 +85,8 @@ const MESSAGES = {
   // "too many attempts" for our outage would simply be untrue.
   rate_limited: {
     retryable: true,
-    en: 'Too many card attempts on this order. Please wait a few minutes before trying again, or message us on WhatsApp and we will finish it for you.',
-    es: 'Demasiados intentos de pago con tarjeta para este pedido. Espere unos minutos antes de intentar de nuevo, o escríbanos por WhatsApp y lo completamos por usted.',
+    en: 'You have used all 3 card tries for this order, so card payment is blocked for 1 hour. Please call your bank to approve the charge, then try again after the hour — or message us on WhatsApp and we will finish it for you.',
+    es: 'Ya usó los 3 intentos de pago con tarjeta para este pedido, así que el pago con tarjeta queda bloqueado por 1 hora. Llame a su banco para que apruebe el cargo e intente de nuevo después de la hora — o escríbanos por WhatsApp y lo completamos por usted.',
   },
 
   protection_unavailable: {

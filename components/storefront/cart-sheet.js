@@ -13,7 +13,7 @@ import { isBacWater, isGiftLine, stripGiftSuffix } from '@/lib/catalog-pricing/b
 import { promoOrderFields } from '@/lib/site/promo.mjs';
 import { clearAbandonedCart, saveAbandonedCart, whatsappOptIn } from '@/lib/site/crm.mjs';
 import { countPromoEligibleUnits, minUnitsMessage } from '@/lib/catalog-pricing/promoEligibility.mjs';
-import { CARD_NOTICE } from '@/lib/storefront/content.mjs';
+import { CARD_DECLINE_LINES, CARD_NOTICE } from '@/lib/storefront/content.mjs';
 import { canSubmitOrdersFrom } from '@/lib/storefront/catalog-origin.mjs';
 import {
   BANK_CHOICES,
@@ -898,6 +898,22 @@ export default function CartSheet({
                       <p className="stmt-n">
                         {t("That's us. If you have a question about the charge, message us first and we'll sort it out.")}
                       </p>
+                      {/* Bank declines. Same rule and wording as the catalog's
+                          cardDeclineRules.mjs (tests/card-decline-rules.test.mjs). */}
+                      <div className="decline-rules">
+                        <p className="dr-h">
+                          <Ms name="warning" />
+                          <b>{t('If your bank declines the card')}</b>
+                        </p>
+                        <ul>
+                          {CARD_DECLINE_LINES.map(([icon, line]) => (
+                            <li key={icon}>
+                              <Ms name={icon} />
+                              <span>{t(line)}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   ) : method === 'ach' || method === 'crypto' ? (
                     <div className="cardinfo">

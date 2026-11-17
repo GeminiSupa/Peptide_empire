@@ -3745,6 +3745,13 @@ body {
     color: var(--text-secondary);
 }
 
+/* Bank-decline rules (3 tries, call the bank, 1-hour block): amber, not blue,
+   so it reads as a warning rather than more statement info. */
+.card-payment-statement-notice.card-decline-rules {
+    border-color: rgba(245, 158, 11, 0.35);
+    background: rgba(245, 158, 11, 0.08);
+}
+
 .card-payment-btn {
     width: 100%;
     margin-top: 0;
@@ -4023,6 +4030,16 @@ body {
 
 .card-pay-statement-notice__list strong {
     color: #1e3a5f;
+}
+
+.card-pay-statement-notice.card-decline-rules {
+    border-color: rgba(217, 119, 6, 0.35);
+    background: #fff7e6;
+    color: #5c3d00;
+}
+
+.card-pay-statement-notice.card-decline-rules .card-pay-statement-notice__heading {
+    color: #7a4b00;
 }
 
 .card-pay-form {

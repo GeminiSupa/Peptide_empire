@@ -55,6 +55,7 @@
     "catalog/lib/businessSuite.mjs",
     "catalog/lib/businessSuiteServer.js",
     "catalog/lib/cardCheckoutMessages.mjs",
+    "catalog/lib/cardDeclineRules.mjs",
     "catalog/lib/cardPaymentLink.js",
     "catalog/lib/cardPaymentLock.js",
     "catalog/lib/cardPaymentsPaused.mjs",

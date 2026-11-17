@@ -1002,3 +1002,4 @@ html.sxlock{overflow:hidden}
 
 
 .pcr-site .catrevs{padding:44px 0 20px}.pcr-site .catrevs h2{font-size:clamp(26px,4vw,36px)}.pcr-site .catrevs .muted{margin:6px 0 18px}.pcr-site .catrevs .revs{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}.pcr-site .sawrap{min-height:20px;margin-bottom:14px}
+.pcr-site .decline-rules{margin:0 14px 14px;padding:10px 12px;border:1px solid #f1d39a;border-radius:10px;background:#fff7e6;color:#5c3d00}.pcr-site .decline-rules .dr-h{display:flex;align-items:center;gap:8px;margin:0 0 6px;font-size:13.5px}.pcr-site .decline-rules .dr-h .ms{font-size:19px;color:#b45309}.pcr-site .decline-rules ul{padding:0;gap:6px;font-size:13px}.pcr-site .decline-rules li .ms{color:#b45309}
