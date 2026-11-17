@@ -42,6 +42,12 @@ function CardPaymentContent() {
   // a repeated charge attempt is what trips the gateway's "attempts allowed" error.
   const submitLockRef = useRef(false);
   const [form, setForm] = useState({ email: '' });
+  // The other ways to pay this same order. Which of them staff have switched
+  // on is public (the checkout's own tiles read the same route), so the page
+  // asks for it directly rather than carrying it on the signed link.
+  const [bankMethods, setBankMethods] = useState({ sinpe: false, bank_transfer: false });
+  const [switching, setSwitching] = useState('');
+  const [switchError, setSwitchError] = useState('');
 
   const stashShopperApprovedReview = () => {
     if (!order) return;
@@ -106,6 +112,46 @@ function CardPaymentContent() {
       cancelled = true;
     };
   }, [orderNumber, token]);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch('/api/bank-payments/settings')
+      .then((res) => res.json())
+      .then((data) => {
+        if (!cancelled) setBankMethods({ sinpe: data?.sinpe === true, bank_transfer: data?.bank_transfer === true });
+      })
+      .catch(() => {
+        // Not worth a message: the card form is still there, and the WhatsApp
+        // way out below never depends on this.
+      });
+    return () => { cancelled = true; };
+  }, []);
+
+  /**
+   * Move this order to SINPE Móvil or bank transfer.
+   *
+   * The order already exists, so nothing is re-ordered: the server changes the
+   * method on this row and hands back the bank link, which carries its token in
+   * the hash, exactly as checkout's own bank orders do.
+   */
+  const switchToBank = async (method) => {
+    if (switching) return;
+    setSwitching(method);
+    setSwitchError('');
+    try {
+      const res = await fetch('/api/card-payment-link/switch-to-bank', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ order: orderNumber, token, method }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.bankPaymentToken) throw new Error(data.error || (isEn ? 'Could not change the payment method.' : 'No se pudo cambiar el método de pago.'));
+      window.location.href = `/pay-bank?lang=${isEn ? 'en' : 'es'}#${encodeURIComponent(data.bankPaymentToken)}`;
+    } catch (err) {
+      setSwitchError(err.message);
+      setSwitching('');
+    }
+  };
 
   const submitPayment = async (event) => {
     event.preventDefault();
@@ -358,6 +404,53 @@ function CardPaymentContent() {
                   : (isEn ? `Continue to pay ${formatMoney(order.cardAmountUsd, 'USD')}` : `Continuar a pagar ${formatMoney(order.cardAmountUsd, 'USD')}`)}
               </button>
             </form>
+
+            {/* Another way to pay the order that already exists.
+                Without this the page was a dead end: one button, and a
+                customer who wanted SINPE or a transfer could only go back and
+                order again, leaving the first order "Pending - Card" for
+                staff to clean up. */}
+            <div className="card-pay-panel card-pay-switch">
+              <h2>{isEn ? 'Prefer to pay another way?' : '¿Prefiere pagar de otra forma?'}</h2>
+              <p className="card-pay-muted">
+                {isEn
+                  ? 'This order is saved. Choosing another way keeps it as it is — nothing is ordered twice.'
+                  : 'Su pedido ya está guardado. Elegir otra forma lo mantiene igual — no se pide nada dos veces.'}
+              </p>
+              {switchError && (
+                <div className="card-pay-error">
+                  <AlertCircle size={16} />
+                  {switchError}
+                </div>
+              )}
+              <div className="card-pay-switch-row">
+                {bankMethods.sinpe && (
+                  <button type="button" disabled={Boolean(switching)} onClick={() => switchToBank('sinpe')}>
+                    {switching === 'sinpe' ? (isEn ? 'Switching…' : 'Cambiando…') : 'SINPE Móvil'}
+                  </button>
+                )}
+                {bankMethods.bank_transfer && (
+                  <button type="button" disabled={Boolean(switching)} onClick={() => switchToBank('bank_transfer')}>
+                    {switching === 'bank_transfer'
+                      ? (isEn ? 'Switching…' : 'Cambiando…')
+                      : (isEn ? 'Bank transfer' : 'Transferencia bancaria')}
+                  </button>
+                )}
+                <a
+                  className="whatsapp-btn"
+                  href={buildWhatsAppLink(
+                    links.whatsappNumber,
+                    isEn
+                      ? `Hi! Order #${order.orderNumber} — I would like to pay by another method.`
+                      : `¡Hola! Pedido #${order.orderNumber} — quiero pagar por otro medio.`,
+                  )}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {isEn ? 'Ask on WhatsApp' : 'Preguntar por WhatsApp'}
+                </a>
+              </div>
+            </div>
           </div>
         )}
       </section>

@@ -3819,6 +3819,51 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* "Prefer to pay another way?" under the card form on /pay-card. */
+.card-pay-switch {
+    margin-top: 16px;
+}
+
+.card-pay-switch h2 {
+    font-size: 1.05rem;
+    margin: 0 0 6px;
+}
+
+.card-pay-switch-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.card-pay-switch-row button,
+.card-pay-switch-row .whatsapp-btn {
+    /* Layout only. The WhatsApp button keeps its own green; restyling it here
+       once left white text on a white box. */
+    flex: 1 1 160px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 14px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.card-pay-switch-row button {
+    border-radius: 10px;
+    border: 1px solid #D0D5DD;
+    background: #fff;
+    color: inherit;
+}
+
+.card-pay-switch-row button:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
 /* The Apple Pay tile's own button: full width, in the card button's place. */
 .apple-pay-btn--full {
     width: 100%;
