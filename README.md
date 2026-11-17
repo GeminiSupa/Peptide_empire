@@ -468,6 +468,24 @@ Owner (Omer) to do or decide:
     Costa Rica" — that is what a paying customer reads. Not exercised: a real
     iPhone, an Android shopper reaching Givver's page from the new tile, and a
     real payment.
+19. The card page was a dead end (18 Nov 2026, Omer: pressing back to try
+    another method just showed the card page again). Once an order is placed
+    the shopper is sent to `/pay-card`, which had one button; choosing another
+    way meant going back and ordering again, leaving the first order
+    "Pending - Card" for staff. Now that page asks which bank methods are on
+    and offers **SINPE Móvil / bank transfer / WhatsApp** under the card form,
+    and `/api/card-payment-link/switch-to-bank` changes the method on the order
+    that already exists — the signed card link is the proof of ownership, only
+    an order still awaiting payment may move (so it cannot race a charge), and
+    the write is a compare-and-swap, so a webhook marking it paid is never
+    overwritten. Instructions come from the same `bankPaymentSnapshot` checkout
+    uses. Branch `feat/apple-pay-tile` (`8cbe34b2`) and the website copy
+    (`fbe44948`, the route added to the sync list). No migration, no env var.
+    Exercised on the real test order `W-MWL6DROU-WFT6`: card → SINPE, the bank
+    page showed ₡47,011 to the SINPE number with the order number as the
+    description. **That test order is now a SINPE order, not a card one.** Not
+    covered: switching back to card, bank transfer (only SINPE was pressed),
+    and `/pay-bank` still heads a SINPE order "BANK TRANSFER".
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a
