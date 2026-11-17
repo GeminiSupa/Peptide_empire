@@ -1,5 +1,6 @@
-// The outbound order webhooks: one when an order becomes paid, and one when a
-// paid order is later cancelled or refunded.
+// The outbound order webhooks: one when checkout saves an order (order.created,
+// before payment), one when an order becomes paid, and one when a paid order is
+// later cancelled or refunded.
 //
 // The owner runs paid ads to dedicated landing pages and wants an external
 // system told when a sale settles, carrying the landing ref and the click ids
@@ -69,6 +70,11 @@ function shouldSendOrder(order) {
 }
 
 export const ORDER_WEBHOOK_EVENT_PAID = 'order.paid';
+// Sent the moment checkout saves an order, before any payment (media buyer's
+// request, 17 Nov 2026): an order left Pending, or whose card was declined,
+// otherwise never reached him at all, so he had no order number to ask the
+// team about. Carries the payment method the customer chose.
+export const ORDER_WEBHOOK_EVENT_CREATED = 'order.created';
 export const ORDER_WEBHOOK_EVENT_CANCELLED = 'order.cancelled';
 export const ORDER_WEBHOOK_EVENT_REFUNDED = 'order.refunded';
 
@@ -171,6 +177,10 @@ export function buildOrderWebhookPayload(order, { event = ORDER_WEBHOOK_EVENT_PA
     // Kept under its agreed name as well, so the receiver's existing mapping of
     // the paid event does not have to change.
     payload.paidAt = occurredAt;
+  } else if (event === ORDER_WEBHOOK_EVENT_CREATED) {
+    // card | whatsapp | sinpe | bank_transfer — what the customer chose.
+    payload.paymentMethod = order?.payment_method ?? null;
+    payload.createdAt = occurredAt;
   } else {
     const refundedUsd = num(order?.refunded_amount_usd);
     const refundedCrc = num(order?.refunded_amount_crc);
@@ -200,11 +210,12 @@ export function buildOrderPaidWebhookPayload(order) {
  * ORDER_WEBHOOK_SIGNATURE_HEADER (default X-Webhook-Signature). Both come from
  * ORDER_WEBHOOK_SECRET; with no secret set, neither header is sent.
  */
-async function postWebhook(url, payload, logPrefix) {
+async function postWebhook(url, payload, logPrefix, { maxAttempts = MAX_ATTEMPTS, timeoutMs: timeoutOverride } = {}) {
   const body = JSON.stringify(payload);
   const secret = process.env.ORDER_WEBHOOK_SECRET;
   const signatureHeader = process.env.ORDER_WEBHOOK_SIGNATURE_HEADER || 'X-Webhook-Signature';
-  const timeoutMs = Number(process.env.ORDER_WEBHOOK_TIMEOUT_MS) || DEFAULT_TIMEOUT_MS;
+  const timeoutMs = timeoutOverride || Number(process.env.ORDER_WEBHOOK_TIMEOUT_MS) || DEFAULT_TIMEOUT_MS;
+  const attemptsAllowed = Math.max(1, Number(maxAttempts) || 1);
   const headers = { 'Content-Type': 'application/json' };
   if (secret) {
     headers['X-Webhook-Secret'] = secret;
@@ -214,7 +225,7 @@ async function postWebhook(url, payload, logPrefix) {
   const label = payload.orderNumber || payload.orderId;
   let lastError = null;
 
-  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
+  for (let attempt = 1; attempt <= attemptsAllowed; attempt += 1) {
     try {
       const response = await fetch(url, {
         method: 'POST',
@@ -243,13 +254,13 @@ async function postWebhook(url, payload, logPrefix) {
       lastError = error?.message || String(error);
     }
 
-    if (attempt < MAX_ATTEMPTS) {
+    if (attempt < attemptsAllowed) {
       await new Promise((resolve) => { setTimeout(resolve, RETRY_DELAY_MS[attempt - 1] ?? 1200); });
     }
   }
 
-  console.warn(`${logPrefix} ${payload.event} failed for ${label} after ${MAX_ATTEMPTS} tries: ${lastError}`);
-  return { fired: true, ok: false, attempts: MAX_ATTEMPTS, error: true, reason: lastError };
+  console.warn(`${logPrefix} ${payload.event} failed for ${label} after ${attemptsAllowed} tries: ${lastError}`);
+  return { fired: true, ok: false, attempts: attemptsAllowed, error: true, reason: lastError };
 }
 
 /**
@@ -311,6 +322,46 @@ export async function fireOrderClosedWebhook(order, { event, previousStatus, log
     if (!url) return { fired: false, reason: 'not_configured' };
 
     return await postWebhook(url, buildOrderWebhookPayload(order, { event }), logPrefix);
+  } catch (error) {
+    console.warn(`${logPrefix} failed: ${error?.message || String(error)}`);
+    return { fired: false, error: true };
+  }
+}
+
+/** How long checkout waits on the receiver for order.created: it runs inside
+ *  the customer's "Pay" press, beside the staff alerts, so it gets one quick
+ *  try and no retries. Missing one only loses an early notice; order.paid still
+ *  follows on payment. */
+const CREATED_TIMEOUT_MS = 2500;
+
+/**
+ * Fire "order created" for an ad order the moment checkout saves it, before
+ * any payment — so the receiver has the order number even when the order is
+ * left Pending or the card is declined. Same paid-ad gate and same signing as
+ * order.paid. Never throws.
+ *
+ * Orders typed in by staff in the admin are not sent: they are created already
+ * settled and order.paid covers them.
+ *
+ * @param {object} order the saved orders row (with id and order_number)
+ * @param {object} [opts]
+ * @param {string} [opts.logPrefix] log tag for the calling route
+ */
+export async function fireOrderCreatedWebhook(order, { logPrefix = '[order-created-webhook]' } = {}) {
+  try {
+    if (!shouldSendOrder(order)) {
+      return { fired: false, reason: 'not_an_ad_order' };
+    }
+
+    const url = process.env.ORDER_WEBHOOK_URL;
+    if (!url) return { fired: false, reason: 'not_configured' };
+
+    return await postWebhook(
+      url,
+      buildOrderWebhookPayload(order, { event: ORDER_WEBHOOK_EVENT_CREATED }),
+      logPrefix,
+      { maxAttempts: 1, timeoutMs: CREATED_TIMEOUT_MS },
+    );
   } catch (error) {
     console.warn(`${logPrefix} failed: ${error?.message || String(error)}`);
     return { fired: false, error: true };

@@ -6,6 +6,8 @@ import {
   buildOrderWebhookPayload,
   fireOrderPaidWebhook,
   fireOrderClosedWebhook,
+  fireOrderCreatedWebhook,
+  ORDER_WEBHOOK_EVENT_CREATED,
   isPaidAdOrder,
   productSlug,
   ORDER_WEBHOOK_EVENT_CANCELLED,
@@ -359,4 +361,78 @@ test('the cancelled payload still carries the click ids', () => {
   assert.equal(payload.cid, 'cid_abc123');
   assert.equal(payload.ttclid, 'E.C.P2_ABC');
   assert.equal(payload.product, 'glp-1-rt-agonista-triple-15mg');
+});
+
+// ── order.created (17 Nov 2026) ─────────────────────────────────────────────
+// Sent when checkout saves an ad order, before payment, so the receiver has
+// the order number even when the order stays Pending or the card is declined.
+
+const pendingOrder = {
+  ...paidOrder,
+  status: 'Pending - Card',
+  payment_method: 'card',
+};
+
+test('order.created carries the order number, click ids and payment method', () => {
+  const payload = buildOrderWebhookPayload(pendingOrder, { event: ORDER_WEBHOOK_EVENT_CREATED });
+  assert.equal(payload.event, 'order.created');
+  assert.equal(payload.orderNumber, 'W-ABC123');
+  assert.equal(payload.orderId, '42');
+  assert.equal(payload.cid, 'cid_abc123');
+  assert.equal(payload.status, 'Pending - Card');
+  assert.equal(payload.paymentMethod, 'card');
+  assert.equal(typeof payload.createdAt, 'string');
+  // Not paid: no paidAt, so a receiver can never read it as a sale.
+  assert.equal(payload.paidAt, undefined);
+});
+
+test('the paid payload is unchanged by order.created (no paymentMethod added)', () => {
+  const payload = buildOrderPaidWebhookPayload(paidOrder);
+  assert.equal(payload.paymentMethod, undefined);
+  assert.equal(payload.createdAt, undefined);
+});
+
+test('order.created posts once, signed, for an ad order', async () => {
+  const calls = [];
+  const result = await withEnv(
+    { ORDER_WEBHOOK_URL: 'https://example.test/hook', ORDER_WEBHOOK_SECRET: 's3cret', ORDER_WEBHOOK_ALL_ORDERS: undefined },
+    () => withFetch(async (url, init) => { calls.push({ url, init }); return new Response('ok', { status: 200 }); },
+      () => fireOrderCreatedWebhook({ ...pendingOrder, payment_method: 'whatsapp', status: 'Pending' })),
+  );
+  assert.equal(result.ok, true);
+  assert.equal(calls.length, 1);
+  const body = JSON.parse(calls[0].init.body);
+  assert.equal(body.event, 'order.created');
+  assert.equal(body.paymentMethod, 'whatsapp');
+  const expected = crypto.createHmac('sha256', 's3cret').update(calls[0].init.body).digest('hex');
+  assert.equal(calls[0].init.headers['X-Webhook-Signature'], expected);
+});
+
+test('order.created skips organic orders', async () => {
+  let called = false;
+  const result = await withEnv(
+    { ORDER_WEBHOOK_URL: 'https://example.test/hook', ORDER_WEBHOOK_ALL_ORDERS: undefined },
+    () => withFetch(async () => { called = true; return new Response('ok'); },
+      () => fireOrderCreatedWebhook({ ...pendingOrder, landing_ref: null, landing_cid: null, landing_ttclid: null })),
+  );
+  assert.equal(result.fired, false);
+  assert.equal(called, false);
+});
+
+test('order.created makes one try only and never throws when the receiver is down', async () => {
+  let tries = 0;
+  const result = await withEnv(
+    { ORDER_WEBHOOK_URL: 'https://example.test/hook', ORDER_WEBHOOK_ALL_ORDERS: undefined },
+    () => withFetch(async () => { tries += 1; return new Response('boom', { status: 503 }); },
+      () => fireOrderCreatedWebhook(pendingOrder)),
+  );
+  assert.equal(tries, 1);
+  assert.equal(result.ok, false);
+});
+
+test('order.created does nothing with no URL set', async () => {
+  const result = await withEnv({ ORDER_WEBHOOK_URL: undefined },
+    () => fireOrderCreatedWebhook(pendingOrder));
+  assert.equal(result.fired, false);
+  assert.equal(result.reason, 'not_configured');
 });

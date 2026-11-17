@@ -379,6 +379,29 @@ Owner (Omer) to do or decide:
     (catalog) and `feat/card-decline-notice-website` (main, re-synced copy);
     push the catalog first. No migration. Not covered: the gateway's own card
     page (we cannot change it), the decline email and WhatsApp message.
+16. Ad checkouts that never became orders (17 Nov 2026, media buyer's report:
+    7 checkouts on 14–16 Nov, "buyers can't pay"). Found in the database: 1
+    became an order (WhatsApp, cancelled by staff), the other 6 never reached
+    the card page, so the gateway was not at fault. The website's checkout
+    drawer stopped them without saying why: "Continue to checkout" was
+    disabled (taps ignored, no message) until the research-use box was ticked,
+    and a missing field's error printed below the fold. One Facebook-browser
+    shopper also had 7 order attempts refused by the server on 15 Nov (reason
+    only in Vercel logs, not checked). No order has ever come from the
+    Instagram/Facebook in-app browser. **Fixed, two branches:**
+    `fix/checkout-silent-blocks-website` (main, worktree
+    `main-checkout-blocks`: the tap now outlines the box and says why, every
+    error sits above the button and scrolls to its field, Spanish wording for
+    four errors, and a higher server price is shown and accepted on the next
+    press instead of being refused forever) and `feat/order-created-webhook`
+    (catalog, worktree `catalog-order-created`: `order.created` sent to the
+    media buyer when an ad order is saved, before payment, with the order
+    number and `paymentMethod`; one try, 2.5s, never blocks checkout; contract
+    in `docs/order-paid-webhook.md`). The website branch also carries the
+    re-synced checkout copy. Push the catalog first. No migration, no new env
+    var. Not exercised: the price-change path (localhost cannot submit
+    orders), a real `order.created` reaching his endpoint, and the in-app
+    browsers themselves.
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a

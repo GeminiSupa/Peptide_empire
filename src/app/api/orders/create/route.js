@@ -28,6 +28,7 @@ import { sanitizeClickId } from '@/lib/paidClickIds.mjs';
 import { affiliateCommissionPatch, affiliateHandlingAgentName, partnerReferralAffiliate } from '@/lib/affiliateCommission.mjs';
 import { checkoutOrderStatus } from '@/lib/checkoutOrderStatus.mjs';
 import { ORDER_RESEARCH_ACK_COLUMNS, writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
+import { fireOrderCreatedWebhook } from '@/lib/orderPaidWebhook.mjs';
 import { sendAdminOrderEmail } from '@/lib/adminOrderEmail.mjs';
 import { rememberOrderAddress } from '@/lib/accountAddress.mjs';
 import {
@@ -1085,6 +1086,14 @@ async function createOrder(request) {
             customerReceiptOnly: false,
           },
         })],
+      // Ad orders only, one quick try (see fireOrderCreatedWebhook): tells the
+      // media buyer the order number before payment, so a Pending or declined
+      // order is no longer invisible to him.
+      ['order.created webhook', fireOrderCreatedWebhook({
+        ...savedOrderForAlerts,
+        id: data.id,
+        order_number: data.order_number,
+      }, { logPrefix: '[orders/create]' })],
     ];
     const alertResults = await Promise.allSettled(alerts.map(([, promise]) => promise));
     alertResults.forEach((result, index) => {

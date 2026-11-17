@@ -1,4 +1,4 @@
-# Order webhook (paid / cancelled / refunded) — Costa Rica
+# Order webhook (created / paid / cancelled / refunded) — Costa Rica
 
 What the catalog POSTs to an external tracker when a Costa Rica order settles,
 and when a settled order is later taken back. This is the document to hand the
@@ -32,6 +32,7 @@ The signature covers the raw bytes we send, so verify it before parsing.
 
 | Event | Fires |
 | --- | --- |
+| `order.created` | When checkout saves the order, **before any payment** (from 17 Nov 2026). Carries `paymentMethod` (`card`, `whatsapp`, `sinpe` or `bank_transfer`) and the opening `status` (`Pending - Card`, `Pending`). **Not a sale** — it has no `paidAt`; wait for `order.paid`. Lets you see the order number of an order left Pending or whose card was declined. Orders staff type into the admin are not sent (they start paid; `order.paid` covers them). |
 | `order.paid` | Once, on the real unpaid → paid move. Covers card, crypto, bank/SINPE and a staff "mark as paid". Re-saving an order that is already paid sends nothing. |
 | `order.cancelled` | When a **previously paid** order is set to cancelled, declined, payment blocked or error. |
 | `order.refunded` | When a **previously paid** order is refunded, in full or in part. |
@@ -82,6 +83,7 @@ never told to take back a sale it was never told about.
   name: accents stripped, lowercased, hyphenated. It is stable unless a product
   is renamed, and `name` travels alongside it for mapping.
 - `paidAt` appears on `order.paid` only. Every event carries `occurredAt`.
+- `order.created` adds `paymentMethod` and `createdAt`, and has no `paidAt`.
 - A refund event also carries `refundedAmount` (plus `refundedAmountUsd` /
   `refundedAmountCrc`) when an amount has been recorded; `amount` stays the
   original order total.
@@ -91,7 +93,8 @@ never told to take back a sale it was never told about.
 - **Never more than once per order per event.** The paid event is guarded on the
   status transition, so two settle paths cannot both fire it.
 - **Retries:** 3 attempts in total, ~0.4s then ~1.2s apart, for a network error,
-  a timeout, a 5xx or a 429.
+  a timeout, a 5xx or a 429. `order.created` is the exception: **one try, 2.5s
+  timeout, no retry**, because it runs while the customer waits on "Pay".
 - **No retry on any other 4xx.** A refused body will be refused again; the
   status and the receiver's own response text are logged instead
   (`ORDER REFUSED 422 …` in the catalog's Vercel logs).
@@ -101,6 +104,11 @@ never told to take back a sale it was never told about.
   accept and park the call rather than reject it.
 
 ## What is NOT covered
+
+- **Checkouts that never become an order.** If checkout refuses the order (a
+  missing field, a price change, the bot trap), nothing is saved and no
+  `order.created` is sent. That is where 6 of the 7 ad checkouts of 14–16 Nov
+  2026 stopped.
 
 - **WhatsApp sales.** Most Costa Rica ad traffic goes from the ad into
   WhatsApp, and an agent types the order in by hand. No landing URL is ever
