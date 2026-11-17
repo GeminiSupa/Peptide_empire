@@ -17,8 +17,11 @@ test('checkout payment methods follow the customer-facing priority order', () =>
   assert.equal(paymentGrid.indexOf("value: 'crypto'"), -1, 'crypto is not offered');
 });
 
-test('Apple Pay is its own tile, only where the device can pay with it', () => {
-  // Shown only when this device can use Apple Pay and the wallet is live.
+test('Apple Pay is its own tile, offered to every device', () => {
+  // No device test: the wallet is on the gateway's page, which offers it in
+  // Chrome on Windows and on Apple devices (Omer, 18 Nov 2026).
+  assert.match(catalog, /const applePayOffered = APPLE_PAY_LIVE;/);
+  assert.doesNotMatch(catalog, /canMakePayments/);
   assert.match(catalog, /\.\.\.\(applePayOffered \? \[\{\s*value: 'apple_pay'/);
   // The Card tile no longer names it, and its logo row has no Apple mark.
   assert.doesNotMatch(catalog, /Credit\/Debit\$\{applePayOffered/);

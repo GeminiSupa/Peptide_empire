@@ -405,9 +405,11 @@ Owner (Omer) to do or decide:
 17. Crypto off the checkout, Apple Pay its own option (17 Nov 2026, Joey:
     "crypto worthless, nobody uses", "separate cards and Apple Pay"). Both
     checkouts: the Crypto tile is gone, and Apple Pay is a new tile right
-    after Card, shown only on a device that can pay with it
-    (`ApplePaySession.canMakePayments()`). It is a card order (same gateway
-    page, `payment_method: 'card'`); Apple Pay is tapped on Givver's page.
+    after Card, shown on every device (Omer, 18 Nov 2026 — see the Givver
+    check below; it was first gated on `ApplePaySession.canMakePayments()`,
+    which hid it from the desktop customers who can pay with it). It is a card
+    order (same gateway page, `payment_method: 'card'`); Apple Pay is tapped on
+    Givver's page.
     The Card tile no longer shows the Apple Pay logo or name. The six `/lp`
     ad pages got the same tile (their checkout only had Card and WhatsApp).
     `/pay-card?type=crypto` still works for links already sent. Branches
@@ -427,6 +429,20 @@ Owner (Omer) to do or decide:
     Givver's 3 hours; and the main site's Card tile already says "Google Pay"
     while the catalog hides it (`GOOGLE_PAY_LIVE = false`). Not exercised: a
     real iPhone (tested with a faked device check) and a real payment.
+    **Givver re-checked on a real payment page, 18 Nov 2026** (a $1 page minted
+    with the live key by `createChargxCardCheckout`, opened, never paid): Apple
+    Pay **is** live on it. Under the green Pay button it shows "OR PAY WITH" and
+    an Apple Pay button — in **Chrome on Windows**, where tapping it brings up
+    Apple's own "Scan Code with iPhone" sheet (iOS 18+). Loaded as an Android
+    phone, Givver hides it. On our own domains `window.ApplePaySession` does not
+    exist at all (Apple exposes it only to a page enabled for a merchant, and the
+    wallet is the gateway's, not ours), so the device test could never be right
+    here: it hid the tile from exactly the desktop customers who can pay. The
+    tile is therefore shown to everyone and Givver's page decides. Its order
+    summary calls the purchase a "Digital Gift Card, redeemable at Peptides
+    Costa Rica" — that is what a paying customer reads. Not exercised: a real
+    iPhone, an Android shopper reaching Givver's page from the new tile, and a
+    real payment.
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a

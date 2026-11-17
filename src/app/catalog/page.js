@@ -737,38 +737,31 @@ export default function CatalogPage() {
   // handler fires — repeated charge attempts are what trip the gateway's
   // "attempts allowed" limit and can double-charge the customer.
   const cardSubmitLockRef = useRef(false);
-  // Which wallet this device can actually use.
+  // Which wallet this browser can show on *our* page — Google Pay only.
   //
-  // Both buttons only redirect to the Chargex page — the wallet itself belongs
-  // to Chargex, and Apple Pay exists only on Apple devices. Shown
-  // unconditionally, an Android customer tapped "Apple Pay" and arrived at a
-  // page that could never offer it.
+  // Apple Pay is deliberately not detected here. `ApplePaySession` exists only
+  // on a page Apple has enabled for a merchant, and ours is not one: the wallet
+  // belongs to the gateway, one page later. Read off the live gateway page on
+  // 18 Nov 2026: its own Apple Pay button appears in Chrome on Windows — paid by
+  // scanning the code with an iPhone — and on Apple devices, and it hides itself
+  // on Android. A device test here therefore hid the tile from the desktop
+  // customers who can pay with it, so the tile is offered to everyone and the
+  // gateway's page decides (Omer, 18 Nov 2026).
   //
   // Decided after mount, never during render: the server has no `window`, and a
   // render that disagreed with the server's HTML would be a hydration error.
-  const [walletSupport, setWalletSupport] = useState({ apple: false, google: false });
+  const [walletSupport, setWalletSupport] = useState({ google: false });
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    // Apple's own test for "this device can pay". It is false on a Mac with no
-    // paired iPhone or Watch, which is exactly when the button should be gone.
-    let apple = false;
-    try {
-      apple = typeof window.ApplePaySession !== 'undefined'
-        && window.ApplePaySession.canMakePayments?.() === true;
-    } catch {
-      apple = false;
-    }
     // Google Pay rides on the Payment Request API, and Google supports it on
     // every modern browser including Safari — so an Apple device gets this
-    // button too. Only Apple Pay is device-locked, which is why only it is
-    // hidden; nothing here guesses on Google's behalf.
-    const google = typeof window.PaymentRequest !== 'undefined';
-    setWalletSupport({ apple, google });
+    // button too.
+    setWalletSupport({ google: typeof window.PaymentRequest !== 'undefined' });
   }, []);
   // "This device can show the button" is not the same as "this wallet can take
   // a payment". The buttons still render where they did, as Coming soon, but
   // nothing may *advertise* a wallet as a way to pay until it is live.
-  const applePayOffered = APPLE_PAY_LIVE && walletSupport.apple;
+  const applePayOffered = APPLE_PAY_LIVE;
   const googlePayOffered = GOOGLE_PAY_LIVE && walletSupport.google;
 
   // Contact Modal States
