@@ -8,6 +8,22 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-M2GVDQ44');</script>
 <!-- End Google Tag Manager -->
+<!-- TikTok pixel: the app's own bootstrap (src/lib/tiktokPixel.mjs), the
+     catalog's pixel on catalog.peptidescostarica.net and the main site's on
+     peptidescostarica.net; nothing on any other host or on /lp-testing -->
+<script>if (!window.LP_TESTING) !function(w,d,t){
+var pixelId={"peptidescostarica.net":"D9RUF4RC77UA78AD50M0","www.peptidescostarica.net":"D9RUF4RC77UA78AD50M0","catalog.peptidescostarica.net":"D9RUIARC77U97D5QFMN0"}[String(w.location.hostname||'').toLowerCase()];
+if(!pixelId)return;
+w.TiktokAnalyticsObject=t;
+var ttq=w[t]=w[t]||[];
+ttq.methods=['page','track','identify','instances','debug','on','off','once','ready','alias','group','enableCookie','disableCookie','holdConsent','revokeConsent','grantConsent'];
+ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
+for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
+ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};
+ttq.load=function(e,n){var r='https://analytics.tiktok.com/i18n/pixel/events.js',o=n&&n.partner;ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u=r;ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};n=d.createElement('script');n.type='text/javascript';n.async=!0;n.src=r+'?sdkid='+e+'&lib='+t;e=d.getElementsByTagName('script')[0];e.parentNode.insertBefore(n,e)};
+ttq.load(pixelId);
+ttq.page();
+}(window,document,'ttq');</script>
 <script>
 (function captureGoogleAdClick(){
   if (window.LP_TESTING) return;
@@ -24,6 +40,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       try { localStorage.setItem("pcr_google_click", JSON.stringify(click)); } catch(e){}
     }
   } catch (error) {}
+})();
+</script><script>
+// The paid-ad click that brought this visit, for the order: ?ref= (which ad
+// page), ?cid= (the media buyer's click id) and ?ttclid= (TikTok's). Same
+// localStorage keys as the catalog shop, so the order's landing_ref /
+// landing_cid / landing_ttclid and the order-paid webhook get them. And the
+// visit's source for Revenue by channel, recorded by the app (/api/lp/touch).
+window.lpLanding = function (key) { try { return localStorage.getItem(key) || null; } catch (e) { return null; } };
+(function captureLandingAttribution(){
+  if (window.LP_TESTING) return;
+  try {
+    var params = new URLSearchParams(window.location.search);
+    [["ref", "landing_ref", 200], ["cid", "landing_cid", 300], ["ttclid", "landing_ttclid", 300]].forEach(function (k) {
+      var value = params.get(k[0]);
+      if (value) try { localStorage.setItem(k[1], String(value).slice(0, k[2])); } catch (e) {}
+    });
+  } catch (e) {}
+  try {
+    fetch("/api/lp/touch", { method: "POST", credentials: "same-origin", keepalive: true, headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ href: window.location.href, referrer: document.referrer || "" }) }).catch(function () {});
+  } catch (e) {}
 })();
 </script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>GLOW 70 mg | Peptides Costa Rica</title>
@@ -1132,7 +1169,7 @@ function sset(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   if (!sget("pcr_ref")) { var c = "ABCDEFGHJKMNPQRSTUVWXYZ23456789", r = ""; for (var i = 0; i < 5; i++) r += c[Math.floor(Math.random() * c.length)]; sset("pcr_ref", r); }
 })();
 function ref() { return sget("pcr_ref") || "WEB"; }
-function wa(msg) { return "https://wa.me/" + CFG.wa + "?text=" + encodeURIComponent(msg + "\n\nRef: " + ref()); }
+function wa(msg) { return "/api/whatsapp/open?phone=" + CFG.wa + "&text=" + encodeURIComponent(msg + "\n\nRef: " + ref()); }
 
 /* ===== language + currency ===== */
 var PREF = { lang: "en", cur: "CRC" };
@@ -1191,6 +1228,323 @@ var ESR = [
 [/^Please add your full name\.$/, "Agregue su nombre completo."], [/^Please add a valid WhatsApp number \(8 digits\)\.$/, "Agregue un número de WhatsApp válido (8 dígitos)."], [/^Please choose your province and canton\.$/, "Elija su provincia y cantón."], [/^Please add your district\.$/, "Agregue su distrito."], [/^Please add exact directions so the courier can find you\.$/, "Agregue otras señas para que el mensajero lo encuentre."], [/^That email doesn't look right\.$/, "Ese correo no parece correcto."],
 [/^Preview: on the live site this opens Chargex$/, "Vista previa: en el sitio real esto abre Chargex"]
 ];
+/* Spanish for the ad pages' own copy (17 Nov 2026). The shop, cart and
+   checkout were already translated; the product copy, the page sections and
+   the legal notice were not, so the Español button left them in English. */
+Object.assign(ES, {
+"Shop by category": "Comprar por categoría",
+"Metabolic & GLP-1 Compounds": "Compuestos metabólicos y GLP-1",
+"Growth Hormone Secretagogues": "Secretagogos de hormona de crecimiento",
+"Tissue Repair Compounds": "Compuestos de reparación de tejidos",
+"Copper & Dermatological Peptides": "Péptidos de cobre y dermatológicos",
+"Copper Peptides": "Péptidos de cobre",
+"Collagen Peptides": "Péptidos de colágeno",
+"Bioregulator Peptides": "Péptidos biorreguladores",
+"Mitochondrial Compounds": "Compuestos mitocondriales",
+"Nootropic & Neuropeptides": "Nootrópicos y neuropéptidos",
+"Sleep-Related Neuropeptides": "Neuropéptidos relacionados con el sueño",
+"Cardiovascular Research Compounds": "Compuestos de investigación cardiovascular",
+"Reproductive Signalling Peptides": "Péptidos de señalización reproductiva",
+"Somatropin & Related Compounds": "Somatropina y compuestos relacionados",
+"Bacteriostatic Water": "Agua bacteriostática",
+"Learn & about": "Aprenda y conózcanos",
+"Our process": "Nuestro proceso",
+"Bulk discounts": "Descuentos por volumen",
+"Info Center": "Centro de información",
+"About us": "Sobre nosotros",
+"Our story": "Nuestra historia",
+"Affiliate program": "Programa de afiliados",
+"FAQ": "Preguntas frecuentes",
+"Our app": "Nuestra app",
+
+"4-in-1 blend": "Mezcla 4 en 1",
+"3-in-1 blend": "Mezcla 3 en 1",
+"COA on request": "COA a solicitud",
+"Choose my vials": "Elegir mis viales",
+"researchers served": "investigadores atendidos",
+"Kept at 2–8 °C": "Conservado a 2–8 °C",
+"The more you mix, the less each vial costs": "Entre más combine, menos cuesta cada vial",
+"Any combination counts": "Cualquier combinación cuenta",
+"1–4 vials": "1–4 viales",
+"5–9 vials": "5–9 viales",
+"Standard": "Precio normal",
+"Reviews": "Reseñas",
+"Verified reviews": "Reseñas verificadas",
+"Verified buyer": "Comprador verificado",
+"Rated by the people who order from us": "Calificados por quienes nos compran",
+"In plain words": "En palabras simples",
+"Research context": "Contexto de investigación",
+"Where it shows up in research": "Dónde aparece en la investigación",
+"Bulk savings": "Ahorro por volumen",
+"See exactly what you save": "Vea exactamente cuánto ahorra",
+"Slide to the number of vials in your order. Any mix of products counts.": "Deslice hasta el número de viales de su pedido. Cualquier combinación de productos cuenta.",
+"Vials in your order": "Viales en su pedido",
+"Regular price": "Precio normal",
+"You save": "Usted ahorra",
+"You pay": "Usted paga",
+"Quality you can check": "Calidad que puede comprobar",
+"You should not have to take a supplier’s word for it": "No tiene que creerle a un proveedor solo por su palabra",
+"Certificate of Analysis": "Certificado de análisis",
+"Ask for the COA of your lot before you pay. We send it either way.": "Pida el COA de su lote antes de pagar. Se lo enviamos de todos modos.",
+"Tested for purity": "Probado por pureza",
+"Sourced from certified laboratories and tested for consistency.": "De laboratorios certificados y probado por consistencia.",
+"Cold chain": "Cadena de frío",
+"Stored at 2–8 °C and shipped tracked anywhere in Costa Rica.": "Almacenado a 2–8 °C y enviado con rastreo a todo Costa Rica.",
+"Questions before you order": "Preguntas antes de pedir",
+"Up to 20% off when you mix 5+ vials": "Hasta 20% de descuento al combinar 5+ viales",
+"Choose the size and quantity. Volume pricing applies automatically in your cart.": "Elija el tamaño y la cantidad. El precio por volumen se aplica automáticamente en su carrito.",
+"Researchers pair it with": "Los investigadores lo combinan con",
+"· each vial counts toward your discount": "· cada vial cuenta para su descuento",
+"Reconstitution Solution 3 ml": "Solución de reconstitución 3 ml",
+"Reconstitution Solution": "Solución de reconstitución",
+"Add to my order": "Agregar a mi pedido",
+"Search all products": "Buscar todos los productos",
+"You confirm research-use-only at checkout. Pay by card, SINPE Móvil or bank transfer.": "Al pagar confirma el uso exclusivo en investigación. Pague con tarjeta, SINPE Móvil o transferencia bancaria.",
+"of any product to get 15% off everything.": "de cualquier producto para obtener 15% de descuento en todo.",
+"applies to your whole order.": "se aplica a todo su pedido.",
+"Type": "Tipo",
+"Molecular formula": "Fórmula molecular",
+"Molecular weight": "Peso molecular",
+
+"Do the maths": "Haga las cuentas",
+"Four separate vials": "Cuatro viales por separado",
+"You keep": "Se ahorra",
+"Fastest way to order": "La forma más rápida de pedir",
+"Pick a quantity. Tap once. Done.": "Elija la cantidad. Un toque. Listo.",
+"No cart, no form. WhatsApp opens with your order already written, and we reply with the total and payment options.": "Sin carrito ni formulario. WhatsApp se abre con su pedido ya escrito y le respondemos con el total y las opciones de pago.",
+"Order on WhatsApp": "Pedir por WhatsApp",
+"Read it before you pay": "Léalo antes de pagar",
+"See the certificate of your exact lot first": "Vea primero el certificado de su lote exacto",
+"Most suppliers show a sample COA. We send the certificate of the lot we will ship you, on WhatsApp, before you pay anything. If you do not like what you read, you do not order.": "La mayoría de proveedores muestran un COA de ejemplo. Nosotros le enviamos por WhatsApp el certificado del lote que le vamos a enviar, antes de que pague nada. Si no le convence lo que lee, no pide.",
+"1. Ask": "1. Pida",
+"Tap the button. The message is already written.": "Toque el botón. El mensaje ya está escrito.",
+"2. Read": "2. Lea",
+"We reply with the COA of the lot in stock.": "Le respondemos con el COA del lote en inventario.",
+"3. Then decide": "3. Luego decida",
+"Order only if it meets your standard.": "Pida solo si cumple con su estándar.",
+"Send me the COA": "Envíenme el COA",
+"Same discount, clearer maths": "El mismo descuento, cuentas más claras",
+"Percentages are hard to feel. This is the same volume discount, shown as vials.": "Un porcentaje cuesta dimensionarlo. Este es el mismo descuento por volumen, mostrado en viales.",
+"per vial": "por vial",
+"is what your 5th vial really costs": "es lo que realmente cuesta su 5.º vial",
+"Get my 5 vials": "Quiero mis 5 viales",
+
+"Four research peptides in one vial, for half the price.": "Cuatro péptidos de investigación en un vial, a mitad de precio.",
+"GHK-Cu, BPC-157, TB-500 and KPV, pre-combined in one 80 mg lyophilized vial. Bought separately, the same four would cost about twice as much.": "GHK-Cu, BPC-157, TB-500 y KPV, ya combinados en un vial liofilizado de 80 mg. Comprados por separado, los mismos cuatro costarían cerca del doble.",
+"What KLOW is, in plain words": "Qué es KLOW, en palabras simples",
+"KLOW is a research blend of four peptides that are often studied together in tissue and cellular models: GHK-Cu, BPC-157, TB-500 and KPV. Having them in one vial keeps the ratio consistent from experiment to experiment.": "KLOW es una mezcla de investigación de cuatro péptidos que a menudo se estudian juntos en modelos tisulares y celulares: GHK-Cu, BPC-157, TB-500 y KPV. Tenerlos en un solo vial mantiene la proporción constante de un experimento a otro.",
+"Four peptides": "Cuatro péptidos",
+"GHK-Cu, BPC-157, TB-500 and KPV.": "GHK-Cu, BPC-157, TB-500 y KPV.",
+"Fixed ratio": "Proporción fija",
+"The same proportions in every vial.": "Las mismas proporciones en cada vial.",
+"About half price": "Cerca de mitad de precio",
+"Compared with buying the four separately.": "Comparado con comprar los cuatro por separado.",
+"Stored cold": "Conservado en frío",
+"Lyophilized, kept at 2–8 °C.": "Liofilizado, conservado a 2–8 °C.",
+"Tissue models": "Modelos tisulares",
+"Cell migration and remodelling studies.": "Estudios de migración celular y remodelación.",
+"Dermal research": "Investigación dérmica",
+"Extracellular matrix and collagen models.": "Modelos de matriz extracelular y colágeno.",
+"Inflammation models": "Modelos de inflamación",
+"Cytokine-signalling studies in vitro.": "Estudios de señalización de citocinas in vitro.",
+"What is inside KLOW?": "¿Qué contiene KLOW?",
+"GHK-Cu 50 mg, BPC-157 10 mg, TB-500 10 mg and KPV 10 mg, combined in one 80 mg vial.": "GHK-Cu 50 mg, BPC-157 10 mg, TB-500 10 mg y KPV 10 mg, combinados en un vial de 80 mg.",
+"KLOW or GLOW?": "¿KLOW o GLOW?",
+"GLOW has three of the four (GHK-Cu, BPC-157, TB-500). KLOW adds KPV.": "GLOW tiene tres de los cuatro (GHK-Cu, BPC-157, TB-500). KLOW agrega KPV.",
+"Is there a volume discount?": "¿Hay descuento por volumen?",
+"Yes. 5 or more vials of any mix gets 15% off, 10 or more gets 20% off.": "Sí. 5 o más viales de cualquier combinación tienen 15% de descuento; 10 o más, 20%.",
+"Do you give dosing or medical advice?": "¿Dan consejos médicos o de dosificación?",
+"No. Our products are for laboratory research only and we do not provide medical, health or dosing advice.": "No. Nuestros productos son solo para investigación de laboratorio y no damos consejos médicos, de salud ni de dosificación.",
+
+"Order in one tap on WhatsApp.": "Pida con un toque por WhatsApp.",
+"GHK-Cu, BPC-157 and TB-500 combined in one 70 mg lyophilized vial. Pick how many, tap once, and your order arrives in our WhatsApp, already written. We confirm and send payment options.": "GHK-Cu, BPC-157 y TB-500 combinados en un vial liofilizado de 70 mg. Elija cuántos, toque una vez y su pedido llega a nuestro WhatsApp ya escrito. Confirmamos y le enviamos las opciones de pago.",
+"What GLOW is, in plain words": "Qué es GLOW, en palabras simples",
+"GLOW is a research blend of three peptides that are often studied together: GHK-Cu, BPC-157 and TB-500. One vial keeps the ratio identical across experiments, which makes results easier to compare.": "GLOW es una mezcla de investigación de tres péptidos que a menudo se estudian juntos: GHK-Cu, BPC-157 y TB-500. Un solo vial mantiene la proporción idéntica entre experimentos, lo que facilita comparar resultados.",
+"Three peptides": "Tres péptidos",
+"GHK-Cu, BPC-157 and TB-500.": "GHK-Cu, BPC-157 y TB-500.",
+"One-tap order": "Pedido con un toque",
+"Order straight on WhatsApp.": "Pida directo por WhatsApp.",
+"Collagen and extracellular matrix models.": "Modelos de colágeno y matriz extracelular.",
+"Cell migration and repair pathway studies.": "Estudios de migración celular y vías de reparación.",
+"Copper-peptide studies": "Estudios de péptidos de cobre",
+"GHK-Cu complex behaviour in vitro.": "Comportamiento del complejo GHK-Cu in vitro.",
+"What is inside GLOW?": "¿Qué contiene GLOW?",
+"GHK-Cu 50 mg, BPC-157 10 mg and TB-500 10 mg, combined in one 70 mg vial.": "GHK-Cu 50 mg, BPC-157 10 mg y TB-500 10 mg, combinados en un vial de 70 mg.",
+"How does the one-tap order work?": "¿Cómo funciona el pedido con un toque?",
+"Choose the number of vials and tap the button. WhatsApp opens with your order already written. Send it, and we confirm stock, total and payment options.": "Elija el número de viales y toque el botón. WhatsApp se abre con su pedido ya escrito. Envíelo y le confirmamos inventario, total y opciones de pago.",
+"GLOW or KLOW?": "¿GLOW o KLOW?",
+"KLOW has the same three plus KPV.": "KLOW tiene los mismos tres más KPV.",
+
+"See the lot’s certificate before you pay.": "Vea el certificado del lote antes de pagar.",
+"A 44-amino-acid synthetic research peptide, supplied lyophilized in 10 mg and 20 mg. Ask for the COA of the exact lot we ship you, read it, then decide. Mix it with any other vials: 5 or more drops your whole order 15%, 10 or more drops it 20%.": "Un péptido sintético de investigación de 44 aminoácidos, liofilizado en 10 mg y 20 mg. Pida el COA del lote exacto que le enviamos, léalo y luego decida. Combínelo con cualquier otro vial: con 5 o más, todo su pedido baja 15%; con 10 o más, baja 20%.",
+"What TESA-Compound is, in plain words": "Qué es TESA-Compound, en palabras simples",
+"TESA-Compound is a 44-amino-acid synthetic peptide used in endocrine signalling research. It is studied in cell and tissue models to understand how hormone-release pathways are regulated. It ships as a dry, lyophilized powder that stays stable when kept cold.": "TESA-Compound es un péptido sintético de 44 aminoácidos que se usa en investigación de señalización endocrina. Se estudia en modelos celulares y tisulares para entender cómo se regulan las vías de liberación hormonal. Se envía como polvo seco liofilizado, estable cuando se mantiene en frío.",
+"44 amino acids": "44 aminoácidos",
+"A long synthetic peptide chain.": "Una cadena peptídica sintética larga.",
+"Signalling research": "Investigación de señalización",
+"Used in endocrine pathway models.": "Se usa en modelos de vías endocrinas.",
+"Two sizes": "Dos tamaños",
+"The 20 mg vial costs less per mg.": "El vial de 20 mg cuesta menos por mg.",
+"Hormone-release pathways": "Vías de liberación hormonal",
+"How upstream signals regulate release in tissue models.": "Cómo las señales previas regulan la liberación en modelos tisulares.",
+"Receptor binding": "Unión a receptores",
+"Binding and stability compared with shorter peptides.": "Unión y estabilidad comparadas con péptidos más cortos.",
+"Analogue comparisons": "Comparaciones con análogos",
+"Benchmarking against other signalling peptides.": "Comparación con otros péptidos de señalización.",
+"Can I see the COA before paying?": "¿Puedo ver el COA antes de pagar?",
+"Yes. Tap “Send me the COA” and we reply on WhatsApp with the certificate of the lot we will ship you. You pay only once you have read it.": "Sí. Toque “Envíenme el COA” y le respondemos por WhatsApp con el certificado del lote que le vamos a enviar. Solo paga después de leerlo.",
+"10 mg or 20 mg?": "¿10 mg o 20 mg?",
+"Same material in two sizes. The 20 mg vial costs about 25% less per mg.": "El mismo material en dos tamaños. El vial de 20 mg cuesta cerca de 25% menos por mg.",
+"Yes. 5 or more vials of any mix gets 15% off the whole order, 10 or more gets 20% off. It applies automatically.": "Sí. 5 o más viales de cualquier combinación tienen 15% de descuento en todo el pedido; 10 o más, 20%. Se aplica automáticamente.",
+"How should it be stored?": "¿Cómo se debe almacenar?",
+"Keep the sealed, lyophilized vial refrigerated at 2–8 °C and away from light.": "Mantenga el vial sellado y liofilizado refrigerado a 2–8 °C y lejos de la luz.",
+
+"5 amino acids": "5 aminoácidos",
+"Your 5th vial costs almost nothing.": "Su 5.º vial casi no le cuesta.",
+"A five-amino-acid research peptide, supplied lyophilized. Order 5 vials of any mix and the 15% discount saves almost a whole vial. Order 10 and you pay for 8.": "Un péptido de investigación de cinco aminoácidos, liofilizado. Pida 5 viales de cualquier combinación y el 15% de descuento le ahorra casi un vial entero. Pida 10 y paga 8.",
+"What Ipamorelin is, in plain words": "Qué es Ipamorelin, en palabras simples",
+"Ipamorelin is a small synthetic peptide, only five amino acids long. Researchers use it in receptor-selectivity studies because it binds one receptor type very specifically, which makes results easier to interpret than with broader compounds.": "Ipamorelin es un péptido sintético pequeño, de solo cinco aminoácidos. Los investigadores lo usan en estudios de selectividad de receptores porque se une a un tipo de receptor de forma muy específica, lo que hace los resultados más fáciles de interpretar que con compuestos más amplios.",
+"Pentapeptide": "Pentapéptido",
+"Five amino acids, small and stable.": "Cinco aminoácidos, pequeño y estable.",
+"Selective": "Selectivo",
+"Studied for its narrow receptor profile.": "Estudiado por su perfil de receptor estrecho.",
+"Pairs well": "Combina bien",
+"Often studied alongside CJC-1295.": "A menudo se estudia junto con CJC-1295.",
+"Receptor selectivity": "Selectividad de receptores",
+"Single-receptor binding studies.": "Estudios de unión a un solo receptor.",
+"Pulse-release models": "Modelos de liberación pulsátil",
+"Timing of signalling events in tissue models.": "Momento de los eventos de señalización en modelos tisulares.",
+"Combination studies": "Estudios combinados",
+"Comparisons with longer-acting peptides.": "Comparaciones con péptidos de acción más prolongada.",
+"How does the 5th vial deal work?": "¿Cómo funciona la oferta del 5.º vial?",
+"There is no code. 5 or more vials of any mix get 15% off the whole order, and that saving is worth almost one full vial. At 10 vials, 20% off means you pay for 8.": "No necesita código. 5 o más viales de cualquier combinación tienen 15% de descuento en todo el pedido, y ese ahorro vale casi un vial completo. Con 10 viales, el 20% de descuento significa que paga 8.",
+"Can I mix it with other compounds?": "¿Puedo combinarlo con otros compuestos?",
+"Yes. Any product in the catalog counts toward the discount.": "Sí. Cualquier producto del catálogo cuenta para el descuento.",
+
+"Copper(II) complex": "Complejo de cobre(II)",
+"The copper tripeptide, as a stable complex.": "El tripéptido de cobre, como complejo estable.",
+"Glycyl-L-histidyl-L-lysine bound to copper(II), supplied lyophilized in a 100 mg vial. Mix it with any other vials: 5 or more drops your whole order 15%, 10 or more drops it 20%.": "Glicil-L-histidil-L-lisina unida a cobre(II), liofilizada en un vial de 100 mg. Combínelo con cualquier otro vial: con 5 o más, todo su pedido baja 15%; con 10 o más, baja 20%.",
+"What GHK-Cu is, in plain words": "Qué es GHK-Cu, en palabras simples",
+"GHK is a tripeptide of glycine, histidine and lysine that occurs naturally in plasma and binds copper(II) tightly. The bound form, GHK-Cu, is the one laboratories study: the copper is what makes it a carrier for the enzyme systems that build and remodel the extracellular matrix, which is why it runs through so much skin and wound literature.": "GHK es un tripéptido de glicina, histidina y lisina que se encuentra de forma natural en el plasma y se une con fuerza al cobre(II). La forma unida, GHK-Cu, es la que estudian los laboratorios: el cobre lo convierte en transportador para los sistemas enzimáticos que construyen y remodelan la matriz extracelular, por eso aparece tanto en la literatura sobre piel y heridas.",
+"Copper(II) complex of Gly-His-Lys": "Complejo de cobre(II) de Gly-His-Lys",
+"Copper carrier": "Transportador de cobre",
+"Binds copper(II) with high affinity, as a stable complex.": "Se une al cobre(II) con alta afinidad, como complejo estable.",
+"Matrix research": "Investigación de matriz",
+"Studied in collagen and extracellular matrix work.": "Estudiado en trabajos de colágeno y matriz extracelular.",
+"100 mg vial": "Vial de 100 mg",
+"A large vial, for longer study series.": "Un vial grande, para series de estudio más largas.",
+"Lyophilized, kept at 2–8 °C, protected from light.": "Liofilizado, conservado a 2–8 °C, protegido de la luz.",
+"Collagen synthesis": "Síntesis de colágeno",
+"Fibroblast models of collagen and elastin production.": "Modelos de fibroblastos de producción de colágeno y elastina.",
+"Tissue remodelling": "Remodelación tisular",
+"Turnover of the extracellular matrix in wound models.": "Recambio de la matriz extracelular en modelos de heridas.",
+"Skin fibroblast and barrier studies.": "Estudios de fibroblastos y barrera cutánea.",
+"Copper delivery": "Entrega de cobre",
+"How the complex hands copper to enzyme systems.": "Cómo el complejo entrega cobre a los sistemas enzimáticos.",
+"Copper enzymes": "Enzimas de cobre",
+"Copper-dependent enzymes such as superoxide dismutase.": "Enzimas dependientes de cobre como la superóxido dismutasa.",
+"Why is the solution blue?": "¿Por qué la solución es azul?",
+"The copper(II) in the complex is what gives GHK-Cu its deep blue colour, in the vial and once reconstituted.": "El cobre(II) del complejo es lo que da a GHK-Cu su color azul intenso, en el vial y una vez reconstituido.",
+"Yes. Add 5 or more vials of any mix and the whole order gets 15% off. 10 or more gets 20% off. It applies automatically in your cart.": "Sí. Agregue 5 o más viales de cualquier combinación y todo el pedido tiene 15% de descuento; 10 o más, 20%. Se aplica automáticamente en su carrito.",
+"Yes. Any product in the catalog counts toward the discount, in any size.": "Sí. Cualquier producto del catálogo cuenta para el descuento, en cualquier tamaño.",
+"Is a Certificate of Analysis available?": "¿Hay certificado de análisis disponible?",
+"Yes, on request. Ask for the COA of the current lot and we send it before you pay.": "Sí, a solicitud. Pida el COA del lote actual y se lo enviamos antes de que pague.",
+"You choose at checkout: card, SINPE Móvil or bank transfer.": "Usted elige al pagar: tarjeta, SINPE Móvil o transferencia bancaria.",
+
+"Reduced form (GSH)": "Forma reducida (GSH)",
+"Reduced form, in one large vial.": "Forma reducida, en un vial grande.",
+"The tripeptide at the centre of the cell’s antioxidant system, supplied lyophilized in a 1500 mg vial. Mix it with any other vials: 5 or more drops your whole order 15%, 10 or more drops it 20%.": "El tripéptido en el centro del sistema antioxidante de la célula, liofilizado en un vial de 1500 mg. Combínelo con cualquier otro vial: con 5 o más, todo su pedido baja 15%; con 10 o más, baja 20%.",
+"What glutathione is, in plain words": "Qué es el glutatión, en palabras simples",
+"Glutathione is a small peptide built from three amino acids: glutamate, cysteine and glycine. Almost every cell makes it. In the lab it is studied as the main molecule the cell uses to keep its redox balance in check, so it shows up across oxidative stress, detoxification enzyme and mitochondrial research.": "El glutatión es un péptido pequeño formado por tres aminoácidos: glutamato, cisteína y glicina. Casi todas las células lo producen. En el laboratorio se estudia como la principal molécula que usa la célula para mantener su equilibrio redox, por eso aparece en investigación de estrés oxidativo, enzimas de desintoxicación y función mitocondrial.",
+"Tripeptide (γ-Glu-Cys-Gly), reduced form": "Tripéptido (γ-Glu-Cys-Gly), forma reducida",
+"Antioxidant system": "Sistema antioxidante",
+"The most abundant non-protein thiol in the cell.": "El tiol no proteico más abundante de la célula.",
+"Reduced form": "Forma reducida",
+"Supplied as GSH, the active, reduced form.": "Se suministra como GSH, la forma activa y reducida.",
+"1500 mg vial": "Vial de 1500 mg",
+"A large vial for longer study series.": "Un vial grande para series de estudio más largas.",
+"Oxidative stress models": "Modelos de estrés oxidativo",
+"Measuring how cells respond to and recover from oxidative load.": "Cómo responden y se recuperan las células ante la carga oxidativa.",
+"Redox signalling": "Señalización redox",
+"The GSH/GSSG ratio as a marker of cellular redox state.": "La relación GSH/GSSG como marcador del estado redox celular.",
+"Detoxification enzymes": "Enzimas de desintoxicación",
+"Glutathione S-transferases and phase II conjugation pathways.": "Glutatión S-transferasas y vías de conjugación de fase II.",
+"Mitochondrial function": "Función mitocondrial",
+"Protection of mitochondrial membranes and proteins.": "Protección de membranas y proteínas mitocondriales.",
+"Melanogenesis and pigmentation pathway studies.": "Estudios de melanogénesis y vías de pigmentación.",
+"What does “reduced form” mean?": "¿Qué significa “forma reducida”?",
+"Glutathione exists in a reduced form (GSH) and an oxidized form (GSSG). GSH is the form that carries the active thiol group, and it is what this vial contains.": "El glutatión existe en forma reducida (GSH) y oxidada (GSSG). GSH es la forma que lleva el grupo tiol activo, y es lo que contiene este vial.",
+
+"NAD+, 500 mg and 1000 mg.": "NAD+, 500 mg y 1000 mg.",
+"The coenzyme behind cellular energy research.": "La coenzima detrás de la investigación en energía celular.",
+"Nicotinamide adenine dinucleotide, supplied lyophilized in two sizes. The 1000 mg vial is the better value per mg. Mix it with any other vials: 5 or more drops your whole order 15%, 10 or more drops it 20%.": "Nicotinamida adenina dinucleótido, liofilizado en dos tamaños. El vial de 1000 mg rinde más por mg. Combínelo con cualquier otro vial: con 5 o más, todo su pedido baja 15%; con 10 o más, baja 20%.",
+"What NAD+ is, in plain words": "Qué es NAD+, en palabras simples",
+"NAD+ is a coenzyme found in every living cell. It shuttles electrons in energy metabolism and is the fuel for two enzyme families researchers care a lot about: sirtuins and PARPs. Studies report that NAD+ levels fall with age in many tissues, which is why it is one of the most studied molecules in cellular aging research.": "NAD+ es una coenzima presente en todas las células vivas. Transporta electrones en el metabolismo energético y es el combustible de dos familias de enzimas muy estudiadas: las sirtuinas y las PARP. Los estudios reportan que los niveles de NAD+ bajan con la edad en muchos tejidos, por eso es una de las moléculas más estudiadas en investigación del envejecimiento celular.",
+"Dinucleotide coenzyme": "Coenzima dinucleótido",
+"Energy metabolism": "Metabolismo energético",
+"A core electron carrier in the cell’s energy pathways.": "Un transportador de electrones clave en las vías energéticas de la célula.",
+"Enzyme substrate": "Sustrato enzimático",
+"Consumed by sirtuins, PARPs and CD38.": "Consumido por sirtuinas, PARP y CD38.",
+"Better value at 1000 mg": "Mejor valor en 1000 mg",
+"About 35% less per mg than the 500 mg vial.": "Cerca de 35% menos por mg que el vial de 500 mg.",
+"Mitochondrial metabolism": "Metabolismo mitocondrial",
+"NAD+/NADH balance and oxidative phosphorylation.": "Equilibrio NAD+/NADH y fosforilación oxidativa.",
+"Sirtuin activity": "Actividad de sirtuinas",
+"SIRT1–7 deacylases, which depend on NAD+ to work.": "Desacilasas SIRT1–7, que dependen de NAD+ para funcionar.",
+"DNA repair": "Reparación del ADN",
+"PARP enzymes and the DNA damage response.": "Enzimas PARP y la respuesta al daño del ADN.",
+"Cellular aging models": "Modelos de envejecimiento celular",
+"Age-related NAD+ decline in tissue models.": "Descenso de NAD+ con la edad en modelos tisulares.",
+"Precursor comparisons": "Comparación de precursores",
+"Benchmarking against NMN and NR in uptake studies.": "Comparación con NMN y NR en estudios de captación.",
+"500 mg or 1000 mg?": "¿500 mg o 1000 mg?",
+"Same material in two sizes. The 1000 mg vial costs about 35% less per mg, so it is the better value for longer study series.": "El mismo material en dos tamaños. El vial de 1000 mg cuesta cerca de 35% menos por mg, así que rinde más para series de estudio largas.",
+
+"Your KLOW": "Su KLOW", "Your GLOW": "Su GLOW", "Your TESA-Compound": "Su TESA-Compound", "Your Ipamorelin": "Su Ipamorelin",
+"Your GHK-Cu": "Su GHK-Cu", "Your GHK-CU": "Su GHK-CU", "Your Glutathione": "Su Glutathione", "Your NAD+": "Su NAD+",
+
+"Research use only": "Solo para uso en investigación",
+"Regulatory status": "Estado regulatorio",
+"Purchaser responsibilities": "Responsabilidades del comprador",
+"No medical advice": "Sin consejo médico",
+"Testing, pricing and availability": "Pruebas, precios y disponibilidad",
+"Limitation of liability": "Limitación de responsabilidad",
+"© 2026 Peptides Costa Rica · For laboratory research use only": "© 2026 Peptides Costa Rica · Solo para uso en investigación de laboratorio",
+"All products sold by Peptides Costa Rica are offered strictly as chemical reference materials for in-vitro laboratory research and analytical purposes by qualified purchasers. They are not drugs, foods, dietary supplements, cosmetics or medical devices, are not intended for human or veterinary use, and must not be ingested, injected, applied to the body, administered to animals or used in any clinical, diagnostic or therapeutic procedure. Any reference to research literature, mechanisms of action or published studies is provided for scientific and educational context only and does not constitute a claim, representation or suggestion regarding the safety, efficacy or intended use of any product.": "Todos los productos que vende Peptides Costa Rica se ofrecen estrictamente como materiales químicos de referencia para investigación de laboratorio in vitro y fines analíticos, a compradores calificados. No son medicamentos, alimentos, suplementos dietéticos, cosméticos ni dispositivos médicos; no están destinados a uso humano ni veterinario, y no deben ingerirse, inyectarse, aplicarse en el cuerpo, administrarse a animales ni usarse en ningún procedimiento clínico, diagnóstico o terapéutico. Cualquier referencia a literatura científica, mecanismos de acción o estudios publicados se brinda solo como contexto científico y educativo, y no constituye una afirmación, declaración ni sugerencia sobre la seguridad, eficacia o uso previsto de ningún producto.",
+"No product offered on this page has been evaluated or approved by the U.S. Food and Drug Administration, the Costa Rican Ministry of Health (Ministerio de Salud) or any other regulatory authority for the diagnosis, treatment, cure, mitigation or prevention of any disease or condition. Statements on this page have not been evaluated by any such authority. Names of compounds that share a molecular target or identity with licensed medicines are used solely to identify the research material and imply no equivalence, endorsement or affiliation.": "Ningún producto ofrecido en esta página ha sido evaluado ni aprobado por la Administración de Alimentos y Medicamentos de EE. UU. (FDA), el Ministerio de Salud de Costa Rica ni ninguna otra autoridad regulatoria para el diagnóstico, tratamiento, cura, mitigación o prevención de ninguna enfermedad o condición. Las afirmaciones de esta página no han sido evaluadas por ninguna de esas autoridades. Los nombres de compuestos que comparten un objetivo molecular o una identidad con medicamentos autorizados se usan solo para identificar el material de investigación y no implican equivalencia, respaldo ni afiliación.",
+"By placing an order you represent and warrant that you are at least 21 years of age, that you are purchasing for lawful laboratory research, that you possess the knowledge and facilities required to handle research chemicals safely, and that you will store, handle, use and dispose of all materials in accordance with applicable laws, regulations and institutional guidelines. You are solely responsible for determining the suitability of any product for your research and for compliance with all laws applicable to its purchase, import, possession and use in your jurisdiction. Peptides Costa Rica reserves the right to refuse or cancel any order where it reasonably believes a product may be used for a purpose other than laboratory research.": "Al hacer un pedido, usted declara y garantiza que tiene al menos 21 años, que compra para investigación de laboratorio lícita, que cuenta con el conocimiento y las instalaciones necesarias para manipular químicos de investigación de forma segura, y que almacenará, manipulará, usará y desechará todos los materiales de acuerdo con las leyes, regulaciones y lineamientos institucionales aplicables. Usted es el único responsable de determinar si un producto es adecuado para su investigación y de cumplir todas las leyes aplicables a su compra, importación, posesión y uso en su jurisdicción. Peptides Costa Rica se reserva el derecho de rechazar o cancelar cualquier pedido cuando crea razonablemente que un producto podría usarse para un fin distinto a la investigación de laboratorio.",
+"Nothing on this page is medical, health, nutritional or dosing advice, and no staff member is authorised to provide such advice. Do not rely on any content here as a substitute for consultation with a licensed healthcare professional.": "Nada en esta página es consejo médico, de salud, nutricional ni de dosificación, y ningún miembro del personal está autorizado para darlo. No use ningún contenido de esta página como sustituto de la consulta con un profesional de la salud autorizado.",
+"Certificates of Analysis are issued per lot by third-party or partner laboratories and are available on request; results apply only to the lot tested. Product images are illustrative. Prices, discounts, free-item offers and stock are subject to change without notice and are confirmed at checkout. Volume discounts and promotional offers cannot be combined unless stated, and the complimentary Reconstitution Solution offer is limited to one 3 ml vial per qualifying order.": "Los certificados de análisis los emiten por lote laboratorios independientes o asociados y están disponibles a solicitud; los resultados aplican solo al lote analizado. Las imágenes de los productos son ilustrativas. Los precios, descuentos, artículos gratis e inventario pueden cambiar sin aviso y se confirman al pagar. Los descuentos por volumen y las promociones no se combinan salvo que se indique, y la Solución de reconstitución gratis se limita a un vial de 3 ml por pedido que califique.",
+"To the maximum extent permitted by law, Peptides Costa Rica, its owners, employees and affiliates disclaim all liability for any loss, injury or damage arising from the misuse, mishandling or use of any product contrary to these terms. Ratings and reviews shown reflect the independent opinions of verified customers about service and delivery and are not statements about product effects.": "En la máxima medida permitida por la ley, Peptides Costa Rica, sus dueños, empleados y afiliados se eximen de toda responsabilidad por cualquier pérdida, lesión o daño derivado del mal uso, la mala manipulación o el uso de cualquier producto en contra de estos términos. Las calificaciones y reseñas mostradas reflejan opiniones independientes de clientes verificados sobre el servicio y la entrega, y no son afirmaciones sobre los efectos de los productos."
+});
+ESR.push(
+[/^Bought separately, the same four peptides cost (.+)$/, "Comprados por separado, los mismos cuatro péptidos cuestan $1"],
+[/^(.+) holds the same four compounds in one vial\. Here is the comparison at today’s catalog prices\.$/, "$1 contiene los mismos cuatro compuestos en un vial. Esta es la comparación con los precios de catálogo de hoy."],
+[/^One (.+) vial$/, "Un vial de $1"],
+[/^, about (\d+)% less, before volume pricing\.$/, ", cerca de $1% menos, antes del precio por volumen."],
+[/^Example: (.+)$/, "Ejemplo: $1"],
+[/^(\d+)% unlocked\. Add (\d+) more for (\d+)% off\.$/, "$1% desbloqueado. Agregue $2 más para $3% de descuento."],
+[/^Add (\d+) more to unlock (\d+)% off\.$/, "Agregue $1 más para desbloquear $2% de descuento."],
+[/^Best price unlocked: (\d+)% off everything\.$/, "Mejor precio desbloqueado: $1% de descuento en todo."],
+[/^From (.+) · up to (\d+)% off · complimentary Reconstitution Solution$/, "Desde $1 · hasta $2% de descuento · BAC Water gratis"],
+[/^Order (.+) for your research$/, "Pida $1 para su investigación"],
+[/^Vials of (.+)$/, "Viales de $1"],
+[/^1 more vial$/, "1 vial más"],
+[/^(\d+) more vials$/, "$1 viales más"],
+[/^· (\d+)% off$/, "· $1% de descuento"],
+[/^(\d+) vials · (\d+)% off$/, "$1 viales · $2% de descuento"],
+[/^(\d+) · (\d+)% off$/, "$1 · $2% de descuento"],
+[/^Pay for (\d+)$/, "Pague $1"],
+[/^(\d+) vials free, (.+) saved$/, "$1 viales gratis, $2 de ahorro"],
+[/^(\d+)% off sounds small\. Here is what it actually means\.$/, "Un $1% de descuento suena a poco. Esto es lo que realmente significa."],
+[/^· add (\d+) more for (\d+)% off$/, "· agregue $1 más para $2% de descuento"],
+[/^Step (\d+) of (\d+)$/, "Paso $1 de $2"],
+[/^(\d+) verified reviews$/, "$1 reseñas verificadas"],
+[/^(\d+)% volume pricing$/, "Precio por volumen de $1%"],
+[/^(₡[\d,]+) each$/, "$1 c/u"],
+[/^(₡[\d,]+) per vial$/, "$1 por vial"],
+[/^(.+) from (₡[\d,]+)$/, "$1 desde $2"]
+);
 function tr(s) { if (PREF.lang !== "es") return s; var t = s.trim(); if (!t) return s; var o = ES[t]; if (o == null) for (var i = 0; i < ESR.length; i++) if (ESR[i][0].test(t)) { o = t.replace(ESR[i][0], ESR[i][1]); break; } return o == null ? s : s.replace(t, o); }
 function conv(s) { return PREF.cur === "USD" ? s.replace(/₡([\d,]+)/g, function (m, n) { return money(+n.replace(/,/g, "")); }) : s; }
 var I18N_SKIP = "script,style,template,.ms,.stmt b,.bub";
@@ -2745,7 +3099,10 @@ function placeOrder(method) {
     items: orderItems,
     internal_notes: [window.LP_TESTING ? 'TEST: placed on the /lp-testing preview page' : '', co.notes ? 'Customer note: ' + co.notes : ''].filter(Boolean).join('\n'),
     research_ack: { accepted: true, version: '2026-09-research-only' },
-    ad_attribution: window.LP_TESTING ? null : googleClick
+    ad_attribution: window.LP_TESTING ? null : googleClick,
+    landing_ref: window.LP_TESTING ? null : window.lpLanding("landing_ref"),
+    landing_cid: window.LP_TESTING ? null : window.lpLanding("landing_cid"),
+    landing_ttclid: window.LP_TESTING ? null : window.lpLanding("landing_ttclid")
   };
   function postOrder(payload) {
     return fetch('/api/orders/create', {

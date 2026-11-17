@@ -347,3 +347,48 @@ test('each designer page carries its own tactic under the hero, priced from the 
   assert.ok(fifth.includes('disc(5)') && fifth.includes('disc(10)'), 'discounts come from CFG.tiers, not hard-coded');
   assert.ok(html.includes('dataLayer.push({ event: "whatsapp_click", ref: ref(), cta: a.dataset.txwa });'), 'tactic WhatsApp taps are counted');
 });
+
+test('every ad page carries the TikTok pixel, the paid click ids, the visit source and tracked WhatsApp taps', async () => {
+  // These are static files, so the app's layout (TikTok pixel) and
+  // EcommerceTracker (pcr_touch) never ran on them, and the order carried no
+  // ref / cid / ttclid — the order-paid webhook only reports orders that do.
+  const { getTikTokPixelBootstrapScript } = await import('../src/lib/tiktokPixel.mjs');
+  for (const page of AD_PAGES) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8').replace(/\r\n/g, '\n');
+    assert.ok(html.includes(`<script>if (!window.LP_TESTING) ${getTikTokPixelBootstrapScript()}</script>`), `${page}: the app's TikTok pixel`);
+    for (const [param, key] of [['ref', 'landing_ref'], ['cid', 'landing_cid'], ['ttclid', 'landing_ttclid']]) {
+      assert.ok(html.includes(`["${param}", "${key}",`), `${page}: keeps ?${param}=`);
+      assert.ok(html.includes(`    ${key}: window.LP_TESTING ? null : window.lpLanding("${key}")`), `${page}: sends ${key} with the order`);
+    }
+    assert.ok(html.includes('fetch("/api/lp/touch", { method: "POST"'), `${page}: records the visit's source`);
+    assert.ok(html.includes('function wa(msg) { return "/api/whatsapp/open?phone=" + CFG.wa'), `${page}: WhatsApp taps go through the tracked redirect`);
+    assert.doesNotMatch(html, /https:\/\/wa\.me\//, `${page}: no untracked WhatsApp link left`);
+  }
+  const route = fs.readFileSync(path.join(rootDir, 'src/app/api/lp/touch/route.js'), 'utf8');
+  assert.ok(route.includes("import { captureTouch } from '@/lib/touchTracker.mjs';"), 'the app\'s own touch logic, not a copy');
+  assert.ok(route.includes('if (page.host !== host)'), 'only for the page the request came from');
+});
+
+test('the ad pages read in Spanish: their own copy is in the dictionary', () => {
+  for (const page of AD_PAGES) {
+    const html = fs.readFileSync(path.join(rootDir, page), 'utf8').replace(/\r\n/g, '\n');
+    const block = html.slice(html.indexOf('/* Spanish for the ad pages'), html.indexOf('\nfunction tr(s) {'));
+    assert.ok(block.startsWith('/* Spanish for the ad pages'), `${page}: Spanish block before tr()`);
+    const ES = {}, ESR = [];
+    new Function('ES', 'ESR', block)(ES, ESR);
+    // Every product's own copy on the single-product pages has a translation.
+    // A string the page already translated in its main dictionary counts too.
+    const known = (text) => ES[text] || html.includes(`${JSON.stringify(text)}:`);
+    const prods = html.match(/var PRODS = \{[\s\S]*?\n {2}\};/)?.[0];
+    if (prods) {
+      for (const [, text] of prods.matchAll(/(?:sub|plain|plainH): "([^"]+)"/g)) assert.ok(known(text), `${page}: "${text.slice(0, 50)}…" in Spanish`);
+      for (const [, q, a] of prods.matchAll(/\["([^"]+\?)", "([^"]+)"\]/g)) {
+        assert.ok(known(q), `${page}: FAQ "${q}" in Spanish`);
+        assert.ok(known(a), `${page}: answer to "${q}" in Spanish`);
+      }
+    }
+    const tr = (s) => ES[s] ?? ESR.reduce((out, [re, to]) => (out === null && re.test(s) ? s.replace(re, to) : out), null) ?? s;
+    assert.equal(tr('Order KLOW for your research'), 'Pida KLOW para su investigación');
+    assert.equal(tr('15% unlocked. Add 5 more for 20% off.'), '15% desbloqueado. Agregue 5 más para 20% de descuento.');
+  }
+});
