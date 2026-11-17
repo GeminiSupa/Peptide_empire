@@ -403,54 +403,53 @@ function CardPaymentContent() {
                   ? (isEn ? 'Processing...' : 'Procesando...')
                   : (isEn ? `Continue to pay ${formatMoney(order.cardAmountUsd, 'USD')}` : `Continuar a pagar ${formatMoney(order.cardAmountUsd, 'USD')}`)}
               </button>
-            </form>
 
-            {/* Another way to pay the order that already exists.
-                Without this the page was a dead end: one button, and a
-                customer who wanted SINPE or a transfer could only go back and
-                order again, leaving the first order "Pending - Card" for
-                staff to clean up. */}
-            <div className="card-pay-panel card-pay-switch">
-              <h2>{isEn ? 'Prefer to pay another way?' : '¿Prefiere pagar de otra forma?'}</h2>
-              <p className="card-pay-muted">
-                {isEn
-                  ? 'This order is saved. Choosing another way keeps it as it is — nothing is ordered twice.'
-                  : 'Su pedido ya está guardado. Elegir otra forma lo mantiene igual — no se pide nada dos veces.'}
-              </p>
-              {switchError && (
-                <div className="card-pay-error">
-                  <AlertCircle size={16} />
-                  {switchError}
-                </div>
-              )}
-              <div className="card-pay-switch-row">
-                {bankMethods.sinpe && (
-                  <button type="button" disabled={Boolean(switching)} onClick={() => switchToBank('sinpe')}>
-                    {switching === 'sinpe' ? (isEn ? 'Switching…' : 'Cambiando…') : 'SINPE Móvil'}
-                  </button>
+              {/* Another way to pay the order that already exists.
+                  Without this the page was a dead end: one button, and a
+                  customer who wanted SINPE or a transfer could only go back and
+                  order again, leaving the first order "Pending - Card" for
+                  staff to clean up. It sits inside the payment panel, right
+                  under the button: below the notices it was off the screen,
+                  and nobody scrolls for a payment method (Omer, 18 Nov 2026). */}
+              <div className="card-pay-switch">
+                <p className="card-pay-switch-title">
+                  {isEn ? 'Or pay another way — your order is saved' : 'O pague de otra forma — su pedido está guardado'}
+                </p>
+                {switchError && (
+                  <div className="card-pay-error">
+                    <AlertCircle size={16} />
+                    {switchError}
+                  </div>
                 )}
-                {bankMethods.bank_transfer && (
-                  <button type="button" disabled={Boolean(switching)} onClick={() => switchToBank('bank_transfer')}>
-                    {switching === 'bank_transfer'
-                      ? (isEn ? 'Switching…' : 'Cambiando…')
-                      : (isEn ? 'Bank transfer' : 'Transferencia bancaria')}
-                  </button>
-                )}
-                <a
-                  className="whatsapp-btn"
-                  href={buildWhatsAppLink(
-                    links.whatsappNumber,
-                    isEn
-                      ? `Hi! Order #${order.orderNumber} — I would like to pay by another method.`
-                      : `¡Hola! Pedido #${order.orderNumber} — quiero pagar por otro medio.`,
+                <div className="card-pay-switch-row">
+                  {bankMethods.sinpe && (
+                    <button type="button" disabled={Boolean(switching)} onClick={() => switchToBank('sinpe')}>
+                      {switching === 'sinpe' ? (isEn ? 'Switching…' : 'Cambiando…') : 'SINPE Móvil'}
+                    </button>
                   )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {isEn ? 'Ask on WhatsApp' : 'Preguntar por WhatsApp'}
-                </a>
+                  {bankMethods.bank_transfer && (
+                    <button type="button" disabled={Boolean(switching)} onClick={() => switchToBank('bank_transfer')}>
+                      {switching === 'bank_transfer'
+                        ? (isEn ? 'Switching…' : 'Cambiando…')
+                        : (isEn ? 'Bank transfer' : 'Transferencia bancaria')}
+                    </button>
+                  )}
+                  <a
+                    className="whatsapp-btn"
+                    href={buildWhatsAppLink(
+                      links.whatsappNumber,
+                      isEn
+                        ? `Hi! Order #${order.orderNumber} — I would like to pay by another method.`
+                        : `¡Hola! Pedido #${order.orderNumber} — quiero pagar por otro medio.`,
+                    )}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    WhatsApp
+                  </a>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         )}
       </section>

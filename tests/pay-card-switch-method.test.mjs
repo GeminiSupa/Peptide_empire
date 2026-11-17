@@ -10,8 +10,14 @@ const page = fs.readFileSync('src/app/pay-card/page.js', 'utf8');
 test('the card page offers the other ways to pay the same order', () => {
   // The dead end this fixes: one button, and a customer who wanted SINPE or a
   // transfer could only go back and order again (18 Nov 2026).
-  assert.match(page, /Prefer to pay another way\?/);
-  assert.match(page, /¿Prefiere pagar de otra forma\?/);
+  assert.match(page, /Or pay another way — your order is saved/);
+  assert.match(page, /O pague de otra forma — su pedido está guardado/);
+  // It lives inside the payment panel, under the Pay button. Below the
+  // notices it was off the screen, and nobody scrolls for a payment method
+  // (Omer, 18 Nov 2026).
+  const form = page.slice(page.indexOf('card-pay-panel card-pay-form'), page.indexOf('</form>'));
+  assert.ok(form.includes('card-pay-switch'), 'the choice is inside the payment panel');
+  assert.ok(form.indexOf('card-pay-switch') > form.indexOf('type="submit"'), 'under the pay button');
   assert.match(page, /switchToBank\('sinpe'\)/);
   assert.match(page, /switchToBank\('bank_transfer'\)/);
   // Only the methods staff have switched on, as on the checkout's own tiles.
