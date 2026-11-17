@@ -473,3 +473,27 @@
   border-radius: 14px; padding: 14px 16px; }
 .pcr-site .dlrule .ms { flex: 0 0 auto; font-size: 20px; opacity: .9; }
 .pcr-site .dlrule span { font-size: 14px; line-height: 1.4; }
+
+/* Checkout drawer (components/storefront/cart-sheet.js, 17 Nov 2026).
+   "Continue to checkout" is no longer disabled while the research-use box is
+   unticked: a disabled button ignores the tap and says nothing. It looks
+   softer instead, and a tap outlines the box in red and says why. Errors sit
+   in the footer, just above the button, so they are seen without scrolling. */
+:is(.pcr-site, .storefront) .sh-f .btn.soft { opacity: .55; }
+:is(.pcr-site, .storefront) .sh-f .ack.need.need {
+  box-shadow: inset 0 0 0 2px var(--red, #d92d20);
+  animation: pcr-ack-nudge .35s ease-in-out;
+}
+:is(.pcr-site, .storefront) .sh-f .sh-err {
+  margin: 0 0 8px;
+  font-size: 13px;
+  line-height: 1.35;
+}
+@keyframes pcr-ack-nudge {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.pcr-site, .storefront) .sh-f .ack.need.need { animation: none; }
+}

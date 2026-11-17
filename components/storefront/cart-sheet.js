@@ -105,6 +105,16 @@ export default function CartSheet({
   // unexplained choice before the payment button becomes usable.
   const [method, setMethod] = useState('card');
   const [error, setError] = useState('');
+  // Set when "Continue to checkout" is pressed with the research-use box
+  // unticked: the box is outlined in red and the reason is shown. The button
+  // used to be disabled instead, so a press did nothing and said nothing —
+  // ad shoppers on 14–16 Nov 2026 pressed it over and over and left.
+  const [ackNudge, setAckNudge] = useState(false);
+  // Checkout's own total, when it came back HIGHER than the one shown (the
+  // `price_increased` refusal). Shown in place of the old total and posted on
+  // the next press. Without this every retry re-posted the stale total and was
+  // refused again, forever.
+  const [repriced, setRepriced] = useState(null);
   const [busy, setBusy] = useState(false);
   const [honeypot, setHoneypot] = useState('');
   const [canSubmit, setCanSubmit] = useState(true);
@@ -201,6 +211,30 @@ export default function CartSheet({
     total: quote.total,
     dealApplied: quote.dealApplied,
   } : totalsFor(cart, currency, exchangeRate)), [quote, cart, currency, exchangeRate]);
+
+  // A server total the shopper has been shown, only while the cart, code and
+  // currency are still the ones it was quoted for.
+  const repricedKey = JSON.stringify([cart.map((line) => [line.slug, line.size, line.qty]), currency, promo?.code || '']);
+  const repricedTotal = repriced && repriced.key === repricedKey
+    ? Number(currency === 'USD' ? repriced.pricing.totalUsd : repriced.pricing.totalCrc)
+    : null;
+  const shownTotal = Number.isFinite(repricedTotal) && repricedTotal > 0 ? repricedTotal : totals.total;
+
+  // Every refusal is shown beside the button that caused it (the footer never
+  // scrolls), and the field it is about is brought into view. Errors used to
+  // print at the bottom of the form, below the fold on a phone.
+  const errorFieldRef = useRef('');
+  useEffect(() => {
+    if (!error) return;
+    const id = errorFieldRef.current;
+    errorFieldRef.current = '';
+    if (!id) return;
+    const field = document.getElementById(id);
+    if (!field) return;
+    field.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    try { field.focus({ preventScroll: true }); } catch { /* old browsers */ }
+  }, [error, step]);
+
   const delivery = useMemo(
     () => (quote
       ? deliveryProgress(quote, freeShippingThreshold(currency, exchangeRate))
@@ -240,38 +274,49 @@ export default function CartSheet({
       '',
       ...lines,
       '',
-      `Total: ${money(totals.total, totals.total)}`,
+      `Total: ${money(shownTotal, shownTotal)}`,
       details.name ? `Name: ${details.name}` : '',
       address ? `Address: ${address}` : '',
       method === 'whatsapp' ? 'I will pay by SINPE / bank transfer.' : '',
     ].filter(Boolean).join('\n');
   };
 
-  function validate() {
-    if (!ack) return t('Please confirm the research-use statement.');
+  /** The first thing stopping checkout, and the id of the field it is about. */
+  function firstProblem() {
+    if (!ack) return [t('Please confirm the research-use statement.'), ''];
     if (!hasCustomerName(details.name)) {
-      return t('Please add your name.');
+      return [t('Please add your name.'), 'co-name'];
     }
     if (phoneDigits(details.phone).length !== 8) {
-      return t('Please add a valid WhatsApp number (8 digits).');
+      return [t('Please add a valid WhatsApp number (8 digits).'), 'co-phone'];
     }
     if (!details.province || !details.canton) {
-      return t('Please choose your province and canton.');
+      return [t('Please choose your province and canton.'), details.province ? 'co-canton' : 'co-prov'];
     }
     if (!String(details.directions || '').trim()) {
-      return t('Please add the exact directions to your address.');
+      return [t('Please add the exact directions to your address.'), 'co-addr'];
     }
-    return '';
+    return ['', ''];
+  }
+
+  /** Shows the first problem, on the step that can fix it. True if there was one. */
+  function stopOnProblem() {
+    const [problem, fieldId] = firstProblem();
+    if (!problem) return false;
+    if (!ack) {
+      setAckNudge(true);
+      setStep('cart');
+    } else {
+      setStep('details');
+    }
+    errorFieldRef.current = fieldId;
+    setError(problem);
+    return true;
   }
 
   async function place(paymentMethod) {
     if (placingRef.current) return; // an order is already being placed
-    const problem = validate();
-    if (problem) {
-      setError(problem);
-      setStep(ack ? 'details' : 'cart');
-      return;
-    }
+    if (stopOnProblem()) return;
     if (BANK_CHOICES.includes(paymentMethod) && !bankMethods[paymentMethod]) {
       setError(t('This payment method is not available right now. Please choose another.'));
       return;
@@ -306,19 +351,30 @@ export default function CartSheet({
     // The code travels with the order as the catalog's checkout sends it;
     // checkout validates it again and prices with it.
     Object.assign(payload, promoOrderFields(usablePromo(promo, cart)));
+    // The shopper has seen and pressed Pay on checkout's higher total: post
+    // that one, so checkout agrees instead of refusing the same figure again.
+    if (repricedTotal !== null && shownTotal === repricedTotal) {
+      payload.total_usd = repriced.pricing.totalUsd;
+      payload.total_crc = repriced.pricing.totalCrc;
+    }
 
     const result = await submitOrder(payload);
     setBusy(false);
     placingRef.current = false;
 
     if (!result.ok) {
-      if (result.errorCode === 'price_increased') {
-        setError(t('Prices moved while this cart was open. Please review the new total.'));
+      if (result.errorCode === 'price_increased' && result.pricing) {
+        setRepriced({ key: repricedKey, pricing: result.pricing });
+        const next = Number(currency === 'USD' ? result.pricing.totalUsd : result.pricing.totalCrc);
+        setError(lang === 'es'
+          ? `Los precios cambiaron mientras el carrito estaba abierto. El nuevo total es ${money(next, next)}. Presione el botón otra vez para continuar.`
+          : `Prices moved while this cart was open. The new total is ${money(next, next)}. Press the button again to continue.`);
         return;
       }
       setError(result.error || t('Your order could not be saved. Please try again.'));
       return;
     }
+    setRepriced(null);
 
     cartSavedRef.current = false;
     onClear();
@@ -360,7 +416,7 @@ export default function CartSheet({
       exchangeRate,
       shipping: totals.shipping,
       savings: totals.discountAmount,
-      total: totals.total,
+      total: shownTotal,
     });
   }
 
@@ -755,8 +811,6 @@ export default function CartSheet({
                     }}
                   />
 
-                  {error ? <div className="err">{error}</div> : null}
-
                   <p className="muted" style={{ fontSize: '12.5px', marginTop: '10px', display: 'flex', gap: '6px' }}>
                     <Ms name="lock" style={{ fontSize: '17px' }} />
                     {t('Used only to deliver your order. We never sell or share your details.')}
@@ -854,7 +908,7 @@ export default function CartSheet({
                     </div>
                     <div className="tot">
                       <span>{t('Total')}</span>
-                      <b className="num">{money(totals.total, totals.total)}</b>
+                      <b className="num">{money(shownTotal, shownTotal)}</b>
                     </div>
                   </div>
 
@@ -961,8 +1015,6 @@ export default function CartSheet({
                       {t("Choose how you'd like to pay.")}
                     </p>
                   )}
-
-                  {error ? <div className="err" style={{ marginTop: '12px' }}>{error}</div> : null}
                 </>
               ) : null}
             </>
@@ -974,8 +1026,15 @@ export default function CartSheet({
             {/* Sits beside the button it unlocks. Below the upsells it was
                 off-screen on a phone, under a button that just looked greyed out. */}
             {step === 'cart' ? (
-              <label className="ack">
-                <input type="checkbox" checked={ack} onChange={(event) => setAck(event.target.checked)} />
+              <label className={`ack${ackNudge && !ack ? ' need' : ''}`}>
+                <input
+                  type="checkbox"
+                  checked={ack}
+                  onChange={(event) => {
+                    setAck(event.target.checked);
+                    if (event.target.checked) { setAckNudge(false); setError(''); }
+                  }}
+                />
                 <span>
                   {t('I confirm these products are for')}{' '}
                   <b>{t('laboratory research use only')}</b>
@@ -999,9 +1058,12 @@ export default function CartSheet({
                 </span>
               </span>
               <span>
-                <b className="num">{money(totals.total, totals.total)}</b>
+                <b className="num">{money(shownTotal, shownTotal)}</b>
               </span>
             </div>
+
+            {/* Right above the button, so it is seen whatever the scroll. */}
+            {error ? <div className="err sh-err" role="alert">{error}</div> : null}
 
             <div style={{ display: 'flex', gap: '8px' }}>
               {step !== 'cart' ? (
@@ -1018,10 +1080,18 @@ export default function CartSheet({
 
               {step === 'cart' ? (
                 <button
-                  className="btn block"
+                  className={`btn block${ack ? '' : ' soft'}`}
                   type="button"
-                  disabled={!ack}
-                  onClick={() => { setError(''); setStep('details'); track?.('begin_checkout'); }}
+                  onClick={() => {
+                    if (!ack) {
+                      setAckNudge(true);
+                      setError(t('Please confirm the research-use statement.'));
+                      return;
+                    }
+                    setError('');
+                    setStep('details');
+                    track?.('begin_checkout');
+                  }}
                 >
                   {t('Continue to checkout')}
                   <Ms name="arrow_forward" />
@@ -1031,8 +1101,7 @@ export default function CartSheet({
                   className="btn block"
                   type="button"
                   onClick={() => {
-                    const problem = validate();
-                    if (problem) { setError(problem); return; }
+                    if (stopOnProblem()) return;
                     setError('');
                     setStep('pay');
                     track?.('add_shipping_info', { shipping_tier: 'delivery' });
@@ -1050,13 +1119,13 @@ export default function CartSheet({
                   onClick={() => place(method)}
                 >
                   {busy ? t('Working…') : method === 'card'
-                    ? `${t('Pay')} ${money(totals.total, totals.total)} ${t('by Card')}`
+                    ? `${t('Pay')} ${money(shownTotal, shownTotal)} ${t('by Card')}`
                     : method === 'ach'
-                      ? `${t('Pay')} ${money(totals.total, totals.total)} ${t('by Bank (ACH)')}`
+                      ? `${t('Pay')} ${money(shownTotal, shownTotal)} ${t('by Bank (ACH)')}`
                       : method === 'crypto'
-                        ? `${t('Pay')} ${money(totals.total, totals.total)} ${t('with Crypto')}`
+                        ? `${t('Pay')} ${money(shownTotal, shownTotal)} ${t('with Crypto')}`
                         : BANK_CHOICES.includes(method)
-                          ? `${t('Place order')} · ${money(totals.total, totals.total)}`
+                          ? `${t('Place order')} · ${money(shownTotal, shownTotal)}`
                           : t('Send on WhatsApp')}
                 </button>
               )}
