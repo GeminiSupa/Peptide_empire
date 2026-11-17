@@ -415,7 +415,13 @@ Owner (Omer) to do or decide:
     (owner: the main site's pages are for Google Ads). Not exercised: a real
     order or WhatsApp tap from these pages, and the TikTok pixel firing. The
     TESA title says 10 and 20 mg while 20 mg is sold out.
-18. Crypto off the checkout, Apple Pay its own option (17 Nov 2026, Joey:
+18. Crypto off the checkout, Apple Pay its own option — **live on both sites
+    since 18 Nov 2026** (catalog `21173878`, website `da911a6f`; checked on
+    `catalog.peptidescostarica.net` from a Windows PC: the tile is there and
+    the black Apple Pay button reads the cart total, and the website's shipped
+    bundle carries the tile with no device test). Still unproven: a real Apple
+    Pay payment, and what an Android shopper sees after tapping the tile (Givver
+    shows them the plain card form). (17 Nov 2026, Joey:
     "crypto worthless, nobody uses", "separate cards and Apple Pay"). Both
     checkouts: the Crypto tile is gone, and Apple Pay is a new tile right
     after Card, shown on every device (Omer, 18 Nov 2026 — see the Givver
