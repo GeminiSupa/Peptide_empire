@@ -106,3 +106,23 @@ test('this site answers /api/lp/products itself', () => {
   // The pages only replace their snapshot when the body says dbBacked.
   assert.ok(route.includes('dbBacked: true'), 'a good answer is marked dbBacked');
 });
+
+test('each page keeps the ad click ids and the visit source, and sends them with the order', () => {
+  // The order goes to the catalog's address, where the browser sends no
+  // cookie, so the page carries the source itself (17 Nov 2026).
+  for (const slug of AD_LANDING_PAGES) {
+    const text = html(slug).replace(/\r\n/g, '\n');
+    for (const key of ['landing_ref', 'landing_cid', 'landing_ttclid']) {
+      assert.ok(text.includes(`    ${key}: window.LP_TESTING ? null : window.lpLanding("${key}")`), `${slug} sends ${key}`);
+    }
+    assert.ok(text.includes('fetch("/api/lp/touch/", { method: "POST"'), `${slug} records the visit's source here`);
+    assert.ok(text.includes('    touch: window.LP_TESTING ? null : (window.lpTouchState || null)'), `${slug} sends the source with the order`);
+    assert.ok(text.includes('function wa(msg) { return "/api/whatsapp/open/?phone="'), `${slug} WhatsApp taps are tracked`);
+    assert.ok(text.includes('Spanish for the ad pages'), `${slug} reads in Spanish`);
+    // This site loads no TikTok pixel and adds none without the owner (README).
+    assert.ok(!text.includes('ttq.load') && !text.includes('TikTok pixel'), `${slug} carries no TikTok pixel`);
+  }
+  const route = fs.readFileSync(path.join(ROOT, 'app/api/lp/touch/route.js'), 'utf8');
+  assert.ok(route.includes("from '@/lib/catalog-attribution/touchTracker.mjs'"), 'the catalog\'s own touch code');
+  assert.ok(route.includes('NextResponse.json({ touch: state || null }'), 'hands the source back to the page');
+});

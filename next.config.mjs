@@ -57,7 +57,7 @@ export const OLD_AD_LANDING_PAGES = [
  * happens to serve a folder's `index.html`; `next dev` and `next start` do not,
  * so say it explicitly — the catalog's config does the same for its copies.
  */
-export const AD_LANDING_PAGES = ['ghk-cu-100mg', 'ipamorelin-10mg'];
+export const AD_LANDING_PAGES = ['ghk-cu-100mg', 'ipamorelin-10mg', 'tesa-compound', 'klow-80mg', 'glow-70mg'];
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

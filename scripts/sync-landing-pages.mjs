@@ -55,7 +55,7 @@ const CHECK = args.includes('--check');
 const REF = args.includes('--ref') ? args[args.indexOf('--ref') + 1] : 'origin/catalog';
 
 /** The ad landing pages copied here, by slug. Each is public/lp/<slug>/index.html. */
-export const PAGES = ['ghk-cu-100mg', 'ipamorelin-10mg'];
+export const PAGES = ['ghk-cu-100mg', 'ipamorelin-10mg', 'tesa-compound', 'klow-80mg', 'glow-70mg'];
 
 /** Everything the pages' images live under; copied whole, so new ones follow. */
 const ASSET_DIR = 'public/lp-assets';
@@ -93,6 +93,25 @@ export function patchesFor(slug) {
       find: "location.href = '/pay-card?order='",
       replace: `location.href = '${CATALOG_ORIGIN}/pay-card?order='`,
     },
+    // No TikTok pixel here: this site loads none, its README's rule is to add
+    // no pixel without the owner, and these pages are for Google Ads (owner,
+    // 17 Nov 2026). The catalog's copies keep theirs.
+    {
+      find: /<!-- TikTok pixel:[\s\S]*?<\/script>\r?\n/,
+      replace: '',
+    },
+    // This site's routes answer with a trailing slash (trailingSlash in
+    // next.config.mjs); asking for that address directly saves a redirect.
+    // /api/lp/touch records the visit's source (app/api/lp/touch/route.js);
+    // WhatsApp taps go through the synced tracked redirect.
+    {
+      find: 'fetch("/api/lp/touch",',
+      replace: 'fetch("/api/lp/touch/",',
+    },
+    {
+      find: 'return "/api/whatsapp/open?phone="',
+      replace: 'return "/api/whatsapp/open/?phone="',
+    },
   ];
 }
 
@@ -112,13 +131,16 @@ for (const slug of PAGES) {
   const file = `public/lp/${slug}/index.html`;
   let html = read(file).toString();
   for (const patch of patchesFor(slug)) {
-    const count = html.split(patch.find).length - 1;
+    const isPattern = patch.find instanceof RegExp;
+    const count = isPattern
+      ? (html.match(new RegExp(patch.find.source, `${patch.find.flags.replace('g', '')}g`)) || []).length
+      : html.split(patch.find).length - 1;
     if (count !== 1) {
       throw new Error(
-        `${file}: expected 1 match of ${JSON.stringify(patch.find)}, found ${count}: upstream changed, review the patch`,
+        `${file}: expected 1 match of ${isPattern ? patch.find : JSON.stringify(patch.find)}, found ${count}: upstream changed, review the patch`,
       );
     }
-    html = html.split(patch.find).join(patch.replace);
+    html = isPattern ? html.replace(patch.find, () => patch.replace) : html.split(patch.find).join(patch.replace);
   }
   outputs.set(file, Buffer.from(html));
 }

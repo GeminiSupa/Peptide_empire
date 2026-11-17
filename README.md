@@ -188,12 +188,22 @@ address in the ad **is** the page, HTTP 200, no hop, the ads team's rule.
   `--check` fails when the copy has drifted; run it before every website push,
   like the checkout one. Every file it writes is listed in
   `data/lp/.synced-files.json`.
-- The copy differs from the catalog's in four places, all in that script's
-  `PATCHES`: a "copied from" comment, a canonical naming this site (both
-  domains serve the file and the catalog has no `robots.txt`, so one page must
-  be the original), and the order POST and card redirect pointed at the
-  catalog — where every public order from this site goes today. **When
-  `NEXT_PUBLIC_OWN_CHECKOUT=true` is set, make those two relative again.**
+- Pages (17 Nov 2026): GHK-Cu, Ipamorelin, TESA-Compound, KLOW 80 mg and
+  GLOW 70 mg (`PAGES` in the script, `AD_LANDING_PAGES` in `next.config.mjs`).
+- The copy differs from the catalog's only in that script's `PATCHES`: a
+  "copied from" comment, a canonical naming this site (both domains serve the
+  file and the catalog has no `robots.txt`, so one page must be the original),
+  the order POST and card redirect pointed at the catalog — where every public
+  order from this site goes today (**when `NEXT_PUBLIC_OWN_CHECKOUT=true` is
+  set, make those two relative again**), trailing-slash addresses for
+  `/api/lp/touch/` and `/api/whatsapp/open/`, and no TikTok pixel (this site
+  loads none; the owner wants these pages for Google Ads, 17 Nov 2026).
+- Revenue by channel: each page posts its address to this site's
+  `/api/lp/touch/` (the catalog's `captureTouch`, vendored), which sets
+  `pcr_touch` and returns the state; the page sends it with the order as
+  `touch`, because the order goes to the catalog's address and the browser
+  sends no cookie there. `?ref=`, `?cid=` and `?ttclid=` ride along the same
+  way.
 - `/lp/<slug>` has to be rewritten to `/lp/<slug>/index.html`
   (`AD_LANDING_PAGES` in `next.config.mjs`): a static file only answers on its
   exact path, and a 404 there is a paid click thrown away.
