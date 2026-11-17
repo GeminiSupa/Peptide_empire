@@ -5,6 +5,7 @@ import {
   cardPaymentAccessMatchesOrder,
   verifyCardPaymentAccessToken,
 } from '@/lib/cardPaymentLink';
+import { gatewayLabelForPaymentType } from '@/lib/chargxPay.mjs';
 
 export const runtime = 'nodejs';
 
@@ -39,6 +40,10 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const orderNumber = searchParams.get('order');
     const token = searchParams.get('token');
+    // Which store takes this payment is a server decision (CARD_GATEWAY /
+    // ACH_GATEWAY), so the page cannot name it on its own — and it named
+    // Chargex while card payments had been going to Givver since 12 Nov 2026.
+    const payType = searchParams.get('type') || 'card';
 
     if (!orderNumber || !token) {
       return NextResponse.json({ error: 'Payment link is missing order or token details' }, { status: 400 });
@@ -64,7 +69,12 @@ export async function GET(request) {
       return NextResponse.json({ error: 'Payment link signature is invalid. Please request a fresh card payment link.' }, { status: 403 });
     }
 
-    return NextResponse.json({ ok: true, order: publicOrder(order), analyticsReceiptToken: createAnalyticsReceiptToken(order.order_number, order.id) });
+    return NextResponse.json({
+      ok: true,
+      order: publicOrder(order),
+      gatewayLabel: gatewayLabelForPaymentType(payType),
+      analyticsReceiptToken: createAnalyticsReceiptToken(order.order_number, order.id),
+    });
   } catch (err) {
     console.error('[card-payment-link/order]', err);
     return NextResponse.json({ error: err.message || 'Internal error' }, { status: 500 });

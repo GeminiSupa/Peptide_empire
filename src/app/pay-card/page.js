@@ -33,6 +33,9 @@ function CardPaymentContent() {
   const payType = requestedType === 'ach' || requestedType === 'crypto' ? requestedType : 'card';
   const { links } = useBusinessLinks();
   const [order, setOrder] = useState(null);
+  // Named by the server: see the route. Until it answers, the page says
+  // "our card processor" rather than guessing a brand.
+  const [gatewayLabel, setGatewayLabel] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [paying, setPaying] = useState(false);
@@ -76,12 +79,13 @@ function CardPaymentContent() {
       setLoading(true);
       setError('');
       try {
-        const params = new URLSearchParams({ order: orderNumber, token });
+        const params = new URLSearchParams({ order: orderNumber, token, type: payType });
         const res = await fetch(`/api/card-payment-link/order?${params.toString()}`);
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Payment link could not be loaded');
         if (cancelled) return;
         setOrder(data.order);
+        setGatewayLabel(String(data.gatewayLabel || ''));
         stashReceipt(data.order.orderNumber, data.analyticsReceiptToken);
         setForm(prev => ({
           ...prev,
@@ -111,7 +115,7 @@ function CardPaymentContent() {
     return () => {
       cancelled = true;
     };
-  }, [orderNumber, token]);
+  }, [orderNumber, token, payType]);
 
   useEffect(() => {
     let cancelled = false;
@@ -152,6 +156,9 @@ function CardPaymentContent() {
       setSwitching('');
     }
   };
+
+  // "Givver", "Chargex", or a plain description while the order loads.
+  const processor = gatewayLabel || (isEn ? 'our card processor' : 'nuestro procesador de tarjetas');
 
   const submitPayment = async (event) => {
     event.preventDefault();
@@ -329,8 +336,8 @@ function CardPaymentContent() {
               <p className="card-pay-note">
                 <Lock size={14} />
                 {isEn
-                  ? 'Card details are processed by Chargex and are not stored by Costa Peptides.'
-                  : 'Los datos de tarjeta son procesados por Chargex y no se almacenan en Costa Peptides.'}
+                  ? `Card details are processed by ${processor} and are not stored by Costa Peptides.`
+                  : `Los datos de tarjeta son procesados por ${processor} y no se almacenan en Costa Peptides.`}
               </p>
               <div className="card-pay-statement-notice">
                 <p className="card-pay-statement-notice__heading">
@@ -339,8 +346,8 @@ function CardPaymentContent() {
                 <ul className="card-pay-statement-notice__list">
                   <li>
                     {isEn
-                      ? <>Charged in <strong>US dollars</strong> by Chargex. Your order stays with us in Costa Rica.</>
-                      : <>Se cobra en <strong>dólares</strong> a través de Chargex. Tu pedido sigue con nosotros en Costa Rica.</>}
+                      ? <>Charged in <strong>US dollars</strong> by {processor}. Your order stays with us in Costa Rica.</>
+                      : <>Se cobra en <strong>dólares</strong> a través de {processor}. Tu pedido sigue con nosotros en Costa Rica.</>}
                   </li>
                   <li>
                     {isEn
@@ -365,20 +372,20 @@ function CardPaymentContent() {
             <form className="card-pay-panel card-pay-form" onSubmit={submitPayment}>
               <div className="card-pay-form-title">
                 <CreditCard size={20} />
-                <h2>{isEn ? 'Pay on Chargex' : 'Pagar en Chargex'}</h2>
+                <h2>{isEn ? `Pay on ${processor}` : `Pagar en ${processor}`}</h2>
               </div>
               <p className="card-pay-muted">
                 {payType === 'ach'
                   ? (isEn
-                    ? 'The next page is Chargex, our payment processor. You enter your US bank account details there. We never see them.'
-                    : 'La siguiente página es Chargex, nuestro procesador de pagos. Ahí escribe los datos de su cuenta bancaria de EE. UU. Nosotros nunca los vemos.')
+                    ? `The next page is ${processor}, our payment processor. You enter your US bank account details there. We never see them.`
+                    : `La siguiente página es ${processor}, nuestro procesador de pagos. Ahí escribe los datos de su cuenta bancaria de EE. UU. Nosotros nunca los vemos.`)
                   : payType === 'crypto'
                     ? (isEn
-                      ? 'The next page is Chargex, our payment processor. You send the crypto payment from there. We never handle your wallet.'
-                      : 'La siguiente página es Chargex, nuestro procesador de pagos. Desde ahí envía el pago en cripto. Nosotros nunca manejamos su billetera.')
+                      ? `The next page is ${processor}, our payment processor. You send the crypto payment from there. We never handle your wallet.`
+                      : `La siguiente página es ${processor}, nuestro procesador de pagos. Desde ahí envía el pago en cripto. Nosotros nunca manejamos su billetera.`)
                     : (isEn
-                      ? 'The next page is Chargex. You enter the card there. We never see the card number.'
-                      : 'La siguiente página es Chargex. Ahí escribe la tarjeta. Nosotros nunca vemos el número.')}
+                      ? `The next page is ${processor}. You enter the card there — or tap Apple Pay, where your device offers it.`
+                      : `La siguiente página es ${processor}. Ahí escribe la tarjeta — o toque Apple Pay, si su dispositivo lo ofrece.`)}
               </p>
               <label>
                 <span>{isEn ? 'Email for receipt' : 'Correo para recibo'}</span>
@@ -432,6 +439,18 @@ function CardPaymentContent() {
                       {switching === 'bank_transfer'
                         ? (isEn ? 'Switching…' : 'Cambiando…')
                         : (isEn ? 'Bank transfer' : 'Transferencia bancaria')}
+                    </button>
+                  )}
+                  {/* US bank (ACH) is not a different order at all — it is this
+                      same page pointed at the gateway's ACH form, so it only
+                      changes the address. */}
+                  {payType !== 'ach' && (
+                    <button
+                      type="button"
+                      disabled={Boolean(switching)}
+                      onClick={() => { window.location.href = `/pay-card?order=${encodeURIComponent(orderNumber)}&token=${encodeURIComponent(token)}&type=ach`; }}
+                    >
+                      {isEn ? 'Bank (ACH)' : 'Banco (ACH)'}
                     </button>
                   )}
                   <a

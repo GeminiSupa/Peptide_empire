@@ -28,6 +28,21 @@ test('the card page offers the other ways to pay the same order', () => {
   assert.match(page, /I would like to pay by another method/);
 });
 
+test('the page names the store that will actually take the payment', () => {
+  // Card went to Givver on 12 Nov 2026 while this page still said "Chargex"
+  // in five places (Omer, 18 Nov 2026). The server decides the gateway
+  // (CARD_GATEWAY / ACH_GATEWAY), so the server has to name it.
+  const orderRoute = fs.readFileSync('src/app/api/card-payment-link/order/route.js', 'utf8');
+  assert.match(orderRoute, /gatewayLabel: gatewayLabelForPaymentType\(payType\)/);
+  assert.match(page, /type: payType/);
+  assert.match(page, /const processor = gatewayLabel \|\|/);
+  // Nothing customer-facing may hard-code a brand again.
+  const render = page.slice(page.indexOf('card-pay-panel card-pay-form') - 8000);
+  assert.doesNotMatch(render, /Chargex/, 'no hard-coded processor name in the page the customer reads');
+  // Bank (ACH) is the same page pointed at the gateway's ACH form.
+  assert.match(page, /type=ach/);
+});
+
 test('switching keeps the order and carries the bank token in the hash', () => {
   assert.match(page, /fetch\('\/api\/card-payment-link\/switch-to-bank'/);
   assert.match(page, /body: JSON\.stringify\(\{ order: orderNumber, token, method \}\)/);
