@@ -123,14 +123,15 @@ test('the payment request carries the chosen type, and defaults to card', async 
   assert.equal((await sentTypeFor('ach')).page.payment_type, 'ach');
 });
 
-test('the storefront offers ACH and crypto, and the server passes the type on', () => {
+test('the storefront offers ACH (crypto tile removed), and the server passes the type on', () => {
   const catalog = fs.readFileSync('src/app/catalog/page.js', 'utf8');
   const route = fs.readFileSync('src/app/api/chargx/process-card/route.js', 'utf8');
   assert.match(catalog, /value: 'ach'/);
-  assert.match(catalog, /value: 'crypto'/);
+  // Crypto left the checkout (Joey, 15 Nov 2026); /pay-card?type=crypto still works.
+  assert.doesNotMatch(catalog, /value: 'crypto'/);
   assert.match(catalog, /payType: chargxPayType/);
   // Enter in a form field must not fall through to the manual-order path.
-  assert.match(catalog, /paymentMethod === 'card' \|\| paymentMethod === 'ach' \|\| paymentMethod === 'crypto'\) \{\s*\/\/ Card, ACH and crypto/);
+  assert.match(catalog, /paymentMethod === 'card' \|\| paymentMethod === 'apple_pay' \|\| paymentMethod === 'ach' \|\| paymentMethod === 'crypto'\) \{\s*\/\/ Card, Apple Pay, ACH and crypto/);
   assert.match(route, /normalizeChargxPaymentType\(body\?\.payType\)/);
   assert.match(route, /type: payType/);
   // The order is still saved as a card order, so no other path changes.

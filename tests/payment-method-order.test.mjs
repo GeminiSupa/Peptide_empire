@@ -9,10 +9,24 @@ test('checkout payment methods follow the customer-facing priority order', () =>
     catalog.indexOf('className="payment-method-grid"'),
     catalog.indexOf('].map(method =>', catalog.indexOf('className="payment-method-grid"')),
   );
-  const positions = ['whatsapp', 'card', 'sinpe', 'bank_transfer', 'ach', 'crypto']
+  // Apple Pay right after Card; crypto removed (Joey, 15 Nov 2026).
+  const positions = ['whatsapp', 'card', 'apple_pay', 'sinpe', 'bank_transfer', 'ach']
     .map((method) => paymentGrid.indexOf(`value: '${method}'`));
   assert.ok(positions.every((position) => position >= 0), 'every payment method is present');
   assert.deepEqual(positions, [...positions].sort((a, b) => a - b));
+  assert.equal(paymentGrid.indexOf("value: 'crypto'"), -1, 'crypto is not offered');
+});
+
+test('Apple Pay is its own tile, only where the device can pay with it', () => {
+  // Shown only when this device can use Apple Pay and the wallet is live.
+  assert.match(catalog, /\.\.\.\(applePayOffered \? \[\{\s*value: 'apple_pay'/);
+  // The Card tile no longer names it, and its logo row has no Apple mark.
+  assert.doesNotMatch(catalog, /Credit\/Debit\$\{applePayOffered/);
+  const cardMarks = catalog.slice(catalog.indexOf('function CardBrandMarks()'), catalog.indexOf('function CostaRicaBankMarks()'));
+  assert.doesNotMatch(cardMarks, /M13\.3 5\.7/, 'no Apple logo on the Card tile');
+  // It pays through the card flow: same gateway page, saved as a card order.
+  assert.match(catalog, /const chargxPayType = paymentMethod === 'ach' \|\| paymentMethod === 'crypto' \? paymentMethod : 'card'/);
+  assert.match(catalog, /paymentMethod === 'apple_pay' && !cardRetryBlocked && \(\s*<button[\s\S]{0,200}apple-pay-btn--full[\s\S]{0,700}onClick=\{startCardCheckout\}/);
 });
 
 test('Costa Rican bank transfer shows the requested bank marks without claiming exclusivity', () => {

@@ -435,6 +435,22 @@ function WhatsAppPayMark() {
   );
 }
 
+/** Apple Pay's own tile. Same mark as the black Apple Pay button. */
+function ApplePayMark() {
+  return (
+    <span className="payment-brand-row" aria-hidden="true">
+      <svg viewBox="0 0 58 24" focusable="false">
+        <rect width="58" height="24" rx="4" fill="#000" />
+        <g transform="translate(6, 4.2) scale(0.9)">
+          <path fill="#fff" d="M13.3 5.7c-.1.1-1.6.9-1.6 2.8 0 2.2 1.9 3 2 3-.1.1-.3 1.1-1.1 2.1-.7.9-1.4 1.8-2.5 1.8-1.1 0-1.4-.6-2.6-.6s-1.6.6-2.6.6c-1 0-1.9-.9-2.6-1.9C1.1 12 0 9.3 0 6.8 0 4.4 1.5 3.1 3 3.1c1.1 0 2 .7 2.6.7.6 0 1.7-.8 2.9-.7.5 0 1.9.2 2.8 1.5zM9.6 2.1c.5-.6.9-1.5.8-2.3-.8 0-1.7.5-2.2 1.2-.5.6-.9 1.5-.8 2.3.9.1 1.7-.4 2.2-1.2z" />
+        </g>
+        <text x="52" y="16" textAnchor="end" fill="#fff" fontFamily="Segoe UI, Arial, sans-serif" fontSize="11" fontWeight="600">Pay</text>
+      </svg>
+    </span>
+  );
+}
+
+/** Card's tile. Apple Pay has its own tile, so its mark is left off here. */
 function CardBrandMarks() {
   return (
     <span className="payment-brand-row" aria-hidden="true">
@@ -450,13 +466,6 @@ function CardBrandMarks() {
           <circle cx="15" cy="12" r="6.5" />
         </clipPath>
         <circle cx="23" cy="12" r="6.5" fill="#FF5F00" clipPath="url(#card-brand-mc-clip)" />
-      </svg>
-      <svg viewBox="0 0 58 24" focusable="false">
-        <rect width="58" height="24" rx="4" fill="#000" />
-        <g transform="translate(6, 4.2) scale(0.9)">
-          <path fill="#fff" d="M13.3 5.7c-.1.1-1.6.9-1.6 2.8 0 2.2 1.9 3 2 3-.1.1-.3 1.1-1.1 2.1-.7.9-1.4 1.8-2.5 1.8-1.1 0-1.4-.6-2.6-.6s-1.6.6-2.6.6c-1 0-1.9-.9-2.6-1.9C1.1 12 0 9.3 0 6.8 0 4.4 1.5 3.1 3 3.1c1.1 0 2 .7 2.6.7.6 0 1.7-.8 2.9-.7.5 0 1.9.2 2.8 1.5zM9.6 2.1c.5-.6.9-1.5.8-2.3-.8 0-1.7.5-2.2 1.2-.5.6-.9 1.5-.8 2.3.9.1 1.7-.4 2.2-1.2z" />
-        </g>
-        <text x="52" y="16" textAnchor="end" fill="#fff" fontFamily="Segoe UI, Arial, sans-serif" fontSize="11" fontWeight="600">Pay</text>
       </svg>
       <svg viewBox="0 0 58 24" focusable="false">
         <rect x="0.5" y="0.5" width="57" height="23" rx="4" fill="#fff" stroke="#D0D5DD" />
@@ -3582,7 +3591,8 @@ export default function CatalogPage() {
     setCardSubmitting(true);
 
     // The ACH and crypto tiles run this same flow. The order is saved as a
-    // Chargex order either way; only the page Chargex opens differs.
+    // Chargex order either way; only the page Chargex opens differs. The
+    // Apple Pay tile is a card payment: Apple Pay is picked on that page.
     const chargxPayType = paymentMethod === 'ach' || paymentMethod === 'crypto' ? paymentMethod : 'card';
     // Chargex keeps some invalid-card failures entirely on its own hosted page:
     // no webhook and no cancel redirect. Keep our tab behind it on the recovery
@@ -3780,8 +3790,8 @@ export default function CatalogPage() {
   // Checkout submit
   const handleCheckoutSubmit = async (e) => {
     e.preventDefault();
-    if (paymentMethod === 'card' || paymentMethod === 'ach' || paymentMethod === 'crypto') {
-      // Card, ACH and crypto are handled by their own button below — should not reach here
+    if (paymentMethod === 'card' || paymentMethod === 'apple_pay' || paymentMethod === 'ach' || paymentMethod === 'crypto') {
+      // Card, Apple Pay, ACH and crypto are handled by their own button below — should not reach here
       return;
     }
     if (cart.length === 0) return;
@@ -5736,7 +5746,7 @@ export default function CatalogPage() {
             /* noValidate is deliberate: native constraint validation runs before
                 the submit event, so without it the browser's own bubble preempts
                 validateForm() and none of the inline field errors ever render. */
-            <form id="checkout-form-main" noValidate onSubmit={handleCheckoutSubmit} className="checkout-form" style={{ paddingBottom: (paymentMethod === 'card' || paymentMethod === 'ach' || paymentMethod === 'crypto') && CARD_CHECKOUT_AVAILABLE && !cardRetryBlocked ? '24px' : '96px' }}>
+            <form id="checkout-form-main" noValidate onSubmit={handleCheckoutSubmit} className="checkout-form" style={{ paddingBottom: (paymentMethod === 'card' || paymentMethod === 'apple_pay' || paymentMethod === 'ach' || paymentMethod === 'crypto') && CARD_CHECKOUT_AVAILABLE && !cardRetryBlocked ? '24px' : '96px' }}>
 
               {/* The honeypot. Off-screen rather than display:none, because a
                   script that skips hidden inputs is the one this is for; out of
@@ -6063,14 +6073,28 @@ export default function CatalogPage() {
                       ? (lang === 'en' ? 'Under maintenance' : 'En mantenimiento')
                       : (CARD_CHECKOUT_LIVE
                         ? (lang === 'en'
-                          ? `Credit/Debit${applePayOffered ? ' • Apple\u00A0Pay' : ''}${googlePayOffered ? ' • Google\u00A0Pay' : ''}`
-                          : `Crédito/Débito${applePayOffered ? ' • Apple\u00A0Pay' : ''}${googlePayOffered ? ' • Google\u00A0Pay' : ''}`)
+                          ? `Credit/Debit${googlePayOffered ? ' • Google\u00A0Pay' : ''}`
+                          : `Crédito/Débito${googlePayOffered ? ' • Google\u00A0Pay' : ''}`)
                         : (lang === 'en' ? 'Sandbox test mode' : 'Modo de prueba sandbox')),
                     badge: !CARD_CHECKOUT_AVAILABLE
                       ? (lang === 'en' ? 'Maintenance' : 'Mantenimiento')
                       : (CARD_CHECKOUT_LIVE ? null : (lang === 'en' ? 'Test' : 'Prueba')),
                     disabled: !CARD_CHECKOUT_AVAILABLE,
                   },
+                  // Apple Pay is its own option, right after Card (Joey,
+                  // 15 Nov 2026), and only on a device that can pay with it.
+                  // It opens the same gateway page as Card; the customer
+                  // taps Apple Pay there.
+                  ...(applePayOffered ? [{
+                    value: 'apple_pay',
+                    icon: <ApplePayMark />,
+                    title: 'Apple Pay',
+                    detail: !CARD_CHECKOUT_AVAILABLE
+                      ? (lang === 'en' ? 'Under maintenance' : 'En mantenimiento')
+                      : (lang === 'en' ? 'Face ID or Touch ID' : 'Face ID o Touch ID'),
+                    badge: !CARD_CHECKOUT_AVAILABLE ? (lang === 'en' ? 'Maintenance' : 'Mantenimiento') : null,
+                    disabled: !CARD_CHECKOUT_AVAILABLE,
+                  }] : []),
                   {
                     value: 'sinpe',
                     icon: '📱',
@@ -6097,16 +6121,9 @@ export default function CatalogPage() {
                     badge: !CARD_CHECKOUT_AVAILABLE ? (lang === 'en' ? 'Maintenance' : 'Mantenimiento') : null,
                     disabled: !CARD_CHECKOUT_AVAILABLE,
                   },
-                  {
-                    value: 'crypto',
-                    icon: '₿',
-                    title: lang === 'en' ? 'Crypto' : 'Cripto',
-                    detail: !CARD_CHECKOUT_AVAILABLE
-                      ? (lang === 'en' ? 'Under maintenance' : 'En mantenimiento')
-                      : (lang === 'en' ? 'Cryptocurrency • USD value' : 'Criptomonedas • valor en USD'),
-                    badge: !CARD_CHECKOUT_AVAILABLE ? (lang === 'en' ? 'Maintenance' : 'Mantenimiento') : null,
-                    disabled: !CARD_CHECKOUT_AVAILABLE,
-                  },
+                  // Crypto was taken off the checkout (Joey, 15 Nov 2026:
+                  // nobody uses it). /pay-card still accepts type=crypto, so
+                  // a payment link already sent keeps working.
                 ].map(method => (
                   <button
                     key={method.value}
@@ -6180,14 +6197,18 @@ export default function CatalogPage() {
                 </div>
               )}
 
-              {paymentMethod === 'card' && CARD_CHECKOUT_AVAILABLE ? (
+              {(paymentMethod === 'card' || paymentMethod === 'apple_pay') && CARD_CHECKOUT_AVAILABLE ? (
                 <>
                 <div className="card-payment-panel">
                   <div className="card-payment-fields">
                     <p className="card-payment-security-note">
-                      {lang === 'en'
-                        ? 'The next page is our card processor. You enter the card there. We never see the card number.'
-                        : 'La siguiente página es la de nuestro procesador de tarjetas. Ahí escribe la tarjeta. Nosotros nunca vemos el número.'}
+                      {paymentMethod === 'apple_pay'
+                        ? (lang === 'en'
+                          ? 'The next page is our payment processor. Tap Apple Pay there and confirm with Face ID or Touch ID. We never see your card.'
+                          : 'La siguiente página es la de nuestro procesador de pagos. Ahí toque Apple Pay y confirme con Face ID o Touch ID. Nosotros nunca vemos su tarjeta.')
+                        : (lang === 'en'
+                          ? 'The next page is our card processor. You enter the card there. We never see the card number.'
+                          : 'La siguiente página es la de nuestro procesador de tarjetas. Ahí escribe la tarjeta. Nosotros nunca vemos el número.')}
                     </p>
                   </div>
                   <p className="card-payment-fee-note">
@@ -6234,29 +6255,35 @@ export default function CatalogPage() {
                     button. Inside the scrolling notes a phone tap lands on
                     the text instead of the button. */}
                 <div className="cart-sticky-submit">
-                  {!cardRetryBlocked && (walletSupport.apple || walletSupport.google) && (
-                    <div className="wallet-pay-row">
-                      {walletSupport.apple && (
-                      <button
-                        type="button"
-                        className={`apple-pay-btn${APPLE_PAY_LIVE ? '' : ' apple-pay-btn--soon'}`}
-                        aria-label={APPLE_PAY_LIVE
-                          ? 'Apple Pay'
-                          : (lang === 'en' ? 'Apple Pay — coming soon' : 'Apple Pay — próximamente')}
-                        title={APPLE_PAY_LIVE
-                          ? undefined
-                          : (lang === 'en' ? 'Apple Pay is coming soon' : 'Apple Pay llega pronto')}
-                        disabled={!APPLE_PAY_LIVE || cardSubmitting || cart.length === 0 || checkBacOnlyMinimum(cart).blocked || Boolean(getWeeklyDealLimitError())}
-                        onClick={APPLE_PAY_LIVE ? startCardCheckout : undefined}
-                      >
-                        <svg viewBox="0 0 14 17" width="15" height="18" aria-hidden="true">
-                          <path fill="currentColor" d="M13.3 5.7c-.1.1-1.6.9-1.6 2.8 0 2.2 1.9 3 2 3-.1.1-.3 1.1-1.1 2.1-.7.9-1.4 1.8-2.5 1.8-1.1 0-1.4-.6-2.6-.6s-1.6.6-2.6.6c-1 0-1.9-.9-2.6-1.9C1.1 12 0 9.3 0 6.8 0 4.4 1.5 3.1 3 3.1c1.1 0 2 .7 2.6.7.6 0 1.7-.8 2.9-.7.5 0 1.9.2 2.8 1.5zM9.6 2.1c.5-.6.9-1.5.8-2.3-.8 0-1.7.5-2.2 1.2-.5.6-.9 1.5-.8 2.3.9.1 1.7-.4 2.2-1.2z" />
-                        </svg>
-                        <span>{APPLE_PAY_LIVE
-                          ? 'Pay'
-                          : (lang === 'en' ? 'Coming soon' : 'Próximamente')}</span>
-                      </button>
+                  {/* Apple Pay's own tile: one black Apple Pay button in place
+                      of the card button. It opens the same gateway page. */}
+                  {paymentMethod === 'apple_pay' && !cardRetryBlocked && (
+                    <button
+                      type="button"
+                      className="apple-pay-btn apple-pay-btn--full"
+                      aria-label={lang === 'en'
+                        ? `Pay ${formatPriceVal(getFinalTotal(), currency)} with Apple Pay`
+                        : `Pagar ${formatPriceVal(getFinalTotal(), currency)} con Apple Pay`}
+                      disabled={cardSubmitting || cart.length === 0 || checkBacOnlyMinimum(cart).blocked || Boolean(getWeeklyDealLimitError())}
+                      onClick={startCardCheckout}
+                    >
+                      {cardSubmitting ? (
+                        <>
+                          <div className="sync-spinner" style={{ width: '16px', height: '16px' }}></div>
+                          <span>{lang === 'en' ? 'Redirecting to payment...' : 'Redirigiendo al pago...'}</span>
+                        </>
+                      ) : (
+                        <>
+                          <svg viewBox="0 0 14 17" width="15" height="18" aria-hidden="true">
+                            <path fill="currentColor" d="M13.3 5.7c-.1.1-1.6.9-1.6 2.8 0 2.2 1.9 3 2 3-.1.1-.3 1.1-1.1 2.1-.7.9-1.4 1.8-2.5 1.8-1.1 0-1.4-.6-2.6-.6s-1.6.6-2.6.6c-1 0-1.9-.9-2.6-1.9C1.1 12 0 9.3 0 6.8 0 4.4 1.5 3.1 3 3.1c1.1 0 2 .7 2.6.7.6 0 1.7-.8 2.9-.7.5 0 1.9.2 2.8 1.5zM9.6 2.1c.5-.6.9-1.5.8-2.3-.8 0-1.7.5-2.2 1.2-.5.6-.9 1.5-.8 2.3.9.1 1.7-.4 2.2-1.2z" />
+                          </svg>
+                          <span>{`${lang === 'en' ? 'Pay' : 'Pagar'} ${formatPriceVal(getFinalTotal(), currency)}`}</span>
+                        </>
                       )}
+                    </button>
+                  )}
+                  {paymentMethod === 'card' && !cardRetryBlocked && walletSupport.google && (
+                    <div className="wallet-pay-row">
                       {walletSupport.google && (
                       <button
                         type="button"
@@ -6283,6 +6310,7 @@ export default function CatalogPage() {
                       )}
                     </div>
                   )}
+                  {(paymentMethod === 'card' || cardRetryBlocked) && (
                   <button
                     type="button"
                     disabled={cardSubmitting || cardRetryBlocked || cart.length === 0 || checkBacOnlyMinimum(cart).blocked || Boolean(getWeeklyDealLimitError())}
@@ -6306,15 +6334,15 @@ export default function CatalogPage() {
                       </>
                     )}
                   </button>
+                  )}
                   <p className="card-payment-caption">
                     {CARD_CHECKOUT_LIVE
-                      // Names only the wallets this device is being offered.
-                      ? ((applePayOffered || googlePayOffered)
-                        ? `${[
-                          ...(applePayOffered ? ['Apple Pay'] : []),
-                          ...(googlePayOffered ? ['Google Pay'] : []),
-                        ].join(', ')}${lang === 'en' ? ', or card. Same page.' : ' o tarjeta. La misma página.'}`
-                        : (lang === 'en' ? 'Secure card checkout.' : 'Pago seguro con tarjeta.'))
+                      ? (paymentMethod === 'apple_pay'
+                        ? (lang === 'en' ? 'Tap Apple Pay on the next secure page.' : 'Toque Apple Pay en la siguiente página segura.')
+                        // Names only the wallets this device is being offered.
+                        : googlePayOffered
+                          ? (lang === 'en' ? 'Google Pay or card. Same page.' : 'Google Pay o tarjeta. La misma página.')
+                          : (lang === 'en' ? 'Secure card checkout.' : 'Pago seguro con tarjeta.'))
                       : (lang === 'en'
                         ? 'Secure card checkout powered by Chargex sandbox'
                         : 'Pago seguro con tarjeta mediante Chargex sandbox')}

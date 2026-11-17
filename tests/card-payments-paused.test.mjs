@@ -131,7 +131,7 @@ test('the checkout hides the card option and shows the apology', () => {
   assert.match(catalog, /cardCheckoutMessage\('paused', lang\)/);
 
   // The card form itself, and the submit path behind it, are both closed.
-  assert.match(catalog, /paymentMethod === 'card' && CARD_CHECKOUT_AVAILABLE \?/);
+  assert.match(catalog, /\(paymentMethod === 'card' \|\| paymentMethod === 'apple_pay'\) && CARD_CHECKOUT_AVAILABLE \?/);
   assert.match(catalog, /if \(CARD_PAYMENTS_PAUSED\) \{/);
 });
 
