@@ -402,6 +402,23 @@ Owner (Omer) to do or decide:
     var. Not exercised: the price-change path (localhost cannot submit
     orders), a real `order.created` reaching his endpoint, and the in-app
     browsers themselves.
+17. Crypto off the checkout, Apple Pay its own option (17 Nov 2026, Joey:
+    "crypto worthless, nobody uses", "separate cards and Apple Pay"). Both
+    checkouts: the Crypto tile is gone, and Apple Pay is a new tile right
+    after Card, shown only on a device that can pay with it
+    (`ApplePaySession.canMakePayments()`). It is a card order (same gateway
+    page, `payment_method: 'card'`); Apple Pay is tapped on Givver's page.
+    The Card tile no longer shows the Apple Pay logo or name.
+    `/pay-card?type=crypto` still works for links already sent. Branches
+    `feat/apple-pay-tile` (catalog, worktree `catalog-apple-pay`) and
+    `feat/apple-pay-tile-website` (main, worktree `main-apple-pay`, re-synced
+    `catalog/globals.css`); push the catalog first. No migration, no env var.
+    **Depends on Givver:** on 15 Nov Joey's Apple Pay tap landed on a plain
+    card form because Givver's page did not offer Apple Pay; Givver said a fix
+    ("Apple/Google Pay buttons at the top of the form on mobile") was local
+    and coming. Until it ships, the Apple Pay tile leads to the card form. Not
+    exercised: a real iPhone (tested with a faked device check) and a real
+    payment.
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a
