@@ -40,6 +40,7 @@ export const ROUTES = {
   // Card (ChargX), Bank (ACH) and Crypto.
   'src/app/api/card-payment-link/order/route.js': 'app/api/card-payment-link/order/route.js',
   'src/app/api/card-payment-link/pay/route.js': 'app/api/card-payment-link/pay/route.js',
+  'src/app/api/card-payment-link/switch-to-bank/route.js': 'app/api/card-payment-link/switch-to-bank/route.js',
   'src/app/api/chargx/process-card/route.js': 'app/api/chargx/process-card/route.js',
   'src/app/api/chargx/webhook/route.js': 'app/api/chargx/webhook/route.js',
   'src/app/api/givver/webhook/route.js': 'app/api/givver/webhook/route.js',

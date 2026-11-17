@@ -14,6 +14,7 @@
     "app/api/bank-payments/settings/route.js",
     "app/api/card-payment-link/order/route.js",
     "app/api/card-payment-link/pay/route.js",
+    "app/api/card-payment-link/switch-to-bank/route.js",
     "app/api/chargx/process-card/route.js",
     "app/api/chargx/webhook/route.js",
     "app/api/givver/webhook/route.js",
