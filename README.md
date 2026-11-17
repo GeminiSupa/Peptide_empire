@@ -402,6 +402,19 @@ Owner (Omer) to do or decide:
     var. Not exercised: the price-change path (localhost cannot submit
     orders), a real `order.created` reaching his endpoint, and the in-app
     browsers themselves.
+17. Ad pages TESA-Compound, KLOW 80 mg, GLOW 70 mg and a new Ipamorelin copy
+    (17 Nov 2026, designer's files), at `/lp/tesa-compound`, `/lp/klow-80mg`,
+    `/lp/glow-70mg` on both domains. Each has one sales block under the hero
+    (COA before paying, the 5th vial, the four bought separately, one-tap
+    WhatsApp). Tesamorelin shows as "TESA-Compound"; orders still send
+    Tesamorelin. Same day, every ad page got what the app's layout never gave
+    a static file: Spanish for its own copy, `?ref=`/`?cid=`/`?ttclid=` sent
+    with the order, the visit's source (`/api/lp/touch`, also returned so the
+    main site's cross-site order carries it as `touch`), WhatsApp through
+    `/api/whatsapp/open`, and the TikTok pixel on the catalog's copies only
+    (owner: the main site's pages are for Google Ads). Not exercised: a real
+    order or WhatsApp tap from these pages, and the TikTok pixel firing. The
+    TESA title says 10 and 20 mg while 20 mg is sold out.
 
 Agents:
 - Move the rest of the catalog-only back end to the website, one piece at a
