@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 
 export async function GET(request) {
@@ -10,7 +11,7 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const productId = searchParams.get('productId');
 
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     let query = supabaseAdmin.from('product_batches').select('*').order('created_at', { ascending: false });
 
     if (productId) {
@@ -45,7 +46,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'productId and batchNumber are required' }, { status: 400 });
     }
 
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     const { data: newBatch, error } = await supabaseAdmin
       .from('product_batches')
       .insert({

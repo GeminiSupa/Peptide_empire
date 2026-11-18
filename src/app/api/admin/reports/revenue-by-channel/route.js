@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { getDatabaseBackedUsdToCrcRate } from '@/lib/exchangeRate';
 import { CHANNELS, CHANNEL_KEYS } from '@/lib/channelAttribution.mjs';
 import { buildRevenueByChannel, revenueByChannelCsv } from '@/lib/revenueByChannel.mjs';
@@ -84,7 +85,7 @@ export async function GET(request) {
     const customers = ['new', 'returning'].includes(url.searchParams.get('customers')) ? url.searchParams.get('customers') : 'all';
     const agent = String(url.searchParams.get('agent') || '').slice(0, 120);
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const [{ rows: orders, tracked }, spend, rateInfo] = await Promise.all([
       loadOrders(supabase),
       loadAdSpend(supabase),
@@ -143,7 +144,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Enter the amount in dollars.' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const enteredBy = auth.profile?.full_name || auth.profile?.name || auth.user?.email || 'admin';
     const { error } = amount === 0
       ? await supabase.from('ad_spend').delete().eq('week_start', week).eq('channel', channel)

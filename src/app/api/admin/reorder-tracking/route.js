@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { calculateCustomerReorderStats } from '@/lib/reorderTracking.mjs';
 
@@ -8,7 +9,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
 
     // Fetch all non-cancelled orders
     const { data: orders, error: ordersError } = await supabaseAdmin
@@ -70,7 +71,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'customerKey is required' }, { status: 400 });
     }
 
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
 
     // Get current overrides
     const { data: settings } = await supabaseAdmin

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import {
   PRODUCT_IMAGE_RULES,
@@ -176,7 +177,7 @@ export async function POST(request) {
     const prefix = PREFIXES[kind] ?? '';
     const path = `${prefix}${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${extension}`;
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { error: uploadError } = await supabase.storage
       .from(BUCKET)
       .upload(path, bytes, {

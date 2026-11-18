@@ -14,6 +14,8 @@ import { useRouter } from 'next/navigation';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { adminFetch } from '@/lib/adminApi';
 import { RELATED_SETTINGS_ID, normalizeRelatedSettings } from '@/lib/relatedProducts.mjs';
+import CountrySwitcher from '@/components/CountrySwitcher';
+import { resolveActiveSite, readSiteCookie, SITE_SCOPED_TABLES } from '@/lib/sites.mjs';
 import BankPaymentSettings from '@/components/admin/BankPaymentSettings';
 import SocialReviewsSettings from '@/components/admin/SocialReviewsSettings';
 import RequestsManager from '@/components/admin/RequestsManager';
@@ -2598,6 +2600,11 @@ Core Rules:
     }
 
     // Helper to bypass Supabase 1000 row limit
+    // The country the admin is working in now (the switcher's cookie, validated
+    // against what this person is allowed). Null = a superadmin's "All
+    // countries" view, which filters nothing.
+    const activeAdminSite = resolveActiveSite(adminProfile, readSiteCookie());
+
     const fetchAllRows = async (table, orderCol, ascending = false, matchEq = null) => {
       let allData = [];
       let from = 0;
@@ -2605,6 +2612,8 @@ Core Rules:
       while (true) {
         let q = supabase.from(table).select('*').order(orderCol, { ascending }).range(from, from + step - 1);
         if (matchEq) q = q.eq(matchEq.col, matchEq.val);
+        // One country's rows only, unless viewing all countries.
+        if (activeAdminSite && SITE_SCOPED_TABLES.has(table)) q = q.eq('site_id', activeAdminSite);
         const { data, error } = await q;
         if (error) { console.error(`Error fetching ${table}:`, error); break; }
         if (!data || data.length === 0) break;
@@ -2633,10 +2642,12 @@ Core Rules:
       console.log('Products table has unsaved edits; not reloading it.');
     } else if (isSupabaseConfigured && supabase) {
       try {
-        const { data, error } = await supabase
+        let productsQuery = supabase
           .from('products')
           .select('*')
           .order('priority', { ascending: true });
+        if (activeAdminSite) productsQuery = productsQuery.eq('site_id', activeAdminSite);
+        const { data, error } = await productsQuery;
 
         if (error) {
           console.error("❌ SUPABASE ADMIN PRODUCTS SELECT ERROR:", error);
@@ -5701,6 +5712,10 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
             <span>Workspace</span>
             <strong>{desktopTabMeta[activeTab]?.label || ADMIN_TAB_TITLES[activeTab] || 'Dashboard'}</strong>
           </div>
+          <div className="admin-nav-country">
+            <span>Country</span>
+            <CountrySwitcher profile={adminProfile} />
+          </div>
           <div className="admin-nav-tools">
             <button
               type="button"
@@ -5805,7 +5820,10 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
       {/* Main Admin dashboard container */}
       <div className="admin-container">
         <header className="admin-page-header">
-          <h1 className="admin-page-title">{ADMIN_TAB_TITLES[activeTab] || 'Admin'}</h1>
+          <div className="admin-page-header-row">
+            <h1 className="admin-page-title">{ADMIN_TAB_TITLES[activeTab] || 'Admin'}</h1>
+            <CountrySwitcher profile={adminProfile} />
+          </div>
           {(() => {
             const subtitle = getAdminPageSubtitle(activeTab, {
               orders: visibleOrders,

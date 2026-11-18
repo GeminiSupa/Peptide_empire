@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { recordAdminActivity } from '@/lib/adminActivityLog.mjs';
 import {
@@ -27,7 +28,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const [live, flash, recent, scheduled] = await Promise.all([
       getLiveDeal(supabase),
       // A flash sale runs alongside the weekly deal, so it is read separately
@@ -127,7 +128,7 @@ export async function POST(request) {
     }
 
     if (action === 'cancel_schedule') {
-      const cancelled = await cancelScheduledDeal(getSupabaseAdmin(), body.id || null);
+      const cancelled = await cancelScheduledDeal(scopedAdmin(auth.activeSite), body.id || null);
       return NextResponse.json({ ok: true, cancelled: cancelled.id });
     }
 
@@ -145,7 +146,7 @@ export async function POST(request) {
         maxUnits: body.max_units,
         offers: body.offers || null,
       });
-      await recordAdminActivity(getSupabaseAdmin(), {
+      await recordAdminActivity(scopedAdmin(auth.activeSite), {
         actor: auth.profile,
         action: 'deal.launched',
         subjectType: 'deal',
@@ -171,7 +172,7 @@ export async function POST(request) {
         confirmedHighDiscount: body.confirm_high_discount === true,
         allowUntrackedStock: body.allow_untracked_stock === true,
       });
-      await recordAdminActivity(getSupabaseAdmin(), {
+      await recordAdminActivity(scopedAdmin(auth.activeSite), {
         actor: auth.profile,
         action: 'deal.launched',
         subjectType: 'deal',
@@ -189,7 +190,7 @@ export async function POST(request) {
 
     if (action === 'flash_end') {
       const ended = await endFlashSale();
-      await recordAdminActivity(getSupabaseAdmin(), {
+      await recordAdminActivity(scopedAdmin(auth.activeSite), {
         actor: auth.profile,
         action: 'deal.ended',
         subjectType: 'deal',
@@ -202,7 +203,7 @@ export async function POST(request) {
     }
 
     if (action === 'end') {
-      const supabase = getSupabaseAdmin();
+      const supabase = scopedAdmin(auth.activeSite);
       // Ending is always "end whatever is live" rather than end-by-id, so the
       // button cannot restore a stale baseline over prices someone has since
       // edited by hand in the Products tab.

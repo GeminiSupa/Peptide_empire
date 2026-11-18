@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 30;
@@ -33,7 +34,7 @@ export async function GET(request, { params }) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true });
   if (auth.error) return auth.error;
   const { userId } = await params;
-  const result = await detail(getSupabaseAdmin(), userId);
+  const result = await detail(scopedAdmin(auth.activeSite), userId);
   return result.error ? NextResponse.json({ error: result.error }, { status: result.status }) : NextResponse.json(result);
 }
 
@@ -43,7 +44,7 @@ export async function POST(request, { params }) {
   const apiKey = process.env.OPENAI_API_KEY;
   if (!apiKey) return NextResponse.json({ error: 'AI is not configured on the server.' }, { status: 503 });
   const { userId } = await params;
-  const result = await detail(getSupabaseAdmin(), userId);
+  const result = await detail(scopedAdmin(auth.activeSite), userId);
   if (result.error) return NextResponse.json({ error: result.error }, { status: result.status });
   const account = result.account;
   const prompt = `You are a careful customer-success assistant for a Costa Rica research-peptide retailer. Create JSON with keys summary, recommended_action, whatsapp, email_subject, email. Base it only on this account data: name=${account.display_name || 'Customer'}; language=${account.locale || 'es'}; orders=${account.order_count}; lifetime_value_usd=${account.lifetime_value}; last-state=${account.state.label}; products=${account.interests.join(', ') || 'none'}. Be concise, helpful, and never give dosage, medical, therapeutic, or research-result claims. Do not pressure the customer. Write WhatsApp and email in ${account.locale === 'en' ? 'English' : 'Spanish'}.`;

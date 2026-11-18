@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { orderNetRevenueUsd } from '@/lib/orderRevenue.mjs';
 import { normalizeBehaviorFilter } from '@/lib/campaignBehavior.mjs';
 import { planScheduleUpdate } from '@/lib/campaignScheduleStatus.mjs';
@@ -126,7 +127,7 @@ export async function GET(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
 
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = scopedAdmin(auth.activeSite);
 
   try {
     const { data, error } = await supabaseAdmin
@@ -209,7 +210,7 @@ export async function POST(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
 
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = scopedAdmin(auth.activeSite);
 
   try {
     const { 
@@ -272,7 +273,7 @@ export async function PUT(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
 
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = scopedAdmin(auth.activeSite);
 
   try {
     const { 
@@ -356,7 +357,7 @@ export async function DELETE(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
 
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = scopedAdmin(auth.activeSite);
 
   try {
     const { searchParams } = new URL(request.url);

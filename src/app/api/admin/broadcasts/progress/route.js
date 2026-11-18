@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { computeBroadcastProgress, estimateCompletion } from '@/lib/broadcastProgress.mjs';
 import {
@@ -18,7 +19,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
 
     // Message bodies can contain a complete HTML email, so keep the frequent
     // progress response small and fetch one broadcast's content only when an
@@ -135,7 +136,7 @@ export async function PATCH(request) {
       return NextResponse.json({ error: 'Unsupported broadcast action' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
 
     // Change how fast a broadcast that is already running goes out. The speed
     // that felt right when queuing 1,500 marketing messages often does not an

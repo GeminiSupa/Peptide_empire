@@ -8,6 +8,7 @@ import {
 } from '@/lib/liveChatAvailability.mjs';
 import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import {
   buildLiveChatLeadNote,
   cleanLiveChatText,
@@ -203,7 +204,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const conversations = await loadConversations(supabase);
     const agents = [];
     const currentAgent = summarizeAgent(auth.profile, auth.user);
@@ -266,7 +267,7 @@ export async function POST(request) {
     if (!conversationId) return NextResponse.json({ error: 'conversationId is required' }, { status: 400 });
     if (!message) return NextResponse.json({ error: 'Message is required' }, { status: 400 });
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const conversation = await loadConversationById(supabase, conversationId);
     if (!conversation) return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
     if (!canControlConversation({ assigned_to: conversation.assignedTo }, auth.profile)) {
@@ -340,7 +341,7 @@ export async function PATCH(request) {
         return NextResponse.json({ error: 'Only a superadmin can change live chat availability.' }, { status: 403 });
       }
       const availability = normalizeLiveChatAvailability(body.availability);
-      const supabase = getSupabaseAdmin();
+      const supabase = scopedAdmin(auth.activeSite);
       const { error } = await supabase
         .from('site_settings')
         .upsert({ id: LIVE_CHAT_AVAILABILITY_SETTING_ID, value: availability }, { onConflict: 'id' });
@@ -350,7 +351,7 @@ export async function PATCH(request) {
 
     if (!conversationId) return NextResponse.json({ error: 'conversationId is required' }, { status: 400 });
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const conversation = await loadConversationById(supabase, conversationId);
     if (!conversation) return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
     if (!canControlConversation({ assigned_to: conversation.assignedTo }, auth.profile)) {
@@ -491,7 +492,7 @@ export async function DELETE(request) {
 
     if (!conversationId) return NextResponse.json({ error: 'conversationId is required' }, { status: 400 });
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const conversation = await loadConversationById(supabase, conversationId);
     if (!conversation) return NextResponse.json({ error: 'Conversation not found' }, { status: 404 });
 

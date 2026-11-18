@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { appendOrderActivity } from '@/lib/orderActivity';
 import { missingColumnFrom } from '@/lib/optionalColumns.mjs';
@@ -53,7 +54,7 @@ export async function POST(request) {
     );
   }
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
 
   const { data: order, error: readError } = await supabase
     .from('orders')

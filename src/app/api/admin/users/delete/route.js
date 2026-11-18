@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { recordAdminActivity } from '@/lib/adminActivityLog.mjs';
 
@@ -15,7 +16,7 @@ export async function DELETE(request) {
       return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
     }
 
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
 
     // Read the profile before deleting: the cascade takes it with the login, and
     // a log entry saying only "deleted a user id" answers nothing. This is the

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { canDeleteCustomerAccount } from '@/lib/accountBonuses.mjs';
 
 export const runtime = 'nodejs';
@@ -35,7 +36,7 @@ export async function GET(request) {
   const query = String(url.searchParams.get('q') || '').trim();
   const kind = ['individual', 'research', 'clinic', 'other'].includes(url.searchParams.get('kind')) ? url.searchParams.get('kind') : '';
   const page = pageNumber(url.searchParams.get('page'));
-  const admin = getSupabaseAdmin();
+  const admin = scopedAdmin(auth.activeSite);
   // The analytics view is supplied by customer-account-analytics.sql. A
   // profile fallback keeps account management usable until it is applied.
   let result = await buildQuery(admin.from('customer_account_metrics'), METRIC_COLUMNS, { query, kind, page });
@@ -87,7 +88,7 @@ export async function DELETE(request) {
     return NextResponse.json({ error: 'A customer account id is required.' }, { status: 400 });
   }
 
-  const admin = getSupabaseAdmin();
+  const admin = scopedAdmin(auth.activeSite);
   const { data: staff } = await admin
     .from('admin_profiles')
     .select('user_id')

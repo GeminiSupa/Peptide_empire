@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { appendOrderActivity } from '@/lib/orderActivity';
 import { orderVisibleToAgent } from '@/lib/agentOrders';
@@ -33,7 +34,7 @@ export async function POST(request) {
   const requested = body?.paymentMethod;
   if (!orderId) return NextResponse.json({ error: 'orderId is required' }, { status: 400 });
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
 
   try {
     const { data: order, error: readError } = await supabase

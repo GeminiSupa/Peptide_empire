@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getReviewSettings } from '@/lib/reviewSettings.mjs';
 import { missingColumnFrom } from '@/lib/optionalColumns.mjs';
@@ -124,7 +125,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const pastAllowance = new URL(request.url).searchParams.get('pastAllowance');
     const built = await buildReport(supabase, pastAllowance);
 
@@ -148,7 +149,7 @@ export async function POST(request) {
 
   try {
     const body = await request.json().catch(() => ({}));
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const built = await buildReport(supabase, body?.pastAllowance);
 
     if (built.error) {

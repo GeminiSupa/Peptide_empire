@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { getCampaignSmtpConfig } from '@/lib/campaignSmtp';
 import { isProspectsTableMissing } from '@/lib/prospects.mjs';
 import { isWhatsAppSuppressed } from '@/lib/whatsappCompliance';
@@ -95,7 +96,7 @@ export async function POST(request) {
     if (messageBody.length < 20) return NextResponse.json({ error: 'The message is too short to send' }, { status: 400 });
     if (messageBody.length > 4000) return NextResponse.json({ error: 'The message is too long to send' }, { status: 400 });
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data: prospect, error } = await supabase
       .from('sales_prospects')
       .select(PROSPECT_OUTREACH_FIELDS)

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 
 export const dynamic = 'force-dynamic';
 
@@ -9,7 +10,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     // For now, we'll just fetch the first active workflow or a default one
     const { data, error } = await supabaseAdmin
       .from('automations')
@@ -35,7 +36,7 @@ export async function POST(request) {
 
   try {
     const { workflowData, id, name } = await request.json();
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
 
     let result;
     if (id) {

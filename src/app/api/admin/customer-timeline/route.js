@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { orderNetRevenueUsd } from '@/lib/orderRevenue.mjs';
 
 export const dynamic = 'force-dynamic';
@@ -36,7 +37,7 @@ export async function GET(request) {
   const phone = digits(url.searchParams.get('phone'));
   if (!email && !phone) return NextResponse.json({ error: 'Email or phone is required' }, { status: 400 });
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const warnings = [];
   try {
     const [subscribers, ordersRaw, cartsRaw, leadsRaw, viewsRaw, enrollmentsRaw, deliveriesRaw, suppressionsRaw, inquiriesRaw] = await Promise.all([

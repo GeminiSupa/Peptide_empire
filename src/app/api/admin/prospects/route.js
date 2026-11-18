@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import {
   isProspectsTableMissing,
   hasUsableProspectWhatsAppIdentity,
@@ -132,7 +133,7 @@ export async function GET(request) {
   const filters = parseProspectPipelineParams(params);
   const currentEmail = normalizeProspectOwnerEmail(auth.profile?.email || auth.user?.email);
   const nowIso = new Date().toISOString();
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const baseQuery = supabase
     .from('sales_prospects')
     .select(SELECT_FIELDS, { count: 'exact' });
@@ -182,7 +183,7 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Enter a valid work email' }, { status: 400 });
   }
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const now = new Date().toISOString();
   for (const channel of PROSPECT_PERMISSION_CHANNELS) {
     const fields = channelPermissionFields(channel);
@@ -244,7 +245,7 @@ export async function PATCH(request) {
   }
   if (!body.id) return NextResponse.json({ error: 'Prospect ID is required' }, { status: 400 });
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   if (body.action === 'claim') {
     // Never trust a browser-supplied owner. The authenticated profile is the
     // claimant, and `owner_email IS NULL` makes competing claims atomic.

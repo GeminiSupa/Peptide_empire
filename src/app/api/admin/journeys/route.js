@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { orderNetRevenueUsd } from '@/lib/orderRevenue.mjs';
 import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
 
@@ -74,7 +75,7 @@ function cleanJourney(body) {
 export async function GET(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
 
   try {
     const [
@@ -167,7 +168,7 @@ export async function GET(request) {
 export async function POST(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
 
   try {
     const body = await request.json();
@@ -185,7 +186,7 @@ export async function POST(request) {
 export async function PUT(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
 
   try {
     const body = await request.json();

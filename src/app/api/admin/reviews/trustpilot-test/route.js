@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getOrderMailSettings } from '@/lib/transactionalSmtp';
 import { getReviewSettings } from '@/lib/reviewSettings.mjs';
@@ -39,7 +40,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Enter the email address to send the test to.' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const settings = await getReviewSettings(supabase);
     const bcc = settings.trustpilotAfsBcc
       || process.env.TRUSTPILOT_AFS_BCC

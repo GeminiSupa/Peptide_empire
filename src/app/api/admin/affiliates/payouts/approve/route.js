@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import nodemailer from 'nodemailer';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { recordAdminActivity } from '@/lib/adminActivityLog.mjs';
@@ -31,7 +32,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Invalid payload. payoutId and valid action are required.' }, { status: 400 });
     }
 
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
 
     // 1. Fetch the affiliate payout record
     const { data: payout, error: fetchError } = await supabaseAdmin

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { isGatewayConfigured, normalizeCardHolderName, processChargxCardPayment } from '@/lib/chargxPay.mjs';
 import { claimOrderForPayment, releaseOrderClaim, describeOrderPaymentState } from '@/lib/cardPaymentLock';
 import { getPublicSiteUrl } from '@/lib/publicUrl';
@@ -110,7 +111,7 @@ export async function POST(request) {
 
     const body = await request.json();
     const action = body.action || 'pay';
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
 
     if (action === 'create') {
       // Amount is admin-chosen but clamped to a sane sandbox range.

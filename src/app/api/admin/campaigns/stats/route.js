@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { orderNetRevenueUsd } from '@/lib/orderRevenue.mjs';
 import { eventTimeSelect } from '@/lib/campaignEventColumns.mjs';
 
@@ -51,7 +52,7 @@ export async function GET(request) {
   const campaignId = new URL(request.url).searchParams.get('id');
   if (!campaignId) return NextResponse.json({ error: 'A campaign id is required' }, { status: 400 });
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const warnings = [];
 
   try {

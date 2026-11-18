@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { resolveLeadOwner } from '@/lib/leadOwner';
 import { isActiveProfile, isSubUser } from '@/lib/subUserTier.mjs';
@@ -149,7 +150,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Enter a valid WhatsApp number or email address' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const directory = await agentDirectory(supabase);
     const actorOwner = leadActorName(auth.profile, auth.user.email);
     const requestedOwner = auth.profile.is_superadmin
@@ -323,7 +324,7 @@ export async function PATCH(request) {
       return NextResponse.json({ error: 'leadId is required' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const lead = await loadLead(supabase, leadId);
     const directory = await agentDirectory(supabase);
     const actorOwner = leadActorName(auth.profile, auth.user.email);

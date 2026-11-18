@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { parseUnitLimit, validateUnitRange } from '@/lib/promoEligibility.mjs';
 import { findLiveDealConflictForPromo, promoDealConflictMessage } from '@/lib/promoStackingSafety.mjs';
@@ -25,7 +26,7 @@ export async function POST(request) {
   try {
     const body = await request.json();
     const action = String(body.action || '');
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
 
     if (action === 'create') {
       const code = String(body.code || '').trim().toUpperCase();

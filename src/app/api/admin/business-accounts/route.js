@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { businessDetails } from '@/lib/businessAccounts.mjs';
 import { getOrderMailSettings } from '@/lib/transactionalSmtp';
 import { getPublicSiteUrl } from '@/lib/publicUrl';
@@ -17,7 +18,7 @@ import { planFirstOrderExtraSetting } from '@/lib/businessFirstOrderExtra.mjs';
 export async function GET(request) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true });
   if (auth.error) return auth.error;
-  const admin = getSupabaseAdmin();
+  const admin = scopedAdmin(auth.activeSite);
   const { data, error } = await admin.from('business_accounts').select('*').order('created_at', { ascending: false }).limit(500);
   if (error) return Response.json({ error: 'Could not load business accounts.' }, { status: 503 });
   // The WhatsApp number the owner left on their "You" page. Read-only here;
@@ -31,7 +32,7 @@ export async function GET(request) {
 export async function POST(request) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true });
   if (auth.error) return auth.error;
-  const admin = getSupabaseAdmin();
+  const admin = scopedAdmin(auth.activeSite);
   let body;
   try { body = await request.json(); } catch { return Response.json({ error: 'Invalid request.' }, { status: 400 }); }
   // Disable / enable from the list. Only the status moves: the company,
@@ -131,7 +132,7 @@ export async function DELETE(request) {
   if (!body || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(body.id || '') || typeof body.confirmEmail !== 'string' || !body.confirmEmail.trim()) {
     return Response.json({ error: 'Provide the business ID and type its login email to confirm permanent deletion.' }, { status: 400 });
   }
-  const admin = getSupabaseAdmin();
+  const admin = scopedAdmin(auth.activeSite);
   // One atomic delete: business-suite foreign keys cascade company-only data;
   // orders keep their snapshots and their business links become NULL.
   const { data, error } = await admin.from('business_accounts').delete().eq('id', body.id).eq('email', body.confirmEmail.trim().toLowerCase()).select('id').maybeSingle();

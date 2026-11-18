@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { AFFILIATE_ACCESS_MODES, AFFILIATE_ACCESS_READ } from '@/lib/affiliateAccess.mjs';
 import { describeAffiliateAccess } from '@/lib/affiliateAdminAccess.mjs';
 import { recordAdminActivity } from '@/lib/adminActivityLog.mjs';
@@ -34,7 +35,7 @@ export async function GET(request) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true, skipPathPermission: true });
   if (auth.error) return auth.error;
 
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = scopedAdmin(auth.activeSite);
   const [{ data: affiliates, error }, { data: profiles }] = await Promise.all([
     supabaseAdmin.from('affiliates').select('*').order('name'),
     supabaseAdmin.from('admin_profiles').select('user_id, name, email, tier, status, permissions, is_superadmin, affiliate_access'),
@@ -72,7 +73,7 @@ export async function POST(request) {
   const { affiliateId, action } = body;
   if (!affiliateId) return NextResponse.json({ error: 'Which affiliate?' }, { status: 400 });
 
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = scopedAdmin(auth.activeSite);
   const { data: affiliate, error: affiliateError } = await supabaseAdmin
     .from('affiliates')
     .select('*')

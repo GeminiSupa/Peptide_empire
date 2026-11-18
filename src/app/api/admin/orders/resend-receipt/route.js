@@ -21,6 +21,7 @@
 
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { orderVisibleToAgent } from '@/lib/agentOrders';
 import { appendOrderActivity } from '@/lib/orderActivity';
@@ -40,7 +41,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'orderId or orderNumber is required' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     let query = supabase.from('orders').select('*');
     query = orderId ? query.eq('id', orderId) : query.eq('order_number', orderNumber);
     const { data: order, error } = await query.maybeSingle();

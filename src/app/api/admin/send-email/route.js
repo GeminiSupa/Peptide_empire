@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getBusinessLinks } from '@/lib/settings';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { createUnsubscribeToken } from '@/lib/marketingTokens';
 import { MARKETING_FOOTER_MARKER, applyMarketingEmailFooter } from '@/lib/marketingEmailFooter';
 import { clampOutlookButtonSizes, personalizeMergeTags, stabilizeSimpleLinkRows } from '@/lib/emailHtmlSafety';
@@ -41,7 +42,7 @@ export async function POST(request) {
     let subscriberFirstName = '';
     let subscriberLastName = '';
     try {
-      const supabaseAdmin = getSupabaseAdmin();
+      const supabaseAdmin = scopedAdmin(auth.activeSite);
       const [{ data: sub }, { data: suppressed }] = await Promise.all([
         supabaseAdmin.from('email_subscribers').select('id, first_name, last_name').eq('email', recipient).maybeSingle(),
         supabaseAdmin.from('marketing_suppressions').select('id')

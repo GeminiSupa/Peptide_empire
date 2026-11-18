@@ -1,5 +1,6 @@
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { businessError,businessFailure,validatedBusinessRep,queueBusinessEmail,deliverBusinessEmail } from '@/lib/businessSuiteServer';
 import { businessSalesReport,normalizeBusinessItems } from '@/lib/businessSuite.mjs';
 import { isBacWater } from '@/lib/bacWater.mjs';
@@ -12,7 +13,7 @@ export async function GET(request) {
   const auth=await verifyAdminSession(request,{requireSuperadmin:true});
   if(auth.error) return auth.error;
   try {
-    const admin=getSupabaseAdmin();
+    const admin=scopedAdmin(auth.activeSite);
     const results=await Promise.all([
       admin.from('business_accounts').select('*').order('created_at',{ascending:false}),
       admin.from('admin_profiles').select('user_id,name,email,status,tier,is_superadmin,avatar_url,whatsapp_number'),
@@ -61,7 +62,7 @@ export async function POST(request) {
   try {
     if(!rateLimit(`admin-business-suite:${auth.user.id}`,60)) throw businessError('Please wait before trying again.',429);
     const body=await request.json();
-    const admin=getSupabaseAdmin();
+    const admin=scopedAdmin(auth.activeSite);
     if(body.action==='retry-email') return Response.json(await deliverBusinessEmail(admin,body.id));
     if(body.action==='save-intelligence') {
       const stages=new Set(['','prospect','onboarding','active','growth','at_risk','dormant']);

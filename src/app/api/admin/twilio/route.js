@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import {
   getTwilioConfig,
   getTwilioMessages,
@@ -22,7 +23,7 @@ import {
  */
 async function loadCallRecording() {
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     if (!supabase) return readCallRecordingSetting(null);
     const { data } = await supabase
       .from('site_settings')
@@ -111,7 +112,7 @@ export async function POST(request) {
   // --- TURN CALL RECORDING ON / OFF ---
   // No destination number involved, so this answers before the 'to' check.
   if (action === 'set_call_recording') {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     if (!supabase) {
       return NextResponse.json({ error: 'Database is not reachable.' }, { status: 503 });
     }

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
 
 export const dynamic = 'force-dynamic';
@@ -24,7 +25,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const { data, error } = await getSupabaseAdmin()
+    const { data, error } = await scopedAdmin(auth.activeSite)
       .from('email_templates')
       .select('id, name, description, subject_line, design_json, icon, created_at')
       .order('created_at', { ascending: false });
@@ -54,7 +55,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'The template has no email design to save' }, { status: 400 });
     }
 
-    const { data, error } = await getSupabaseAdmin()
+    const { data, error } = await scopedAdmin(auth.activeSite)
       .from('email_templates')
       .insert([{
         name: String(name).trim().slice(0, NAME_MAX),

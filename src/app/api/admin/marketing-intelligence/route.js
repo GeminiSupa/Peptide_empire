@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { eventTimeColumn, eventTimeSelect } from '@/lib/campaignEventColumns.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { orderNetRevenueUsd } from '@/lib/orderRevenue.mjs';
 
 export const dynamic = 'force-dynamic';
@@ -51,7 +52,7 @@ export async function GET(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const warnings = [];
 
   try {

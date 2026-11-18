@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { parseUnitLimit, validateUnitRange } from '@/lib/promoEligibility.mjs';
 import { findLiveDealConflictForPromo, promoDealConflictMessage } from '@/lib/promoStackingSafety.mjs';
@@ -26,7 +27,7 @@ export async function POST(request) {
       return NextResponse.json({ error: rangeError }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data: currentPromo, error: currentPromoError } = await supabase
       .from('promo_codes')
       .select('code, is_active')

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { planPayoutSettlement } from '@/lib/payoutSettlement.mjs';
 import { recordAdminActivity } from '@/lib/adminActivityLog.mjs';
 import { sendTaxRecordsPaymentReceipt } from '@/lib/taxRecordsEmail.mjs';
@@ -12,7 +13,7 @@ export async function POST(request) {
   try {
     const body = await request.json();
     if (!body.payoutId) return NextResponse.json({ error: 'payoutId is required' }, { status: 400 });
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data: payout, error: fetchError } = await supabase
       .from('affiliate_payouts').select('*').eq('id', body.payoutId).single();
     if (fetchError || !payout) return NextResponse.json({ error: 'Payout not found' }, { status: 404 });

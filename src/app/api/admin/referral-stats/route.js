@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { buildReferralStats } from '@/lib/referralStats.mjs';
 import { getDatabaseBackedUsdToCrcRate } from '@/lib/exchangeRate';
@@ -18,7 +19,7 @@ export async function GET(request) {
     const days = Math.min(MAX_DAYS, Math.max(1, Number(url.searchParams.get('days')) || 30));
     const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
 
     const [scansResult, ordersResult, exchangeRateResult] = await Promise.all([
       supabase

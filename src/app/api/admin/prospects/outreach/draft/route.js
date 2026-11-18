@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { isProspectsTableMissing } from '@/lib/prospects.mjs';
 import {
   buildOutreachPrompt,
@@ -77,7 +78,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'AI is not configured on the server.' }, { status: 503 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data: prospect, error } = await supabase
       .from('sales_prospects')
       .select(PROSPECT_OUTREACH_FIELDS)

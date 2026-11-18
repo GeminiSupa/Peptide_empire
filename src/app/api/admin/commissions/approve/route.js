@@ -2,6 +2,7 @@ import { isActiveProfile, isAffiliateTier, isSubUser } from '@/lib/subUserTier.m
 import { NextResponse } from 'next/server';
 import { withoutExcludedOrders } from '@/lib/orderRevenue.mjs';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import nodemailer from 'nodemailer';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import {
@@ -50,7 +51,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Invalid payload. payoutId and valid action are required.' }, { status: 400 });
     }
 
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     const { rate: currentExchangeRate } = await getDatabaseBackedUsdToCrcRate();
 
     // 1. Fetch the payout record

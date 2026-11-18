@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { isProspectsTableMissing } from '@/lib/prospects.mjs';
 
 export const dynamic = 'force-dynamic';
@@ -28,7 +29,7 @@ export async function GET(request) {
   const prospectId = new URL(request.url).searchParams.get('prospectId');
   if (!prospectId) return NextResponse.json({ error: 'Prospect ID is required' }, { status: 400 });
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const { data, error } = await supabase
     .from('prospect_outreach')
     .select(SELECT_FIELDS)

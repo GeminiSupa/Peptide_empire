@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { withoutExcludedOrders } from '@/lib/orderRevenue.mjs';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import {
   DEFAULT_SUB_USER_RATE,
@@ -189,7 +190,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     const { data: profiles, error } = await supabaseAdmin
       .from('admin_profiles')
       .select(PROFILE_FIELDS)
@@ -269,7 +270,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'That email address does not look right.' }, { status: 400 });
     }
 
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     const { data: profiles, error: loadError } = await supabaseAdmin
       .from('admin_profiles')
       .select(PROFILE_FIELDS);
@@ -384,7 +385,7 @@ export async function PATCH(request) {
       return NextResponse.json({ error: `id and one of ${VALID.join(', ')} are required.` }, { status: 400 });
     }
 
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     const { data: subUser, error: fetchError } = await supabaseAdmin
       .from('admin_profiles')
       .select(PROFILE_FIELDS)

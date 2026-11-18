@@ -13134,3 +13134,45 @@ html[data-theme="light"] .rbc select, html[data-theme="light"] .rbc input { colo
   .rbc h1 { font-size: 22px; }
   .rbc-cov { grid-template-columns: 1fr; }
 }
+
+/* Country switcher (multi-country admin) */
+.admin-page-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.admin-nav-country {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 8px 12px;
+}
+.admin-nav-country > span {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.6;
+}
+.country-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+}
+.country-switcher__icon { font-size: 1rem; line-height: 1; }
+.country-switcher select {
+    appearance: auto;
+    background: var(--accent, #1f2937);
+    color: #f8fafc;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 8px;
+    padding: 5px 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    max-width: 160px;
+}
+.country-switcher select:focus { outline: 2px solid var(--accent, #22d3ee); }
+.country-switcher--locked { opacity: 0.85; padding: 5px 0; }
+:root[data-theme="light"] .country-switcher select { color: #0f172a; background: #fff; }

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { emailFromLead, leadSubscriberCandidates } from '@/lib/campaignAudience.mjs';
 import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
 
@@ -10,7 +11,7 @@ export async function GET(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
 
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = scopedAdmin(auth.activeSite);
 
   try {
     const includeLeads = new URL(request.url).searchParams.get('include_leads') === 'true';
@@ -50,7 +51,7 @@ export async function POST(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
   
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = scopedAdmin(auth.activeSite);
 
   try {
     const body = await request.json();
@@ -119,7 +120,7 @@ export async function PUT(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
 
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = scopedAdmin(auth.activeSite);
 
   try {
     const { id, email, first_name, last_name, status, tags } = await request.json();
@@ -159,7 +160,7 @@ export async function DELETE(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
 
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = scopedAdmin(auth.activeSite);
 
   try {
     const url = new URL(request.url);

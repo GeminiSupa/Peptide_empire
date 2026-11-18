@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { missingColumnFrom } from '@/lib/optionalColumns.mjs';
 
@@ -42,7 +43,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Profile image must be 4MB or smaller.' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const ext = extensionFor(file);
     const path = `${userId}/avatar-${Date.now()}.${ext}`;
     const buffer = Buffer.from(await file.arrayBuffer());

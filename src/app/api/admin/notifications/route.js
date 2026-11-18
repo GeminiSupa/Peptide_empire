@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { orderVisibleToAgent } from '@/lib/agentOrders';
 import { resolveAdminTabAccess } from '@/lib/adminModules';
@@ -286,7 +287,7 @@ export async function GET(request) {
   }
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const adminUserId = auth.user.id;
     const dismissed = await getDismissedKeys(supabase, adminUserId);
     const merged = await buildNotifications(supabase, auth.profile);
@@ -313,7 +314,7 @@ export async function PATCH(request) {
   try {
     const body = await request.json();
     const { id, markAllRead } = body;
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const adminUserId = auth.user.id;
 
     if (markAllRead) {

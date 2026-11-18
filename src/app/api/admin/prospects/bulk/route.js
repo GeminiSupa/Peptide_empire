@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import {
   isProspectsTableMissing,
   mergeRediscoveredProspect,
@@ -113,7 +114,7 @@ export async function POST(request) {
     inputs.push(input);
   }
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   let existing;
   try {
     existing = await findExisting(supabase, inputs);
@@ -220,7 +221,7 @@ export async function PATCH(request) {
     return NextResponse.json({ error: `Update at most ${MAX_BATCH} prospects per batch` }, { status: 400 });
   }
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   if (body.action === 'claim') {
     const claimant = normalizeProspectOwnerEmail(auth.profile?.email || auth.user?.email);
     if (!claimant) {

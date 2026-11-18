@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { recordAdminActivity, summariseChanges } from '@/lib/adminActivityLog.mjs';
@@ -176,7 +177,7 @@ export async function PUT(request) {
       return NextResponse.json({ error: 'products array is required' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const submittedRows = products.map((product, index) => productToDbRow(product, index));
 
     const { data: currentRows, error: currentError } = await supabase.from('products').select('*');
@@ -368,7 +369,7 @@ export async function PATCH(request) {
 
   try {
     const body = await request.json();
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
 
     if (body?.product && typeof body.product === 'object') {
       return await saveOneProduct(supabase, body, { actor: auth.profile, request });

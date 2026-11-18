@@ -2,6 +2,7 @@ import { weeklyBasePay } from '@/lib/teamSalary.mjs';
 import { NextResponse } from 'next/server';
 import { withoutExcludedOrders } from '@/lib/orderRevenue.mjs';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import nodemailer from 'nodemailer';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import {
@@ -97,7 +98,7 @@ export async function GET(request) {
 
   try {
     // 1. Initialize Supabase Admin Client
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     const { rate: currentExchangeRate } = await getDatabaseBackedUsdToCrcRate();
 
     // 2. Parse query parameters to support period selection

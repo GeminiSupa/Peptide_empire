@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { orderVisibleToAgent } from '@/lib/agentOrders';
 
@@ -22,7 +23,7 @@ export async function POST(request) {
     const path = `payment-proofs/${orderId}-${Date.now()}.${ext}`;
     const buffer = Buffer.from(await file.arrayBuffer());
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data: order, error: orderError } = await supabase
       .from('orders')
       .select('id, sales_agent')

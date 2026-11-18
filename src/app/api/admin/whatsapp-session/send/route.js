@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { sendWAMessage } from '@/lib/waSession';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { claimWhatsAppConversation, normalizeWaId, upsertWhatsAppConversation } from '@/lib/whatsappConversations.mjs';
 
 export const dynamic = 'force-dynamic';
@@ -25,7 +26,7 @@ export async function POST(request) {
     }
 
     const waId = normalizeWaId(phone);
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const ensured = await upsertWhatsAppConversation(supabase, { waId, source: 'baileys_session' });
     if (!ensured.available || ensured.error || !ensured.data) {
       return NextResponse.json({ error: ensured.error?.message || 'WhatsApp conversation routing is unavailable.' }, { status: 503 });

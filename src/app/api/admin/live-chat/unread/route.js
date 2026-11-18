@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { isMissingLiveChatTable } from '@/lib/liveChat';
 
 export const runtime = 'nodejs';
@@ -10,7 +11,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { count, error } = await supabase
       .from('live_chat_conversations')
       .select('*', { count: 'exact', head: true })

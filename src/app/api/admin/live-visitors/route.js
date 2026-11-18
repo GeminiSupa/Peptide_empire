@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 
 export const runtime = 'nodejs';
@@ -51,7 +52,7 @@ export async function GET(request) {
     const since = new Date(now - longMinutes * 60 * 1000).toISOString();
     const recentCutoff = now - recentMinutes * 60 * 1000;
 
-    const { data, error } = await getSupabaseAdmin()
+    const { data, error } = await scopedAdmin(auth.activeSite)
       .from('visitor_sessions')
       .select('session_id, visitor_id, hostname, current_path, page_title, known_customer, customer_name, cart_items, first_touch_source, last_touch_source, utm_source, utm_medium, utm_campaign, city, country, last_active, created_at')
       .gte('last_active', since)

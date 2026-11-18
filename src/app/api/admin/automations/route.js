@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 
 
 export const dynamic = 'force-dynamic';
@@ -133,7 +134,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     const summary = await buildSummary(supabaseAdmin);
     return NextResponse.json(summary);
   } catch (err) {

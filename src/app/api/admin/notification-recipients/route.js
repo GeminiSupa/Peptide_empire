@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { recordAdminActivity, summariseChanges } from '@/lib/adminActivityLog.mjs';
 import {
@@ -69,7 +70,7 @@ export async function GET(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   // Each optional flag arrives with its own hand-run migration, so the select is
   // narrowed one column at a time rather than assuming both landed together.
   // Whatever is missing reads as false and its tickbox simply stays off.
@@ -158,7 +159,7 @@ export async function POST(request) {
     const problem = validate(body);
     if (problem) return NextResponse.json({ error: problem }, { status: 400 });
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     let { data, error } = await supabase
       .from('notification_recipients')
       .insert({
@@ -249,7 +250,7 @@ export async function PATCH(request) {
   try {
     const body = await request.json();
     if (body?.chatwootEnabled !== undefined) {
-      const supabase = getSupabaseAdmin();
+      const supabase = scopedAdmin(auth.activeSite);
       const enabled = body.chatwootEnabled === true;
       // Merged, not replaced: a plain upsert of { enabled } wiped the catalog
       // inbox id, which lives in the same settings row.
@@ -264,7 +265,7 @@ export async function PATCH(request) {
     // kept apart from the Google Ads one so the two streams can be tracked
     // separately. Blank it to stop sending catalog leads to Chatwoot.
     if (body?.chatwootCatalogInboxId !== undefined) {
-      const supabase = getSupabaseAdmin();
+      const supabase = scopedAdmin(auth.activeSite);
       const { ok, inboxId, error: invalid } = normalizeInboxId(body.chatwootCatalogInboxId);
       if (!ok) return NextResponse.json({ error: invalid }, { status: 400 });
       const { error } = await saveChatwootLeadSetting(supabase, { catalogInboxId: inboxId });
@@ -277,7 +278,7 @@ export async function PATCH(request) {
     // The inbox Meta (Facebook/Instagram) lead-form leads open their chats in.
     // Blank it to stop sending Meta leads to Chatwoot.
     if (body?.chatwootMetaInboxId !== undefined) {
-      const supabase = getSupabaseAdmin();
+      const supabase = scopedAdmin(auth.activeSite);
       const { ok, inboxId, error: invalid } = normalizeInboxId(body.chatwootMetaInboxId);
       if (!ok) return NextResponse.json({ error: invalid }, { status: 400 });
       const { error } = await saveChatwootLeadSetting(supabase, { metaInboxId: inboxId });
@@ -288,7 +289,7 @@ export async function PATCH(request) {
       return NextResponse.json({ chatwoot: { metaInboxId: inboxId } });
     }
     if (body?.leadRotation && typeof body.leadRotation === 'object') {
-      const supabase = getSupabaseAdmin();
+      const supabase = scopedAdmin(auth.activeSite);
       const { settings, rotation } = await loadLeadRotation(supabase);
       const allowed = new Set(rotation.agents.map((agent) => agent.email));
       const tidy = (list) => list
@@ -372,7 +373,7 @@ export async function PATCH(request) {
       return NextResponse.json({ error: 'Nothing to update' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     // Read before writing, so the log can say what the value actually was
     // rather than only what it became.
     const { data: before } = await supabase
@@ -432,7 +433,7 @@ export async function DELETE(request) {
   const id = request.nextUrl.searchParams.get('id');
   if (!id) return NextResponse.json({ error: 'id is required' }, { status: 400 });
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   // Read it before the Bin takes it: the log must name what was removed, and
   // the Bin's own copy is purged on whatever retention the owner has set.
   const { data: removed } = await supabase

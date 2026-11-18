@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { analyticsWindow, previousRangeWindow } from '@/lib/analyticsDashboard.mjs';
 import { emailKey, phoneKey } from '@/lib/agentAttribution.mjs';
 import { DEAL_PAGE_EXPERIMENT, summarizeDealPageExperiment } from '@/lib/dealPageExperiment.mjs';
@@ -396,7 +397,7 @@ export async function GET(request) {
     mode: params.get('compare') || 'previous',
     custom,
   });
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
 
   try {
     const [listHealth, overviewResult, previousOverview, previousOrders, teamDirectory, dealPageExperiment, ...results] = await Promise.all([

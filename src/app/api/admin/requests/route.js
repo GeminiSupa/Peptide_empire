@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -28,7 +29,7 @@ export async function GET(request) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true, skipPathPermission: true });
   if (auth.error) return auth.error;
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const migrationsMissing = [];
 
   const [ownerRes, affiliateRes] = await Promise.all([
@@ -127,7 +128,7 @@ export async function PATCH(request) {
     return NextResponse.json({ error: 'A request and a decision are required' }, { status: 400 });
   }
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const { data: row, error } = await supabase
     .from('affiliate_change_requests')
     .select('*')

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getReviewSettings } from '@/lib/reviewSettings.mjs';
 import { dailyReviewSeries, DEFAULT_DAILY_WINDOW, summariseReviewAsks } from '@/lib/reviewStats.mjs';
@@ -19,7 +20,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const settings = await getReviewSettings(supabase);
 
     // Newest first and capped: this is a dashboard, not an export. At the

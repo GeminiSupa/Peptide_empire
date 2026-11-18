@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { resolveAdminTabAccess } from '@/lib/adminModules';
 import {
   WA_CONVERSATION_STATUSES,
@@ -248,7 +249,7 @@ export async function GET(request) {
 
   try {
     const source = allowedConversationSource(request, auth.profile);
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { available, conversations } = await fetchVisibleConversations(supabase, auth.profile, source);
     if (!available) {
       return NextResponse.json({
@@ -292,7 +293,7 @@ export async function PATCH(request) {
       return NextResponse.json({ error: 'waId is required' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const canUseSalesInbox = resolveAdminTabAccess('whatsapp_ai', auth.profile);
     const canUseDeviceInbox = resolveAdminTabAccess('wa_session', auth.profile);
     const forcedSource = !canUseSalesInbox && canUseDeviceInbox ? 'baileys_session' : null;
@@ -471,7 +472,7 @@ export async function DELETE(request) {
       return NextResponse.json({ error: 'waId is required' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     
     // Validate permission first
     const { data: conversation, error: loadError } = await supabase

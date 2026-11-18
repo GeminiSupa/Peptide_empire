@@ -6,6 +6,20 @@ import {
   adminPermissionsForPath,
   profileHasAnyAdminPermission,
 } from '@/lib/adminApiPermissions.mjs';
+import { allowedSitesFor, resolveActiveSite } from '@/lib/sites.mjs';
+
+/** The country a request is scoped to: the switcher's cookie, validated. */
+export function activeSiteFor(request, profile) {
+  const requested = request?.cookies?.get?.('pe_admin_site')?.value
+    || request?.headers?.get?.('x-admin-site')
+    || null;
+  return resolveActiveSite(profile, requested);
+}
+
+/** Add `.eq('site_id', site)` to a query unless site is null ("all countries"). */
+export function scopeToSite(query, site) {
+  return site ? query.eq('site_id', site) : query;
+}
 
 /**
  * Verify the caller is an authenticated admin via Supabase JWT (Bearer token).
@@ -119,7 +133,14 @@ export async function verifyAdminSession(
     };
   }
 
-  return { user, profile };
+  // The country this request works in (the switcher's choice, validated against
+  // what this person is allowed), plus the full list they may switch between.
+  // Routes that read or write country-scoped data filter by `activeSite`;
+  // `activeSite === null` means a superadmin's explicit "All countries" view.
+  const activeSite = activeSiteFor(request, profile);
+  const allowedSites = allowedSitesFor(profile);
+
+  return { user, profile, activeSite, allowedSites };
 }
 
 /** AI modes callable without admin auth (public storefront chat). */

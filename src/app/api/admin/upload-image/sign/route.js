@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 
 export const runtime = 'nodejs';
@@ -42,7 +43,7 @@ export async function POST(request) {
     const extension = String(name).split('.').pop()?.toLowerCase().replace(/[^a-z0-9]/g, '') || 'jpg';
     const prefix = PREFIXES[kind] ?? '';
     const path = `${prefix}${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${extension}`;
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data, error } = await supabase.storage.from(BUCKET).createSignedUploadUrl(path);
 
     if (error) {

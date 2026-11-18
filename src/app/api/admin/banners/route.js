@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { actorFrom, moveSettingsItemToBin } from '@/lib/recycleBinServer';
 
@@ -10,7 +11,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data, error } = await supabase
       .from('site_settings')
       .select('value')
@@ -41,7 +42,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'banners must be an array' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     
     // UPSERT the site_settings record
     const { error } = await supabase

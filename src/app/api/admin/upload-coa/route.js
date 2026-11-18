@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 
 export const runtime = 'nodejs';
@@ -26,7 +27,7 @@ export async function POST(request) {
     const subject=safePart(form.get('subject'));
     const lot=safePart(form.get('lot'),'unassigned-lot');
     const path=`${subject}/${lot}/${Date.now()}-${Math.random().toString(36).slice(2,8)}.${extension}`;
-    const supabase=getSupabaseAdmin();
+    const supabase=scopedAdmin(auth.activeSite);
     const created=await supabase.storage.createBucket(BUCKET,{public:true,fileSizeLimit:MAX_BYTES,allowedMimeTypes:[...ALLOWED]});
     if(created.error&&!/already exists|duplicate/i.test(created.error.message||''))throw created.error;
     const bytes=Buffer.from(await file.arrayBuffer());

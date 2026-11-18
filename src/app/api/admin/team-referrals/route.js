@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { buildReferralLink, catalogBaseUrl, referralQrFilename } from '@/lib/referralLink.mjs';
 import { chooseRepReferralCode } from '@/lib/repReferralCode.mjs';
@@ -24,7 +25,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     // select('*') deliberately: admin_profiles has optional columns from
     // hand-applied migrations, and naming one that is absent fails the route.
     const { data: profiles, error } = await supabaseAdmin

@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,7 +14,7 @@ function normalizeIdentity(value, channel) {
 export async function GET(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
 
   try {
     const [{ data: suppressions, error }, { data: events, error: eventError }] = await Promise.all([
@@ -58,7 +59,7 @@ export async function POST(request) {
     if (!identity || (body.channel === 'email' && !identity.includes('@')) || (body.channel === 'whatsapp' && identity.length < 8)) {
       return NextResponse.json({ error: 'Enter a valid email address or phone number' }, { status: 400 });
     }
-    const { data, error } = await getSupabaseAdmin().from('marketing_suppressions').upsert({
+    const { data, error } = await scopedAdmin(auth.activeSite).from('marketing_suppressions').upsert({
       identity,
       channel: body.channel,
       reason: String(body.reason || 'manual').trim().slice(0, 120),
@@ -79,7 +80,7 @@ export async function DELETE(request) {
   if (auth.error) return auth.error;
   const id = new URL(request.url).searchParams.get('id');
   if (!id) return NextResponse.json({ error: 'Suppression ID is required' }, { status: 400 });
-  const { error } = await getSupabaseAdmin().from('marketing_suppressions').update({ active: false, updated_at: new Date().toISOString() }).eq('id', id);
+  const { error } = await scopedAdmin(auth.activeSite).from('marketing_suppressions').update({ active: false, updated_at: new Date().toISOString() }).eq('id', id);
   if (error) return NextResponse.json({ error: 'Unable to remove suppression' }, { status: 500 });
   return NextResponse.json({ success: true });
 }

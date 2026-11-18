@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
 import { recordAdminActivity } from '@/lib/adminActivityLog.mjs';
@@ -24,7 +25,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data, error } = await supabase
       .from('products')
       .select('id, product, status, inventory_count, offsite_inventory_count')
@@ -77,7 +78,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Pick a product.' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     let query = supabase
       .from('products')
       .select('id, product, status, inventory_count, offsite_inventory_count');

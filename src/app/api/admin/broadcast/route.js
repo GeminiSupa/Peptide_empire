@@ -4,6 +4,7 @@ import {
   DEFAULT_BATCH_SIZE, DEFAULT_DELAY_SECONDS, MAX_BATCH_SIZE, MAX_DELAY_SECONDS,
 } from '@/lib/broadcastPacing.mjs';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import nodemailer from 'nodemailer';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getCampaignSmtpConfig } from '@/lib/campaignSmtp';
@@ -158,7 +159,7 @@ export async function DELETE(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { searchParams } = new URL(request.url);
     const id = searchParams.get('id');
     if (!id) return NextResponse.json({ error: 'ID required' }, { status: 400 });
@@ -361,7 +362,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { searchParams } = new URL(request.url);
     if (searchParams.get('estimate') !== '1') {
       return NextResponse.json({ error: 'Unknown broadcast action' }, { status: 400 });
@@ -389,7 +390,7 @@ export async function POST(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { audience, channels, message, testContact, customContacts, scheduledAt, enableBatching, whatsappTemplateName, whatsappTemplateLanguage, dealId, pacing } = await request.json();
 
     // The operator's chosen speed, clamped here as well as in the processor so

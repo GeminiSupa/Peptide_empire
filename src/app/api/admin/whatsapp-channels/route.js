@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import {
   isMissingWhatsAppChannelsSchema,
   validateManualWhatsAppChannel,
@@ -18,7 +19,7 @@ export async function GET(request) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true });
   if (auth.error) return auth.error;
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const { data, error } = await supabase
     .from('whatsapp_channels')
     .select('id, phone_number_id, waba_id, display_phone_number, name, source, status, created_at, updated_at')
@@ -42,7 +43,7 @@ export async function POST(request) {
 
     const input = validation.value;
     const now = new Date().toISOString();
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data, error } = await supabase
       .from('whatsapp_channels')
       .upsert({
@@ -84,7 +85,7 @@ export async function PATCH(request) {
       return NextResponse.json({ error: 'Status must be active or disabled.' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data, error } = await supabase
       .from('whatsapp_channels')
       .update({ status, updated_at: new Date().toISOString() })

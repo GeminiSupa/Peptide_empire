@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
 
@@ -33,7 +34,7 @@ export async function PATCH(request) {
     }
 
     if (patch.cart_data !== undefined && !cartHasItems(patch.cart_data)) {
-      const supabase = getSupabaseAdmin();
+      const supabase = scopedAdmin(auth.activeSite);
       const { error } = await supabase
         .from('abandoned_carts')
         .delete()
@@ -47,7 +48,7 @@ export async function PATCH(request) {
 
     patch.last_updated = new Date().toISOString();
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data, error } = await supabase
       .from('abandoned_carts')
       .update(patch)
@@ -79,7 +80,7 @@ export async function DELETE(request) {
       return NextResponse.json({ error: 'sessionId, id, or cartKey required' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const deletedIds = [];
 
     // The cart key is usually a session_id and sometimes the primary key, so

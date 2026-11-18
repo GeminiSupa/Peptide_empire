@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
 
 export async function PATCH(request) {
@@ -23,7 +24,7 @@ export async function PATCH(request) {
       return NextResponse.json({ error: 'assignedTo must be a string or null' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
 
     const updateData = {};
     if (status) updateData.status = status;
@@ -69,7 +70,7 @@ export async function DELETE(request) {
       return NextResponse.json({ error: 'Missing inquiry id' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
 
     const binned = await moveToBin(
       { table: 'customer_inquiries', ids: [inquiryId], actor: actorFrom(auth.profile) },

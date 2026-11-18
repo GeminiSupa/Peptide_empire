@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { resolveAdminTabAccess } from '@/lib/adminModules';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import {
   canTouchEntry,
   DELETED_RECORDS_MIGRATION_HINT,
@@ -42,7 +43,7 @@ export async function GET(request) {
   const search = (url.searchParams.get('q') || '').trim();
   const includeRestored = url.searchParams.get('restored') === '1';
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   let query = supabase
     .from('deleted_records')
     .select('id, source_table, source_id, record_type, label, deleted_at, deleted_by_name, delete_reason, restored_at, restored_by_name')
@@ -106,7 +107,7 @@ export async function POST(request) {
   const entryId = String(body?.entryId || '').trim();
   if (!entryId) return NextResponse.json({ error: 'entryId required' }, { status: 400 });
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const { data: entry, error } = await supabase
     .from('deleted_records')
     .select('id, source_table, label')
@@ -155,7 +156,7 @@ export async function DELETE(request) {
   const entryId = String(body?.entryId || '').trim();
   const emptyAll = body?.emptyAll === true;
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
 
   if (emptyAll) {
     const { data, error } = await supabase

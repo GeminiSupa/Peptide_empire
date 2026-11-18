@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import {
   isLeadNotificationOutboxMissing,
   processLeadNotificationJob,
@@ -29,7 +30,7 @@ export async function GET(request) {
   )].slice(0, 100);
   if (!ids.length) return NextResponse.json({ available: true, jobs: [] });
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const { data, error } = await supabase
     .from('lead_notification_jobs')
     .select('id,lead_id,enquiry_at,source,status,attempt_count,max_attempts,next_attempt_at,last_error,created_at,updated_at,lead_notification_deliveries(channel,destination,status,attempt_count,error_message,last_attempt_at,sent_at)')
@@ -64,7 +65,7 @@ export async function POST(request) {
   const jobId = String(body.jobId || '').trim();
   if (!UUID_RE.test(jobId)) return NextResponse.json({ error: 'A valid jobId is required' }, { status: 400 });
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const { data: job, error: loadError } = await supabase
     .from('lead_notification_jobs').select('*').eq('id', jobId).maybeSingle();
   if (loadError) {

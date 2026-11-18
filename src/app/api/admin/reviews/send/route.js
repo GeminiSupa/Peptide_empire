@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getTransactionalSmtpConfig } from '@/lib/transactionalSmtp';
 import { getBusinessLinks } from '@/lib/settings';
@@ -48,7 +49,7 @@ export async function GET(request) {
     const orderId = new URL(request.url).searchParams.get('orderId');
     if (!orderId) return NextResponse.json({ error: 'orderId is required' }, { status: 400 });
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const order = await loadOrder(supabase, orderId);
     if (!order) return NextResponse.json({ error: 'Order not found' }, { status: 404 });
 
@@ -109,7 +110,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Choose Google, Facebook, or both' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const order = await loadOrder(supabase, orderId);
     if (!order) return NextResponse.json({ error: 'Order not found' }, { status: 404 });
     if (!order.customer_email) {

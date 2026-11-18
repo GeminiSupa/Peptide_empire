@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import {
   ADMIN_ACTIVITY_RETENTION_DAYS,
   describeActivity,
@@ -41,7 +42,7 @@ export async function GET(request) {
   const search = String(url.searchParams.get('q') || '').trim();
   const limit = Math.min(Number(url.searchParams.get('limit')) || 200, MAX_ROWS);
 
-  const supabaseAdmin = getSupabaseAdmin();
+  const supabaseAdmin = scopedAdmin(auth.activeSite);
   let query = supabaseAdmin
     .from('admin_activity_log')
     .select('*')
@@ -93,7 +94,7 @@ export async function POST(request) {
   const auth = await verifyAdminSession(request, { allowSubUser: true, skipPathPermission: true });
   if (auth.error) return auth.error;
 
-  await recordSignInOnce(getSupabaseAdmin(), { actor: auth.profile, request });
+  await recordSignInOnce(scopedAdmin(auth.activeSite), { actor: auth.profile, request });
 
   return NextResponse.json({ ok: true });
 }

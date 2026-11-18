@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { recordAdminActivity, summariseChanges } from '@/lib/adminActivityLog.mjs';
 import { appendOrderActivity } from '@/lib/orderActivity';
@@ -94,7 +95,7 @@ export async function PATCH(request) {
       if (updates[key] !== undefined) patch[key] = updates[key];
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
 
     const { data: currentOrder, error: currentOrderError } = await supabase
       .from('orders')

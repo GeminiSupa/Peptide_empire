@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { restoreInventoryForDeletedOrder } from '@/lib/inventoryRestoreServer';
 import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
 
@@ -38,7 +39,7 @@ export async function POST(request) {
     return NextResponse.json({ error: 'orderId required' }, { status: 400 });
   }
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
 
   try {
     // Selected whole rather than by name: inventory_restored_at and

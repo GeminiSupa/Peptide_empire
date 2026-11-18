@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { appendOrderActivity } from '@/lib/orderActivity';
 import { isActiveProfile } from '@/lib/subUserTier.mjs';
@@ -115,7 +116,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     let query = supabase.from(REQUESTS).select('*');
     query = auth.profile.is_superadmin
       ? query.eq('status', 'pending').order('created_at', { ascending: true }).limit(100)
@@ -147,7 +148,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'orderId and a valid action are required' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const order = await loadOrder(supabase, orderId);
     if (!order) return NextResponse.json({ error: 'Order not found' }, { status: 404 });
 
@@ -318,7 +319,7 @@ export async function PATCH(request) {
       return NextResponse.json({ error: 'requestId and a decision are required' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data: ownerRequest, error: loadError } = await supabase
       .from(REQUESTS)
       .select('*')

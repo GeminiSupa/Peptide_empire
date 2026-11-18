@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { cleanPhoneNumber } from '@/lib/whatsapp';
 import { insertWhatsAppMessage } from '@/lib/whatsappMessageLog';
 import { isWhatsAppSuppressed } from '@/lib/whatsappCompliance';
@@ -41,7 +42,7 @@ export async function POST(request) {
     }
 
     const accessToken = process.env.WHATSAPP_ACCESS_TOKEN;
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const outboundChannel = await resolveOutboundWhatsAppChannel(supabase, { channelId });
     const phoneNumberId = outboundChannel.phoneNumberId;
     if (!accessToken || !phoneNumberId) {

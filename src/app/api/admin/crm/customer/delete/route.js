@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { recordAdminActivity } from '@/lib/adminActivityLog.mjs';
 import { actorFrom, moveToBin } from '@/lib/recycleBinServer';
@@ -44,7 +45,7 @@ export async function DELETE(request) {
       return NextResponse.json({ error: 'At least one identifier (email, phone, or name) is required to delete a customer.' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const actor = actorFrom(auth.profile);
     const reason = `Customer data removed (${email || phone || name})`;
 

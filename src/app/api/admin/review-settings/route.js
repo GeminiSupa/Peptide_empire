@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getReviewSettings, saveReviewSettings } from '@/lib/reviewSettings.mjs';
 import { getBusinessLinks } from '@/lib/settings';
@@ -20,7 +21,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const settings = await getReviewSettings(supabase);
 
     // What the links actually resolve to today, so the panel can show the
@@ -100,7 +101,7 @@ export async function POST(request) {
       }
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     // saveReviewSettings normalises before writing, so the panel cannot store a
     // value the sending code would then have to defend itself against.
     const settings = await saveReviewSettings(supabase, incoming);

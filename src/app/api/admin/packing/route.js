@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { recordAdminActivity } from '@/lib/adminActivityLog.mjs';
 import { LAB_BATCHES_MIGRATION, parseStickerCode } from '@/lib/labBatches.mjs';
@@ -43,7 +44,7 @@ export async function GET(request) {
 
   try {
     const { searchParams } = new URL(request.url);
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
 
     const orderId = String(searchParams.get('orderId') || '').trim();
     if (orderId) {
@@ -107,7 +108,7 @@ export async function POST(request) {
     const entries = Array.isArray(body?.entries) ? body.entries.slice(0, 500) : [];
     if (!orderId) return NextResponse.json({ error: 'Missing order.' }, { status: 400 });
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data: order, error: orderError } = await supabase
       .from('orders')
       .select('id, order_number, status, items')

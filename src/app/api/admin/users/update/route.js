@@ -1,6 +1,7 @@
 import { validateSalarySettings } from '@/lib/teamSalary.mjs';
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { recordAdminActivity, summariseChanges } from '@/lib/adminActivityLog.mjs';
 import { ADMIN_PROFILE_OPTIONAL_COLUMNS, writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
@@ -25,7 +26,7 @@ export async function PUT(request) {
     let paySettings;
     try { if (body.salary_frequency !== undefined) paySettings = validateSalarySettings(body); }
     catch (error) { return NextResponse.json({ error: error.message }, { status: 400 }); }
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     if (paySettings?.salary_frequency === 'monthly') {
       const schema = await supabaseAdmin.from('admin_profiles').select('salary_frequency,monthly_salary', { head: true }).limit(1);
       if (schema.error) return NextResponse.json({ error: 'Monthly pay is not installed yet. Run add-team-monthly-pay.sql in Supabase first.' }, { status: 503 });

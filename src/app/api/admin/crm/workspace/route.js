@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 
 export const runtime = 'nodejs';
 
@@ -33,7 +34,7 @@ export async function GET(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const [{ data: reminders, error: reminderError }, { data: activity, error: activityError }] = await Promise.all([
     supabase.from('crm_reminders').select('*').order('due_at', { ascending: true }).limit(1000),
     supabase.from('crm_activity').select('*').order('created_at', { ascending: false }).limit(250),
@@ -59,7 +60,7 @@ export async function POST(request) {
     const actor = auth.user.email || auth.profile.name || 'Staff';
     if (!customerKey) return NextResponse.json({ error: 'customerId is required' }, { status: 400 });
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     if (type === 'reminder') {
       const note = clean(body.note, 2000);
       const dueAt = new Date(body.dueAt);
@@ -111,7 +112,7 @@ export async function PATCH(request) {
     }
     const actor = auth.user.email || auth.profile.name || 'Staff';
     const completed = body.status === 'done';
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data, error } = await supabase.from('crm_reminders').update({
       status: body.status,
       completed_by: completed ? actor : null,

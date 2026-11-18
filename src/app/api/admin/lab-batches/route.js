@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { profileHasAnyAdminPermission } from '@/lib/adminApiPermissions.mjs';
 import { recordAdminActivity } from '@/lib/adminActivityLog.mjs';
@@ -63,7 +64,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { searchParams } = new URL(request.url);
     const recallCode = String(searchParams.get('orders') || '').trim().toUpperCase();
 
@@ -160,7 +161,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'The lab report link is not a valid web address.' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data: product, error: productError } = await supabase
       .from('products')
       .select('id, product')
@@ -276,7 +277,7 @@ export async function PATCH(request) {
     if (body.notes !== undefined) changes.notes = String(body.notes || '').trim() || null;
     if (Object.keys(changes).length === 0) return NextResponse.json({ error: 'Nothing to save.' }, { status: 400 });
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const { data, error } = await supabase
       .from('product_batches')
       .update(changes)

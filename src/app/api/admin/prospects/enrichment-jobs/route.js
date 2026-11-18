@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import {
   PROSPECT_ENRICHMENT_MAX_ATTEMPTS,
   PROSPECT_ENRICHMENT_STALE_MS,
@@ -68,7 +69,7 @@ async function recoverInterruptedJobs(supabase) {
 export async function GET(request) {
   const auth = await verifyAdminSession(request);
   if (auth.error) return auth.error;
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
 
   try {
     await recoverInterruptedJobs(supabase);
@@ -112,7 +113,7 @@ export async function POST(request) {
     return NextResponse.json({ error: `Queue at most ${MAX_BATCH} prospects at once` }, { status: 400 });
   }
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const { data: prospects, error: prospectError } = await supabase
     .from('sales_prospects')
     .select('id,website_url')
@@ -199,7 +200,7 @@ export async function PATCH(request) {
   const workerId = cleanWorkerId(body.workerId);
   if (!jobId) return NextResponse.json({ error: 'Enrichment job is required' }, { status: 400 });
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const { data: current, error: currentError } = await supabase
     .from('prospect_enrichment_jobs')
     .select(JOB_FIELDS)

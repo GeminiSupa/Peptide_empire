@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { recalcPayoutAmounts } from '@/lib/commissionPayouts';
 import { getDatabaseBackedUsdToCrcRate } from '@/lib/exchangeRate';
@@ -17,7 +18,7 @@ export async function PATCH(request) {
       return NextResponse.json({ error: 'payoutId is required' }, { status: 400 });
     }
 
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     const { data: payout, error: fetchError } = await supabaseAdmin
       .from('commission_payouts')
       .select('*')
@@ -108,7 +109,7 @@ export async function DELETE(request) {
       return NextResponse.json({ error: 'payoutId is required' }, { status: 400 });
     }
 
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     const { data: payout, error: fetchError } = await supabaseAdmin
       .from('commission_payouts')
       .select('id, status')

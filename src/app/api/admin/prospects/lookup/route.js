@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { isProspectsTableMissing } from '@/lib/prospects.mjs';
 
 export const dynamic = 'force-dynamic';
@@ -34,7 +35,7 @@ export async function POST(request) {
     byProvider.get(identity.provider).add(identity.externalId);
   }
 
-  const supabase = getSupabaseAdmin();
+  const supabase = scopedAdmin(auth.activeSite);
   const results = await Promise.all([...byProvider.entries()].map(([provider, externalIds]) => (
     supabase
       .from('sales_prospects')

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { formatPayoutPeriod } from '@/lib/commissionPayouts';
 import { sendTaxRecordsPayoutCopy } from '@/lib/taxRecordsEmail.mjs';
@@ -96,7 +97,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'payoutId or payoutIds is required.' }, { status: 400 });
     }
 
-    const supabaseAdmin = getSupabaseAdmin();
+    const supabaseAdmin = scopedAdmin(auth.activeSite);
     const { data: payouts, error: fetchError } = await supabaseAdmin
       .from('commission_payouts')
       .select('*')

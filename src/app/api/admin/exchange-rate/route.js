@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
+import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
 import { FALLBACK_EXCHANGE_RATE, fetchLiveUsdToCrcRate } from '@/lib/pricing';
 import {
   EXCHANGE_RATE_MAX_AGE_MS,
@@ -60,7 +61,7 @@ export async function GET(request) {
   if (auth.error) return auth.error;
 
   try {
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const row = await readRow(supabase);
     const info = readRateMode(row?.value);
     const apiQuote = await fetchLiveUsdToCrcRate({ previousRate: info.lastApiRate });
@@ -82,7 +83,7 @@ export async function PUT(request) {
       return NextResponse.json({ error: 'Choose Automatic or Manual.' }, { status: 400 });
     }
 
-    const supabase = getSupabaseAdmin();
+    const supabase = scopedAdmin(auth.activeSite);
     const row = await readRow(supabase);
     const info = readRateMode(row?.value);
     const apiQuote = await fetchLiveUsdToCrcRate({ previousRate: info.lastApiRate });
