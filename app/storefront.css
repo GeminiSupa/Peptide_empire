@@ -22,7 +22,7 @@
    storefront.js. '.ms' spans carry the ligature name as their text.
    --------------------------------------------------------------------------- */
 
-.storefront{color-scheme:light;--ink:#0b1533;--ink2:#36425f;--soft:#6b7491;--line:#e3e7f0;--bg:#f6f7fb;--card:#fff;--panel:#eef1f8;--navy:#1d4293;--navy-d:#132e6b;--red:#c61f23;--sky:#66c0fd;--tint:#e8eefc;--cta:#f26b1d;--cta-d:#d95a10;--ok:#167a4a;--ok-bg:#e8f6ee;--warn:#9a5b00;--warn-bg:#fff4e2;--r:22px;--f:var(--font-inter),"Inter",system-ui,-apple-system,"Segoe UI",sans-serif}
+.storefront{color-scheme:light;--ink:#112420;--ink2:#36425f;--soft:#6b7491;--line:#e3e7f0;--bg:#f6f7fb;--card:#fff;--panel:#eef1f8;--navy:#356662;--navy-d:#223f3b;--red:#c61f23;--sky:#9fd0c7;--tint:#e7f1ee;--cta:#f26b1d;--cta-d:#d95a10;--ok:#167a4a;--ok-bg:#e8f6ee;--warn:#9a5b00;--warn-bg:#fff4e2;--r:22px;--f:var(--font-inter),"Inter",system-ui,-apple-system,"Segoe UI",sans-serif}
 .storefront *{box-sizing:border-box;margin:0;padding:0}
 .storefront{font-family:var(--f);color:var(--ink);background:var(--bg);font-size:16px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased;font-feature-settings:"cv11","ss01"}
 .storefront::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:70;background:#fff}
@@ -61,7 +61,7 @@
 .storefront .btn.block{width:100%}
 .storefront .btn svg{width:19px;height:19px;flex:none}
 .storefront .btn[disabled]{opacity:.4;pointer-events:none}
-.storefront .chero{background:radial-gradient(120% 140% at 85% -20%,#2f63bf 0%,#1d4293 42%,#0f2559 100%);color:#fff;position:relative;overflow:hidden}
+.storefront .chero{background:radial-gradient(120% 140% at 85% -20%,#4a847d 0%,#356662 42%,#16302c 100%);color:#fff;position:relative;overflow:hidden}
 .storefront .chero::after{content:"";position:absolute;inset:auto -10% -60% 40%;height:120%;background:radial-gradient(closest-side,rgba(102,192,253,.28),transparent);pointer-events:none}
 .storefront .chero .wrap{position:relative;z-index:1;display:grid;gap:22px;padding-block:30px 26px}
 .storefront .chero .eyebrow{font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--sky)}
@@ -474,7 +474,7 @@
    `h1`–`h6`. A bare element selector reaches inside this scope, and the design
    never states a heading colour — it lets headings inherit, so they are white
    on the navy hero and ink on white. Without this, every storefront heading
-   came out #08236b, which on the hero is navy text on a navy gradient.
+   came out #356662, which on the hero is navy text on a navy gradient.
    The design's own rules are more specific and still win. */
 .storefront h1,
 .storefront h2,

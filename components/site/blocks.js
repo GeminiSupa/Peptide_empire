@@ -80,11 +80,7 @@ export function CategoryTiles({ categories, t = (s) => s }) {
 }
 
 /** Verified reviews quoted on the site, each with its source. */
-export const REVIEWS = [
-  ['trustpilot', 'Excellent service, quality, and price. For me, they are the best in Costa Rica; I hope they never change.', 'Daniel Manzanares Quesada · Trustpilot'],
-  ['trustpilot', 'Hay stock y son rápidos y asesoran muy bien, confiable los pagos y el producto llega en buen estado.', 'Botanical Cosmetic · Trustpilot'],
-  ['google', 'Son excelentes, mil estrellas.', 'Lic. Juan Alfonso Mata Chavarría · Google'],
-];
+export const REVIEWS = [];
 
 export function Reviews({ items = REVIEWS }) {
   return (

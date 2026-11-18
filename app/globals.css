@@ -9,13 +9,13 @@
    Peptides Costa Rica — design tokens
    Taken from the LIVE site, not chosen. This is a re-platform: where a
    value here disagrees with peptidescostarica.net, this file is wrong.
-   Headings render at #08236B on the live site; an earlier note here
+   Headings render at #356662 on the live site; an earlier note here
    deliberately used the sister project's #002766 instead "so the two
    sites match", which is the opposite of cloning one of them.
    --------------------------------------------------------------- */
 @theme {
-  --color-primary: #08236b;
-  --color-primary-light: #046bd2;
+  --color-primary: #356662;
+  --color-primary-light: #4a847d;
   /* #d35400, taken from the live site's own stylesheet. The previous value
      (#c8530c) appears NOWHERE on peptidescostarica.net — it was invented, and
      it tinted every button, eyebrow and icon across all 632 pages. */
@@ -87,7 +87,7 @@ h6 {
 }
 
 .contact-cta:focus-visible {
-  outline: 3px solid #08236b;
+  outline: 3px solid #356662;
   outline-offset: 3px;
 }
 

@@ -107,7 +107,7 @@ export function LabCalc({ appHref = '#install' }) {
   );
 }
 
-/** "Open now" during support hours: Monday to Friday, 10:00–17:00 in Costa Rica. */
+/** "Open now" during support hours: Monday to Friday, 10:00–17:00 in Colombia. */
 export function OpenNow() {
   const { t } = useSite();
   const [open, setOpen] = useState(false);

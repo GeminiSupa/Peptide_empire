@@ -12,7 +12,7 @@ const COPY = {
     bulkText: 'Same product, applied automatically. The best eligible offer is shown before payment.',
     faqTitle: 'Frequently asked questions',
     questions: [
-      ['Do you ship outside Costa Rica?', 'No. We currently deliver within Costa Rica only.'],
+      ['Do you ship outside Colombia?', 'No. We currently deliver within Colombia only.'],
       ['How do I order online?', 'Choose a product and size, add it to your cart, then continue to checkout or WhatsApp.'],
       ['What payment methods do you accept?', 'Card, SINPE Móvil and bank transfer.'],
       ['Is there a bulk discount?', 'Yes. Buy 5 or more vials of the same product for 15% off, or 10 or more for 20% off.'],
@@ -28,7 +28,7 @@ const COPY = {
     bulkText: 'Mismo producto, aplicado automáticamente. La mejor oferta disponible aparece antes del pago.',
     faqTitle: 'Preguntas frecuentes',
     questions: [
-      ['¿Hacen envíos fuera de Costa Rica?', 'No. Actualmente entregamos únicamente dentro de Costa Rica.'],
+      ['¿Hacen envíos fuera de Colombia?', 'No. Actualmente entregamos únicamente dentro de Colombia.'],
       ['¿Cómo hago un pedido en línea?', 'Elija un producto y tamaño, agréguelo al carrito y continúe al pago o a WhatsApp.'],
       ['¿Qué métodos de pago aceptan?', 'Aceptamos tarjeta, SINPE Móvil y transferencia bancaria.'],
       ['¿Hay descuento por volumen?', 'Sí. Compre 5 o más viales del mismo producto y ahorre 15%, o 10 o más y ahorre 20%.'],

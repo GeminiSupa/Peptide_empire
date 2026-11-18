@@ -120,7 +120,7 @@ export default function PostPage({ lang, site, page, h1, related = [], section }
             <div className="byl">
               <span className="av">PC</span>
               <div>
-                <b>{page.cms?.author || 'Peptides Costa Rica'}</b>
+                <b>{page.cms?.author || 'Peptides Colombia'}</b>
                 <small>{t(`${parts.minutes} min read`)}</small>
               </div>
             </div>

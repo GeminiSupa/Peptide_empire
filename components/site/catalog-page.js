@@ -60,7 +60,7 @@ export default function CatalogPage({ lang, site, h1, copy, page }) {
               {t('As featured in')}
               {' '}
               <img src="/site/press-tico-times.webp" alt="The Tico Times" />
-              <img className="t" src="/site/press-costa-rica-news.webp" alt="The Costa Rica News" />
+              <img className="t" src="/site/press-costa-rica-news.webp" alt="The Colombia News" />
               <img src="/site/press-la-nacion.webp" alt="La Nación" />
             </div>
           </div>

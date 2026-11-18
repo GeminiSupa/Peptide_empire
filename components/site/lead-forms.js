@@ -205,7 +205,7 @@ export function AffiliateForm() {
         <fieldset data-step="3" hidden={step !== 3}>
           <label>{t('I\'m interested in')}<Radios name="int" t={t} options={[['Affiliate commissions', 'Affiliate commissions'], ['Wholesale', 'Wholesale'], ['Both', 'Both']]} /></label>
           <label>{t('Product categories of interest')}<input name="cats" /></label>
-          <label>{t('Content source')}<select name="content">{['My own content', 'Peptides Costa Rica materials', 'Both'].map((x) => <option key={x}>{t(x)}</option>)}</select></label>
+          <label>{t('Content source')}<select name="content">{['My own content', 'Peptides Colombia materials', 'Both'].map((x) => <option key={x}>{t(x)}</option>)}</select></label>
           <label>{t('How did you hear about the program?')}<input name="heard" /></label>
           <label className="agree">
             <input type="checkbox" name="terms" required />

@@ -9,14 +9,14 @@ import { blogToPage, getPublishedBlogs } from '@/lib/blog-cms.mjs';
 
 /** What each listing page lists: the same sources the live pages list. */
 export const LISTINGS = {
-  '/blog/': { pages: () => posts, label: 'Blog', lead: 'Compound guides, comparisons and research news, written by the Peptides Costa Rica team.' },
-  '/peptide-guides/': { pages: () => mixingGuides, label: 'Peptide Guides', lead: 'Mixing and handling guides for each compound, written by the Peptides Costa Rica team.' },
+  '/blog/': { pages: () => posts, label: 'Blog', lead: 'Compound guides, comparisons and research news, written by the Peptides Colombia team.' },
+  '/peptide-guides/': { pages: () => mixingGuides, label: 'Peptide Guides', lead: 'Mixing and handling guides for each compound, written by the Peptides Colombia team.' },
 };
 
 /** One listed article, for the index and the "keep reading" row. */
 export function listed(page, lang) {
   const title = page.head?.[`title_${lang}`] || page.head?.title_en || '';
-  return { en: page.en, es: page.es, href: (lang === 'es' ? page.es : page.en) || page.en, title: title.replace(/\s*[|–-]\s*P[ée]ptid(e|o)s Costa Rica\s*$/i, '').trim() };
+  return { en: page.en, es: page.es, href: (lang === 'es' ? page.es : page.en) || page.en, title: title.replace(/\s*[|–-]\s*P[ée]ptid(e|o)s Colombia\s*$/i, '').trim() };
 }
 
 /**

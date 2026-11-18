@@ -5,8 +5,8 @@ import { metadataForPath } from '@/lib/seo';
 export function generateMetadata() {
   return {
     ...metadataForPath('/explore-our-app/', {
-      title: 'Explore Our App | Peptides Costa Rica',
-      description: 'The Peptides Costa Rica app: order in a few taps, earn points, get extra discounts and use the reconstitution calculator. Free on iPhone and Android.',
+      title: 'Explore Our App | Peptidos Colombia',
+      description: 'The Peptidos Colombia app: order in a few taps, earn points, get extra discounts and use the reconstitution calculator. Free on iPhone and Android.',
       en: '/explore-our-app/',
       es: '/es/explora-nuestra-app/',
     }),

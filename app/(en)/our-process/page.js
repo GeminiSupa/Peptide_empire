@@ -5,8 +5,8 @@ import { metadataForPath } from '@/lib/seo';
 export function generateMetadata() {
   return {
     ...metadataForPath('/our-process/', {
-      title: 'Our Process | Peptides Costa Rica',
-      description: 'How a vial gets from the lab to your door: nine checkpoints, third-party testing, cold storage at 2–8 °C and tracked delivery across Costa Rica.',
+      title: 'Our Process | Peptidos Colombia',
+      description: 'How a vial gets from the lab to your door: nine checkpoints, third-party testing, cold storage at 2–8 °C and tracked delivery across Colombia.',
       en: '/our-process/',
       es: '/es/nuestro-proceso/',
     }),

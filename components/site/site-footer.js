@@ -34,7 +34,7 @@ export default function SiteFooter({ t, links, categories, contact = CONTACT, so
       <div className="wrap">
         <div className="fgrid">
           <div className="fbrand">
-            <img className="logo" src="/site/logo.webp" alt="Peptides Costa Rica" />
+            <img className="logo" src="/site/logo-white.svg" alt="Peptidos Colombia" />
             <p className="slogan">{t('Unlimited potential')}</p>
             <Link className="fapp" href={links['explore-our-app']} data-cta="footer-app">
               <span className="fqr"><img src="/site/app-qr.svg" alt="" /></span>
@@ -44,7 +44,7 @@ export default function SiteFooter({ t, links, categories, contact = CONTACT, so
               </span>
               <Ms name="arrow_forward" />
             </Link>
-            <p>{t('Research-grade peptides in local stock in Costa Rica. Third-party tested, stored at 2–8 °C, delivered in 2–4 days.')}</p>
+            <p>{t('Research-grade peptides in local stock in Colombia. Third-party tested, stored at 2–8 °C, delivered in 2–4 days.')}</p>
           </div>
           <div>
             <h4>{t('Quick Links')}</h4>
@@ -92,7 +92,7 @@ export default function SiteFooter({ t, links, categories, contact = CONTACT, so
           <b>{t('Research use only.')}</b>{' '}
           {t('All products are supplied for laboratory research. Not for human or veterinary use. Not approved for the diagnosis, treatment, cure or prevention of any condition. We do not provide dosing or medical advice.')}
         </p>
-        <p className="legal">© 2026 Peptides Costa Rica · Curridabat, San José</p>
+        <p className="legal">© 2026 Peptidos Colombia · Colombia</p>
       </div>
     </footer>
   );

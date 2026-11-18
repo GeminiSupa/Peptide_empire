@@ -93,7 +93,7 @@ export default function ThankYou({ upsells, appHref, reviews }) {
                 </ol>
                 <div className="tynote">
                   <Ms name="schedule" />
-                  <span>{t('Support hours: Monday to Friday, 10:00 to 17:00 (Costa Rica time). Orders placed outside these hours are confirmed the next business morning.')}</span>
+                  <span>{t('Support hours: Monday to Friday, 10:00 to 17:00 (Colombia time). Orders placed outside these hours are confirmed the next business morning.')}</span>
                 </div>
               </div>
 

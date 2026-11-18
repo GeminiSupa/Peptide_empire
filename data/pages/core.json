@@ -8,10 +8,10 @@
       "en": "/about/",
       "es": "/es/acerca-de/",
       "head": {
-        "title_en": "About Us | Peptides Costa Rica",
-        "title_es": "Sobre Nosotros | Péptidos Costa Rica",
-        "description_en": "Costa Rica peptides research. Buy peptides online from trusted supplier in Costa Rica for quality peptides.",
-        "description_es": "Investigación de péptidos en Costa Rica. Compre péptidos en línea de un proveedor confiable en Costa Rica para péptidos de calidad."
+        "title_en": "About Us | Peptidos Colombia",
+        "title_es": "Sobre Nosotros | Peptidos Colombia",
+        "description_en": "Colombia peptides research. Buy peptides online from trusted supplier in Colombia for quality peptides.",
+        "description_es": "Investigación de péptidos en Colombia. Compre péptidos en línea de un proveedor confiable en Colombia para péptidos de calidad."
       },
       "sections": [
         {
@@ -42,8 +42,8 @@
                       "type": "heading",
                       "content": {
                         "level": 1,
-                        "text_en": "About Peptides Costa Rica",
-                        "text_es": "Acerca de Péptidos Costa Rica",
+                        "text_en": "About Peptidos Colombia",
+                        "text_es": "Acerca de Peptidos Colombia",
                         "align": "center",
                         "color": "#092771",
                         "font": {
@@ -54,8 +54,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Peptides Costa Rica was established to provide a simple and reliable way for eligible customers in Costa Rica to access research materials with clear product information and transparent service. We focus on accurate product details, available documentation, straightforward ordering, and dependable local delivery support. Our goal is to make the purchasing process easier through clear communication, responsible information, and a customer-focused approach.",
-                        "text_es": "Peptides Costa Rica se estableció para proporcionar una forma sencilla y confiable para que los clientes elegibles en Costa Rica accedan a materiales de investigación con información clara del producto y un servicio transparente. Nos centramos en detalles precisos del producto, documentación disponible, pedidos sencillos y soporte de entrega local confiable. Nuestro objetivo es facilitar el proceso de compra mediante una comunicación clara, información responsable y un enfoque centrado en el cliente.",
+                        "text_en": "Peptidos Colombia was established to provide a simple and reliable way for eligible customers in Colombia to access research materials with clear product information and transparent service. We focus on accurate product details, available documentation, straightforward ordering, and dependable local delivery support. Our goal is to make the purchasing process easier through clear communication, responsible information, and a customer-focused approach.",
+                        "text_es": "Peptidos Colombia se estableció para proporcionar una forma sencilla y confiable para que los clientes elegibles en Colombia accedan a materiales de investigación con información clara del producto y un servicio transparente. Nos centramos en detalles precisos del producto, documentación disponible, pedidos sencillos y soporte de entrega local confiable. Nuestro objetivo es facilitar el proceso de compra mediante una comunicación clara, información responsable y un enfoque centrado en el cliente.",
                         "align": "center",
                         "color": "#000000",
                         "font": {
@@ -113,8 +113,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Because we operate locally, we understand the importance of building trust through clear communication and dependable service. We work to provide accurate product information, straightforward ordering, and responsive customer support. Our approach is focused on helping customers understand available products, documentation, pricing, and delivery options while creating a simple and transparent experience throughout Costa Rica.",
-                        "text_es": "Debido a que operamos localmente, entendemos la importancia de generar confianza a través de una comunicación clara y un servicio confiable. Trabajamos para proporcionar información precisa sobre el producto, realizar pedidos de forma sencilla y una atención al cliente receptiva. Nuestro enfoque se centra en ayudar a los clientes a comprender los productos, la documentación, los precios y las opciones de entrega disponibles, mientras creamos una experiencia simple y transparente en todo Costa Rica."
+                        "text_en": "Because we operate locally, we understand the importance of building trust through clear communication and dependable service. We work to provide accurate product information, straightforward ordering, and responsive customer support. Our approach is focused on helping customers understand available products, documentation, pricing, and delivery options while creating a simple and transparent experience throughout Colombia.",
+                        "text_es": "Debido a que operamos localmente, entendemos la importancia de generar confianza a través de una comunicación clara y un servicio confiable. Trabajamos para proporcionar información precisa sobre el producto, realizar pedidos de forma sencilla y una atención al cliente receptiva. Nuestro enfoque se centra en ayudar a los clientes a comprender los productos, la documentación, los precios y las opciones de entrega disponibles, mientras creamos una experiencia simple y transparente en todo Colombia."
                       }
                     },
                     {
@@ -382,8 +382,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Our mission is to provide clear product information, transparent pricing, and reliable customer support for eligible customers in Costa Rica. We are committed to making the ordering process simple by offering accurate details, available documentation, and clear communication about product availability and delivery options.",
-                        "text_es": "Nuestra misión es brindar información clara sobre productos, precios transparentes y atención al cliente confiable para clientes elegibles en Costa Rica. Nos comprometemos a simplificar el proceso de pedido ofreciendo detalles precisos, documentación disponible y comunicación clara sobre la disponibilidad del producto y las opciones de entrega.",
+                        "text_en": "Our mission is to provide clear product information, transparent pricing, and reliable customer support for eligible customers in Colombia. We are committed to making the ordering process simple by offering accurate details, available documentation, and clear communication about product availability and delivery options.",
+                        "text_es": "Nuestra misión es brindar información clara sobre productos, precios transparentes y atención al cliente confiable para clientes elegibles en Colombia. Nos comprometemos a simplificar el proceso de pedido ofreciendo detalles precisos, documentación disponible y comunicación clara sobre la disponibilidad del producto y las opciones de entrega.",
                         "color": "#000000"
                       }
                     },
@@ -412,8 +412,8 @@
                       "content": {
                         "title_en": "Clear Information",
                         "title_es": "Información clara",
-                        "text_en": "Ensuring consistent availability of peptides for customers across Costa Rica.",
-                        "text_es": "Garantizar la disponibilidad constante de péptidos para los clientes en Costa Rica.",
+                        "text_en": "Ensuring consistent availability of peptides for customers across Colombia.",
+                        "text_es": "Garantizar la disponibilidad constante de péptidos para los clientes en Colombia.",
                         "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-award\" viewBox=\"0 0 384 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M97.12 362.63c-8.69-8.69-4.16-6.24-25.12-11.85-9.51-2.55-17.87-7.45-25.43-13.32L1.2 448.7c-4.39 10.77 3.81 22.47 15.43 22.03l52.69-2.01L105.56 507c8 8.44 22.04 5.81 26.43-4.96l52.05-127.62c-10.84 6.04-22.87 9.58-35.31 9.58-19.5 0-37.82-7.59-51.61-21.37zM382.8 448.7l-45.37-111.24c-7.56 5.88-15.92 10.77-25.43 13.32-21.07 5.64-16.45 3.18-25.12 11.85-13.79 13.78-32.12 21.37-51.62 21.37-12.44 0-24.47-3.55-35.31-9.58L252 502.04c4.39 10.77 18.44 13.4 26.43 4.96l36.25-38.28 52.69 2.01c11.62.44 19.82-11.27 15.43-22.03zM263 340c15.28-15.55 17.03-14.21 38.79-20.14 13.89-3.79 24.75-14.84 28.47-28.98 7.48-28.4 5.54-24.97 25.95-45.75 10.17-10.35 14.14-25.44 10.42-39.58-7.47-28.38-7.48-24.42 0-52.83 3.72-14.14-.25-29.23-10.42-39.58-20.41-20.78-18.47-17.36-25.95-45.75-3.72-14.14-14.58-25.19-28.47-28.98-27.88-7.61-24.52-5.62-44.95-26.41-10.17-10.35-25-14.4-38.89-10.61-27.87 7.6-23.98 7.61-51.9 0-13.89-3.79-28.72.25-38.89 10.61-20.41 20.78-17.05 18.8-44.94 26.41-13.89 3.79-24.75 14.84-28.47 28.98-7.47 28.39-5.54 24.97-25.95 45.75-10.17 10.35-14.15 25.44-10.42 39.58 7.47 28.36 7.48 24.4 0 52.82-3.72 14.14.25 29.23 10.42 39.59 20.41 20.78 18.47 17.35 25.95 45.75 3.72 14.14 14.58 25.19 28.47 28.98C104.6 325.96 106.27 325 121 340c13.23 13.47 33.84 15.88 49.74 5.82a39.676 39.676 0 0 1 42.53 0c15.89 10.06 36.5 7.65 49.73-5.82zM97.66 175.96c0-53.03 42.24-96.02 94.34-96.02s94.34 42.99 94.34 96.02-42.24 96.02-94.34 96.02-94.34-42.99-94.34-96.02z\"></path></svg>",
                         "href": null,
                         "box": {
@@ -532,8 +532,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "We take pride in the trust and loyalty of our customers. Numerous individuals across Costa Rica have experienced transformative results with our peptide products. Our testimonials section is a living showcase of positive outcomes, featuring stories of enhanced energy, impressive muscle growth, and dramatic reductions in body fat.",
-                        "text_es": "Nos enorgullecemos de la confianza y lealtad de nuestros clientes. Numerosas personas en toda Costa Rica han experimentado resultados transformadores con nuestros productos peptídicos. Nuestra sección de testimonios es una muestra viva de resultados positivos, presentando historias de mayor energía, crecimiento muscular impresionante y reducciones drásticas en la grasa corporal.",
+                        "text_en": "We take pride in the trust and loyalty of our customers. Numerous individuals across Colombia have experienced transformative results with our peptide products. Our testimonials section is a living showcase of positive outcomes, featuring stories of enhanced energy, impressive muscle growth, and dramatic reductions in body fat.",
+                        "text_es": "Nos enorgullecemos de la confianza y lealtad de nuestros clientes. Numerosas personas en toda Colombia han experimentado resultados transformadores con nuestros productos peptídicos. Nuestra sección de testimonios es una muestra viva de resultados positivos, presentando historias de mayor energía, crecimiento muscular impresionante y reducciones drásticas en la grasa corporal.",
                         "align": "center",
                         "color": "#FFFFFF"
                       }
@@ -661,10 +661,10 @@
                       "content": {
                         "items": [
                           {
-                            "q_en": "What products does Peptides Costa Rica provide?",
-                            "q_es": "¿Qué productos ofrece Peptides Costa Rica?",
-                            "a_en": "Peptides Costa Rica provides research materials with clear product information, specifications, availability details, and ordering support for eligible purchasers in Costa Rica.",
-                            "a_es": "Peptides Costa Rica proporciona materiales de investigación con información clara del producto, especificaciones, detalles de disponibilidad y soporte para realizar pedidos para compradores elegibles en Costa Rica."
+                            "q_en": "What products does Peptidos Colombia provide?",
+                            "q_es": "¿Qué productos ofrece Peptidos Colombia?",
+                            "a_en": "Peptidos Colombia provides research materials with clear product information, specifications, availability details, and ordering support for eligible purchasers in Colombia.",
+                            "a_es": "Peptidos Colombia proporciona materiales de investigación con información clara del producto, especificaciones, detalles de disponibilidad y soporte para realizar pedidos para compradores elegibles en Colombia."
                           },
                           {
                             "q_en": "Why don’t you offer online checkout?",
@@ -675,14 +675,14 @@
                           {
                             "q_en": "How can I check product availability?",
                             "q_es": "¿Cómo puedo comprobar la disponibilidad del producto?",
-                            "a_en": "Customers can contact our team directly to confirm current product availability, pricing, documentation, and delivery options within Costa Rica.",
-                            "a_es": "Los clientes pueden comunicarse con nuestro equipo directamente para confirmar la disponibilidad actual del producto, los precios, la documentación y las opciones de entrega dentro de Costa Rica."
+                            "a_en": "Customers can contact our team directly to confirm current product availability, pricing, documentation, and delivery options within Colombia.",
+                            "a_es": "Los clientes pueden comunicarse con nuestro equipo directamente para confirmar la disponibilidad actual del producto, los precios, la documentación y las opciones de entrega dentro de Colombia."
                           },
                           {
-                            "q_en": "Do you provide delivery within Costa Rica?",
-                            "q_es": "¿Hacen entrega dentro de Costa Rica?",
-                            "a_en": "Yes, we coordinate local delivery options within Costa Rica. Customers can contact our team for current delivery details and available arrangements.",
-                            "a_es": "Sí, coordinamos opciones de entrega local dentro de Costa Rica. Los clientes pueden comunicarse con nuestro equipo para obtener detalles de entrega actuales y arreglos disponibles."
+                            "q_en": "Do you provide delivery within Colombia?",
+                            "q_es": "¿Hacen entrega dentro de Colombia?",
+                            "a_en": "Yes, we coordinate local delivery options within Colombia. Customers can contact our team for current delivery details and available arrangements.",
+                            "a_es": "Sí, coordinamos opciones de entrega local dentro de Colombia. Los clientes pueden comunicarse con nuestro equipo para obtener detalles de entrega actuales y arreglos disponibles."
                           },
                           {
                             "q_en": "How can I place an order?",
@@ -707,8 +707,8 @@
       "en": "/our-story/",
       "es": "/es/nuestra-historia/",
       "head": {
-        "title_en": "Our Story | Peptides Costa Rica",
-        "title_es": "Nuestra Historia | Péptidos Costa Rica",
+        "title_en": "Our Story | Peptidos Colombia",
+        "title_es": "Nuestra Historia | Peptidos Colombia",
         "description_en": "Buy now premium services with trusted quality. Call 506 6060-4775 today for fast support, expert solutions, and reliable results you can count on.",
         "description_es": "Compre ahora servicios premium con calidad confiable. Llame hoy al 506 6060-4775 para obtener soporte rápido, soluciones expertas y resultados confiables en los que puede contar."
       },
@@ -758,8 +758,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Peptides Costa Rica was founded by longtime friends and training partners Joey Webster and Sean McCully. Originally from California, both made Costa Rica their home and built lasting connections through sport and business. Their shared background and commitment to strong relationships helped shape the foundation of Peptides Costa Rica. The company was created with a focus on providing clear product information, transparent pricing, direct communication, and reliable local delivery throughout Costa Rica.",
-                        "text_es": "Peptides Costa Rica fue fundada por viejos amigos y compañeros de entrenamiento Joey Webster y Sean McCully. Originarios de California, ambos hicieron de Costa Rica su hogar y construyeron conexiones duraderas a través del deporte y los negocios. Su experiencia compartida y su compromiso con relaciones sólidas ayudaron a dar forma a la base de Peptides Costa Rica. La empresa se creó con el objetivo de brindar información clara sobre los productos, precios transparentes, comunicación directa y entrega local confiable en todo Costa Rica.",
+                        "text_en": "Peptidos Colombia was founded by longtime friends and training partners Joey Webster and Sean McCully. Originally from California, both made Colombia their home and built lasting connections through sport and business. Their shared background and commitment to strong relationships helped shape the foundation of Peptidos Colombia. The company was created with a focus on providing clear product information, transparent pricing, direct communication, and reliable local delivery throughout Colombia.",
+                        "text_es": "Peptidos Colombia fue fundada por viejos amigos y compañeros de entrenamiento Joey Webster y Sean McCully. Originarios de California, ambos hicieron de Colombia su hogar y construyeron conexiones duraderas a través del deporte y los negocios. Su experiencia compartida y su compromiso con relaciones sólidas ayudaron a dar forma a la base de Peptidos Colombia. La empresa se creó con el objetivo de brindar información clara sobre los productos, precios transparentes, comunicación directa y entrega local confiable en todo Colombia.",
                         "align": "center",
                         "color": "#000000"
                       }
@@ -790,8 +790,8 @@
                   "src": "/wp-content/uploads/2026/09/homepage-vial-images.webp",
                   "width": 1374,
                   "height": 1145,
-                  "alt_en": "BPC-157 and Epitalon peptide vials from Peptides Costa Rica.",
-                  "alt_es": "Viales de péptidos BPC-157 y Epitalon de Peptides Costa Rica.",
+                  "alt_en": "BPC-157 and Epitalon peptide vials from Peptidos Colombia.",
+                  "alt_es": "Viales de péptidos BPC-157 y Epitalon de Peptidos Colombia.",
                   "displayWidth": "85%"
                 }
               },
@@ -827,8 +827,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "The same values that guided them through their athletic backgrounds continue to influence the way they operate Peptides Costa Rica — focusing on clear communication, reliability, and providing a straightforward experience for customers throughout Costa Rica.",
-                        "text_es": "Los mismos valores que los guiaron a través de su experiencia atlética continúan influyendo en la forma en que operan Peptides Costa Rica: enfocándose en una comunicación clara, confiabilidad y brindando una experiencia sencilla para los clientes en toda Costa Rica."
+                        "text_en": "The same values that guided them through their athletic backgrounds continue to influence the way they operate Peptidos Colombia — focusing on clear communication, reliability, and providing a straightforward experience for customers throughout Colombia.",
+                        "text_es": "Los mismos valores que los guiaron a través de su experiencia atlética continúan influyendo en la forma en que operan Peptidos Colombia: enfocándose en una comunicación clara, confiabilidad y brindando una experiencia sencilla para los clientes en toda Colombia."
                       }
                     }
                   ]
@@ -871,8 +871,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Sean McCully is one of the founders of Peptides Costa Rica, bringing years of experience, discipline, and commitment shaped through his background in sport and business. Originally from California, Sean made Costa Rica his home and developed strong connections through his involvement in the local community, training, and professional relationships.",
-                        "text_es": "Sean McCully es uno de los fundadores de Peptides Costa Rica y aporta años de experiencia, disciplina y compromiso moldeados a través de su experiencia en el deporte y los negocios. Originario de California, Sean hizo de Costa Rica su hogar y desarrolló fuertes conexiones a través de su participación en la comunidad local, capacitación y relaciones profesionales."
+                        "text_en": "Sean McCully is one of the founders of Peptidos Colombia, bringing years of experience, discipline, and commitment shaped through his background in sport and business. Originally from California, Sean made Colombia his home and developed strong connections through his involvement in the local community, training, and professional relationships.",
+                        "text_es": "Sean McCully es uno de los fundadores de Peptidos Colombia y aporta años de experiencia, disciplina y compromiso moldeados a través de su experiencia en el deporte y los negocios. Originario de California, Sean hizo de Colombia su hogar y desarrolló fuertes conexiones a través de su participación en la comunidad local, capacitación y relaciones profesionales."
                       }
                     },
                     {
@@ -885,8 +885,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "At Peptides Costa Rica, Sean focuses on creating a clear and reliable experience for customers by helping provide accurate product information, straightforward communication, and support throughout the ordering process. His approach is centered around making the purchasing experience simple, transparent, and easy to understand.",
-                        "text_es": "En Peptides Costa Rica, Sean se enfoca en crear una experiencia clara y confiable para los clientes al ayudarlos a brindar información precisa sobre el producto, comunicación directa y soporte durante todo el proceso de pedido. Su enfoque se centra en hacer que la experiencia de compra sea sencilla, transparente y fácil de entender."
+                        "text_en": "At Peptidos Colombia, Sean focuses on creating a clear and reliable experience for customers by helping provide accurate product information, straightforward communication, and support throughout the ordering process. His approach is centered around making the purchasing experience simple, transparent, and easy to understand.",
+                        "text_es": "En Peptidos Colombia, Sean se enfoca en crear una experiencia clara y confiable para los clientes al ayudarlos a brindar información precisa sobre el producto, comunicación directa y soporte durante todo el proceso de pedido. Su enfoque se centra en hacer que la experiencia de compra sea sencilla, transparente y fácil de entender."
                       }
                     }
                   ]
@@ -971,8 +971,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Joey Webster is a founder of Peptides Costa Rica and has built his journey through years of dedication, discipline, and strong relationships. Originally from California, Joey made Costa Rica his home and developed meaningful connections through sport, business, and the local community.",
-                        "text_es": "Joey Webster es uno de los fundadores de Peptides Costa Rica y ha construido su trayectoria a través de años de dedicación, disciplina y relaciones sólidas. Originario de California, Joey hizo de Costa Rica su hogar y desarrolló conexiones significativas a través del deporte, los negocios y la comunidad local."
+                        "text_en": "Joey Webster is a founder of Peptidos Colombia and has built his journey through years of dedication, discipline, and strong relationships. Originally from California, Joey made Colombia his home and developed meaningful connections through sport, business, and the local community.",
+                        "text_es": "Joey Webster es uno de los fundadores de Peptidos Colombia y ha construido su trayectoria a través de años de dedicación, disciplina y relaciones sólidas. Originario de California, Joey hizo de Colombia su hogar y desarrolló conexiones significativas a través del deporte, los negocios y la comunidad local."
                       }
                     },
                     {
@@ -985,8 +985,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Together with Sean McCully, Joey established Peptides Costa Rica with a focus on creating a straightforward and reliable experience for customers in Costa Rica. The company’s approach is based on clear product information, transparent communication, and dependable service.",
-                        "text_es": "Junto con Sean McCully, Joey estableció Peptides Costa Rica con el objetivo de crear una experiencia sencilla y confiable para los clientes en Costa Rica. El enfoque de la empresa se basa en información clara sobre el producto, comunicación transparente y servicio confiable."
+                        "text_en": "Together with Sean McCully, Joey established Peptidos Colombia with a focus on creating a straightforward and reliable experience for customers in Colombia. The company’s approach is based on clear product information, transparent communication, and dependable service.",
+                        "text_es": "Junto con Sean McCully, Joey estableció Peptidos Colombia con el objetivo de crear una experiencia sencilla y confiable para los clientes en Colombia. El enfoque de la empresa se basa en información clara sobre el producto, comunicación transparente y servicio confiable."
                       }
                     }
                   ]
@@ -1037,8 +1037,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "During our days at the gym, few of our gym buddies, who also happened to work at a certified research lab, told us about work delays since they relied on international suppliers for all types of compounds, especially peptides. What we saw was a business opportunity that would eventually help so many researchers like them. We learned more peptide specifications, purity, storage, handling, and everything else, to deliver research-grade peptides locally through Peptides Costa Rica.",
-                        "text_es": "Durante nuestros días en el gimnasio, algunos de nuestros compañeros de gimnasio, que también trabajaban en un laboratorio de investigación certificado, nos contaron sobre retrasos en el trabajo ya que dependían de proveedores internacionales para todo tipo de compuestos, especialmente péptidos. Lo que vimos fue una oportunidad de negocio que eventualmente ayudaría a tantos investigadores como ellos. Aprendimos más especificaciones de péptidos, pureza, almacenamiento, manipulación y todo lo demás para entregar péptidos de grado de investigación localmente a través de Peptides Costa Rica.",
+                        "text_en": "During our days at the gym, few of our gym buddies, who also happened to work at a certified research lab, told us about work delays since they relied on international suppliers for all types of compounds, especially peptides. What we saw was a business opportunity that would eventually help so many researchers like them. We learned more peptide specifications, purity, storage, handling, and everything else, to deliver research-grade peptides locally through Peptidos Colombia.",
+                        "text_es": "Durante nuestros días en el gimnasio, algunos de nuestros compañeros de gimnasio, que también trabajaban en un laboratorio de investigación certificado, nos contaron sobre retrasos en el trabajo ya que dependían de proveedores internacionales para todo tipo de compuestos, especialmente péptidos. Lo que vimos fue una oportunidad de negocio que eventualmente ayudaría a tantos investigadores como ellos. Aprendimos más especificaciones de péptidos, pureza, almacenamiento, manipulación y todo lo demás para entregar péptidos de grado de investigación localmente a través de Peptidos Colombia.",
                         "align": "center",
                         "color": "#FFFFFF",
                         "font": {
@@ -1072,8 +1072,8 @@
                       "type": "heading",
                       "content": {
                         "level": 2,
-                        "text_en": "Why We Started Peptides Costa Rica",
-                        "text_es": "Por qué fundamos Peptides Costa Rica",
+                        "text_en": "Why We Started Peptidos Colombia",
+                        "text_es": "Por qué fundamos Peptidos Colombia",
                         "color": "#08236B"
                       }
                     },
@@ -1092,8 +1092,8 @@
                           {
                             "type": "paragraph",
                             "content": {
-                              "text_en": "We saw an opportunity to make local ordering more straightforward for customers in Costa Rica. Peptides Costa Rica was established with the goal of creating a simpler and more transparent way for eligible customers to access product information, availability details, and ordering support.",
-                              "text_es": "Vimos una oportunidad para hacer que los pedidos locales fueran más sencillos para los clientes en Costa Rica. Peptides Costa Rica se creó con el objetivo de crear una forma más sencilla y transparente para que los clientes elegibles accedan a información del producto, detalles de disponibilidad y asistencia para realizar pedidos.",
+                              "text_en": "We saw an opportunity to make local ordering more straightforward for customers in Colombia. Peptidos Colombia was established with the goal of creating a simpler and more transparent way for eligible customers to access product information, availability details, and ordering support.",
+                              "text_es": "Vimos una oportunidad para hacer que los pedidos locales fueran más sencillos para los clientes en Colombia. Peptidos Colombia se creó con el objetivo de crear una forma más sencilla y transparente para que los clientes elegibles accedan a información del producto, detalles de disponibilidad y asistencia para realizar pedidos.",
                               "color": "#000000"
                             }
                           },
@@ -1108,8 +1108,8 @@
                           {
                             "type": "paragraph",
                             "content": {
-                              "text_en": "By focusing on service, communication, and a customer-first approach, Peptides Costa Rica continues to build a dependable experience for customers throughout Costa Rica.",
-                              "text_es": "Al centrarse en el servicio, la comunicación y un enfoque centrado en el cliente, Peptides Costa Rica continúa construyendo una experiencia confiable para los clientes en toda Costa Rica.",
+                              "text_en": "By focusing on service, communication, and a customer-first approach, Peptidos Colombia continues to build a dependable experience for customers throughout Colombia.",
+                              "text_es": "Al centrarse en el servicio, la comunicación y un enfoque centrado en el cliente, Peptidos Colombia continúa construyendo una experiencia confiable para los clientes en toda Colombia.",
                               "color": "#000000"
                             }
                           },
@@ -1236,8 +1236,8 @@
                 "type": "heading",
                 "content": {
                   "level": 2,
-                  "text_en": "A Local Business for Costa Rica",
-                  "text_es": "Un Negocio Local para Costa Rica",
+                  "text_en": "A Local Business for Colombia",
+                  "text_es": "Un Negocio Local para Colombia",
                   "align": "center",
                   "color": "#092771"
                 }
@@ -1245,8 +1245,8 @@
               {
                 "type": "paragraph",
                 "content": {
-                  "text_en": "Peptides Costa Rica serves only customers within Costa Rica. We focus on:",
-                  "text_es": "Peptides Costa Rica atiende únicamente a clientes dentro de Costa Rica. Nos centramos en:",
+                  "text_en": "Peptidos Colombia serves only customers within Colombia. We focus on:",
+                  "text_es": "Peptidos Colombia atiende únicamente a clientes dentro de Colombia. Nos centramos en:",
                   "align": "center",
                   "color": "#000000",
                   "font": {
@@ -1522,8 +1522,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "At Peptides Costa Rica, we believe customers should have clear and accurate information before placing an order. Our goal is to make the purchasing process simple by providing product details, availability information, and support when customers have questions.",
-                        "text_es": "En Peptides Costa Rica, creemos que los clientes deben tener información clara y precisa antes de realizar un pedido. Nuestro objetivo es simplificar el proceso de compra proporcionando detalles del producto, información sobre disponibilidad y asistencia cuando los clientes tienen preguntas."
+                        "text_en": "At Peptidos Colombia, we believe customers should have clear and accurate information before placing an order. Our goal is to make the purchasing process simple by providing product details, availability information, and support when customers have questions.",
+                        "text_es": "En Peptidos Colombia, creemos que los clientes deben tener información clara y precisa antes de realizar un pedido. Nuestro objetivo es simplificar el proceso de compra proporcionando detalles del producto, información sobre disponibilidad y asistencia cuando los clientes tienen preguntas."
                       }
                     },
                     {
@@ -1591,8 +1591,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "As the business grows, the focus stays where it started: accurate product information, dependable service, and responsive communication with customers in Costa Rica.",
-                        "text_es": "A medida que el negocio crece, el enfoque permanece donde comenzó: información precisa del producto, servicio confiable y comunicación receptiva con los clientes en Costa Rica.",
+                        "text_en": "As the business grows, the focus stays where it started: accurate product information, dependable service, and responsive communication with customers in Colombia.",
+                        "text_es": "A medida que el negocio crece, el enfoque permanece donde comenzó: información precisa del producto, servicio confiable y comunicación receptiva con los clientes en Colombia.",
                         "align": "center",
                         "color": "#000000",
                         "font": {
@@ -1614,10 +1614,10 @@
       "en": "/bulk-discounts/",
       "es": "/es/descuentos-por-volumen/",
       "head": {
-        "title_en": "Buy Bulk Discounts Peptides Costa Rica | Peptides Costa Rica",
-        "title_es": "Descuentos por Volumen en Péptidos Costa Rica | Péptidos Costa Rica",
-        "description_en": "Buy bulk peptides wholesale in Costa Rica. Shop premium research peptides at the best prices. Call 506 6060-4775 to order today.",
-        "description_es": "Compre péptidos a granel al por mayor en Costa Rica. Compre péptidos de investigación premium a los mejores precios. Llame al 506 6060-4775 para pedir hoy."
+        "title_en": "Buy Bulk Discounts Peptidos Colombia | Peptidos Colombia",
+        "title_es": "Descuentos por Volumen en Peptidos Colombia | Peptidos Colombia",
+        "description_en": "Buy bulk peptides wholesale in Colombia. Shop premium research peptides at the best prices. Call 506 6060-4775 to order today.",
+        "description_es": "Compre péptidos a granel al por mayor en Colombia. Compre péptidos de investigación premium a los mejores precios. Llame al 506 6060-4775 para pedir hoy."
       },
       "sections": [
         {
@@ -1665,8 +1665,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "At Peptides Costa Rica, we make bulk ordering simple, reliable, and cost-effective. Our bulk discount program is designed for researchers, clinics, resellers, and frequent buyers who need consistent access to premium peptides at better value. When you order in larger quantities, you benefit from trusted quality, local availability, and straightforward pricing without unnecessary complications.",
-                        "text_es": "En Peptides Costa Rica, hacemos que los pedidos al por mayor sean sencillos, confiables y rentables. Nuestro programa de descuentos por volumen está diseñado para investigadores, clínicas, revendedores y compradores frecuentes que necesitan acceso constante a péptidos de primera calidad a un mejor valor. Cuando usted pide en mayores cantidades, se beneficia de calidad confiable, disponibilidad local y precios directos sin complicaciones innecesarias.",
+                        "text_en": "At Peptidos Colombia, we make bulk ordering simple, reliable, and cost-effective. Our bulk discount program is designed for researchers, clinics, resellers, and frequent buyers who need consistent access to premium peptides at better value. When you order in larger quantities, you benefit from trusted quality, local availability, and straightforward pricing without unnecessary complications.",
+                        "text_es": "En Peptidos Colombia, hacemos que los pedidos al por mayor sean sencillos, confiables y rentables. Nuestro programa de descuentos por volumen está diseñado para investigadores, clínicas, revendedores y compradores frecuentes que necesitan acceso constante a péptidos de primera calidad a un mejor valor. Cuando usted pide en mayores cantidades, se beneficia de calidad confiable, disponibilidad local y precios directos sin complicaciones innecesarias.",
                         "align": "center",
                         "color": "#000000",
                         "font": {
@@ -1800,8 +1800,8 @@
                                 {
                                   "type": "paragraph",
                                   "content": {
-                                    "text_en": "When you choose bulk ordering from Peptides Costa Rica, you are not only saving more, you are also working with a supplier that values consistency, reliability, and professional service. Our goal is to make premium peptides more accessible for serious buyers across Costa Rica.",
-                                    "text_es": "Al elegir pedidos a granel de Péptidos Costa Rica, no solo ahorras más, sino que también trabajas con un proveedor que valora la consistencia, la confiabilidad y el servicio profesional. Nuestro objetivo es hacer que los péptidos premium sean más accesibles para compradores serios en Costa Rica.",
+                                    "text_en": "When you choose bulk ordering from Peptidos Colombia, you are not only saving more, you are also working with a supplier that values consistency, reliability, and professional service. Our goal is to make premium peptides more accessible for serious buyers across Colombia.",
+                                    "text_es": "Al elegir pedidos a granel de Peptidos Colombia, no solo ahorras más, sino que también trabajas con un proveedor que valora la consistencia, la confiabilidad y el servicio profesional. Nuestro objetivo es hacer que los péptidos premium sean más accesibles para compradores serios en Colombia.",
                                     "font": {
                                       "size": "16px"
                                     }
@@ -1926,8 +1926,8 @@
                             "content": {
                               "title_en": "Reliable Supply",
                               "title_es": "Suministro confiable",
-                              "text_en": "Reliable peptide supply for researchers in Costa Rica.",
-                              "text_es": "Suministro confiable de péptidos para investigadores en Costa Rica.",
+                              "text_en": "Reliable peptide supply for researchers in Colombia.",
+                              "text_es": "Suministro confiable de péptidos para investigadores en Colombia.",
                               "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-globe\" viewBox=\"0 0 496 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z\"></path></svg>",
                               "href": null
                             }
@@ -2118,8 +2118,8 @@
                           {
                             "type": "paragraph",
                             "content": {
-                              "text_en": "Whether you are purchasing for research, repeated use, resale, or long-term supply needs, our bulk program is designed to give you better value, reliable access, and direct local support in Costa Rica.",
-                              "text_es": "Ya sea que compres para investigación, uso repetido, reventa o necesidades de suministro a largo plazo, nuestro programa de compras al por mayor está diseñado para brindarte mejor valor, acceso confiable y soporte local directo en Costa Rica.",
+                              "text_en": "Whether you are purchasing for research, repeated use, resale, or long-term supply needs, our bulk program is designed to give you better value, reliable access, and direct local support in Colombia.",
+                              "text_es": "Ya sea que compres para investigación, uso repetido, reventa o necesidades de suministro a largo plazo, nuestro programa de compras al por mayor está diseñado para brindarte mejor valor, acceso confiable y soporte local directo en Colombia.",
                               "align": "center",
                               "color": "#FFFFFF",
                               "font": {
@@ -2227,8 +2227,8 @@
                       "content": {
                         "title_en": "Direct Local Support",
                         "title_es": "Soporte Local Directo",
-                        "text_en": "Get straightforward assistance with availability, ordering, and payment from a Costa Rica-based supplier.",
-                        "text_es": "Obtenga asistencia directa sobre disponibilidad, pedidos y pagos con un proveedor con sede en Costa Rica.",
+                        "text_en": "Get straightforward assistance with availability, ordering, and payment from a Colombia-based supplier.",
+                        "text_es": "Obtenga asistencia directa sobre disponibilidad, pedidos y pagos con un proveedor con sede en Colombia.",
                         "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-briefcase\" viewBox=\"0 0 512 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M320 336c0 8.84-7.16 16-16 16h-96c-8.84 0-16-7.16-16-16v-48H0v144c0 25.6 22.4 48 48 48h416c25.6 0 48-22.4 48-48V288H320v48zm144-208h-80V80c0-25.6-22.4-48-48-48H176c-25.6 0-48 22.4-48 48v48H48c-25.6 0-48 22.4-48 48v80h512v-80c0-25.6-22.4-48-48-48zm-144 0H192V96h128v32z\"></path></svg>",
                         "href": null
                       }
@@ -2329,10 +2329,10 @@
                       "content": {
                         "items": [
                           {
-                            "q_en": "Do you ship outside Costa Rica?",
-                            "q_es": "¿Hacen envíos fuera de Costa Rica?",
-                            "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
-                            "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al atender solo a Costa Rica, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
+                            "q_en": "Do you ship outside Colombia?",
+                            "q_es": "¿Hacen envíos fuera de Colombia?",
+                            "a_en": "No. Peptidos Colombia operates exclusively within Colombia.By serving only Colombia, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+                            "a_es": "No. Peptidos Colombia opera exclusivamente dentro de Colombia. Al atender solo a Colombia, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
                           },
                           {
                             "q_en": "Why don’t you offer online checkout?",
@@ -2375,10 +2375,10 @@
       "en": "/lab-tests-coa-results/",
       "es": "/es/resultados-de-pruebas-de-laboratorio-coa/",
       "head": {
-        "title_en": "Peptide Product Lab Tests & COA Results | Peptides Costa Rica",
-        "title_es": "Resultados de Pruebas de Laboratorio de Productos Peptídicos y COA | Peptidos Costa Rica",
-        "description_en": "Verify Peptides Costa Rica lab-tested products with Certificates of Analysis (COAs) for research-grade peptide products.",
-        "description_es": "Verifica los productos de Peptides Costa Rica probados en laboratorio con Certificados de Análisis (COAs) para productos peptídicos de grado de investigación."
+        "title_en": "Peptide Product Lab Tests & COA Results | Peptidos Colombia",
+        "title_es": "Resultados de Pruebas de Laboratorio de Productos Peptídicos y COA | Peptidos Colombia",
+        "description_en": "Verify Peptidos Colombia lab-tested products with Certificates of Analysis (COAs) for research-grade peptide products.",
+        "description_es": "Verifica los productos de Peptidos Colombia probados en laboratorio con Certificados de Análisis (COAs) para productos peptídicos de grado de investigación."
       },
       "sections": [
         {
@@ -2759,8 +2759,8 @@
       "en": "/faq-costa-rica/",
       "es": "/es/preguntas-frecuentes-costa-rica/",
       "head": {
-        "title_en": "FAQ's | Peptides Costa Rica",
-        "title_es": "Preguntas Frecuentes | Péptidos Costa Rica",
+        "title_en": "FAQ's | Peptidos Colombia",
+        "title_es": "Preguntas Frecuentes | Peptidos Colombia",
         "description_en": "Buy with confidence, find answers about peptides, ordering, shipping, and quality. Call 506 6060-4775 for fast support today.",
         "description_es": "Compre con confianza, encuentre respuestas sobre péptidos, pedidos, envíos y calidad. Llame al 506 6060-4775 para obtener asistencia rápida hoy mismo."
       },
@@ -2890,10 +2890,10 @@
                       "content": {
                         "items": [
                           {
-                            "q_en": "Do you ship outside Costa Rica?",
-                            "q_es": "¿Hacen envíos fuera de Costa Rica?",
-                            "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers here in the country.",
-                            "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica.Al servir solo a Costa Rica, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que pagues y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales aquí en el país."
+                            "q_en": "Do you ship outside Colombia?",
+                            "q_es": "¿Hacen envíos fuera de Colombia?",
+                            "a_en": "No. Peptidos Colombia operates exclusively within Colombia.By serving only Colombia, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers here in the country.",
+                            "a_es": "No. Peptidos Colombia opera exclusivamente dentro de Colombia.Al servir solo a Colombia, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que pagues y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales aquí en el país."
                           },
                           {
                             "q_en": "Do you offer online checkout?",
@@ -2928,20 +2928,20 @@
                           {
                             "q_en": "How is delivery handled?",
                             "q_es": "¿Cómo se gestiona la entrega?",
-                            "a_en": "We arrange delivery within Costa Rica once your payment is confirmed.Delivery time depends on where you are and what you order. We’ll go over all the details with you during the order process to keep things clear.",
-                            "a_es": "Organizamos la entrega dentro de Costa Rica una vez confirmado el pago. El tiempo de entrega depende de dónde se encuentre y de lo que solicite. Repasaremos todos los detalles con usted durante el proceso de pedido para mantener las cosas claras."
+                            "a_en": "We arrange delivery within Colombia once your payment is confirmed.Delivery time depends on where you are and what you order. We’ll go over all the details with you during the order process to keep things clear.",
+                            "a_es": "Organizamos la entrega dentro de Colombia una vez confirmado el pago. El tiempo de entrega depende de dónde se encuentre y de lo que solicite. Repasaremos todos los detalles con usted durante el proceso de pedido para mantener las cosas claras."
                           },
                           {
                             "q_en": "Do you provide medical advice?",
                             "q_es": "¿Proporcionan asesoramiento médico?",
-                            "a_en": "No.Peptides Costa Rica only shares general product information for educational purposes. We don’t give medical advice, diagnoses, or treatment recommendations.You should always talk to a qualified healthcare professional about your health and whether a product is right for you.",
-                            "a_es": "No.Peptides Costa Rica solo comparte información general del producto con fines educativos. No brindamos consejos médicos, diagnósticos ni recomendaciones de tratamiento. Siempre debe hablar con un profesional de la salud calificado sobre su salud y si un producto es adecuado para usted."
+                            "a_en": "No.Peptidos Colombia only shares general product information for educational purposes. We don’t give medical advice, diagnoses, or treatment recommendations.You should always talk to a qualified healthcare professional about your health and whether a product is right for you.",
+                            "a_es": "No.Peptidos Colombia solo comparte información general del producto con fines educativos. No brindamos consejos médicos, diagnósticos ni recomendaciones de tratamiento. Siempre debe hablar con un profesional de la salud calificado sobre su salud y si un producto es adecuado para usted."
                           },
                           {
-                            "q_en": "Are your products intended for resale outside Costa Rica?",
-                            "q_es": "¿Sus productos están destinados a la reventa fuera de Costa Rica?",
-                            "a_en": "No.We are set up to serve customers in Costa Rica only. We don’t ship or distribute internationally.",
-                            "a_es": "No. Estamos configurados para atender a clientes en Costa Rica únicamente. No enviamos ni distribuimos internacionalmente."
+                            "q_en": "Are your products intended for resale outside Colombia?",
+                            "q_es": "¿Sus productos están destinados a la reventa fuera de Colombia?",
+                            "a_en": "No.We are set up to serve customers in Colombia only. We don’t ship or distribute internationally.",
+                            "a_es": "No. Estamos configurados para atender a clientes en Colombia únicamente. No enviamos ni distribuimos internacionalmente."
                           },
                           {
                             "q_en": "Why choose a local supplier instead of ordering internationally?",
@@ -2990,10 +2990,10 @@
       "en": "/contact-costa-rica/",
       "es": "/es/contactar-costa-rica/",
       "head": {
-        "title_en": "Contact Us | Peptides Costa Rica",
-        "title_es": "Contáctanos | Péptidos Costa Rica",
-        "description_en": "Peptides Costa Rica for inquiries, orders, and support. Call 506 6060-4775 for fast assistance and expert guidance today.",
-        "description_es": "Péptidos Costa Rica para consultas, pedidos y soporte. Llame al 506 6060-4775 para recibir asistencia rápida y orientación experta hoy mismo."
+        "title_en": "Contact Us | Peptidos Colombia",
+        "title_es": "Contáctanos | Peptidos Colombia",
+        "description_en": "Peptidos Colombia for inquiries, orders, and support. Call 506 6060-4775 for fast assistance and expert guidance today.",
+        "description_es": "Peptidos Colombia para consultas, pedidos y soporte. Llame al 506 6060-4775 para recibir asistencia rápida y orientación experta hoy mismo."
       },
       "sections": [
         {
@@ -3043,8 +3043,8 @@
                       "type": "heading",
                       "content": {
                         "level": 2,
-                        "text_en": "Welcome to Peptides Costa Rica, your trusted partner in the world of premium peptides. We are proud to be one of the most reputable peptide suppliers in Costa Rica, offering a seamless and reliable service to our valued clients. Our commitment to quality, transparency, and customer satisfaction means that every inquiry you submit to us is treated with the utmost importance. Here, you will find a comprehensive guide on how to get in touch with us, understand our service standards, and learn more about what makes our products and support truly outstanding.",
-                        "text_es": "Bienvenido a Peptides Costa Rica, su socio de confianza en el mundo de péptidos de primera calidad. Nos enorgullece ser uno de los proveedores de péptidos más reputados de Costa Rica, ofreciendo un servicio eficiente y confiable a nuestros valiosos clientes. Nuestro compromiso con la calidad, la transparencia y la satisfacción del cliente significa que cada consulta que nos envíe será tratada con la máxima atención. Aquí encontrará una guía completa sobre cómo ponerse en contacto con nosotros, comprender nuestros estándares de servicio y aprender más sobre lo que hace que nuestros productos y soporte sean verdaderamente excepcionales.",
+                        "text_en": "Welcome to Peptidos Colombia, your trusted partner in the world of premium peptides. We are proud to be one of the most reputable peptide suppliers in Colombia, offering a seamless and reliable service to our valued clients. Our commitment to quality, transparency, and customer satisfaction means that every inquiry you submit to us is treated with the utmost importance. Here, you will find a comprehensive guide on how to get in touch with us, understand our service standards, and learn more about what makes our products and support truly outstanding.",
+                        "text_es": "Bienvenido a Peptidos Colombia, su socio de confianza en el mundo de péptidos de primera calidad. Nos enorgullece ser uno de los proveedores de péptidos más reputados de Colombia, ofreciendo un servicio eficiente y confiable a nuestros valiosos clientes. Nuestro compromiso con la calidad, la transparencia y la satisfacción del cliente significa que cada consulta que nos envíe será tratada con la máxima atención. Aquí encontrará una guía completa sobre cómo ponerse en contacto con nosotros, comprender nuestros estándares de servicio y aprender más sobre lo que hace que nuestros productos y soporte sean verdaderamente excepcionales.",
                         "align": "center",
                         "color": "#000000",
                         "font": {
@@ -3190,8 +3190,8 @@
                                               "content": {
                                                 "title_en": "Address",
                                                 "title_es": "Dirección",
-                                                "text_en": "Jaco, Costa Rica",
-                                                "text_es": "Jacó, Costa Rica",
+                                                "text_en": "Jaco, Colombia",
+                                                "text_es": "Jacó, Colombia",
                                                 "iconClass": "icon-map-marker1",
                                                 "href": "https://maps.app.goo.gl/AgpzEd8NNRKYNbJj9"
                                               }
@@ -3453,10 +3453,10 @@
                       "content": {
                         "items": [
                           {
-                            "q_en": "Do you ship outside Costa Rica?",
-                            "q_es": "¿Hacen envíos fuera de Costa Rica?",
-                            "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
-                            "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al atender solo a Costa Rica, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
+                            "q_en": "Do you ship outside Colombia?",
+                            "q_es": "¿Hacen envíos fuera de Colombia?",
+                            "a_en": "No. Peptidos Colombia operates exclusively within Colombia.By serving only Colombia, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+                            "a_es": "No. Peptidos Colombia opera exclusivamente dentro de Colombia. Al atender solo a Colombia, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
                           },
                           {
                             "q_en": "What payment methods do you accept?",
@@ -3493,8 +3493,8 @@
       "en": "/customer-feedback/",
       "es": "/es/comentarios-de-clientes/",
       "head": {
-        "title_en": "Customer Feedback | Peptides Costa Rica",
-        "title_es": "Comentarios de Clientes | Péptidos Costa Rica",
+        "title_en": "Customer Feedback | Peptidos Colombia",
+        "title_es": "Comentarios de Clientes | Peptidos Colombia",
         "description_en": "Buy with confidence, find answers about peptides, ordering, shipping, and quality. Call 506 6060-4775 for fast support today.",
         "description_es": "Compre con confianza, encuentre respuestas sobre péptidos, pedidos, envíos y calidad. Llame al 506 6060-4775 para obtener asistencia rápida hoy mismo."
       },
@@ -3660,10 +3660,10 @@
       "en": "/our-service-locations/",
       "es": "/es/nuestras-ubicaciones-de-servicio/",
       "head": {
-        "title_en": "Peptides Available Across Costa Rica | Service Locations",
-        "title_es": "Péptidos disponibles en Costa Rica | Ubicaciones de servicio",
-        "description_en": "Find peptide service locations across Costa Rica. Peptides Costa Rica supports customers in major provinces with availability checks, secure ordering, and local delivery coordination.",
-        "description_es": "Encuentra ubicaciones de servicios de péptidos en Costa Rica. Peptides Costa Rica apoya a clientes en las principales provincias con verificaciones de disponibilidad, pedidos seguros y coordinación de entrega local."
+        "title_en": "Peptides Available Across Colombia | Service Locations",
+        "title_es": "Péptidos disponibles en Colombia | Ubicaciones de servicio",
+        "description_en": "Find peptide service locations across Colombia. Peptidos Colombia supports customers in major provinces with availability checks, secure ordering, and local delivery coordination.",
+        "description_es": "Encuentra ubicaciones de servicios de péptidos en Colombia. Peptidos Colombia apoya a clientes en las principales provincias con verificaciones de disponibilidad, pedidos seguros y coordinación de entrega local."
       },
       "sections": [
         {
@@ -4525,8 +4525,8 @@
       "en": "/all-peptide-products-costa-rica/",
       "es": "/es/todos-los-productos-de-peptidos-costa-rica/",
       "head": {
-        "title_en": "Buy All Peptide Products | Peptides Costa Rica",
-        "title_es": "Comprar Todos los Productos de Péptidos | Péptidos Costa Rica",
+        "title_en": "Buy All Peptide Products | Peptidos Colombia",
+        "title_es": "Comprar Todos los Productos de Péptidos | Peptidos Colombia",
         "description_en": "Buy now premium research peptides for weight loss, recovery, and performance. Call 506 6060-4775 to order high-quality peptides today.",
         "description_es": "Compre ahora péptidos de investigación premium para pérdida de peso, recuperación y rendimiento. Llame al 506 6060-4775 para pedir péptidos de alta calidad hoy mismo."
       },
@@ -4581,8 +4581,8 @@
                       "type": "heading",
                       "content": {
                         "level": 2,
-                        "text_en": "Peptides Costa Rica offers a carefully chosen range of peptide products, available exclusively within Costa Rica.",
-                        "text_es": "Peptides Costa Rica ofrece una gama cuidadosamente seleccionada de productos peptídicos, disponibles exclusivamente dentro de Costa Rica.",
+                        "text_en": "Peptidos Colombia offers a carefully chosen range of peptide products, available exclusively within Colombia.",
+                        "text_es": "Peptidos Colombia ofrece una gama cuidadosamente seleccionada de productos peptídicos, disponibles exclusivamente dentro de Colombia.",
                         "align": "center",
                         "color": "#08236B",
                         "font": {
@@ -6101,10 +6101,10 @@
                       "content": {
                         "items": [
                           {
-                            "q_en": "Do you ship outside Costa Rica?",
-                            "q_es": "¿Hacen envíos fuera de Costa Rica?",
-                            "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica.By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
-                            "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al atender solo a Costa Rica, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
+                            "q_en": "Do you ship outside Colombia?",
+                            "q_es": "¿Hacen envíos fuera de Colombia?",
+                            "a_en": "No. Peptidos Colombia operates exclusively within Colombia.By serving only Colombia, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+                            "a_es": "No. Peptidos Colombia opera exclusivamente dentro de Colombia. Al atender solo a Colombia, mantenemos una comunicación clara, confirmamos la disponibilidad del producto antes de que pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas simples y confiables para los clientes locales."
                           },
                           {
                             "q_en": "Why don’t you offer online checkout?",

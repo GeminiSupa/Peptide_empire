@@ -8,10 +8,10 @@
       "en": "/",
       "es": "/es/",
       "head": {
-        "title_en": "Peptides Costa Rica | High-Purity Peptides and Fast Shipping",
-        "title_es": "Péptidos Costa Rica | Péptidos de Alta Pureza y Envío Rápido",
-        "description_en": "Welcome to Peptides Costa Rica, your local supplier of premium-quality peptides; we offer high-quality, research-grade peptide products with reliable delivery service.",
-        "description_es": "Bienvenido a Peptides Costa Rica, tu proveedor local de péptidos de óptima calidad; ofrecemos productos de péptidos de alta calidad, grado de investigación, con un servicio de entrega confiable."
+        "title_en": "Peptidos Colombia | High-Purity Peptides and Fast Shipping",
+        "title_es": "Peptidos Colombia | Péptidos de Alta Pureza y Envío Rápido",
+        "description_en": "Welcome to Peptidos Colombia, your local supplier of premium-quality peptides; we offer high-quality, research-grade peptide products with reliable delivery service.",
+        "description_es": "Bienvenido a Peptidos Colombia, tu proveedor local de péptidos de óptima calidad; ofrecemos productos de péptidos de alta calidad, grado de investigación, con un servicio de entrega confiable."
       },
       "sections": [
         {
@@ -47,8 +47,8 @@
                       "type": "heading",
                       "content": {
                         "level": 1,
-                        "text_en": "Premium Peptides in Costa Rica",
-                        "text_es": "Péptidos Premium en Costa Rica",
+                        "text_en": "Premium Peptides in Colombia",
+                        "text_es": "Péptidos Premium en Colombia",
                         "color": "#08236B",
                         "font": {
                           "size": "52px",
@@ -74,8 +74,8 @@
                           {
                             "type": "paragraph",
                             "content": {
-                              "text_en": "Welcome to Peptides Costa Rica, your local source for premium peptides, offering high-quality, research-grade peptide products with reliable delivery.",
-                              "text_es": "Bienvenido a Peptides Costa Rica, tu fuente local de péptidos premium, ofreciendo productos de péptidos de alta calidad y grado de investigación con entrega confiable.",
+                              "text_en": "Welcome to Peptidos Colombia, your local source for premium peptides, offering high-quality, research-grade peptide products with reliable delivery.",
+                              "text_es": "Bienvenido a Peptidos Colombia, tu fuente local de péptidos premium, ofreciendo productos de péptidos de alta calidad y grado de investigación con entrega confiable.",
                               "font": {
                                 "size": "20px",
                                 "weight": "600"
@@ -85,8 +85,8 @@
                           {
                             "type": "paragraph",
                             "content": {
-                              "text_en": "Explore our catalog, review product information, and check availability and delivery options within Costa Rica.",
-                              "text_es": "Explora nuestro catálogo, consulta la información de los productos y verifica la disponibilidad y las opciones de entrega en Costa Rica.",
+                              "text_en": "Explore our catalog, review product information, and check availability and delivery options within Colombia.",
+                              "text_es": "Explora nuestro catálogo, consulta la información de los productos y verifica la disponibilidad y las opciones de entrega en Colombia.",
                               "color": "#000000",
                               "font": {
                                 "size": "17px"
@@ -158,8 +158,8 @@
                         "src": "/wp-content/uploads/2026/09/banner-new.webp",
                         "width": 1535,
                         "height": 1024,
-                        "alt_en": "Peptides Costa Rica peptide vials GLOW, Epithalon, and BPC-157.",
-                        "alt_es": "Viales de péptidos GLOW, Epithalon y BPC-157 de Peptides Costa Rica.",
+                        "alt_en": "Peptidos Colombia peptide vials GLOW, Epithalon, and BPC-157.",
+                        "alt_es": "Viales de péptidos GLOW, Epithalon y BPC-157 de Peptidos Colombia.",
                         "align": "center",
                         "displayWidth": "95%",
                         "priority": true
@@ -224,8 +224,8 @@
                         "src": "/wp-content/uploads/2026/08/TCRN-logo.webp",
                         "width": 300,
                         "height": 112,
-                        "alt_en": "The Costa Rica News Logo",
-                        "alt_es": "Logotipo de The Costa Rica News",
+                        "alt_en": "The Colombia News Logo",
+                        "alt_es": "Logotipo de The Colombia News",
                         "displayWidth": "40%"
                       }
                     },
@@ -242,8 +242,8 @@
                           {
                             "type": "paragraph",
                             "content": {
-                              "text_en": "Peptides Costa Rica Was Featured In",
-                              "text_es": "Péptidos Costa Rica fue destacado en",
+                              "text_en": "Peptidos Colombia Was Featured In",
+                              "text_es": "Peptidos Colombia fue destacado en",
                               "color": "#000000",
                               "font": {
                                 "size": "17px"
@@ -253,8 +253,8 @@
                           {
                             "type": "paragraph",
                             "content": {
-                              "text_en": "The Costa Rica News.",
-                              "text_es": "Las Noticias de Costa Rica.",
+                              "text_en": "The Colombia News.",
+                              "text_es": "Las Noticias de Colombia.",
                               "color": "#092771",
                               "font": {
                                 "size": "17px",
@@ -301,8 +301,8 @@
                           {
                             "type": "paragraph",
                             "content": {
-                              "text_en": "Peptides Costa Rica Was Featured In",
-                              "text_es": "Péptidos Costa Rica fue destacado en",
+                              "text_en": "Peptidos Colombia Was Featured In",
+                              "text_es": "Peptidos Colombia fue destacado en",
                               "color": "#000000",
                               "font": {
                                 "size": "17px"
@@ -980,8 +980,8 @@
                     {
                       "type": "paragraph",
                       "content": {
-                        "text_en": "Our stock levels are live on the catalog page. We confirm availability and send your full total before any payment, and deliver orders across Costa Rica within days.",
-                        "text_es": "Las existencias se muestran en la página del catálogo. Confirmamos la disponibilidad y comunicamos el importe total antes del pago. Entregamos pedidos en toda Costa Rica en cuestión de días.",
+                        "text_en": "Our stock levels are live on the catalog page. We confirm availability and send your full total before any payment, and deliver orders across Colombia within days.",
+                        "text_es": "Las existencias se muestran en la página del catálogo. Confirmamos la disponibilidad y comunicamos el importe total antes del pago. Entregamos pedidos en toda Colombia en cuestión de días.",
                         "align": "center",
                         "color": "#000000"
                       }
@@ -1176,8 +1176,8 @@
                               "src": "/wp-content/uploads/elementor/thumbs/homepage-vial-images-rtgk8jt11w1u91pxr1seokiilchqnar03fwri7e5n4.webp",
                               "width": null,
                               "height": null,
-                              "alt_en": "BPC-157 and Epitalon peptide vials from Peptides Costa Rica.",
-                              "alt_es": "Viales de péptidos BPC-157 y Epitalon de Peptides Costa Rica."
+                              "alt_en": "BPC-157 and Epitalon peptide vials from Peptidos Colombia.",
+                              "alt_es": "Viales de péptidos BPC-157 y Epitalon de Peptidos Colombia."
                             }
                           },
                           {
@@ -1186,8 +1186,8 @@
                               "src": "/wp-content/uploads/elementor/thumbs/secure-peptide-packaging-rtgk8mmjme5p7vlual0ae1swdi3uae273tv7y19z4g.webp",
                               "width": null,
                               "height": null,
-                              "alt_en": "Peptides Costa Rica gift box with BPC-157, Epitalon, and NAD+ vials.",
-                              "alt_es": "Caja de regalo de Peptides Costa Rica con viales de BPC-157, Epitalon y NAD+."
+                              "alt_en": "Peptidos Colombia gift box with BPC-157, Epitalon, and NAD+ vials.",
+                              "alt_es": "Caja de regalo de Peptidos Colombia con viales de BPC-157, Epitalon y NAD+."
                             }
                           }
                         ]
@@ -1234,8 +1234,8 @@
                           {
                             "type": "card",
                             "content": {
-                              "title_en": "Delivery across Costa Rica",
-                              "title_es": "Entrega en toda Costa Rica",
+                              "title_en": "Delivery across Colombia",
+                              "title_es": "Entrega en toda Colombia",
                               "text_en": "",
                               "text_es": "",
                               "icon": "<svg aria-hidden=\"true\" class=\"e-font-icon-svg e-fas-star\" viewBox=\"0 0 576 512\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M259.3 17.8L194 150.2 47.9 171.5c-26.2 3.8-36.7 36.1-17.7 54.6l105.7 103-25 145.5c-4.5 26.3 23.2 46 46.4 33.7L288 439.6l130.7 68.7c23.2 12.2 50.9-7.4 46.4-33.7l-25-145.5 105.7-103c19-18.5 8.5-50.8-17.7-54.6L382 150.2 316.7 17.8c-11.7-23.6-45.6-23.9-57.4 0z\"></path></svg>",
@@ -1489,8 +1489,8 @@
                         "src": "/wp-content/uploads/2026/09/banner-new.webp",
                         "width": 1535,
                         "height": 1024,
-                        "alt_en": "Peptides Costa Rica peptide vials GLOW, Epithalon, and BPC-157.",
-                        "alt_es": "Viales de péptidos GLOW, Epithalon y BPC-157 de Peptides Costa Rica.",
+                        "alt_en": "Peptidos Colombia peptide vials GLOW, Epithalon, and BPC-157.",
+                        "alt_es": "Viales de péptidos GLOW, Epithalon y BPC-157 de Peptidos Colombia.",
                         "displayWidth": "90%"
                       }
                     }
@@ -1636,8 +1636,8 @@
                             "type": "heading",
                             "content": {
                               "level": 2,
-                              "text_en": "Your Trusted Peptide Supplier in Costa Rica",
-                              "text_es": "Tu Proveedor de Confianza de Péptidos en Costa Rica",
+                              "text_en": "Your Trusted Peptide Supplier in Colombia",
+                              "text_es": "Tu Proveedor de Confianza de Péptidos en Colombia",
                               "font": {
                                 "size": "24.88px",
                                 "weight": "600",
@@ -1649,8 +1649,8 @@
                           {
                             "type": "paragraph",
                             "content": {
-                              "text_en": "PeptidesCostaRica provides premium research peptides sourced from certified laboratories and handled under controlled conditions. We are committed to delivering consistent quality and dependable service for researchers across Costa Rica.",
-                              "text_es": "Peptides Costa Rica ofrece péptidos de investigación de primera calidad, procedentes de laboratorios certificados y conservados en condiciones controladas. Nos comprometemos a ofrecer calidad constante y un servicio confiable a investigadores de toda Costa Rica."
+                              "text_en": "PeptidesCostaRica provides premium research peptides sourced from certified laboratories and handled under controlled conditions. We are committed to delivering consistent quality and dependable service for researchers across Colombia.",
+                              "text_es": "Peptidos Colombia ofrece péptidos de investigación de primera calidad, procedentes de laboratorios certificados y conservados en condiciones controladas. Nos comprometemos a ofrecer calidad constante y un servicio confiable a investigadores de toda Colombia."
                             }
                           },
                           {
@@ -1909,8 +1909,8 @@
                         "src": "/wp-content/uploads/2026/09/faq-banner-1024x576.webp",
                         "width": 1024,
                         "height": 576,
-                        "alt_en": "Peptides Costa Rica peptide vials displayed on a sandy beach.",
-                        "alt_es": "Viales de péptidos de Peptides Costa Rica sobre una playa de arena."
+                        "alt_en": "Peptidos Colombia peptide vials displayed on a sandy beach.",
+                        "alt_es": "Viales de péptidos de Peptidos Colombia sobre una playa de arena."
                       }
                     }
                   ]
@@ -1930,14 +1930,14 @@
                           {
                             "q_en": "What are research peptides intended for?",
                             "q_es": "¿Para qué están destinados los péptidos de investigación?",
-                            "a_en": "All our products are research peptides, supplied for laboratory and research purposes only. They are not registered with Costa Rica’s Ministerio de Salud as pharmaceutical products, and we do not supply them for the diagnosis, treatment, cure or prevention of any condition. We do not provide dosing guidance, protocols or medical advice, and we can’t advise on personal use.",
-                            "a_es": "Todos nuestros productos son péptidos de investigación, suministrados únicamente con fines de investigación y laboratorio. No están registrados ante el Ministerio de Salud de Costa Rica como productos farmacéuticos y no los suministramos para el diagnóstico, tratamiento, cura o prevención de ninguna condición. No proporcionamos guías de dosificación, protocolos ni consejos médicos, y no podemos asesorar sobre el uso personal."
+                            "a_en": "All our products are research peptides, supplied for laboratory and research purposes only. They are not registered with Colombia’s Ministerio de Salud as pharmaceutical products, and we do not supply them for the diagnosis, treatment, cure or prevention of any condition. We do not provide dosing guidance, protocols or medical advice, and we can’t advise on personal use.",
+                            "a_es": "Todos nuestros productos son péptidos de investigación, suministrados únicamente con fines de investigación y laboratorio. No están registrados ante el Ministerio de Salud de Colombia como productos farmacéuticos y no los suministramos para el diagnóstico, tratamiento, cura o prevención de ninguna condición. No proporcionamos guías de dosificación, protocolos ni consejos médicos, y no podemos asesorar sobre el uso personal."
                           },
                           {
-                            "q_en": "Do you ship outside Costa Rica?",
-                            "q_es": "¿Hacen envíos fuera de Costa Rica?",
-                            "a_en": "No. Peptides Costa Rica operates exclusively within Costa Rica. By serving only Costa Rica, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
-                            "a_es": "No. Peptides Costa Rica opera exclusivamente dentro de Costa Rica. Al servir solo a Costa Rica, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que usted pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas sencillas y confiables para los clientes locales."
+                            "q_en": "Do you ship outside Colombia?",
+                            "q_es": "¿Hacen envíos fuera de Colombia?",
+                            "a_en": "No. Peptidos Colombia operates exclusively within Colombia. By serving only Colombia, we keep communication clear, confirm product availability before you pay, and deliver without customs or border issues. Our goal is to make things simple and reliable for local customers.",
+                            "a_es": "No. Peptidos Colombia opera exclusivamente dentro de Colombia. Al servir solo a Colombia, mantenemos la comunicación clara, confirmamos la disponibilidad del producto antes de que usted pague y entregamos sin problemas de aduanas o fronteras. Nuestro objetivo es hacer las cosas sencillas y confiables para los clientes locales."
                           },
                           {
                             "q_en": "Do you offer online checkout?",

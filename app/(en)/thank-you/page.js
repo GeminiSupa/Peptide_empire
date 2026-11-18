@@ -5,8 +5,8 @@ import { metadataForPath } from '@/lib/seo';
 export function generateMetadata() {
   return {
     ...metadataForPath('/thank-you/', {
-      title: 'Thank You | Peptides Costa Rica',
-      description: 'Thank you for your order with Peptides Costa Rica.',
+      title: 'Thank You | Peptidos Colombia',
+      description: 'Thank you for your order with Peptidos Colombia.',
       en: '/thank-you/',
       es: '/es/gracias/',
     }),

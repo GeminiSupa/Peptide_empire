@@ -5,8 +5,8 @@ import { metadataForPath } from '@/lib/seo';
 export function generateMetadata() {
   return {
     ...metadataForPath('/es/para-profesionales/', {
-      title: 'Para clínicas, laboratorios y profesionales | Péptidos Costa Rica',
-      description: 'Precios profesionales, viales más grandes y a medida, COA y facturación empresarial para clínicas, laboratorios y empresas de investigación verificadas en Costa Rica.',
+      title: 'Para clínicas, laboratorios y profesionales | Peptidos Colombia',
+      description: 'Precios profesionales, viales más grandes y a medida, COA y facturación empresarial para clínicas, laboratorios y empresas de investigación verificadas en Colombia.',
       en: '/for-professionals/',
       es: '/es/para-profesionales/',
     }),

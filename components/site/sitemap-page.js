@@ -38,7 +38,7 @@ const NEW_TITLES = {
   'deal-of-the-week': 'Deal of the Week',
 };
 
-const brandless = (title) => String(title || '').replace(/\s*[|–-]\s*P[ée]ptid(e|o)s Costa Rica\s*$/i, '').trim();
+const brandless = (title) => String(title || '').replace(/\s*[|–-]\s*P[ée]ptid(e|o)s Colombia\s*$/i, '').trim();
 
 export default function SitemapPage({ lang, site, h1, page }) {
   const t = translator(lang);

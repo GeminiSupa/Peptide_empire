@@ -74,18 +74,18 @@ export default function ProductPage({ lang, site, compound, h1, copy, initialSiz
   const fromLabel = formatMoney(from.crc, from.usd, 'CRC');
   const questions = [
     ['What\'s in the vial?', 'The compound and amount on the label, as lyophilized powder (or ready-to-use liquid for blends and waters). Most products have a Certificate of Analysis confirming identity and purity.'],
-    ['How fast is delivery?', '2–4 business days anywhere in Costa Rica, tracked, from our own cold storage. No customs or import fees.'],
+    ['How fast is delivery?', '2–4 business days anywhere in Colombia, tracked, from our own cold storage. No customs or import fees.'],
     ['How do I pay?', 'Card, SINPE Móvil or bank transfer.'],
     ['What discounts are there?', `15% off 5+ vials of the same product, 20% off 10+. The best discount applies automatically. Every order includes a free BAC Water 3 ml, and delivery is free over ${freeShippingLabel}.`],
     ['Is this for personal use?', 'No. All products are for laboratory research use only. We don\'t provide dosing or medical advice.'],
   ];
   const ownFaq = copy?.faq?.length ? copy.faq : [
     [`What is ${compound.name}?`, `Supplied as ${compound.liquid ? 'a ready-to-use liquid' : 'lyophilised powder'} for laboratory research, with a batch Certificate of Analysis.`],
-    [`How much does ${compound.name} cost in Costa Rica?`, `From ${fromLabel} per vial. 15% off 5+ vials, 20% off 10+.`],
+    [`How much does ${compound.name} cost in Colombia?`, `From ${fromLabel} per vial. 15% off 5+ vials, 20% off 10+.`],
     ['What vial sizes are available?', `${sizes.join(', ')}.`],
     ['How should it be stored?', 'At 2–8 °C, away from light. We keep it refrigerated on site until dispatch.'],
     ['Is there a Certificate of Analysis?', 'Yes, for most products. Ask for the COA of your batch or find it in the COA database.'],
-    ['How fast is delivery?', '2–4 business days anywhere in Costa Rica.'],
+    ['How fast is delivery?', '2–4 business days anywhere in Colombia.'],
     ['Do you provide dosing information?', 'No. Products are for laboratory research only, and we don\'t provide dosing or medical advice.'],
   ];
 

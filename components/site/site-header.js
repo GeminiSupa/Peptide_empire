@@ -200,7 +200,7 @@ export default function SiteHeader({
             <Ms name="menu" />
           </button>
           <Link href={links.home} aria-label={t('Home')} className="lg">
-            <img className="logo" src="/site/logo.webp" alt="Peptides Costa Rica" />
+            <img className="logo" src="/site/logo.svg" alt="Peptidos Colombia" />
           </Link>
 
           <nav className="mainnav" aria-label="Main" ref={navRef}>
@@ -261,7 +261,7 @@ export default function SiteHeader({
               onClick={() => setPrefOpen(!prefOpen)}
             >
               <span className="ms">language</span>
-              {lang.toUpperCase()} · {currency === 'USD' ? 'US$' : '₡'}
+              {lang.toUpperCase()} · {currency === 'USD' ? 'US$' : 'COP'}
             </button>
             <div className="prefmenu" hidden={!prefOpen}>
               <small>Language · Idioma</small>
@@ -275,7 +275,7 @@ export default function SiteHeader({
               </div>
               <small>Currency · Moneda</small>
               <div className="seg">
-                <button type="button" aria-pressed={currency === 'CRC'} onClick={() => setCurrency('CRC')}>₡ Colones</button>
+                <button type="button" aria-pressed={currency === 'CRC'} onClick={() => setCurrency('CRC')}>$ Pesos</button>
                 <button type="button" aria-pressed={currency === 'USD'} onClick={() => setCurrency('USD')}>US$ Dollars</button>
               </div>
             </div>
@@ -321,7 +321,7 @@ export default function SiteHeader({
       <div className={`scrim${drawerOpen ? ' open' : ''}`} onClick={closeDrawer} />
       <aside className={`drawer${drawerOpen ? ' open' : ''}`} aria-label={t('Menu')} aria-hidden={!drawerOpen}>
         <div className="dh">
-          <img className="logo" src="/site/logo.webp" alt="" />
+          <img className="logo" src="/site/logo.svg" alt="" />
           <button type="button" className="icbtn" aria-label={t('Close menu')} onClick={closeDrawer}>
             <span className="ms">close</span>
           </button>

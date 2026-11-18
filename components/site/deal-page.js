@@ -15,7 +15,7 @@ import { flashCoversProduct } from '@/lib/site/deal-view.mjs';
 const DEAL_FAQ = [
   ['Which products are included?', 'All of them. Every compound and strength in the catalog counts toward your order total.'],
   ['Does it stack with the 15% / 20% volume discount?', 'No. We compare both and automatically apply whichever saves you more on your order.'],
-  ['When does the deal end?', 'Sunday at 11:59 pm Costa Rica time. Orders placed before then keep the discount, even if they\'re delivered later.'],
+  ['When does the deal end?', 'Sunday at 11:59 pm Colombia time. Orders placed before then keep the discount, even if they\'re delivered later.'],
   ['Do I need a promo code?', 'No. The discount appears in your cart as soon as your order reaches a tier.'],
   ['Can I order on WhatsApp and still get the deal?', 'Yes. The WhatsApp order message includes your discounted total, and we honour it when we confirm.'],
   ['Is this for personal use?', 'No. All products are for laboratory research use only. We don\'t provide dosing or medical advice.'],
@@ -40,7 +40,7 @@ function Head({ eyebrow, title, sub }) {
 function endLabel(endsAt, lang) {
   try {
     // A deal saved to end on the hour ("midnight") reads as 11:59 pm the day
-    // before; one saved for 11:59 pm keeps its minute. Costa Rica is a whole
+    // before; one saved for 11:59 pm keeps its minute. Colombia is a whole
     // number of hours off UTC, so its minutes are UTC's.
     const end = Date.parse(endsAt);
     const at = new Date(end);
@@ -93,8 +93,8 @@ export default function DealPage({ lang, site }) {
       es ? 'No. Comparamos ambos y aplicamos automáticamente el que más te ahorre. La oferta relámpago ya supera el precio por volumen.'
         : 'No. We compare both and apply whichever saves you more automatically. The flash price already beats volume pricing.'],
     [es ? '¿Cuándo termina la oferta relámpago?' : 'When does the flash sale end?',
-      es ? `El ${endLabel(flash.endsAt, lang)}, hora de Costa Rica. Los pedidos hechos antes conservan el descuento.`
-        : `${endLabel(flash.endsAt, lang)} Costa Rica time. Orders placed before then keep the discount.`],
+      es ? `El ${endLabel(flash.endsAt, lang)}, hora de Colombia. Los pedidos hechos antes conservan el descuento.`
+        : `${endLabel(flash.endsAt, lang)} Colombia time. Orders placed before then keep the discount.`],
     [es ? '¿Necesito un código?' : 'Do I need a promo code?',
       es ? 'No. El precio relámpago aparece solo en tu carrito, en los productos de la oferta.'
         : 'No. The flash price appears in your cart automatically, on the products in the sale.'],
@@ -226,12 +226,12 @@ export default function DealPage({ lang, site }) {
                 es ? 'Al pagar cobramos el precio relámpago en esos productos — sin código, y ya supera el precio por volumen.'
                   : 'At checkout we charge the flash price on those products — no code, and it already beats volume pricing.'],
               ['local_shipping', es ? 'Entrega en 2–4 días' : 'Delivered in 2–4 days',
-                es ? `Desde nuestra cadena de frío en Costa Rica, con envío gratis desde ${freeShippingLabel}.`
-                  : `From our cold storage in Costa Rica, with free delivery over ${freeShippingLabel}.`],
+                es ? `Desde nuestra cadena de frío en Colombia, con envío gratis desde ${freeShippingLabel}.`
+                  : `From our cold storage in Colombia, with free delivery over ${freeShippingLabel}.`],
             ] : [
               ['add_shopping_cart', 'Add anything', 'Mix any compounds and strengths. All of it counts toward your total.'],
               ['sell', 'The discount applies itself', 'At checkout we apply the best discount automatically: this week\'s deal or volume pricing, whichever saves you more.'],
-              ['local_shipping', 'Delivered in 2–4 days', `From our cold storage in Costa Rica, with free delivery over ${freeShippingLabel}.`],
+              ['local_shipping', 'Delivered in 2–4 days', `From our cold storage in Colombia, with free delivery over ${freeShippingLabel}.`],
             ]).map(([icon, title, body], index) => (
               <div key={title}>
                 <span className="dlhn">{index + 1}</span>

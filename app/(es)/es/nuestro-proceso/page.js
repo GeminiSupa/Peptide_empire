@@ -5,8 +5,8 @@ import { metadataForPath } from '@/lib/seo';
 export function generateMetadata() {
   return {
     ...metadataForPath('/es/nuestro-proceso/', {
-      title: 'Nuestro proceso | Péptidos Costa Rica',
-      description: 'Cómo llega un vial del laboratorio a su puerta: nueve controles, análisis de terceros, almacenamiento a 2–8 °C y entrega con seguimiento en todo Costa Rica.',
+      title: 'Nuestro proceso | Peptidos Colombia',
+      description: 'Cómo llega un vial del laboratorio a su puerta: nueve controles, análisis de terceros, almacenamiento a 2–8 °C y entrega con seguimiento en todo Colombia.',
       en: '/our-process/',
       es: '/es/nuestro-proceso/',
     }),

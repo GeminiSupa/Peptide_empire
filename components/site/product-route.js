@@ -46,7 +46,7 @@ export async function newProductFor(slug, lang) {
 export function newProductMetadata({ compound }, lang) {
   const description = (lang === 'es' ? compound.descriptionEs : compound.descriptionEn) || compound.descriptionEn || '';
   return metadataForPath(newProductPath(compound.slug, lang), {
-    title: `${compound.name} ${lang === 'es' ? 'en Costa Rica' : 'Costa Rica'} | Peptides Costa Rica`,
+    title: `${compound.name} ${lang === 'es' ? 'en Colombia' : 'Colombia'} | Peptides Colombia`,
     description: description.replace(/\s+/g, ' ').trim().slice(0, 155) || undefined,
     en: newProductPath(compound.slug, 'en'),
     es: newProductPath(compound.slug, 'es'),

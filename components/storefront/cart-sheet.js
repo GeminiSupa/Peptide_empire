@@ -717,7 +717,7 @@ export default function CartSheet({
                   <div className="fsec">{t('Delivery address')}</div>
                   <div className="row2">
                     <div className="fld">
-                      <label htmlFor="co-prov">{t('Province')}</label>
+                      <label htmlFor="co-prov">{t('Department')}</label>
                       <select
                         id="co-prov"
                         value={details.province}
@@ -731,14 +731,14 @@ export default function CartSheet({
                     </div>
 
                     <div className="fld">
-                      <label htmlFor="co-canton">{t('Canton')}</label>
+                      <label htmlFor="co-canton">{t('City')}</label>
                       <select
                         id="co-canton"
                         disabled={!details.province}
                         value={details.canton}
                         onChange={(event) => update({ canton: event.target.value })}
                       >
-                        <option value="">{details.province ? t('Choose') : t('Province first')}</option>
+                        <option value="">{details.province ? t('Choose') : t('Department first')}</option>
                         {cantonsIn(details.province).map((canton) => (
                           <option key={canton} value={canton}>{canton}</option>
                         ))}
@@ -747,23 +747,23 @@ export default function CartSheet({
                   </div>
 
                   <div className="fld">
-                    <label htmlFor="co-dist">{t('District')}</label>
+                    <label htmlFor="co-dist">{t('Neighborhood')}</label>
                     <input
                       id="co-dist"
                       autoComplete="address-level3"
-                      placeholder={t('e.g. San Rafael')}
+                      placeholder={t('e.g. Chapinero')}
                       value={details.district}
                       onChange={(event) => update({ district: event.target.value })}
                     />
                   </div>
 
                   <div className="fld">
-                    <label htmlFor="co-addr">{t('Exact directions (otras señas)')}</label>
+                    <label htmlFor="co-addr">{t('Address')}</label>
                     <textarea
                       id="co-addr"
                       rows={3}
                       autoComplete="street-address"
-                      placeholder={t('e.g. 200 m norte de la iglesia, casa blanca portón negro')}
+                      placeholder={t('e.g. Calle 12 # 34-56, apto 201')}
                       value={details.directions}
                       onChange={(event) => update({ directions: event.target.value })}
                     />

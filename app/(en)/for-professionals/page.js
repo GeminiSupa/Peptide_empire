@@ -5,8 +5,8 @@ import { metadataForPath } from '@/lib/seo';
 export function generateMetadata() {
   return {
     ...metadataForPath('/for-professionals/', {
-      title: 'For Clinics, Labs & Professionals | Peptides Costa Rica',
-      description: 'Professional pricing, larger and custom vial sizes, COAs and company invoicing for verified clinics, labs and research businesses in Costa Rica.',
+      title: 'For Clinics, Labs & Professionals | Peptidos Colombia',
+      description: 'Professional pricing, larger and custom vial sizes, COAs and company invoicing for verified clinics, labs and research businesses in Colombia.',
       en: '/for-professionals/',
       es: '/es/para-profesionales/',
     }),

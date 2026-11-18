@@ -10,8 +10,8 @@ const openSans = Open_Sans({ subsets: ['latin'], variable: '--font-open-sans', d
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Péptidos Costa Rica | Péptidos de Alta Pureza y Envío Rápido',
-    template: '%s | Peptides Costa Rica',
+    default: 'Peptidos Colombia | Péptidos de Alta Pureza y Envío Rápido',
+    template: '%s | Peptidos Colombia',
   },
   /**
    * This is a replica of a live site: if it gets indexed while the original is

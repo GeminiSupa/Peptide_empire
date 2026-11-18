@@ -5,8 +5,8 @@ import { metadataForPath } from '@/lib/seo';
 export function generateMetadata() {
   return {
     ...metadataForPath('/es/explora-nuestra-app/', {
-      title: 'Explora nuestra app | Péptidos Costa Rica',
-      description: 'La app de Péptidos Costa Rica: pida en pocos toques, gane puntos, obtenga descuentos extra y use la calculadora de reconstitución. Gratis en iPhone y Android.',
+      title: 'Explora nuestra app | Peptidos Colombia',
+      description: 'La app de Peptidos Colombia: pida en pocos toques, gane puntos, obtenga descuentos extra y use la calculadora de reconstitución. Gratis en iPhone y Android.',
       en: '/explore-our-app/',
       es: '/es/explora-nuestra-app/',
     }),

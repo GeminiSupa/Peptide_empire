@@ -18,8 +18,8 @@ const POPULAR_EXTRA = ['NAD+', 'BPC-157', 'Tesamorelin', 'Glutathione'];
 const LATEST = ['Amino Acid Blend', 'AHK-Cu', 'VIP', 'SS-31'];
 
 export const HOME_FAQ = [
-  ['What are research peptides intended for?', 'Laboratory research only. They are not registered as pharmaceuticals in Costa Rica, and we don\'t provide dosing, protocols or medical advice.'],
-  ['Do you ship outside Costa Rica?', 'No. We deliver within Costa Rica only.'],
+  ['What are research peptides intended for?', 'Laboratory research only. They are not registered as pharmaceuticals in Colombia, and we don\'t provide dosing, protocols or medical advice.'],
+  ['Do you ship outside Colombia?', 'No. We deliver within Colombia only.'],
   ['Do you offer online checkout?', 'Yes. Order on the website and pay by card, or send your order on WhatsApp.'],
   ['What payment methods do you accept?', 'SINPE Móvil, bank transfer or card.'],
   ['How do I confirm product availability?', 'Stock shows live in the catalog. We also confirm it before payment.'],
@@ -29,7 +29,7 @@ const OPS = [
   ['inventory_2', 'Product Information', 'Every product page lists the same fields in the same order: compound, vial size, form, molecular weight, tested purity and storage.'],
   ['lab_profile', 'Available Documentation', 'Most products have a Certificate of Analysis and specification sheet, published before sale. Find it on the product page or ask with your batch number.'],
   ['ac_unit', 'Storage & Handling', 'Products arrive lyophilised and stay at 2–8 °C from arrival to dispatch, in our own cold storage.'],
-  ['local_shipping', 'Ordering & Delivery', 'Stock is live in the catalog. We confirm availability and the full total before payment, then deliver across Costa Rica in days.'],
+  ['local_shipping', 'Ordering & Delivery', 'Stock is live in the catalog. We confirm availability and the full total before payment, then deliver across Colombia in days.'],
 ];
 
 /** The prototype's home page (`#home`), in the page source. */
@@ -61,7 +61,7 @@ export default function HomePage({ lang, h1, site }) {
           <div className="hcopy">
             <span className="slogan-h">{t('Unlimited potential')}</span>
             <h1>{h1}</h1>
-            <p>{t('Third-party tested, with a Certificate of Analysis on most products, stored at 2–8 °C on site, and delivered anywhere in Costa Rica in 2–4 days.')}</p>
+            <p>{t('Third-party tested, with a Certificate of Analysis on most products, stored at 2–8 °C on site, and delivered anywhere in Colombia in 2–4 days.')}</p>
             <div className="hctas">
               <Link className="btn" href={links.catalog}>{t('Browse the catalog')}<Ms name="arrow_forward" /></Link>
               {(dealView || flashView) ? (
@@ -95,15 +95,6 @@ export default function HomePage({ lang, h1, site }) {
         </div>
       </section>
 
-      <section className="press2">
-        <div className="wrap">
-          <span>{t('Peptides Costa Rica was featured in')}</span>
-          <span aria-label="The Tico Times article"><img src="/site/press-tico-times.webp" alt="The Tico Times" /></span>
-          <span aria-label="The Costa Rica News article"><img src="/site/press-costa-rica-news.webp" alt="The Costa Rica News" /></span>
-          <span aria-label="La Nación"><img src="/site/press-la-nacion.webp" alt="La Nación" /></span>
-        </div>
-      </section>
-
       <Section title={t('Shop by Category')} sub={t('Research compounds grouped by area of study.')}>
         <CategoryTiles categories={categories} t={t} />
       </Section>
@@ -132,14 +123,10 @@ export default function HomePage({ lang, h1, site }) {
           <Steps t={t} items={[
             ['Compound names and vial sizes', 'Clearly labelled, every vial.'],
             ['Stock confirmation before payment', 'No surprises, no backorders.'],
-            ['Delivery across Costa Rica', '2–4 days, tracked, from San José.'],
+            ['Delivery across Colombia', '2–4 days, tracked, nationwide.'],
           ]} />
         </div>
       </section>
-
-      <Section title={t('Customer Success Stories')}>
-        <Reviews items={REVIEWS} />
-      </Section>
 
       <Section title={t('Latest Products')} className="alt">
         <ProductGrid compounds={latest} id="hlatest" />

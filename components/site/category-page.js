@@ -62,9 +62,9 @@ export default function CategoryPage({ lang, site, category, h1, copy, page }) {
   const fromLabel = formatMoney(Math.round(min * exchangeRate), min, 'CRC');
   const faq = [
     [`What are ${lower}?`, what],
-    [`How much do ${lower} cost in Costa Rica?`, `From ${fromLabel} per vial. 15% off 5+ vials and 20% off 10+ of the same product, applied automatically.`],
+    [`How much do ${lower} cost in Colombia?`, `From ${fromLabel} per vial. 15% off 5+ vials and 20% off 10+ of the same product, applied automatically.`],
     ['Are these products tested?', 'Yes. Most products are tested by an independent laboratory before sale, and their Certificates of Analysis are published in our COA database.'],
-    ['How fast is delivery?', '2–4 days anywhere in Costa Rica, from our own cold storage. No customs or import fees.'],
+    ['How fast is delivery?', '2–4 days anywhere in Colombia, from our own cold storage. No customs or import fees.'],
     ['Do you provide dosing information?', 'No. These products are supplied for laboratory research only. We don\'t provide dosing, protocols or medical advice.'],
   ].filter(([, answer]) => answer);
   const shownFaq = faq.map(([q, a]) => [t(q), t(a)]);
@@ -126,8 +126,8 @@ export default function CategoryPage({ lang, site, category, h1, copy, page }) {
         <section className="psec">
           <div className="split">
             <div className="prose">
-              <h2 className="h2">{t(`Buying ${lower} in Costa Rica`)}</h2>
-              <p>{t('Every compound in this category is held in local stock in Costa Rica, so there\'s no customs delay and no import fee. Vials are lyophilised (or liquid, where stated), stored at 2–8 °C on site from arrival to dispatch, and shipped with tracking in 2–4 days.')}</p>
+              <h2 className="h2">{t(`Buying ${lower} in Colombia`)}</h2>
+              <p>{t('Every compound in this category is held in local stock in Colombia, so there\'s no customs delay and no import fee. Vials are lyophilised (or liquid, where stated), stored at 2–8 °C on site from arrival to dispatch, and shipped with tracking in 2–4 days.')}</p>
               <p>
                 {t('Most products are independently tested before sale. You\'ll find their Certificates of Analysis in our')}{' '}
                 <Link href={links['lab-tests-coa-results']} style={{ textDecoration: 'underline' }}>{t('COA database')}</Link>
@@ -138,7 +138,7 @@ export default function CategoryPage({ lang, site, category, h1, copy, page }) {
             <div className="guar">
               <span className="ms f">workspace_premium</span>
               <div>
-                <b>{t('The Peptides Costa Rica promise')}</b>
+                <b>{t('The Peptidos Colombia promise')}</b>
                 <p>{t('Every vial is stored cold and delivered fast. If a vial arrives damaged or doesn\'t match your order, tell us within 7 days with a photo and we replace it. No arguments.')}</p>
               </div>
             </div>
