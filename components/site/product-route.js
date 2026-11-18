@@ -8,6 +8,8 @@ import { resolveVialPage } from '@/lib/site/product-pages.mjs';
 import { alternates } from '@/lib/routes';
 import { SITE_URL } from '@/lib/indexing';
 import { metadataForPath } from '@/lib/seo';
+import { currentSite } from '@/lib/site/current-site.mjs';
+import { brandSwap } from '@/lib/storefront/i18n.mjs';
 
 /**
  * The compound (and strength) a live product page sells, or null.
@@ -43,9 +45,9 @@ export async function newProductFor(slug, lang) {
 }
 
 /** Title, description and language links of a new product page. */
-export function newProductMetadata({ compound }, lang) {
+export async function newProductMetadata({ compound }, lang) {
   const description = (lang === 'es' ? compound.descriptionEs : compound.descriptionEn) || compound.descriptionEn || '';
-  return metadataForPath(newProductPath(compound.slug, lang), {
+  return await metadataForPath(newProductPath(compound.slug, lang), {
     title: `${compound.name} ${lang === 'es' ? 'en Colombia' : 'Colombia'} | Peptides Colombia`,
     description: description.replace(/\s+/g, ' ').trim().slice(0, 155) || undefined,
     en: newProductPath(compound.slug, 'en'),
@@ -54,8 +56,9 @@ export function newProductMetadata({ compound }, lang) {
 }
 
 /** A new product page: the same layout, with the catalog's own description. */
-export function NewProductRoute({ lang, product }) {
+export async function NewProductRoute({ lang, product }) {
   const { compound } = product;
+  const country = await currentSite();
   const description = (lang === 'es' ? compound.descriptionEs : compound.descriptionEn) || compound.descriptionEn || '';
   const paras = description.split(/\n\s*\n/).map((para) => para.trim()).filter(Boolean);
   const path = newProductPath(compound.slug, lang);
@@ -64,6 +67,7 @@ export function NewProductRoute({ lang, product }) {
       <ProductPage
         lang={lang}
         site={product.site}
+        country={country}
         compound={compound}
         h1={compound.name}
         copy={paras.length ? { blocks: [{ title: '', paras, items: [], links: [], faq: [] }], faq: [] } : null}
@@ -74,17 +78,19 @@ export function NewProductRoute({ lang, product }) {
 }
 
 /** A live product page in the new design. */
-export default function ProductRoute({ page, lang, product }) {
+export default async function ProductRoute({ page, lang, product }) {
   const alt = alternates(page.en);
   const path = lang === 'es' ? page.es : page.en;
+  const country = await currentSite();
   return (
     <SiteShell lang={lang} altHref={lang === 'es' ? alt.en : alt.es}>
       <ProductPage
         lang={lang}
         site={product.site}
+        country={country}
         compound={product.compound}
         initialSize={product.size}
-        h1={liveH1(page, lang)}
+        h1={brandSwap(liveH1(page, lang), country)}
         copy={liveCopy(page.sections, lang)}
         schemaUrl={new URL(path, SITE_URL).toString()}
       />

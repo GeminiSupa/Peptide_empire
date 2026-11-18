@@ -49,8 +49,8 @@ export function categorySlugFor(slug) {
   return WOO_TO_CATEGORY[slug] || slug;
 }
 
-export default function CategoryPage({ lang, site, category, h1, copy, page }) {
-  const t = translator(lang);
+export default function CategoryPage({ lang, site, country = null, category, h1, copy, page }) {
+  const t = translator(lang, country);
   const { links, categories, exchangeRate } = site;
   const name = t(category.name);
   const lower = name.toLowerCase();

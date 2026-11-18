@@ -19,15 +19,16 @@ import { liveCopy } from '@/lib/site/live-copy.mjs';
 import { liveH1 } from '@/lib/site/live-h1';
 import { NEW_PAGES } from '@/lib/site/links.mjs';
 import { alternates } from '@/lib/routes';
-import { translator } from '@/lib/storefront/i18n.mjs';
+import { translator, brandSwap } from '@/lib/storefront/i18n.mjs';
+import { currentSite } from '@/lib/site/current-site.mjs';
 import Breadcrumbs from '@/components/site/breadcrumbs';
 import JsonLd from '@/components/site/json-ld';
 import { SITE_URL } from '@/lib/indexing';
 import { collectionNodes } from '@/lib/site/structured-data.mjs';
 
 /** The prototype's "Shop by Category" page (`#shop`). */
-function ShopPage({ lang, site, h1, page }) {
-  const t = translator(lang);
+function ShopPage({ lang, site, country = null, h1, page }) {
+  const t = translator(lang, country);
   const url = pageUrl(page, lang);
   return (
     <div className="pagev">
@@ -116,16 +117,17 @@ const NEW_TEMPLATES = {
 };
 
 /** A city page: the prototype's location page for that town, then its live copy. */
-async function CityPage({ lang, site, page, h1, copy }) {
+async function CityPage({ lang, site, country = null, page, h1, copy }) {
   const { default: tree } = await import('@/data/site/pages/alajuela.json');
   const { town } = cityPlace(page, lang);
-  const t = translator(lang);
+  const t = translator(lang, country);
   return (
     <>
       <ProtoPage
         tree={tree}
         lang={lang}
         site={site}
+        country={country}
         h1={cityH1(h1, page, lang)}
         replacements={[['Alajuela', town]]}
         url={pageUrl(page, lang)}
@@ -195,12 +197,13 @@ export function hasNewDesign(page) {
  */
 export default async function PageRoute({ page, lang }) {
   const site = await getSiteData(lang);
+  const country = await currentSite();
   const Template = templateFor(page, site);
   const alt = page.cms ? { en: page.en, es: page.es } : alternates(page.en);
   const extra = Template === CategoryTemplate ? { categorySlug: categorySlugFor(page.slug) } : {};
   return (
     <SiteShell lang={lang} altHref={lang === 'es' ? alt.en : alt.es}>
-      {renderTemplate(Template, { lang, site, page, h1: liveH1(page, lang), copy: liveCopy(page.sections, lang), ...extra })}
+      {renderTemplate(Template, { lang, site, country, page, h1: brandSwap(liveH1(page, lang), country), copy: liveCopy(page.sections, lang), ...extra })}
     </SiteShell>
   );
 }
@@ -219,10 +222,11 @@ function renderTemplate(Template, props) {
 export async function NewPageRoute({ pageKey, lang }) {
   const Template = NEW_TEMPLATES[pageKey];
   const site = await getSiteData(lang);
+  const country = await currentSite();
   const paths = NEW_PAGES[pageKey];
   return (
     <SiteShell lang={lang} altHref={lang === 'es' ? paths.en : paths.es}>
-      <Template lang={lang} site={site} h1={null} copy={null} />
+      <Template lang={lang} site={site} country={country} h1={null} copy={null} />
     </SiteShell>
   );
 }

@@ -316,8 +316,8 @@ function CoaList({ compounds, t }) {
  * `url` is the page's own path, for its structured data; `extraFaq` adds
  * question lists the caller draws below the snapshot (a city's live copy).
  */
-export default function ProtoPage({ tree, lang, site, h1, copy, replacements = [], url, extraFaq = [] }) {
-  const t = translator(lang);
+export default function ProtoPage({ tree, lang, site, country = null, h1, copy, replacements = [], url, extraFaq = [] }) {
+  const t = translator(lang, country);
   const byName = (name) => site.compounds.find((compound) => compound.name === name);
   const byLabel = (label) => {
     const text = String(label || '');

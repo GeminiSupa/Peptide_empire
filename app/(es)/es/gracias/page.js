@@ -2,9 +2,9 @@ import { NewPageRoute } from '@/components/site/page-route';
 import { metadataForPath } from '@/lib/seo';
 
 /** /es/gracias/ — a page the new design adds (components/site/page-route.js). */
-export function generateMetadata() {
+export async function generateMetadata() {
   return {
-    ...metadataForPath('/es/gracias/', {
+    ...await metadataForPath('/es/gracias/', {
       title: 'Gracias | Peptidos Colombia',
       description: 'Gracias por su pedido con Peptidos Colombia.',
       en: '/thank-you/',

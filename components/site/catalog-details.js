@@ -1,4 +1,5 @@
 import styles from '@/components/site/catalog-details.module.css';
+import { brandSwap } from '@/lib/storefront/i18n.mjs';
 
 const ICONS = ['monitoring', 'healing', 'psychology', 'auto_awesome', 'bolt', 'hub'];
 
@@ -37,8 +38,16 @@ const COPY = {
   },
 };
 
-export default function CatalogDetails({ blocks = [], lang = 'en' }) {
-  const copy = COPY[lang] || COPY.en;
+export default function CatalogDetails({ blocks = [], lang = 'en', country = null }) {
+  const base = COPY[lang] || COPY.en;
+  const b = (value) => brandSwap(value, country);
+  const copy = {
+    ...base,
+    eyebrow: b(base.eyebrow), title: b(base.title), intro: b(base.intro),
+    bulkEyebrow: b(base.bulkEyebrow), bulkTitle: b(base.bulkTitle), bulkText: b(base.bulkText),
+    faqTitle: b(base.faqTitle),
+    questions: (base.questions || []).map(([q, a]) => [b(q), b(a)]),
+  };
   const categoryStart = blocks.findIndex((block) => block.title === (lang === 'es' ? 'Categorías de Producto' : 'Product Categories'));
   const bulkAt = blocks.findIndex((block) => block.title === (lang === 'es' ? 'Ahorro al por mayor' : 'Bulk Savings'));
   const categories = categoryStart >= 0 && bulkAt > categoryStart
@@ -59,8 +68,8 @@ export default function CatalogDetails({ blocks = [], lang = 'en' }) {
             <article className={styles.card} key={category.title}>
               <span className={styles.icon} aria-hidden="true"><span className="ms">{ICONS[index] || 'science'}</span></span>
               <div>
-                <h3>{category.title}</h3>
-                <p>{category.paras.at(-1)}</p>
+                <h3>{b(category.title)}</h3>
+                <p>{b(category.paras.at(-1))}</p>
               </div>
             </article>
           ))}

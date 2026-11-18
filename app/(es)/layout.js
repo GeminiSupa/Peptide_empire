@@ -1,17 +1,21 @@
 import { Inter, Open_Sans } from 'next/font/google';
 import { ALLOW_INDEXING, SITE_URL } from '@/lib/indexing';
 import AgeGate from '@/components/age-gate';
+import { currentSite } from '@/lib/site/current-site.mjs';
+import { brandSwap } from '@/lib/storefront/i18n.mjs';
 import '../globals.css';
 
 // The live site loads Open Sans for body copy and Inter for the h1.
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' });
 const openSans = Open_Sans({ subsets: ['latin'], variable: '--font-open-sans', display: 'swap' });
 
-export const metadata = {
+export async function generateMetadata() {
+  const site = await currentSite();
+  return {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Peptidos Colombia | Péptidos de Alta Pureza y Envío Rápido',
-    template: '%s | Peptidos Colombia',
+    default: brandSwap('Peptidos Colombia | Péptidos de Alta Pureza y Envío Rápido', site),
+    template: `%s | ${brandSwap('Peptidos Colombia', site)}`,
   },
   /**
    * This is a replica of a live site: if it gets indexed while the original is
@@ -41,7 +45,8 @@ export const metadata = {
     ],
     apple: '/wp-content/uploads/2026/02/cropped-Peptides-Fave-Icon-02-180x180.png',
   },
-};
+  };
+}
 
 /**
  * Spanish, served under /es/ with translated slugs.

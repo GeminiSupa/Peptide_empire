@@ -34,7 +34,7 @@ export default function SiteFooter({ t, links, categories, contact = CONTACT, so
       <div className="wrap">
         <div className="fgrid">
           <div className="fbrand">
-            <img className="logo" src="/site/logo-white.svg" alt="Peptidos Colombia" />
+            <img className="logo" src="/site/logo-white.svg" alt={t('Peptidos Colombia')} />
             <p className="slogan">{t('Unlimited potential')}</p>
             <Link className="fapp" href={links['explore-our-app']} data-cta="footer-app">
               <span className="fqr"><img src="/site/app-qr.svg" alt="" /></span>
@@ -92,7 +92,7 @@ export default function SiteFooter({ t, links, categories, contact = CONTACT, so
           <b>{t('Research use only.')}</b>{' '}
           {t('All products are supplied for laboratory research. Not for human or veterinary use. Not approved for the diagnosis, treatment, cure or prevention of any condition. We do not provide dosing or medical advice.')}
         </p>
-        <p className="legal">© 2026 Peptidos Colombia · Colombia</p>
+        <p className="legal">{t('© 2026 Peptidos Colombia · Colombia')}</p>
       </div>
     </footer>
   );

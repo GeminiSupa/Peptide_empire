@@ -77,8 +77,8 @@ function namedCompounds(title, compounds) {
   return found;
 }
 
-export default function PostPage({ lang, site, page, h1, related = [], section }) {
-  const t = translator(lang);
+export default function PostPage({ lang, site, country = null, page, h1, related = [], section }) {
+  const t = translator(lang, country);
   const { links, compounds } = site;
   const parts = articleParts(page.sections, lang);
   const title = h1 || parts.h1 || page.head?.[`title_${lang}`] || '';

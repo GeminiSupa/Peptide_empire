@@ -6,7 +6,7 @@ import ProductGrid from '@/components/site/product-grid';
 import ReviewBar from '@/components/site/review-bar';
 import { dealPicks } from '@/lib/site/data';
 import { REVIEWS, Reviews, CategoryTiles, Section, Steps } from '@/components/site/blocks';
-import { translator } from '@/lib/storefront/i18n.mjs';
+import { translator, brandSwap } from '@/lib/storefront/i18n.mjs';
 import { CONTACT, SOCIALS } from '@/lib/site/links.mjs';
 import JsonLd from '@/components/site/json-ld';
 import { SITE_URL } from '@/lib/indexing';
@@ -33,8 +33,8 @@ const OPS = [
 ];
 
 /** The prototype's home page (`#home`), in the page source. */
-export default function HomePage({ lang, h1, site }) {
-  const t = translator(lang);
+export default function HomePage({ lang, h1, site, country = null }) {
+  const t = translator(lang, country);
   const { compounds, categories, links, dealView, flashView } = site;
   const byName = (name) => compounds.find((compound) => compound.name === name);
 
@@ -51,8 +51,8 @@ export default function HomePage({ lang, h1, site }) {
     <>
       <JsonLd
         nodes={[
-          organizationNode({ base: SITE_URL, contact: site.contact, sameAs: SOCIALS.map(([, url]) => url) }),
-          websiteNode({ base: SITE_URL, lang }),
+          organizationNode({ base: SITE_URL, contact: site.contact, sameAs: SOCIALS.map(([, url]) => url), site: country }),
+          websiteNode({ base: SITE_URL, lang, site: country }),
           faqNode({ base: SITE_URL, url: homeUrl, lists: [faq] }),
         ]}
       />
@@ -60,7 +60,7 @@ export default function HomePage({ lang, h1, site }) {
         <div className="wrap">
           <div className="hcopy">
             <span className="slogan-h">{t('Unlimited potential')}</span>
-            <h1>{h1}</h1>
+            <h1>{brandSwap(h1, country)}</h1>
             <p>{t('Third-party tested, with a Certificate of Analysis on most products, stored at 2–8 °C on site, and delivered anywhere in Colombia in 2–4 days.')}</p>
             <div className="hctas">
               <Link className="btn" href={links.catalog}>{t('Browse the catalog')}<Ms name="arrow_forward" /></Link>

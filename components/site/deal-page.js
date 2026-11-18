@@ -53,8 +53,8 @@ function endLabel(endsAt, lang) {
   }
 }
 
-export default function DealPage({ lang, site }) {
-  const t = translator(lang);
+export default function DealPage({ lang, site, country = null }) {
+  const t = translator(lang, country);
   const { dealView: deal, flashView: flash, compounds, links, exchangeRate, freeShippingLabel } = site;
   // `live` is any Deal of the Week running (a bundle, free gift, 2nd-vial or
   // free-shipping deal just as much as a Spend & Save). `tiered` is the narrower

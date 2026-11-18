@@ -22,7 +22,7 @@ export async function generateMetadata({ params }) {
   const page = await getPublishedPage(byEnglishSlug(slug));
   if (!page) return {};
   const alt = alternates(page.en);
-  return metadataForPath(page.en, {
+  return await metadataForPath(page.en, {
     title: metaTitle(page, 'en'),
     description: page.head.description_en,
     en: alt.en,

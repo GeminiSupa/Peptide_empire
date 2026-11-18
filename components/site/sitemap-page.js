@@ -40,8 +40,8 @@ const NEW_TITLES = {
 
 const brandless = (title) => String(title || '').replace(/\s*[|–-]\s*P[ée]ptid(e|o)s Colombia\s*$/i, '').trim();
 
-export default function SitemapPage({ lang, site, h1, page }) {
-  const t = translator(lang);
+export default function SitemapPage({ lang, site, country = null, h1, page }) {
+  const t = translator(lang, country);
   const path = (page) => (lang === 'es' ? page.es || page.en : page.en);
   const groups = GROUPS.map(([title, pages]) => [title, pages().filter((page) => path(page))]);
   groups[0][1] = [

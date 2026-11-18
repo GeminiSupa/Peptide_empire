@@ -27,8 +27,8 @@ export function useSite() {
  * pages even though each page mounts its own provider. Prices are worked out
  * by `quoteCart`, which runs checkout's own pricing; nothing here does sums.
  */
-export default function SiteProvider({ lang, exchangeRate, deal, dealView = null, flashView = null, contact = CONTACT, children }) {
-  const t = useMemo(() => translator(lang), [lang]);
+export default function SiteProvider({ lang, country = null, exchangeRate, deal, dealView = null, flashView = null, contact = CONTACT, children }) {
+  const t = useMemo(() => translator(lang, country), [lang, country]);
   const [currency, setCurrency] = useCurrency();
   const { cart, hydrated, add, setQty: setCartQty, remove: removeLine, clear } = useCart();
 
@@ -155,14 +155,14 @@ export default function SiteProvider({ lang, exchangeRate, deal, dealView = null
   }, [sheetOpen, drawerOpen]);
 
   const value = useMemo(() => ({
-    lang, t, currency, setCurrency, exchangeRate, deal, dealView, flashView,
+    lang, country, t, currency, setCurrency, exchangeRate, deal, dealView, flashView,
     cart, hydrated, addToCart, setQty, remove, clear, quote, quoteFor, flashPriceFor,
     promo, applyPromo, removePromo, contact,
     money, moneyCrc, whatsapp,
     sheetOpen, setSheetOpen, drawerOpen, setDrawerOpen, searchOpen, setSearchOpen,
     toast, setToast,
   }), [
-    lang, t, currency, setCurrency, exchangeRate, deal, dealView, flashView,
+    lang, country, t, currency, setCurrency, exchangeRate, deal, dealView, flashView,
     cart, hydrated, addToCart, setQty, remove, clear, quote, quoteFor, flashPriceFor,
     promo, applyPromo, removePromo, contact,
     money, moneyCrc, whatsapp, sheetOpen, drawerOpen, searchOpen, toast,

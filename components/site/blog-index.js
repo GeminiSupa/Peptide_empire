@@ -23,8 +23,8 @@ export function listed(page, lang) {
  * The prototype's blog index (`PAGES.blog`): hero with search, the newest
  * article featured, then every article. Each card links the live article URL.
  */
-export default async function BlogIndex({ lang, site, page, h1 }) {
-  const t = translator(lang);
+export default async function BlogIndex({ lang, site, country = null, page, h1 }) {
+  const t = translator(lang, country);
   const listing = LISTINGS[page.en];
   const cmsPages = page.en === '/blog/' ? (await getPublishedBlogs()).map(blogToPage).filter(Boolean) : [];
   const merged = [...cmsPages, ...listing.pages()].filter((entry, index, all) => all.findIndex((other) => other.en === entry.en) === index);

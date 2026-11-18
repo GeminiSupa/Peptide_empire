@@ -39,8 +39,8 @@ const ORDER_STEPS = [
  * researchers choose" tiles and the FAQ in place of the prototype's
  * placeholders. `initialSize` preselects a strength on a vial page.
  */
-export default function ProductPage({ lang, site, compound, h1, copy, initialSize = null, schemaUrl }) {
-  const t = translator(lang);
+export default function ProductPage({ lang, site, country = null, compound, h1, copy, initialSize = null, schemaUrl }) {
+  const t = translator(lang, country);
   const { compounds, categories, links, dealView, exchangeRate, freeShippingLabel } = site;
   const dealMode = Boolean(dealView?.tiers?.length);
   const category = categories.find((entry) => entry.compounds.some((member) => member.slug === compound.slug));
@@ -111,7 +111,7 @@ export default function ProductPage({ lang, site, compound, h1, copy, initialSiz
   const shownFaq = ownFaq.map(([q, a]) => [t(q), t(a)]);
   const descriptionText = plainText(description?.paras?.join(' ')).slice(0, 5000) || undefined;
   const { '@context': _context, ...product } = productSchema({
-    compound, category, shelf, variant, schemaUrl, exchangeRate, description: descriptionText,
+    compound, category, shelf, variant, schemaUrl, exchangeRate, description: descriptionText, site: country,
   });
 
   return (

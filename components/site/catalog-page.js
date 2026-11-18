@@ -24,8 +24,8 @@ const PROMISES = [
  *
  * `h1` is the live page's H1; `copy` its text (lib/site/live-copy.mjs).
  */
-export default function CatalogPage({ lang, site, h1, copy, page }) {
-  const t = translator(lang);
+export default function CatalogPage({ lang, site, country = null, h1, copy, page }) {
+  const t = translator(lang, country);
   const { compounds, links, dealView } = site;
   const blocks = copy?.blocks || [];
   const url = (lang === 'es' ? page?.es : page?.en) || page?.en || '/all-peptide-products-costa-rica/';
@@ -36,7 +36,7 @@ export default function CatalogPage({ lang, site, h1, copy, page }) {
         nodes={[
           collectionNodes({ base: SITE_URL, url, name: h1, lang, products: compounds }),
           // The questions section is drawn only beside the live copy.
-          blocks.length ? faqNode({ base: SITE_URL, url, lists: [catalogFaq(lang)] }) : null,
+          blocks.length ? faqNode({ base: SITE_URL, url, lists: [catalogFaq(lang).map(([q, a]) => [t(q), t(a)])] }) : null,
         ]}
       />
       <section className="chero">
@@ -78,7 +78,7 @@ export default function CatalogPage({ lang, site, h1, copy, page }) {
         </div>
       </section>
 
-      {blocks.length ? <CatalogDetails blocks={blocks} lang={lang} /> : null}
+      {blocks.length ? <CatalogDetails blocks={blocks} lang={lang} country={country} /> : null}
     </div>
   );
 }

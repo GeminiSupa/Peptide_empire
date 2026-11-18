@@ -70,7 +70,7 @@ export default function SiteHeader({
   banners = [],
 }) {
   const {
-    lang, t, currency, setCurrency, cart, whatsapp, contact, flashView,
+    lang, t, country, currency, setCurrency, cart, whatsapp, contact, flashView,
     setSheetOpen, drawerOpen, setDrawerOpen, setSearchOpen,
   } = useSite();
   const [openMenu, setOpenMenu] = useState('');
@@ -200,7 +200,7 @@ export default function SiteHeader({
             <Ms name="menu" />
           </button>
           <Link href={links.home} aria-label={t('Home')} className="lg">
-            <img className="logo" src="/site/logo.svg" alt="Peptidos Colombia" />
+            <img className="logo" src="/site/logo.svg" alt={country?.brand || 'Peptidos Colombia'} />
           </Link>
 
           <nav className="mainnav" aria-label="Main" ref={navRef}>
@@ -261,7 +261,7 @@ export default function SiteHeader({
               onClick={() => setPrefOpen(!prefOpen)}
             >
               <span className="ms">language</span>
-              {lang.toUpperCase()} · {currency === 'USD' ? 'US$' : 'COP'}
+              {lang.toUpperCase()} · {currency === 'USD' ? 'US$' : (country?.currency || 'COP')}
             </button>
             <div className="prefmenu" hidden={!prefOpen}>
               <small>Language · Idioma</small>
@@ -275,7 +275,7 @@ export default function SiteHeader({
               </div>
               <small>Currency · Moneda</small>
               <div className="seg">
-                <button type="button" aria-pressed={currency === 'CRC'} onClick={() => setCurrency('CRC')}>$ Pesos</button>
+                <button type="button" aria-pressed={currency === 'CRC'} onClick={() => setCurrency('CRC')}>{country?.symbol || '$'} {country?.currency || 'COP'}</button>
                 <button type="button" aria-pressed={currency === 'USD'} onClick={() => setCurrency('USD')}>US$ Dollars</button>
               </div>
             </div>

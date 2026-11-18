@@ -29,10 +29,10 @@ export async function generateMetadata({ params }) {
   const page = await getPublishedPage(byEnglishSlug(slug));
   if (!page) {
     const product = await newProductFor(slug, 'en');
-    return product ? newProductMetadata(product, 'en') : {};
+    return product ? await newProductMetadata(product, 'en') : {};
   }
   const alt = alternates(page.en);
-  return metadataForPath(page.en, {
+  return await metadataForPath(page.en, {
     title: metaTitle(page, 'en'),
     description: page.head.description_en,
     en: alt.en,

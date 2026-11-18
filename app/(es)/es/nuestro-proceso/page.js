@@ -2,9 +2,9 @@ import { NewPageRoute } from '@/components/site/page-route';
 import { metadataForPath } from '@/lib/seo';
 
 /** /es/nuestro-proceso/ — a page the new design adds (components/site/page-route.js). */
-export function generateMetadata() {
+export async function generateMetadata() {
   return {
-    ...metadataForPath('/es/nuestro-proceso/', {
+    ...await metadataForPath('/es/nuestro-proceso/', {
       title: 'Nuestro proceso | Peptidos Colombia',
       description: 'Cómo llega un vial del laboratorio a su puerta: nueve controles, análisis de terceros, almacenamiento a 2–8 °C y entrega con seguimiento en todo Colombia.',
       en: '/our-process/',

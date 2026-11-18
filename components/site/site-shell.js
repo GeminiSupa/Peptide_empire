@@ -7,6 +7,7 @@ import VisitorTracker from '@/components/site/visitor-tracker';
 import { ALLOW_INDEXING } from '@/lib/indexing';
 import { getSiteData } from '@/lib/site/data';
 import { translator } from '@/lib/storefront/i18n.mjs';
+import { currentSite } from '@/lib/site/current-site.mjs';
 import { materialSymbolsHref } from '@/lib/site/icon-names.mjs';
 import '@/app/site.css';
 import '@/app/site-base.css';
@@ -20,7 +21,8 @@ import '@/app/site-base.css';
  */
 export default async function SiteShell({ lang, altHref, children }) {
   const site = await getSiteData(lang);
-  const t = translator(lang);
+  const country = await currentSite();
+  const t = translator(lang, country);
 
   return (
     <div className="pcr-site">
@@ -36,7 +38,7 @@ export default async function SiteShell({ lang, altHref, children }) {
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link rel="stylesheet" href={materialSymbolsHref()} />
-      <SiteProvider lang={lang} exchangeRate={site.exchangeRate} deal={site.deal} dealView={site.dealView} flashView={site.flashView} contact={site.contact}>
+      <SiteProvider lang={lang} country={country} exchangeRate={site.exchangeRate} deal={site.deal} dealView={site.dealView} flashView={site.flashView} contact={site.contact}>
         <SiteHeader
           links={site.links}
           products={site.products}
