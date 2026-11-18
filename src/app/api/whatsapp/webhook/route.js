@@ -571,7 +571,7 @@ export async function POST(request) {
                 const metaMessageId = metaData?.messages?.[0]?.id || null;
                 await insertWhatsAppMessage(supabase, {
                   wa_id: waId,
-                  display_name: isAiGenerated ? 'Costa Peptides Assistant' : 'Peptides Costa Rica',
+                  display_name: isAiGenerated ? 'Costa Peptides Assistant' : 'Peptidos Colombia',
                   message_text: replyText,
                   message_type: 'text',
                   direction: 'outbound',
@@ -583,7 +583,7 @@ export async function POST(request) {
                 });
                 await upsertWhatsAppConversation(supabase, {
                   waId,
-                  displayName: displayName || (isAiGenerated ? 'Costa Peptides Assistant' : 'Peptides Costa Rica'),
+                  displayName: displayName || (isAiGenerated ? 'Costa Peptides Assistant' : 'Peptidos Colombia'),
                   direction: 'outbound',
                   source: 'cloud_api',
                   channelId,

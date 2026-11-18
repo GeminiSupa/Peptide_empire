@@ -117,7 +117,7 @@ const dayCheckboxStyle = {
   width: '13px',
   height: '13px',
   flexShrink: 0,
-  accentColor: '#38bdf8',
+  accentColor: '#34d399',
   cursor: 'pointer',
 };
 
@@ -303,7 +303,7 @@ function statusLabel(status) {
 
 function priorityColor(priority) {
   if (priority === 'high') return '#f97316';
-  if (priority === 'low') return '#38bdf8';
+  if (priority === 'low') return '#34d399';
   return '#a3e635';
 }
 
@@ -1251,7 +1251,7 @@ export default function LiveChatInbox() {
                   <span>{statusLabel(conversation.status)}</span>
                   {conversation.leadContext?.lead && <span>· Lead</span>}
                   {conversation.assignedToName && <span>· {conversation.assignedToName}</span>}
-                  {conversation.unreadForAgent && <Circle size={8} fill="#38bdf8" color="#38bdf8" />}
+                  {conversation.unreadForAgent && <Circle size={8} fill="#34d399" color="#34d399" />}
                 </div>
               </div>
             </button>

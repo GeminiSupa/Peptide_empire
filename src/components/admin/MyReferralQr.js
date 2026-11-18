@@ -17,7 +17,7 @@ const CARD = {
 
 const DEVICE_ICON = { mobile: Smartphone, desktop: Monitor, tablet: Tablet };
 
-function StatCard({ label, value, sub, color = '#38bdf8' }) {
+function StatCard({ label, value, sub, color = '#34d399' }) {
   return (
     <div style={{ ...CARD, minWidth: 0 }}>
       <div style={{ fontSize: '1.4rem', fontWeight: 700, color, lineHeight: 1.15, wordBreak: 'break-word' }}>{value}</div>
@@ -187,7 +187,7 @@ export default function MyReferralQr() {
                   const Icon = DEVICE_ICON[device] || Monitor;
                   return (
                     <div key={device} style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#cbd5e1', fontSize: '0.9rem' }}>
-                      <Icon size={16} color="#38bdf8" />
+                      <Icon size={16} color="#34d399" />
                       <span style={{ textTransform: 'capitalize' }}>{device}</span>
                       <strong>{count}</strong>
                     </div>

@@ -205,8 +205,8 @@ export function StorefrontHeader({ lang, onLanguage, settings, active = '' }) {
 
         <div className="clone-nav-wrap">
           <div className="clone-shell clone-nav">
-            <Link href="/" className="clone-logo" aria-label="Peptides Costa Rica home">
-              <img src="/logo.webp" alt="Peptides Costa Rica" className="logo-img-custom" />
+            <Link href="/" className="clone-logo" aria-label="Peptidos Colombia home">
+              <img src="/logo.webp" alt="Peptidos Colombia" className="logo-img-custom" />
             </Link>
 
             <button
@@ -421,7 +421,7 @@ export function StorefrontFooter({ lang, settings, categories = [] }) {
     <footer className="clone-footer">
       <div className="clone-shell clone-footer-grid">
         <div>
-          <img src="/logo.webp" alt="Peptides Costa Rica" className="logo-img-custom" />
+          <img src="/logo.webp" alt="Peptidos Colombia" className="logo-img-custom" />
           <p>{settings?.[`footerDescription${suffix}`]}</p>
           <strong>{lang === 'en' ? 'Legal Notice:' : 'Aviso legal:'}</strong>
           <p>{settings?.[`legalNotice${suffix}`]}</p>
@@ -492,7 +492,7 @@ export function StorefrontFooter({ lang, settings, categories = [] }) {
         </div>
       </div>
       <div className="clone-copyright">
-        Copyright © {new Date().getFullYear()} Peptides Costa Rica, All Rights Reserved.
+        Copyright © {new Date().getFullYear()} Peptidos Colombia, All Rights Reserved.
         {/* The policy pages were previously linked only from a dead component,
             leaving them unreachable from anywhere on the site. */}
         <span className="clone-legal-links">

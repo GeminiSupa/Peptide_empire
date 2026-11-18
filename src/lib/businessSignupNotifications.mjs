@@ -41,7 +41,7 @@ export async function sendBusinessSignupNotifications(business, {
   try { agent = business.rep_user_id ? await resolveBusinessEmailAgent(admin || getSupabaseAdmin(), business) : null; }
   catch (error) { agentError = { destination: 'assigned agent', sent: false, error: error.message }; }
   const text = [
-    'New business account — Peptides Costa Rica',
+    'New business account — Peptidos Colombia',
     `Company: ${business.legal_name}`,
     `Trading name: ${business.trading_name || '—'}`,
     `Cédula jurídica: ${business.corporation_number}`,

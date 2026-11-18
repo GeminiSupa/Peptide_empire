@@ -31,7 +31,7 @@ import { parseAiSummary } from '@/lib/aiSummaryMarkdown.mjs';
  */
 export default function AiSummary({
   text,
-  accentColor = '#38bdf8',
+  accentColor = '#34d399',
   style,
 }) {
   const renderSpans = (spans) => spans.map((span, index) => (

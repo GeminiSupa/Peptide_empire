@@ -209,7 +209,7 @@ export default function SocialReviewsSettings() {
                     cursor: 'pointer',
                     background: on ? 'rgba(56, 189, 248, 0.14)' : 'rgba(148,163,184,0.08)',
                     border: `1px solid ${on ? 'rgba(56,189,248,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                    color: on ? '#38bdf8' : '#94a3b8',
+                    color: on ? '#34d399' : '#94a3b8',
                   }}
                 >
                   {on ? '✓ ' : ''}{status}

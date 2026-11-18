@@ -4,15 +4,15 @@
 .panel h2 { font-size: 1.5rem; line-height: 1.25; }
 .panel h3 { font-size: 1.1rem; overflow-wrap: anywhere; }
 .panel p { color: var(--ba-muted); line-height: 1.6; }
-.panel a { color: #7dd3fc; overflow-wrap: anywhere; }
+.panel a { color: #6ee7b7; overflow-wrap: anywhere; }
 .panel button, .panel input, .panel select, .panel textarea { font: inherit; min-height: 44px; border-radius: 9px; }
 .panel button { padding: 10px 14px; border: 1px solid #516078; background: #22324b; color: var(--ba-text); font-weight: 600; cursor: pointer; white-space: normal; }
 .panel button:disabled { opacity: .55; cursor: not-allowed; }
-.panel button.primary { background: #38bdf8; border-color: #38bdf8; color: #082032; }
-.panel :is(button, a, input, textarea, select, summary):focus-visible { outline: 3px solid #7dd3fc; outline-offset: 3px; }
+.panel button.primary { background: #34d399; border-color: #34d399; color: #082032; }
+.panel :is(button, a, input, textarea, select, summary):focus-visible { outline: 3px solid #6ee7b7; outline-offset: 3px; }
 .header { display: grid; gap: 16px; margin-bottom: 20px; }
 .header p { margin-top: 6px; }
-.panel .eyebrow { color: #7dd3fc; text-transform: uppercase; letter-spacing: .08em; font-size: .7rem; font-weight: 700; margin-bottom: 6px; }
+.panel .eyebrow { color: #6ee7b7; text-transform: uppercase; letter-spacing: .08em; font-size: .7rem; font-weight: 700; margin-bottom: 6px; }
 .summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 22px; }
 .summary > div { padding: 12px 8px; border: 1px solid var(--ba-border); background: var(--ba-bg); border-radius: 12px; display: grid; gap: 6px; }
 .summary strong { font-size: 1.6rem; }

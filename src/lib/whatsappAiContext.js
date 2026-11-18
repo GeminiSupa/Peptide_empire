@@ -22,7 +22,7 @@ export async function buildWhatsAppCustomerContext(supabase, waId) {
           orders
             .map((o) => {
               const items = formatCartItemsSummary(o.items);
-              return `- Order #${o.order_number || o.id.slice(0, 8)} (${o.status || 'Pending'}): ${items}; total ${o.currency === 'USD' ? `$${o.total_usd}` : `₡${o.total_crc}`}`;
+              return `- Order #${o.order_number || o.id.slice(0, 8)} (${o.status || 'Pending'}): ${items}; total ${o.currency === 'USD' ? `$${o.total_usd}` : `$${o.total_crc}`}`;
             })
             .join('\n')
       );

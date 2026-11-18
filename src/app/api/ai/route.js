@@ -118,7 +118,7 @@ Example JSON output format:
 - Abandoned Carts Item Frequency: ${JSON.stringify(context.stats.cartItemsCount || {})}`
         : '';
 
-      finalPrompt = `You are "Costa Peptides Admin Copilot", a premium AI assistant integrated directly into the administration dashboard of Peptides Costa Rica.
+      finalPrompt = `You are "Costa Peptides Admin Copilot", a premium AI assistant integrated directly into the administration dashboard of Peptidos Colombia.
 You are professional, precise, knowledgeable, and helpful. You speak Spanish and English fluently (always reply in the language the administrator addresses you in).
 You have access to the following live store data context to answer queries:
 
@@ -162,7 +162,7 @@ ${prompt}`;
         ? `\nRecent Conversation History:\n${safeHistory.map(m => `${m.role === 'user' ? 'Customer' : 'Assistant'}: ${m.text}`).join('\n')}`
         : '';
 
-      finalPrompt = `You are "Peptides Costa Rica Assistant", a warm, professional customer support agent for Peptides Costa Rica.
+      finalPrompt = `You are "Peptidos Colombia Assistant", a warm, professional customer support agent for Peptidos Colombia.
 You speak Spanish and English fluently (always reply in the language the customer addresses you in, but default to Spanish if unsure).
 You have access to the active catalog to answer queries:
 
@@ -214,7 +214,7 @@ Output ONLY the clean Spanish message text ready to be sent.`;
         ? `Active Catalog Context:\n${context.products.map(p => `- ${p.product} (Category: ${p.category}, Price: ${p.priceUsd || p.priceCrc}, Status: ${p.status})`).join('\n')}`
         : '';
         
-      finalPrompt = `You are "Peptides Costa Rica Customer Support", an elite customer service agent.
+      finalPrompt = `You are "Peptidos Colombia Customer Support", an elite customer service agent.
 Write a highly professional, polite, and scientifically accurate email reply to the customer: "${customerName}".
 
 Customer Inquiry Subject: "${subject}"
@@ -230,7 +230,7 @@ Instructions:
 4. If they ask about something not in the catalog, politely inform them we do not currently carry it.
 5. If they ask about shipping, mention we ship across Costa Rica via Correos de Costa Rica (1-3 days).
 6. Format your email cleanly with paragraphs. Do not include placeholders for things you don't know, just answer what you can.
-7. End the email warmly from "El equipo de Peptides Costa Rica" or "The Peptides Costa Rica Team".
+7. End the email warmly from "El equipo de Peptidos Colombia" or "The Peptidos Colombia Team".
 
 Output ONLY the clean email reply text ready to be sent to the customer.`;
     } else if (mode === 'draft_live_chat_reply') {
@@ -240,7 +240,7 @@ Output ONLY the clean email reply text ready to be sent to the customer.`;
         .map((message) => `${message.senderType === 'agent' ? 'Agent' : 'Visitor'}: ${message.message}`)
         .join('\n');
 
-      finalPrompt = `You are "Peptides Costa Rica Live Support", a warm, precise website chat support agent.
+      finalPrompt = `You are "Peptidos Colombia Live Support", a warm, precise website chat support agent.
 Draft a concise reply to this live chat visitor: "${visitorName}".
 
 Recent chat transcript:
@@ -340,7 +340,7 @@ Rules:
       if (!metric || !figures) {
         return NextResponse.json({ error: 'Missing metric context' }, { status: 400 });
       }
-      finalPrompt = `You are an e-commerce analyst reading one figure on a dashboard for Peptides Costa Rica, a research-peptide store.
+      finalPrompt = `You are an e-commerce analyst reading one figure on a dashboard for Peptidos Colombia, a research-peptide store.
 
 The card is: ${metric}
 Its current numbers:
@@ -392,7 +392,7 @@ Rules:
         accessContext = `AGENT ROLE: Staff Agent — ONLY has access to these sections: ${allowedTabs.join(', ')}.\nIMPORTANT: If the agent asks about a section NOT in that list, politely explain they do not have access to it and suggest contacting the Super Admin to request permission. Do not explain how to use sections they cannot see.`;
       }
 
-      finalPrompt = `You are "Omer" — a knowledgeable, friendly AI admin assistant built into the Peptides Costa Rica administration dashboard.
+      finalPrompt = `You are "Omer" — a knowledgeable, friendly AI admin assistant built into the Peptidos Colombia administration dashboard.
 Your job is to help admin agents and sales staff understand exactly how to use every feature of the system that they have permission to access.
 Always introduce yourself as Omer if asked who you are.
 ${langInstruction}

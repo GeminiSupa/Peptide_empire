@@ -26,7 +26,7 @@ export default function BankPaymentSettings() {
     finally { setSaving(false); }
   }
   async function confirmPayment(order) {
-    if (!window.confirm(`Have you verified receipt of ₡${Number(order.total_crc).toLocaleString()} for ${order.order_number} in BAC? This marks the order paid and starts the normal fulfillment process.`)) return;
+    if (!window.confirm(`Have you verified receipt of $${Number(order.total_crc).toLocaleString()} for ${order.order_number} in BAC? This marks the order paid and starts the normal fulfillment process.`)) return;
     setSaving(true); setMessage('');
     try {
       const r = await adminFetch('/api/admin/orders/update', { method: 'POST', body: JSON.stringify({ orderId: order.id, updates: { status: 'Paid' }, activity: { type: 'status_change', message: 'Paid — BAC funds verified by staff' } }) });
@@ -52,7 +52,7 @@ export default function BankPaymentSettings() {
       } catch (error) { setMessage(error.message); }
     }}>Refresh verification queue</button>
     {pending.map(order => <div key={order.id} style={{ borderTop: '1px solid #64748b', padding: '14px 0' }}>
-      <strong>{order.order_number} · {order.customer_name} · ₡{Number(order.total_crc).toLocaleString()}</strong>
+      <strong>{order.order_number} · {order.customer_name} · ${Number(order.total_crc).toLocaleString()}</strong>
       <p>{order.activity_log?.find(entry => entry.type === 'bank_payment_reported')?.message}</p>
       <button type="button" disabled={saving} onClick={() => confirmPayment(order)}>I verified funds in BAC — mark paid</button>
     </div>)}

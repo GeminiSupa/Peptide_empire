@@ -49,7 +49,7 @@ function BroadcastMessage({ details, templateDetails }) {
       {details?.email && (
         <section style={{ border: '1px solid #334155', borderRadius: '10px', overflow: 'hidden' }}>
           <div style={{ padding: '10px 12px', background: '#111c30', borderBottom: '1px solid #334155' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#7dd3fc', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#6ee7b7', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
               <Mail size={13} /> Email
             </div>
             <div style={{ marginTop: '5px', color: '#f8fafc', fontSize: '0.82rem' }}>
@@ -251,7 +251,7 @@ export default function BroadcastProgress({ whatsappTemplateDetails = [] }) {
   return (
     <div style={{ marginTop: '32px', padding: '24px', background: 'rgba(30, 41, 59, 0.5)', borderRadius: '16px', border: '1px solid rgba(56, 189, 248, 0.15)' }}>
       <h3 style={{ margin: '0 0 16px', fontSize: '1.1rem', color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <Activity size={18} color="#38bdf8" /> Broadcast Progress
+        <Activity size={18} color="#34d399" /> Broadcast Progress
       </h3>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -260,7 +260,7 @@ export default function BroadcastProgress({ whatsappTemplateDetails = [] }) {
           const done = p.isComplete;
           const isStopped = b.status === 'cancelled';
           const canStop = !done && ['pending', 'processing'].includes(String(b.status || '').toLowerCase());
-          const barColor = isStopped ? '#f59e0b' : done ? '#10b981' : '#38bdf8';
+          const barColor = isStopped ? '#f59e0b' : done ? '#10b981' : '#34d399';
           const isOpen = !!expanded[b.id];
           const isMessageOpen = !!messageExpanded[b.id];
           const eta = b.estimate ? formatDuration(b.estimate.remainingMs) : null;
@@ -308,7 +308,7 @@ export default function BroadcastProgress({ whatsappTemplateDetails = [] }) {
                       <XCircle size={12} /> {stoppingId === b.id ? 'Stopping' : 'Stop'}
                     </button>
                   )}
-                  <span style={{ fontSize: '0.72rem', fontWeight: 800, padding: '3px 9px', borderRadius: '999px', whiteSpace: 'nowrap', color: isStopped ? '#fbbf24' : done ? '#10b981' : '#38bdf8', background: isStopped ? 'rgba(251,191,36,0.12)' : done ? 'rgba(16,185,129,0.12)' : 'rgba(56,189,248,0.12)', border: `1px solid ${isStopped ? 'rgba(251,191,36,0.25)' : done ? 'rgba(16,185,129,0.25)' : 'rgba(56,189,248,0.25)'}` }}>
+                  <span style={{ fontSize: '0.72rem', fontWeight: 800, padding: '3px 9px', borderRadius: '999px', whiteSpace: 'nowrap', color: isStopped ? '#fbbf24' : done ? '#10b981' : '#34d399', background: isStopped ? 'rgba(251,191,36,0.12)' : done ? 'rgba(16,185,129,0.12)' : 'rgba(56,189,248,0.12)', border: `1px solid ${isStopped ? 'rgba(251,191,36,0.25)' : done ? 'rgba(16,185,129,0.25)' : 'rgba(56,189,248,0.25)'}` }}>
                     {isStopped ? 'Stopped' : done ? 'Finished' : 'Sending'}
                   </span>
                 </div>
@@ -347,7 +347,7 @@ export default function BroadcastProgress({ whatsappTemplateDetails = [] }) {
                   type="button"
                   onClick={() => handleToggleMessage(b)}
                   aria-expanded={isMessageOpen}
-                  style={{ background: 'transparent', border: 'none', color: '#38bdf8', cursor: 'pointer', padding: 0, fontSize: '0.8rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '5px' }}
+                  style={{ background: 'transparent', border: 'none', color: '#34d399', cursor: 'pointer', padding: 0, fontSize: '0.8rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '5px' }}
                 >
                   {loadingMessageId === b.id ? <Loader size={14} className="sync-spinner" /> : <Eye size={14} />}
                   {isMessageOpen ? 'Hide message' : 'View message sent'}
@@ -372,7 +372,7 @@ export default function BroadcastProgress({ whatsappTemplateDetails = [] }) {
                           whatsappDelaySeconds: b.whatsapp_batch_delay_seconds ?? 0,
                         },
                       }))}
-                      style={{ background: 'transparent', border: 'none', color: '#38bdf8', cursor: 'pointer', padding: 0, fontSize: '0.8rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '5px' }}
+                      style={{ background: 'transparent', border: 'none', color: '#34d399', cursor: 'pointer', padding: 0, fontSize: '0.8rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '5px' }}
                     >
                       <Gauge size={14} /> Change sending speed
                     </button>
@@ -404,7 +404,7 @@ export default function BroadcastProgress({ whatsappTemplateDetails = [] }) {
                           type="button"
                           onClick={() => handleSavePacing(b)}
                           disabled={savingPacingId === b.id}
-                          style={{ fontSize: '0.75rem', fontWeight: 700, padding: '7px 12px', borderRadius: '8px', cursor: 'pointer', color: '#0f172a', background: '#38bdf8', border: 'none' }}
+                          style={{ fontSize: '0.75rem', fontWeight: 700, padding: '7px 12px', borderRadius: '8px', cursor: 'pointer', color: '#0f172a', background: '#34d399', border: 'none' }}
                         >
                           {savingPacingId === b.id ? 'Saving' : 'Save'}
                         </button>
@@ -434,7 +434,7 @@ export default function BroadcastProgress({ whatsappTemplateDetails = [] }) {
                 <>
                   <button
                     onClick={() => setExpanded((prev) => ({ ...prev, [b.id]: !prev[b.id] }))}
-                    style={{ marginTop: '12px', background: 'transparent', border: 'none', color: '#38bdf8', cursor: 'pointer', padding: 0, fontSize: '0.8rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}
+                    style={{ marginTop: '12px', background: 'transparent', border: 'none', color: '#34d399', cursor: 'pointer', padding: 0, fontSize: '0.8rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '4px' }}
                   >
                     {isOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                     {isOpen ? 'Hide' : 'Show'} {b.problems.length} that didn&apos;t go through

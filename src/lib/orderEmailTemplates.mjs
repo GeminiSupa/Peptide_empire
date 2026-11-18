@@ -22,7 +22,7 @@ export const escapeHtml = (value = '') => String(value)
 export const formatMoney = (value, currency) => {
   const amount = Number(value || 0);
   if (currency === 'USD') return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  return `₡${Math.round(amount).toLocaleString('en-US')}`;
+  return `$${Math.round(amount).toLocaleString('en-US')}`;
 };
 
 export const paymentLabels = {
@@ -112,7 +112,7 @@ export const buildAdminHtml = (order, paymentLabel, totalPrimary, totalUsd, tota
       : isDeclined
         ? `${isFirstSight ? 'A new order has been placed, but the card did not go through' : 'The card did not go through'}${order.declineReason ? ` — ${escapeHtml(order.declineReason)}` : ''}. Nothing was charged and the order is unpaid.`
         : 'The payment status for this order changed.')
-    : 'A new order has been placed on the Peptides Costa Rica catalog.';
+    : 'A new order has been placed on the Peptidos Colombia catalog.';
   const customerPhoneDigits = String(order.customerPhone || '').replace(/[^0-9]/g, '');
 
   return `
@@ -123,7 +123,7 @@ export const buildAdminHtml = (order, paymentLabel, totalPrimary, totalUsd, tota
       
       <!-- Premium Admin Header Banner -->
       <div style="background-color:#0f172a;padding:40px 32px;text-align:center;">
-        <img src="${ORDER_EMAIL_LOGO_SRC}" alt="Peptides Costa Rica" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 12px auto;border-radius:12px;color:#ffffff;">
+        <img src="${ORDER_EMAIL_LOGO_SRC}" alt="Peptidos Colombia" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 12px auto;border-radius:12px;color:#ffffff;">
         <div style="color:#ffffff;font-size:15px;font-weight:800;letter-spacing:1.2px;margin:0 0 16px;">PEPTIDES COSTA RICA</div>
         <h1 style="color:#ffffff !important;font-size:28px;font-weight:800;margin:0 0 10px;letter-spacing:-0.5px;">${headline}</h1>
         <p style="color:#e0e7ff !important;font-size:15px;margin:0;max-width:500px;margin:0 auto;line-height:1.5;">${subhead}</p>
@@ -229,7 +229,7 @@ export const buildAdminHtml = (order, paymentLabel, totalPrimary, totalUsd, tota
         </div>
 
         <div style="text-align:center;padding-top:20px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">
-          Peptides Costa Rica Admin Notification System
+          Peptidos Colombia Admin Notification System
         </div>
       </div>
     </div>
@@ -337,7 +337,7 @@ export const buildCustomerHtml = (order, paymentLabel, totalPrimary, totalUsd, t
       
       <!-- Premium Science Theme Header Banner -->
       <div style="background-color:#0f172a;padding:40px 32px;text-align:center;">
-        <img src="${ORDER_EMAIL_LOGO_SRC}" alt="Peptides Costa Rica" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 12px auto;border-radius:12px;color:#ffffff;">
+        <img src="${ORDER_EMAIL_LOGO_SRC}" alt="Peptidos Colombia" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 12px auto;border-radius:12px;color:#ffffff;">
         <div style="color:#ffffff;font-size:15px;font-weight:800;letter-spacing:1.2px;margin:0 0 16px;">PEPTIDES COSTA RICA</div>
         <h1 style="color:#ffffff !important;font-size:28px;font-weight:800;margin:0 0 10px;letter-spacing:-0.5px;">${strings.title}</h1>
         <p style="color:#e2e8f0 !important;font-size:15px;margin:0;max-width:500px;margin:0 auto;line-height:1.5;">${strings.subtitle}</p>

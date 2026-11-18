@@ -36,7 +36,7 @@ const clean = (value, limit = 240) => String(value ?? '').trim().slice(0, limit)
 const MAX_ORDER_PRODUCTS = 50;
 
 /** Shown as the brand in the feed. The vials are sold under the store's name. */
-const FEED_BRAND = 'Peptides Costa Rica';
+const FEED_BRAND = 'Peptidos Colombia';
 
 /**
  * The product id Shopper Approved files a review under: the stored product

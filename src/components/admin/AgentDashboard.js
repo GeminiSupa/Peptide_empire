@@ -20,7 +20,7 @@ function formatMoney(val, curr) {
   if (curr === 'USD') {
     return `$${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   }
-  return `₡${Math.round(num).toLocaleString('en-US')}`;
+  return `$${Math.round(num).toLocaleString('en-US')}`;
 }
 
 export default function AgentDashboard({
@@ -236,7 +236,7 @@ export default function AgentDashboard({
                 <Upload size={17} />
               </span>
             )}
-            <span style={{ position: 'absolute', right: '-2px', bottom: '-2px', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#38bdf8', color: '#082f49', border: '2px solid #0f172a', boxShadow: '0 4px 12px rgba(0,0,0,0.25)' }}>
+            <span style={{ position: 'absolute', right: '-2px', bottom: '-2px', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#34d399', color: '#082f49', border: '2px solid #0f172a', boxShadow: '0 4px 12px rgba(0,0,0,0.25)' }}>
               {avatarUploading ? <Upload size={13} /> : <Camera size={13} />}
             </span>
           </button>
@@ -327,7 +327,7 @@ export default function AgentDashboard({
 
       <div className="dashboard-kpi-grid">
         <div className="dashboard-kpi-card">
-          <div className="dashboard-kpi-icon" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>
+          <div className="dashboard-kpi-icon" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#34d399' }}>
             <TrendingUp size={20} />
           </div>
           <div>
@@ -352,7 +352,7 @@ export default function AgentDashboard({
         </div>
 
         <div className="dashboard-kpi-card">
-          <div className="dashboard-kpi-icon" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>
+          <div className="dashboard-kpi-icon" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#34d399' }}>
             <TrendingUp size={20} />
           </div>
           <div>
@@ -402,7 +402,7 @@ export default function AgentDashboard({
                 raise a question that has no answer. */}
             {!isSubUser && (
               <div className="dashboard-mini-row" style={{ cursor: 'default' }}>
-                <Briefcase size={16} style={{ color: '#38bdf8' }} />
+                <Briefcase size={16} style={{ color: '#34d399' }} />
                 <div style={{ flex: 1 }}>
                   <div className="dashboard-mini-title">{stats.salaryFrequency === 'monthly' ? 'Fixed monthly pay' : 'Base weekly salary'}</div>
                   <div className="dashboard-mini-sub">{stats.salaryFrequency === 'monthly' ? 'One payout per calendar month' : 'Guaranteed Mon–Sun'}</div>

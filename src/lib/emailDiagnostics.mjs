@@ -49,20 +49,20 @@ export function whitespaceWarning(env, names) {
  */
 export function resolveFromHeaders(env, transactionalUser) {
   const orderShipped = env.ORDER_NOTIFICATION_FROM
-    || `Peptides Costa Rica <${transactionalUser || 'omerforce@gmail.com'}>`;
+    || `Peptidos Colombia <${transactionalUser || 'omerforce@gmail.com'}>`;
 
   const leadFromEmail = read(env, 'ORDER_NOTIFICATION_FROM_EMAIL')
     || read(env, 'CAMPAIGN_SMTP_FROM_EMAIL')
     || transactionalUser;
   const leadAlert = read(env, 'ORDER_NOTIFICATION_FROM')
-    || `Peptides Costa Rica <${leadFromEmail}>`;
+    || `Peptidos Colombia <${leadFromEmail}>`;
 
   const campaignFromEmail = read(env, 'CAMPAIGN_SMTP_FROM_EMAIL') || 'info@peptidescostarica.net';
-  const campaign = read(env, 'CAMPAIGN_FROM') || `Peptides Costa Rica <${campaignFromEmail}>`;
+  const campaign = read(env, 'CAMPAIGN_FROM') || `Peptidos Colombia <${campaignFromEmail}>`;
 
   return {
     orderCompleteReceipt: orderShipped,
-    newOrderNotification: 'Peptides Costa Rica <info@peptidescostarica.net>',
+    newOrderNotification: 'Peptidos Colombia <info@peptidescostarica.net>',
     leadAlert,
     campaign,
   };

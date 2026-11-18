@@ -415,7 +415,7 @@ export async function POST(request) {
         : ' · no discount applied');
     row.activity_log = appendOrderActivity([], {
       type: 'manual_entry',
-      message: `Manual order created by ${auth.user.email} · catalog pricing verified${discountNote} · FX $1 = ₡${liveExchangeRate} (${rateResult.source})`,
+      message: `Manual order created by ${auth.user.email} · catalog pricing verified${discountNote} · FX $1 = $${liveExchangeRate} (${rateResult.source})`,
       by: auth.user.email,
     });
 

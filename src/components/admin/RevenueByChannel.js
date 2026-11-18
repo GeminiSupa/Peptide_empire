@@ -240,7 +240,7 @@ export default function RevenueByChannel({ onOpenOrder, fetcher = adminFetch }) 
   // Every figure below reads report.*; in CRC that is the colón copy.
   const report = useMemo(() => (currency === 'CRC' ? inColones(loaded) : loaded), [currency, loaded]);
   const money = useCallback((value, short = false) => {
-    const symbol = currency === 'CRC' ? '₡' : '$';
+    const symbol = currency === 'CRC' ? '$' : '$';
     const amount = Number(value) || 0;
     if (short && amount >= 1000000) return `${symbol}${Math.round(amount / 100000) / 10}M`;
     if (short && amount >= 1000) return `${symbol}${Math.round(amount / 100) / 10}k`;

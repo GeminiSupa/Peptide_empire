@@ -37,7 +37,7 @@ const CLOSE_BTN_STYLE = {
 };
 
 /** One labelled on/off row in the member notification panel. */
-function NotificationToggle({ icon, title, hint, checked, onChange, activeColor = '#38bdf8', disabled = false }) {
+function NotificationToggle({ icon, title, hint, checked, onChange, activeColor = '#34d399', disabled = false }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', padding: '10px 0' }}>
       <div>
@@ -364,12 +364,12 @@ function NotificationSettings({
       )}
 
       {renderGroup('WhatsApp', <MessageCircle size={16} style={{ color: '#22c55e' }} />, whatsapp, 'Nobody is getting a WhatsApp alert for new orders.')}
-      {renderGroup('Email', <Mail size={16} style={{ color: '#38bdf8' }} />, emails, 'Nobody is getting an email for new orders.')}
+      {renderGroup('Email', <Mail size={16} style={{ color: '#34d399' }} />, emails, 'Nobody is getting an email for new orders.')}
 
       {canEdit ? (
         <form onSubmit={onAdd} style={panel}>
           <h3 style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#f8fafc', margin: '0 0 14px 0', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Plus size={16} style={{ color: '#38bdf8' }} /> Add a destination
+            <Plus size={16} style={{ color: '#34d399' }} /> Add a destination
           </h3>
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             <input
@@ -818,7 +818,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
         // empty unless a future "paid but not countable" status is added again.
         const held = data.heldBack || {};
         const heldLine = held.count
-          ? `\n\n⚠ ${held.count} paid order${held.count === 1 ? '' : 's'} worth ₡${Math.round(held.crc || 0).toLocaleString('en-US')} ${held.count === 1 ? 'is' : 'are'} NOT counted — still marked Processing:\n${(held.agents || []).map((a) => `  • ${a.name}: ${a.count} order${a.count === 1 ? '' : 's'}, ₡${Math.round(a.crc || 0).toLocaleString('en-US')}`).join('\n')}\n\nClose those orders off, then run this scan again for the same period before approving.`
+          ? `\n\n⚠ ${held.count} paid order${held.count === 1 ? '' : 's'} worth $${Math.round(held.crc || 0).toLocaleString('en-US')} ${held.count === 1 ? 'is' : 'are'} NOT counted — still marked Processing:\n${(held.agents || []).map((a) => `  • ${a.name}: ${a.count} order${a.count === 1 ? '' : 's'}, $${Math.round(a.crc || 0).toLocaleString('en-US')}`).join('\n')}\n\nClose those orders off, then run this scan again for the same period before approving.`
           : '';
         alert(`Commission scan complete for ${periodMsg}${agentMsg}.\n\n${summary.reports || 0} payable report${summary.reports === 1 ? '' : 's'} found. ${accountingLine}\n${summary.skippedNoPay || 0} zero-dollar profile${summary.skippedNoPay === 1 ? '' : 's'} skipped.${cleanupLine}${heldLine}`);
         setCommissionScanResult({ period: data.period, summary });
@@ -1131,7 +1131,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
   const formatMoneyUI = (val, curr) => {
     const num = Number(val || 0);
     if (curr === 'USD') return `$${num.toFixed(2)}`;
-    return `₡${Math.round(num).toLocaleString('en-US')}`;
+    return `$${Math.round(num).toLocaleString('en-US')}`;
   };
 
   const getAccessSummary = (user) => {
@@ -1193,7 +1193,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
               disabled={syncingCommissions}
               style={{
                 background: 'rgba(15, 23, 42, 0.8)',
-                color: '#38bdf8',
+                color: '#34d399',
                 border: '1px solid rgba(56, 189, 248, 0.2)',
                 borderRadius: '8px',
                 padding: '8px 12px',
@@ -1272,7 +1272,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
         <button 
           onClick={() => setActiveSubTab('members')}
           style={{ 
-            background: activeSubTab === 'members' ? 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)' : 'rgba(255,255,255,0.03)', 
+            background: activeSubTab === 'members' ? 'linear-gradient(135deg, #34d399 0%, #0284c7 100%)' : 'rgba(255,255,255,0.03)', 
             color: activeSubTab === 'members' ? '#ffffff' : '#94a3b8',
             border: activeSubTab === 'members' ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid rgba(255,255,255,0.05)',
             boxShadow: activeSubTab === 'members' ? '0 4px 12px rgba(56, 189, 248, 0.25)' : 'none',
@@ -1362,7 +1362,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                             <Shield size={12} /> Superadmin
                           </span>
                         ) : (
-                          <span className="status-badge" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8', padding: '4px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold', width: 'fit-content' }}>
+                          <span className="status-badge" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#34d399', padding: '4px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold', width: 'fit-content' }}>
                             Staff
                           </span>
                         )}
@@ -1370,7 +1370,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                       <td data-label="Base Salary" style={{ padding: '16px', fontWeight: 'bold' }}>
                         {formatMoneyUI(salaryFrequency(u) === 'monthly' ? u.monthly_salary : u.weekly_salary, u.salary_currency)} / {salaryFrequency(u) === 'monthly' ? 'month' : 'wk'}
                       </td>
-                      <td data-label="Commission" style={{ padding: '16px', fontWeight: 'bold', color: '#38bdf8' }}>
+                      <td data-label="Commission" style={{ padding: '16px', fontWeight: 'bold', color: '#34d399' }}>
                         {u.commission_rate !== undefined ? `${u.commission_rate}%` : '0%'}
                         {u.commission_structure && <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontStyle: 'italic' }}>{u.commission_structure}</div>}
                       </td>
@@ -1551,7 +1551,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
               value={payoutFilterAgent}
               onChange={(e) => setPayoutFilterAgent(e.target.value)}
               className="admin-input"
-              style={{ minWidth: '140px', background: '#0e1626', color: '#38bdf8', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '8px 12px', fontSize: '0.85rem' }}
+              style={{ minWidth: '140px', background: '#0e1626', color: '#34d399', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '8px 12px', fontSize: '0.85rem' }}
             >
               <option value="all">All agents</option>
               {users.map((u) => (
@@ -1821,7 +1821,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                             Paid {p.paid_at ? new Date(p.paid_at).toLocaleDateString() : ''}
                             {p.payment_method ? ` · ${p.payment_method}` : ''}
                             {p.payment_reference ? ` · ${p.payment_reference}` : ''}
-                            {p.payment_receipt_url && <> · <a href={p.payment_receipt_url} target="_blank" rel="noreferrer" style={{ color: '#38bdf8' }}>receipt</a></>}
+                            {p.payment_receipt_url && <> · <a href={p.payment_receipt_url} target="_blank" rel="noreferrer" style={{ color: '#34d399' }}>receipt</a></>}
                           </span>
                           <button
                             className="admin-btn"
@@ -1971,7 +1971,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                         borderRadius: '8px',
                         border: '1px solid rgba(56,189,248,0.25)',
                         background: editingUserId ? 'rgba(56,189,248,0.12)' : 'rgba(255,255,255,0.04)',
-                        color: editingUserId ? '#38bdf8' : '#64748b',
+                        color: editingUserId ? '#34d399' : '#64748b',
                         fontSize: '0.8rem',
                         fontWeight: 700,
                         cursor: editingUserId ? 'pointer' : 'not-allowed',
@@ -2058,7 +2058,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                           <button
                             type="button"
                             onClick={() => setFormPermissions(ASSIGNABLE_ADMIN_MODULES.map(m => m.id))}
-                            style={{ fontSize: '0.72rem', padding: '4px 10px', background: 'rgba(56,189,248,0.12)', color: '#38bdf8', border: '1px solid rgba(56,189,248,0.25)', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
+                            style={{ fontSize: '0.72rem', padding: '4px 10px', background: 'rgba(56,189,248,0.12)', color: '#34d399', border: '1px solid rgba(56,189,248,0.25)', borderRadius: '6px', cursor: 'pointer', fontWeight: 'bold' }}
                           >
                             Select All
                           </button>
@@ -2112,25 +2112,25 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
 
                 <div style={{ background: 'rgba(0, 0, 0, 0.2)', padding: '16px 20px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)', marginBottom: '24px' }}>
                   <h3 style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#f8fafc', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Bell size={16} style={{ color: '#38bdf8' }} /> Notifications
+                    <Bell size={16} style={{ color: '#34d399' }} /> Notifications
                   </h3>
                   <p style={{ fontSize: '0.75rem', color: '#64748b', margin: '4px 0 14px 0' }}>
                     Controls whether this team member receives new order alerts. Use Notification Settings for extra phone numbers or email addresses that do not belong to a team member.
                   </p>
                   <NotificationToggle
-                    icon={<Bell size={14} style={{ color: '#38bdf8' }} />}
+                    icon={<Bell size={14} style={{ color: '#34d399' }} />}
                     title="Order alerts"
                     hint="Master switch for this member."
                     checked={formNotificationsEnabled}
                     onChange={setFormNotificationsEnabled}
                   />
                   <NotificationToggle
-                    icon={<Mail size={14} style={{ color: '#38bdf8' }} />}
+                    icon={<Mail size={14} style={{ color: '#34d399' }} />}
                     title="Email for new orders"
                     hint={`Send order emails to ${formEmail || 'this member email'}.`}
                     checked={formNotificationsEnabled && formOrderEmails}
                     onChange={setFormOrderEmails}
-                    activeColor="#38bdf8"
+                    activeColor="#34d399"
                   />
                   <NotificationToggle
                     icon={<Mail size={14} style={{ color: '#f59e0b' }} />}

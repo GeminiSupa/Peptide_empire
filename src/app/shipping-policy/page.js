@@ -41,7 +41,7 @@ export default function ShippingPolicyPage() {
       <header className={`lp-header${scrolled ? ' lp-header--scrolled' : ''}`}>
         <div className="lp-header-inner">
           <Link href="/" className="lp-logo">
-            <img src="/logo.png" alt="Peptides Costa Rica" className="logo-img-custom" style={{ maxHeight: '40px', width: 'auto', borderRadius: '8px' }} />
+            <img src="/logo.png" alt="Peptidos Colombia" className="logo-img-custom" style={{ maxHeight: '40px', width: 'auto', borderRadius: '8px' }} />
           </Link>
 
           <nav className="lp-nav">
@@ -114,14 +114,14 @@ export default function ShippingPolicyPage() {
       <footer className="footer" style={{ marginTop: 0 }}>
         <div className="container">
           <img src="/logo.png" alt="Logo" style={{ height: '36px', marginBottom: '16px', opacity: 0.95, borderRadius: '8px' }} />
-          <p>{lang === 'en' ? 'Peptides Costa Rica offers premium, research backed peptides with trusted quality.' : 'Peptides Costa Rica ofrece péptidos premium respaldados por ciencia, con calidad garantizada.'}</p>
+          <p>{lang === 'en' ? 'Peptidos Colombia offers premium, research backed peptides with trusted quality.' : 'Peptidos Colombia ofrece péptidos premium respaldados por ciencia, con calidad garantizada.'}</p>
           <div className="footer-links" style={{ marginBottom: '24px' }}>
             <Link href={`/catalog?lang=${lang}`}>{lang === 'en' ? 'Shop Catalog' : 'Catálogo'}</Link>
             <a href={`mailto:${links.supportEmail}`}>{links.supportEmail}</a>
             <a href={`tel:+${links.whatsappNumber}`}>CR: {links.whatsappDisplay}</a>
           </div>
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', borderTop: '1px solid var(--border-color)', paddingTop: '16px' }}>
-            <strong>Legal Notice:</strong> Products offered by Peptides Costa Rica are intended strictly for laboratory research use only. They are not approved or licensed by the FDA for the prevention, diagnosis, treatment, or cure of any disease. Information on this website is for educational purposes only and should not be considered medical or legal advice. Not for human or veterinary use.
+            <strong>Legal Notice:</strong> Products offered by Peptidos Colombia are intended strictly for laboratory research use only. They are not approved or licensed by the FDA for the prevention, diagnosis, treatment, or cure of any disease. Information on this website is for educational purposes only and should not be considered medical or legal advice. Not for human or veterinary use.
           </div>
         </div>
       </footer>

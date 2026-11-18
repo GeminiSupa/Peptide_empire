@@ -554,7 +554,7 @@ export default function TeamChat({ profile }) {
           transition: all 0.15s;
         }
         .tc-hdr-btn:hover { background: rgba(255,255,255,0.09); color: #f1f5f9; }
-        .tc-hdr-btn.active { background: rgba(14,165,233,0.18); color: #38bdf8; border-color: rgba(14,165,233,0.3); }
+        .tc-hdr-btn.active { background: rgba(14,165,233,0.18); color: #34d399; border-color: rgba(14,165,233,0.3); }
 
         /* ── Search bar ───────────────────────────────────────────────────── */
         .tc-search-bar {
@@ -686,7 +686,7 @@ export default function TeamChat({ profile }) {
         .tc-msg-time    { font-size: 0.62rem; color: #334155; }
         .tc-edited      { font-size: 0.62rem; color: #334155; font-style: italic; }
         .tc-read-receipt { color: #475569; display: flex; align-items: center; }
-        .tc-read-receipt.read { color: #38bdf8; }
+        .tc-read-receipt.read { color: #34d399; }
 
         /* Reactions row */
         .tc-reactions-row {
@@ -904,7 +904,7 @@ export default function TeamChat({ profile }) {
             className="tc-header-icon"
             style={{
               background: selectedContact === null ? 'rgba(99,102,241,0.12)' : 'rgba(14,165,233,0.12)',
-              color: selectedContact === null ? '#a78bfa' : '#38bdf8',
+              color: selectedContact === null ? '#a78bfa' : '#34d399',
             }}
           >
             {selectedContact === null

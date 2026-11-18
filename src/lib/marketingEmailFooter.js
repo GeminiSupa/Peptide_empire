@@ -36,10 +36,10 @@ export function buildMarketingEmailFooterHtml(options = {}) {
         <a href="${escapeHtml(values.viewEmailUrl)}" style="color:#000000;text-decoration:underline;">View email in browser</a>
       </p>
       <p style="margin:0 0 14px;color:#4f6f62;">
-        Copyright &copy; ${escapeHtml(values.currentYear)} Peptides Costa Rica. All Rights Reserved.
+        Copyright &copy; ${escapeHtml(values.currentYear)} Peptidos Colombia. All Rights Reserved.
       </p>
       <p style="margin:0 0 16px;color:#111827;">
-        Peptides Costa Rica<br>
+        Peptidos Colombia<br>
         San Jose, Costa Rica
       </p>
       <p style="margin:0;">

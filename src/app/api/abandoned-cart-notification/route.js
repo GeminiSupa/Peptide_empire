@@ -21,7 +21,7 @@ const escapeHtml = (value = '') => String(value)
 const formatMoney = (value, currency) => {
   const amount = Number(value || 0);
   if (currency === 'USD') return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  return `₡${Math.round(amount).toLocaleString('en-US')}`;
+  return `$${Math.round(amount).toLocaleString('en-US')}`;
 };
 
 const normalizeCartItem = (item = {}) => {
@@ -115,7 +115,7 @@ const buildRecoveryHtml = (customerName, cartData, checkoutUrl, currency, lang, 
       
       <!-- Premium Science Theme Header Banner -->
       <div style="background-color:#0f172a;background:linear-gradient(135deg, #0f172a, #022c22);padding:32px 24px;text-align:center;">
-        <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptides Costa Rica" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 16px auto;border-radius:12px;">
+        <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptidos Colombia" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 16px auto;border-radius:12px;">
         <h1 style="color:#ffffff !important;font-size:24px;font-weight:800;margin:0 0 8px;letter-spacing:-0.5px;">${strings.title}</h1>
       </div>
 
@@ -236,7 +236,7 @@ export async function POST(request) {
 
     const isEn = lang === 'en';
     const customerSubject = isEn
-      ? `Forgot something? 🧪 Your Peptides Costa Rica cart is waiting!`
+      ? `Forgot something? 🧪 Your Peptidos Colombia cart is waiting!`
       : `¿Olvidaste algo? 🧪 ¡Tu carrito de Péptidos Costa Rica te espera!`;
 
     // Dynamic checkout URL

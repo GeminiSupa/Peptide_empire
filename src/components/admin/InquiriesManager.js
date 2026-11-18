@@ -233,7 +233,7 @@ export default function InquiriesManager({ adminEmail, products = [], onOpenCust
   const openInquiryWhatsApp = (inquiry) => {
     const phone = extractPhone(inquiry.message);
     if (!phone) return;
-    const text = `Hola ${inquiry.customer_name}, te saluda el equipo de Peptides Costa Rica sobre tu consulta: "${inquiry.subject || 'Contacto'}". ¿Cómo te podemos ayudar?`;
+    const text = `Hola ${inquiry.customer_name}, te saluda el equipo de Peptidos Colombia sobre tu consulta: "${inquiry.subject || 'Contacto'}". ¿Cómo te podemos ayudar?`;
     if (onWhatsAppClick) {
       onWhatsAppClick({
         name: inquiry.customer_name || 'Cliente',
@@ -693,7 +693,7 @@ export default function InquiriesManager({ adminEmail, products = [], onOpenCust
                     borderRadius: '6px',
                     background: 'rgba(56, 189, 248, 0.12)',
                     border: '1px solid rgba(56, 189, 248, 0.25)',
-                    color: '#38bdf8',
+                    color: '#34d399',
                     fontSize: '11px',
                     fontWeight: 'bold',
                     cursor: 'pointer',

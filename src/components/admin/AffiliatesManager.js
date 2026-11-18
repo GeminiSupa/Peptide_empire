@@ -462,13 +462,13 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px' }}>
         <div>
           <h1 style={{ fontSize: '1.5rem', fontWeight: '800', margin: '0 0 4px', color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Users size={24} style={{ color: '#38bdf8' }} /> Affiliates Program
+            <Users size={24} style={{ color: '#34d399' }} /> Affiliates Program
           </h1>
           <p style={{ margin: 0, color: '#94a3b8', fontSize: '0.9rem' }}>Manage affiliate partners and keep promo-code ownership clear.</p>
         </div>
         <button 
           onClick={loadData}
-          style={{ padding: '8px 16px', background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600', fontSize: '0.85rem' }}
+          style={{ padding: '8px 16px', background: 'rgba(56, 189, 248, 0.1)', color: '#34d399', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '8px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600', fontSize: '0.85rem' }}
         >
           <RefreshCw size={14} /> Refresh Data
         </button>
@@ -478,7 +478,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
           onClick={() => setActiveSubTab('partners')}
           className="admin-btn"
           style={{ 
-            background: activeSubTab === 'partners' ? '#38bdf8' : 'rgba(255,255,255,0.02)', 
+            background: activeSubTab === 'partners' ? '#34d399' : 'rgba(255,255,255,0.02)', 
             color: activeSubTab === 'partners' ? '#0e1626' : '#94a3b8',
             border: '1px solid rgba(255,255,255,0.05)',
             fontWeight: 'bold',
@@ -493,7 +493,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
           onClick={() => setActiveSubTab('payouts')}
           className="admin-btn"
           style={{ 
-            background: activeSubTab === 'payouts' ? '#38bdf8' : 'rgba(255,255,255,0.02)', 
+            background: activeSubTab === 'payouts' ? '#34d399' : 'rgba(255,255,255,0.02)', 
             color: activeSubTab === 'payouts' ? '#0e1626' : '#94a3b8',
             border: '1px solid rgba(255,255,255,0.05)',
             fontWeight: 'bold',
@@ -508,7 +508,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
           onClick={() => setActiveSubTab('access')}
           className="admin-btn"
           style={{
-            background: activeSubTab === 'access' ? '#38bdf8' : 'rgba(255,255,255,0.02)',
+            background: activeSubTab === 'access' ? '#34d399' : 'rgba(255,255,255,0.02)',
             color: activeSubTab === 'access' ? '#0e1626' : '#94a3b8',
             border: '1px solid rgba(255,255,255,0.05)',
             fontWeight: 'bold',
@@ -590,7 +590,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                     <div style={{ fontWeight: 'bold', color: '#f8fafc', fontSize: '1rem' }}>{aff.name}</div>
                     <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '2px' }}>{aff.email}</div>
                     {aff.handling_agent_id && (
-                      <div style={{ fontSize: '0.78rem', color: '#38bdf8', marginTop: '5px' }}>
+                      <div style={{ fontSize: '0.78rem', color: '#34d399', marginTop: '5px' }}>
                         Main agent: {agentNameFor(aff.handling_agent_id) || 'Assigned'}
                       </div>
                     )}
@@ -604,7 +604,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                     <button
                       onClick={() => setEditingAffiliate({ ...aff })}
                       title="Edit affiliate"
-                      style={{ color: '#38bdf8', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '8px', cursor: 'pointer', padding: '8px', transition: 'all 0.2s' }}
+                      style={{ color: '#34d399', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '8px', cursor: 'pointer', padding: '8px', transition: 'all 0.2s' }}
                     >
                       <Edit2 size={16} />
                     </button>
@@ -632,7 +632,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                 onClick={() => setPromoFilter('standard')}
                 className="admin-btn"
                 style={{ 
-                  background: promoFilter === 'standard' ? '#38bdf8' : 'rgba(255,255,255,0.02)', 
+                  background: promoFilter === 'standard' ? '#34d399' : 'rgba(255,255,255,0.02)', 
                   color: promoFilter === 'standard' ? '#0e1626' : '#94a3b8',
                   border: '1px solid rgba(255,255,255,0.05)',
                   fontWeight: 'bold', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem'
@@ -644,7 +644,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                 onClick={() => setPromoFilter('welcome')}
                 className="admin-btn"
                 style={{ 
-                  background: promoFilter === 'welcome' ? '#38bdf8' : 'rgba(255,255,255,0.02)', 
+                  background: promoFilter === 'welcome' ? '#34d399' : 'rgba(255,255,255,0.02)', 
                   color: promoFilter === 'welcome' ? '#0e1626' : '#94a3b8',
                   border: '1px solid rgba(255,255,255,0.05)',
                   fontWeight: 'bold', padding: '6px 12px', borderRadius: '6px', cursor: 'pointer', fontSize: '0.8rem'
@@ -725,7 +725,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                   <button type="submit" style={btnStyle('#059669')}><Plus size={16} /> Create Code</button>
                 </div>
                 {newPromo.valid_until && (
-                  <div style={{ fontSize: '0.78rem', color: '#38bdf8' }}>
+                  <div style={{ fontSize: '0.78rem', color: '#34d399' }}>
                     Expires: {formatCrWall(`${newPromo.valid_until}T${newPromo.valid_until_time || '23:59'}`)}
                   </div>
                 )}
@@ -740,7 +740,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                         <label key={p.id || p.product} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '6px 0', cursor: 'pointer', borderBottom: '1px solid rgba(255,255,255,0.05)', color: '#f8fafc' }}>
                           <input
                             type="checkbox"
-                            style={{ width: '16px', height: '16px', accentColor: '#38bdf8', cursor: 'pointer' }}
+                            style={{ width: '16px', height: '16px', accentColor: '#34d399', cursor: 'pointer' }}
                             checked={!!isChecked}
                             onChange={(e) => {
                               let updated = [...(newPromo.targetProducts || [])];
@@ -749,14 +749,14 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                               setNewPromo({ ...newPromo, targetProducts: updated });
                             }}
                           />
-                          <span style={{ fontSize: '0.85rem', fontWeight: isChecked ? 'bold' : 'normal', color: isChecked ? '#38bdf8' : '#e2e8f0' }}>{p.product}</span>
+                          <span style={{ fontSize: '0.85rem', fontWeight: isChecked ? 'bold' : 'normal', color: isChecked ? '#34d399' : '#e2e8f0' }}>{p.product}</span>
                         </label>
                       );
                     })}
                     {products.length === 0 && <div style={{ color: '#94a3b8', fontSize: '0.85rem', padding: '8px' }}>No products found to select...</div>}
                   </div>
                   {(newPromo.targetProducts || []).length > 0 && (
-                    <div style={{ marginTop: '4px', fontSize: '0.78rem', color: '#38bdf8' }}>
+                    <div style={{ marginTop: '4px', fontSize: '0.78rem', color: '#34d399' }}>
                       Applies to: {newPromo.targetProducts.join(', ')}
                     </div>
                   )}
@@ -925,7 +925,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                       </div>
                     )}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
-                      <div style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#38bdf8', background: 'rgba(56, 189, 248, 0.1)', padding: '2px 8px', borderRadius: '12px' }}>
+                      <div style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#34d399', background: 'rgba(56, 189, 248, 0.1)', padding: '2px 8px', borderRadius: '12px' }}>
                         {(promo.discount_pct * 100).toFixed(0)}% Customer Discount
                       </div>
                       {promoFilter === 'welcome' && (
@@ -957,7 +957,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                         targetProducts: promo.target_product ? promo.target_product.split(',').map(s => s.trim()) : [],
                         valid_from: isoToCrWall(promo.valid_from),
                         valid_until: isoToCrWall(promo.valid_until)
-                      })} style={{ color: '#38bdf8', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '8px', cursor: 'pointer', padding: '8px', transition: 'all 0.2s' }}>
+                      })} style={{ color: '#34d399', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '8px', cursor: 'pointer', padding: '8px', transition: 'all 0.2s' }}>
                         <Edit2 size={18} />
                       </button>
                     )}
@@ -988,7 +988,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
               onChange={(e) => setTargetAffiliate(e.target.value)}
               disabled={syncingCommissions}
               style={{
-                background: 'rgba(15, 23, 42, 0.8)', color: '#38bdf8', border: '1px solid rgba(56, 189, 248, 0.2)',
+                background: 'rgba(15, 23, 42, 0.8)', color: '#34d399', border: '1px solid rgba(56, 189, 248, 0.2)',
                 borderRadius: '8px', padding: '8px 12px', fontSize: '0.85rem', cursor: 'pointer', outline: 'none',
                 fontWeight: 'bold'
               }}
@@ -1061,23 +1061,23 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                       <td style={{ padding: '16px', color: '#cbd5e1', fontSize: '0.85rem' }}>
                         {formatCrDate(p.start_date)} - {formatCrDate(p.end_date)}
                       </td>
-                      <td style={{ padding: '16px', fontWeight: 'bold', color: '#38bdf8' }}>{p.commission_rate}%</td>
+                      <td style={{ padding: '16px', fontWeight: 'bold', color: '#34d399' }}>{p.commission_rate}%</td>
                       <td style={{ padding: '16px', fontSize: '0.85rem' }}>
                         <div style={{ color: '#c084fc', fontWeight: 'bold' }}>USD: ${Number(p.usd_commission).toFixed(2)}</div>
-                        <div style={{ color: '#c084fc', fontWeight: 'bold' }}>CRC: ₡{Math.round(p.crc_commission).toLocaleString()}</div>
+                        <div style={{ color: '#c084fc', fontWeight: 'bold' }}>CRC: ${Math.round(p.crc_commission).toLocaleString()}</div>
                       </td>
                       <td style={{ padding: '16px' }}>
                         <span style={{ 
                           padding: '4px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 'bold',
                           background: p.status === 'Paid' ? 'rgba(34, 197, 94, 0.15)' : ['Approved', 'Payment Initiated'].includes(p.status) ? 'rgba(234, 179, 8, 0.15)' : p.status === 'Pending' ? 'rgba(56, 189, 248, 0.15)' : 'rgba(239, 68, 68, 0.15)',
-                          color: p.status === 'Paid' ? '#22c55e' : ['Approved', 'Payment Initiated'].includes(p.status) ? '#eab308' : p.status === 'Pending' ? '#38bdf8' : '#ef4444'
+                          color: p.status === 'Paid' ? '#22c55e' : ['Approved', 'Payment Initiated'].includes(p.status) ? '#eab308' : p.status === 'Pending' ? '#34d399' : '#ef4444'
                         }}>
                           {p.status}
                         </span>
                         {p.status === 'Paid' && (
                           <div style={{ color: '#64748b', fontSize: '.68rem', marginTop: 6 }}>
                             {[p.payment_method, p.payment_reference].filter(Boolean).join(' · ')}
-                            {p.payment_receipt_url && <> · <a href={p.payment_receipt_url} target="_blank" rel="noreferrer" style={{ color: '#38bdf8' }}>receipt</a></>}
+                            {p.payment_receipt_url && <> · <a href={p.payment_receipt_url} target="_blank" rel="noreferrer" style={{ color: '#34d399' }}>receipt</a></>}
                           </div>
                         )}
                       </td>
@@ -1095,7 +1095,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                         {['Approved', 'Payment Initiated', 'Failed'].includes(p.status) && (
                           <button
                             onClick={() => setSettlementPayout(p)}
-                            style={{ background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', border: '1px solid rgba(56, 189, 248, 0.2)', padding: '6px 12px', fontSize: '0.75rem', fontWeight: 'bold', borderRadius: '4px', cursor: 'pointer' }}
+                            style={{ background: 'rgba(56, 189, 248, 0.1)', color: '#34d399', border: '1px solid rgba(56, 189, 248, 0.2)', padding: '6px 12px', fontSize: '0.75rem', fontWeight: 'bold', borderRadius: '4px', cursor: 'pointer' }}
                           >
                             Record payment
                           </button>
@@ -1149,7 +1149,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }}>
           <form onSubmit={handleUpdateAffiliate} style={{ background: '#0e1626', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', padding: '24px', width: '100%', maxWidth: '500px', display: 'flex', flexDirection: 'column', gap: '16px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}>
             <h2 style={{ margin: 0, fontSize: '1.2rem', color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Edit2 size={20} color="#38bdf8" /> Edit Affiliate
+              <Edit2 size={20} color="#34d399" /> Edit Affiliate
             </h2>
 
             <div style={{ display: 'grid', gap: '12px' }}>
@@ -1204,7 +1204,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
 
             <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
               <button type="button" onClick={() => setEditingAffiliate(null)} style={{ flex: 1, padding: '12px', background: 'transparent', color: '#94a3b8', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Cancel</button>
-              <button type="submit" style={{ flex: 1, padding: '12px', background: '#38bdf8', color: '#0f172a', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Save Affiliate</button>
+              <button type="submit" style={{ flex: 1, padding: '12px', background: '#34d399', color: '#0f172a', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Save Affiliate</button>
             </div>
           </form>
         </div>
@@ -1214,7 +1214,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }}>
           <form onSubmit={handleUpdatePromo} style={{ background: '#0e1626', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '16px', padding: '24px', width: '100%', maxWidth: '500px', display: 'flex', flexDirection: 'column', gap: '16px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)', maxHeight: '88vh', overflowY: 'auto' }}>
             <h2 style={{ margin: 0, fontSize: '1.2rem', color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Edit2 size={20} color="#38bdf8" /> Edit Promo Code: {editingPromo.code}
+              <Edit2 size={20} color="#34d399" /> Edit Promo Code: {editingPromo.code}
             </h2>
             
             <div style={{ display: 'grid', gap: '12px' }}>
@@ -1291,13 +1291,13 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
               <div>
                 <label style={{ display: 'block', fontSize: '0.85rem', color: '#94a3b8', marginBottom: '6px' }}>Valid From (Costa Rica time)</label>
                 <input type="datetime-local" className="admin-input" style={{ width: '100%' }} value={editingPromo.valid_from} onChange={e => setEditingPromo({...editingPromo, valid_from: e.target.value})} />
-                {editingPromo.valid_from && <div style={{ marginTop: '4px', fontSize: '0.78rem', color: '#38bdf8' }}>= {formatCrWall(editingPromo.valid_from)}</div>}
+                {editingPromo.valid_from && <div style={{ marginTop: '4px', fontSize: '0.78rem', color: '#34d399' }}>= {formatCrWall(editingPromo.valid_from)}</div>}
               </div>
 
               <div>
                 <label style={{ display: 'block', fontSize: '0.85rem', color: '#94a3b8', marginBottom: '6px' }}>Valid Until (Costa Rica time)</label>
                 <input type="datetime-local" className="admin-input" style={{ width: '100%' }} value={editingPromo.valid_until} onChange={e => setEditingPromo({...editingPromo, valid_until: e.target.value})} />
-                {editingPromo.valid_until && <div style={{ marginTop: '4px', fontSize: '0.78rem', color: '#38bdf8' }}>= {formatCrWall(editingPromo.valid_until)}</div>}
+                {editingPromo.valid_until && <div style={{ marginTop: '4px', fontSize: '0.78rem', color: '#34d399' }}>= {formatCrWall(editingPromo.valid_until)}</div>}
               </div>
 
               <div>
@@ -1358,7 +1358,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                       <label key={p.id || p.product} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '8px 0', cursor: 'pointer', borderBottom: '1px solid rgba(255,255,255,0.05)', color: '#f8fafc' }}>
                         <input 
                           type="checkbox" 
-                          style={{ width: '18px', height: '18px', accentColor: '#38bdf8', cursor: 'pointer' }}
+                          style={{ width: '18px', height: '18px', accentColor: '#34d399', cursor: 'pointer' }}
                           checked={isChecked}
                           onChange={(e) => {
                             let updated = [...(editingPromo.targetProducts || [])];
@@ -1367,7 +1367,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
                             setEditingPromo({...editingPromo, targetProducts: updated});
                           }}
                         />
-                        <span style={{ fontSize: '0.9rem', fontWeight: isChecked ? 'bold' : 'normal', color: isChecked ? '#38bdf8' : '#e2e8f0' }}>{p.product}</span>
+                        <span style={{ fontSize: '0.9rem', fontWeight: isChecked ? 'bold' : 'normal', color: isChecked ? '#34d399' : '#e2e8f0' }}>{p.product}</span>
                       </label>
                     );
                   })}
@@ -1378,7 +1378,7 @@ export default function AffiliatesManager({ products = [], agentProfiles = [] })
 
             <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
               <button type="button" onClick={() => setEditingPromo(null)} style={{ flex: 1, padding: '12px', background: 'transparent', color: '#94a3b8', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Cancel</button>
-              <button type="submit" style={{ flex: 1, padding: '12px', background: '#38bdf8', color: '#0f172a', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Save Changes</button>
+              <button type="submit" style={{ flex: 1, padding: '12px', background: '#34d399', color: '#0f172a', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: 'bold' }}>Save Changes</button>
             </div>
           </form>
         </div>

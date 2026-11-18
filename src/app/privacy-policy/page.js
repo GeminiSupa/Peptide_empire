@@ -39,7 +39,7 @@ export default function PrivacyPolicyPage() {
       <header className={`lp-header${scrolled ? ' lp-header--scrolled' : ''}`}>
         <div className="lp-header-inner">
           <Link href="/" className="lp-logo">
-            <img src="/logo.png" alt="Peptides Costa Rica" className="logo-img-custom" style={{ maxHeight: '40px', width: 'auto', borderRadius: '8px' }} />
+            <img src="/logo.png" alt="Peptidos Colombia" className="logo-img-custom" style={{ maxHeight: '40px', width: 'auto', borderRadius: '8px' }} />
           </Link>
 
           <nav className="lp-nav">
@@ -80,8 +80,8 @@ export default function PrivacyPolicyPage() {
           <div style={{ fontSize: '1.1rem', color: 'var(--text-muted)', lineHeight: '1.8' }}>
             <p style={{ marginBottom: '24px' }}>
               {lang === 'en' 
-                ? 'At Peptides Costa Rica, we prioritize the privacy and security of your personal data. This privacy policy explains how we collect, use, and protect your information when you interact with our website and catalog.' 
-                : 'En Peptides Costa Rica, priorizamos la privacidad y seguridad de sus datos personales. Esta política de privacidad explica cómo recopilamos, usamos y protegemos su información cuando interactúa con nuestro sitio web.'}
+                ? 'At Peptidos Colombia, we prioritize the privacy and security of your personal data. This privacy policy explains how we collect, use, and protect your information when you interact with our website and catalog.' 
+                : 'En Peptidos Colombia, priorizamos la privacidad y seguridad de sus datos personales. Esta política de privacidad explica cómo recopilamos, usamos y protegemos su información cuando interactúa con nuestro sitio web.'}
             </p>
 
             <h2 style={{ fontSize: '1.8rem', fontWeight: '700', color: 'var(--text-main)', marginTop: '40px', marginBottom: '16px' }}>

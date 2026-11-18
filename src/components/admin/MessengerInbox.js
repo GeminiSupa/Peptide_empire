@@ -20,7 +20,7 @@ function replyWindowHoursLeft(conv) {
 const QUICK_REPLIES = [
   { label: '👋 Saludo', text: '¡Hola! Gracias por escribirnos. ¿En qué le podemos ayudar?' },
   { label: '🛒 Catálogo', text: 'Puede ver nuestro catálogo completo aquí: https://catalog.peptidescostarica.net/catalog' },
-  { label: '🚚 Envío', text: 'Realizamos envíos a todo Costa Rica por Correos de Costa Rica (1 a 3 días). Envío gratis en pedidos superiores a ₡30,000.' },
+  { label: '🚚 Envío', text: 'Realizamos envíos a todo Costa Rica por Correos de Costa Rica (1 a 3 días). Envío gratis en pedidos superiores a $30,000.' },
   { label: '💳 Pago', text: 'Aceptamos tarjeta y SINPE Móvil. ¿Cómo prefiere pagar?' },
 ];
 

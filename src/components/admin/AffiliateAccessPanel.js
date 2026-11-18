@@ -209,6 +209,6 @@ function Banner({ tone, children }) {
 const card = { background: '#0e1626', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: 14 };
 const pill = { padding: '4px 10px', borderRadius: 999, fontSize: '0.72rem', fontWeight: 700, whiteSpace: 'nowrap' };
 const input = { padding: '8px 10px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: '#0b1220', color: '#f8fafc', fontSize: '0.85rem' };
-const primary = { padding: '8px 14px', borderRadius: 8, border: 'none', background: '#38bdf8', color: '#0e1626', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' };
+const primary = { padding: '8px 14px', borderRadius: 8, border: 'none', background: '#34d399', color: '#0e1626', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' };
 const ghost = { padding: '8px 14px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.1)', background: 'transparent', color: '#f8fafc', cursor: 'pointer', fontSize: '0.85rem' };
 const danger = { ...ghost, borderColor: 'rgba(248,113,113,0.5)', color: '#f87171' };

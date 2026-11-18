@@ -112,7 +112,7 @@ export default function ReviewEmailEditor({ settings, onChange }) {
                 padding: '6px 14px', borderRadius: '999px', fontSize: '0.82rem', fontWeight: 700, cursor: 'pointer',
                 background: lang === l.id ? 'rgba(56, 189, 248, 0.14)' : 'rgba(148,163,184,0.08)',
                 border: `1px solid ${lang === l.id ? 'rgba(56,189,248,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                color: lang === l.id ? '#38bdf8' : '#94a3b8',
+                color: lang === l.id ? '#34d399' : '#94a3b8',
               }}
             >
               {l.label}
@@ -159,9 +159,9 @@ export default function ReviewEmailEditor({ settings, onChange }) {
           onChange={(e) => onChange(active.bodyKey, e.target.value)}
         />
         <div style={hint}>
-          Placeholders: <code style={{ color: '#7dd3fc' }}>{'{{name}}'}</code> the customer&apos;s first name,{' '}
-          <code style={{ color: '#7dd3fc' }}>{BUTTONS_PLACEHOLDER}</code> the review buttons,{' '}
-          <code style={{ color: '#7dd3fc' }}>{'{{logo}}'}</code> the logo image URL.
+          Placeholders: <code style={{ color: '#6ee7b7' }}>{'{{name}}'}</code> the customer&apos;s first name,{' '}
+          <code style={{ color: '#6ee7b7' }}>{BUTTONS_PLACEHOLDER}</code> the review buttons,{' '}
+          <code style={{ color: '#6ee7b7' }}>{'{{logo}}'}</code> the logo image URL.
         </div>
         {missingButtons && (
           <div style={{ color: '#fca5a5', fontSize: '0.83rem', marginTop: '8px', lineHeight: 1.5 }}>
@@ -177,7 +177,7 @@ export default function ReviewEmailEditor({ settings, onChange }) {
         <button
           type="button"
           onClick={() => setShowPreview((v) => !v)}
-          style={{ background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.2)', color: '#38bdf8', borderRadius: 8, padding: '5px 12px', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer' }}
+          style={{ background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.2)', color: '#34d399', borderRadius: 8, padding: '5px 12px', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer' }}
         >
           {showPreview ? 'Hide preview' : 'Show preview'}
         </button>

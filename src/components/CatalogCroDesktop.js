@@ -304,11 +304,11 @@ export function CatalogCroHero({ lang = 'es', rating = '', settings, links = {} 
   const facebookHref = getFacebookReviewUrl(links) || FACEBOOK_REVIEW_URL;
 
   const sponsorAlt = en
-    ? 'Proudly sponsored by Peptides Costa Rica - boxer Ziggy Myrie'
-    : 'Orgullosamente patrocinado por Peptides Costa Rica - el boxeador Ziggy Myrie';
+    ? 'Proudly sponsored by Peptidos Colombia - boxer Ziggy Myrie'
+    : 'Orgullosamente patrocinado por Peptidos Colombia - el boxeador Ziggy Myrie';
   const reelAlt = en
-    ? 'Peptides Costa Rica product reel'
-    : 'Video de productos Peptides Costa Rica';
+    ? 'Peptidos Colombia product reel'
+    : 'Video de productos Peptidos Colombia';
   const slideLabels = [
     en ? 'Product reel' : 'Video de producto',
     en ? 'Deal of the Week' : 'Oferta de la Semana',

@@ -48,7 +48,7 @@ const FALLBACK_PRODUCTS = [
     product: 'BPC-157 10mg',
     category: 'Tissue Repair Compounds',
     price_usd: '$44.97',
-    price_crc: '₡22,500',
+    price_crc: '$22,500',
     status: 'In Stock',
     image_url: '/modern_3d_vial_hero.png',
   },
@@ -56,7 +56,7 @@ const FALLBACK_PRODUCTS = [
     product: 'GLP-1 10mg',
     category: 'Metabolic & GLP-1 Compounds',
     price_usd: '$115.00',
-    price_crc: '₡58,000',
+    price_crc: '$58,000',
     status: 'In Stock',
     image_url: '/vial_costarica_hero.png',
   },
@@ -64,7 +64,7 @@ const FALLBACK_PRODUCTS = [
     product: 'Semaglutide 5mg',
     category: 'Metabolic & GLP-1 Compounds',
     price_usd: '$84.50',
-    price_crc: '₡42,500',
+    price_crc: '$42,500',
     status: 'In Stock',
     image_url: '/hero_peptide_vial.png',
   },
@@ -72,7 +72,7 @@ const FALLBACK_PRODUCTS = [
     product: 'GHK-Cu 50mg',
     category: 'Copper & Dermatological Peptides',
     price_usd: '$64.00',
-    price_crc: '₡32,000',
+    price_crc: '$32,000',
     status: 'In Stock',
     image_url: '/peptide_molecular_3d.png',
   },
@@ -391,7 +391,7 @@ export default function LandingPage() {
               </div>
             </div>
             <div className="clone-audience-images">
-              <img src="/vials_group_costarica.png" alt="Peptides Costa Rica vial group" />
+              <img src="/vials_group_costarica.png" alt="Peptidos Colombia vial group" />
               <img src="/modern_3d_vials_group.png" alt="Peptide vial collection" />
             </div>
           </div>
@@ -404,7 +404,7 @@ export default function LandingPage() {
               <h2>{copy(settings, 'proofTitle', lang)}</h2>
               <p>{copy(settings, 'proofText', lang)}</p>
             </div>
-            <img src={settings.proofImageUrl || '/science_lab_about.webp'} alt="Peptides Costa Rica lab standards" />
+            <img src={settings.proofImageUrl || '/science_lab_about.webp'} alt="Peptidos Colombia lab standards" />
           </div>
         </section>
 

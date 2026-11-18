@@ -32,7 +32,7 @@ export async function PATCH(request) {
 
   if (!affiliateCanWrite(profile)) {
     return NextResponse.json(
-      { ok: false, error: 'Your account is view-only. Contact Peptides Costa Rica and they will update your details.' },
+      { ok: false, error: 'Your account is view-only. Contact Peptidos Colombia and they will update your details.' },
       { status: 403 }
     );
   }
@@ -90,7 +90,7 @@ export async function PATCH(request) {
             ok: true,
             ...results,
             requested: [...results.requested, 'email'],
-            message: 'You have already asked for that. Peptides Costa Rica has not approved it yet.',
+            message: 'You have already asked for that. Peptidos Colombia has not approved it yet.',
           });
         }
         if (/relation .* does not exist/i.test(error.message || '')) {
@@ -114,7 +114,7 @@ export async function PATCH(request) {
     return NextResponse.json({
       ok: true,
       ...results,
-      message: 'Nothing changed. You can update your WhatsApp number here and ask for an email change — everything else is set by Peptides Costa Rica.',
+      message: 'Nothing changed. You can update your WhatsApp number here and ask for an email change — everything else is set by Peptidos Colombia.',
     });
   }
 
@@ -122,7 +122,7 @@ export async function PATCH(request) {
     ok: true,
     ...results,
     message: results.requested.includes('email')
-      ? 'Sent. Peptides Costa Rica has to approve your new email before it takes effect — keep signing in with your current address until then.'
+      ? 'Sent. Peptidos Colombia has to approve your new email before it takes effect — keep signing in with your current address until then.'
       : 'Saved.',
   });
 }
@@ -130,7 +130,7 @@ export async function PATCH(request) {
 /**
  * Withdraw an email change that has not been answered yet.
  *
- * A mistyped address should not mean messaging Peptides Costa Rica and waiting
+ * A mistyped address should not mean messaging Peptidos Colombia and waiting
  * for somebody to notice — the person who made the request can take it back
  * themselves. Only a 'pending' row is touched, so a decision that has already
  * been made cannot be undone from here.
@@ -143,7 +143,7 @@ export async function DELETE(request) {
 
   if (!affiliateCanWrite(profile)) {
     return NextResponse.json(
-      { ok: false, error: 'Your account is view-only. Contact Peptides Costa Rica and they will update your details.' },
+      { ok: false, error: 'Your account is view-only. Contact Peptidos Colombia and they will update your details.' },
       { status: 403 }
     );
   }

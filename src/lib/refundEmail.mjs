@@ -26,7 +26,7 @@ const escapeHtml = (value = '') => String(value)
 export const formatRefundMoney = (value, currency) => {
   const amount = Number(value || 0);
   return currency === 'CRC'
-    ? `₡${Math.round(amount).toLocaleString('en-US')}`
+    ? `$${Math.round(amount).toLocaleString('en-US')}`
     : `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 };
 
@@ -54,7 +54,7 @@ export function buildCustomerRefundEmail({ order = {}, plan = {}, lang } = {}) {
   const partial = !plan.fullyRefunded;
 
   const subject = isEn
-    ? `Refund approved - Order #${orderNumber} - Peptides Costa Rica`
+    ? `Refund approved - Order #${orderNumber} - Peptidos Colombia`
     : `Reembolso aprobado - Pedido #${orderNumber} - Péptidos Costa Rica`;
 
   const heading = isEn ? 'Refund Approved' : 'Reembolso Aprobado';

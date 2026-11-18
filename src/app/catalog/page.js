@@ -1046,7 +1046,7 @@ export default function CatalogPage() {
   useEffect(() => {
     if (!selectedProduct || typeof document === 'undefined') return undefined;
     const previous = document.title;
-    document.title = `${productUrlTitle(selectedProduct)} | Peptides Costa Rica`;
+    document.title = `${productUrlTitle(selectedProduct)} | Peptidos Colombia`;
     return () => { document.title = previous; };
   }, [selectedProduct]);
 
@@ -2140,7 +2140,7 @@ export default function CatalogPage() {
                     product: p.product,
                     category: p.category,
                     priceUsd: cleanUsdStr,
-                    priceCrc: calculatedCrc > 0 ? `₡${calculatedCrc.toLocaleString('en-US')}` : '',
+                    priceCrc: calculatedCrc > 0 ? `$${calculatedCrc.toLocaleString('en-US')}` : '',
                     originalPriceUsd: '',
                     originalPriceCrc: '',
                     discount: p.bulkDiscountEs || p.bulkDiscountEn || '',
@@ -2177,7 +2177,7 @@ export default function CatalogPage() {
   }, [pendingCategory, products]);
 
   // Deal-of-the-week used to drop name-mismatched products into the cart as
-  // stubs with no price (₡0) and a fallback photo. Once the catalog loads,
+  // stubs with no price ($0) and a fallback photo. Once the catalog loads,
   // swap those lines for the live product row.
   useEffect(() => {
     if (!products.length || !cart.length) return;
@@ -4356,10 +4356,10 @@ export default function CatalogPage() {
           </Link>
           <div className="catalog-brand-cluster">
           <div className="catalog-brand-lockup">
-          <Link href="/" className="logo logo--emblem catalog-topbar-logo" aria-label="Peptides Costa Rica">
+          <Link href="/" className="logo logo--emblem catalog-topbar-logo" aria-label="Peptidos Colombia">
             <img
               src="/catalog-logo.webp"
-              alt="Peptides Costa Rica"
+              alt="Peptidos Colombia"
               className="logo-emblem logo-emblem--full"
             />
             <img
@@ -4830,7 +4830,7 @@ export default function CatalogPage() {
               )}
 
               <div style={{ padding: '24px 24px 32px 24px' }}>
-              <img src="/catalog-logo.webp" alt="Peptides Costa Rica Logo" style={{ height: '40px', margin: '0 auto 16px auto', display: 'block', borderRadius: '8px' }} />
+              <img src="/catalog-logo.webp" alt="Peptidos Colombia Logo" style={{ height: '40px', margin: '0 auto 16px auto', display: 'block', borderRadius: '8px' }} />
               <h2 style={{ fontSize: '1.4rem', fontWeight: '900', color: 'var(--text-main)', marginBottom: '8px' }}>
                 {lang === 'en' ? 'Exclusive Catalog Access' : 'Acceso Exclusivo al Catálogo'}
               </h2>
@@ -4880,8 +4880,8 @@ export default function CatalogPage() {
                     </span>
                     <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
                       {lang === 'en'
-                        ? 'By checking this box, you consent to receive marketing updates by WhatsApp or email from Peptides Costa Rica. Reply STOP or unsubscribe anytime.'
-                        : 'Al marcar esta casilla, acepta recibir novedades de marketing por WhatsApp o correo de Peptides Costa Rica. Responda BAJA o cancele la suscripción cuando quiera.'}
+                        ? 'By checking this box, you consent to receive marketing updates by WhatsApp or email from Peptidos Colombia. Reply STOP or unsubscribe anytime.'
+                        : 'Al marcar esta casilla, acepta recibir novedades de marketing por WhatsApp o correo de Peptidos Colombia. Responda BAJA o cancele la suscripción cuando quiera.'}
                     </span>
                   </span>
                 </label>
@@ -6143,8 +6143,8 @@ export default function CatalogPage() {
               {isBankMethod(paymentMethod) && <p role="status">
                 {paymentMethod === 'sinpe'
                   ? (lang === 'en'
-                    ? `Pay from any participating bank in colones: ₡${Math.round(currency === 'CRC' ? getFinalTotal() : getFinalTotal() * exchangeRate).toLocaleString('en-US')}. We will show the SINPE number after you place the order.`
-                    : `Pague desde cualquier banco participante en colones: ₡${Math.round(currency === 'CRC' ? getFinalTotal() : getFinalTotal() * exchangeRate).toLocaleString('en-US')}. Mostraremos el número SINPE después de enviar el pedido.`)
+                    ? `Pay from any participating bank in colones: $${Math.round(currency === 'CRC' ? getFinalTotal() : getFinalTotal() * exchangeRate).toLocaleString('en-US')}. We will show the SINPE number after you place the order.`
+                    : `Pague desde cualquier banco participante en colones: $${Math.round(currency === 'CRC' ? getFinalTotal() : getFinalTotal() * exchangeRate).toLocaleString('en-US')}. Mostraremos el número SINPE después de enviar el pedido.`)
                   : (lang === 'en'
                     ? `Transfer from any bank in ${currency}. We will show the receiving account after you place the order and confirm payment after the funds arrive.`
                     : `Transfiera desde cualquier banco en ${currency}. Mostraremos la cuenta receptora después de enviar el pedido y confirmaremos el pago cuando lleguen los fondos.`)}
@@ -7002,7 +7002,7 @@ export default function CatalogPage() {
           </div>
         </div>
       </section>
-          <p>&copy; 2026 Peptides Costa Rica. {lang === 'en' ? 'High-quality research peptides.' : 'Péptidos de investigación de alta calidad.'}</p>
+          <p>&copy; 2026 Peptidos Colombia. {lang === 'en' ? 'High-quality research peptides.' : 'Péptidos de investigación de alta calidad.'}</p>
           <div className="footer-links">
             <Link href={`/account/login?lang=${lang}`}>
               {lang === 'en' ? 'Customer account login' : 'Acceso de clientes'}

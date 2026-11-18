@@ -34,7 +34,7 @@ function getMailSettings() {
   return {
     smtp,
     from: process.env.ORDER_NOTIFICATION_FROM
-      || `Peptides Costa Rica <${smtp.user || 'omerforce@gmail.com'}>`,
+      || `Peptidos Colombia <${smtp.user || 'omerforce@gmail.com'}>`,
   };
 }
 
@@ -103,7 +103,7 @@ const escapeHtml = (value = '') => String(value)
 const formatMoney = (value, currency) => {
   const amount = Number(value || 0);
   if (currency === 'USD') return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  return `₡${Math.round(amount).toLocaleString('en-US')}`;
+  return `$${Math.round(amount).toLocaleString('en-US')}`;
 };
 
 const buildItemsRows = (items = [], currency) => items.map((item) => {
@@ -152,7 +152,7 @@ const buildCustomerShippedHtml = (order, totalPrimary, totalUsd, totalCrc, lang,
       
       <!-- Premium Science Theme Header Banner -->
       <div style="background-color:#0f172a;background:linear-gradient(135deg, #0f172a, #022c22);padding:32px 24px;text-align:center;">
-        <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptides Costa Rica" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 16px auto;border-radius:12px;">
+        <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptidos Colombia" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 16px auto;border-radius:12px;">
         <h1 style="color:#ffffff !important;font-size:24px;font-weight:800;margin:0 0 8px;letter-spacing:-0.5px;">${strings.title}</h1>
         <p style="color:#a7f3d0 !important;font-size:14px;margin:0;max-width:440px;margin:0 auto;line-height:1.4;">${strings.subtitle}</p>
       </div>
@@ -322,7 +322,7 @@ export async function POST(request) {
     const trustpilotMailer = resolveTrustpilotTriggerMailer();
 
     const customerSubject = orderLang === 'en'
-      ? `Your Order ${order.order_number || ''} has Shipped! - Peptides Costa Rica`
+      ? `Your Order ${order.order_number || ''} has Shipped! - Peptidos Colombia`
       : `¡Su pedido ${order.order_number || ''} ha sido enviado! - Péptidos Costa Rica`;
       
     // The free vials, whether or not the stored order lists them.

@@ -205,7 +205,7 @@ export default function CartsManager({
       {/* HEADER ACTIONS */}
       <div className="admin-section-header" style={{ flexWrap: 'wrap', gap: '15px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <div style={{ background: 'linear-gradient(135deg, #38bdf8 0%, #0284c7 100%)', padding: '10px', borderRadius: '12px', color: '#fff', boxShadow: '0 4px 15px rgba(56, 189, 248, 0.4)' }}>
+          <div style={{ background: 'linear-gradient(135deg, #34d399 0%, #0284c7 100%)', padding: '10px', borderRadius: '12px', color: '#fff', boxShadow: '0 4px 15px rgba(56, 189, 248, 0.4)' }}>
             <ShoppingCart size={22} />
           </div>
           <div>
@@ -219,7 +219,7 @@ export default function CartsManager({
             <>
               <button
                 onClick={() => setExportModalType('carts')}
-                style={{ padding: '8px 16px', fontSize: '0.85rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', color: '#38bdf8', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s' }}
+                style={{ padding: '8px 16px', fontSize: '0.85rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', color: '#34d399', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px', transition: 'all 0.2s' }}
               >
                 <Upload size={14} /> Export
               </button>
@@ -242,7 +242,7 @@ export default function CartsManager({
         {generatingCartsAi ? (
           <div style={{ background: 'linear-gradient(135deg, rgba(14, 22, 38, 0.9) 0%, rgba(30, 41, 59, 0.9) 100%)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '16px', padding: '24px', position: 'relative', overflow: 'hidden', boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.37)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div className="sync-spinner" style={{ color: '#38bdf8' }}><Brain size={32} /></div>
+              <div className="sync-spinner" style={{ color: '#34d399' }}><Brain size={32} /></div>
               <div>
                 <h4 style={{ fontSize: '1.05rem', fontWeight: 'bold', color: '#f8fafc', margin: '0 0 4px 0' }}>🧬 AI Copilot is auditing active abandoned carts...</h4>
                 <p style={{ fontSize: '0.85rem', color: '#94a3b8', margin: 0 }}>Compiling peptide cart values, measuring checkout leakage frequency, and drafting recovery discount hooks...</p>
@@ -258,7 +258,7 @@ export default function CartsManager({
               &times;
             </button>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '16px' }}>
-              <div style={{ background: 'rgba(56, 189, 248, 0.15)', padding: '10px', borderRadius: '12px', color: '#38bdf8' }}>
+              <div style={{ background: 'rgba(56, 189, 248, 0.15)', padding: '10px', borderRadius: '12px', color: '#34d399' }}>
                 <Sparkles size={22} />
               </div>
               <div>
@@ -271,7 +271,7 @@ export default function CartsManager({
               style={{ fontSize: '0.9rem', color: '#cbd5e1', lineHeight: '1.7', whiteSpace: 'pre-wrap' }}
               dangerouslySetInnerHTML={{
                 __html: cartsAiText
-                  .replace(/\*\*(.*?)\*\*/g, '<strong style="color: #38bdf8">$1</strong>')
+                  .replace(/\*\*(.*?)\*\*/g, '<strong style="color: #34d399">$1</strong>')
                   .replace(/^- (.*)$/gm, '<li style="margin-left: 12px; margin-bottom: 8px; list-style-type: square">$1</li>')
               }}
             />
@@ -283,7 +283,7 @@ export default function CartsManager({
             style={{ background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '16px', padding: '20px 24px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', transition: 'all 0.3s', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)' }}
           >
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-              <div style={{ background: 'rgba(56, 189, 248, 0.1)', padding: '12px', borderRadius: '14px', color: '#38bdf8' }}>
+              <div style={{ background: 'rgba(56, 189, 248, 0.1)', padding: '12px', borderRadius: '14px', color: '#34d399' }}>
                 <Brain size={24} />
               </div>
               <div>
@@ -302,7 +302,7 @@ export default function CartsManager({
       {selectedCarts && selectedCarts.length > 0 && (
         <div style={{ marginBottom: '20px', padding: '12px 20px', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontWeight: 'bold', color: '#38bdf8' }}>{selectedCarts.length} Selected</span>
+            <span style={{ fontWeight: 'bold', color: '#34d399' }}>{selectedCarts.length} Selected</span>
             <span style={{ color: '#64748b' }}>|</span>
             <button onClick={handleBulkEmail} className="admin-btn admin-btn-primary" style={{ padding: '6px 12px', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Mail size={12} /> Bulk Email
@@ -319,7 +319,7 @@ export default function CartsManager({
 
       {bulkProcessing && (
         <div style={{ background: 'rgba(30, 41, 59, 0.8)', padding: '16px', borderRadius: '12px', marginBottom: '20px', textAlign: 'center', border: '1px solid rgba(255,255,255,0.05)' }}>
-          <div className="sync-spinner" style={{ marginBottom: '10px', color: '#38bdf8' }}><Brain size={24} /></div>
+          <div className="sync-spinner" style={{ marginBottom: '10px', color: '#34d399' }}><Brain size={24} /></div>
           <div style={{ color: '#f8fafc', fontWeight: 'bold' }}>Processing Bulk Action...</div>
           <div style={{ color: '#94a3b8', fontSize: '0.85rem' }}>Please do not close this window.</div>
         </div>
@@ -476,7 +476,7 @@ export default function CartsManager({
                     type="checkbox" 
                     checked={filteredAndSortedCarts.length > 0 && selectedCarts && selectedCarts.length === filteredAndSortedCarts.length}
                     onChange={handleSelectAllCartsLocal}
-                    style={{ cursor: 'pointer', accentColor: '#38bdf8' }}
+                    style={{ cursor: 'pointer', accentColor: '#34d399' }}
                   />
                 </th>
                 <th style={{ padding: '12px 16px', color: '#94a3b8', fontSize: '0.85rem' }}>Customer</th>
@@ -507,7 +507,7 @@ export default function CartsManager({
                         type="checkbox" 
                         checked={isSelected}
                         onChange={(e) => handleLocalSelectCart(cart.session_id || cart.id, e.target.checked, e.nativeEvent.shiftKey, index)}
-                        style={{ cursor: 'pointer', accentColor: '#38bdf8' }}
+                        style={{ cursor: 'pointer', accentColor: '#34d399' }}
                       />
                     </td>
                     <td data-label="Customer" style={{ padding: '12px 16px' }}>
@@ -557,7 +557,7 @@ export default function CartsManager({
                       <div style={{ display: 'flex', gap: '6px', justifyContent: 'flex-end' }}>
                         <button
                           onClick={() => openCustomerFromCart(cart)}
-                          style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', border: '1px solid rgba(56, 189, 248, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
+                          style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(56, 189, 248, 0.1)', color: '#34d399', border: '1px solid rgba(56, 189, 248, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
                           title="Open Customer Profile"
                         >
                           <User size={14} />
@@ -582,7 +582,7 @@ export default function CartsManager({
                         )}
                         <button 
                           onClick={() => setSelectedCartDetails && setSelectedCartDetails(cart)}
-                          style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', border: '1px solid rgba(56, 189, 248, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
+                          style={{ width: '28px', height: '28px', borderRadius: '6px', background: 'rgba(56, 189, 248, 0.1)', color: '#34d399', border: '1px solid rgba(56, 189, 248, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', transition: 'all 0.2s' }}
                           title="View Details"
                         >
                           <Eye size={14} />

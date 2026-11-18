@@ -104,7 +104,7 @@ export default function LandingLeadSettingsManager() {
     <section style={{ background: '#0e1626', border: '1px solid rgba(56,189,248,.2)', borderRadius: 14, padding: 22, marginBottom: 24 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16, flexWrap: 'wrap', marginBottom: 18 }}>
         <div>
-          <div style={{ color: '#38bdf8', textTransform: 'uppercase', fontSize: '.7rem', fontWeight: 800, letterSpacing: '.08em' }}>Lead capture system</div>
+          <div style={{ color: '#34d399', textTransform: 'uppercase', fontSize: '.7rem', fontWeight: 800, letterSpacing: '.08em' }}>Lead capture system</div>
           <h3 style={{ color: '#f8fafc', margin: '5px 0', fontSize: '1.05rem' }}>Landing questionnaire, assignment and response SLA</h3>
           <p style={{ color: '#94a3b8', margin: 0, fontSize: '.8rem', maxWidth: 760, lineHeight: 1.5 }}>Edit the bilingual questions shown at /landing. Answers appear as structured fields in Leads → Lead Profile. Choose below whether new leads rotate across the team or all go to one agent.</p>
         </div>
@@ -196,12 +196,12 @@ export default function LandingLeadSettingsManager() {
                   <button type="button" style={{ ...smallButton, color: '#f87171', height: 35 }} onClick={() => removeOption(questionIndex, optionIndex)} disabled={question.options.length <= 1} aria-label="Remove option"><Trash2 size={13} /></button>
                 </div>
               ))}
-              <button type="button" style={{ ...smallButton, alignSelf: 'flex-start', color: '#7dd3fc' }} onClick={() => addOption(questionIndex)}><Plus size={13} /> Add option</button>
+              <button type="button" style={{ ...smallButton, alignSelf: 'flex-start', color: '#6ee7b7' }} onClick={() => addOption(questionIndex)}><Plus size={13} /> Add option</button>
             </div>
           </article>
         ))}
       </div>
-      <button type="button" style={{ ...smallButton, marginTop: 14, color: '#7dd3fc' }} onClick={addQuestion}><Plus size={14} /> Add question</button>
+      <button type="button" style={{ ...smallButton, marginTop: 14, color: '#6ee7b7' }} onClick={addQuestion}><Plus size={14} /> Add question</button>
     </section>
   );
 }

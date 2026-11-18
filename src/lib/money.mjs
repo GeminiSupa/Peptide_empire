@@ -24,7 +24,7 @@ export function formatPrice(value, currency) {
   // is already whole.
   if (currency !== 'USD') {
     const colones = Math.round(amount);
-    return `${colones < 0 ? '-' : ''}₡${Math.abs(colones).toLocaleString('en-US')}`;
+    return `${colones < 0 ? '-' : ''}$${Math.abs(colones).toLocaleString('en-US')}`;
   }
 
   const rounded = Math.round(amount * 100) / 100;

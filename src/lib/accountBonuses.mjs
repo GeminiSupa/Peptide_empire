@@ -25,7 +25,7 @@ export function describeOrderBonuses(order, { dealTitle = '', lang = 'es' } = {}
   const amount = currency === 'CRC' ? Number(order?.discount_amount_crc) : Number(order?.discount_amount_usd);
   if (Number.isFinite(amount) && amount > 0) {
     const money = currency === 'CRC'
-      ? `₡${Math.round(amount).toLocaleString('en-US')}`
+      ? `$${Math.round(amount).toLocaleString('en-US')}`
       : `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     lines.push(isEn ? `Saving ${money}` : `Ahorro ${money}`);
   }

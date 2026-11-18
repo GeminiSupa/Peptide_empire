@@ -44,7 +44,7 @@ export function emailShell({ lang, title, subtitle, body, width = 520 }) {
   <tr><td align="center" style="padding:24px 12px;">
     <table role="presentation" width="${width}" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:${width}px;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;font-family:${FONT};color:#0F172A;">
       <tr><td align="center" bgcolor="#0f172a" style="background:#0f172a;padding:28px 24px;text-align:center;border-radius:16px 16px 0 0;">
-        <img src="${ORDER_EMAIL_LOGO_SRC}" alt="Peptides Costa Rica" width="96" height="82" style="display:block;width:96px;height:82px;margin:0 auto 10px;border-radius:12px;">
+        <img src="${ORDER_EMAIL_LOGO_SRC}" alt="Peptidos Colombia" width="96" height="82" style="display:block;width:96px;height:82px;margin:0 auto 10px;border-radius:12px;">
         <div style="color:#ffffff;font-family:${FONT};font-size:13px;font-weight:800;letter-spacing:1.2px;">PEPTIDES COSTA RICA</div>
         <div style="color:#94a3b8;font-family:${FONT};font-size:11px;letter-spacing:0.4px;margin-top:4px;">${slogan}</div>
         <h1 style="color:#ffffff;font-family:${FONT};font-size:22px;font-weight:800;margin:14px 0 6px;">${title}</h1>
@@ -68,7 +68,7 @@ export function buildSignInCodeEmail(code, lang = 'es') {
 
   const isEn = lang === 'en';
   const subject = isEn
-    ? 'Your Peptides Costa Rica sign-in code'
+    ? 'Your Peptidos Colombia sign-in code'
     : 'Su código para entrar a su cuenta';
   const title = isEn ? 'Your sign-in code' : 'Su código de acceso';
   const subtitle = isEn
@@ -101,8 +101,8 @@ export function buildAccountWelcomeEmail({ name, lang = 'es' } = {}) {
     ? (isEn ? `Hello ${who},` : `Hola ${who},`)
     : (isEn ? 'Hello,' : 'Hola,');
   const subject = isEn
-    ? 'Your Peptides Costa Rica account is ready'
-    : 'Su cuenta de Peptides Costa Rica está lista';
+    ? 'Your Peptidos Colombia account is ready'
+    : 'Su cuenta de Peptidos Colombia está lista';
   const accountUrl = `${ACCOUNT_URL}?lang=${isEn ? 'en' : 'es'}`;
   const text = [
     hello,

@@ -154,7 +154,7 @@ function Banner({ tone, children }) {
 }
 
 const card = { background: '#0e1626', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: 16 };
-const pill = { padding: '4px 10px', borderRadius: 999, fontSize: '0.7rem', fontWeight: 700, color: '#38bdf8', background: 'rgba(56,189,248,0.12)', whiteSpace: 'nowrap' };
+const pill = { padding: '4px 10px', borderRadius: 999, fontSize: '0.7rem', fontWeight: 700, color: '#34d399', background: 'rgba(56,189,248,0.12)', whiteSpace: 'nowrap' };
 const openOrder = { padding: '8px 16px', borderRadius: 8, border: '1px solid rgba(147,197,253,0.5)', background: 'transparent', color: '#93c5fd', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' };
 const approve = { padding: '8px 16px', borderRadius: 8, border: 'none', background: '#4ade80', color: '#0e1626', fontWeight: 700, cursor: 'pointer', fontSize: '0.85rem' };
 const reject = { padding: '8px 16px', borderRadius: 8, border: '1px solid rgba(248,113,113,0.5)', background: 'transparent', color: '#f87171', cursor: 'pointer', fontSize: '0.85rem' };

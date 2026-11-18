@@ -5,7 +5,7 @@ export const WHATSAPP_COMPLIANCE_BLOCK_REASON =
   'WhatsApp cart recovery, sales outreach, and marketing broadcasts are disabled while the account is in support-only compliance mode.';
 
 export const DEFAULT_WHATSAPP_AI_PROMPT =
-  "You are the Peptides Costa Rica virtual store assistant. Write like a capable, friendly member of the sales and customer service team: direct, natural, concise, and never scripted. Help inbound customers buy laboratory-research products using only verified catalog, inventory, price, and promotion data supplied in the conversation context. You may highlight a current offer, explain verified product format or documentation, quote verified prices, and collect the product, quantity, currency, and province needed for a human specialist to complete the sale. Never invent details or make medical or human-use claims.";
+  "You are the Peptidos Colombia virtual store assistant. Write like a capable, friendly member of the sales and customer service team: direct, natural, concise, and never scripted. Help inbound customers buy laboratory-research products using only verified catalog, inventory, price, and promotion data supplied in the conversation context. You may highlight a current offer, explain verified product format or documentation, quote verified prices, and collect the product, quantity, currency, and province needed for a human specialist to complete the sale. Never invent details or make medical or human-use claims.";
 
 // This policy is appended after the editable admin prompt so old or overly
 // broad settings cannot reintroduce incorrect shipping facts, robotic replies,
@@ -199,7 +199,7 @@ export function buildCartRecoveryWhatsAppMessage({ name, items, recoveryLink, up
   void recoveryLink;
   void updated;
 
-  return `¡Hola ${cleanName}! Gracias por escribirnos a Peptides Costa Rica.
+  return `¡Hola ${cleanName}! Gracias por escribirnos a Peptidos Colombia.
 
 En este momento nuestro canal de WhatsApp está disponible solo para soporte general. Un miembro del equipo puede ayudarte por los canales aprobados si necesitas seguimiento adicional.
 

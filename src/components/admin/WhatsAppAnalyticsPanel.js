@@ -103,7 +103,7 @@ export default function WhatsAppAnalyticsPanel() {
       ) : p ? (
         <>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-            <Kpi icon={ArrowDownLeft} label="Inbound" value={p.inbound.toLocaleString()} color="#38bdf8" hint="Messages received" />
+            <Kpi icon={ArrowDownLeft} label="Inbound" value={p.inbound.toLocaleString()} color="#34d399" hint="Messages received" />
             <Kpi icon={ArrowUpRight} label="Outbound" value={p.outbound.toLocaleString()} color="#a78bfa" hint="Messages sent" />
             <Kpi icon={Megaphone} label="Marketing" value={p.marketing.toLocaleString()} color="#fb923c" hint="Studio campaigns" />
             <Kpi icon={Receipt} label="Other outbound" value={p.transactional.toLocaleString()} color="#4ade80" hint="Non-campaign" />

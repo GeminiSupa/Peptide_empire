@@ -115,11 +115,11 @@ function buildApplicationEmail(business, site) {
   const accountUrl = signInLink(site, lang, '/account/business');
   const hello = t(`Hello ${business.contact_name},`, `Hola ${business.contact_name},`);
   const intro = t(
-    'Thank you for applying for a Peptides Costa Rica business account. Our team will review your company details and email you as soon as your account is approved. Business pricing becomes available after approval.',
-    'Gracias por solicitar una cuenta empresarial de Peptides Costa Rica. Nuestro equipo revisará los datos de su empresa y le escribirá en cuanto su cuenta esté aprobada. Los precios empresariales se activan después de la aprobación.',
+    'Thank you for applying for a Peptidos Colombia business account. Our team will review your company details and email you as soon as your account is approved. Business pricing becomes available after approval.',
+    'Gracias por solicitar una cuenta empresarial de Peptidos Colombia. Nuestro equipo revisará los datos de su empresa y le escribirá en cuanto su cuenta esté aprobada. Los precios empresariales se activan después de la aprobación.',
   );
   const subject = t('We received your business application', 'Recibimos su solicitud empresarial');
-  const text = [hello, '', intro, '', t('What you sent us', 'Los datos que nos envió'), companyText(rows), '', accountUrl, '', 'Peptides Costa Rica'].join('\n');
+  const text = [hello, '', intro, '', t('What you sent us', 'Los datos que nos envió'), companyText(rows), '', accountUrl, '', 'Peptidos Colombia'].join('\n');
   const html = emailShell({
     lang, width: 600,
     title: subject,
@@ -190,7 +190,7 @@ function buildWelcomeEmail(business, site, agent) {
 
   const subject = t('Your Business Account Is Approved!', '¡Su cuenta empresarial está aprobada!');
   const hello = t(`Hello ${name},`, `Hola ${name},`);
-  const congrats = t('Congratulations! Your Peptides Costa Rica business account has been approved.', '¡Felicidades! Su cuenta empresarial de Peptides Costa Rica ha sido aprobada.');
+  const congrats = t('Congratulations! Your Peptidos Colombia business account has been approved.', '¡Felicidades! Su cuenta empresarial de Peptidos Colombia ha sido aprobada.');
   const access = t('You now have access to exclusive business pricing and special purchasing benefits.', 'Ahora tiene acceso a precios empresariales exclusivos y beneficios especiales de compra.');
   const terms = t('Offers do not stack; the best available price applies. Excludes BAC water and shipping.', 'Las ofertas no se acumulan; aplicamos el mejor precio disponible. Excluye agua BAC y envío.');
   const closing = t("We're excited to support your business and look forward to building a long-term partnership.", 'Nos alegra apoyar a su empresa y esperamos construir una relación a largo plazo.');
@@ -209,7 +209,7 @@ function buildWelcomeEmail(business, site, agent) {
     t('Your account details', 'Datos de su cuenta'),
     companyText(rows), '',
     agentHeading, agentText, ...(agent.phone ? [`WhatsApp: ${agent.phone}`] : []), chatUrl, '',
-    closing, '', t('Best regards,', 'Saludos cordiales,'), 'Peptides Costa Rica', signature,
+    closing, '', t('Best regards,', 'Saludos cordiales,'), 'Peptidos Colombia', signature,
   ].filter(line => line !== null).join('\n');
 
   const benefitRows = benefits.map(([title, detail]) => `<tr>
@@ -229,7 +229,7 @@ function buildWelcomeEmail(business, site, agent) {
   const html = emailShell({
     lang, width: 600,
     title: subject,
-    subtitle: t('Welcome to business pricing at Peptides Costa Rica.', 'Bienvenido a los precios empresariales de Peptides Costa Rica.'),
+    subtitle: t('Welcome to business pricing at Peptidos Colombia.', 'Bienvenido a los precios empresariales de Peptidos Colombia.'),
     body: `
       ${paragraph(hello, 'font-weight:700;color:#0f172a;')}
       ${paragraph(congrats)}
@@ -270,7 +270,7 @@ function buildWelcomeEmail(business, site, agent) {
 
       <div style="height:22px;line-height:22px;">&nbsp;</div>
       ${paragraph(closing)}
-      <p style="margin:0;font-size:15px;line-height:1.6;color:#334155;">${escape(t('Best regards,', 'Saludos cordiales,'))}<br><strong style="color:#0f172a;">Peptides Costa Rica</strong><br>${escape(signature)}</p>`,
+      <p style="margin:0;font-size:15px;line-height:1.6;color:#334155;">${escape(t('Best regards,', 'Saludos cordiales,'))}<br><strong style="color:#0f172a;">Peptidos Colombia</strong><br>${escape(signature)}</p>`,
   });
   return { subject, text, html };
 }
@@ -294,7 +294,7 @@ function noticeEmail({ lang, subject, title, subtitle, intro, rows = [], lines =
       <div style="height:24px;line-height:24px;">&nbsp;</div>
       ${button(buttonUrl, buttonLabel, '#BF4F0B')}
       <div style="height:18px;line-height:18px;">&nbsp;</div>
-      <p align="center" style="margin:0;font-size:13px;line-height:1.5;color:#64748b;text-align:center;">Peptides Costa Rica · ${escape(lang === 'en' ? 'Business Accounts Team' : 'Equipo de Cuentas Empresariales')}</p>`,
+      <p align="center" style="margin:0;font-size:13px;line-height:1.5;color:#64748b;text-align:center;">Peptidos Colombia · ${escape(lang === 'en' ? 'Business Accounts Team' : 'Equipo de Cuentas Empresariales')}</p>`,
   });
   return { subject, text, html };
 }

@@ -339,7 +339,7 @@ export default function DashboardHome({
     stats.recoverableCarts.length > 0 && {
       key: 'carts',
       icon: ShoppingCart,
-      color: '#38bdf8',
+      color: '#34d399',
       title: `${stats.recoverableCarts.length} abandoned cart${stats.recoverableCarts.length > 1 ? 's' : ''}`,
       sub: `~$${Math.round(stats.recoverableValue)} recoverable`,
       action: 'Recover carts',
@@ -404,7 +404,7 @@ export default function DashboardHome({
           }}
         >
           <span>
-            <strong>Manual exchange rate in use:</strong> $1 = ₡{Number(manualExchangeRate.rate).toLocaleString('en-US', { maximumFractionDigits: 2 })}
+            <strong>Manual exchange rate in use:</strong> $1 = ${Number(manualExchangeRate.rate).toLocaleString('en-US', { maximumFractionDigits: 2 })}
             {manualExchangeRate.setBy ? `, set by ${manualExchangeRate.setBy}` : ''}
             {manualExchangeRate.setAt ? ` on ${formatCrInstant(manualExchangeRate.setAt)}` : ''}.
             {' '}The automatic market rate is being ignored.
@@ -550,12 +550,12 @@ export default function DashboardHome({
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px', marginBottom: '16px' }}>
           <div className="dashboard-kpi-card">
-            <div className="dashboard-kpi-icon" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#38bdf8' }}>
+            <div className="dashboard-kpi-icon" style={{ background: 'rgba(56, 189, 248, 0.15)', color: '#34d399' }}>
               <DollarSign size={20} />
             </div>
             <div>
               <div className="dashboard-kpi-value">${expandedMetrics.revenueTodayUsd.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}</div>
-              <div className="dashboard-kpi-label">Revenue Today (₡{expandedMetrics.revenueTodayCrc.toLocaleString()})</div>
+              <div className="dashboard-kpi-label">Revenue Today (${expandedMetrics.revenueTodayCrc.toLocaleString()})</div>
             </div>
           </div>
 
@@ -684,7 +684,7 @@ export default function DashboardHome({
                   </div>
                   <div style={{ textAlign: 'right' }}>
                     <div className="dashboard-mini-val">
-                      {o.currency === 'CRC' ? `₡${Math.round(_oDisplay).toLocaleString()}` : `$${_oDisplay.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`}
+                      {o.currency === 'CRC' ? `$${Math.round(_oDisplay).toLocaleString()}` : `$${_oDisplay.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`}
                     </div>
                     <div className="dashboard-mini-sub">{o.status || 'Pending'}</div>
                   </div>

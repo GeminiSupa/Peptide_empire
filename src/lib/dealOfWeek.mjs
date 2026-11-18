@@ -150,11 +150,11 @@ export function formatUsdPrice(amount) {
   return `$${Number.isInteger(value) ? value : value.toFixed(2)}`;
 }
 
-/** Matches formatCrcPrice in src/lib/pricing.js: "₡56,810". */
+/** Matches formatCrcPrice in src/lib/pricing.js: "$56,810". */
 export function formatCrcPrice(amount) {
   const value = Number(amount);
   if (!Number.isFinite(value) || value <= 0) return '';
-  return `₡${Math.round(value).toLocaleString('en-US')}`;
+  return `$${Math.round(value).toLocaleString('en-US')}`;
 }
 
 /**

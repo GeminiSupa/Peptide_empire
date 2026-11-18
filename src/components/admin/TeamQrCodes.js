@@ -170,7 +170,7 @@ export default function TeamQrCodes({ defaultRate = 5 }) {
         <button
           type="button"
           className="admin-btn"
-          style={{ flex: 1, padding: '9px', fontSize: '0.8rem', background: 'linear-gradient(135deg,#38bdf8,#2563eb)', color: '#04222e', fontWeight: 700 }}
+          style={{ flex: 1, padding: '9px', fontSize: '0.8rem', background: 'linear-gradient(135deg,#34d399,#2563eb)', color: '#04222e', fontWeight: 700 }}
           onClick={() => downloadPng(rep)}
         >
           <Download size={14} /> PNG
@@ -232,7 +232,7 @@ export default function TeamQrCodes({ defaultRate = 5 }) {
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
         <div>
           <h3 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#e7edf5', display: 'flex', alignItems: 'center', gap: 8 }}>
-            <QrIcon size={17} style={{ color: '#38bdf8' }} /> Team QR codes
+            <QrIcon size={17} style={{ color: '#34d399' }} /> Team QR codes
           </h3>
           <p style={{ fontSize: '0.84rem', color: '#93a2b6', marginTop: 4, maxWidth: '58ch' }}>
             One QR per rep, for business cards. Downloads are {PRINT_PX}px so they stay sharp at print size.

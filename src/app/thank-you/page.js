@@ -92,11 +92,11 @@ function ThankYouContent() {
       button: "Return to Catalog",
       notice: "Your order has been received",
       reviewTitle: "⭐ Support Our Research, Get 15% Off!",
-      reviewBody: "Share your experience with Peptides Costa Rica. Leave us a 5-star Google Review and instantly unlock a 15% discount code for your next order.",
+      reviewBody: "Share your experience with Peptidos Colombia. Leave us a 5-star Google Review and instantly unlock a 15% discount code for your next order.",
       reviewButton: "Write Google Review",
       reviewReveal: "🎉 Thank you! Use coupon code COSTA15 on your next order.",
       referralTitle: "🧬 Ambassador Referral Program",
-      referralBody: "Share Peptides Costa Rica with a research colleague. If they buy, you both get a free Bacteriostatic Water added to your next package!",
+      referralBody: "Share Peptidos Colombia with a research colleague. If they buy, you both get a free Bacteriostatic Water added to your next package!",
       referralCopy: "Copy Referral Link",
       referralCopied: "Copied!",
       referralWhatsapp: "Share on WhatsApp",
@@ -461,7 +461,7 @@ function ThankYouContent() {
           letterSpacing: '1.5px',
           marginBottom: '32px'
         }}>
-          <img src="/logo.png" alt="Peptides Costa Rica Logo" style={{ height: '26px', width: 'auto', borderRadius: '5px', verticalAlign: 'middle' }} /> {t.status}
+          <img src="/logo.png" alt="Peptidos Colombia Logo" style={{ height: '26px', width: 'auto', borderRadius: '5px', verticalAlign: 'middle' }} /> {t.status}
         </div>
 
         {/* Dynamic Glowing Success Checkmark */}

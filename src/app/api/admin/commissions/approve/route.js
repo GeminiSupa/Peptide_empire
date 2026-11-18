@@ -135,7 +135,7 @@ export async function POST(request) {
 
     // The per-order rate, source label and earnings the statement table reads
     // from. Raw `orders` rows carry none of them, so an undecorated list renders
-    // every line as "0% · earned ₡0" next to a non-zero total.
+    // every line as "0% · earned $0" next to a non-zero total.
     const reportedOrders = eligibleOrders.map((order) => decorateCommissionOrder(
       order,
       payout.commission_rate,

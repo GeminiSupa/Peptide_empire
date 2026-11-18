@@ -46,7 +46,7 @@ function orderItemsSummary(order) {
 function orderTotalLabel(order) {
   return order.currency === 'USD'
     ? `$${Number(order.total_usd || 0).toLocaleString('en-US')}`
-    : `₡${Number(order.total_crc || 0).toLocaleString('es-CR')}`;
+    : `$${Number(order.total_crc || 0).toLocaleString('es-CR')}`;
 }
 
 export default function FulfillmentManager({

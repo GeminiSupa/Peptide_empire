@@ -207,7 +207,7 @@ export default function RefundDialog({ order, onClose, onRefunded }) {
             type="button"
             onClick={() => setKind(null)}
             disabled={saving}
-            style={{ background: 'none', border: 'none', padding: 0, color: '#7dd3fc', cursor: 'pointer', fontSize: '0.78rem' }}
+            style={{ background: 'none', border: 'none', padding: 0, color: '#6ee7b7', cursor: 'pointer', fontSize: '0.78rem' }}
           >
             change
           </button>

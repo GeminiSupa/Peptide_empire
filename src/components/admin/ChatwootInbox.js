@@ -13,7 +13,7 @@ const STATUS_FILTERS = [
 ];
 
 const STATUS_STYLES = {
-  open: { label: 'Open', color: '#38bdf8', background: 'rgba(56, 189, 248, 0.12)', border: 'rgba(56, 189, 248, 0.3)' },
+  open: { label: 'Open', color: '#34d399', background: 'rgba(56, 189, 248, 0.12)', border: 'rgba(56, 189, 248, 0.3)' },
   pending: { label: 'Pending', color: '#fbbf24', background: 'rgba(245, 158, 11, 0.12)', border: 'rgba(245, 158, 11, 0.3)' },
   snoozed: { label: 'Snoozed', color: '#c4b5fd', background: 'rgba(167, 139, 250, 0.12)', border: 'rgba(167, 139, 250, 0.3)' },
   resolved: { label: 'Resolved', color: '#4ade80', background: 'rgba(34, 197, 94, 0.12)', border: 'rgba(34, 197, 94, 0.3)' },
@@ -93,7 +93,7 @@ function MessageBubble({ message }) {
             href={attachment.url}
             target="_blank"
             rel="noreferrer"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#7dd3fc', fontSize: '0.72rem', marginTop: '4px' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#6ee7b7', fontSize: '0.72rem', marginTop: '4px' }}
           >
             {attachment.type} attachment <ExternalLink size={10} />
           </a>
@@ -188,7 +188,7 @@ function ConversationThread({ conversation, draft, onDraftChange, onSent }) {
               href={conversation.url}
               target="_blank"
               rel="noreferrer"
-              style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#7dd3fc', fontSize: '0.72rem', textDecoration: 'none' }}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', color: '#6ee7b7', fontSize: '0.72rem', textDecoration: 'none' }}
             >
               Open in Chatwoot <ExternalLink size={11} />
             </a>
@@ -249,7 +249,7 @@ function ConversationThread({ conversation, draft, onDraftChange, onSent }) {
               alignItems: 'center',
               gap: '6px',
               background: 'rgba(56, 189, 248, 0.15)',
-              color: '#38bdf8',
+              color: '#34d399',
               border: '1px solid rgba(56, 189, 248, 0.3)',
               borderRadius: '8px',
               padding: '7px 14px',
@@ -370,7 +370,7 @@ export default function ChatwootInbox() {
               onClick={() => setStatus(value)}
               style={{
                 background: status === value ? 'rgba(56, 189, 248, 0.15)' : 'rgba(255,255,255,0.03)',
-                color: status === value ? '#38bdf8' : '#94a3b8',
+                color: status === value ? '#34d399' : '#94a3b8',
                 border: `1px solid ${status === value ? 'rgba(56, 189, 248, 0.3)' : 'rgba(255,255,255,0.08)'}`,
                 borderRadius: '8px',
                 padding: '6px 13px',
@@ -413,7 +413,7 @@ export default function ChatwootInbox() {
             )}
             {!state.loading && state.conversations.length === 0 && (
               <div style={{ textAlign: 'center', padding: '28px 12px' }}>
-                <div style={{ color: '#38bdf8', marginBottom: '8px' }}><MessageCircle size={24} /></div>
+                <div style={{ color: '#34d399', marginBottom: '8px' }}><MessageCircle size={24} /></div>
                 <div style={{ color: '#f8fafc', fontWeight: 800, fontSize: '0.86rem' }}>No conversations yet</div>
                 <div style={{ color: '#64748b', fontSize: '0.74rem', marginTop: '4px' }}>
                   Nothing in Chatwoot{status ? ` with status "${status}"` : ''}.

@@ -44,7 +44,7 @@ function getOrderSmtpConfig() {
   // Order mail always presents the verified company inbox as the sender. The
   // SMTP login may be an Elastic Email account and must never leak into From.
   const fromEmail = 'info@peptidescostarica.net';
-  const from = `Peptides Costa Rica <${fromEmail}>`;
+  const from = `Peptidos Colombia <${fromEmail}>`;
   const replyTo = readEnv('ORDER_NOTIFICATION_REPLY_TO') || readEnv('SMTP_REPLY_TO') || fromEmail;
 
   // A silent copy of every receipt a customer is sent, for whoever needs to be
@@ -214,8 +214,8 @@ export async function POST(request) {
       
       const adminText = [
         order.notificationKind === 'payment-result'
-          ? ` Peptides Costa Rica - Payment ${adminOutcome === 'paid' ? 'Approved' : adminOutcome === 'declined' ? 'Declined' : 'Update'}`
-          : ' Peptides Costa Rica - New Order Received',
+          ? ` Peptidos Colombia - Payment ${adminOutcome === 'paid' ? 'Approved' : adminOutcome === 'declined' ? 'Declined' : 'Update'}`
+          : ' Peptidos Colombia - New Order Received',
         ...(order.declineReason ? [`Gateway reason: ${order.declineReason}`] : []),
         `Order Reference: ${order.orderNumber || 'N/A'}`,
         `Payment Method: ${paymentLabel}`,
@@ -374,18 +374,18 @@ export async function POST(request) {
             : `Recordatorio: su banco aún debe aprobar - Pedido #${order.orderNumber || ''}`)
           : order.isResend === true
           ? (orderLang === 'en'
-            ? `Your receipt - Order #${order.orderNumber || ''} - Peptides Costa Rica`
+            ? `Your receipt - Order #${order.orderNumber || ''} - Peptidos Colombia`
             : `Su recibo - Pedido #${order.orderNumber || ''} - Péptidos Costa Rica`)
           : outcome === 'declined'
           ? (orderLang === 'en'
-            ? `Payment declined - Order #${order.orderNumber || ''} - Peptides Costa Rica`
+            ? `Payment declined - Order #${order.orderNumber || ''} - Peptidos Colombia`
             : `Pago rechazado - Pedido #${order.orderNumber || ''} - Péptidos Costa Rica`)
           : outcome === 'paid'
             ? (orderLang === 'en'
-              ? `Payment confirmed - Order #${order.orderNumber || ''} - Peptides Costa Rica`
+              ? `Payment confirmed - Order #${order.orderNumber || ''} - Peptidos Colombia`
               : `Pago confirmado - Pedido #${order.orderNumber || ''} - Péptidos Costa Rica`)
             : (orderLang === 'en'
-              ? `Order received #${order.orderNumber || ''} - Peptides Costa Rica`
+              ? `Order received #${order.orderNumber || ''} - Peptidos Colombia`
               : `Pedido recibido #${order.orderNumber || ''} - Péptidos Costa Rica`);
 
         customerHtml = buildCustomerHtml(order, paymentLabel, totalPrimary, totalUsd, totalCrc, orderLang, links, salesTextEn, salesTextEs, promoCodesList);

@@ -139,7 +139,7 @@ async function sendLandingLeadAlert({
   const fromEmail = readEnv('ORDER_NOTIFICATION_FROM_EMAIL')
     || readEnv('CAMPAIGN_SMTP_FROM_EMAIL')
     || smtp.user;
-  const from = readEnv('ORDER_NOTIFICATION_FROM') || `Peptides Costa Rica <${fromEmail}>`;
+  const from = readEnv('ORDER_NOTIFICATION_FROM') || `Peptidos Colombia <${fromEmail}>`;
   const transporter = nodemailer.createTransport({
     host: smtp.host,
     port: smtp.port,

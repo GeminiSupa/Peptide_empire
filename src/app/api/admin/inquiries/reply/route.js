@@ -64,7 +64,7 @@ export async function POST(request) {
       <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1e293b;line-height:1.6;max-width:600px;margin:0 auto;background-color:#ffffff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,0.03);">
         <!-- Header Banner -->
         <div style="background:linear-gradient(135deg, #0f172a, #022c22);padding:28px 24px;text-align:center;">
-          <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptides Costa Rica" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 16px auto;border-radius:12px;">
+          <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptidos Colombia" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 16px auto;border-radius:12px;">
           <h2 style="color:#ffffff;font-size:20px;font-weight:800;margin:0;letter-spacing:-0.5px;">Re: ${inquiry.subject || 'Your Inquiry'}</h2>
         </div>
 
@@ -101,12 +101,12 @@ export async function POST(request) {
     `;
 
     const info = await transporter.sendMail({
-      from: `Peptides Costa Rica <omerforce@gmail.com>`,
+      from: `Peptidos Colombia <omerforce@gmail.com>`,
       replyTo: 'omerforce@gmail.com',
       to: inquiry.customer_email,
-      subject: `Re: ${inquiry.subject || 'Your Inquiry'} - Peptides Costa Rica`,
+      subject: `Re: ${inquiry.subject || 'Your Inquiry'} - Peptidos Colombia`,
       html: replyHtml,
-      text: `Hi ${inquiry.customer_name},\n\n${replyMessage.trim()}\n\n---\nYour original message:\n${inquiry.message}\n\n---\nPeptides Costa Rica\nWhatsApp: ${links.whatsappDisplay}`,
+      text: `Hi ${inquiry.customer_name},\n\n${replyMessage.trim()}\n\n---\nYour original message:\n${inquiry.message}\n\n---\nPeptidos Colombia\nWhatsApp: ${links.whatsappDisplay}`,
     });
 
     console.log(`[Inquiry Reply] Email sent to ${inquiry.customer_email}. MessageId: ${info.messageId}`);

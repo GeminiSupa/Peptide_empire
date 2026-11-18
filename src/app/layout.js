@@ -43,8 +43,8 @@ export const metadata = {
   // somewhere else", which is exactly the instruction not to rank this site.
   metadataBase: new URL(LIVE_SITE_URL),
   title: {
-    default: "Péptidos de Investigación en Costa Rica | Peptides Costa Rica",
-    template: "%s | Peptides Costa Rica",
+    default: "Péptidos de Investigación en Costa Rica | Peptidos Colombia",
+    template: "%s | Peptidos Colombia",
   },
   description: "Péptidos para investigación disponibles localmente en Costa Rica, con documentación de lote, precios claros y entrega coordinada dentro del país.",
   keywords: [
@@ -53,7 +53,7 @@ export const metadata = {
     "peptide catalog Costa Rica",
     "COA peptides",
     "laboratory research peptides",
-    "Peptides Costa Rica",
+    "Peptidos Colombia",
   ],
   alternates: {
     canonical: '/',
@@ -66,7 +66,7 @@ export const metadata = {
     title: "Péptidos de Investigación en Costa Rica",
     description: "Inventario local, documentación de lote y entrega dentro de Costa Rica.",
     url: '/',
-    siteName: 'Peptides Costa Rica',
+    siteName: 'Peptidos Colombia',
     locale: 'es_CR',
     alternateLocale: ['en_US'],
     type: 'website',
@@ -75,7 +75,7 @@ export const metadata = {
         url: '/catalog-promo-banner.webp',
         width: 1200,
         height: 630,
-        alt: 'Peptides Costa Rica catalog preview',
+        alt: 'Peptidos Colombia catalog preview',
       },
     ],
   },
@@ -165,7 +165,7 @@ export default async function RootLayout({ children }) {
                 {
                   "@type": "Organization",
                   "@id": `${LIVE_SITE_URL}/#organization`,
-                  "name": "Peptides Costa Rica",
+                  "name": "Peptidos Colombia",
                   "url": LIVE_SITE_URL,
                   "logo": `${LIVE_SITE_URL}/logo.png`,
                   "sameAs": ORGANIZATION_SAME_AS,
@@ -181,7 +181,7 @@ export default async function RootLayout({ children }) {
                   "@type": "WebSite",
                   "@id": `${LIVE_SITE_URL}/#website`,
                   "url": LIVE_SITE_URL,
-                  "name": "Peptides Costa Rica",
+                  "name": "Peptidos Colombia",
                   "publisher": {
                     "@id": `${LIVE_SITE_URL}/#organization`
                   },
@@ -190,7 +190,7 @@ export default async function RootLayout({ children }) {
                 {
                   "@type": "Store",
                   "@id": `${LIVE_SITE_URL}/#store`,
-                  "name": "Peptides Costa Rica",
+                  "name": "Peptidos Colombia",
                   "url": `${LIVE_SITE_URL}/catalog`,
                   "image": `${LIVE_SITE_URL}/catalog-promo-banner.webp`,
                   "telephone": businessLinks.whatsappDisplay,

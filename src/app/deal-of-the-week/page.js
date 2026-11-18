@@ -152,7 +152,7 @@ export default function DealOfTheWeekPage() {
         const seen = new Set();
         for (const dealName of names) {
           // Exact name, or the live spelling after a rename. Never invent a
-          // stub with no price/photo — that put ₡0 vials in the cart.
+          // stub with no price/photo — that put $0 vials in the cart.
           const resolved = resolveDealProductName(dealName, catalogNames);
           if (!resolved) continue;
           const key = nameKey(resolved);
@@ -263,7 +263,7 @@ export default function DealOfTheWeekPage() {
     : '';
 
   const money = (usd) => {
-    if (!en && rate > 0) return `₡${Math.round(usd * rate).toLocaleString('en-US')}`;
+    if (!en && rate > 0) return `$${Math.round(usd * rate).toLocaleString('en-US')}`;
     return `$${(Math.round(usd * 100) / 100).toLocaleString('en-US', { maximumFractionDigits: 2 })}`;
   };
   const priceFor = (product) => {

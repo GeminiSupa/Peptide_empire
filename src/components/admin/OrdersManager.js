@@ -130,7 +130,7 @@ function getOrderDisplayTotal(order) {
   const stored = singleDiscountOrderTotals(order).total;
   return order.currency === 'USD'
     ? `$${stored.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`
-    : `₡${Math.round(stored).toLocaleString('en-US')}`;
+    : `$${Math.round(stored).toLocaleString('en-US')}`;
 }
 
 function OriginalPayment({ order }) {
@@ -138,7 +138,7 @@ function OriginalPayment({ order }) {
   if (!status.includes('paid') && !status.includes('complete')) return null;
   const stored = Number(order.currency === 'USD' ? order.total_usd : order.total_crc) || 0;
   if (Math.abs(stored - singleDiscountOrderTotals(order).total) <= 0.5) return null;
-  const amount = order.currency === 'USD' ? `$${stored.toFixed(2)}` : `₡${Math.round(stored).toLocaleString('en-US')}`;
+  const amount = order.currency === 'USD' ? `$${stored.toFixed(2)}` : `$${Math.round(stored).toLocaleString('en-US')}`;
   return <span style={{ display: 'block', fontSize: '0.7rem', color: '#fbbf24' }}>Original payment: {amount}</span>;
 }
 
@@ -175,7 +175,7 @@ function getStatusSelectStyle(status) {
   if (normalized.includes('processing')) {
     return {
       background: 'rgba(56, 189, 248, 0.15)',
-      color: '#38bdf8',
+      color: '#34d399',
       border: '1px solid rgba(56, 189, 248, 0.3)',
     };
   }
@@ -848,7 +848,7 @@ export default function OrdersManager({
                           )}
                         </div>
                       </td>
-                      <td data-label="Total Amount" style={{ padding: '10px 12px', fontWeight: 'bold', color: '#38bdf8', fontSize: '0.9rem' }}>
+                      <td data-label="Total Amount" style={{ padding: '10px 12px', fontWeight: 'bold', color: '#34d399', fontSize: '0.9rem' }}>
                         {getOrderDisplayTotal(order)}
                         <OriginalPayment order={order} />
                         {_discountPct > 0 && (

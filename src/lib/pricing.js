@@ -8,7 +8,7 @@
 // Reference implementation: src/app/catalog/page.js
 //   - parsePrice / getPriceAsNumber
 //   - getVolumeDiscountPct (5+ vials = 15%, 10+ = 20%; BAC water excluded)
-//   - getShippingFee (free over $200 USD-equivalent, else ₡2500 / USD equiv)
+//   - getShippingFee (free over $200 USD-equivalent, else $2500 / USD equiv)
 //   - BAC water pricing (src/lib/bacWater.mjs)
 
 // Relative, not the `@/` alias: the alias only resolves inside the Next
@@ -34,7 +34,7 @@ export function parsePrice(priceStr) {
 export function formatCrcPrice(value) {
   const amount = Number(value || 0);
   if (!Number.isFinite(amount) || amount <= 0) return '';
-  return `₡${Math.round(amount).toLocaleString('en-US')}`;
+  return `$${Math.round(amount).toLocaleString('en-US')}`;
 }
 
 export function formatCrcPriceFromUsd(priceUsd, exchangeRate = FALLBACK_EXCHANGE_RATE) {
@@ -114,8 +114,8 @@ export function computeOrderTotals(lineItems, currency, exchangeRate = FALLBACK_
 // decimal shift, a zeroed field, another currency's number — because pinning it
 // close to today's rate would break pricing outright if the colón ever moved to
 // a genuinely new level. The deviation check below does the precise work.
-export const MIN_PLAUSIBLE_RATE = 300;
-export const MAX_PLAUSIBLE_RATE = 800;
+export const MIN_PLAUSIBLE_RATE = 3000;
+export const MAX_PLAUSIBLE_RATE = 5500;
 
 // How far a new quote may move from the last known-good rate before we stop
 // taking one provider's word for it. The colón is managed and holds a narrow

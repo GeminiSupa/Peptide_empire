@@ -5,7 +5,7 @@ const formatMoney = (value, currency) => {
   if (currency === 'USD') {
     return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
   }
-  return `₡${Math.round(amount).toLocaleString('en-US')}`;
+  return `$${Math.round(amount).toLocaleString('en-US')}`;
 };
 
 const escapeHtml = (value) => String(value ?? '')
@@ -88,7 +88,7 @@ export function buildAgentCommissionEmail({
       <tr><td align="center" style="padding:28px 12px;">
         <table role="presentation" width="640" cellspacing="0" cellpadding="0" border="0" bgcolor="#ffffff" style="width:100%;max-width:640px;background-color:#ffffff;border:1px solid #dbe3ee;">
           <tr><td align="center" bgcolor="#10233f" style="padding:28px 24px;background-color:#10233f;color:#ffffff;">
-            <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptides Costa Rica" width="96" height="81" style="display:block;width:96px;height:81px;margin:0 auto 14px auto;border:0;outline:none;text-decoration:none;border-radius:10px;">
+            <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptidos Colombia" width="96" height="81" style="display:block;width:96px;height:81px;margin:0 auto 14px auto;border:0;outline:none;text-decoration:none;border-radius:10px;">
             <div style="font:700 14px Arial,sans-serif;letter-spacing:1.5px;color:#9ee7da;">PEPTIDES COSTA RICA</div>
             <div style="font:700 26px Arial,sans-serif;color:#ffffff;margin-top:10px;">Weekly pay report</div>
             <div style="font:13px Arial,sans-serif;color:#dbeafe;margin-top:8px;">${escapeHtml(periodDisplay)} · Costa Rica time</div>
@@ -169,7 +169,7 @@ export function buildAgentCommissionEmail({
               ${orderRows || '<tr><td colspan="7" align="center" style="padding:20px;font:13px Arial,sans-serif;color:#64748b;border-top:1px solid #e2e8f0;">No completed orders in this period.</td></tr>'}
             </table>
           </td></tr>
-          <tr><td align="center" bgcolor="#f8fafc" style="padding:16px;border-top:1px solid #dbe3ee;font:11px Arial,sans-serif;color:#64748b;">${salaryFrequency === 'monthly' ? 'Monthly pay report' : 'Automated weekly report'} · Peptides Costa Rica</td></tr>
+          <tr><td align="center" bgcolor="#f8fafc" style="padding:16px;border-top:1px solid #dbe3ee;font:11px Arial,sans-serif;color:#64748b;">${salaryFrequency === 'monthly' ? 'Monthly pay report' : 'Automated weekly report'} · Peptidos Colombia</td></tr>
         </table>
       </td></tr>
     </table>

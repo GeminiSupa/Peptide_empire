@@ -160,7 +160,7 @@ export async function POST(request) {
     });
 
     await transporter.sendMail({
-      from: `Peptides Costa Rica <${smtp.user}>`,
+      from: `Peptidos Colombia <${smtp.user}>`,
       to: order.customer_email.trim(),
       subject,
       html,

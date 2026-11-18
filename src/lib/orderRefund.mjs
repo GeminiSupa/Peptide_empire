@@ -188,7 +188,7 @@ export function planRefund(order, { amount, reason = '', restoreStock = false } 
 export function formatAmount(value, currency) {
   const amount = Number(value || 0);
   return currency === 'CRC'
-    ? `₡${Math.round(amount).toLocaleString('en-US')}`
+    ? `$${Math.round(amount).toLocaleString('en-US')}`
     : `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 

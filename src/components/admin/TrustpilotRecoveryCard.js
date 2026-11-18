@@ -143,7 +143,7 @@ export default function TrustpilotRecoveryCard() {
               <tr key={m.month} style={{ borderTop: '1px solid rgba(255,255,255,0.05)', color: '#cbd5e1' }}>
                 <td style={{ padding: '7px 8px' }}>
                   {monthName(m.month)}
-                  {m.isCurrentMonth && <span style={{ marginLeft: 6, fontSize: '0.72rem', color: '#38bdf8' }}>this month</span>}
+                  {m.isCurrentMonth && <span style={{ marginLeft: 6, fontSize: '0.72rem', color: '#34d399' }}>this month</span>}
                 </td>
                 <td style={{ padding: '7px 8px', textAlign: 'right' }}>{m.sent}</td>
                 <td style={{ padding: '7px 8px', textAlign: 'right', color: '#94a3b8' }}>{m.allowance}</td>

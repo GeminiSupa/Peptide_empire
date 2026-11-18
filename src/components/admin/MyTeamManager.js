@@ -54,7 +54,7 @@ function Avatar({ name, status, url }) {
     ? 'linear-gradient(135deg, #fbbf24, #f59e0b)'
     : status === 'suspended'
       ? 'linear-gradient(135deg, #94a3b8, #64748b)'
-      : 'linear-gradient(135deg, #38bdf8, #3b82f6)';
+      : 'linear-gradient(135deg, #34d399, #3b82f6)';
   return (
     <div style={{
       width: 34, height: 34, borderRadius: '50%', flexShrink: 0, overflow: 'hidden',
@@ -263,7 +263,7 @@ export default function MyTeamManager({ currentUserProfile, onTeamChanged }) {
             </div>
           </div>
           <div className="dashboard-kpi-card">
-            <div className="dashboard-kpi-icon" style={{ background: 'rgba(56,189,248,0.15)', color: '#38bdf8' }}>
+            <div className="dashboard-kpi-icon" style={{ background: 'rgba(56,189,248,0.15)', color: '#34d399' }}>
               <Users size={20} />
             </div>
             <div>
@@ -347,7 +347,7 @@ export default function MyTeamManager({ currentUserProfile, onTeamChanged }) {
                       fontFamily: 'ui-monospace, monospace',
                       background: 'rgba(56,189,248,0.07)', border: '1px solid rgba(56,189,248,0.16)', color: '#93a2b6',
                     }}>
-                      <strong style={{ color: '#38bdf8' }}>{Number(person.commission_rate ?? subRate)}%</strong> to {person.name}
+                      <strong style={{ color: '#34d399' }}>{Number(person.commission_rate ?? subRate)}%</strong> to {person.name}
                       {' · '}
                       <strong style={{ color: '#4ade80' }}>{Math.max(0, commissionBudgetRate - Number(person.commission_rate ?? subRate))}%</strong> to {person.parent_name || 'their staff member'}
                       {' · '}
@@ -386,7 +386,7 @@ export default function MyTeamManager({ currentUserProfile, onTeamChanged }) {
 
       <section className="dashboard-section">
         <h3 className="dashboard-section-title">
-          <Users size={15} style={{ verticalAlign: '-2px', marginRight: 6, color: '#38bdf8' }} />
+          <Users size={15} style={{ verticalAlign: '-2px', marginRight: 6, color: '#34d399' }} />
           {isOwner ? `Roster · ${settled.length}` : `My people · ${settled.length}`}
         </h3>
 
@@ -576,7 +576,7 @@ export default function MyTeamManager({ currentUserProfile, onTeamChanged }) {
                               flex: 1,
                               background: moveWarning?.id === person.id
                                 ? 'linear-gradient(135deg,#fbbf24,#f59e0b)'
-                                : 'linear-gradient(135deg,#38bdf8,#2563eb)',
+                                : 'linear-gradient(135deg,#34d399,#2563eb)',
                               color: moveWarning?.id === person.id ? '#2a1f05' : '#04222e',
                               fontWeight: 800,
                               opacity: !moveTarget ? 0.5 : 1,
@@ -621,7 +621,7 @@ export default function MyTeamManager({ currentUserProfile, onTeamChanged }) {
         className="admin-btn"
         style={{
           marginTop: 18, width: '100%', padding: '13px',
-          background: 'linear-gradient(135deg,#38bdf8,#2563eb)', color: '#04222e',
+          background: 'linear-gradient(135deg,#34d399,#2563eb)', color: '#04222e',
           fontWeight: 800, fontSize: '0.95rem',
         }}
         onClick={() => { setSheetOpen(true); setError(''); }}
@@ -731,7 +731,7 @@ export default function MyTeamManager({ currentUserProfile, onTeamChanged }) {
                 disabled={submitting}
                 className="admin-btn"
                 style={{
-                  padding: '13px', background: 'linear-gradient(135deg,#38bdf8,#2563eb)',
+                  padding: '13px', background: 'linear-gradient(135deg,#34d399,#2563eb)',
                   color: '#04222e', fontWeight: 800, fontSize: '0.95rem',
                   opacity: submitting ? 0.6 : 1,
                 }}

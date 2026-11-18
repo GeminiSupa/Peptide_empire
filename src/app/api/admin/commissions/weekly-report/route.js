@@ -63,7 +63,7 @@ const ADMIN_CC_EMAILS = stripOwnerAddress(
 const formatMoney = (value, currency) => {
   const amount = Number(value || 0);
   if (currency === 'USD') return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  return `₡${Math.round(amount).toLocaleString('en-US')}`;
+  return `$${Math.round(amount).toLocaleString('en-US')}`;
 };
 
 const formatCrDate = (value, options = {}) => new Intl.DateTimeFormat('en-US', {
@@ -198,7 +198,7 @@ export async function GET(request) {
     // and the team closes the weekend's parcels later that morning, so an order
     // paid on Saturday can still be sitting at 'Processing' when this runs. It
     // is correctly left out of the totals below — but on 12 Oct 2026 eight such
-    // orders worth ₡818,841 dropped out of one agent's week with nothing saying
+    // orders worth $818,841 dropped out of one agent's week with nothing saying
     // so, and the shortfall was only found because she kept her own tally.
     // Reported here so an understated week announces itself.
     const { data: rawHeldBack, error: heldBackError } = await supabaseAdmin
@@ -642,7 +642,7 @@ export async function GET(request) {
           <div style="background:#f1f5f9;padding:24px 12px;">
           <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#334155;background:#ffffff;max-width:680px;margin:0 auto;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;">
             <div style="background:#0f172a;padding:28px 24px;text-align:center;">
-              <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptides Costa Rica" width="96" height="81" style="display:block;width:96px;height:81px;margin:0 auto 14px auto;border:0;outline:none;text-decoration:none;border-radius:10px;">
+              <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptidos Colombia" width="96" height="81" style="display:block;width:96px;height:81px;margin:0 auto 14px auto;border:0;outline:none;text-decoration:none;border-radius:10px;">
               <div style="color:#ffffff;font-size:19px;font-weight:800;letter-spacing:.7px;">PEPTIDES COSTA RICA</div>
               <h1 style="color:#ffffff;font-size:24px;margin:14px 0 6px;">Weekly team pay report</h1>
               <p style="color:#cbd5e1;font-size:13px;margin:0;">${periodDisplay} · Costa Rica time</p>
@@ -683,7 +683,7 @@ export async function GET(request) {
               </a>
             </div>
             <div style="border-top:1px solid #e2e8f0;padding-top:16px;text-align:center;font-size:11px;color:#94a3b8;">
-              Automated weekly report · Peptides Costa Rica
+              Automated weekly report · Peptidos Colombia
             </div>
             </div>
           </div>

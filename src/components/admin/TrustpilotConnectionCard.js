@@ -143,7 +143,7 @@ export default function TrustpilotConnectionCard({ settings, onChange, effective
               padding: '9px 18px', fontSize: '0.88rem', borderRadius: '8px', fontWeight: 700,
               background: (sending || !testTo.trim()) ? 'rgba(148,163,184,0.12)' : 'rgba(56,189,248,0.12)',
               border: `1px solid ${(sending || !testTo.trim()) ? 'rgba(255,255,255,0.1)' : 'rgba(56,189,248,0.35)'}`,
-              color: (sending || !testTo.trim()) ? '#64748b' : '#38bdf8',
+              color: (sending || !testTo.trim()) ? '#64748b' : '#34d399',
               cursor: (sending || !testTo.trim()) ? 'default' : 'pointer',
             }}
           >

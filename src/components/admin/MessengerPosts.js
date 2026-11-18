@@ -291,7 +291,7 @@ export default function MessengerPosts() {
 
       <div style={{ background: '#0e1626', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, padding: 16, marginBottom: 18 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-          <Send size={16} style={{ color: '#38bdf8' }} />
+          <Send size={16} style={{ color: '#34d399' }} />
           <div>
             <div style={{ color: '#f8fafc', fontWeight: 800, fontSize: '0.95rem' }}>Create Facebook Post</div>
             <div style={{ color: '#64748b', fontSize: '0.76rem' }}>Use a catalog link with UTM tracking when you want to measure sales impact.</div>
@@ -306,7 +306,7 @@ export default function MessengerPosts() {
                 key={template.id}
                 type="button"
                 onClick={() => applyTemplate(template)}
-                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 10px', borderRadius: 999, border: '1px solid rgba(56,189,248,0.24)', background: 'rgba(56,189,248,0.08)', color: '#7dd3fc', fontSize: '0.76rem', fontWeight: 800, cursor: 'pointer' }}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '7px 10px', borderRadius: 999, border: '1px solid rgba(56,189,248,0.24)', background: 'rgba(56,189,248,0.08)', color: '#6ee7b7', fontSize: '0.76rem', fontWeight: 800, cursor: 'pointer' }}
               >
                 <Icon size={13} /> {template.label}
               </button>
@@ -397,7 +397,7 @@ export default function MessengerPosts() {
           <Stat label="Posts" value={summary.posts} />
           <Stat label="Scheduled" value={summary.scheduled || 0} tint="#fbbf24" />
           <Stat label="Lead Ads" value={summary.leadAds || 0} tint="#a78bfa" />
-          <Stat label="Comments received" value={summary.totalComments} tint="#38bdf8" />
+          <Stat label="Comments received" value={summary.totalComments} tint="#34d399" />
           <Stat label="Publicly replied" value={summary.totalReplied} tint="#4ade80" />
           <Stat label="Need reply" value={Math.max((summary.totalComments || 0) - (summary.totalReplied || 0), 0)} tint="#f97316" />
           <Stat label="Reply rate" value={`${summary.replyRate}%`} tint={summary.replyRate >= 60 ? '#4ade80' : summary.replyRate >= 30 ? '#fbbf24' : '#f87171'} />
@@ -507,14 +507,14 @@ export default function MessengerPosts() {
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}><MessageSquare size={13} /> {post.commentCount}</span>
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}><Share2 size={13} /> {post.shares}</span>
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, color: '#4ade80' }}><CheckCircle2 size={13} /> {post.repliedCount} replied</span>
-                    <span style={{ marginLeft: 'auto', color: '#38bdf8', fontWeight: 600 }}>{isOpen ? 'Hide comments ▲' : 'View comments ▼'}</span>
+                    <span style={{ marginLeft: 'auto', color: '#34d399', fontWeight: 600 }}>{isOpen ? 'Hide comments ▲' : 'View comments ▼'}</span>
                   </div>
                 </button>
 
                 {isOpen && (
                   <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '8px 14px 14px' }}>
                     {post.permalink && (
-                      <a href={post.permalink} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: '0.76rem', color: '#38bdf8', margin: '8px 4px', textDecoration: 'none' }}>
+                      <a href={post.permalink} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: '0.76rem', color: '#34d399', margin: '8px 4px', textDecoration: 'none' }}>
                         <ExternalLink size={12} /> Open post on Facebook
                       </a>
                     )}

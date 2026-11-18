@@ -1076,7 +1076,7 @@ export default function OrderDetailPanel({
                     // column of controls that only change the record.
                     if (!confirmCustomerEmail('receipt', order.customer_email, [
                       `Order: ${order.order_number}`,
-                      `Total: ${orderCurrency === 'USD' ? `$${Number(order.total_usd || 0).toFixed(2)}` : `₡${Number(order.total_crc || 0).toLocaleString()}`}`,
+                      `Total: ${orderCurrency === 'USD' ? `$${Number(order.total_usd || 0).toFixed(2)}` : `$${Number(order.total_crc || 0).toLocaleString()}`}`,
                     ])) return;
                     setResendingReceipt(true);
                     setReceiptResendNotice('');
@@ -1167,7 +1167,7 @@ export default function OrderDetailPanel({
               </div>
             )}
             {order.promo_code && (
-              <div><label>Promo</label><span style={{ color: '#38bdf8' }}>{order.promo_code}</span></div>
+              <div><label>Promo</label><span style={{ color: '#34d399' }}>{order.promo_code}</span></div>
             )}
           </div>
           {order.payment_method === 'card' && (
@@ -1449,13 +1449,13 @@ export default function OrderDetailPanel({
                 background: 'rgba(56, 189, 248, 0.06)',
               }}
             >
-              <span style={{ flex: 1, fontSize: '0.85rem', fontWeight: 600, color: '#7dd3fc' }}>
+              <span style={{ flex: 1, fontSize: '0.85rem', fontWeight: 600, color: '#6ee7b7' }}>
                 🎁 Bacteriostatic Water 3ml{' '}
                 <span style={{ fontWeight: 500, color: '#94a3b8' }}>
                   — free, 1 per peptide
                 </span>
               </span>
-              <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#7dd3fc', whiteSpace: 'nowrap' }}>
+              <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#6ee7b7', whiteSpace: 'nowrap' }}>
                 × {giftShortfall.missing}
               </span>
               <span style={{ fontSize: '0.85rem', fontWeight: 700, color: '#94a3b8' }}>Free</span>
@@ -1564,43 +1564,43 @@ export default function OrderDetailPanel({
           </div>
 
           <div className="order-detail-totals">
-            <div><span>Items subtotal</span><span>{orderCurrency === 'USD' ? `$${itemsSubtotal.toFixed(2)}` : `₡${itemsSubtotal.toLocaleString()}`}</span></div>
+            <div><span>Items subtotal</span><span>{orderCurrency === 'USD' ? `$${itemsSubtotal.toFixed(2)}` : `$${itemsSubtotal.toLocaleString()}`}</span></div>
             {discountPct > 0 && (
               <div style={{ color: '#16a34a' }}>
                 <span>Volume discount ({discountPct}%)</span>
-                <span>{orderCurrency === 'USD' ? `-$${discountAmount.toFixed(2)}` : `-₡${Math.round(discountAmount).toLocaleString()}`}</span>
+                <span>{orderCurrency === 'USD' ? `-$${discountAmount.toFixed(2)}` : `-$${Math.round(discountAmount).toLocaleString()}`}</span>
               </div>
             )}
             {promoDiscountAmount > 0 && (
-              <div style={{ color: offerBeatsTier ? '#16a34a' : '#38bdf8' }}>
+              <div style={{ color: offerBeatsTier ? '#16a34a' : '#34d399' }}>
                 <span>
                   {offerBeatsTier
                     ? autoDiscount.label
                     : `Promo discount${order.promo_code ? ` (${order.promo_code})` : ''}`}
                 </span>
-                <span>{orderCurrency === 'USD' ? `-$${promoDiscountAmount.toFixed(2)}` : `-₡${Math.round(promoDiscountAmount).toLocaleString()}`}</span>
+                <span>{orderCurrency === 'USD' ? `-$${promoDiscountAmount.toFixed(2)}` : `-$${Math.round(promoDiscountAmount).toLocaleString()}`}</span>
               </div>
             )}
             {manualDiscountAmount > 0 && (
               <div style={{ color: '#c084fc' }}>
                 <span>Order discount{manualDiscountReason.trim() ? ` (${manualDiscountReason.trim()})` : ''}</span>
-                <span>{orderCurrency === 'USD' ? `-$${manualDiscountAmount.toFixed(2)}` : `-₡${Math.round(manualDiscountAmount).toLocaleString()}`}</span>
+                <span>{orderCurrency === 'USD' ? `-$${manualDiscountAmount.toFixed(2)}` : `-$${Math.round(manualDiscountAmount).toLocaleString()}`}</span>
               </div>
             )}
             <div>
               <span>Shipping</span>
               <span>
                 {orderCurrency === 'USD'
-                  ? `$${shippingCosts.usd.toFixed(2)} (≈ ₡${shippingCosts.crc.toLocaleString()})`
-                  : `₡${shippingCosts.crc.toLocaleString()} (≈ $${shippingCosts.usd.toFixed(2)})`}
+                  ? `$${shippingCosts.usd.toFixed(2)} (≈ $${shippingCosts.crc.toLocaleString()})`
+                  : `$${shippingCosts.crc.toLocaleString()} (≈ $${shippingCosts.usd.toFixed(2)})`}
               </span>
             </div>
             <div className="order-detail-total-line">
               <span>{isSettledOrder ? 'Order total' : 'Total (preview)'}</span>
               <span>
                 {orderCurrency === 'USD'
-                  ? `$${totalCosts.usd.toFixed(2)} (≈ ₡${totalCosts.crc.toLocaleString()})`
-                  : `₡${totalCosts.crc.toLocaleString()} (≈ $${totalCosts.usd.toFixed(2)})`}
+                  ? `$${totalCosts.usd.toFixed(2)} (≈ $${totalCosts.crc.toLocaleString()})`
+                  : `$${totalCosts.crc.toLocaleString()} (≈ $${totalCosts.usd.toFixed(2)})`}
               </span>
             </div>
             {isSettledOrder && Math.abs(recordedAdminOrderTotals(order).total - orderTotal) > 0.5 && (
@@ -1608,7 +1608,7 @@ export default function OrderDetailPanel({
                 <span>Original payment (before discount correction)</span>
                 <span>{orderCurrency === 'USD'
                   ? `$${recordedAdminOrderTotals(order).total.toFixed(2)}`
-                  : `₡${Math.round(recordedAdminOrderTotals(order).total).toLocaleString()}`}</span>
+                  : `$${Math.round(recordedAdminOrderTotals(order).total).toLocaleString()}`}</span>
               </div>
             )}
           </div>
@@ -1621,7 +1621,7 @@ export default function OrderDetailPanel({
                   aria-hidden="true"
                   style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8', fontWeight: 700 }}
                 >
-                  {orderCurrency === 'USD' ? '$' : '₡'}
+                  {orderCurrency === 'USD' ? '$' : '$'}
                 </span>
                 <input
                   id="order-shipping-cost"
@@ -1638,7 +1638,7 @@ export default function OrderDetailPanel({
             </div>
             <div style={{ marginTop: '6px', color: '#94a3b8', fontSize: '0.75rem' }}>
               {orderCurrency === 'USD'
-                ? `Shipping CRC equivalent: ₡${shippingCosts.crc.toLocaleString()}`
+                ? `Shipping CRC equivalent: $${shippingCosts.crc.toLocaleString()}`
                 : `Shipping USD equivalent: $${shippingCosts.usd.toFixed(2)}`}
             </div>
           </div>

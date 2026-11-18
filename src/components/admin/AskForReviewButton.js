@@ -35,7 +35,7 @@ const choice = (on) => ({
   fontSize: '0.95rem', fontWeight: 600, cursor: 'pointer', textAlign: 'left',
   background: on ? 'rgba(56, 189, 248, 0.14)' : 'rgba(148,163,184,0.06)',
   border: `1px solid ${on ? 'rgba(56,189,248,0.45)' : 'rgba(255,255,255,0.08)'}`,
-  color: on ? '#38bdf8' : '#cbd5e1',
+  color: on ? '#34d399' : '#cbd5e1',
 });
 
 const btn = (tone) => ({
@@ -130,7 +130,7 @@ export default function AskForReviewButton({ order, onDone }) {
             ) : (
               <>
                 {clickedBefore.length > 0 && (
-                  <div style={{ background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)', borderRadius: '8px', padding: '10px 12px', marginBottom: '14px', fontSize: '0.83rem', color: '#7dd3fc' }}>
+                  <div style={{ background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)', borderRadius: '8px', padding: '10px 12px', marginBottom: '14px', fontSize: '0.83rem', color: '#6ee7b7' }}>
                     This customer already clicked {clickedBefore.map((h) => h.clicked).join(' and ')} before.
                     They have probably reviewed there.
                   </div>

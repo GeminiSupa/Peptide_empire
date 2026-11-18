@@ -47,9 +47,9 @@ const COLORS = {
 
 const money = (value, currency) => {
   const amount = Number(value || 0);
-  if (!amount) return currency === 'CRC' ? '₡0' : '$0';
+  if (!amount) return currency === 'CRC' ? '$0' : '$0';
   return currency === 'CRC'
-    ? `₡${Math.round(amount).toLocaleString('en-US')}`
+    ? `$${Math.round(amount).toLocaleString('en-US')}`
     : `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 };
 
@@ -446,7 +446,7 @@ function AccountTab({ me, onSaved }) {
           sign that the boxes are theirs to change. One sentence fixes that. */}
       <p style={{ ...muted, margin: '-6px 0 16px' }}>
         {readOnly
-          ? 'These are the details Peptides Costa Rica has for you.'
+          ? 'These are the details Peptidos Colombia has for you.'
           : 'Type over anything below, then press Update my details at the bottom.'}
       </p>
 
@@ -456,8 +456,8 @@ function AccountTab({ me, onSaved }) {
       <label style={{ ...label, marginTop: 14 }}>Email</label>
       <input style={input} value={email} disabled={readOnly} onChange={(e) => setEmail(e.target.value)} />
       <p style={{ ...muted, marginTop: 6 }}>
-        This is the address you sign in with, and the one Peptides Costa Rica sends your
-        payout notices to. Changing it has to be checked by Peptides Costa Rica first.
+        This is the address you sign in with, and the one Peptidos Colombia sends your
+        payout notices to. Changing it has to be checked by Peptidos Colombia first.
       </p>
 
       {/* The old version of this said only "Waiting for approval: x@y.com", which
@@ -470,7 +470,7 @@ function AccountTab({ me, onSaved }) {
           </strong>
           <p style={{ margin: '0 0 6px', fontSize: '0.85rem', lineHeight: 1.6 }}>
             You asked to change it to <strong>{pendingEmail.requested_value}</strong>.
-            Peptides Costa Rica has to approve that before it takes effect, because your
+            Peptidos Colombia has to approve that before it takes effect, because your
             payouts are announced to this address.
           </p>
           <p style={{ margin: 0, fontSize: '0.85rem', lineHeight: 1.6 }}>
@@ -493,7 +493,7 @@ function AccountTab({ me, onSaved }) {
       <div style={{ marginTop: 16 }}>
         <label style={label}>Commission rate</label>
         <p style={{ ...muted, margin: '4px 0 0' }}>
-          {Math.round(Number(me.affiliate.commissionRate || 0) * 100)}% — set by Peptides Costa Rica.
+          {Math.round(Number(me.affiliate.commissionRate || 0) * 100)}% — set by Peptidos Colombia.
           Get in touch if you think it is wrong.
         </p>
       </div>
@@ -528,7 +528,7 @@ function AccountTab({ me, onSaved }) {
           <strong>{email.trim()}</strong>.
         </p>
         <p style={{ margin: 0 }}>
-          Nothing changes today. Peptides Costa Rica has to approve it first, because this is
+          Nothing changes today. Peptidos Colombia has to approve it first, because this is
           the address your payouts are announced to. Keep signing in with your current address
           until they do.
         </p>
@@ -545,7 +545,7 @@ function AccountTab({ me, onSaved }) {
       >
         <p style={{ margin: 0 }}>
           Your request to change to <strong>{pendingEmail?.requested_value}</strong> will be
-          taken back, and Peptides Costa Rica will not see it. Your email stays as it is. You
+          taken back, and Peptidos Colombia will not see it. Your email stays as it is. You
           can ask again whenever you like.
         </p>
       </Modal>
@@ -590,7 +590,7 @@ function SignIn({ onDone }) {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/logo.png"
-            alt="Peptides Costa Rica"
+            alt="Peptidos Colombia"
             style={{ maxHeight: 60, width: 'auto', objectFit: 'contain', borderRadius: 12, boxShadow: '0 2px 16px rgba(0,0,0,0.25)' }}
           />
         </div>

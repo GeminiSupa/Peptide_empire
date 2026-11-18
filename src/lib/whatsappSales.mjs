@@ -29,7 +29,7 @@ function money(value, currency) {
   const raw = String(value ?? '').trim();
   if (!raw) return '';
   if (currency === 'USD') return raw.startsWith('$') ? raw : `$${raw}`;
-  return raw.startsWith('₡') ? raw : `₡${raw}`;
+  return raw.startsWith('$') ? raw : `$${raw}`;
 }
 
 function currentPrice(product) {

@@ -39,7 +39,7 @@ export function exchangeRateAlertBody({ rate, updatedAt, ageMs, source }) {
   return [
     'The USD to CRC exchange rate feed is not answering.',
     '',
-    `Last good rate:   ₡${rate} per USD`,
+    `Last good rate:   $${rate} per USD`,
     `Last updated:     ${updatedAt || 'unknown'} (${hours} hours ago)`,
     `Last good source: ${source || 'unknown'}`,
     '',
@@ -114,7 +114,7 @@ export async function maybeAlertStaleExchangeRate(supabase, stale, {
     });
 
     await transporter.sendMail({
-      from: readEnv('ORDER_NOTIFICATION_FROM') || `Peptides Costa Rica <${fromEmail}>`,
+      from: readEnv('ORDER_NOTIFICATION_FROM') || `Peptidos Colombia <${fromEmail}>`,
       to: EXCHANGE_RATE_ALERT_RECIPIENT,
       subject: exchangeRateAlertSubject(stale.ageMs),
       text: exchangeRateAlertBody(stale),

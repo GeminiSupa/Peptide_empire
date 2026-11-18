@@ -593,14 +593,14 @@ export default function BroadcastsPanel({ products = [], draft = null, onDraftAp
           words twice. The line explaining the tab is worth keeping. */}
       <div className="admin-section-header" style={{ marginBottom: '24px' }}>
         <p className="admin-page-subtitle" style={{ margin: 0, fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <Send size={18} color="#38bdf8" />
+          <Send size={18} color="#34d399" />
           Send an email or WhatsApp announcement now, or schedule it for later.
         </p>
       </div>
 
       {/* Announcement Banners Section */}
       <div className="admin-broadcasts-section" style={{ background: 'rgba(30, 41, 59, 0.5)', borderRadius: '16px', marginBottom: '24px', border: '1px solid rgba(255,255,255,0.05)' }}>
-        <h3 style={{ margin: '0 0 16px', fontSize: '1.05rem', color: '#38bdf8', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <h3 style={{ margin: '0 0 16px', fontSize: '1.05rem', color: '#34d399', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <Sparkles size={18} /> Site Announcement Banners
         </h3>
         <p className="banner-section-help">
@@ -869,7 +869,7 @@ export default function BroadcastsPanel({ products = [], draft = null, onDraftAp
           <div style={{ marginTop: '10px', padding: '12px', background: 'rgba(15, 23, 42, 0.9)', border: '1px solid rgba(56, 189, 248, 0.18)', borderRadius: '10px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px', marginBottom: '10px', flexWrap: 'wrap' }}>
               <span style={{ color: '#e2e8f0', fontSize: '0.82rem', fontWeight: 700 }}>Send summary</span>
-              <span style={{ padding: '4px 9px', borderRadius: '999px', background: channels.whatsapp ? 'rgba(14, 165, 233, 0.16)' : 'rgba(148, 163, 184, 0.12)', color: channels.whatsapp ? '#7dd3fc' : '#94a3b8', border: `1px solid ${channels.whatsapp ? 'rgba(14, 165, 233, 0.28)' : 'rgba(148, 163, 184, 0.2)'}`, fontSize: '0.72rem', fontWeight: 800 }}>
+              <span style={{ padding: '4px 9px', borderRadius: '999px', background: channels.whatsapp ? 'rgba(14, 165, 233, 0.16)' : 'rgba(148, 163, 184, 0.12)', color: channels.whatsapp ? '#6ee7b7' : '#94a3b8', border: `1px solid ${channels.whatsapp ? 'rgba(14, 165, 233, 0.28)' : 'rgba(148, 163, 184, 0.2)'}`, fontSize: '0.72rem', fontWeight: 800 }}>
                 WhatsApp: {whatsappCategory}
               </span>
             </div>
@@ -912,7 +912,7 @@ export default function BroadcastsPanel({ products = [], draft = null, onDraftAp
 
             {channels.email && (
               <div style={{ marginBottom: '10px' }}>
-                <div style={{ color: '#7dd3fc', fontSize: '0.75rem', fontWeight: 700, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div style={{ color: '#6ee7b7', fontSize: '0.75rem', fontWeight: 700, marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <Mail size={13} /> Email
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
@@ -1066,9 +1066,9 @@ export default function BroadcastsPanel({ products = [], draft = null, onDraftAp
                 type="checkbox" 
                 checked={channels.email} 
                 onChange={e => setChannels({ ...channels, email: e.target.checked })}
-                style={{ width: '18px', height: '18px', accentColor: '#38bdf8' }}
+                style={{ width: '18px', height: '18px', accentColor: '#34d399' }}
               />
-              <Mail size={18} color="#38bdf8" /> Email
+              <Mail size={18} color="#34d399" /> Email
             </label>
           </div>
         </div>
@@ -1142,7 +1142,7 @@ export default function BroadcastsPanel({ products = [], draft = null, onDraftAp
                   name="email-format"
                   checked={emailFormat === 'simple'}
                   onChange={() => setEmailFormat('simple')}
-                  style={{ accentColor: '#38bdf8' }}
+                  style={{ accentColor: '#34d399' }}
                 />
                 Simple (auto-styled text)
               </label>
@@ -1152,7 +1152,7 @@ export default function BroadcastsPanel({ products = [], draft = null, onDraftAp
                   name="email-format"
                   checked={emailFormat === 'html'}
                   onChange={() => setEmailFormat('html')}
-                  style={{ accentColor: '#38bdf8' }}
+                  style={{ accentColor: '#34d399' }}
                 />
                 Custom HTML (paste a designed template)
               </label>
@@ -1422,7 +1422,7 @@ export default function BroadcastsPanel({ products = [], draft = null, onDraftAp
       {scheduledBroadcasts.length > 0 && (
         <div style={{ marginTop: '32px', padding: '24px', background: 'rgba(30, 41, 59, 0.5)', borderRadius: '16px', border: '1px solid rgba(56, 189, 248, 0.15)' }}>
           <h3 style={{ margin: '0 0 16px', fontSize: '1.1rem', color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <Calendar size={18} color="#38bdf8" /> Scheduled Announcements
+            <Calendar size={18} color="#34d399" /> Scheduled Announcements
           </h3>
           <p className="banner-section-help" style={{ marginTop: '-8px' }}>
             Announcements you set a time for, waiting to go out. They send on their own —
@@ -1434,14 +1434,14 @@ export default function BroadcastsPanel({ products = [], draft = null, onDraftAp
               <div key={sb.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#0f172a', padding: '12px 16px', borderRadius: '8px', border: '1px solid #334155' }}>
                 <div style={{ flexGrow: 1, overflow: 'hidden' }}>
                   <div style={{ display: 'flex', gap: '12px', marginBottom: '6px' }}>
-                    <span style={{ fontWeight: 'bold', color: '#38bdf8', fontSize: '0.9rem' }}>
+                    <span style={{ fontWeight: 'bold', color: '#34d399', fontSize: '0.9rem' }}>
                       {formatCrInstant(sb.scheduled_at)}
                     </span>
                     <span style={{ color: '#94a3b8', fontSize: '0.85rem', textTransform: 'capitalize' }}>
                       To: {sb.audience.replace('_', ' ')} {sb.channels?.whatsapp ? '(WA)' : ''} {sb.channels?.email ? '(Email)' : ''}
                     </span>
                     {sb.channels?.whatsappCategory && (
-                      <span style={{ color: '#7dd3fc', fontSize: '0.75rem', fontWeight: 700, padding: '2px 7px', borderRadius: '999px', background: 'rgba(14, 165, 233, 0.12)', border: '1px solid rgba(14, 165, 233, 0.22)' }}>
+                      <span style={{ color: '#6ee7b7', fontSize: '0.75rem', fontWeight: 700, padding: '2px 7px', borderRadius: '999px', background: 'rgba(14, 165, 233, 0.12)', border: '1px solid rgba(14, 165, 233, 0.22)' }}>
                         WA {sb.channels.whatsappCategory}
                       </span>
                     )}

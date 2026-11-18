@@ -221,7 +221,7 @@ export function buildOutreachPrompt(prospect, {
     ? 'State plainly that you are following up using the contact permission the business provided. Do not claim the address came from a public listing.'
     : 'State plainly that the contact details were found on the business\'s public website. Do not claim prior consent.';
 
-  return `You write first-touch B2B outreach for "Peptides Costa Rica", a research peptide supplier that partners with gyms, wellness centers, clinics, and laboratories.
+  return `You write first-touch B2B outreach for "Peptidos Colombia", a research peptide supplier that partners with gyms, wellness centers, clinics, and laboratories.
 
 Prospect:
 ${prospectContext(prospect)}
@@ -290,8 +290,8 @@ export function sanitizeOutreachDraft({ subject, body }, { channel, bookingUrl, 
   }
 
   const fallbackSubject = organizationName
-    ? `Quick intro — Peptides Costa Rica x ${organizationName}`.slice(0, 120)
-    : 'Quick intro from Peptides Costa Rica';
+    ? `Quick intro — Peptidos Colombia x ${organizationName}`.slice(0, 120)
+    : 'Quick intro from Peptidos Colombia';
 
   return {
     subject: channel === 'email' ? (clean(subject, 120) || fallbackSubject) : '',

@@ -920,7 +920,7 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
             </div>
 
             {flashEndsIso && (
-              <div style={{ fontSize: '0.78rem', color: '#38bdf8', marginBottom: '10px' }}>
+              <div style={{ fontSize: '0.78rem', color: '#34d399', marginBottom: '10px' }}>
                 Stops automatically at <strong>{formatCrInstant(flashEndsIso)}</strong>
               </div>
             )}
@@ -1195,7 +1195,7 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
         <div id="weekly-deal-setup" style={editingId ? { ...card, borderColor: 'rgba(56,189,248,0.6)', background: 'rgba(56,189,248,0.06)' } : card}>
           {editingId ? (
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '14px' }}>
-              <h4 style={{ margin: 0, color: '#38bdf8', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <h4 style={{ margin: 0, color: '#34d399', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Edit2 size={15} /> Editing a scheduled week — change anything below, then Save changes.
               </h4>
               <button className="admin-btn" onClick={cancelEdit} style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -1305,7 +1305,7 @@ It ends automatically at ${formatCrInstant(flashEndsIso)}.`)) return;
             <>
               <div className="weekly-deal-offer-builder">
                 {offerDrafts.map((offer, index) => {
-                  const accent = offer.type === 'bundle' || offer.type === 'gift' ? '#34d399' : offer.type === 'free_shipping' ? '#a78bfa' : offer.type === 'pair' ? '#38bdf8' : offer.type === 'spend' ? '#f97316' : '#fbbf24';
+                  const accent = offer.type === 'bundle' || offer.type === 'gift' ? '#34d399' : offer.type === 'free_shipping' ? '#a78bfa' : offer.type === 'pair' ? '#34d399' : offer.type === 'spend' ? '#f97316' : '#fbbf24';
                   const resolved = resolvedOffers[index];
                   const defaultName = offer.type === 'bundle'
                     ? 'Buy & Get Free'

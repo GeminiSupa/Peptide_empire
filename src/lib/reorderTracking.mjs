@@ -291,12 +291,12 @@ export function buildReorderFollowupScript({ customerName, lastProductPurchased,
   const productLine = lastProductPurchased ? `your supply of ${lastProductPurchased}` : 'your previous order';
 
   if (alertStatus === 'overdue') {
-    return `Hi ${firstName}, this is Peptides Costa Rica! Based on your last order, ${productLine} was estimated for ${estimatedSupplyDays} days of supply. We wanted to check in and see if you need to restock local Costa Rica inventory so your protocol isn't interrupted. Would you like me to check stock availability and current pricing for you?`;
+    return `Hi ${firstName}, this is Peptidos Colombia! Based on your last order, ${productLine} was estimated for ${estimatedSupplyDays} days of supply. We wanted to check in and see if you need to restock local Costa Rica inventory so your protocol isn't interrupted. Would you like me to check stock availability and current pricing for you?`;
   }
 
   if (alertStatus === 'due_soon') {
-    return `Hi ${firstName}, quick check-in from Peptides Costa Rica. Your supply of ${lastProductPurchased} is coming up for reorder in about ${daysUntilDue} days. Let us know if you'd like to reserve your next batch with fast local delivery!`;
+    return `Hi ${firstName}, quick check-in from Peptidos Colombia. Your supply of ${lastProductPurchased} is coming up for reorder in about ${daysUntilDue} days. Let us know if you'd like to reserve your next batch with fast local delivery!`;
   }
 
-  return `Hi ${firstName}, this is Peptides Costa Rica following up on ${productLine}. Please let us know whenever you are ready for your next order or if you need updated COA documentation!`;
+  return `Hi ${firstName}, this is Peptidos Colombia following up on ${productLine}. Please let us know whenever you are ready for your next order or if you need updated COA documentation!`;
 }

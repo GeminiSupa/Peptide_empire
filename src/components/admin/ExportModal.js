@@ -19,7 +19,7 @@ export default function ExportModal({
         <button className="close-modal" onClick={onClose} style={{ color: '#94a3b8', fontSize: '24px', position: 'absolute', top: '16px', right: '16px', background: 'transparent', border: 'none', cursor: 'pointer' }}>&times;</button>
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
           <div style={{ background: 'rgba(56, 189, 248, 0.1)', width: '48px', height: '48px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px auto' }}>
-            <Upload size={24} color="#38bdf8" />
+            <Upload size={24} color="#34d399" />
           </div>
           <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', margin: '0 0 8px 0' }}>{title}</h3>
           <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: 0 }}>{description}</p>

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { adminFetch } from '@/lib/adminApi';
 import { formatCrInstant } from '@/lib/crTime.mjs';
 
-const money = (rate) => (Number(rate) > 0 ? `₡${Number(rate).toLocaleString('en-US', { maximumFractionDigits: 2 })}` : '—');
+const money = (rate) => (Number(rate) > 0 ? `$${Number(rate).toLocaleString('en-US', { maximumFractionDigits: 2 })}` : '—');
 
 /**
  * Superadmin switch: follow the API rate, or set USD -> CRC by hand.
@@ -140,7 +140,7 @@ export default function ExchangeRateSettings({ onChanged }) {
 
         {mode === 'manual' && (
           <label style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap', fontSize: '0.85rem', color: '#cbd5e1' }}>
-            $1 = ₡
+            $1 = $
             <input
               className="admin-input"
               type="number"

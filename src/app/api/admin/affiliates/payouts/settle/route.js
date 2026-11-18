@@ -35,7 +35,7 @@ export async function POST(request) {
       detail: {
         status: { from: String(payout.status || ''), to: String(data?.status || '') },
         // One payout stated in two currencies, never a sum of the two.
-        amount: { from: '', to: `$${payout.usd_commission || 0} or ₡${payout.crc_commission || 0}` },
+        amount: { from: '', to: `$${payout.usd_commission || 0} or $${payout.crc_commission || 0}` },
       },
       request,
     });

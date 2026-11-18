@@ -102,7 +102,7 @@ export async function POST(request) {
       }
     }
 
-    const message = `Hola ${customerDisplayName}, dejaste algunos productos en tu carrito en Peptides Costa Rica.\n\nTus productos seleccionados aún están disponibles. Puedes completar tu pedido aquí:\n${checkoutUrl}\n\nSi tienes alguna pregunta antes de ordenar, nuestro equipo con gusto te ayuda.`;
+    const message = `Hola ${customerDisplayName}, dejaste algunos productos en tu carrito en Peptidos Colombia.\n\nTus productos seleccionados aún están disponibles. Puedes completar tu pedido aquí:\n${checkoutUrl}\n\nSi tienes alguna pregunta antes de ordenar, nuestro equipo con gusto te ayuda.`;
 
     console.log(`[Abandoned Cart WhatsApp] Sending automated WhatsApp template recovery to ${cleanPhone}...`);
 

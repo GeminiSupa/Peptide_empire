@@ -177,7 +177,7 @@ function formatMoney(value) {
 
 function getOrderItemsSummary(order) {
   const items = Array.isArray(order?.items) ? order.items : [];
-  if (!items.length) return 'Productos Peptides Costa Rica';
+  if (!items.length) return 'Productos Peptidos Colombia';
   return items
     .slice(0, 4)
     .map((item) => `${item.product || item.name || 'Producto'} x${item.qty || item.quantity || 1}`)

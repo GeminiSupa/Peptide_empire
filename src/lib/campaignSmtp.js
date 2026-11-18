@@ -31,7 +31,7 @@ export function getCampaignSmtpConfig() {
   const secure = resolveSecureMode(port);
   const user = readEnv('CAMPAIGN_SMTP_USER');
   const pass = readEnv('CAMPAIGN_SMTP_PASS');
-  const from = readEnv('CAMPAIGN_FROM') || `Peptides Costa Rica <${CAMPAIGN_FROM_EMAIL}>`;
+  const from = readEnv('CAMPAIGN_FROM') || `Peptidos Colombia <${CAMPAIGN_FROM_EMAIL}>`;
   const replyTo = readEnv('CAMPAIGN_REPLY_TO') || CAMPAIGN_FROM_EMAIL;
 
   return {

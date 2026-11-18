@@ -117,7 +117,7 @@ export default function ProductsManager({
   const formatDerivedCrc = (usdPrice) => {
     const usdNum = parseFloat(String(usdPrice || '').replace(/[^0-9.]/g, '')) || 0;
     if (!usdNum) return 'Auto';
-    return `₡${Math.round(usdNum * exchangeRate).toLocaleString('en-US')}`;
+    return `$${Math.round(usdNum * exchangeRate).toLocaleString('en-US')}`;
   };
 
   const exchangeUpdatedLabel = exchangeRateUpdatedAt
@@ -333,7 +333,7 @@ export default function ProductsManager({
         <div>
           <h3>Master Inventory Products</h3>
           <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '4px' }}>
-            Edit USD prices as the source of truth. CRC is synced from the database rate: 1 USD = ₡{Math.round(exchangeRate).toLocaleString('en-US')} · refreshed {exchangeUpdatedLabel}.
+            Edit USD prices as the source of truth. COP is synced from the database rate: 1 USD = ${Math.round(exchangeRate).toLocaleString('en-US')} · refreshed {exchangeUpdatedLabel}.
           </p>
         </div>
         <div className="admin-actions-row">
@@ -375,7 +375,7 @@ export default function ProductsManager({
             <button
               className="admin-btn"
               onClick={() => setExportModalType('products')}
-              style={{ background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', border: '1px solid rgba(56, 189, 248, 0.2)' }}
+              style={{ background: 'rgba(56, 189, 248, 0.1)', color: '#34d399', border: '1px solid rgba(56, 189, 248, 0.2)' }}
             >
               <Download size={14} />
               Export Data
@@ -423,7 +423,7 @@ export default function ProductsManager({
       )}
 
       {csvStatus && (
-        <div className="csv-status-banner" style={{ background: 'rgba(56, 189, 248, 0.15)', borderColor: 'rgba(56, 189, 248, 0.2)', color: '#38bdf8' }}>
+        <div className="csv-status-banner" style={{ background: 'rgba(56, 189, 248, 0.15)', borderColor: 'rgba(56, 189, 248, 0.2)', color: '#34d399' }}>
           <span>{csvStatus}</span>
           <button className="admin-btn" style={{ fontSize: '0.7rem', padding: '4px 8px' }} onClick={() => setCsvStatus('')}>Dismiss</button>
         </div>
@@ -640,7 +640,7 @@ export default function ProductsManager({
                   </td>
 
                   {/* CRC Price */}
-                  <td data-label="Price (CRC)">
+                  <td data-label="Price (COP)">
                     <div
                       className="cell-editable"
                       title="Auto-calculated from the USD price using the current exchange rate"
@@ -748,7 +748,7 @@ export default function ProductsManager({
                       return (
                         <div style={{ fontSize: '0.78rem' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: '#cbd5e1' }}>
-                            <TrendingUp size={11} style={{ color: '#38bdf8' }} />
+                            <TrendingUp size={11} style={{ color: '#34d399' }} />
                             <span>{velocityData.dailyVelocity} units/day</span>
                             <span style={{ color: '#64748b' }}>({velocityData.totalUnitsSold} in 30d)</span>
                           </div>
@@ -794,7 +794,7 @@ export default function ProductsManager({
                   </td>
 
                   {/* Orig CRC Price */}
-                  <td data-label="Orig. Price (CRC)">
+                  <td data-label="Orig. Price (COP)">
                     <div
                       className="cell-editable"
                       title="Auto-calculated from the original USD price using the current exchange rate"
@@ -1109,7 +1109,7 @@ export default function ProductsManager({
                         borderRadius: '6px',
                         border: relatedLabel(p) === 'Automatic' ? '1px solid rgba(148,163,184,0.35)' : '1px solid rgba(56,189,248,0.4)',
                         background: relatedLabel(p) === 'Automatic' ? 'rgba(148,163,184,0.1)' : 'rgba(56,189,248,0.12)',
-                        color: relatedLabel(p) === 'Automatic' ? '#cbd5e1' : '#38bdf8',
+                        color: relatedLabel(p) === 'Automatic' ? '#cbd5e1' : '#34d399',
                         whiteSpace: 'nowrap'
                       }}
                     >
@@ -1685,7 +1685,7 @@ export default function ProductsManager({
         .pm-related-item b {
           min-width: 20px; height: 20px; border-radius: 10px; display: inline-flex;
           align-items: center; justify-content: center; font-size: 0.7rem;
-          background: rgba(56, 189, 248, 0.2); color: #38bdf8;
+          background: rgba(56, 189, 248, 0.2); color: #34d399;
         }
         .pm-related .pm-related-hint, .pm-related .pm-related-empty { margin: 8px 0 0; font-size: 0.78rem; color: #94a3b8; }
         .pm-related .pm-related-empty { padding: 8px 12px; }

@@ -160,7 +160,7 @@ export default function CampaignDetail({ campaignId, onEdit, notify }) {
           value={`${stats.clickToOpenRate}%`}
           hint="of people who opened"
           icon={Users}
-          color="#38bdf8"
+          color="#34d399"
         />
         <StatCard
           label="Revenue"

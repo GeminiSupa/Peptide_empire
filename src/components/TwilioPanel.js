@@ -968,8 +968,8 @@ export default function TwilioPanel() {
             </div>
             <div className="twilio-preset-chips">
               <span className="twilio-preset-label">Quick Templates:</span>
-              <button type="button" className="twilio-chip" onClick={() => setSmsBody('Hola! Tu pedido de Peptides Costa Rica ha sido enviado. Consulta tu tracking en el dashboard.')}>🚚 Order Shipped (ES)</button>
-              <button type="button" className="twilio-chip" onClick={() => setSmsBody('Hello! Your Peptides Costa Rica order has been confirmed. Thank you for choosing us!')}>✅ Order Confirmed (EN)</button>
+              <button type="button" className="twilio-chip" onClick={() => setSmsBody('Hola! Tu pedido de Peptidos Colombia ha sido enviado. Consulta tu tracking en el dashboard.')}>🚚 Order Shipped (ES)</button>
+              <button type="button" className="twilio-chip" onClick={() => setSmsBody('Hello! Your Peptidos Colombia order has been confirmed. Thank you for choosing us!')}>✅ Order Confirmed (EN)</button>
               <button type="button" className="twilio-chip" onClick={() => setSmsBody('Hola, recordatorio: tu producto de investigación está listo para reordenar. ¡Contáctanos!')}>🧪 Refill Reminder</button>
             </div>
             <div className="twilio-actions-row">
@@ -1033,8 +1033,8 @@ export default function TwilioPanel() {
             </div>
             <div className="twilio-preset-chips">
               <span className="twilio-preset-label">Quick Templates:</span>
-              <button type="button" className="twilio-chip" onClick={() => setWaBody('Hola! Tu pedido de Peptides Costa Rica ha sido confirmado. ¡Gracias por tu compra! 🚀')}>✅ Order (ES)</button>
-              <button type="button" className="twilio-chip" onClick={() => setWaBody('Hello! Your Peptides Costa Rica order is confirmed and being prepared. Thank you! 🎉')}>✅ Order (EN)</button>
+              <button type="button" className="twilio-chip" onClick={() => setWaBody('Hola! Tu pedido de Peptidos Colombia ha sido confirmado. ¡Gracias por tu compra! 🚀')}>✅ Order (ES)</button>
+              <button type="button" className="twilio-chip" onClick={() => setWaBody('Hello! Your Peptidos Colombia order is confirmed and being prepared. Thank you! 🎉')}>✅ Order (EN)</button>
               <button type="button" className="twilio-chip" onClick={() => setWaBody('Hola! 🌿 Ya tienes disponible tu próximo pedido de péptidos. ¿Quieres reordenar?')}>🧪 Reorder Reminder</button>
             </div>
             <div className="twilio-actions-row">

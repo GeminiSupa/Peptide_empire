@@ -309,7 +309,7 @@ const getReferralBadgeStyles = (label) => {
   if (lower.includes('live chat')) {
     return {
       background: 'rgba(14, 165, 233, 0.15)',
-      color: '#7dd3fc',
+      color: '#6ee7b7',
       border: '1px solid rgba(14, 165, 233, 0.3)'
     };
   }
@@ -341,7 +341,7 @@ const getReferralBadgeStyles = (label) => {
   if (lower.includes('twitter') || lower === 'x' || lower.includes('x /')) {
     return {
       background: 'rgba(14, 165, 233, 0.15)',
-      color: '#38bdf8',
+      color: '#34d399',
       border: '1px solid rgba(14, 165, 233, 0.3)'
     };
   }
@@ -792,7 +792,7 @@ System Instructions:
 ${whatsappSettings.ai_system_prompt}
 
 Active Products in Catalog:
-${products.map(p => `- ${p.product} (Category: ${p.category}, Price: ${p.priceUsd} USD / ${p.priceCrc || 'N/A'} CRC, Status: ${p.status})`).join('\n')}
+${products.map(p => `- ${p.product} (Category: ${p.category}, Price: ${p.priceUsd} USD / ${p.priceCrc || 'N/A'} COP, Status: ${p.status})`).join('\n')}
 
 ${crmContext ? `Customer CRM Context:\n${crmContext}\n` : ''}
 Recent Conversation Thread:
@@ -889,7 +889,7 @@ Please draft a perfect next response to this customer. Match their language (Spa
     const optimisticMessage = {
       id: tempId,
       wa_id: activeChatWaId,
-      display_name: 'Peptides Costa Rica',
+      display_name: 'Peptidos Colombia',
       message_text: textToSend,
       media_url: mediaUrl,
       message_type: mediaUrl ? 'image' : 'text',
@@ -978,7 +978,7 @@ Please draft a perfect next response to this customer. Match their language (Spa
     const optimisticMessage = {
       id: tempId,
       wa_id: baileysActiveChatWaId,
-      display_name: 'Peptides Costa Rica',
+      display_name: 'Peptidos Colombia',
       message_text: textToSend,
       message_type: 'text',
       direction: 'outbound',
@@ -1077,7 +1077,7 @@ Please draft a perfect next response to this customer. Match their language (Spa
         }
       });
 
-      const prompt = `You are the chief cart recovery optimizer at Peptides Costa Rica.
+      const prompt = `You are the chief cart recovery optimizer at Peptidos Colombia.
 Analyze the following active abandoned carts statistics:
 - Total Active Abandoned Carts: ${activeAbandoned.length}
 - Total Potential Recoverable Value: $${totalPotentialVal.toFixed(2)} USD (CRC ${(totalPotentialVal * exchangeRate).toLocaleString()})
@@ -1139,7 +1139,7 @@ Keep your tone highly professional, precise, data-driven, and empowering. Format
         cities[city] = (cities[city] || 0) + 1;
       });
 
-      const prompt = `You are the lead marketing director at Peptides Costa Rica.
+      const prompt = `You are the lead marketing director at Peptidos Colombia.
 Analyze the following catalog access leads pipeline statistics:
 - Total Leads Captured: ${totalLeads}
 - Traffic Source Breakdown: ${Object.entries(referralSources).map(([source, count]) => `${source} (${count} leads)`).join(', ') || 'No source data'}
@@ -1304,7 +1304,7 @@ Keep your tone highly professional, precise, data-driven, and empowering. Format
         method: 'POST',
         body: JSON.stringify({
           to: lead.contact_value,
-          subject: lead.language === 'es' ? 'Acceso Exclusivo al Catálogo - Peptides Costa Rica' : 'Exclusive Catalog Access - Peptides Costa Rica',
+          subject: lead.language === 'es' ? 'Acceso Exclusivo al Catálogo - Peptidos Colombia' : 'Exclusive Catalog Access - Peptidos Colombia',
           message: message
         })
       });
@@ -1316,17 +1316,17 @@ Keep your tone highly professional, precise, data-driven, and empowering. Format
         await handleMarkAsContacted(lead.id);
       } else {
         alert('❌ Failed to send email through server: ' + (data.error || 'Unknown error') + '\n\nOpening your personal email client as fallback instead...');
-        const subject = encodeURIComponent(lead.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptides Costa Rica Inquiry');
+        const subject = encodeURIComponent(lead.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptidos Colombia Inquiry');
         window.location.href = `mailto:${lead.contact_value}?subject=${subject}&body=${encodeURIComponent(message)}`;
-        await logOutreachToNotes(lead, 'email', `(Fallback Client)\nSubject: ${lead.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptides Costa Rica Inquiry'}\n\n${message}`);
+        await logOutreachToNotes(lead, 'email', `(Fallback Client)\nSubject: ${lead.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptidos Colombia Inquiry'}\n\n${message}`);
         await handleMarkAsContacted(lead.id);
       }
     } catch (err) {
       console.error(err);
       alert('❌ Connection failed: ' + err.message + '\n\nOpening your personal email client as fallback instead...');
-      const subject = encodeURIComponent(lead.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptides Costa Rica Inquiry');
+      const subject = encodeURIComponent(lead.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptidos Colombia Inquiry');
       window.location.href = `mailto:${lead.contact_value}?subject=${subject}&body=${encodeURIComponent(message)}`;
-      await logOutreachToNotes(lead, 'email', `(Fallback Client Connection Error)\nSubject: ${lead.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptides Costa Rica Inquiry'}\n\n${message}`);
+      await logOutreachToNotes(lead, 'email', `(Fallback Client Connection Error)\nSubject: ${lead.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptidos Colombia Inquiry'}\n\n${message}`);
       await handleMarkAsContacted(lead.id);
     } finally {
       setEmailSending(false);
@@ -1362,7 +1362,7 @@ Puedes volver al catálogo para completar tu orden en https://catalog.peptidesco
 Si prefieres coordinar o realizar tus consultas por WhatsApp, puedes escribirnos directamente a nuestros WhatsApp de la compañía +506 6060-4775 haciendo clic en este enlace: https://wa.me/50660604775
 
 ¡Pura vida!
-Peptides Costa Rica`;
+Peptidos Colombia`;
         } else {
           defaultMsg = `¡Hola! 👋
 
@@ -1375,7 +1375,7 @@ Puedes volver al catálogo para completar tu orden en https://catalog.peptidesco
 Si prefieres coordinar o realizar tus consultas por WhatsApp, puedes escribirnos directamente a nuestros WhatsApp de la compañía +506 6060-4775 haciendo clic en este enlace: https://wa.me/50660604775
 
 ¡Pura vida!
-Peptides Costa Rica`;
+Peptidos Colombia`;
         }
       } else {
         // WhatsApp method
@@ -1399,7 +1399,7 @@ You can return to our catalog to complete your order at https://catalog.peptides
 If you prefer to coordinate or ask questions via WhatsApp, you can chat with us directly at our company WhatsApp numbers +506 6060-4775 by clicking here: https://wa.me/50660604775
 
 Best regards,
-Peptides Costa Rica`;
+Peptidos Colombia`;
         } else {
           defaultMsg = `Hi there! 👋
 
@@ -1412,7 +1412,7 @@ You can return to our catalog to complete your purchase at https://catalog.pepti
 If you prefer to coordinate or ask questions via WhatsApp, you can chat with us directly at our company WhatsApp numbers +506 6060-4775 by clicking here: https://wa.me/50660604775
 
 Best regards,
-Peptides Costa Rica`;
+Peptidos Colombia`;
         }
       } else {
         // WhatsApp method
@@ -1510,7 +1510,7 @@ Core Rules:
             method: 'POST',
             body: JSON.stringify({
               to: leadOutreachActive.contact_value,
-              subject: leadOutreachActive.language === 'es' ? 'Acceso Exclusivo al Catálogo - Peptides Costa Rica' : 'Exclusive Catalog Access - Peptides Costa Rica',
+              subject: leadOutreachActive.language === 'es' ? 'Acceso Exclusivo al Catálogo - Peptidos Colombia' : 'Exclusive Catalog Access - Peptidos Colombia',
               message: leadOutreachMessage
             })
           });
@@ -1523,18 +1523,18 @@ Core Rules:
             setLeadOutreachModalOpen(false);
           } else {
             alert('❌ Failed to send email through server: ' + (data.error || 'Unknown error') + '\n\nOpening your personal email client as fallback instead...');
-            const subject = encodeURIComponent(leadOutreachActive.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptides Costa Rica Inquiry');
+            const subject = encodeURIComponent(leadOutreachActive.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptidos Colombia Inquiry');
             window.location.href = `mailto:${leadOutreachActive.contact_value}?subject=${subject}&body=${encodeURIComponent(leadOutreachMessage)}`;
-            await logOutreachToNotes(leadOutreachActive, 'email', `(Fallback Client)\nSubject: ${leadOutreachActive.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptides Costa Rica Inquiry'}\n\n${leadOutreachMessage}`);
+            await logOutreachToNotes(leadOutreachActive, 'email', `(Fallback Client)\nSubject: ${leadOutreachActive.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptidos Colombia Inquiry'}\n\n${leadOutreachMessage}`);
             await handleMarkAsContacted(leadOutreachActive.id);
             setLeadOutreachModalOpen(false);
           }
         } catch (err) {
           console.error(err);
           alert('❌ Connection failed: ' + err.message + '\n\nOpening your personal email client as fallback instead...');
-          const subject = encodeURIComponent(leadOutreachActive.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptides Costa Rica Inquiry');
+          const subject = encodeURIComponent(leadOutreachActive.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptidos Colombia Inquiry');
           window.location.href = `mailto:${leadOutreachActive.contact_value}?subject=${subject}&body=${encodeURIComponent(leadOutreachMessage)}`;
-          await logOutreachToNotes(leadOutreachActive, 'email', `(Fallback Client Connection Error)\nSubject: ${leadOutreachActive.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptides Costa Rica Inquiry'}\n\n${leadOutreachMessage}`);
+          await logOutreachToNotes(leadOutreachActive, 'email', `(Fallback Client Connection Error)\nSubject: ${leadOutreachActive.language === 'es' ? 'Información sobre Péptidos de Costa Rica' : 'Peptidos Colombia Inquiry'}\n\n${leadOutreachMessage}`);
           await handleMarkAsContacted(leadOutreachActive.id);
           setLeadOutreachModalOpen(false);
         }
@@ -1579,7 +1579,7 @@ Puedes completar tu pedido en el catálogo o chatear directamente con nosotros p
 
 Quedamos a tu entera disposición,
 
-Soporte - Peptides Costa Rica`;
+Soporte - Peptidos Colombia`;
       } else {
         return `Hi there! 👋
 
@@ -1591,7 +1591,7 @@ You can complete your purchase directly on our site or chat with us on WhatsApp 
 
 Best regards,
 
-Support - Peptides Costa Rica`;
+Support - Peptidos Colombia`;
       }
     }
   };
@@ -1611,7 +1611,7 @@ Support - Peptides Costa Rica`;
       const views = productViews.filter(v => v.contact_value === lead.contact_value);
       viewedProducts = views.map(v => v.product_name).join(', ') || 'our scientific peptide catalog';
 
-      const prompt = `You are a professional, warm product specialist advisor at Peptides Costa Rica.
+      const prompt = `You are a professional, warm product specialist advisor at Peptidos Colombia.
 Draft a very short, sweet, and highly converting outbound outreach message to a prospect who browsed our site but hasn't completed checkout yet.
 
 Prospect Details:
@@ -1897,7 +1897,7 @@ Core Rules:
     },
     twilio: {
       label: 'Twilio Hub',
-      icon: <Send size={iconSize} style={{ color: activeTab === 'twilio' ? 'inherit' : '#38bdf8' }} />,
+      icon: <Send size={iconSize} style={{ color: activeTab === 'twilio' ? 'inherit' : '#34d399' }} />,
     },
     analytics: {
       label: 'Analytics',
@@ -2756,7 +2756,7 @@ Core Rules:
                     product: p.product || '',
                     category: p.category || '',
                     priceUsd: p.priceUsd || '',
-                    priceCrc: calculatedCrc > 0 ? `₡${calculatedCrc.toLocaleString('en-US')}` : '',
+                    priceCrc: calculatedCrc > 0 ? `$${calculatedCrc.toLocaleString('en-US')}` : '',
                     originalPriceUsd: '',
                     originalPriceCrc: '',
                     discount: p.bulkDiscountEs || p.bulkDiscountEn || '',
@@ -3365,7 +3365,7 @@ Core Rules:
       isDefaultSize: false,
       category: 'Metabolic & GLP-1 Compounds',
       priceUsd: '$100',
-      priceCrc: '₡45,448',
+      priceCrc: '$45,448',
       originalPriceUsd: '',
       originalPriceCrc: '',
       discount: 'Buy 5+ vials, get 15% off',
@@ -3475,7 +3475,7 @@ Core Rules:
               product: p.product || '',
               category: p.category || '',
               priceUsd: p.priceUsd || '',
-              priceCrc: p.priceCrc || (calculatedCrc > 0 ? `₡${calculatedCrc.toLocaleString('en-US')}` : ''),
+              priceCrc: p.priceCrc || (calculatedCrc > 0 ? `$${calculatedCrc.toLocaleString('en-US')}` : ''),
               originalPriceUsd: '',
               originalPriceCrc: '',
               discount: p.bulkDiscountEs || p.bulkDiscountEn || '',
@@ -3963,7 +3963,7 @@ Core Rules:
       order?.customer_phone,
       order && (order.currency === 'USD'
         ? `$${Number(order.total_usd || 0).toLocaleString('en-US')}`
-        : `₡${Number(order.total_crc || 0).toLocaleString('es-CR')}`),
+        : `$${Number(order.total_crc || 0).toLocaleString('es-CR')}`),
       order?.status && `Status: ${order.status}`,
       order?.sales_agent && `Agent: ${order.sales_agent}`,
     ], { recoverable: true })) return;
@@ -4364,14 +4364,14 @@ Core Rules:
     if (recipient.cartItems) {
       switch (templateType) {
         case 'purity':
-          return `${hola} Te saluda ${agentSig} de Peptides Costa Rica. 🇨🇷 
+          return `${hola} Te saluda ${agentSig} de Peptidos Colombia. 🇨🇷 
 
 Te contacto porque notamos tu interés en ${itemsStr}. Quería recordarte que todos nuestros péptidos cuentan con pureza certificada de laboratorio ≥98% HPLC para garantizar la máxima seguridad en tu investigación.
 
 Realizamos envíos rápidos a todo el país vía Correos de CR y coordinamos pagos seguros vía SINPE Móvil o tarjeta. ¿Te gustaría que te ayude a coordinar tu envío hoy?`;
 
         case 'discount':
-          return `${hola} Te saluda ${agentSig} de Peptides Costa Rica. 🇨🇷
+          return `${hola} Te saluda ${agentSig} de Peptidos Colombia. 🇨🇷
 
 Queremos apoyarte en tus metas de salud y rendimiento. Por eso, si completas tu orden de ${itemsStr} hoy, puedes aplicar un 10% de descuento adicional utilizando el cupón especial COSTA10.
 
@@ -4381,7 +4381,7 @@ Puedes recuperar tu carrito y aplicar tu cupón directamente ingresando aquí:
 Avísame si deseas que agilice tu orden directamente por este chat. ¡Quedo a tu total disposición!`;
 
         case 'dosing':
-          return `${hola} Te habla ${agentSig} de Peptides Costa Rica. 🇨🇷
+          return `${hola} Te habla ${agentSig} de Peptidos Colombia. 🇨🇷
 
 Vimos que estabas consultando por ${itemsStr}. Al adquirir péptidos en polvo, sabemos que la matemática de la reconstitución con agua bacteriostática y la dosificación correcta con jeringas de insulina puede ser confusa.
 
@@ -4389,7 +4389,7 @@ Te ofrezco asesoría gratuita y directa sobre cómo prepararlos y administrarlos
 
         case 'standard':
         default:
-          return `${hola} Te saluda ${agentSig} de Peptides Costa Rica. 🇨🇷
+          return `${hola} Te saluda ${agentSig} de Peptidos Colombia. 🇨🇷
 
 Notamos que dejaste algunos artículos en tu carrito (${itemsStr}). Quería ponerme a tu entera disposición por si tienes alguna consulta sobre la calidad del laboratorio, las formas de pago en Costa Rica, o si gustas que te coordine la entrega vía Correos de CR.
 
@@ -4403,21 +4403,21 @@ Puedes finalizar tu orden de forma segura en este link:
     else if (recipient.orderNumber) {
       switch (templateType) {
         case 'payment':
-          return `${hola} Te saluda ${agentSig} de Peptides Costa Rica. 🇨🇷
+          return `${hola} Te saluda ${agentSig} de Peptidos Colombia. 🇨🇷
 
 Recibimos tu orden #${recipient.orderNumber} por ${itemsStr}. Quería verificar si tuviste algún inconveniente al realizar tu pago SINPE Móvil o con Tarjeta.
 
 Quedamos atentos a la confirmación o comprobante de pago por este medio para procesar y despachar tus productos de inmediato. ¡Muchas gracias!`;
 
         case 'purity':
-          return `${hola} Te saluda ${agentSig} de Peptides Costa Rica. 🇨🇷
+          return `${hola} Te saluda ${agentSig} de Peptidos Colombia. 🇨🇷
 
 Muchas gracias por tu compra de ${itemsStr} (Orden #${recipient.orderNumber}). Quería compartirte de forma directa nuestra guía digital de reconstitución, almacenamiento y uso seguro para que comiences tu protocolo de la mejor manera.
 
 ¿Hay algo más en lo que te pueda asesorar o apoyar en este momento? ¡Un gusto atenderte!`;
 
         case 'discount':
-          return `${hola} Te saluda ${agentSig} de Peptides Costa Rica. 🇨🇷
+          return `${hola} Te saluda ${agentSig} de Peptidos Colombia. 🇨🇷
 
 Te escribo para confirmarte que estamos preparando tu orden #${recipient.orderNumber} conteniendo ${itemsStr}. En las próximas horas te estaremos compartiendo el número de guía de Correos de Costa Rica para que puedas rastrear tu paquete.
 
@@ -4425,7 +4425,7 @@ Te escribo para confirmarte que estamos preparando tu orden #${recipient.orderNu
 
         case 'standard':
         default:
-          return `${hola} Te saluda ${agentSig} de Peptides Costa Rica. 🇨🇷
+          return `${hola} Te saluda ${agentSig} de Peptidos Colombia. 🇨🇷
 
 Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Queríamos verificar si todo marcha bien y si tienes alguna duda respecto al envío, las instrucciones de almacenamiento de los viales, o la dosificación.
 
@@ -4433,7 +4433,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
       }
     }
 
-    return `${cleanName ? `Hola ${cleanName},` : 'Hola,'} te saluda ${agentSig} de Peptides Costa Rica. ¿Cómo te podemos ayudar hoy?`;
+    return `${cleanName ? `Hola ${cleanName},` : 'Hola,'} te saluda ${agentSig} de Peptidos Colombia. ¿Cómo te podemos ayudar hoy?`;
   };
 
   // 3. Open Custom WhatsApp Composer Modal
@@ -4655,7 +4655,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
         let title = 'Export';
 
         if (exportModalType === 'orders') {
-          headers = [ 'Order ID', 'Order Number', 'Date', 'Customer Name', 'ID Number', 'ID Type', 'Phone', 'Shipping Address', 'Status', 'Payment Method', 'Items', 'Total (CRC)', 'Total (USD)' ];
+          headers = [ 'Order ID', 'Order Number', 'Date', 'Customer Name', 'ID Number', 'ID Type', 'Phone', 'Shipping Address', 'Status', 'Payment Method', 'Items', 'Total (COP)', 'Total (USD)' ];
           dataRows = orders.map(order => {
              const items = Array.isArray(order.items) ? order.items : [];
              const itemsSummary = items.map(i => `${i.product} x${i.qty}`).join(' | ');
@@ -4665,7 +4665,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
           filename = `peptidescr-orders-${new Date().toISOString().slice(0, 10)}`;
           title = 'Costa Rica Peptides - Orders Export';
         } else if (exportModalType === 'products') {
-          headers = [ 'Product Name', 'Category', 'Price (USD)', 'Price (CRC)', 'Status', 'Bulk Discount' ];
+          headers = [ 'Product Name', 'Category', 'Price (USD)', 'Price (COP)', 'Status', 'Bulk Discount' ];
           dataRows = products.map(p => [ p.product, p.category, p.priceUsd, p.priceCrc, p.status, p.discount ]);
           filename = `peptidescr-products-${new Date().toISOString().slice(0, 10)}`;
           title = 'Costa Rica Peptides - Products Export';
@@ -4961,13 +4961,13 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
     if (newP.priceUsd) {
       const usdNum = parseFloat(String(newP.priceUsd).replace(/[^0-9.]/g, '')) || 0;
       if (usdNum > 0) {
-        newP.priceCrc = `₡${Math.round(usdNum * exchangeRate).toLocaleString('en-US')}`;
+        newP.priceCrc = `$${Math.round(usdNum * exchangeRate).toLocaleString('en-US')}`;
       }
     }
     if (newP.originalPriceUsd) {
       const origUsdNum = parseFloat(String(newP.originalPriceUsd).replace(/[^0-9.]/g, '')) || 0;
       if (origUsdNum > 0) {
-        newP.originalPriceCrc = `₡${Math.round(origUsdNum * exchangeRate).toLocaleString('en-US')}`;
+        newP.originalPriceCrc = `$${Math.round(origUsdNum * exchangeRate).toLocaleString('en-US')}`;
       }
     }
     return newP;
@@ -5452,7 +5452,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
     const item = siteSettings?.[listKey]?.[index] || {};
     return (
       <div key={`${listKey}-${index}`} style={{ borderTop: index === 0 ? 0 : '1px solid rgba(255,255,255,0.08)', paddingTop: index === 0 ? 0 : '12px', marginTop: index === 0 ? 0 : '12px' }}>
-        <div style={{ color: '#38bdf8', fontSize: '0.72rem', fontWeight: 900, marginBottom: '8px', textTransform: 'uppercase' }}>Item {index + 1}</div>
+        <div style={{ color: '#34d399', fontSize: '0.72rem', fontWeight: 900, marginBottom: '8px', textTransform: 'uppercase' }}>Item {index + 1}</div>
         {Object.entries(labels).map(([fieldKey, label]) => (
           <label key={fieldKey} data-cms-search={cmsSearchText('landing', `${listKey} ${label}`, fieldKey)} style={{ display: 'block' }}>
             <span style={cmsLabelStyle}>{label}</span>
@@ -5505,7 +5505,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
     const item = publicPageSettings?.[pageId]?.[listKey]?.[index] || {};
     return (
       <div key={`${pageId}-${listKey}-${index}`} style={{ borderTop: index === 0 ? 0 : '1px solid rgba(255,255,255,0.08)', paddingTop: index === 0 ? 0 : '12px', marginTop: index === 0 ? 0 : '12px' }}>
-        <div style={{ color: '#38bdf8', fontSize: '0.72rem', fontWeight: 900, marginBottom: '8px', textTransform: 'uppercase' }}>Item {index + 1}</div>
+        <div style={{ color: '#34d399', fontSize: '0.72rem', fontWeight: 900, marginBottom: '8px', textTransform: 'uppercase' }}>Item {index + 1}</div>
         {Object.entries(labels).map(([fieldKey, label]) => (
           <label key={fieldKey} data-cms-search={cmsSearchText(pageId, `${listKey} ${label}`, fieldKey)} style={{ display: 'block' }}>
             <span style={cmsLabelStyle}>{label}</span>
@@ -5585,7 +5585,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
         <div className="admin-login-container">
           <div className="admin-login-card">
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
-              <img src="/logo.png" alt="Peptides Costa Rica Admin" style={{ maxHeight: '60px', width: 'auto', objectFit: 'contain', borderRadius: '12px', boxShadow: '0 2px 16px rgba(0,0,0,0.25)' }} />
+              <img src="/site/logo-white.svg" alt="Peptidos Colombia Admin" style={{ maxHeight: '60px', width: 'auto', objectFit: 'contain', borderRadius: '12px', boxShadow: '0 2px 16px rgba(0,0,0,0.25)' }} />
             </div>
             <p>Admin Security Dashboard</p>
             
@@ -5691,7 +5691,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
       <nav className="admin-navbar">
         <div className="admin-nav-top-row">
           <div className="admin-nav-logo-container">
-            <img src="/logo.png" alt="Peptides Costa Rica Admin Logo" className="admin-logo-img" />
+            <img src="/site/logo-white.svg" alt="Peptidos Colombia Admin Logo" className="admin-logo-img" />
             <div className="db-status-indicator">
               <span className={`status-dot ${isDbConnected ? 'connected' : 'simulation'}`}></span>
               <span className="status-text">{isDbConnected ? 'Live Connection' : 'Simulation Mode'}</span>
@@ -5989,7 +5989,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                       value={shareCurrency}
                       onChange={(e) => setShareCurrency(e.target.value)}
                     >
-                      <option value="CRC">CRC / Colones Costarricenses</option>
+                      <option value="CRC">COP / Pesos Colombianos</option>
                       <option value="USD">USD / Dólares Estadounidenses</option>
                     </select>
                   </div>
@@ -6125,7 +6125,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                   💡 **Sharing Pro-Tip:** Placing `lang=en` inside links will automatically translate all category names, buttons, and stock badges to English, and toggle the catalog to prioritize USD pricing immediately for international clients!
                   
                   <div style={{ marginTop: '12px', paddingTop: '12px', borderTop: '1px solid rgba(0, 212, 255, 0.1)' }}>
-                    <p style={{ margin: '0 0 8px 0', color: '#38bdf8', fontWeight: 'bold' }}>🧪 Live Testing Links (No analytics logged):</p>
+                    <p style={{ margin: '0 0 8px 0', color: '#34d399', fontWeight: 'bold' }}>🧪 Live Testing Links (No analytics logged):</p>
                     <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '6px' }}>
                       <li>
                         <a href="https://catalog.peptidescostarica.net/catalog?admin_preview=true" target="_blank" rel="noopener noreferrer" style={{ color: '#34d399', textDecoration: 'none' }}>
@@ -6149,7 +6149,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
           
           loadingAbandonedCarts ? (
             <div style={{ background: 'rgba(15, 23, 42, 0.4)', borderRadius: '12px', padding: '60px 20px', border: '1px dashed rgba(255,255,255,0.1)', textAlign: 'center', marginTop: '20px' }}>
-              <div className="sync-spinner" style={{ color: '#38bdf8', marginBottom: '15px' }}><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
+              <div className="sync-spinner" style={{ color: '#34d399', marginBottom: '15px' }}><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></div>
               <h3 style={{ color: '#f8fafc', margin: 0, fontSize: '1.1rem' }}>Loading Carts...</h3>
               <p style={{ color: '#64748b', margin: '4px 0 0', fontSize: '0.85rem' }}>Fetching the latest abandoned carts.</p>
             </div>
@@ -6199,7 +6199,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                   cursor: 'pointer',
                   background: reviewsSubTab === sub.id ? 'rgba(56, 189, 248, 0.14)' : 'rgba(148,163,184,0.08)',
                   border: `1px solid ${reviewsSubTab === sub.id ? 'rgba(56,189,248,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                  color: reviewsSubTab === sub.id ? '#38bdf8' : '#94a3b8',
+                  color: reviewsSubTab === sub.id ? '#34d399' : '#94a3b8',
                 }}
               >
                 {sub.label}
@@ -6223,7 +6223,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
           
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '24px', flexWrap: 'wrap', gap: '12px' }}>
               <h2 style={{ fontSize: '1.25rem', color: '#f8fafc', margin: 0 }}>Product Reviews Moderation</h2>
-              <button className="admin-btn" onClick={loadAdminData} style={{ padding: '6px 14px', fontSize: '0.85rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', color: '#38bdf8', borderRadius: '8px', cursor: 'pointer', fontWeight: '700' }}>
+              <button className="admin-btn" onClick={loadAdminData} style={{ padding: '6px 14px', fontSize: '0.85rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', color: '#34d399', borderRadius: '8px', cursor: 'pointer', fontWeight: '700' }}>
                 Refresh
               </button>
             </div>
@@ -6351,7 +6351,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                         <td style={{ textAlign: 'center' }}>
                           <span style={{ 
                             background: r.status === 'Approved' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(59, 130, 246, 0.15)', 
-                            color: r.status === 'Approved' ? '#4ade80' : '#38bdf8', 
+                            color: r.status === 'Approved' ? '#4ade80' : '#34d399', 
                             padding: '4px 8px', borderRadius: '12px', fontSize: '0.7rem', fontWeight: 'bold' 
                           }}>
                             {r.status}
@@ -6440,7 +6440,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                         padding: '1px 6px',
                         borderRadius: 999,
                         background: fbView === v.id ? 'rgba(255,255,255,0.24)' : 'rgba(14,165,233,0.16)',
-                        color: fbView === v.id ? '#fff' : '#38bdf8',
+                        color: fbView === v.id ? '#fff' : '#34d399',
                         fontSize: '0.68rem',
                         fontWeight: 800,
                         textAlign: 'center',
@@ -6472,7 +6472,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                   <button 
                     className="admin-btn" 
                     onClick={handleMarkAllNotificationsRead} 
-                    style={{ padding: '6px 14px', fontSize: '0.85rem', background: 'rgba(14, 165, 233, 0.15)', border: '1px solid rgba(14, 165, 233, 0.3)', color: '#38bdf8', borderRadius: '8px', cursor: 'pointer', fontWeight: '700' }}
+                    style={{ padding: '6px 14px', fontSize: '0.85rem', background: 'rgba(14, 165, 233, 0.15)', border: '1px solid rgba(14, 165, 233, 0.3)', color: '#34d399', borderRadius: '8px', cursor: 'pointer', fontWeight: '700' }}
                   >
                     Mark All Read
                   </button>
@@ -6480,7 +6480,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                 <button 
                   className="admin-btn" 
                   onClick={loadAdminData} 
-                  style={{ padding: '6px 14px', fontSize: '0.85rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', color: '#38bdf8', borderRadius: '8px', cursor: 'pointer', fontWeight: '700' }}
+                  style={{ padding: '6px 14px', fontSize: '0.85rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', color: '#34d399', borderRadius: '8px', cursor: 'pointer', fontWeight: '700' }}
                 >
                   Refresh
                 </button>
@@ -7052,7 +7052,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
               {/* Public Page Settings */}
               <div {...cmsSectionProps('pages')} style={{ background: '#0e1626', padding: '24px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)', gridColumn: '1 / -1' }}>
                 <h3 className="cms-section-head" style={{ fontSize: '1.1rem', color: '#f8fafc', marginBottom: '16px' }}>
-                  {cmsSectionHeading(<FileText size={18} color="#38bdf8" />, 'Public pages')}
+                  {cmsSectionHeading(<FileText size={18} color="#34d399" />, 'Public pages')}
                 </h3>
 
                 {loadingSettings ? (
@@ -7407,7 +7407,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
             
             {(loadingOrders || loadingProducts || loadingAbandonedCarts) ? (
               <div style={{ background: 'rgba(15, 23, 42, 0.4)', borderRadius: '12px', padding: '60px 20px', border: '1px dashed rgba(255,255,255,0.1)', textAlign: 'center', marginTop: '20px' }}>
-                <div className="sync-spinner" style={{ color: '#38bdf8', marginBottom: '15px' }}><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></div>
+                <div className="sync-spinner" style={{ color: '#34d399', marginBottom: '15px' }}><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></div>
                 <h3 style={{ color: '#f8fafc', margin: 0, fontSize: '1.1rem' }}>Loading Analytics...</h3>
                 <p style={{ color: '#64748b', margin: '4px 0 0', fontSize: '0.85rem' }}>Crunching numbers and fetching the latest data.</p>
               </div>
@@ -7441,7 +7441,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
             
             {loadingOrders ? (
               <div style={{ background: 'rgba(15, 23, 42, 0.4)', borderRadius: '12px', padding: '60px 20px', border: '1px dashed rgba(255,255,255,0.1)', textAlign: 'center', marginTop: '20px' }}>
-                <div className="sync-spinner" style={{ color: '#38bdf8', marginBottom: '15px' }}><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+                <div className="sync-spinner" style={{ color: '#34d399', marginBottom: '15px' }}><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
                 <h3 style={{ color: '#f8fafc', margin: 0, fontSize: '1.1rem' }}>Loading Customers...</h3>
                 <p style={{ color: '#64748b', margin: '4px 0 0', fontSize: '0.85rem' }}>Fetching customer data from orders.</p>
               </div>
@@ -7738,7 +7738,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
               </div>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                <h4 style={{ fontSize: '0.75rem', fontWeight: '800', color: '#38bdf8', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '4px' }}>💬 WhatsApp & CRM</h4>
+                <h4 style={{ fontSize: '0.75rem', fontWeight: '800', color: '#34d399', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', gap: '4px' }}>💬 WhatsApp & CRM</h4>
                 
                 <button 
                   onClick={() => setAiInputText("Draft a polite WhatsApp message to recover an abandoned cart containing BPC-157. Include a friendly 10% discount hook.")}
@@ -7774,7 +7774,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
               </div>
 
               <div style={{ marginTop: 'auto', padding: '12px', background: 'rgba(56,189,248,0.05)', border: '1px solid rgba(56,189,248,0.1)', borderRadius: '10px' }}>
-                <span style={{ fontSize: '0.7rem', fontWeight: 'bold', color: '#38bdf8', display: 'block', marginBottom: '4px' }}>💡 Dashboard Context:</span>
+                <span style={{ fontSize: '0.7rem', fontWeight: 'bold', color: '#34d399', display: 'block', marginBottom: '4px' }}>💡 Dashboard Context:</span>
                 <span style={{ fontSize: '0.65rem', color: '#94a3b8', display: 'block' }}>Copilot is fed your active products list and orders metrics, enabling it to reference real catalog details in drafts automatically!</span>
               </div>
             </div>
@@ -7785,7 +7785,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
               {/* Header */}
               <div style={{ padding: '16px 20px', borderBottom: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.01)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <Sparkles size={16} style={{ color: '#38bdf8' }} />
+                  <Sparkles size={16} style={{ color: '#34d399' }} />
                   <span style={{ fontSize: '0.9rem', fontWeight: 'bold', color: '#f8fafc' }}>Active E-Commerce Copilot Session</span>
                 </div>
                 <span style={{ background: 'rgba(34, 197, 94, 0.15)', color: '#4ade80', fontSize: '0.65rem', padding: '3px 8px', borderRadius: '20px', fontWeight: 'bold', border: '1px solid rgba(34, 197, 94, 0.2)' }}>
@@ -7811,7 +7811,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                       whiteSpace: 'pre-wrap'
                     }}
                   >
-                    <div style={{ fontSize: '0.65rem', color: msg.role === 'user' ? '#93c5fd' : '#38bdf8', fontWeight: 'bold', marginBottom: '4px', textTransform: 'uppercase' }}>
+                    <div style={{ fontSize: '0.65rem', color: msg.role === 'user' ? '#93c5fd' : '#34d399', fontWeight: 'bold', marginBottom: '4px', textTransform: 'uppercase' }}>
                       {msg.role === 'user' ? 'You (Administrator)' : '🧬 Costa Peptides Copilot'}
                     </div>
                     {msg.text}
@@ -7821,9 +7821,9 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                 {aiLoading && (
                   <div style={{ alignSelf: 'flex-start', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px 12px 12px 0', padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <div style={{ display: 'flex', gap: '4px' }}>
-                      <div style={{ width: '6px', height: '6px', background: '#38bdf8', borderRadius: '50%' }} />
-                      <div style={{ width: '6px', height: '6px', background: '#38bdf8', borderRadius: '50%' }} />
-                      <div style={{ width: '6px', height: '6px', background: '#38bdf8', borderRadius: '50%' }} />
+                      <div style={{ width: '6px', height: '6px', background: '#34d399', borderRadius: '50%' }} />
+                      <div style={{ width: '6px', height: '6px', background: '#34d399', borderRadius: '50%' }} />
+                      <div style={{ width: '6px', height: '6px', background: '#34d399', borderRadius: '50%' }} />
                     </div>
                     <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Thinking...</span>
                   </div>
@@ -7917,7 +7917,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
             <button className="close-modal" onClick={() => setSelectedLeadDetails(null)} style={{ color: '#94a3b8', fontSize: '1.5rem', top: '20px', right: '20px', background: 'none', border: 'none', cursor: 'pointer' }}>&times;</button>
             
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-              <div style={{ padding: '10px', background: 'rgba(56, 189, 248, 0.1)', borderRadius: '12px', color: '#38bdf8', fontSize: '1.5rem' }}>👤</div>
+              <div style={{ padding: '10px', background: 'rgba(56, 189, 248, 0.1)', borderRadius: '12px', color: '#34d399', fontSize: '1.5rem' }}>👤</div>
               <div>
                 <h2 style={{ fontSize: '1.3rem', fontWeight: '900', color: '#f8fafc', margin: 0 }}>Lead Profile</h2>
                 <span style={{ fontSize: '0.75rem', color: '#64748b' }}>ID: {currentLead.id}</span>
@@ -7935,7 +7935,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                     <label style={{ fontSize: '0.7rem', color: '#94a3b8', display: 'block', marginBottom: '4px' }}>Method</label>
                     <span style={{ 
                       background: currentLead.contact_method === 'whatsapp' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(56, 189, 248, 0.15)', 
-                      color: currentLead.contact_method === 'whatsapp' ? '#4ade80' : '#38bdf8', 
+                      color: currentLead.contact_method === 'whatsapp' ? '#4ade80' : '#34d399', 
                       padding: '4px 10px', 
                       borderRadius: '20px', 
                       fontSize: '0.75rem', 
@@ -7973,7 +7973,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                         <button 
                           onClick={() => openLeadOutreachComposer(currentLead, 'email')}
                           style={{
-                            color: '#38bdf8',
+                            color: '#34d399',
                             display: 'inline-flex',
                             alignItems: 'center',
                             justifyContent: 'center',
@@ -8146,7 +8146,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                 boxShadow: '0 8px 32px 0 rgba(0, 0, 0, 0.3)'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '10px' }}>
-                  <div style={{ background: 'rgba(56, 189, 248, 0.1)', padding: '6px', borderRadius: '8px', color: '#38bdf8' }}>
+                  <div style={{ background: 'rgba(56, 189, 248, 0.1)', padding: '6px', borderRadius: '8px', color: '#34d399' }}>
                     <Brain size={16} />
                   </div>
                   <div>
@@ -8201,7 +8201,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                     background: 'rgba(56, 189, 248, 0.1)', 
                     border: '1px solid rgba(56, 189, 248, 0.25)', 
                     borderRadius: '8px', 
-                    color: '#38bdf8', 
+                    color: '#34d399', 
                     fontSize: '0.75rem', 
                     display: 'flex', 
                     alignItems: 'center', 
@@ -8324,7 +8324,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                       {views.map((v, i) => (
                         <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(56, 189, 248, 0.05)', padding: '8px 12px', borderRadius: '8px', border: '1px solid rgba(56, 189, 248, 0.1)' }}>
-                          <span style={{ fontSize: '0.85rem', color: '#38bdf8', fontWeight: 'bold' }}>{v.product_name}</span>
+                          <span style={{ fontSize: '0.85rem', color: '#34d399', fontWeight: 'bold' }}>{v.product_name}</span>
                           <span style={{ fontSize: '0.7rem', color: '#64748b' }}>
                             {v.viewed_at ? new Date(v.viewed_at).toLocaleTimeString() : 'Viewed'}
                           </span>
@@ -8473,7 +8473,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
 
             <button
               onClick={() => setRejectedImage(null)}
-              style={{ marginTop: '18px', width: '100%', padding: '11px', borderRadius: '10px', border: 'none', background: '#38bdf8', color: '#0b1220', fontWeight: 800, fontSize: '0.85rem', cursor: 'pointer' }}
+              style={{ marginTop: '18px', width: '100%', padding: '11px', borderRadius: '10px', border: 'none', background: '#34d399', color: '#0b1220', fontWeight: 800, fontSize: '0.85rem', cursor: 'pointer' }}
             >
               Got it
             </button>
@@ -8488,7 +8488,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
             <button className="close-modal" onClick={() => setShowPasswordModal(false)} style={{ color: '#94a3b8' }}>&times;</button>
             
             <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-              <KeyRound size={36} style={{ color: '#38bdf8', marginBottom: '12px' }} />
+              <KeyRound size={36} style={{ color: '#34d399', marginBottom: '12px' }} />
               <h2 style={{ fontSize: '1.3rem', fontWeight: '900', color: '#f8fafc' }}>Change Password</h2>
               <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '6px' }}>Update your admin access password</p>
             </div>
@@ -8551,7 +8551,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
               <button 
                 type="submit" 
                 disabled={passwordLoading}
-                style={{ width: '100%', padding: '12px', borderRadius: '10px', border: 'none', background: '#38bdf8', color: '#050b18', fontWeight: '800', fontSize: '0.9rem', cursor: 'pointer', marginTop: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                style={{ width: '100%', padding: '12px', borderRadius: '10px', border: 'none', background: '#34d399', color: '#050b18', fontWeight: '800', fontSize: '0.9rem', cursor: 'pointer', marginTop: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
               >
                 {passwordLoading ? (
                   <div className="sync-spinner" style={{ width: '16px', height: '16px' }}></div>
@@ -8571,7 +8571,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
             <button className="close-modal" onClick={() => setEditDescModalOpen(false)} style={{ color: '#94a3b8' }}>&times;</button>
             
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-              <FileText size={36} style={{ color: '#38bdf8', marginBottom: '8px' }} />
+              <FileText size={36} style={{ color: '#34d399', marginBottom: '8px' }} />
               <h2 style={{ fontSize: '1.3rem', fontWeight: '900', color: '#f8fafc' }}>Edit Product Information / Blog</h2>
               <p style={{ fontSize: '0.8rem', color: '#94a3b8', marginTop: '4px' }}>{editDescProduct.product}</p>
             </div>
@@ -8603,15 +8603,15 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
 
               {/* AI Assistant Action Panel */}
               <div style={{ display: 'flex', gap: '8px', padding: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '8px', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', marginTop: '8px' }}>
-                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#38bdf8', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Sparkles size={14} style={{ color: '#38bdf8' }} /> AI Copilot (Gemini)
+                <span style={{ fontSize: '0.75rem', fontWeight: 'bold', color: '#34d399', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <Sparkles size={14} style={{ color: '#34d399' }} /> AI Copilot (Gemini)
                 </span>
                 <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
                   <button
                     className="admin-btn"
                     disabled={loadingAiDesc || loadingAiTranslate}
                     onClick={() => handleAiGenerateDesc(editDescProduct.product)}
-                    style={{ padding: '6px 10px', fontSize: '0.75rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', color: '#38bdf8', cursor: 'pointer', borderRadius: '6px', opacity: (loadingAiDesc || loadingAiTranslate) ? 0.5 : 1 }}
+                    style={{ padding: '6px 10px', fontSize: '0.75rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', color: '#34d399', cursor: 'pointer', borderRadius: '6px', opacity: (loadingAiDesc || loadingAiTranslate) ? 0.5 : 1 }}
                   >
                     {loadingAiDesc ? 'Generating...' : '🧬 Generate scientific details'}
                   </button>
@@ -8769,7 +8769,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                       navigator.clipboard.writeText(waMessageText);
                       alert('Message copied.');
                     }}
-                    style={{ background: 'none', border: 'none', padding: 0, fontSize: '0.75rem', color: '#38bdf8', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
+                    style={{ background: 'none', border: 'none', padding: 0, fontSize: '0.75rem', color: '#34d399', textDecoration: 'underline', display: 'inline-flex', alignItems: 'center', gap: '4px', cursor: 'pointer' }}
                   >
                     <Clipboard size={12} /> Copy message
                   </button>
@@ -8797,7 +8797,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
                 {leadOutreachMethod === 'whatsapp' ? (
                   <MessageCircle size={24} style={{ color: '#22c55e' }} />
                 ) : (
-                  <Mail size={24} style={{ color: '#38bdf8' }} />
+                  <Mail size={24} style={{ color: '#34d399' }} />
                 )}
               </div>
               <div>

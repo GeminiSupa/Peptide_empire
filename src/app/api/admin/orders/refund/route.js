@@ -178,7 +178,7 @@ export async function POST(request) {
       ],
       activity_log: appendOrderActivity(order.activity_log, {
         type: 'refund',
-        message: `Refunded ${plan.currency === 'CRC' ? '₡' : '$'}${plan.currency === 'CRC' ? plan.refundCrc : plan.refundUsd}${plan.reason ? ` — ${plan.reason}` : ''}`,
+        message: `Refunded ${plan.currency === 'CRC' ? '$' : '$'}${plan.currency === 'CRC' ? plan.refundCrc : plan.refundUsd}${plan.reason ? ` — ${plan.reason}` : ''}`,
         by: actor,
       }),
     };

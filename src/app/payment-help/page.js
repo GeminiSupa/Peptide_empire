@@ -8,7 +8,7 @@ import { cardDeclineRules } from '@/lib/cardDeclineRules.mjs';
 import PaymentConfirmationWatcher from './PaymentConfirmationWatcher';
 import styles from './payment-help.module.css';
 
-export const metadata = { title: 'Payment help | Peptides Costa Rica' };
+export const metadata = { title: 'Payment help | Peptidos Colombia' };
 
 export default async function PaymentHelpPage({ searchParams }) {
   const params = await searchParams;
@@ -26,7 +26,7 @@ export default async function PaymentHelpPage({ searchParams }) {
     <main className={styles.page}>
       <PaymentConfirmationWatcher orderNumber={order} lang={lang} />
       <section className={styles.shell}>
-        <div className={styles.brand}><Image src="/logo.png" alt="Peptides Costa Rica" width={48} height={48} /><span>PEPTIDES COSTA RICA</span></div>
+        <div className={styles.brand}><Image src="/logo.png" alt="Peptidos Colombia" width={48} height={48} /><span>PEPTIDES COSTA RICA</span></div>
         <div className={styles.card}>
           <div className={styles.icon}><AlertTriangle size={32} /></div>
           <p className={styles.eyebrow}>{en ? 'Your order is still saved' : 'Su pedido sigue guardado'}</p>

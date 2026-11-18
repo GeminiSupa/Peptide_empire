@@ -98,7 +98,7 @@ const resolveRecommendation = (cust) => {
     theme: 'general',
     badgeBg: 'rgba(14, 165, 233, 0.12)',
     badgeBorder: 'rgba(14, 165, 233, 0.3)',
-    badgeColor: '#38bdf8'
+    badgeColor: '#34d399'
   };
 };
 
@@ -157,11 +157,11 @@ const buildSalesScript = (cust) => {
     : cartLine;
 
   if (cust.isLead) {
-    return `Hi ${firstName}, this is Peptides Costa Rica. ${cartLine} We have local Costa Rica inventory, COA documentation, and CRC pricing ready. Would you like me to check current availability or answer any questions before you order?`;
+    return `Hi ${firstName}, this is Peptidos Colombia. ${cartLine} We have local Costa Rica inventory, COA documentation, and CRC pricing ready. Would you like me to check current availability or answer any questions before you order?`;
   }
 
   if (daysSince(cust.lastOrderDate) >= 60) {
-    return `Hi ${firstName}, quick follow-up from Peptides Costa Rica. ${purchaseLine} We have updated local stock and COA documentation available. If you are planning a new research order, I can check current inventory and CRC pricing for you.`;
+    return `Hi ${firstName}, quick follow-up from Peptidos Colombia. ${purchaseLine} We have updated local stock and COA documentation available. If you are planning a new research order, I can check current inventory and CRC pricing for you.`;
   }
 
   if (cust.totalSpentUsd >= 500) {
@@ -172,7 +172,7 @@ const buildSalesScript = (cust) => {
     return `Hi ${firstName}, thanks for ordering with us again. ${purchaseLine} ${rec.product} may be worth reviewing next. I can confirm live CRC pricing and local availability before you place the order.`;
   }
 
-  return `Hi ${firstName}, this is Peptides Costa Rica. ${purchaseLine} I can help you verify COA documentation, current Costa Rica stock, and live CRC pricing before you order.`;
+  return `Hi ${firstName}, this is Peptidos Colombia. ${purchaseLine} I can help you verify COA documentation, current Costa Rica stock, and live CRC pricing before you order.`;
 };
 
 export default function CustomersCRM({ orders = [], abandonedCarts = [], leads = [], agentProfiles = [], onWhatsAppClick, onCreateOrder }) {
@@ -1042,7 +1042,7 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
         .crm-icon-btn.edit:hover {
           background: rgba(56, 189, 248, 0.15);
           border-color: rgba(56, 189, 248, 0.3);
-          color: #38bdf8;
+          color: #34d399;
         }
 
         /* KPI Cards Row */
@@ -1081,7 +1081,7 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
         }
         .crm-kpi-icon.blue {
           background: rgba(14, 165, 233, 0.1);
-          color: #38bdf8;
+          color: #34d399;
           border: 1px solid rgba(14, 165, 233, 0.2);
         }
         .crm-kpi-icon.green {
@@ -1148,7 +1148,7 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
         .crm-tab.active {
           background: rgba(14, 165, 233, 0.1);
           border-color: rgba(14, 165, 233, 0.2);
-          color: #38bdf8;
+          color: #34d399;
         }
         .crm-tab-badge {
           font-size: 0.65rem;
@@ -1160,7 +1160,7 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
         }
         .crm-tab.active .crm-tab-badge {
           background: rgba(14, 165, 233, 0.2);
-          color: #38bdf8;
+          color: #34d399;
         }
 
         /* Customer Tags */
@@ -1197,7 +1197,7 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
         .crm-tag.blue {
           background: rgba(56, 189, 248, 0.12);
           border-color: rgba(56, 189, 248, 0.25);
-          color: #38bdf8;
+          color: #34d399;
         }
         .crm-tag.green {
           background: rgba(34, 197, 94, 0.12);
@@ -1317,7 +1317,7 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
           width: 8px;
           height: 8px;
           border-radius: 50%;
-          background: #38bdf8;
+          background: #34d399;
           flex: 0 0 auto;
           margin-top: 5px;
         }
@@ -1459,7 +1459,7 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
           {filteredCustomers.length > 0 && (
             <button
               onClick={() => setShowExportModal(true)}
-              style={{ padding: '0 14px', fontSize: '0.85rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', color: '#38bdf8', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '5px' }}
+              style={{ padding: '0 14px', fontSize: '0.85rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', color: '#34d399', borderRadius: '8px', cursor: 'pointer', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '5px' }}
             >
               <Upload size={14} /> Export
             </button>
@@ -1839,7 +1839,7 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
                                 style={{
                                   background: 'linear-gradient(135deg, rgba(56, 189, 248, 0.12) 0%, rgba(56, 189, 248, 0.04) 100%)',
                                   border: '1px solid rgba(56, 189, 248, 0.25)',
-                                  color: '#38bdf8',
+                                  color: '#34d399',
                                   padding: '4px 10px',
                                   borderRadius: '6px',
                                   fontSize: '0.72rem',
@@ -1856,7 +1856,7 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
                               >
                                 {isGenerating ? (
                                   <>
-                                    <div className="sync-spinner-mini" style={{ width: '10px', height: '10px', borderWidth: '1px', borderStyle: 'solid', borderColor: '#38bdf8 transparent #38bdf8 transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
+                                    <div className="sync-spinner-mini" style={{ width: '10px', height: '10px', borderWidth: '1px', borderStyle: 'solid', borderColor: '#34d399 transparent #34d399 transparent', borderRadius: '50%', animation: 'spin 1s linear infinite' }}></div>
                                     <span>Creando...</span>
                                   </>
                                 ) : (
@@ -2062,13 +2062,13 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
                       <div>Pattern: <strong style={{ color: '#fff' }}>{selectedCustomerReorderStats.intervalPattern}</strong></div>
                       <div>Estimated Supply: <strong style={{ color: '#fff' }}>{selectedCustomerReorderStats.estimatedSupplyDays} days</strong></div>
                       <div>Last Purchased: <strong style={{ color: '#fff' }}>{selectedCustomerReorderStats.lastProductPurchased}</strong></div>
-                      <div>Predicted Reorder: <strong style={{ color: '#38bdf8' }}>{formatCrDate(selectedCustomerReorderStats.predictedReorderDate)}</strong></div>
+                      <div>Predicted Reorder: <strong style={{ color: '#34d399' }}>{formatCrDate(selectedCustomerReorderStats.predictedReorderDate)}</strong></div>
                     </div>
                   </div>
                 )}
 
                 <div className="crm-workspace-card">
-                  <h4><Clock size={16} color="#38bdf8" /> Follow-up reminders</h4>
+                  <h4><Clock size={16} color="#34d399" /> Follow-up reminders</h4>
                   <div style={{ display: 'grid', gap: '8px' }}>
                     <input
                       type="datetime-local"
@@ -2191,7 +2191,7 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
                     {selectedCustomer.email && (
                       <a
                         className="crm-workspace-btn"
-                        href={`mailto:${selectedCustomer.email}?subject=${encodeURIComponent('Peptides Costa Rica follow-up')}&body=${encodeURIComponent(selectedCustomerScript)}`}
+                        href={`mailto:${selectedCustomer.email}?subject=${encodeURIComponent('Peptidos Colombia follow-up')}&body=${encodeURIComponent(selectedCustomerScript)}`}
                         onClick={() => recordActivity('Started email follow-up', selectedCustomer, resolveRecommendation(selectedCustomer).product)}
                       >
                         <Mail size={14} /> Email script
@@ -2202,7 +2202,7 @@ export default function CustomersCRM({ orders = [], abandonedCarts = [], leads =
                 )}
 
                 <div className="crm-workspace-card">
-                  <h4><History size={16} color="#38bdf8" /> Order timeline</h4>
+                  <h4><History size={16} color="#34d399" /> Order timeline</h4>
                   {timelineLoading && (
                     <div style={{ color: '#94a3b8', fontSize: '0.82rem' }}>Loading timeline...</div>
                   )}

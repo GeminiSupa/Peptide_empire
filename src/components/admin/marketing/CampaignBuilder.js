@@ -76,7 +76,7 @@ const AUDIENCE_CHOICES = [
   {
     id: 'all',
     label: 'Everyone with an email',
-    accent: '#38bdf8',
+    accent: '#34d399',
     activeBorder: 'rgba(56,189,248,0.55)',
     activeBackground: 'rgba(14,165,233,0.09)',
     hint: 'subscribers and leads, deduplicated',
@@ -1665,8 +1665,8 @@ export default function CampaignBuilder({ editingCampaignId, onDirtyChange, noti
                 <input type="radio" name="scheduleMode" value="now" checked={scheduleMode === 'now'} onChange={() => updateDraftField(setScheduleMode, 'now')} style={{ accentColor: '#10b981' }} />
                 Send immediately
               </label>
-              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '13px', color: scheduleMode === 'scheduled' ? '#38bdf8' : 'rgba(255,255,255,0.5)' }}>
-                <input type="radio" name="scheduleMode" value="scheduled" checked={scheduleMode === 'scheduled'} onChange={() => updateDraftField(setScheduleMode, 'scheduled')} style={{ accentColor: '#38bdf8' }} />
+              <label style={{ display: 'flex', alignItems: 'center', gap: '6px', cursor: 'pointer', fontSize: '13px', color: scheduleMode === 'scheduled' ? '#34d399' : 'rgba(255,255,255,0.5)' }}>
+                <input type="radio" name="scheduleMode" value="scheduled" checked={scheduleMode === 'scheduled'} onChange={() => updateDraftField(setScheduleMode, 'scheduled')} style={{ accentColor: '#34d399' }} />
                 Schedule for later
               </label>
               {scheduleMode === 'scheduled' && (

@@ -16,7 +16,7 @@ const ADMIN_CC_EMAILS = stripOwnerAddress('info@peptidescostarica.net, omerforce
 const formatMoney = (value, currency) => {
   const amount = Number(value || 0);
   if (currency === 'USD') return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  return `₡${Math.round(amount).toLocaleString('en-US')}`;
+  return `$${Math.round(amount).toLocaleString('en-US')}`;
 };
 
 export async function POST(request) {
@@ -158,7 +158,7 @@ export async function POST(request) {
       subjectId: payoutId,
       subjectLabel: payout.affiliate_name || payout.affiliate_email,
       detail: {
-        amount: { from: '', to: `$${payout.usd_commission || 0} or ₡${payout.crc_commission || 0}` },
+        amount: { from: '', to: `$${payout.usd_commission || 0} or $${payout.crc_commission || 0}` },
         invoice_email: { from: '', to: emailSent ? 'sent' : `not sent${emailError ? ` (${emailError})` : ''}` },
       },
       request,

@@ -117,7 +117,7 @@ export async function POST(request) {
       from,
       to,
       bcc,
-      subject: `Trustpilot invitation test ${reference} - Peptides Costa Rica`,
+      subject: `Trustpilot invitation test ${reference} - Peptidos Colombia`,
       html,
       text: `Trustpilot invitation test. Reference: ${reference}.`,
     });

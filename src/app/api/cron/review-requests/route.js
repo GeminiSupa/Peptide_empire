@@ -232,7 +232,7 @@ export async function GET(request) {
 
       try {
         await transporter.sendMail({
-          from: `Peptides Costa Rica <${SMTP_USER}>`,
+          from: `Peptidos Colombia <${SMTP_USER}>`,
           replyTo: 'omerforce@gmail.com',
           to: order.customer_email.trim(),
           subject,

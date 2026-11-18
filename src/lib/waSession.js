@@ -674,7 +674,7 @@ export function sendWAMessage(to, text, opts = {}) {
     if (supabase) {
       const { error: logErr } = await insertWhatsAppMessage(supabase, {
         wa_id: digits,
-        display_name: 'Peptides Costa Rica',
+        display_name: 'Peptidos Colombia',
         message_text: text,
         message_type: 'text',
         direction: 'outbound',

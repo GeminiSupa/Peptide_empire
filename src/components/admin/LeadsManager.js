@@ -508,7 +508,7 @@ export default function LeadsManager({
             href={lead.chatwoot_conversation_url}
             target="_blank"
             rel="noreferrer"
-            style={{ color: '#7dd3fc', fontSize: '.68rem', display: 'inline-flex', alignItems: 'center', gap: 4 }}
+            style={{ color: '#6ee7b7', fontSize: '.68rem', display: 'inline-flex', alignItems: 'center', gap: 4 }}
           >
             Open in Chatwoot <ExternalLink size={10} />
           </a>
@@ -626,7 +626,7 @@ export default function LeadsManager({
 
   const pipelineColumns = useMemo(() => {
     const columns = [
-      { id: 'New', label: 'New', color: '#38bdf8', helper: 'Fresh leads waiting for first touch' },
+      { id: 'New', label: 'New', color: '#34d399', helper: 'Fresh leads waiting for first touch' },
       { id: 'Contacted', label: 'Contacted', color: '#f59e0b', helper: 'Reached by the team' },
       { id: 'Interested', label: 'Interested', color: '#a78bfa', helper: 'Asked questions or showed buying intent' },
       { id: 'Quoted', label: 'Quoted', color: '#fb7185', helper: 'Needs price, stock, or checkout push' },
@@ -901,7 +901,7 @@ export default function LeadsManager({
         .lead-alert-status.success { color: #86efac; border-color: rgba(34, 197, 94, 0.28); background: rgba(34, 197, 94, 0.1); }
         .lead-alert-status.warning { color: #fde68a; border-color: rgba(251, 191, 36, 0.3); background: rgba(251, 191, 36, 0.1); }
         .lead-alert-status.danger { color: #fca5a5; border-color: rgba(248, 113, 113, 0.3); background: rgba(248, 113, 113, 0.1); }
-        .lead-alert-status.pending { color: #7dd3fc; border-color: rgba(56, 189, 248, 0.28); background: rgba(56, 189, 248, 0.1); }
+        .lead-alert-status.pending { color: #6ee7b7; border-color: rgba(56, 189, 248, 0.28); background: rgba(56, 189, 248, 0.1); }
 
         .lead-alert-retry {
           display: inline-flex;
@@ -969,7 +969,7 @@ export default function LeadsManager({
           {leads.length > 0 && (
             <button
               onClick={() => setExportModalType('leads')}
-              style={{ padding: '8px 16px', fontSize: '0.85rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', color: '#38bdf8', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}
+              style={{ padding: '8px 16px', fontSize: '0.85rem', background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.2)', color: '#34d399', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '6px' }}
             >
               <Upload size={14} /> Export
             </button>
@@ -987,19 +987,19 @@ export default function LeadsManager({
         </div>
         <div style={{ flex: '1 1 120px', background: 'rgba(30, 41, 59, 0.4)', padding: '12px 16px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.05)' }}>
           <div style={{ fontSize: '0.7rem', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Organic</div>
-          <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#38bdf8' }}>{organicLeads}</div>
+          <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#34d399' }}>{organicLeads}</div>
         </div>
         <div style={{ flex: '1 1 120px', background: 'rgba(14, 165, 233, 0.08)', padding: '12px 16px', borderRadius: '10px', border: '1px solid rgba(14, 165, 233, 0.15)' }}>
-          <div style={{ fontSize: '0.7rem', color: '#7dd3fc', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Live Chat</div>
-          <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#7dd3fc' }}>{chatLeads}</div>
+          <div style={{ fontSize: '0.7rem', color: '#6ee7b7', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Live Chat</div>
+          <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#6ee7b7' }}>{chatLeads}</div>
         </div>
         <div style={{ flex: '1 1 120px', background: 'rgba(16, 185, 129, 0.08)', padding: '12px 16px', borderRadius: '10px', border: '1px solid rgba(16, 185, 129, 0.15)' }}>
           <div style={{ fontSize: '0.7rem', color: '#10b981', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Converted</div>
           <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#10b981' }}>{convertedLeads}</div>
         </div>
         <div style={{ flex: '1 1 120px', background: 'rgba(56, 189, 248, 0.08)', padding: '12px 16px', borderRadius: '10px', border: '1px solid rgba(56, 189, 248, 0.15)' }} title={`${chatwootResolved} resolved Chatwoot conversations`}>
-          <div style={{ fontSize: '0.7rem', color: '#7dd3fc', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Chatwoot Open</div>
-          <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#7dd3fc' }}>{chatwootOpen}</div>
+          <div style={{ fontSize: '0.7rem', color: '#6ee7b7', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Chatwoot Open</div>
+          <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#6ee7b7' }}>{chatwootOpen}</div>
         </div>
         <div style={{ flex: '1 1 120px', background: 'rgba(167, 139, 250, 0.08)', padding: '12px 16px', borderRadius: '10px', border: '1px solid rgba(167, 139, 250, 0.15)' }} title={`${chatwootResponseSamples.length} conversations with a measured first response`}>
           <div style={{ fontSize: '0.7rem', color: '#c4b5fd', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Avg First Reply</div>
@@ -1033,7 +1033,7 @@ export default function LeadsManager({
       <div style={{ marginBottom: '20px' }}>
         {generatingLeadsAi ? (
           <div style={{ background: 'rgba(14, 22, 38, 0.9)', border: '1px solid rgba(56, 189, 248, 0.2)', borderRadius: '12px', padding: '16px', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div className="sync-spinner" style={{ color: '#38bdf8' }}><Brain size={24} /></div>
+            <div className="sync-spinner" style={{ color: '#34d399' }}><Brain size={24} /></div>
             <span style={{ fontSize: '0.9rem', color: '#94a3b8' }}>AI analyzing leads...</span>
           </div>
         ) : leadsAiText ? (
@@ -1045,7 +1045,7 @@ export default function LeadsManager({
               &times;
             </button>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
-              <Sparkles size={18} style={{ color: '#38bdf8' }}/>
+              <Sparkles size={18} style={{ color: '#34d399' }}/>
               <span style={{ fontSize: '0.95rem', fontWeight: 'bold', color: '#f8fafc' }}>AI Lead Intelligence</span>
             </div>
             <AiSummary
@@ -1058,7 +1058,7 @@ export default function LeadsManager({
             onClick={handleGenerateLeadsAi}
             style={{ width: '100%', background: 'rgba(30, 41, 59, 0.4)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '14px 20px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '12px', transition: 'all 0.2s', color: '#f8fafc' }}
           >
-            <Brain size={20} style={{ color: '#38bdf8' }}/>
+            <Brain size={20} style={{ color: '#34d399' }}/>
             <span style={{ fontSize: '0.9rem', fontWeight: '600' }}>✨ Analyze Leads with AI</span>
           </button>
         )}
@@ -1160,7 +1160,7 @@ export default function LeadsManager({
 
       {selectedLeads && selectedLeads.length > 0 && (
         <div className="admin-bulk-action-bar" style={{ marginBottom: '12px', padding: '10px 16px', background: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.15)', borderRadius: '10px', display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap', fontSize: '0.85rem' }}>
-          <span style={{ fontWeight: 'bold', color: '#38bdf8' }}>{selectedLeads.length} Selected</span>
+          <span style={{ fontWeight: 'bold', color: '#34d399' }}>{selectedLeads.length} Selected</span>
           <span style={{ color: '#334155' }}>|</span>
           <button onClick={handleBulkLeadsEmail} style={{ width: 'auto', padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem', gap: '4px', display: 'inline-flex', background: '#3b82f6', color: '#fff', border: 'none', cursor: 'pointer' }}>
             <Mail size={12} /> Email
@@ -1178,7 +1178,7 @@ export default function LeadsManager({
 
       {loadingLeads ? (
         <div style={{ background: 'rgba(15, 23, 42, 0.4)', borderRadius: '12px', padding: '60px 20px', border: '1px dashed rgba(255,255,255,0.1)', textAlign: 'center' }}>
-          <div className="sync-spinner" style={{ color: '#38bdf8', marginBottom: '15px' }}><Sparkles size={36} /></div>
+          <div className="sync-spinner" style={{ color: '#34d399', marginBottom: '15px' }}><Sparkles size={36} /></div>
           <h3 style={{ color: '#f8fafc', margin: 0, fontSize: '1.1rem' }}>Loading Leads Pipeline...</h3>
           <p style={{ color: '#64748b', margin: '4px 0 0', fontSize: '0.85rem' }}>Fetching the latest data from the CRM.</p>
         </div>
@@ -1392,7 +1392,7 @@ export default function LeadsManager({
                       <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                         <span style={{
                           background: lead.contact_method === 'whatsapp' ? 'rgba(34, 197, 94, 0.15)' : 'rgba(56, 189, 248, 0.15)',
-                          color: lead.contact_method === 'whatsapp' ? '#4ade80' : '#38bdf8', 
+                          color: lead.contact_method === 'whatsapp' ? '#4ade80' : '#34d399', 
                           padding: '4px 8px', 
                           borderRadius: '6px', 
                           fontSize: '0.7rem', 
@@ -1450,7 +1450,7 @@ export default function LeadsManager({
                           <button 
                             onClick={() => openLeadOutreachComposer(lead, 'email')}
                             style={{
-                              color: '#38bdf8',
+                              color: '#34d399',
                               display: 'inline-flex',
                               alignItems: 'center',
                               justifyContent: 'center',
@@ -1541,7 +1541,7 @@ export default function LeadsManager({
                         {lead.utm_campaign && (
                           <span style={{ 
                             fontSize: '0.7rem', 
-                            color: '#38bdf8', 
+                            color: '#34d399', 
                             fontWeight: '800', 
                             background: 'rgba(56, 189, 248, 0.1)', 
                             padding: '2px 6px', 
@@ -1626,7 +1626,7 @@ export default function LeadsManager({
                             onClick={() => setSelectedLeadDetails?.(lead)}
                             style={{
                               background: 'rgba(56, 189, 248, 0.1)',
-                              color: '#38bdf8',
+                              color: '#34d399',
                               border: '1px solid rgba(56, 189, 248, 0.2)',
                               padding: '4px 8px',
                               borderRadius: '6px',
@@ -1653,7 +1653,7 @@ export default function LeadsManager({
                         <button
                           onClick={() => openCustomerFromLead(lead)}
                           className="admin-btn admin-btn-secondary"
-                          style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '6px', border: 'none', background: 'rgba(56,189,248,0.08)', color: '#38bdf8' }}
+                          style={{ padding: '4px 8px', fontSize: '0.75rem', borderRadius: '6px', border: 'none', background: 'rgba(56,189,248,0.08)', color: '#34d399' }}
                         >
                           <User size={12} /> Profile
                         </button>

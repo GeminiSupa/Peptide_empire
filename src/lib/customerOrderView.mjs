@@ -183,7 +183,7 @@ export function formatOrderTotal(order) {
 
   const crc = Number(order?.total_crc);
   if (!Number.isFinite(crc) || crc <= 0) return '—';
-  return `₡${Math.round(crc).toLocaleString('en-US')}`;
+  return `$${Math.round(crc).toLocaleString('en-US')}`;
 }
 
 /** Line price in the order's own currency, for the item table. */
@@ -193,7 +193,7 @@ export function formatItemPrice(price, currency) {
   if (amount === 0) return '—';
   return String(currency || 'CRC').toUpperCase() === 'USD'
     ? `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-    : `₡${Math.round(amount).toLocaleString('en-US')}`;
+    : `$${Math.round(amount).toLocaleString('en-US')}`;
 }
 
 export function formatOrderDate(value, lang = 'es') {

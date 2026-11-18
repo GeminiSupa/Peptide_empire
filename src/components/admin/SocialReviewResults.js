@@ -107,7 +107,7 @@ export default function SocialReviewResults() {
           <h3 style={{ color: '#f8fafc', fontSize: '1rem', margin: 0 }}>Results</h3>
           <button
             type="button" onClick={load}
-            style={{ background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.2)', color: '#38bdf8', borderRadius: 8, padding: '5px 12px', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer' }}
+            style={{ background: 'rgba(56,189,248,0.1)', border: '1px solid rgba(56,189,248,0.2)', color: '#34d399', borderRadius: 8, padding: '5px 12px', fontSize: '0.8rem', fontWeight: 700, cursor: 'pointer' }}
           >
             Refresh
           </button>
@@ -236,7 +236,7 @@ export default function SocialReviewResults() {
                           padding: '4px 11px', borderRadius: '999px', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer',
                           background: on ? 'rgba(56,189,248,0.14)' : 'rgba(148,163,184,0.08)',
                           border: `1px solid ${on ? 'rgba(56,189,248,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                          color: on ? '#38bdf8' : '#94a3b8',
+                          color: on ? '#34d399' : '#94a3b8',
                         }}
                       >
                         {f.label} <span style={{ opacity: 0.7 }}>{f.count}</span>

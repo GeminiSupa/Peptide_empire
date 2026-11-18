@@ -167,7 +167,7 @@ export async function deliverBusinessEmail(admin, id) {
 // column it is dropped and the plain text still goes out.
 export async function queueBusinessEmail(admin,business,{key,recipient=business.email,subject,body,html}) {
   try {
-  const row={business_id:business.id,event_key:key,recipient,subject,body:`${body}\n\n${getPublicSiteUrl()}/account/business\n\nPeptides Costa Rica`,...(html?{html}:{})};
+  const row={business_id:business.id,event_key:key,recipient,subject,body:`${body}\n\n${getPublicSiteUrl()}/account/business\n\nPeptidos Colombia`,...(html?{html}:{})};
   const result = await writeDroppingMissingColumns(row,['html'],payload=>admin.from('business_email_outbox').upsert(payload,{onConflict:'event_key',ignoreDuplicates:true}).select('id').maybeSingle());
   if (result.error) throw result.error;
   if (!result.data) {

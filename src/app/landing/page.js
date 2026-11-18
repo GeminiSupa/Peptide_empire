@@ -63,7 +63,7 @@ const COPY = {
     stat1: 'Local support', stat1Text: 'English and Spanish',
     stat2: 'Documented', stat2Text: 'COA and batch details',
     stat3: 'Responsive', stat3Text: 'A specialist follows up',
-    whyEyebrow: 'Why Peptides Costa Rica',
+    whyEyebrow: 'Why Peptidos Colombia',
     whyTitle: 'Practical support at every step.',
     whyText: 'We combine transparent product information with responsive local service so qualified researchers can make informed purchasing decisions.',
     proof: [
@@ -137,7 +137,7 @@ const COPY = {
     stat1: 'Soporte local', stat1Text: 'Español e inglés',
     stat2: 'Documentado', stat2Text: 'COA y detalles de lote',
     stat3: 'Atención directa', stat3Text: 'Un especialista le responde',
-    whyEyebrow: 'Por qué Peptides Costa Rica',
+    whyEyebrow: 'Por qué Peptidos Colombia',
     whyTitle: 'Apoyo práctico en cada paso.',
     whyText: 'Combinamos información transparente con servicio local ágil para que investigadores calificados puedan tomar decisiones informadas.',
     proof: [
@@ -363,7 +363,7 @@ function LeadModal({ open, onClose, lang, source, utm, onSubmitted, settings }) 
         {sent ? (
           <div className="lead-success">
             <span className="lead-success-icon"><Check size={28} /></span>
-            <p className="lead-modal-kicker">Peptides Costa Rica</p>
+            <p className="lead-modal-kicker">Peptidos Colombia</p>
             <h2 id="lead-modal-title">{c.successTitle.replace('{name}', form.firstName.trim())}</h2>
             <p>{c.successText}</p>
             <div className="lead-success-summary">
@@ -384,7 +384,7 @@ function LeadModal({ open, onClose, lang, source, utm, onSubmitted, settings }) 
               ))}
             </div>
             <header className="lead-modal-heading">
-              <p className="lead-modal-kicker">Peptides Costa Rica</p>
+              <p className="lead-modal-kicker">Peptidos Colombia</p>
               <h2 id="lead-modal-title">{step < contactStep ? localizedQuestions[step].title : c.titles[4]}</h2>
               <p>{step < contactStep ? localizedQuestions[step].subtitle : c.subtitles[4]}</p>
             </header>
@@ -537,7 +537,7 @@ export default function LeadGenerationLandingPage() {
     <div className="lead-lp">
       <header className="lead-header">
         <div className="lead-container lead-header-inner">
-          <Link href="/" className="lead-brand" aria-label="Peptides Costa Rica home"><Image src="/logo.webp" alt="Peptides Costa Rica" width={64} height={54} priority /></Link>
+          <Link href="/" className="lead-brand" aria-label="Peptidos Colombia home"><Image src="/logo.webp" alt="Peptidos Colombia" width={64} height={54} priority /></Link>
           <nav aria-label="Landing page navigation">
             <a href="#why">{c.nav.why}</a><a href="#trust">{c.nav.trust}</a><a href="#faq">{c.nav.faq}</a>
           </nav>
@@ -566,7 +566,7 @@ export default function LeadGenerationLandingPage() {
             </div>
             <div className="lead-hero-visual" aria-label={c.heroCardTitle}>
               <div className="lead-orbit lead-orbit-one" /><div className="lead-orbit lead-orbit-two" />
-              <Image src="/modern_3d_vials_group.png" alt="Peptides Costa Rica research vials" width={650} height={520} priority sizes="(max-width: 760px) 100vw, 50vw" />
+              <Image src="/modern_3d_vials_group.png" alt="Peptidos Colombia research vials" width={650} height={520} priority sizes="(max-width: 760px) 100vw, 50vw" />
               <div className="lead-guidance-card">
                 <span>{c.heroCardEyebrow}</span><strong>{c.heroCardTitle}</strong>
                 <div>{c.heroCardPoints.map((item) => <small key={item}><Check size={13} />{item}</small>)}</div>
@@ -637,12 +637,12 @@ export default function LeadGenerationLandingPage() {
 
       <footer className="lead-footer">
         <div className="lead-container lead-footer-grid">
-          <div><Link href="/" className="lead-footer-brand" aria-label="Peptides Costa Rica home"><Image src="/logo.webp" alt="Peptides Costa Rica" width={190} height={85} /></Link><p>{c.footerBlurb}</p></div>
+          <div><Link href="/" className="lead-footer-brand" aria-label="Peptidos Colombia home"><Image src="/logo.webp" alt="Peptidos Colombia" width={190} height={85} /></Link><p>{c.footerBlurb}</p></div>
           <div><strong>{lang === 'en' ? 'Explore' : 'Explorar'}</strong><Link href={`/catalog?lang=${lang}`}>{lang === 'en' ? 'Catalog' : 'Catálogo'}</Link><Link href={`/about?lang=${lang}`}>{lang === 'en' ? 'About us' : 'Nosotros'}</Link><Link href={`/faq?lang=${lang}`}>FAQ</Link><Link href={`/account/login?lang=${lang}`}>{lang === 'en' ? 'Customer account login' : 'Acceso de clientes'}</Link><Link href={`/account/login?next=%2Faccount%2Fbusiness&lang=${lang}`}>{lang === 'en' ? 'Business account login' : 'Acceso de empresas'}</Link></div>
           <div><strong>{lang === 'en' ? 'Policies' : 'Políticas'}</strong><Link href="/privacy-policy">{lang === 'en' ? 'Privacy' : 'Privacidad'}</Link><Link href="/shipping-policy">{lang === 'en' ? 'Shipping' : 'Envíos'}</Link><Link href="/return-refund-policy">{lang === 'en' ? 'Returns' : 'Devoluciones'}</Link></div>
           <div><strong>{lang === 'en' ? 'Contact' : 'Contacto'}</strong><a href="mailto:info@peptidescostarica.net">info@peptidescostarica.net</a><button type="button" onClick={() => cta('footer')}>{c.footerRequest}</button></div>
         </div>
-        <div className="lead-container lead-footer-bottom"><span>© {new Date().getFullYear()} Peptides Costa Rica</span><span>{c.legal}</span></div>
+        <div className="lead-container lead-footer-bottom"><span>© {new Date().getFullYear()} Peptidos Colombia</span><span>{c.legal}</span></div>
       </footer>
 
       <button type="button" className="lead-floating-cta" onClick={() => cta('floating')}><Sparkles size={17} />{c.heroCta}</button>

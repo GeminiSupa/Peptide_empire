@@ -9,7 +9,7 @@ import { safeSessionStorage } from '@/lib/storage';
 import { SA_STORAGE_KEY, buildShopperApprovedRecord } from '@/lib/shopperApproved.mjs';
 
 function formatMoney(amount, currency) {
-  return `${currency === 'USD' ? '$' : '₡'}${Number(amount).toLocaleString(currency === 'USD' ? 'en-US' : 'es-CR', { minimumFractionDigits: currency === 'USD' ? 2 : 0, maximumFractionDigits: 2 })}`;
+  return `${currency === 'USD' ? '$' : '$'}${Number(amount).toLocaleString(currency === 'USD' ? 'en-US' : 'es-CR', { minimumFractionDigits: currency === 'USD' ? 2 : 0, maximumFractionDigits: 2 })}`;
 }
 
 function formatSinpe(value) {
@@ -93,7 +93,7 @@ export default function BankPaymentPage() {
     <main className={`${styles.page} ${isSinpe ? styles.sinpe : styles.transfer}`}>
       <div className={styles.glowOne} /><div className={styles.glowTwo} />
       <header className={styles.header}>
-        <Link href="/catalog" className={styles.brand} aria-label={en ? 'Back to catalog' : 'Volver al catálogo'}><Image src="/catalog-logo.webp" alt="Peptides Costa Rica" width={210} height={60} priority /></Link>
+        <Link href="/catalog" className={styles.brand} aria-label={en ? 'Back to catalog' : 'Volver al catálogo'}><Image src="/catalog-logo.webp" alt="Peptidos Colombia" width={210} height={60} priority /></Link>
         <div className={styles.securePill}><ShieldCheck size={16} /> {en ? 'Secure instructions' : 'Instrucciones seguras'}</div>
       </header>
 
@@ -133,7 +133,7 @@ export default function BankPaymentPage() {
           </>}
         </section>
       </div>
-      <footer className={styles.footer}><Link href="/catalog"><ArrowLeft size={15} />{en ? 'Back to catalog' : 'Volver al catálogo'}</Link><span>Peptides Costa Rica · {en ? 'Secure payment' : 'Pago seguro'}</span></footer>
+      <footer className={styles.footer}><Link href="/catalog"><ArrowLeft size={15} />{en ? 'Back to catalog' : 'Volver al catálogo'}</Link><span>Peptidos Colombia · {en ? 'Secure payment' : 'Pago seguro'}</span></footer>
     </main>
   );
 }

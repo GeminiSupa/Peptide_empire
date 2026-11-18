@@ -38,7 +38,7 @@ export function comparable(field, value) {
  * manual edits; canSafelyRestoreProduct compared the same fields as raw
  * strings, so it answered "yes, edited" for two things nobody had touched:
  *
- *   price_crc        "₡57,198" vs "₡57,513"   — the exchange rate moved
+ *   price_crc        "$57,198" vs "$57,513"   — the exchange rate moved
  *   sale_end_time    "…999+00:00" vs "…999Z"  — the same instant, two formats
  *
  * The second one is not a drift that builds up over a week: Postgres returns

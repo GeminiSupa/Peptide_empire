@@ -172,8 +172,8 @@ export default function AnalyticsDashboard({
     revenue: {
       title: "💵 Total Sales (Revenue)",
       concept: "Ventas Totales (Ingresos)",
-      description: "This is your gross income from paid or completed orders. It shows your business performance in both US Dollars ($) and Costa Rican Colones (₡). Pending, cancelled, and fully refunded orders are excluded.",
-      spanish: "Este es el ingreso bruto de todos los pedidos pagados y completados con éxito. Muestra el rendimiento de tu negocio tanto en dólares ($) como en colones costarricenses (₡). No incluye pedidos pendientes o cancelados."
+      description: "This is your gross income from paid or completed orders. It shows your business performance in both US Dollars ($) and Costa Rican Colones ($). Pending, cancelled, and fully refunded orders are excluded.",
+      spanish: "Este es el ingreso bruto de todos los pedidos pagados y completados con éxito. Muestra el rendimiento de tu negocio tanto en dólares ($) como en colones costarricenses ($). No incluye pedidos pendientes o cancelados."
     },
     aov: {
       title: "📈 Average Order Value (AOV)",
@@ -348,7 +348,7 @@ export default function AnalyticsDashboard({
     setAiInsightText('');
     setAiInsightError('');
     try {
-      const prompt = `You are the chief e-commerce financial analyst at Peptides Costa Rica.
+      const prompt = `You are the chief e-commerce financial analyst at Peptidos Colombia.
 Analyze the following store metrics and provide a comprehensive executive e-commerce audit report:
 - Gross Revenue: $${totalRevenueUsd.toFixed(2)} (CRC ${totalRevenueCrc.toLocaleString()})
 - Total Completed Orders: ${successfulOrders.length}
@@ -2238,7 +2238,7 @@ Keep your tone highly professional, precise, data-driven, and empowering. Format
           transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .fill-cyan { background: linear-gradient(90deg, #0ea5e9, #38bdf8); }
+        .fill-cyan { background: linear-gradient(90deg, #0ea5e9, #34d399); }
         .fill-purple { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
         .fill-emerald { background: linear-gradient(90deg, #059669, #34d399); }
         .fill-amber { background: linear-gradient(90deg, #d97706, #facc15); }
@@ -2967,7 +2967,7 @@ Keep your tone highly professional, precise, data-driven, and empowering. Format
             ${totalRevenueUsd.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
           </div>
           <div className="metric-value-secondary">
-            ₡{totalRevenueCrc.toLocaleString('en-US')} • {successfulOrders.length} completed orders
+            ${totalRevenueCrc.toLocaleString('en-US')} • {successfulOrders.length} completed orders
             {renderPeriodDelta(revenueDelta, previousRangeLabel)}
           </div>
           {expandedMetric === 'revenue' && (
@@ -3013,7 +3013,7 @@ Keep your tone highly professional, precise, data-driven, and empowering. Format
             ${aovUsd.toFixed(2)}
           </div>
           <div className="metric-value-secondary">
-            ₡{Math.round(aovCrc).toLocaleString('en-US')} average spend
+            ${Math.round(aovCrc).toLocaleString('en-US')} average spend
             {renderPeriodDelta(aovDelta, previousRangeLabel)}
           </div>
           {expandedMetric === 'aov' && (
@@ -3070,7 +3070,7 @@ Keep your tone highly professional, precise, data-driven, and empowering. Format
             ${potentialAbandonedRevenueUsd.toLocaleString('en-US')}
           </div>
           <div className="metric-value-secondary">
-            ₡{potentialAbandonedRevenueCrc.toLocaleString('en-US')} • {activeAbandonedCarts.length} carts open
+            ${potentialAbandonedRevenueCrc.toLocaleString('en-US')} • {activeAbandonedCarts.length} carts open
           </div>
           {expandedMetric === 'carts' && (
             <div className="metric-card-detail">
@@ -3102,7 +3102,7 @@ Keep your tone highly professional, precise, data-driven, and empowering. Format
                 <div style={{ marginTop: '8px', textAlign: 'center' }}>
                   <button 
                     onClick={(e) => { e.stopPropagation(); onNavigate && onNavigate('carts'); }} 
-                    style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: '#38bdf8', padding: '4px 12px', borderRadius: '4px', fontSize: '0.75rem', cursor: 'pointer', transition: 'background 0.2s' }}
+                    style={{ background: 'transparent', border: '1px solid rgba(255,255,255,0.1)', color: '#34d399', padding: '4px 12px', borderRadius: '4px', fontSize: '0.75rem', cursor: 'pointer', transition: 'background 0.2s' }}
                     onMouseOver={e => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
                     onMouseOut={e => e.currentTarget.style.background = 'transparent'}
                   >
@@ -3851,7 +3851,7 @@ Keep your tone highly professional, precise, data-driven, and empowering. Format
             <div className="behavior-box">
               <div className="behavior-box-title">Order Dispatch Pipeline</div>
               <div className="behavior-box-value" style={{ color: 'var(--an-accent)' }}>
-                ₡{pipelineCrc.toLocaleString('en-US')}
+                ${pipelineCrc.toLocaleString('en-US')}
               </div>
               <div style={{ fontSize: '0.75rem', color: 'var(--an-ink-faint)', marginTop: '4px' }}>{pendingOrders.length} orders Pending</div>
             </div>
@@ -3907,7 +3907,7 @@ Keep your tone highly professional, precise, data-driven, and empowering. Format
                 gap: '6px',
                 border: '1px solid rgba(0, 212, 255, 0.3)',
                 background: showHeatmapMock ? 'rgba(0, 212, 255, 0.15)' : 'rgba(255, 255, 255, 0.03)',
-                color: showHeatmapMock ? '#00D4FF' : '#cbd5e1',
+                color: showHeatmapMock ? '#34d399' : '#cbd5e1',
                 boxShadow: showHeatmapMock ? '0 0 8px rgba(0, 212, 255, 0.2)' : 'none',
                 transition: 'all 0.2s ease'
               }}
@@ -4106,7 +4106,7 @@ Keep your tone highly professional, precise, data-driven, and empowering. Format
                 onClick={() => setHeatmapIntentFilter('active')}
                 style={{
                   background: heatmapIntentFilter === 'active' ? 'rgba(56, 189, 248, 0.1)' : 'transparent',
-                  color: heatmapIntentFilter === 'active' ? '#38bdf8' : '#64748b',
+                  color: heatmapIntentFilter === 'active' ? '#34d399' : '#64748b',
                   border: '1px solid rgba(56, 189, 248, 0.2)',
                   fontSize: '0.75rem',
                   padding: '3px 8px',
@@ -4123,7 +4123,7 @@ Keep your tone highly professional, precise, data-driven, and empowering. Format
                   height: '6px',
                   borderRadius: '50%',
                   background: 'var(--an-accent)',
-                  boxShadow: '0 0 6px #38bdf8',
+                  boxShadow: '0 0 6px #34d399',
                   display: 'inline-block'
                 }}></span>
                 Active Clicks

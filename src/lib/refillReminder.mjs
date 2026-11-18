@@ -147,7 +147,7 @@ export function buildRefillEmail({ customerName, items } = {}) {
 
   const html = `
     <div style="font-family:sans-serif;max-width:600px;margin:0 auto;color:#333;">
-      <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptides Costa Rica" width="96" height="81" style="display:block;width:96px;height:81px;margin:0 auto 14px auto;border:0;outline:none;text-decoration:none;border-radius:10px;">
+      <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptidos Colombia" width="96" height="81" style="display:block;width:96px;height:81px;margin:0 auto 14px auto;border:0;outline:none;text-decoration:none;border-radius:10px;">
       <h2 style="font-size:20px;">Hora de reponer el inventario</h2>
       <p>Hola ${name},</p>
       <p>Hace cerca de un mes de su pedido. Esto es lo que compró, por si quiere reponer el stock:</p>
@@ -157,7 +157,7 @@ export function buildRefillEmail({ customerName, items } = {}) {
         <a href="${escapeRefillHtml(url)}" style="display:inline-block;padding:12px 24px;background:#3b82f6;color:#fff;text-decoration:none;border-radius:6px;font-weight:bold;">Comprar de nuevo</a>
       </p>
       <p style="color:#64748b;font-size:13px;">Time to refill your stock. The button puts these same items in the cart at today's prices.</p>
-      <p>Gracias,<br/>Peptides Costa Rica</p>
+      <p>Gracias,<br/>Peptidos Colombia</p>
     </div>
   `;
 

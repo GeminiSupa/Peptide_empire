@@ -62,7 +62,7 @@ function Stat({ icon, value, label }) {
           display: 'grid',
           placeItems: 'center',
           background: 'rgba(56,189,248,0.1)',
-          color: '#38bdf8',
+          color: '#34d399',
           flexShrink: 0,
         }}
       >
@@ -96,7 +96,7 @@ export default function WebsitePanel() {
         <h2 style={{ fontSize: '1.25rem', color: '#f8fafc', margin: 0 }}>
           <Globe
             size={20}
-            style={{ display: 'inline', marginRight: '8px', verticalAlign: 'text-bottom', color: '#38bdf8' }}
+            style={{ display: 'inline', marginRight: '8px', verticalAlign: 'text-bottom', color: '#34d399' }}
           />
           Marketing Website
         </h2>
@@ -110,7 +110,7 @@ export default function WebsitePanel() {
             fontSize: '0.85rem',
             background: 'rgba(56,189,248,0.1)',
             border: '1px solid rgba(56,189,248,0.2)',
-            color: '#38bdf8',
+            color: '#34d399',
             borderRadius: '8px',
             fontWeight: 700,
             display: 'inline-flex',
@@ -150,7 +150,7 @@ export default function WebsitePanel() {
               {INVENTORY.map((row) => (
                 <tr key={row.label} style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                   <td style={{ padding: '8px 0', color: '#f8fafc', fontWeight: 600 }}>{row.label}</td>
-                  <td style={{ padding: '8px 0', color: '#38bdf8', fontWeight: 800, textAlign: 'right', width: 50 }}>
+                  <td style={{ padding: '8px 0', color: '#34d399', fontWeight: 800, textAlign: 'right', width: 50 }}>
                     {row.en}
                   </td>
                   <td style={{ padding: '8px 0 8px 14px', color: '#64748b' }}>{row.note}</td>
@@ -193,7 +193,7 @@ export default function WebsitePanel() {
                   }}
                 >
                   {label}
-                  <ExternalLink size={14} color="#38bdf8" />
+                  <ExternalLink size={14} color="#34d399" />
                 </a>
               ))}
             </div>

@@ -22,7 +22,7 @@ export function emptyBlog() {
     slug: '', slug_es: '', title_en: '', title_es: '', excerpt_en: '', excerpt_es: '',
     content_en: '', content_es: '', image_url: '', seo_title_en: '', seo_title_es: '',
     seo_description_en: '', seo_description_es: '', focus_keyword_en: '', focus_keyword_es: '',
-    ai_summary_en: '', ai_summary_es: '', author_name: 'Peptides Costa Rica', category: 'Research journal',
+    ai_summary_en: '', ai_summary_es: '', author_name: 'Peptidos Colombia', category: 'Research journal',
     tags: [], faq_en: [], faq_es: [], published: false, published_at: null, _slugAuto: true,
   };
 }

@@ -19,7 +19,7 @@ const ADMIN_CC_EMAILS = stripOwnerAddress('info@peptidescostarica.net, omerforce
 const formatMoney = (value, currency) => {
   const amount = Number(value || 0);
   if (currency === 'USD') return `$${amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  return `₡${Math.round(amount).toLocaleString('en-US')}`;
+  return `$${Math.round(amount).toLocaleString('en-US')}`;
 };
 
 export async function GET(request) {
@@ -215,7 +215,7 @@ export async function GET(request) {
       const emailHtml = `
         <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#e2e8f0;background:#0b0f19;max-width:640px;margin:0 auto;padding:32px 24px;border:1px solid rgba(255,255,255,0.08);border-radius:16px;">
           <div style="text-align:center;margin-bottom:24px;">
-            <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptides Costa Rica" width="96" height="81" style="display:block;width:96px;height:81px;margin:0 auto 14px auto;border:0;outline:none;text-decoration:none;border-radius:10px;">
+            <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptidos Colombia" width="96" height="81" style="display:block;width:96px;height:81px;margin:0 auto 14px auto;border:0;outline:none;text-decoration:none;border-radius:10px;">
             <h1 style="color:#ffffff;font-size:20px;font-weight:800;margin:0 0 6px;letter-spacing:-0.5px;">Weekly Affiliate Commission Invoice</h1>
             <p style="color:#94a3b8;font-size:13px;margin:0;">Invoice Period: ${new Date(startDateStr).toLocaleDateString(undefined, {month: 'short', day: 'numeric'})} to ${new Date(endDateStr).toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'})}</p>
           </div>
@@ -267,7 +267,7 @@ export async function GET(request) {
           </div>
 
           <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:16px;text-align:center;font-size:11px;color:#64748b;">
-            Peptides Costa Rica Affiliate Partners System
+            Peptidos Colombia Affiliate Partners System
           </div>
         </div>
       `;
@@ -343,7 +343,7 @@ export async function GET(request) {
         const adminEmailHtml = `
           <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#e2e8f0;background:#0b0f19;max-width:640px;margin:0 auto;padding:32px 24px;border:1px solid rgba(255,255,255,0.08);border-radius:16px;">
             <div style="text-align:center;margin-bottom:24px;">
-              <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptides Costa Rica" width="96" height="81" style="display:block;width:96px;height:81px;margin:0 auto 14px auto;border:0;outline:none;text-decoration:none;border-radius:10px;">
+              <img src="https://catalog.peptidescostarica.net/logo.png?v=2" alt="Peptidos Colombia" width="96" height="81" style="display:block;width:96px;height:81px;margin:0 auto 14px auto;border:0;outline:none;text-decoration:none;border-radius:10px;">
               <h1 style="color:#ffffff;font-size:20px;font-weight:800;margin:0 0 6px;letter-spacing:-0.5px;">Pending Affiliate Payouts Action Required</h1>
               <p style="color:#94a3b8;font-size:13px;margin:0;">Weekly affiliate commission calculations are complete and awaiting admin approval.</p>
             </div>
@@ -364,8 +364,8 @@ export async function GET(request) {
                       <td style="padding:12px 10px;font-size:13px;text-align:center;color:#cbd5e1;">${r.closedOrdersCount}</td>
                       <td style="padding:12px 10px;font-size:13px;text-align:right;font-weight:bold;color:#38bdf8;">
                         ${r.usdCommission !== '$0.00' ? r.usdCommission : ''}
-                        ${r.usdCommission !== '$0.00' && r.crcCommission !== '₡0' ? '<span style="font-size:10px;color:#64748b;text-transform:uppercase;"> or </span>' : ''}
-                        ${r.crcCommission !== '₡0' ? r.crcCommission : ''}
+                        ${r.usdCommission !== '$0.00' && r.crcCommission !== '$0' ? '<span style="font-size:10px;color:#64748b;text-transform:uppercase;"> or </span>' : ''}
+                        ${r.crcCommission !== '$0' ? r.crcCommission : ''}
                       </td>
                     </tr>
                   `).join('')}
@@ -380,7 +380,7 @@ export async function GET(request) {
             </div>
 
             <div style="border-top:1px solid rgba(255,255,255,0.05);padding-top:16px;text-align:center;font-size:11px;color:#64748b;">
-              Peptides Costa Rica Administrative Automated CRM · Affiliate Partners Ledger
+              Peptidos Colombia Administrative Automated CRM · Affiliate Partners Ledger
             </div>
           </div>
         `;

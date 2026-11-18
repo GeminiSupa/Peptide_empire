@@ -185,7 +185,7 @@ export default function GlobalSearch({
                   onMouseEnter={() => setActiveIdx(idx)}
                   onClick={() => { onSelect(r); onClose(); }}
                 >
-                  <Icon size={16} style={{ color: '#38bdf8', flexShrink: 0 }} />
+                  <Icon size={16} style={{ color: '#34d399', flexShrink: 0 }} />
                   <div style={{ flex: 1, textAlign: 'left' }}>
                     <div className="global-search-result-title">{r.title}</div>
                     <div className="global-search-result-sub">{r.sub}</div>

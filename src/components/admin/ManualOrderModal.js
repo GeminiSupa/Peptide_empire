@@ -255,7 +255,7 @@ export default function ManualOrderModal({
 
   const money = (amount) => form.currency === 'USD'
     ? `$${Number(amount).toFixed(2)}`
-    : `₡${Math.round(Number(amount)).toLocaleString()}`;
+    : `$${Math.round(Number(amount)).toLocaleString()}`;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -423,7 +423,7 @@ export default function ManualOrderModal({
 
           <div className="manual-order-grid">
             <select className="admin-select" value={form.currency} onChange={(e) => changeCurrency(e.target.value)}>
-              <option value="CRC">CRC (₡)</option>
+              <option value="CRC">CRC ($)</option>
               <option value="USD">USD ($)</option>
             </select>
             <select
@@ -455,8 +455,8 @@ export default function ManualOrderModal({
             </select>
             <input className="admin-input" placeholder="Promo code (optional)" value={form.promo_code} onChange={(e) => setForm({ ...form, promo_code: e.target.value })} />
           </div>
-          <div style={{ color: '#7dd3fc', fontSize: '.7rem', marginTop: '-2px' }}>
-            Live checkout rate: $1 = ₡{liveExchangeRate.toLocaleString('en-US', { maximumFractionDigits: 4 })}
+          <div style={{ color: '#6ee7b7', fontSize: '.7rem', marginTop: '-2px' }}>
+            Live checkout rate: $1 = ${liveExchangeRate.toLocaleString('en-US', { maximumFractionDigits: 4 })}
             {exchangeRateUpdatedAt ? ` · updated ${new Date(exchangeRateUpdatedAt).toLocaleString()}` : ''}
           </div>
 
@@ -491,11 +491,11 @@ export default function ManualOrderModal({
                 background: 'rgba(56, 189, 248, 0.06)',
               }}
             >
-              <span style={{ flex: 1, fontSize: '0.82rem', fontWeight: 600, color: '#7dd3fc' }}>
+              <span style={{ flex: 1, fontSize: '0.82rem', fontWeight: 600, color: '#6ee7b7' }}>
                 🎁 Bacteriostatic Water 3ml{' '}
                 <span style={{ fontWeight: 500, color: '#94a3b8' }}>— added free, 1 per peptide</span>
               </span>
-              <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#7dd3fc', whiteSpace: 'nowrap' }}>
+              <span style={{ fontSize: '0.82rem', fontWeight: 700, color: '#6ee7b7', whiteSpace: 'nowrap' }}>
                 × {giftShortfall.missing}
               </span>
             </div>
@@ -513,7 +513,7 @@ export default function ManualOrderModal({
             htmlFor="manual-order-shipping"
             style={{ display: 'block', color: '#cbd5e1', fontSize: '.72rem', fontWeight: 800, margin: '4px 0 6px' }}
           >
-            Shipping fee ({form.currency === 'USD' ? '$ USD' : '₡ CRC'}) — leave 0 for free shipping
+            Shipping fee ({form.currency === 'USD' ? '$ USD' : '$ CRC'}) — leave 0 for free shipping
           </label>
           <input
             id="manual-order-shipping"
@@ -521,7 +521,7 @@ export default function ManualOrderModal({
             type="number"
             min="0"
             step={form.currency === 'USD' ? '0.01' : '1'}
-            placeholder={form.currency === 'USD' ? 'Shipping fee in USD' : 'Shipping fee in CRC'}
+            placeholder={form.currency === 'USD' ? 'Shipping fee in USD' : 'Shipping fee in COP'}
             value={form.currency === 'USD' ? form.shipping_cost_usd : form.shipping_cost_crc}
             onChange={(e) => setForm({
               ...form,
@@ -561,7 +561,7 @@ export default function ManualOrderModal({
                       </div>
                     )}
                     {autoDiscount.freeLines.length > 0 && (
-                      <div style={{ color: '#7dd3fc', fontSize: '0.75rem', marginTop: '4px' }}>
+                      <div style={{ color: '#6ee7b7', fontSize: '0.75rem', marginTop: '4px' }}>
                         The free vials are added to the order when it saves.
                       </div>
                     )}
@@ -680,12 +680,12 @@ export default function ManualOrderModal({
               </div>
             )}
             <div><span>Shipping</span><span>{pricedShipping > 0 ? money(pricedShipping) : 'FREE'}</span></div>
-            <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#38bdf8' }}>
+            <div style={{ fontWeight: 800, fontSize: '1.05rem', color: '#34d399' }}>
               <span>Total</span><span>{money(total)}</span>
             </div>
           </div>
           {form.promo_code.trim() && (
-            <div style={{ color: '#7dd3fc', fontSize: '.7rem', marginTop: '6px' }}>
+            <div style={{ color: '#6ee7b7', fontSize: '.7rem', marginTop: '6px' }}>
               Promo <strong>{form.promo_code.trim().toUpperCase()}</strong> is checked and priced when the order is saved, so its discount is not in the figures above.
             </div>
           )}

@@ -59,7 +59,7 @@ export function readRateMode(value) {
 /**
  * Check a rate a superadmin typed.
  *
- * Outside ₡300–₡800 is refused outright — that catches an extra or missing
+ * Outside $300–$800 is refused outright — that catches an extra or missing
  * digit. Inside it, a number more than MAX_RATE_DEVIATION_PCT away from today's
  * API rate needs an explicit "yes, I'm sure": the same 5% line the feed itself
  * is not trusted to cross alone.
@@ -70,7 +70,7 @@ export function checkManualRate({ rate, apiRate = null, confirmed = false } = {}
     return {
       ok: false,
       code: 'out_of_range',
-      message: `Enter a rate between ₡${MIN_PLAUSIBLE_RATE} and ₡${MAX_PLAUSIBLE_RATE} per $1. Check for an extra or missing digit.`,
+      message: `Enter a rate between $${MIN_PLAUSIBLE_RATE} and $${MAX_PLAUSIBLE_RATE} per $1. Check for an extra or missing digit.`,
     };
   }
 
@@ -82,7 +82,7 @@ export function checkManualRate({ rate, apiRate = null, confirmed = false } = {}
         ok: false,
         code: 'needs_confirmation',
         deviationPct,
-        message: `₡${clean} is ${deviationPct.toFixed(1)}% away from today's API rate (₡${roundRate(apiRate)}). `
+        message: `$${clean} is ${deviationPct.toFixed(1)}% away from today's API rate ($${roundRate(apiRate)}). `
           + 'Every colón price in the shop will use your number. Are you sure?',
       };
     }

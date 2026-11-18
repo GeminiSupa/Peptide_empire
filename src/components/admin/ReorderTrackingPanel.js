@@ -248,7 +248,7 @@ export default function ReorderTrackingPanel({
         </div>
 
         <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '14px', padding: '18px', boxShadow: '0 4px 15px rgba(56, 189, 248, 0.1)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#38bdf8', marginBottom: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#34d399', marginBottom: '8px' }}>
             <span style={{ fontSize: '0.8rem', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Avg Reorder Cycle</span>
             <RotateCcw size={18} />
           </div>
@@ -273,7 +273,7 @@ export default function ReorderTrackingPanel({
         <div style={{ display: 'flex', gap: '6px', background: 'rgba(15, 23, 42, 0.4)', padding: '4px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.1)', flexWrap: 'wrap' }}>
           <button
             onClick={() => setStatusFilter('all')}
-            style={{ padding: '6px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600', border: 'none', cursor: 'pointer', background: statusFilter === 'all' ? '#38bdf8' : 'transparent', color: statusFilter === 'all' ? '#0f172a' : '#cbd5e1' }}
+            style={{ padding: '6px 12px', borderRadius: '6px', fontSize: '0.8rem', fontWeight: '600', border: 'none', cursor: 'pointer', background: statusFilter === 'all' ? '#34d399' : 'transparent', color: statusFilter === 'all' ? '#0f172a' : '#cbd5e1' }}
           >
             All ({statsData.length})
           </button>
@@ -392,7 +392,7 @@ export default function ReorderTrackingPanel({
                     {/* PRODUCT PURCHASED */}
                     <td style={{ padding: '12px 16px' }}>
                       <div style={{ fontSize: '0.88rem', color: '#cbd5e1', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <Package size={14} style={{ color: '#38bdf8' }} />
+                        <Package size={14} style={{ color: '#34d399' }} />
                         <span style={{ fontWeight: '600' }}>{cust.lastProductPurchased}</span>
                       </div>
                       <div style={{ fontSize: '0.75rem', color: '#94a3b8', marginTop: '2px' }}>
@@ -410,7 +410,7 @@ export default function ReorderTrackingPanel({
                             max="365"
                             value={editDaysInput}
                             onChange={(e) => setEditDaysInput(e.target.value)}
-                            style={{ width: '60px', background: 'rgba(15, 23, 42, 0.8)', border: '1px solid #38bdf8', color: '#fff', borderRadius: '6px', padding: '4px 6px', fontSize: '0.85rem' }}
+                            style={{ width: '60px', background: 'rgba(15, 23, 42, 0.8)', border: '1px solid #34d399', color: '#fff', borderRadius: '6px', padding: '4px 6px', fontSize: '0.85rem' }}
                           />
                           <span style={{ fontSize: '0.8rem', color: '#cbd5e1' }}>days</span>
                           <button
@@ -427,7 +427,7 @@ export default function ReorderTrackingPanel({
                             {cust.estimatedSupplyDays} days
                           </span>
                           {cust.customOverride && (
-                            <span style={{ fontSize: '0.68rem', background: 'rgba(56, 189, 248, 0.2)', color: '#38bdf8', padding: '1px 5px', borderRadius: '4px' }}>custom</span>
+                            <span style={{ fontSize: '0.68rem', background: 'rgba(56, 189, 248, 0.2)', color: '#34d399', padding: '1px 5px', borderRadius: '4px' }}>custom</span>
                           )}
                           <button
                             onClick={() => {
@@ -491,7 +491,7 @@ export default function ReorderTrackingPanel({
                         </button>
                         <button
                           onClick={() => onOpenCustomerProfile && onOpenCustomerProfile({ customer_email: cust.customerEmail, customer_phone: cust.customerPhone, customer_name: cust.customerName })}
-                          style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'rgba(56, 189, 248, 0.1)', color: '#38bdf8', border: '1px solid rgba(56, 189, 248, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                          style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'rgba(56, 189, 248, 0.1)', color: '#34d399', border: '1px solid rgba(56, 189, 248, 0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
                           title="View Customer Profile & Timeline"
                         >
                           <User size={14} />

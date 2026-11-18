@@ -236,7 +236,7 @@ function CardPaymentContent() {
     <main className="card-pay-page">
       <section className="card-pay-shell">
         <div className="card-pay-brand">
-          <img src="/logo.png" alt="Peptides Costa Rica" />
+          <img src="/logo.png" alt="Peptidos Colombia" />
           <span>
             {payType === 'ach'
               ? (isEn ? 'Secure bank payment (ACH)' : 'Pago bancario seguro (ACH)')

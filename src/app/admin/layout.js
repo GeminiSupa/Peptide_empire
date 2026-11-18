@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Admin | Peptides Costa Rica',
+  title: 'Admin | Peptidos Colombia',
   robots: { index: false, follow: false },
 };
 

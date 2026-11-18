@@ -76,7 +76,7 @@ export function getOwnDomainSmtpConfig(env = process.env) {
   const user = read(env, 'OWN_DOMAIN_SMTP_USER');
   const pass = read(env, 'OWN_DOMAIN_SMTP_PASS');
   const from = read(env, 'OWN_DOMAIN_SMTP_FROM')
-    || (user ? `Peptides Costa Rica <${user}>` : '');
+    || (user ? `Peptidos Colombia <${user}>` : '');
 
   return {
     host,
