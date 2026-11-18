@@ -66,6 +66,7 @@ export const ADMIN_PROFILE_OPTIONAL_COLUMNS = [
   'weekly_salary',
   'salary_currency',
   'commission_structure',
+  'allowed_sites', // add-admin-site-scope.sql
   ...NOTIFICATION_PREFERENCE_COLUMNS,
 ];
 

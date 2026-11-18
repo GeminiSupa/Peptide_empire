@@ -29,6 +29,9 @@ export const SITE_SCOPED_TABLES = new Set([
   'business_accounts',
   'products',
   'analytics_events',
+  'deals',
+  'blogs',
+  'ad_spend',
 ]);
 
 /** The country the switcher last stored in this browser (its cookie), or ''. */

@@ -1,5 +1,6 @@
 export const metadata = {
-  title: 'Admin | Peptidos Colombia',
+  // Absolute so the catalog storefront's title template isn't appended.
+  title: { absolute: 'Admin | Peptide Empire' },
   robots: { index: false, follow: false },
 };
 

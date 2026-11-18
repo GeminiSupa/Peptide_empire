@@ -2,6 +2,7 @@ import { validateSalarySettings } from '@/lib/teamSalary.mjs';
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
+import { ADMIN_SITE_IDS } from '@/lib/sites.mjs';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { recordAdminActivity, summariseChanges } from '@/lib/adminActivityLog.mjs';
 import { ADMIN_PROFILE_OPTIONAL_COLUMNS, writeDroppingMissingColumns } from '@/lib/optionalColumns.mjs';
@@ -15,7 +16,7 @@ export async function PUT(request) {
     const body = await request.json();
     const {
       userId, email, password, name, permissions, is_superadmin, commission_rate, weekly_salary,
-      salary_currency, commission_structure, avatar_url,
+      salary_currency, commission_structure, avatar_url, allowed_sites,
       notifications_enabled, order_email_notifications, lead_email_notifications, order_whatsapp_notifications, whatsapp_number,
     } = body;
 
@@ -59,6 +60,12 @@ export async function PUT(request) {
     if (lead_email_notifications !== undefined) updateData.lead_email_notifications = Boolean(lead_email_notifications);
     if (order_whatsapp_notifications !== undefined) updateData.order_whatsapp_notifications = Boolean(order_whatsapp_notifications);
     if (whatsapp_number !== undefined) updateData.whatsapp_number = whatsapp_number ? String(whatsapp_number).trim() : null;
+    // The countries this staff member may work in (empty = none until granted).
+    if (allowed_sites !== undefined) {
+      updateData.allowed_sites = Array.isArray(allowed_sites)
+        ? [...new Set(allowed_sites.filter((s) => ADMIN_SITE_IDS.includes(s)))]
+        : [];
+    }
 
     if (paySettings) Object.assign(updateData, paySettings);
 

@@ -13176,3 +13176,13 @@ html[data-theme="light"] .rbc select, html[data-theme="light"] .rbc input { colo
 .country-switcher select:focus { outline: 2px solid var(--accent, #22d3ee); }
 .country-switcher--locked { opacity: 0.85; padding: 5px 0; }
 :root[data-theme="light"] .country-switcher select { color: #0f172a; background: #fff; }
+
+/* Neutral admin wordmark (multi-country admin, no single-country logo) */
+.admin-logo-wordmark {
+    font-weight: 900;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    color: #f8fafc;
+    white-space: nowrap;
+}
+:root[data-theme="light"] .admin-logo-wordmark { color: #0f172a; }

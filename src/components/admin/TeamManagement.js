@@ -1,4 +1,5 @@
 import { salaryFrequency } from '@/lib/teamSalary.mjs';
+import { ADMIN_SITES } from '@/lib/sites.mjs';
 import React, { useState, useEffect, useMemo } from 'react';
 import { confirmDelete } from '@/lib/confirmDelete.mjs';
 import { supabase } from '@/lib/supabase';
@@ -468,6 +469,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
   const [formName, setFormName] = useState('');
   const [formPermissions, setFormPermissions] = useState([]);
   const [formIsSuperadmin, setFormIsSuperadmin] = useState(false);
+  const [formAllowedSites, setFormAllowedSites] = useState([]);
   const [formCommissionRate, setFormCommissionRate] = useState(0);
   const [formWeeklySalary, setFormWeeklySalary] = useState(0);
   const [formSalaryFrequency, setFormSalaryFrequency] = useState('weekly');
@@ -969,6 +971,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
       setFormName(user.name || '');
       setFormPermissions((user.permissions || []).filter(permission => ASSIGNABLE_ADMIN_MODULE_IDS.has(permission)));
       setFormIsSuperadmin(user.is_superadmin || false);
+      setFormAllowedSites(Array.isArray(user.allowed_sites) ? user.allowed_sites : []);
       setFormCommissionRate(user.commission_rate || 0);
       setFormWeeklySalary(salaryFrequency(user) === 'monthly' ? user.monthly_salary || 0 : user.weekly_salary || 0);
       setFormSalaryFrequency(salaryFrequency(user));
@@ -987,6 +990,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
       setFormName('');
       setFormPermissions([]);
       setFormIsSuperadmin(false);
+      setFormAllowedSites([]);
       setFormCommissionRate(0);
       setFormWeeklySalary(0);
       setFormSalaryFrequency('weekly');
@@ -1047,6 +1051,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
             name: formName,
             permissions: formPermissions,
             is_superadmin: formIsSuperadmin,
+            allowed_sites: formAllowedSites,
             commission_rate: formCommissionRate,
             salary_frequency: formSalaryFrequency,
             weekly_salary: formSalaryFrequency === 'weekly' ? formWeeklySalary : 0,
@@ -1074,6 +1079,7 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
             name: formName,
             permissions: formPermissions,
             is_superadmin: formIsSuperadmin,
+            allowed_sites: formAllowedSites,
             commission_rate: formCommissionRate,
             salary_frequency: formSalaryFrequency,
             weekly_salary: formSalaryFrequency === 'weekly' ? formWeeklySalary : 0,
@@ -2052,6 +2058,38 @@ export default function TeamManagement({ currentUserProfile, currentUserEmail, o
                   
                   {!formIsSuperadmin && (
                     <div style={{ paddingTop: '20px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+                      {/* Which countries this staff member may work in. Empty = none. */}
+                      <div style={{ marginBottom: '18px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+                          <h3 style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#e2e8f0', margin: 0 }}>Countries this person can see:</h3>
+                          {formAllowedSites.length === 0 && (
+                            <span style={{ fontSize: '0.7rem', color: '#f59e0b', fontWeight: 700 }}>None — they see nothing</span>
+                          )}
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '8px' }}>
+                          {ADMIN_SITES.map(site => {
+                            const on = formAllowedSites.includes(site.id);
+                            return (
+                              <button
+                                type="button"
+                                key={site.id}
+                                onClick={() => setFormAllowedSites(prev => on ? prev.filter(s => s !== site.id) : [...prev, site.id])}
+                                style={{
+                                  display: 'flex', alignItems: 'center', gap: '8px', padding: '9px 12px', cursor: 'pointer',
+                                  borderRadius: '8px', fontSize: '0.82rem', fontWeight: 700, textAlign: 'left',
+                                  background: on ? 'rgba(52,211,153,0.14)' : 'rgba(255,255,255,0.04)',
+                                  color: on ? '#34d399' : '#94a3b8',
+                                  border: `1px solid ${on ? 'rgba(52,211,153,0.4)' : 'rgba(255,255,255,0.1)'}`,
+                                }}
+                              >
+                                <span aria-hidden="true" style={{ fontSize: '1rem' }}>{site.flag}</span>
+                                {site.name}
+                                {on && <span style={{ marginLeft: 'auto' }}>✓</span>}
+                              </button>
+                            );
+                          })}
+                        </div>
+                      </div>
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px' }}>
                         <h3 style={{ fontSize: '0.85rem', fontWeight: 'bold', color: '#e2e8f0', margin: 0 }}>Select Permitted Modules:</h3>
                         <div style={{ display: 'flex', gap: '8px' }}>

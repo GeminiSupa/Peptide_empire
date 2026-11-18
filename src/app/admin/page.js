@@ -5548,10 +5548,13 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
       try {
         const isNew = !editingBlog.id;
         const payload = blogPayload(editingBlog);
-        
+        // Stamp a new blog with the country being worked in, so it belongs to
+        // that country (and stays visible once reads are scoped to it).
+        const blogSite = resolveActiveSite(adminProfile, readSiteCookie());
+
         let error;
         if (isNew) {
-          const res = await supabase.from('blogs').insert(payload).select();
+          const res = await supabase.from('blogs').insert({ ...payload, ...(blogSite ? { site_id: blogSite } : {}) }).select();
           error = res.error;
           if (!error && res.data) setBlogs([res.data[0], ...blogs]);
         } else {
@@ -5596,7 +5599,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
         <div className="admin-login-container">
           <div className="admin-login-card">
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '16px' }}>
-              <img src="/site/logo-white.svg" alt="Peptidos Colombia Admin" style={{ maxHeight: '60px', width: 'auto', objectFit: 'contain', borderRadius: '12px', boxShadow: '0 2px 16px rgba(0,0,0,0.25)' }} />
+              <span style={{ fontWeight: 900, fontSize: '1.6rem', color: '#f8fafc', letterSpacing: '-0.02em' }}>Peptide&nbsp;Empire</span>
             </div>
             <p>Admin Security Dashboard</p>
             
@@ -5702,7 +5705,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
       <nav className="admin-navbar">
         <div className="admin-nav-top-row">
           <div className="admin-nav-logo-container">
-            <img src="/site/logo-white.svg" alt="Peptidos Colombia Admin Logo" className="admin-logo-img" />
+            <span className="admin-logo-wordmark">Peptide&nbsp;Empire</span>
             <div className="db-status-indicator">
               <span className={`status-dot ${isDbConnected ? 'connected' : 'simulation'}`}></span>
               <span className="status-text">{isDbConnected ? 'Live Connection' : 'Simulation Mode'}</span>
