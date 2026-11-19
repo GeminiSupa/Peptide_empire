@@ -5706,6 +5706,7 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
         <div className="admin-nav-top-row">
           <div className="admin-nav-logo-container">
             <span className="admin-logo-wordmark">Peptide&nbsp;Empire</span>
+            <span className="admin-logo-mark" aria-hidden="true">PE</span>
             <div className="db-status-indicator">
               <span className={`status-dot ${isDbConnected ? 'connected' : 'simulation'}`}></span>
               <span className="status-text">{isDbConnected ? 'Live Connection' : 'Simulation Mode'}</span>

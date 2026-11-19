@@ -2450,6 +2450,33 @@
         display: flex !important;
     }
 
+    /* Collapsed rail: the full wordmark and the country switcher are too wide,
+       so swap in a compact "PE" mark and hide the country row; both come back
+       when the rail opens on hover. */
+    .admin-sidebar-collapsed .admin-logo-wordmark,
+    .admin-sidebar-collapsed .admin-nav-country {
+        display: none !important;
+    }
+    .admin-sidebar-collapsed .admin-logo-mark {
+        display: inline-block !important;
+        font-weight: 900;
+        font-size: 1.25rem;
+        letter-spacing: -0.02em;
+        color: #f8fafc;
+    }
+    .admin-sidebar-collapsed .admin-navbar:hover .admin-logo-wordmark,
+    .admin-sidebar-collapsed .admin-navbar:focus-within .admin-logo-wordmark {
+        display: inline-block !important;
+    }
+    .admin-sidebar-collapsed .admin-navbar:hover .admin-nav-country,
+    .admin-sidebar-collapsed .admin-navbar:focus-within .admin-nav-country {
+        display: flex !important;
+    }
+    .admin-sidebar-collapsed .admin-navbar:hover .admin-logo-mark,
+    .admin-sidebar-collapsed .admin-navbar:focus-within .admin-logo-mark {
+        display: none !important;
+    }
+
     .admin-sidebar-collapsed .admin-nav-tools {
         display: grid !important;
         grid-template-columns: 1fr !important;
@@ -13185,4 +13212,6 @@ html[data-theme="light"] .rbc select, html[data-theme="light"] .rbc input { colo
     color: #f8fafc;
     white-space: nowrap;
 }
-:root[data-theme="light"] .admin-logo-wordmark { color: #0f172a; }
+.admin-logo-mark { display: none; } /* compact monogram, only shown on the collapsed rail */
+:root[data-theme="light"] .admin-logo-wordmark,
+:root[data-theme="light"] .admin-logo-mark { color: #0f172a; }

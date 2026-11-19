@@ -383,7 +383,7 @@ export default function DashboardHome({
             {/* The day the tiles below are counting, which is Costa Rica's — an
                 admin 11 hours ahead would otherwise be shown tomorrow's date
                 over today's figures. */}
-            {formatCrDate(new Date(), { weekday: 'long', month: 'long', day: 'numeric' })} (Costa Rica)
+            {formatCrDate(new Date(), { weekday: 'long', month: 'long', day: 'numeric' })}
           </p>
         </div>
         <button type="button" className="admin-btn admin-btn-primary dashboard-manual-order-btn" onClick={onCreateOrder}>
