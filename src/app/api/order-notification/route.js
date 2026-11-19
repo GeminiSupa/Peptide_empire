@@ -276,7 +276,7 @@ export async function POST(request) {
         html: adminHtml,
         text: adminText,
         replyTo: order.customerEmail ? String(order.customerEmail).trim() : undefined,
-        attachments: [getOrderEmailLogoAttachment()],
+        attachments: [getOrderEmailLogoAttachment(order?.site_id)],
       };
 
       const sends = [];
@@ -452,7 +452,7 @@ export async function POST(request) {
           subject: customerSubject,
           html: customerHtml,
           text: customerText,
-          attachments: [getOrderEmailLogoAttachment()],
+          attachments: [getOrderEmailLogoAttachment(order?.site_id)],
         });
 
         // A server can accept the message and still refuse one address. With a
