@@ -258,7 +258,9 @@ export const buildAdminHtml = (order, paymentLabel, totalPrimary, totalUsd, tota
  */
 export const buildCustomerHtml = (order, paymentLabel, totalPrimary, totalUsd, totalCrc, lang, links, salesTextEn, salesTextEs, promoCodesList) => {
   const brand = brandForSite(order?.site_id);
-  const siteDomain = (siteById(order?.site_id) || {}).domain || 'peptidoscolombia.co';
+  const orderSite = siteById(order?.site_id) || {};
+  const siteDomain = orderSite.domain || 'peptidoscolombia.co';
+  const countryName = orderSite.name || 'Colombia';
 
   const isEn = lang === 'en';
   const isPaid = isPaidStatus(order.status);
@@ -320,7 +322,7 @@ export const buildCustomerHtml = (order, paymentLabel, totalPrimary, totalUsd, t
     payNowBtn: isEn ? 'Complete Payment on WhatsApp' : 'Completar Pago por WhatsApp',
     declinedHelpBtn: isEn ? 'Message Us on WhatsApp' : 'Escríbanos por WhatsApp',
     retryCardBtn: isEn ? 'Try Card Payment Again' : 'Intentar el Pago de Nuevo',
-    footer: isEn ? 'High-Purity Research Peptides · Base in Costa Rica' : 'Péptidos de Alta Pureza para Investigación · Con base en Costa Rica',
+    footer: isEn ? `High-Purity Research Peptides · Base in ${countryName}` : `Péptidos de Alta Pureza para Investigación · Con base en ${countryName}`,
   };
 
   const whatsappPayLink = `https://api.whatsapp.com/send?phone=${links.whatsappNumber}&text=${encodeURIComponent(
@@ -500,10 +502,6 @@ export const buildCustomerHtml = (order, paymentLabel, totalPrimary, totalUsd, t
         <div style="background:#f0fdf4;border:1px dashed #059669;border-radius:16px;padding:24px;text-align:center;max-width:500px;margin:0 auto;">
           <h4 style="margin:0 0 8px;color:#047857;font-size:16px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;">🔬 ${strings.supportTitle}</h4>
           <p style="margin:0 0 16px;color:#475569;font-size:14px;line-height:1.5;font-weight:500;">${strings.supportText}</p>
-          <p style="margin:0 0 20px;color:#0f172a;font-size:14.5px;line-height:1.6;font-weight:600;">
-            <strong>Costa Rica:</strong> +506 6060-4775<br/>
-            
-          </p>
           <a href="https://api.whatsapp.com/send?phone=${links.whatsappNumber}" style="display:inline-block;background-color:#0f172a;color:#ffffff;text-decoration:none;padding:12px 24px;border-radius:12px;font-weight:700;font-size:14px;">
              💬 ${strings.whatsappBtn}
           </a>
