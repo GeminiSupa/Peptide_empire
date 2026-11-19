@@ -6,12 +6,22 @@
  * The country switcher in the admin header lists these; a staff member only
  * sees the ones in their `admin_profiles.allowed_sites` (a superadmin sees all).
  */
+// `rate` is the USD -> local placeholder used until a live feed exists for that
+// currency; it matches the storefront's own per-country rate. `currencyName` is
+// the plain word for the money ("colones", "pesos", "dollars"). Colombia keeps
+// the live colon feed; the others use their fixed rate for now.
 export const ADMIN_SITES = [
-  { id: 'co', name: 'Colombia', flag: '🇨🇴', currency: 'COP' },
-  { id: 'mx', name: 'Mexico', flag: '🇲🇽', currency: 'MXN' },
-  { id: 'ar', name: 'Argentina', flag: '🇦🇷', currency: 'ARS' },
-  { id: 'ca', name: 'Canada', flag: '🇨🇦', currency: 'CAD' },
+  { id: 'co', name: 'Colombia', flag: '🇨🇴', currency: 'COP', currencyName: 'colones', rate: 4000, liveFeed: true },
+  { id: 'mx', name: 'Mexico', flag: '🇲🇽', currency: 'MXN', currencyName: 'pesos', rate: 17, liveFeed: false },
+  { id: 'ar', name: 'Argentina', flag: '🇦🇷', currency: 'ARS', currencyName: 'pesos', rate: 1000, liveFeed: false },
+  { id: 'ca', name: 'Canada', flag: '🇨🇦', currency: 'CAD', currencyName: 'dollars', rate: 1.4, liveFeed: false },
 ];
+
+/** Currency facts for a site id: { code, name, rate, liveFeed }. */
+export function currencyFor(id) {
+  const s = siteById(id) || ADMIN_SITES[0];
+  return { code: s.currency, name: s.currencyName, rate: s.rate, liveFeed: Boolean(s.liveFeed) };
+}
 
 export const ADMIN_SITE_IDS = ADMIN_SITES.map((s) => s.id);
 

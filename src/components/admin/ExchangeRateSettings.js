@@ -73,6 +73,11 @@ export default function ExchangeRateSettings({ onChanged }) {
 
   const current = Number(info?.effectiveRate) > 0 ? Number(info.effectiveRate) : null;
   const isManual = info?.mode === 'manual';
+  // The active country's currency (set by the server per country).
+  const ccy = info?.currency || 'CRC';
+  const ccyName = info?.currencyName || 'colones';
+  const isFixed = Boolean(info?.fixed);
+  const localMoney = (rate) => (Number(rate) > 0 ? `${Number(rate).toLocaleString('en-US', { maximumFractionDigits: 2 })} ${ccy}` : '—');
   const unchanged = info
     && mode === info.mode
     && (mode === 'api' || Number(manualRate) === Number(info.manualRate));
@@ -91,13 +96,13 @@ export default function ExchangeRateSettings({ onChanged }) {
       aria-labelledby="exchange-rate-settings-title"
     >
       <div className="dashboard-section-heading-row">
-        <h3 id="exchange-rate-settings-title" className="dashboard-section-title">Exchange rate (USD → CRC)</h3>
+        <h3 id="exchange-rate-settings-title" className="dashboard-section-title">Exchange rate (USD → {ccy})</h3>
         {info && (
           <span
             className="dashboard-section-count"
             style={isManual ? { color: '#fbbf24', borderColor: 'rgba(251, 191, 36, 0.35)' } : undefined}
           >
-            {isManual ? 'Manual' : 'Automatic'}
+            {isManual ? 'Manual' : isFixed ? 'Fixed' : 'Automatic'}
           </span>
         )}
       </div>
@@ -108,19 +113,24 @@ export default function ExchangeRateSettings({ onChanged }) {
       >
         <div>
           <div className="dashboard-health-title" style={{ fontSize: '1.05rem' }}>
-            {info ? <>$1 = {money(current)}</> : 'Loading…'}
+            {info ? <>$1 = {localMoney(current)}</> : 'Loading…'}
           </div>
           {info && (
             <div className="dashboard-health-copy">
-              {isManual
-                ? `Set by hand${info.manualSetBy ? ` by ${info.manualSetBy}` : ''}${info.manualSetAt ? ` on ${formatCrInstant(info.manualSetAt)}` : ''}. The automatic rate is being ignored.`
-                : 'Automatic: the market rate, refreshed once a day.'}
-              {' '}Today&apos;s market rate: {money(info.apiRate)}{info.apiRateIsLive ? '' : ' (last one received)'}.
-              {' '}This one rate is used everywhere the shop turns dollars into colones: catalog prices, checkout, order edits and reports.
+              {isFixed
+                ? `This country uses a fixed rate for now — the same one the storefront prices with. A live ${ccy} feed can be added later.`
+                : (<>
+                    {isManual
+                      ? `Set by hand${info.manualSetBy ? ` by ${info.manualSetBy}` : ''}${info.manualSetAt ? ` on ${formatCrInstant(info.manualSetAt)}` : ''}. The automatic rate is being ignored.`
+                      : 'Automatic: the market rate, refreshed once a day.'}
+                    {' '}Today&apos;s market rate: {localMoney(info.apiRate)}{info.apiRateIsLive ? '' : ' (last one received)'}.
+                    {' '}This one rate is used everywhere the shop turns dollars into {ccyName}: catalog prices, checkout, order edits and reports.
+                  </>)}
             </div>
           )}
         </div>
 
+        {!isFixed && (<>
         <div style={{ display: 'grid', gap: '8px' }} role="radiogroup" aria-label="Exchange rate source">
           <label style={optionStyle(mode === 'api')}>
             <input type="radio" name="exchange-rate-mode" checked={mode === 'api'} onChange={() => setMode('api')} disabled={saving} style={{ marginTop: '3px' }} />
@@ -168,6 +178,7 @@ export default function ExchangeRateSettings({ onChanged }) {
             {saving ? 'Saving…' : 'Save exchange rate'}
           </button>
         </div>
+        </>)}
       </div>
     </section>
   );

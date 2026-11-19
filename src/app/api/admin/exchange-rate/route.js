@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { verifyAdminSession } from '@/lib/adminAuth';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
 import { scopedAdmin } from '@/lib/siteScopedAdmin.mjs';
+import { currencyFor } from '@/lib/sites.mjs';
 import { FALLBACK_EXCHANGE_RATE, fetchLiveUsdToCrcRate } from '@/lib/pricing';
 import {
   EXCHANGE_RATE_MAX_AGE_MS,
@@ -60,12 +61,24 @@ export async function GET(request) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true });
   if (auth.error) return auth.error;
 
+  const currency = currencyFor(auth.activeSite || 'co');
+  // Countries with no live rate feed show their fixed storefront rate (the same
+  // number the storefront prices with), read-only, in their own currency.
+  if (!currency.liveFeed) {
+    return NextResponse.json({
+      ok: true, fixed: true, mode: 'fixed',
+      currency: currency.code, currencyName: currency.name,
+      effectiveRate: currency.rate, apiRate: currency.rate, apiRateIsLive: false,
+      manualRate: null, manualSetAt: null, manualSetBy: null, updatedAt: null, history: [],
+    });
+  }
+
   try {
     const supabase = scopedAdmin(auth.activeSite);
     const row = await readRow(supabase);
     const info = readRateMode(row?.value);
     const apiQuote = await fetchLiveUsdToCrcRate({ previousRate: info.lastApiRate });
-    return NextResponse.json({ ok: true, ...describe(row?.value, row?.updated_at, apiQuote) });
+    return NextResponse.json({ ok: true, currency: currency.code, currencyName: currency.name, ...describe(row?.value, row?.updated_at, apiQuote) });
   } catch (error) {
     console.error('[admin/exchange-rate GET]', error);
     return NextResponse.json({ error: error.message || 'Could not load the exchange rate setting' }, { status: 500 });
@@ -75,6 +88,11 @@ export async function GET(request) {
 export async function PUT(request) {
   const auth = await verifyAdminSession(request, { requireSuperadmin: true });
   if (auth.error) return auth.error;
+
+  const currency = currencyFor(auth.activeSite || 'co');
+  if (!currency.liveFeed) {
+    return NextResponse.json({ error: `${currency.code} uses a fixed rate for now; it can't be changed here.` }, { status: 400 });
+  }
 
   try {
     const body = await request.json();
