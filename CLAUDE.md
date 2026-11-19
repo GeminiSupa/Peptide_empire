@@ -1,6 +1,8 @@
-Pointer only — put new context or rules in README.md, never here.
+Pointer only — put new context or rules in EMPIRE.md, never here.
 
-Shared context for both apps is README.md on branch catalog. Read it first with:
-git fetch origin catalog && git show origin/catalog:README.md
+This is the **Peptide Empire** multi-country project (Colombia, Mexico,
+Argentina, Canada — one codebase + one database). Read `EMPIRE.md` first; it is
+the source of truth. The older `README.md` is a leftover clone of the Costa
+Rica project and describes that, not Empire.
 
-@README.md
+@EMPIRE.md
