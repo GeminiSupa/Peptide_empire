@@ -38,7 +38,14 @@ export async function generateMetadata() {
       'pBiBnUTxYMA5ZEMnX4xn2x_0km2upd9Ti5uim5aet24',
     ],
   },
-  icons: {
+  icons: site.favicon ? {
+    icon: [
+      { url: `/site/favicon-${site.id}-32.png`, sizes: '32x32' },
+      { url: `/site/favicon-${site.id}-48.png`, sizes: '48x48' },
+      { url: `/site/favicon-${site.id}-512.png`, sizes: '512x512' },
+    ],
+    apple: `/site/favicon-${site.id}-512.png`,
+  } : {
     icon: [
       { url: '/wp-content/uploads/2026/02/cropped-Peptides-Fave-Icon-02-32x32.png', sizes: '32x32' },
       { url: '/wp-content/uploads/2026/02/cropped-Peptides-Fave-Icon-02-192x192.png', sizes: '192x192' },

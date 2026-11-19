@@ -27,14 +27,14 @@ const POLICY_LINKS = [
 ];
 
 /** The prototype's footer. Server-rendered: every link is in the page source. */
-export default function SiteFooter({ t, links, categories, contact = CONTACT, socials = [] }) {
+export default function SiteFooter({ t, country = null, links, categories, contact = CONTACT, socials = [] }) {
   const whatsapp = whatsappHref(contact.whatsapp, t("Hi! I'd like to order."));
   return (
     <footer className="sfoot">
       <div className="wrap">
         <div className="fgrid">
           <div className="fbrand">
-            <img className="logo" src="/site/logo-white.svg" alt={t('Peptidos Colombia')} />
+            <img className="logo" src={country?.logoWhite || '/site/logo-white.svg'} alt={t('Peptidos Colombia')} />
             <p className="slogan">{t('Unlimited potential')}</p>
             <Link className="fapp" href={links['explore-our-app']} data-cta="footer-app">
               <span className="fqr"><img src="/site/app-qr.svg" alt="" /></span>

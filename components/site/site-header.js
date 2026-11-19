@@ -200,7 +200,7 @@ export default function SiteHeader({
             <Ms name="menu" />
           </button>
           <Link href={links.home} aria-label={t('Home')} className="lg">
-            <img className="logo" src="/site/logo.svg" alt={country?.brand || 'Peptidos Colombia'} />
+            <img className="logo" src={country?.logo || '/site/logo.svg'} alt={country?.brand || 'Peptidos Colombia'} />
           </Link>
 
           <nav className="mainnav" aria-label="Main" ref={navRef}>
@@ -321,7 +321,7 @@ export default function SiteHeader({
       <div className={`scrim${drawerOpen ? ' open' : ''}`} onClick={closeDrawer} />
       <aside className={`drawer${drawerOpen ? ' open' : ''}`} aria-label={t('Menu')} aria-hidden={!drawerOpen}>
         <div className="dh">
-          <img className="logo" src="/site/logo.svg" alt="" />
+          <img className="logo" src={country?.logo || '/site/logo.svg'} alt="" />
           <button type="button" className="icbtn" aria-label={t('Close menu')} onClick={closeDrawer}>
             <span className="ms">close</span>
           </button>
