@@ -11,11 +11,16 @@
 // the plain word for the money ("colones", "pesos", "dollars"). Colombia keeps
 // the live colon feed; the others use their fixed rate for now.
 export const ADMIN_SITES = [
-  { id: 'co', name: 'Colombia', flag: '🇨🇴', currency: 'COP', currencyName: 'colones', rate: 4000, liveFeed: true },
-  { id: 'mx', name: 'Mexico', flag: '🇲🇽', currency: 'MXN', currencyName: 'pesos', rate: 17, liveFeed: false },
-  { id: 'ar', name: 'Argentina', flag: '🇦🇷', currency: 'ARS', currencyName: 'pesos', rate: 1000, liveFeed: false },
-  { id: 'ca', name: 'Canada', flag: '🇨🇦', currency: 'CAD', currencyName: 'dollars', rate: 1.4, liveFeed: false },
+  { id: 'co', name: 'Colombia', flag: '🇨🇴', currency: 'COP', currencyName: 'colones', rate: 4000, liveFeed: true, brand: 'Peptidos Colombia', domain: 'peptidoscolombia.co' },
+  { id: 'mx', name: 'Mexico', flag: '🇲🇽', currency: 'MXN', currencyName: 'pesos', rate: 17, liveFeed: false, brand: 'Peptidos Mexico', domain: 'comprarpeptidosmexico.com' },
+  { id: 'ar', name: 'Argentina', flag: '🇦🇷', currency: 'ARS', currencyName: 'pesos', rate: 1000, liveFeed: false, brand: 'Peptidos Argentina', domain: 'comprarpeptidosargentina.com' },
+  { id: 'ca', name: 'Canada', flag: '🇨🇦', currency: 'CAD', currencyName: 'dollars', rate: 1.4, liveFeed: false, brand: 'Peptides Canada', domain: 'canadapeptidesdirect.com' },
 ];
+
+/** The business name to show for a site's order emails/notifications. */
+export function brandForSite(id) {
+  return (siteById(id) || ADMIN_SITES[0]).brand;
+}
 
 /** Currency facts for a site id: { code, name, rate, liveFeed }. */
 export function currencyFor(id) {

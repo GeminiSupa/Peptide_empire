@@ -10,6 +10,7 @@
  */
 
 import { ORDER_EMAIL_LOGO_SRC } from './orderEmailBranding.mjs';
+import { brandForSite, siteById } from './sites.mjs';
 import { classifyPaymentOutcome } from './paymentOutcome.mjs';
 
 export const escapeHtml = (value = '') => String(value)
@@ -80,6 +81,7 @@ export const buildItemsRows = (items = [], currency) => items.map((item) => {
 
 // Admin HTML Template Builder
 export const buildAdminHtml = (order, paymentLabel, totalPrimary, totalUsd, totalCrc) => {
+  const brand = brandForSite(order?.site_id);
 
   const shippingAmount = order.shipping !== undefined ? Number(order.shipping || 0) : undefined;
   const itemsAfterDiscounts = shippingAmount !== undefined
@@ -112,7 +114,7 @@ export const buildAdminHtml = (order, paymentLabel, totalPrimary, totalUsd, tota
       : isDeclined
         ? `${isFirstSight ? 'A new order has been placed, but the card did not go through' : 'The card did not go through'}${order.declineReason ? ` — ${escapeHtml(order.declineReason)}` : ''}. Nothing was charged and the order is unpaid.`
         : 'The payment status for this order changed.')
-    : 'A new order has been placed on the Peptidos Colombia catalog.';
+    : `A new order has been placed on the ${brand} catalog.`;
   const customerPhoneDigits = String(order.customerPhone || '').replace(/[^0-9]/g, '');
 
   return `
@@ -123,7 +125,7 @@ export const buildAdminHtml = (order, paymentLabel, totalPrimary, totalUsd, tota
       
       <!-- Premium Admin Header Banner -->
       <div style="background-color:#0f172a;padding:40px 32px;text-align:center;">
-        <img src="${ORDER_EMAIL_LOGO_SRC}" alt="Peptidos Colombia" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 12px auto;border-radius:12px;color:#ffffff;">
+        <img src="${ORDER_EMAIL_LOGO_SRC}" alt="${brand}" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 12px auto;border-radius:12px;color:#ffffff;">
         <div style="color:#ffffff;font-size:15px;font-weight:800;letter-spacing:1.2px;margin:0 0 16px;">PEPTIDES COSTA RICA</div>
         <h1 style="color:#ffffff !important;font-size:28px;font-weight:800;margin:0 0 10px;letter-spacing:-0.5px;">${headline}</h1>
         <p style="color:#e0e7ff !important;font-size:15px;margin:0;max-width:500px;margin:0 auto;line-height:1.5;">${subhead}</p>
@@ -229,7 +231,7 @@ export const buildAdminHtml = (order, paymentLabel, totalPrimary, totalUsd, tota
         </div>
 
         <div style="text-align:center;padding-top:20px;color:#94a3b8;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">
-          Peptidos Colombia Admin Notification System
+          ${brand} Admin Notification System
         </div>
       </div>
     </div>
@@ -255,6 +257,8 @@ export const buildAdminHtml = (order, paymentLabel, totalPrimary, totalUsd, tota
  * panel still shows — that one is written on purpose, for everyone.
  */
 export const buildCustomerHtml = (order, paymentLabel, totalPrimary, totalUsd, totalCrc, lang, links, salesTextEn, salesTextEs, promoCodesList) => {
+  const brand = brandForSite(order?.site_id);
+  const siteDomain = (siteById(order?.site_id) || {}).domain || 'peptidoscolombia.co';
 
   const isEn = lang === 'en';
   const isPaid = isPaidStatus(order.status);
@@ -337,7 +341,7 @@ export const buildCustomerHtml = (order, paymentLabel, totalPrimary, totalUsd, t
       
       <!-- Premium Science Theme Header Banner -->
       <div style="background-color:#0f172a;padding:40px 32px;text-align:center;">
-        <img src="${ORDER_EMAIL_LOGO_SRC}" alt="Peptidos Colombia" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 12px auto;border-radius:12px;color:#ffffff;">
+        <img src="${ORDER_EMAIL_LOGO_SRC}" alt="${brand}" width="140" height="118" style="display:block;width:140px;height:118px;margin:0 auto 12px auto;border-radius:12px;color:#ffffff;">
         <div style="color:#ffffff;font-size:15px;font-weight:800;letter-spacing:1.2px;margin:0 0 16px;">PEPTIDES COSTA RICA</div>
         <h1 style="color:#ffffff !important;font-size:28px;font-weight:800;margin:0 0 10px;letter-spacing:-0.5px;">${strings.title}</h1>
         <p style="color:#e2e8f0 !important;font-size:15px;margin:0;max-width:500px;margin:0 auto;line-height:1.5;">${strings.subtitle}</p>
@@ -489,7 +493,7 @@ export const buildCustomerHtml = (order, paymentLabel, totalPrimary, totalUsd, t
 
         <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:20px;text-align:center;max-width:500px;margin:0 auto 24px;">
           <p style="margin:0 0 14px;color:#0f172a;font-size:15px;font-weight:700;">${isEn ? 'This order is saved in your account.' : 'Este pedido queda guardado en su cuenta.'}</p>
-          <a href="https://catalog.peptidescostarica.net/account?lang=${isEn ? 'en' : 'es'}" style="display:inline-block;background-color:#BF4F0B;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:12px;font-weight:800;font-size:15px;">${isEn ? 'View your order' : 'Ver su pedido'}</a>
+          <a href="https://${siteDomain}/account?lang=${isEn ? 'en' : 'es'}" style="display:inline-block;background-color:#BF4F0B;color:#ffffff;text-decoration:none;padding:12px 22px;border-radius:12px;font-weight:800;font-size:15px;">${isEn ? 'View your order' : 'Ver su pedido'}</a>
         </div>
 
         <!-- Support CTA Block -->

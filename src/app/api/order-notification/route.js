@@ -5,6 +5,7 @@ import { sendTaxRecordsCopy } from '@/lib/taxRecordsEmail.mjs';
 import { resolveTaxRecordsMailer } from '@/lib/taxRecordsSmtp.mjs';
 import { buildOrderEmailAddressing, getOrderNotificationRecipients } from '@/lib/orderNotificationRecipients';
 import { getOrderEmailLogoAttachment } from '@/lib/orderEmailBranding.mjs';
+import { brandForSite } from '@/lib/sites.mjs';
 import { withBacGiftLines } from '@/lib/bacWater.mjs';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
@@ -147,6 +148,8 @@ export async function POST(request) {
     // Determine customer language
     // Use order.lang if provided, otherwise check currency (CRC -> Spanish, USD -> English)
     const orderLang = order.lang || (order.currency === 'CRC' ? 'es' : 'en');
+    // The business name for this order's country, for the subject, sender and body.
+    const orderBrand = brandForSite(order?.site_id);
 
     // Add the free Bac Water entitlement — one vial per peptide.
     //
@@ -214,8 +217,8 @@ export async function POST(request) {
       
       const adminText = [
         order.notificationKind === 'payment-result'
-          ? ` Peptidos Colombia - Payment ${adminOutcome === 'paid' ? 'Approved' : adminOutcome === 'declined' ? 'Declined' : 'Update'}`
-          : ' Peptidos Colombia - New Order Received',
+          ? ` ${orderBrand} - Payment ${adminOutcome === 'paid' ? 'Approved' : adminOutcome === 'declined' ? 'Declined' : 'Update'}`
+          : ` ${orderBrand} - New Order Received`,
         ...(order.declineReason ? [`Gateway reason: ${order.declineReason}`] : []),
         `Order Reference: ${order.orderNumber || 'N/A'}`,
         `Payment Method: ${paymentLabel}`,
@@ -374,19 +377,19 @@ export async function POST(request) {
             : `Recordatorio: su banco aún debe aprobar - Pedido #${order.orderNumber || ''}`)
           : order.isResend === true
           ? (orderLang === 'en'
-            ? `Your receipt - Order #${order.orderNumber || ''} - Peptidos Colombia`
-            : `Su recibo - Pedido #${order.orderNumber || ''} - Péptidos Costa Rica`)
+            ? `Your receipt - Order #${order.orderNumber || ''} - ${orderBrand}`
+            : `Su recibo - Pedido #${order.orderNumber || ''} - ${orderBrand}`)
           : outcome === 'declined'
           ? (orderLang === 'en'
-            ? `Payment declined - Order #${order.orderNumber || ''} - Peptidos Colombia`
-            : `Pago rechazado - Pedido #${order.orderNumber || ''} - Péptidos Costa Rica`)
+            ? `Payment declined - Order #${order.orderNumber || ''} - ${orderBrand}`
+            : `Pago rechazado - Pedido #${order.orderNumber || ''} - ${orderBrand}`)
           : outcome === 'paid'
             ? (orderLang === 'en'
-              ? `Payment confirmed - Order #${order.orderNumber || ''} - Peptidos Colombia`
-              : `Pago confirmado - Pedido #${order.orderNumber || ''} - Péptidos Costa Rica`)
+              ? `Payment confirmed - Order #${order.orderNumber || ''} - ${orderBrand}`
+              : `Pago confirmado - Pedido #${order.orderNumber || ''} - ${orderBrand}`)
             : (orderLang === 'en'
-              ? `Order received #${order.orderNumber || ''} - Peptidos Colombia`
-              : `Pedido recibido #${order.orderNumber || ''} - Péptidos Costa Rica`);
+              ? `Order received #${order.orderNumber || ''} - ${orderBrand}`
+              : `Pedido recibido #${order.orderNumber || ''} - ${orderBrand}`);
 
         customerHtml = buildCustomerHtml(order, paymentLabel, totalPrimary, totalUsd, totalCrc, orderLang, links, salesTextEn, salesTextEs, promoCodesList);
 
@@ -438,7 +441,9 @@ export async function POST(request) {
         );
 
         const customerInfo = await transporter.sendMail({
-          from: smtp.from,
+          // Show this country's business name as the sender; the verified
+          // sending address stays the same.
+          from: String(smtp.from || '').replace('Peptidos Colombia', orderBrand),
           replyTo: smtp.replyTo,
           to: String(order.customerEmail).trim(),
           // Hidden from the customer, and never allowed to be the reason a
