@@ -1562,7 +1562,12 @@ export default function CampaignBuilder({ editingCampaignId, onDirtyChange, noti
                     />
                     <span>
                       <strong style={{ display: 'block', color: '#f8fafc', fontSize: '13px' }}>{choice.label}</strong>
-                      <small style={{ color: '#94a3b8' }}>{audienceCounts[choice.id]} recipient{audienceCounts[choice.id] === 1 ? '' : 's'} &middot; {choice.hint}</small>
+                      <small style={{ color: '#94a3b8' }}>
+                        {active && behaviorFilter !== 'none' && !behaviorEstimateUnavailable
+                          ? <><strong style={{ color: '#34d399' }}>{estimatedAudience.length.toLocaleString()}</strong> of {audienceCounts[choice.id].toLocaleString()} recipient{audienceCounts[choice.id] === 1 ? '' : 's'}</>
+                          : <>{audienceCounts[choice.id]} recipient{audienceCounts[choice.id] === 1 ? '' : 's'}</>}
+                        {' '}&middot; {choice.hint}
+                      </small>
                     </span>
                   </label>
                 );
