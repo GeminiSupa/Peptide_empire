@@ -14,10 +14,23 @@ import {
   oldStockCode,
   productCodePrefix,
 } from '@/lib/labBatches.mjs';
+import { LAB_PORTAL_MIGRATION, isLabPortalMissing } from '@/lib/labPortal.mjs';
 
 export const runtime = 'nodejs';
 
-const BATCH_COLUMNS = 'id, code, kind, product_id, batch_number, supplier_name, vial_count, manufactured_date, expiry_date, coa_url, notes, created_at, created_by, products(product)';
+const BASE_BATCH_COLUMNS = 'id, code, kind, product_id, batch_number, supplier_name, vial_count, manufactured_date, expiry_date, coa_url, notes, created_at, created_by, products(product)';
+// Added by add-lab-portal.sql. Read with a fallback so the tab keeps working on
+// a database where that migration has not run yet.
+const BATCH_COLUMNS = `${BASE_BATCH_COLUMNS}, lab_partner_id, coa_purity_percent, coa_test_date`;
+
+/** Run a batch query with the lab columns, and again without them if the lab migration is missing. */
+async function withLabColumns(run) {
+  const first = await run(BATCH_COLUMNS);
+  if (first.error && isLabPortalMissing(first.error)) {
+    return { ...(await run(BASE_BATCH_COLUMNS)), labPortalReady: false };
+  }
+  return { ...first, labPortalReady: true };
+}
 
 function missingMigration(error) {
   const message = String(error?.message || '').toLowerCase();
@@ -47,6 +60,9 @@ function shapeBatch(row) {
     madeDate: row.manufactured_date,
     expiryDate: row.expiry_date,
     coaUrl: row.coa_url || '',
+    labPartnerId: row.lab_partner_id || null,
+    coaPurityPercent: row.coa_purity_percent === null || row.coa_purity_percent === undefined ? null : Number(row.coa_purity_percent),
+    coaTestDate: row.coa_test_date || null,
     notes: row.notes || '',
     createdAt: row.created_at,
     createdBy: row.created_by || '',
@@ -100,9 +116,12 @@ export async function GET(request) {
       return NextResponse.json({ code: recallCode, orders, customersHidden: !canSeeCustomers });
     }
 
-    const [batchesResult, productsResult] = await Promise.all([
-      supabase.from('product_batches').select(BATCH_COLUMNS).order('created_at', { ascending: false }),
+    const [batchesResult, productsResult, labsResult] = await Promise.all([
+      withLabColumns((columns) => supabase.from('product_batches').select(columns).order('created_at', { ascending: false })),
       supabase.from('products').select('id, product, status, inventory_count').order('product', { ascending: true }),
+      // Name and id only: enough to pick who tests a batch. Logins are managed
+      // on the superadmin-only /api/admin/lab-partners route.
+      supabase.from('lab_partners').select('id, name').order('name'),
     ]);
     if (batchesResult.error) {
       if (missingMigration(batchesResult.error)) return migrationResponse();
@@ -113,6 +132,8 @@ export async function GET(request) {
     return NextResponse.json({
       // Rows from before this feature have no code and cannot be printed or scanned.
       batches: (batchesResult.data || []).filter((row) => row.code).map(shapeBatch),
+      labs: labsResult.error ? [] : (labsResult.data || []),
+      labPortalReady: batchesResult.labPortalReady && !labsResult.error,
       products: (productsResult.data || []).map((product) => ({
         id: product.id,
         product: product.product,
@@ -171,12 +192,12 @@ export async function POST(request) {
     if (!product) return NextResponse.json({ error: 'That product no longer exists.' }, { status: 404 });
 
     if (kind === 'old_stock') {
-      const { data: existing, error: existingError } = await supabase
+      const { data: existing, error: existingError } = await withLabColumns((columns) => supabase
         .from('product_batches')
-        .select(BATCH_COLUMNS)
+        .select(columns)
         .eq('product_id', product.id)
         .eq('kind', 'old_stock')
-        .limit(1);
+        .limit(1));
       if (existingError) {
         if (missingMigration(existingError)) return migrationResponse();
         throw existingError;
@@ -209,7 +230,8 @@ export async function POST(request) {
           notes: String(body?.notes || '').trim() || null,
           created_by: actorName(auth.profile),
         })
-        .select(BATCH_COLUMNS)
+        // A new batch has no lab yet, so the base columns say everything.
+        .select(BASE_BATCH_COLUMNS)
         .single();
       if (error) {
         if (missingMigration(error)) return migrationResponse();
@@ -275,16 +297,40 @@ export async function PATCH(request) {
       changes.coa_url = coaUrl || null;
     }
     if (body.notes !== undefined) changes.notes = String(body.notes || '').trim() || null;
+    if (body.labPartnerId !== undefined) {
+      // Which lab tests this batch, or nobody. The lab must exist; a lab only
+      // ever sees batches whose lab_partner_id is its own.
+      const labPartnerId = String(body.labPartnerId || '').trim() || null;
+      if (labPartnerId) {
+        const { data: lab, error: labError } = await scopedAdmin(auth.activeSite)
+          .from('lab_partners').select('id').eq('id', labPartnerId).maybeSingle();
+        if (labError) {
+          if (isLabPortalMissing(labError)) {
+            return NextResponse.json({ error: `Run ${LAB_PORTAL_MIGRATION} in the Supabase SQL editor first.` }, { status: 503 });
+          }
+          throw labError;
+        }
+        if (!lab) return NextResponse.json({ error: 'That lab no longer exists.' }, { status: 404 });
+      }
+      changes.lab_partner_id = labPartnerId;
+    }
     if (Object.keys(changes).length === 0) return NextResponse.json({ error: 'Nothing to save.' }, { status: 400 });
 
     const supabase = scopedAdmin(auth.activeSite);
-    const { data, error } = await supabase
-      .from('product_batches')
-      .update(changes)
-      .eq('id', id)
-      .select(BATCH_COLUMNS)
-      .maybeSingle();
+    // A select naming a missing column fails the whole statement before the
+    // update runs, so retrying without the lab columns cannot apply it twice.
+    const { data, error } = changes.lab_partner_id !== undefined
+      ? await supabase.from('product_batches').update(changes).eq('id', id).select(BATCH_COLUMNS).maybeSingle()
+      : await withLabColumns((columns) => supabase
+        .from('product_batches')
+        .update(changes)
+        .eq('id', id)
+        .select(columns)
+        .maybeSingle());
     if (error) {
+      if (isLabPortalMissing(error)) {
+        return NextResponse.json({ error: `Run ${LAB_PORTAL_MIGRATION} in the Supabase SQL editor first.` }, { status: 503 });
+      }
       if (missingMigration(error)) return migrationResponse();
       throw error;
     }

@@ -93,7 +93,7 @@ import {
   getDefaultAdminTab,
   resolveAdminTabAccess,
 } from '@/lib/adminModules';
-import { isAffiliateTier, isSubUser } from '@/lib/subUserTier.mjs';
+import { isAffiliateTier, isLabTier, isSubUser } from '@/lib/subUserTier.mjs';
 import {
   DEFAULT_LANDING_PAGE_SETTINGS,
   DEFAULT_PUBLIC_PAGE_SETTINGS,
@@ -2085,7 +2085,7 @@ Core Rules:
   // Resolve ?tab= from URL once admin profile is loaded
   useEffect(() => {
     if (!mounted || !adminProfile || profileLoading) return;
-    if (isAffiliateTier(adminProfile)) return;
+    if (isAffiliateTier(adminProfile) || isLabTier(adminProfile)) return;
 
     const params = new URLSearchParams(window.location.search);
     const tabParam = params.get('tab');
@@ -5666,6 +5666,28 @@ Te contacto respecto a tu orden #${recipient.orderNumber} de ${itemsStr}. Querí
               <button type="button" onClick={() => router.push('/affiliate-dashboard')}>
                 Open my partner dashboard
               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // A lab partner login gets the same treatment: say what happened and offer
+  // both doors. The API refuses the lab tier on every admin route regardless.
+  if (isLabTier(adminProfile)) {
+    return (
+      <div className="admin-layout" suppressHydrationWarning>
+        <div className="admin-login-container">
+          <div className="admin-login-card">
+            <p>You are signed in as a lab partner</p>
+            <div className="error-msg" style={{ lineHeight: 1.6 }}>
+              This browser is signed in as {adminProfile?.name || adminProfile?.email}, a lab partner
+              account. Lab accounts upload certificates at /lab and cannot open the admin.
+            </div>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '16px', flexWrap: 'wrap' }}>
+              <button type="button" onClick={handleLogout}>Sign out</button>
+              <button type="button" onClick={() => router.push('/lab')}>Open the lab portal</button>
             </div>
           </div>
         </div>

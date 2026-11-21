@@ -4,6 +4,7 @@ import {
   SUB_USER_TAB_IDS,
   isActiveProfile,
   isAffiliateTier,
+  isLabTier,
   isSubUser,
 } from './subUserTier.mjs';
 import { AFFILIATE_TAB_IDS } from './affiliateAccess.mjs';
@@ -194,6 +195,11 @@ export function resolveAdminTabAccess(tabId, profile) {
   // first would drop an outside affiliate into the Facebook inbox and the
   // team's internal chat.
   if (isAffiliateTier(profile)) return AFFILIATE_TAB_IDS.has(tabId);
+
+  // A lab partner has no admin tab at all: their whole portal is /lab, which
+  // imports nothing from the admin. Ahead of ALWAYS_AVAILABLE for the same
+  // reason as the two tiers above.
+  if (isLabTier(profile)) return false;
 
   if (ALWAYS_AVAILABLE_TAB_IDS.has(tabId)) return true;
   if (SUPERADMIN_ONLY_TAB_IDS.has(tabId)) return Boolean(profile.is_superadmin);

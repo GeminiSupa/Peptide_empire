@@ -30,6 +30,13 @@ export const TIER_SUB_USER = 'sub_user';
  * what a person actually is, so nothing here reads them to decide access.
  */
 export const TIER_AFFILIATE = 'affiliate';
+/**
+ * An outside testing lab with a login. It reaches one page, /lab, and through
+ * it only the batches the owner assigned to it. verifyAdminSession refuses it
+ * on every admin route by default; the /api/lab routes opt in with allowLab.
+ * See src/lib/labPortal.mjs.
+ */
+export const TIER_LAB = 'lab';
 
 export const STATUS_PENDING = 'pending';
 export const STATUS_ACTIVE = 'active';
@@ -50,6 +57,7 @@ export function profileTier(profile) {
   const tier = norm(profile?.tier);
   if (tier === TIER_SUB_USER) return TIER_SUB_USER;
   if (tier === TIER_AFFILIATE) return TIER_AFFILIATE;
+  if (tier === TIER_LAB) return TIER_LAB;
   return TIER_STAFF;
 }
 
@@ -61,15 +69,19 @@ export function isAffiliateTier(profile) {
   return profileTier(profile) === TIER_AFFILIATE;
 }
 
+export function isLabTier(profile) {
+  return profileTier(profile) === TIER_LAB;
+}
+
 /**
- * Someone who works here, as opposed to an outside affiliate with a login.
+ * Someone who works here, as opposed to an outside affiliate or lab with a login.
  *
  * Used where a list of real people is being built — who can own a lead, who
  * can be assigned a chat. Those places used to ask `!isSubUser(profile)`, which
  * would have quietly counted an affiliate as an agent.
  */
 export function isInternalStaff(profile) {
-  return !isAffiliateTier(profile);
+  return !isAffiliateTier(profile) && !isLabTier(profile);
 }
 
 export function isStaff(profile) {

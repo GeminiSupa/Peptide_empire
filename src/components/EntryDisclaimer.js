@@ -85,8 +85,12 @@ export default function EntryDisclaimer() {
   // rather than a prefix.
   const isAffiliateDashboard = pathname === '/affiliate-dashboard'
     || pathname.startsWith('/affiliate-dashboard/');
+  // /lab is the partner testing labs' upload portal: no shop front either.
+  // Whole segment again, so a future /labs-something page keeps its gate.
+  const isLabPortal = pathname === '/lab' || pathname.startsWith('/lab/');
   const isExemptRoute = pathname.startsWith('/admin')
     || isAffiliateDashboard
+    || isLabPortal
     || pathname.startsWith('/embed');
 
   useEffect(() => {

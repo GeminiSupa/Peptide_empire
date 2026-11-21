@@ -31,6 +31,9 @@ const rules = [
   { pattern: /^\/api\/admin\/offsite-inventory(?:\/|$)/, permissions: ['offsite_inventory'] },
   { pattern: /^\/api\/admin\/lab-batches(?:\/|$)/, permissions: ['lab_batches'] },
   { pattern: /^\/api\/admin\/upload-coa$/, permissions: ['lab_batches', 'spreadsheet'] },
+  // Approving a lab's COA publishes it on the batch QR; same people who can
+  // already set that link by hand.
+  { pattern: /^\/api\/admin\/lab-coa(?:\/|$)/, permissions: ['lab_batches'] },
   { pattern: /^\/api\/admin\/packing(?:\/|$)/, permissions: ['fulfillment'] },
   { pattern: /^\/api\/admin\/promo(?:\/|$)/, permissions: ['affiliates', 'broadcasts', 'deals'] },
   { pattern: /^\/api\/admin\/referral-stats$/, permissions: ['affiliates'] },

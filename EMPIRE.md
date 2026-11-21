@@ -68,6 +68,44 @@ every country; switch with the **Country** dropdown in the sidebar. Regular
 staff see only the countries granted in Team Management → their profile
 (`admin_profiles.allowed_sites`); the super admin sees all.
 
+## Lab partner portal (`/lab`)
+
+Partner testing labs get their own login and upload certificates of analysis
+(COAs) only for the batches assigned to them. Staff approve each upload before
+it goes public on the batch QR (`/b/<code>`).
+
+**Run `add-lab-portal.sql` first**, in the Supabase SQL editor, *after*
+`lock-empire-rls.sql` and before deploying the code. Safe to re-run. It
+refuses to run until `lock-empire-rls.sql` has been applied, because under the
+old `admin-rls.sql` any login (a lab's included) can read every table. It widens
+`admin_profiles.tier` to allow `'lab'` (never superadmin), adds
+`lab_partners`, `product_batches.lab_partner_id` and `lab_coa_submissions`
+(both tables revoked from the browser keys), and creates the **private**
+storage bucket `lab-coa-submissions`. Check afterwards that
+`SELECT public FROM storage.buckets WHERE id = 'lab-coa-submissions'` is `false`.
+Until it runs, the Lab batches tab keeps working and the lab panels say which
+file to run.
+
+How it works:
+- **Owner (superadmin):** Lab batches tab → *Partner labs & logins* → add a lab
+  and give it a login (email + password), or remove the login. Then pick the
+  lab in the batch table's **Tested by** column (anyone with `lab_batches`).
+- **Lab:** signs in at `…/lab`, sees only its assigned batches, uploads one
+  PDF per batch with purity (%) and test date, and sees pending / approved /
+  rejected (with the reason).
+- **Staff (`lab_batches` permission):** Lab batches tab → *Lab COA uploads* →
+  open the PDF, **Approve & publish** or **Reject** (a reason is required).
+  Approving copies the PDF to the public `coa-documents` bucket and only then
+  sets the batch's `coa_url`, which is what the QR opens.
+
+Security rules (keep them when changing this): the lab tier is refused on
+every admin route by `verifyAdminSession` unless the route opts in with
+`allowLab` (only `src/lib/labSession.js` does); the lab is always taken from
+the session, never from a query string or body; `empire_is_staff()` in
+`lock-empire-rls.sql` must keep counting only `staff`/`sub_user`, so a lab
+login has no direct table access. `tests/lab-portal-access.test.mjs` checks
+all of this.
+
 ## SQL migrations (run in the Supabase SQL editor)
 
 Base multi-country setup (already applied this session): `empire-schema.sql`,

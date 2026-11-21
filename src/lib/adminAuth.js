@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { NextResponse } from 'next/server';
 import { getSupabaseAdmin } from '@/lib/supabaseAdmin';
-import { isActiveProfile, isAffiliateTier, isPendingApproval, isSubUser } from '@/lib/subUserTier.mjs';
+import { isActiveProfile, isAffiliateTier, isLabTier, isPendingApproval, isSubUser } from '@/lib/subUserTier.mjs';
 import {
   adminPermissionsForPath,
   profileHasAnyAdminPermission,
@@ -42,6 +42,11 @@ export function scopeToSite(query, site) {
  * dashboard opt in with { allowAffiliate: true }; every other route in the app
  * refuses them without being edited, which is the only version of this that
  * stays true as routes get added.
+ *
+ * Labs are refused the same way again. A lab login belongs to an outside
+ * testing lab; the /api/lab routes behind its one page opt in with
+ * { allowLab: true }, and that option cannot be combined with a superadmin or
+ * permission requirement to get further in.
  */
 export async function verifyAdminSession(
   request,
@@ -49,6 +54,7 @@ export async function verifyAdminSession(
     requireSuperadmin = false,
     allowSubUser = false,
     allowAffiliate = false,
+    allowLab = false,
     requirePermission = null,
     requireAnyPermission = null,
     skipPathPermission = false,
@@ -108,6 +114,16 @@ export async function verifyAdminSession(
   // relied upon: allowAffiliate must not become a way past them.
   if (isAffiliateTier(profile) && (requireSuperadmin || requirePermission || requireAnyPermission)) {
     return { error: NextResponse.json({ error: 'Forbidden: not available to affiliates' }, { status: 403 }) };
+  }
+
+  if (isLabTier(profile) && !allowLab) {
+    return { error: NextResponse.json({ error: 'Forbidden: not available to lab partners' }, { status: 403 }) };
+  }
+
+  // Same belt-and-braces as affiliates: a lab is never a superadmin and holds
+  // no admin permission, and allowLab must not become a way past either check.
+  if (isLabTier(profile) && (requireSuperadmin || requirePermission || requireAnyPermission)) {
+    return { error: NextResponse.json({ error: 'Forbidden: not available to lab partners' }, { status: 403 }) };
   }
 
   if (requireSuperadmin && !profile.is_superadmin) {

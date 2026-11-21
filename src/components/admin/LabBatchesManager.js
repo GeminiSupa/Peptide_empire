@@ -6,16 +6,8 @@ import { adminFetch } from '@/lib/adminApi';
 import { formatCrDate, isoToCrWall } from '@/lib/crTime.mjs';
 import { STICKER_SIZES, printStickers } from '@/lib/stickerPrint';
 import CoaUploadField from './CoaUploadField';
-
-/**
- * Lab batches & stickers.
- *
- * The lab enters a batch when a filling run is done, prints its QR stickers,
- * and the packers scan those stickers in Fulfillment. Every scan records which
- * batch went to which customer, so "Who got it" on a batch is the recall list.
- *
- * Nothing here changes stock. Total stock still lives on the Products tab.
- */
+import LabCoaReview from './LabCoaReview';
+import LabPartnersPanel from './LabPartnersPanel';
 
 const SIZE_STORAGE_KEY = 'labBatches.stickerSize';
 
@@ -59,6 +51,53 @@ function Field({ label, children, hint }) {
     </label>
   );
 }
+
+/**
+ * Which partner lab tests a batch. The lab sees and uploads COAs only for
+ * batches set here; changing it takes the batch off the old lab's page at once.
+ */
+function LabAssignSelect({ batch, labs, onSaved, onError }) {
+  const [saving, setSaving] = useState(false);
+  const change = async (event) => {
+    const labPartnerId = event.target.value || null;
+    setSaving(true);
+    try {
+      const res = await adminFetch('/api/admin/lab-batches', {
+        method: 'PATCH',
+        body: JSON.stringify({ id: batch.id, labPartnerId }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) { onError(data.error || 'Could not assign the lab'); return; }
+      onSaved(data.batch);
+    } catch (err) {
+      onError(err.message || 'Could not assign the lab');
+    } finally {
+      setSaving(false);
+    }
+  };
+  return (
+    <select
+      value={batch.labPartnerId || ''}
+      onChange={change}
+      disabled={saving}
+      aria-label={`Lab that tests ${batch.code}`}
+      style={{ ...inputStyle, padding: '5px 8px', fontSize: '0.8rem', minWidth: 130 }}
+    >
+      <option value="">No lab</option>
+      {labs.map((lab) => <option key={lab.id} value={lab.id}>{lab.name}</option>)}
+    </select>
+  );
+}
+
+/**
+ * Lab batches & stickers.
+ *
+ * The lab enters a batch when a filling run is done, prints its QR stickers,
+ * and the packers scan those stickers in Fulfillment. Every scan records which
+ * batch went to which customer, so "Who got it" on a batch is the recall list.
+ *
+ * Nothing here changes stock. Total stock still lives on the Products tab.
+ */
 
 /** "How many, what size" — the one question before a print window opens. */
 function PrintDialog({ title, defaultCopies, onCancel, onPrint, busy }) {
@@ -221,6 +260,8 @@ function RecallList({ code }) {
 export default function LabBatchesManager() {
   const [batches, setBatches] = useState([]);
   const [products, setProducts] = useState([]);
+  const [labs, setLabs] = useState([]);
+  const [labPortalReady, setLabPortalReady] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [migration, setMigration] = useState('');
@@ -248,6 +289,8 @@ export default function LabBatchesManager() {
       }
       setBatches(data.batches || []);
       setProducts(data.products || []);
+      setLabs(data.labs || []);
+      setLabPortalReady(Boolean(data.labPortalReady));
     } catch (err) {
       setError(err.message || 'Could not load batches');
     } finally {
@@ -365,6 +408,9 @@ export default function LabBatchesManager() {
       {error && !migration && <div style={{ marginBottom: 12, color: '#f87171' }}>{error}</div>}
       {message && <div style={{ marginBottom: 12, color: '#86efac' }}>{message}</div>}
 
+      {!migration && <LabCoaReview onDecided={load} />}
+      {!migration && <LabPartnersPanel onLabsChanged={load} />}
+
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 16, marginBottom: 20 }}>
         <form onSubmit={createBatch} style={{ padding: 16, borderRadius: 12, background: 'rgba(15,23,42,0.45)', border: '1px solid rgba(148,163,184,0.18)' }}>
           <div style={{ fontWeight: 700, marginBottom: 12 }}>1. New batch</div>
@@ -436,13 +482,14 @@ export default function LabBatchesManager() {
               <th>Made</th>
               <th>Expires</th>
               <th>Lab report</th>
+              {labPortalReady && <th>Tested by</th>}
               <th style={{ width: 300 }}></th>
             </tr>
           </thead>
           <tbody>
-            {loading && <tr><td colSpan={7} style={{ color: '#94a3b8' }}>Loading…</td></tr>}
+            {loading && <tr><td colSpan={labPortalReady ? 8 : 7} style={{ color: '#94a3b8' }}>Loading…</td></tr>}
             {!loading && visible.length === 0 && (
-              <tr><td colSpan={7} style={{ color: '#94a3b8' }}>{batches.length === 0 ? 'No batches yet. Create the first one above.' : 'Nothing matches that search.'}</td></tr>
+              <tr><td colSpan={labPortalReady ? 8 : 7} style={{ color: '#94a3b8' }}>{batches.length === 0 ? 'No batches yet. Create the first one above.' : 'Nothing matches that search.'}</td></tr>
             )}
             {visible.map((batch) => {
               const isOpen = expanded.id === batch.id;
@@ -463,7 +510,24 @@ export default function LabBatchesManager() {
                     {batch.coaUrl
                       ? <a href={batch.coaUrl} target="_blank" rel="noopener noreferrer" style={{ color: '#60a5fa' }}>Open</a>
                       : <span style={{ color: '#64748b' }}>—</span>}
+                    {batch.coaPurityPercent !== null && batch.coaPurityPercent !== undefined && (
+                      <div style={{ fontSize: '0.7rem', color: '#94a3b8' }}>{batch.coaPurityPercent}% pure</div>
+                    )}
                   </td>
+                  {labPortalReady && (
+                    <td>
+                      <LabAssignSelect
+                        batch={batch}
+                        labs={labs}
+                        onError={(text) => { setMessage(''); setError(text); }}
+                        onSaved={(saved) => {
+                          setBatches((prev) => prev.map((row) => (row.id === saved.id ? saved : row)));
+                          const lab = labs.find((row) => row.id === saved.labPartnerId);
+                          setMessage(lab ? `${saved.code} is now tested by ${lab.name}.` : `${saved.code} has no lab now.`);
+                        }}
+                      />
+                    </td>
+                  )}
                   <td>
                     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
                       <button
@@ -484,7 +548,7 @@ export default function LabBatchesManager() {
                 </tr>,
                 isOpen && (
                   <tr key={`${batch.id}-more`}>
-                    <td colSpan={7} style={{ background: 'rgba(15,23,42,0.35)' }}>
+                    <td colSpan={labPortalReady ? 8 : 7} style={{ background: 'rgba(15,23,42,0.35)' }}>
                       {expanded.mode === 'edit'
                         ? (
                           <EditBatchForm
