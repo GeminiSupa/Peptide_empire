@@ -34,7 +34,7 @@ export default function SiteFooter({ t, country = null, links, categories, conta
       <div className="wrap">
         <div className="fgrid">
           <div className="fbrand">
-            <img className="logo" src={country?.logoWhite || '/site/logo-white.svg'} alt={t('Peptidos Colombia')} />
+            <img className="logo" src={country?.logoWhite || '/site/logo-white.svg'} alt={country?.brand || t('Peptidos Colombia')} />
             <p className="slogan">{t('Unlimited potential')}</p>
             <Link className="fapp" href={links['explore-our-app']} data-cta="footer-app">
               <span className="fqr"><img src="/site/app-qr.svg" alt="" /></span>
