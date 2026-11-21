@@ -16,6 +16,8 @@
  * Kept free of '@/lib' imports so tests/ can load it under `node --test`.
  */
 
+import { brandForSite } from './sites.mjs';
+
 const escapeHtml = (value = '') => String(value)
   .replace(/&/g, '&amp;')
   .replace(/</g, '&lt;')
@@ -52,10 +54,12 @@ export function buildCustomerRefundEmail({ order = {}, plan = {}, lang } = {}) {
   const amount = formatRefundMoney(primaryAmount(plan, currency), currency);
   const kept = formatRefundMoney(keptAmount(plan, currency), currency);
   const partial = !plan.fullyRefunded;
+  // The order's own country (Peptides Canada, Peptidos Mexico…), not a fixed name.
+  const brand = brandForSite(order.site_id);
 
   const subject = isEn
-    ? `Refund approved - Order #${orderNumber} - Peptidos Colombia`
-    : `Reembolso aprobado - Pedido #${orderNumber} - Péptidos Costa Rica`;
+    ? `Refund approved - Order #${orderNumber} - ${brand}`
+    : `Reembolso aprobado - Pedido #${orderNumber} - ${brand}`;
 
   const heading = isEn ? 'Refund Approved' : 'Reembolso Aprobado';
 
@@ -82,7 +86,7 @@ export function buildCustomerRefundEmail({ order = {}, plan = {}, lang } = {}) {
   const html = `
     <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1e293b;line-height:1.6;max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;">
       <div style="background-color:#0f172a;padding:32px;text-align:center;">
-        <div style="color:#ffffff;font-size:14px;font-weight:800;letter-spacing:1.2px;margin:0 0 12px;">PEPTIDES COSTA RICA</div>
+        <div style="color:#ffffff;font-size:14px;font-weight:800;letter-spacing:1.2px;margin:0 0 12px;">${escapeHtml(brand.toUpperCase())}</div>
         <h1 style="color:#ffffff;font-size:26px;font-weight:800;margin:0;">${heading}</h1>
       </div>
       <div style="padding:32px;">
@@ -128,6 +132,7 @@ export function buildTeamRefundEmail({ order = {}, plan = {}, clawback = null, a
   const amount = formatRefundMoney(primaryAmount(plan, currency), currency);
   const kept = formatRefundMoney(keptAmount(plan, currency), currency);
   const label = plan.fullyRefunded ? 'REFUNDED' : 'PARTLY REFUNDED';
+  const brand = brandForSite(order.site_id);
 
   const subject = `${label} #${orderNumber} - ${order.customer_name || 'Customer'} - ${amount}`;
 
@@ -140,7 +145,7 @@ export function buildTeamRefundEmail({ order = {}, plan = {}, clawback = null, a
   const html = `
     <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1e293b;line-height:1.6;max-width:600px;margin:0 auto;background:#ffffff;border:1px solid #e2e8f0;border-radius:16px;overflow:hidden;">
       <div style="background-color:#7f1d1d;padding:28px;text-align:center;">
-        <div style="color:#ffffff;font-size:13px;font-weight:800;letter-spacing:1.2px;margin:0 0 10px;">PEPTIDES COSTA RICA</div>
+        <div style="color:#ffffff;font-size:13px;font-weight:800;letter-spacing:1.2px;margin:0 0 10px;">${escapeHtml(brand.toUpperCase())}</div>
         <h1 style="color:#ffffff;font-size:24px;font-weight:800;margin:0;">${label}</h1>
       </div>
       <div style="padding:28px;">

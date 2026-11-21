@@ -126,7 +126,7 @@ export const buildAdminHtml = (order, paymentLabel, totalPrimary, totalUsd, tota
       <!-- Premium Admin Header Banner -->
       <div style="background-color:#0f172a;padding:40px 32px;text-align:center;">
         <img src="${ORDER_EMAIL_LOGO_SRC}" alt="${brand}" width="230" height="100" style="display:block;width:230px;height:auto;margin:0 auto 14px auto;color:#ffffff;">
-        <div style="color:#ffffff;font-size:15px;font-weight:800;letter-spacing:1.2px;margin:0 0 16px;">PEPTIDES COSTA RICA</div>
+        <div style="color:#ffffff;font-size:15px;font-weight:800;letter-spacing:1.2px;margin:0 0 16px;">${brand.toUpperCase()}</div>
         <h1 style="color:#ffffff !important;font-size:28px;font-weight:800;margin:0 0 10px;letter-spacing:-0.5px;">${headline}</h1>
         <p style="color:#e0e7ff !important;font-size:15px;margin:0;max-width:500px;margin:0 auto;line-height:1.5;">${subhead}</p>
       </div>
@@ -344,7 +344,7 @@ export const buildCustomerHtml = (order, paymentLabel, totalPrimary, totalUsd, t
       <!-- Premium Science Theme Header Banner -->
       <div style="background-color:#0f172a;padding:40px 32px;text-align:center;">
         <img src="${ORDER_EMAIL_LOGO_SRC}" alt="${brand}" width="230" height="100" style="display:block;width:230px;height:auto;margin:0 auto 14px auto;color:#ffffff;">
-        <div style="color:#ffffff;font-size:15px;font-weight:800;letter-spacing:1.2px;margin:0 0 16px;">PEPTIDES COSTA RICA</div>
+        <div style="color:#ffffff;font-size:15px;font-weight:800;letter-spacing:1.2px;margin:0 0 16px;">${brand.toUpperCase()}</div>
         <h1 style="color:#ffffff !important;font-size:28px;font-weight:800;margin:0 0 10px;letter-spacing:-0.5px;">${strings.title}</h1>
         <p style="color:#e2e8f0 !important;font-size:15px;margin:0;max-width:500px;margin:0 auto;line-height:1.5;">${strings.subtitle}</p>
       </div>
